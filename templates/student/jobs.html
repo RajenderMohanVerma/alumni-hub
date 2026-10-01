@@ -1,0 +1,616 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+    :root {
+        --cyber-blue: #00f2ff;
+        --cyber-purple: #bc13fe;
+        --cyber-pink: #ff00c1;
+        --dark-bg: #050510;
+        --glass-bg: rgba(10, 10, 25, 0.75);
+        --glass-border: rgba(0, 242, 255, 0.15);
+    }
+
+    body {
+        background: var(--dark-bg);
+        font-family: 'Outfit', sans-serif;
+        color: #e0e0f0;
+        overflow-x: hidden;
+    }
+
+    /* Particle Nexus Background */
+    #nexus-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        opacity: 0.4;
+    }
+
+    .jobs-dashboard-wrapper {
+        padding: 130px 0 100px;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    /* Hero Unit: Cyber Reveal */
+    .hero-glow {
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 300px;
+        background: radial-gradient(circle, rgba(188, 19, 254, 0.15) 0%, transparent 70%);
+        filter: blur(80px);
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .hero-title-cyber {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 800;
+        font-size: 5rem;
+        letter-spacing: -3px;
+        text-transform: uppercase;
+        margin-bottom: 0;
+        line-height: 0.9;
+    }
+
+    .char {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(20px) skewX(-20deg);
+        filter: blur(10px);
+        animation: charReveal 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+
+    @keyframes charReveal {
+        to {
+            opacity: 1;
+            transform: translateY(0) skewX(0);
+            filter: blur(0);
+        }
+    }
+
+    .cyber-gradient-text {
+        background: linear-gradient(90deg, var(--cyber-blue), var(--cyber-purple), var(--cyber-pink));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% auto;
+        animation: textShimmer 4s linear infinite;
+    }
+
+    @keyframes textShimmer {
+        to {
+            background-position: 200% center;
+        }
+    }
+
+    /* System Status Bar */
+    .system-status-bar {
+        font-family: 'JetBrains+Mono', monospace;
+        font-size: 0.75rem;
+        color: var(--cyber-blue);
+        border-left: 2px solid var(--cyber-blue);
+        padding-left: 15px;
+        margin-top: 20px;
+        opacity: 0.8;
+    }
+
+    .status-blink {
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    /* Command Console (Filters) */
+    .console-box {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 5px;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        margin-top: -30px;
+        z-index: 10;
+        position: relative;
+    }
+
+    .console-inner {
+        padding: 20px 30px;
+        border: 1px dashed rgba(0, 242, 255, 0.2);
+        border-radius: 16px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .console-input {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-family: 'JetBrains+Mono', monospace;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .console-input:focus {
+        background: rgba(0, 242, 255, 0.05);
+        border-color: var(--cyber-blue);
+        box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+        outline: none;
+    }
+
+    /* Holographic Job Card */
+    .tilt-card-container {
+        perspective: 1000px;
+    }
+
+    .cyber-card {
+        background: linear-gradient(135deg, rgba(15, 15, 30, 0.8), rgba(5, 5, 15, 0.9));
+        border: 1px solid var(--glass-border);
+        border-radius: 28px;
+        padding: 35px;
+        transition: transform 0.1s ease-out, border-color 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        transform-style: preserve-3d;
+    }
+
+    .cyber-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, transparent 0%, rgba(0, 242, 255, 0.05) 50%, transparent 100%);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+    }
+
+    .cyber-card:hover {
+        border-color: var(--cyber-blue);
+        box-shadow: 0 0 40px rgba(0, 242, 255, 0.15);
+    }
+
+    .cyber-card:hover::before {
+        transform: translateX(100%);
+    }
+
+    .hologram-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0, 242, 255, 0.03) 1px, rgba(0, 242, 255, 0.03) 2px);
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .brand-glitch {
+        width: 100px;
+        height: 100px;
+        background: white;
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+        position: relative;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        transform: translateZ(30px);
+    }
+
+    .brand-glitch img {
+        width: 70%;
+        height: 70%;
+        object-fit: contain;
+    }
+
+    .cyber-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border-radius: 6px;
+        background: rgba(0, 242, 255, 0.1);
+        color: var(--cyber-blue);
+        border: 1px solid rgba(0, 242, 255, 0.2);
+        letter-spacing: 1px;
+    }
+
+    .tech-metadata {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin: 25px 0;
+        transform: translateZ(20px);
+    }
+
+    .meta-node {
+        border-left: 2px solid rgba(255, 255, 255, 0.1);
+        padding-left: 12px;
+    }
+
+    .label-mono {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.4);
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .value-bold {
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: #fff;
+    }
+
+    /* Cyber Button */
+    .btn-cyber-action {
+        background: transparent;
+        border: 1px solid var(--cyber-blue);
+        color: var(--cyber-blue);
+        padding: 14px 25px;
+        border-radius: 12px;
+        font-weight: 800;
+        font-family: 'Space Grotesk', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        width: 100%;
+    }
+
+    .btn-cyber-action:hover {
+        background: var(--cyber-blue);
+        color: #000;
+        box-shadow: 0 0 30px var(--cyber-blue);
+    }
+
+    /* Grid View List Item */
+    .cyber-list-item {
+        background: rgba(15, 15, 30, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 20px 30px;
+        margin-bottom: 12px;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .cyber-list-item:hover {
+        background: rgba(0, 242, 255, 0.03);
+        border-color: rgba(0, 242, 255, 0.2);
+        transform: translateX(10px);
+    }
+
+    @media (max-width: 992px) {
+        .hero-title-cyber {
+            font-size: 3.5rem;
+        }
+
+        .console-inner {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+</style>
+
+<canvas id="nexus-canvas"></canvas>
+
+<div class="jobs-dashboard-wrapper">
+    <div class="hero-glow"></div>
+
+    <div class="container">
+        <!-- Futuristic Hero Section -->
+        <div class="row mb-5">
+            <div class="col-lg-10">
+                <div class="hero-content">
+                    <h1 class="hero-title-cyber" id="cyber-title">
+                        <span class="char-wrap"></span>
+                    </h1>
+                    <div class="system-status-bar" data-aos="fade-right" data-aos-delay="800">
+                        <span class="status-blink">●</span> SYSTEM_READY: AGENT_PORTAL_ACTIVE // FETCHING_NODES... [OK]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Command Console (Filter) -->
+        <div class="console-box" data-aos="zoom-in" data-aos-delay="1000">
+            <form class="console-inner">
+                <div class="flex-grow-1">
+                    <input type="text" class="console-input w-100"
+                        placeholder=">> ENTER SEARCH KEYWORDS (ROLE / COMPANY / SKILL)">
+                </div>
+                <div style="min-width: 200px;">
+                    <select class="console-input w-100">
+                        <option selected>_MODALITY: ALL</option>
+                        <option>_MODALITY: ONSITE</option>
+                        <option>_MODALITY: REMOTE</option>
+                        <option>_MODALITY: HYBRID</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-cyber-action w-auto px-5"
+                    style="padding: 10px 40px !important;">EXECUTE</button>
+            </form>
+        </div>
+
+        {% if recommended %}
+        <!-- Recommended Sections -->
+        <section class="mt-5 pt-5">
+            <div class="d-flex align-items-center mb-5" data-aos="fade-up">
+                <div style="width: 40px; height: 2px; background: var(--cyber-blue); margin-right: 15px;"></div>
+                <h2 class="fw-800 text-white mb-0" style="font-family: 'Space Grotesk', sans-serif;">PRIORITY_MATCHES
+                </h2>
+            </div>
+
+            <div class="row g-4">
+                {% for job in recommended %}
+                <div class="col-lg-4 col-md-6 tilt-card-container">
+                    <div class="cyber-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 150 }}">
+                        <div class="hologram-overlay"></div>
+
+                        <div class="brand-glitch">
+                            {% if job.company_logo %}
+                            <img src="{{ job.company_logo }}" alt="{{ job.company }}">
+                            {% else %}
+                            <span class="fw-800 fs-1" style="color: var(--dark-bg);">{{ job.company[0] }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="job-header mb-4" style="transform: translateZ(25px);">
+                            <div class="cyber-badge mb-2">MATCH_SCORE: 98%</div>
+                            <h4 class="fw-800 text-white mb-1">{{ job.title }}</h4>
+                            <p class="text-info fw-bold small mb-0">{{ job.company_name or job.company }}</p>
+                        </div>
+
+                        <div class="tech-metadata">
+                            <div class="meta-node">
+                                <span class="label-mono">COORD:L0CATION</span>
+                                <span class="value-bold text-truncate d-block">{{ job.location or 'REMOTE' }}</span>
+                            </div>
+                            <div class="meta-node">
+                                <span class="label-mono">VALU:SALARY</span>
+                                <span class="value-bold">{{ job.salary or 'CONFIDENTIAL' }}</span>
+                            </div>
+                            <div class="meta-node">
+                                <span class="label-mono">MODL:TYPE</span>
+                                <span class="value-bold">{{ job.employment_type or 'FULL_TIME' }}</span>
+                            </div>
+                            <div class="meta-node">
+                                <span class="label-mono">SYNC:DEADLINE</span>
+                                <span class="value-bold text-cyber-pink">{{ job.deadline or 'OPEN' }}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-top border-white-subtle" style="transform: translateZ(40px);">
+                            <a href="{{ job.apply_link if '://' in job.apply_link else 'mailto:' + job.apply_link }}"
+                                target="_blank" class="btn-cyber-action">
+                                APPLY
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Universal Grid -->
+        <section class="mt-5 pt-5">
+            <div class="d-flex align-items-center mb-5" data-aos="fade-up">
+                <div style="width: 40px; height: 2px; background: rgba(255,255,255,0.2); margin-right: 15px;"></div>
+                <h3 class="fw-800 text-white mb-0 opacity-50" style="font-family: 'Space Grotesk', sans-serif;">
+                    UNIVERSAL_INDEX</h3>
+            </div>
+
+            <div class="row g-2 pb-5">
+                {% for job in jobs %}
+                <div class="col-12" data-aos="fade-right" data-aos-delay="{{ loop.index * 50 }}">
+                    <div class="cyber-list-item">
+                        <div
+                            style="width: 60px; height: 60px; background: #fff; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                            {% if job.company_logo %}
+                            <img src="{{ job.company_logo }}" style="width: 70%; height: 70%; object-fit: contain;">
+                            {% else %}
+                            <span class="fw-bold text-dark">{{ job.company[0] }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <h5 class="fw-700 text-white mb-1">{{ job.title }}</h5>
+                            <div class="d-flex gap-4 opacity-75 small">
+                                <span class="text-cyber-blue fw-bold">{{ job.company }}</span>
+                                <span><i class="fas fa-map-pin me-2"></i>{{ job.location }}</span>
+                                <span class="text-success fw-bold"><i class="fas fa-coins me-2"></i>{{ job.salary
+                                    }}</span>
+                            </div>
+                        </div>
+
+                        <div class="d-none d-lg-block text-end pe-4 border-end border-white-subtle">
+                            <div class="label-mono mb-1">REQ_BRANCH</div>
+                            <div class="fw-bold text-cyber-purple small">{{ job.eligible_branch or 'ALL_BRANCH' }}</div>
+                        </div>
+
+                        <div class="actions ps-4">
+                            <a href="{{ job.apply_link if '://' in job.apply_link else 'mailto:' + job.apply_link }}"
+                                target="_blank" class="btn btn-outline-info rounded-pill px-4 btn-sm fw-800">APPLY</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- ===== PREVIOUS / EXPIRED JOBS ===== -->
+        {% if previous_jobs %}
+        <section class="mt-5 pt-2">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div style="width:4px;height:32px;border-radius:999px;background:linear-gradient(#f59e0b,#d97706);"></div>
+                <h3 class="fw-800 mb-0" style="color:#f59e0b;letter-spacing:1px;">PREVIOUS OPPORTUNITIES</h3>
+                <span class="badge rounded-pill" style="background:rgba(245,158,11,.18);color:#fbbf24;font-size:.73rem;font-weight:800;border:1px solid rgba(245,158,11,.35);padding:.3rem .7rem;">
+                    {{ previous_jobs|length }} expired
+                </span>
+            </div>
+            <p class="text-muted small mb-4">These listings have passed their application deadline. View for reference only.</p>
+            <div class="row g-4">
+                {% for job in previous_jobs %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0" style="border-radius:1.1rem;opacity:0.75;background:rgba(30,41,59,0.85);border-left:4px solid #d97706 !important;box-shadow:0 4px 18px rgba(0,0,0,.25);">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                {% if job.company_logo %}
+                                <img src="{{ job.company_logo }}" alt="Logo" class="rounded-circle" style="width:40px;height:40px;object-fit:cover;">
+                                {% else %}
+                                <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white" style="width:40px;height:40px;background:linear-gradient(135deg,#d97706,#92400e);font-size:.85rem;">
+                                    {{ (job.company or 'J')[0] }}
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <div class="fw-800 text-white">{{ job.title }}</div>
+                                    <div class="small" style="color:#94a3b8;">{{ job.company }}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <span class="badge rounded-pill" style="background:rgba(245,158,11,.18);color:#fbbf24;font-size:.7rem;">
+                                    <i class="fas fa-calendar-times me-1"></i>Closed {{ job.deadline }}
+                                </span>
+                                {% if job.location %}<span class="badge rounded-pill bg-dark text-muted" style="font-size:.7rem;"><i class="fas fa-map-marker-alt me-1"></i>{{ job.location }}</span>{% endif %}
+                            </div>
+                            {% if job.description %}
+                            <p class="small mb-0" style="color:#64748b;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">{{ job.description }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    // Particle Nexus Logic
+    const canvas = document.getElementById('nexus-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouse = { x: null, y: null };
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    window.addEventListener('mousemove', e => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+    });
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 1;
+            this.vx = Math.random() * 1 - 0.5;
+            this.vy = Math.random() * 1 - 0.5;
+        }
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+            if (mouse.x) {
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) {
+                    this.x -= dx * 0.02;
+                    this.y -= dy * 0.02;
+                }
+            }
+        }
+        draw() {
+            ctx.fillStyle = '#00f2ff';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function init() {
+        for (let i = 0; i < 80; i++) particles.push(new Particle());
+    }
+    init();
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Cyber Title Reveal
+    document.addEventListener('DOMContentLoaded', () => {
+        const titleContainer = document.querySelector('.char-wrap');
+        const text1 = "CAREER_";
+        const text2 = "EXPANSION";
+
+        const createChars = (text, className) => {
+            return text.split('').map((c, i) => `<span class="char ${className}" style="animation-delay: ${i * 40}ms">${c === ' ' ? '&nbsp;' : c}</span>`).join('');
+        };
+
+        titleContainer.innerHTML = createChars(text1, '') + `<span class="cyber-gradient-text">${createChars(text2, '')}</span>`;
+
+        // 3D Tilt Logic
+        const cards = document.querySelectorAll('.cyber-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const xc = rect.width / 2;
+                const yc = rect.height / 2;
+                const dx = x - xc;
+                const dy = y - yc;
+                card.style.transform = `rotateY(${dx / 15}deg) rotateX(${-dy / 15}deg)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateY(0) rotateX(0)';
+            });
+        });
+    });
+</script>
+{% endblock %}

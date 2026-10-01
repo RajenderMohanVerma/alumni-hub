@@ -1,0 +1,1111 @@
+{% extends 'base.html' %}
+{% block title %}Admin Connection Monitor - Alumni Hub{% endblock %}
+
+{% block content %}
+<!-- Socket.IO CDN (must load before inline socket code) -->
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<style>
+    :root {
+        --cm-surface: #ffffff;
+        --cm-border: rgba(15, 23, 42, 0.09);
+        --cm-ink: #0f172a;
+        --cm-muted: #475569;
+        --cm-accent: #0ea5e9;
+        --cm-accent-2: #2563eb;
+        --cm-ok: #16a34a;
+        --cm-warn: #d97706;
+        --cm-danger: #dc2626;
+    }
+
+    .connection-monitor-page {
+        padding-top: var(--cm-navbar-offset, 12rem);
+        padding-bottom: 3rem;
+        position: relative;
+    }
+
+    .cm-shell::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: -1;
+        background:
+            radial-gradient(800px 340px at 8% 0%, rgba(14, 165, 233, 0.09), transparent 60%),
+            radial-gradient(760px 300px at 95% 5%, rgba(37, 99, 235, 0.1), transparent 58%);
+    }
+
+    .cm-hero {
+        background: linear-gradient(120deg, rgba(2, 132, 199, 0.12), rgba(37, 99, 235, 0.1));
+        border: 1px solid rgba(14, 165, 233, 0.18);
+        border-radius: 1.25rem;
+        padding: 1.4rem 1.5rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 14px 34px rgba(2, 132, 199, 0.1);
+        backdrop-filter: blur(7px);
+        animation: cmFadeUp 0.6s ease;
+    }
+
+    .cm-title {
+        margin: 0;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+        color: var(--cm-ink);
+        background: linear-gradient(90deg, #0f172a 0%, #0ea5e9 45%, #2563eb 80%, #0f172a 100%);
+        background-size: 220% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: cmShimmer 6.5s linear infinite;
+    }
+
+    .cm-subtitle {
+        color: var(--cm-muted);
+        margin: 0.32rem 0 0;
+        font-weight: 500;
+        animation: cmTypeIn 0.7s ease;
+    }
+
+    .cm-hero-meta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        margin-bottom: 0.35rem;
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        color: #0c4a6e;
+        background: rgba(14, 165, 233, 0.15);
+        border: 1px solid rgba(14, 165, 233, 0.24);
+        border-radius: 999px;
+        padding: 0.25rem 0.7rem;
+    }
+
+    .cm-hero-meta-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: #22c55e;
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+        animation: cmPulseDot 1.8s ease-in-out infinite;
+    }
+
+    .cm-back-btn {
+        border-radius: 999px;
+        border-color: rgba(37, 99, 235, 0.45);
+        color: #1d4ed8;
+        background: rgba(255, 255, 255, 0.75);
+        padding: 0.58rem 1rem;
+        transition: all 0.25s ease;
+    }
+
+    .cm-back-btn:hover {
+        background: #1d4ed8;
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 9px 20px rgba(29, 78, 216, 0.25);
+    }
+
+    .cm-panel {
+        border: 1px solid var(--cm-border);
+        border-radius: 1.15rem;
+        background: rgba(255, 255, 255, 0.93);
+        box-shadow: 0 8px 28px rgba(15, 23, 42, 0.07);
+    }
+
+    .cm-form-label {
+        color: #1e293b;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }
+
+    .cm-input,
+    .cm-select {
+        border-radius: 0.8rem;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        min-height: 49px;
+        font-size: 1.05rem;
+        transition: all 0.22s ease;
+    }
+
+    .cm-input:focus,
+    .cm-select:focus {
+        border-color: rgba(14, 165, 233, 0.75);
+        box-shadow: 0 0 0 0.2rem rgba(14, 165, 233, 0.14);
+    }
+
+    .cm-filter-btn {
+        min-height: 49px;
+        border: none;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #2563eb, #0ea5e9);
+        color: #fff;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
+        transition: all 0.22s ease;
+    }
+
+    .cm-filter-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 30px rgba(37, 99, 235, 0.28);
+    }
+
+    .cm-meta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        font-weight: 700;
+        color: #0f172a;
+        font-size: 1.12rem;
+        animation: cmFadeUp 0.7s ease;
+    }
+
+    .cm-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.8rem;
+    }
+
+    .cm-filter-chips {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .cm-chip {
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 999px;
+        background: #fff;
+        color: #334155;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+        padding: 0.36rem 0.68rem;
+        transition: all 0.2s ease;
+    }
+
+    .cm-chip:hover {
+        transform: translateY(-1px);
+        border-color: rgba(37, 99, 235, 0.5);
+        color: #1d4ed8;
+    }
+
+    .cm-chip.active {
+        border-color: transparent;
+        color: #fff;
+        background: linear-gradient(135deg, #2563eb, #0ea5e9);
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.24);
+    }
+
+    .cm-kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(140px, 1fr));
+        gap: 0.9rem;
+        margin: 0 0 1rem;
+    }
+
+    .cm-kpi {
+        border: 1px solid var(--cm-border);
+        border-radius: 1rem;
+        background: linear-gradient(145deg, #ffffff, #f8fbff);
+        padding: 0.78rem 0.9rem;
+        box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
+        position: relative;
+        overflow: hidden;
+        animation: cmFadeUp 0.65s ease;
+    }
+
+    .cm-kpi::after {
+        content: "";
+        position: absolute;
+        inset: auto -20% -70% auto;
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(14, 165, 233, 0.16), transparent 70%);
+        pointer-events: none;
+    }
+
+    .cm-kpi-label {
+        display: block;
+        color: #64748b;
+        font-size: 0.74rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        margin-bottom: 0.2rem;
+    }
+
+    .cm-kpi-value {
+        font-size: 1.35rem;
+        font-weight: 900;
+        color: #0f172a;
+    }
+
+    .cm-kpi.pending .cm-kpi-value {
+        color: #b45309;
+    }
+
+    .cm-kpi.accepted .cm-kpi-value {
+        color: #15803d;
+    }
+
+    .cm-kpi.rejected .cm-kpi-value {
+        color: #b91c1c;
+    }
+
+    .cm-kpi.messages .cm-kpi-value {
+        color: #0c4a6e;
+    }
+
+    .cm-kpi.online .cm-kpi-value {
+        color: #047857;
+    }
+
+    .cm-insight-strip {
+        border: 1px dashed rgba(14, 165, 233, 0.28);
+        border-radius: 0.9rem;
+        padding: 0.55rem 0.8rem;
+        margin-bottom: 1rem;
+        background: rgba(14, 165, 233, 0.07);
+        color: #0f172a;
+        font-size: 0.9rem;
+        font-weight: 600;
+        animation: cmFadeUp 0.75s ease;
+    }
+
+    .cm-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 38px;
+        height: 34px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #2563eb, #0ea5e9);
+        color: #fff;
+        font-weight: 800;
+        padding: 0 0.5rem;
+    }
+
+    .cm-table-wrap {
+        border: 1px solid var(--cm-border);
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        background: #fff;
+    }
+
+    .cm-table {
+        margin-bottom: 0;
+        --bs-table-striped-bg: #f8fafc;
+    }
+
+    .cm-table thead th {
+        border: none;
+        padding: 0.95rem 0.72rem;
+        font-weight: 800;
+        font-size: 1.02rem;
+        color: #e2e8f0;
+        background: linear-gradient(125deg, #0f172a, #1e293b);
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    .cm-sort-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        border: none;
+        background: transparent;
+        color: #e2e8f0;
+        font-weight: 800;
+        padding: 0;
+        transition: color 0.2s ease;
+    }
+
+    .cm-sort-link:hover {
+        color: #7dd3fc;
+    }
+
+    .cm-sort-link small {
+        color: #93c5fd;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .cm-table tbody td {
+        vertical-align: top;
+        border-color: rgba(148, 163, 184, 0.24);
+        padding: 0.9rem 0.72rem;
+        color: #1e293b;
+    }
+
+    .cm-table tbody tr {
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    .cm-table tbody tr.cm-reveal {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .cm-table tbody tr:hover {
+        transform: translateY(-1px);
+        box-shadow: inset 4px 0 0 rgba(14, 165, 233, 0.7);
+        background: #f8fbff;
+    }
+
+    .cm-user-name {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .cm-user-mail {
+        color: #64748b;
+        font-size: 0.9rem;
+        margin-bottom: 0.15rem;
+    }
+
+    .cm-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        font-size: 0.76rem;
+        font-weight: 800;
+        padding: 0.23rem 0.6rem;
+        border: 1px solid transparent;
+    }
+
+    .cm-pill.ok {
+        background: rgba(22, 163, 74, 0.14);
+        color: #15803d;
+        border-color: rgba(22, 163, 74, 0.28);
+    }
+
+    .cm-pill.warn {
+        background: rgba(217, 119, 6, 0.15);
+        color: #b45309;
+        border-color: rgba(217, 119, 6, 0.26);
+    }
+
+    .cm-pill.danger {
+        background: rgba(220, 38, 38, 0.13);
+        color: #b91c1c;
+        border-color: rgba(220, 38, 38, 0.26);
+    }
+
+    .cm-pill.neutral {
+        background: rgba(100, 116, 139, 0.15);
+        color: #475569;
+        border-color: rgba(100, 116, 139, 0.25);
+    }
+
+    .cm-msg-badge {
+        border-radius: 999px;
+        font-size: 0.83rem;
+        padding: 0.32rem 0.72rem;
+        background: rgba(14, 165, 233, 0.14);
+        color: #0c4a6e;
+        border: 1px solid rgba(14, 165, 233, 0.28);
+        font-weight: 800;
+    }
+
+    .cm-action-btn {
+        width: 100%;
+        border-radius: 999px;
+        font-weight: 700;
+        padding: 0.3rem 0.55rem;
+        transition: all 0.2s ease;
+    }
+
+    .cm-action-btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .cm-divider {
+        margin: 0.38rem 0;
+        border-top-color: rgba(148, 163, 184, 0.3);
+    }
+
+    .cm-modal .modal-content {
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .cm-modal .modal-header {
+        background: linear-gradient(120deg, rgba(2, 132, 199, 0.14), rgba(37, 99, 235, 0.16));
+        border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .cm-empty {
+        padding: 2rem 0.5rem;
+        color: #64748b;
+        font-weight: 600;
+    }
+
+    @keyframes cmShimmer {
+        0% {
+            background-position: 0% center;
+        }
+
+        100% {
+            background-position: 220% center;
+        }
+    }
+
+    @keyframes cmFadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes cmTypeIn {
+        from {
+            opacity: 0;
+            transform: translateY(6px);
+            filter: blur(2px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+    }
+
+    @keyframes cmPulseDot {
+        0% {
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.45);
+        }
+
+        70% {
+            box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        .cm-hero {
+            padding: 1.05rem 1rem;
+        }
+
+        .cm-kpi-grid {
+            grid-template-columns: repeat(2, minmax(120px, 1fr));
+        }
+
+        .cm-toolbar {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .cm-title {
+            font-size: 1.35rem;
+        }
+
+        .cm-subtitle {
+            font-size: 0.94rem;
+        }
+    }
+</style>
+
+<div class="container connection-monitor-page cm-shell">
+    <div class="cm-hero d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <div class="cm-hero-meta"><span class="cm-hero-meta-dot"></span> Admin Link Intelligence Core</div>
+            <h2 class="cm-title">Connection Monitoring Dashboard</h2>
+            <p class="cm-subtitle">Track student-alumni connection requests, profile details, social statistics, and activity timeline.</p>
+        </div>
+        <a href="{{ url_for('dashboard_admin') }}" class="btn cm-back-btn">
+            <i class="fas fa-arrow-left me-2"></i>Back to Admin Dashboard
+        </a>
+    </div>
+
+    {% set ns = namespace(pending=0, accepted=0, rejected=0, online=0, total_messages=0) %}
+    {% for row in records %}
+    {% if row.status == 'pending' %}{% set ns.pending = ns.pending + 1 %}{% endif %}
+    {% if row.status == 'accepted' %}{% set ns.accepted = ns.accepted + 1 %}{% endif %}
+    {% if row.status == 'rejected' %}{% set ns.rejected = ns.rejected + 1 %}{% endif %}
+    {% if row.sender_activity.online_status == 'online' %}{% set ns.online = ns.online + 1 %}{% endif %}
+    {% if row.receiver_activity.online_status == 'online' %}{% set ns.online = ns.online + 1 %}{% endif %}
+    {% set ns.total_messages = ns.total_messages + (row.messages_exchanged or 0) %}
+    {% endfor %}
+
+    <div class="cm-kpi-grid">
+        <div class="cm-kpi">
+            <span class="cm-kpi-label">Total Activity</span>
+            <div class="cm-kpi-value" data-kpi="{{ total_records }}">{{ total_records }}</div>
+        </div>
+        <div class="cm-kpi pending">
+            <span class="cm-kpi-label">Pending Requests</span>
+            <div class="cm-kpi-value" data-kpi="{{ ns.pending }}">{{ ns.pending }}</div>
+        </div>
+        <div class="cm-kpi accepted">
+            <span class="cm-kpi-label">Accepted Links</span>
+            <div class="cm-kpi-value" data-kpi="{{ ns.accepted }}">{{ ns.accepted }}</div>
+        </div>
+        <div class="cm-kpi rejected">
+            <span class="cm-kpi-label">Rejected Requests</span>
+            <div class="cm-kpi-value" data-kpi="{{ ns.rejected }}">{{ ns.rejected }}</div>
+        </div>
+        <div class="cm-kpi messages">
+            <span class="cm-kpi-label">Total Messages</span>
+            <div class="cm-kpi-value" data-kpi="{{ ns.total_messages }}">{{ ns.total_messages }}</div>
+        </div>
+    </div>
+
+    <div class="cm-insight-strip">
+        <i class="fas fa-wave-square me-2 text-primary"></i>
+        Live Insight: <strong class="ms-1">{{ ns.online }}</strong> profiles are currently online across all monitored links.
+    </div>
+
+    <div class="card cm-panel border-0 mb-4">
+        <div class="card-body">
+            <form method="GET" action="{{ url_for('admin_connection_monitor') }}" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label cm-form-label">Role Filter</label>
+                    <select name="role" class="form-select cm-select">
+                        <option value="all" {% if role_filter == 'all' %}selected{% endif %}>All</option>
+                        <option value="student" {% if role_filter == 'student' %}selected{% endif %}>Student</option>
+                        <option value="alumni" {% if role_filter == 'alumni' %}selected{% endif %}>Alumni</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label cm-form-label">Search by Name or Email</label>
+                    <input type="text" name="search" class="form-control cm-input" value="{{ search }}"
+                        placeholder="Search sender or receiver name/email">
+                </div>
+                <div class="col-md-3 d-grid">
+                    <button type="submit" class="btn cm-filter-btn">
+                        <i class="fas fa-filter me-2"></i>Apply Filters
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="cm-toolbar">
+        <div class="cm-meta">Total Records: <span class="cm-count" data-count="{{ total_records }}">{{ total_records }}</span></div>
+        <div class="cm-filter-chips" id="cmStatusFilters">
+            <button type="button" class="cm-chip active" data-status="all">All</button>
+            <button type="button" class="cm-chip" data-status="pending">Pending</button>
+            <button type="button" class="cm-chip" data-status="accepted">Accepted</button>
+            <button type="button" class="cm-chip" data-status="rejected">Rejected</button>
+        </div>
+    </div>
+
+    <div class="table-responsive cm-table-wrap">
+        <table class="table table-hover table-striped align-middle cm-table">
+            <thead>
+                <tr>
+                    <th>
+                        <button type="button" class="cm-sort-link" data-sort-key="request_sent_at">
+                            Request Details <small>(Date)</small> <i class="fas fa-sort"></i>
+                        </button>
+                        <button type="button" class="cm-sort-link ms-2" data-sort-key="status">
+                            <small>Status</small> <i class="fas fa-sort"></i>
+                        </button>
+                    </th>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>Social Statistics</th>
+                    <th>Activity Status</th>
+                    <th>
+                        <button type="button" class="cm-sort-link" data-sort-key="messages_exchanged">
+                            Messages <i class="fas fa-sort"></i>
+                        </button>
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in records %}
+                <tr class="cm-data-row"
+                    data-status="{{ (row.status or 'pending')|lower }}"
+                    data-request-sent="{{ row.request_sent_at or '' }}"
+                    data-messages="{{ row.messages_exchanged or 0 }}">
+                    <td>
+                        <div><strong>Sender Role:</strong> {{ row.sender_role|title }}</div>
+                        <div class="mt-1"><strong>Status:</strong>
+                            {% if row.status == 'accepted' %}
+                            <span class="cm-pill ok">Accepted</span>
+                            {% elif row.status == 'rejected' %}
+                            <span class="cm-pill danger">Rejected</span>
+                            {% else %}
+                            <span class="cm-pill warn">Pending</span>
+                            {% endif %}
+                        </div>
+                        <div class="small text-muted"><strong>Sent:</strong> {{ row.request_sent_at or 'N/A' }}</div>
+                        <div class="small text-muted"><strong>Accepted:</strong> {{ row.request_accepted_at or 'N/A' }}</div>
+                    </td>
+                    <td>
+                        <div class="cm-user-name">{{ row.sender_name }}</div>
+                        <div class="cm-user-mail">{{ row.sender_email }}</div>
+                        <div class="small"><strong>Role:</strong> {{ row.sender_role|title }}</div>
+                        <div class="small"><strong>Dept:</strong> {{ row.sender_department or 'N/A' }}</div>
+                        <div class="small"><strong>Skills:</strong> {{ row.sender_skills or 'N/A' }}</div>
+                        <div class="small"><strong>Domain:</strong> {{ row.sender_current_domain or 'N/A' }}</div>
+                        <div class="small"><strong>Passing Year:</strong> {{ row.sender_passing_year or 'N/A' }}</div>
+                        <div class="small"><strong>Company:</strong> {{ row.sender_company or 'N/A' }}</div>
+                    </td>
+                    <td>
+                        <div class="cm-user-name">{{ row.receiver_name }}</div>
+                        <div class="cm-user-mail">{{ row.receiver_email }}</div>
+                        <div class="small"><strong>Role:</strong> {{ row.receiver_role|title }}</div>
+                        <div class="small"><strong>Dept:</strong> {{ row.receiver_department or 'N/A' }}</div>
+                        <div class="small"><strong>Skills:</strong> {{ row.receiver_skills or 'N/A' }}</div>
+                        <div class="small"><strong>Domain:</strong> {{ row.receiver_current_domain or 'N/A' }}</div>
+                        <div class="small"><strong>Passing Year:</strong> {{ row.receiver_passing_year or 'N/A' }}</div>
+                        <div class="small"><strong>Company:</strong> {{ row.receiver_company or 'N/A' }}</div>
+                    </td>
+                    <td>
+                        <div class="small mb-2">
+                            <strong>{{ row.sender_name }}:</strong><br>
+                            Followers: {{ row.sender_stats.total_followers }}<br>
+                            Following: {{ row.sender_stats.total_following }}<br>
+                            Connections: {{ row.sender_stats.total_connections }}
+                        </div>
+                        <hr class="cm-divider">
+                        <div class="small">
+                            <strong>{{ row.receiver_name }}:</strong><br>
+                            Followers: {{ row.receiver_stats.total_followers }}<br>
+                            Following: {{ row.receiver_stats.total_following }}<br>
+                            Connections: {{ row.receiver_stats.total_connections }}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="small mb-2">
+                            <strong>{{ row.sender_name }}:</strong><br>
+                            Last Login: {{ row.sender_activity.last_login or 'N/A' }}<br>
+                            Status:
+                            {% if row.sender_activity.online_status == 'online' %}
+                            <span class="cm-pill ok">Online</span>
+                            {% else %}
+                            <span class="cm-pill neutral">Offline</span>
+                            {% endif %}
+                        </div>
+                        <hr class="cm-divider">
+                        <div class="small">
+                            <strong>{{ row.receiver_name }}:</strong><br>
+                            Last Login: {{ row.receiver_activity.last_login or 'N/A' }}<br>
+                            Status:
+                            {% if row.receiver_activity.online_status == 'online' %}
+                            <span class="cm-pill ok">Online</span>
+                            {% else %}
+                            <span class="cm-pill neutral">Offline</span>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        <span class="cm-msg-badge">{{ row.messages_exchanged }}</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary cm-action-btn"
+                            onclick="openProfileModal({{ row.sender_id }})">Sender</button>
+                        <button class="btn btn-sm btn-outline-secondary mt-2 cm-action-btn"
+                            onclick="openProfileModal({{ row.receiver_id }})">Receiver</button>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center cm-empty">No connection activity found for selected filters.</td>
+                </tr>
+                {% endfor %}
+                {% if total_records > 0 %}
+                <tr id="cmNoMatchRow" class="d-none">
+                    <td colspan="7" class="text-center cm-empty">No matching records for selected status.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade cm-modal" id="profileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">User Full Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="profileModalBody">
+                <div class="text-center py-4 text-muted">Loading profile...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setConnectionMonitorOffset() {
+        const navbar = document.getElementById('mainNavbar');
+        const page = document.querySelector('.connection-monitor-page');
+        if (!navbar || !page) return;
+
+        // Use current visible navbar bottom + small breathing space.
+        const rect = navbar.getBoundingClientRect();
+        const offset = Math.max(120, Math.ceil(rect.bottom + 20));
+        page.style.setProperty('--cm-navbar-offset', `${offset}px`);
+    }
+
+    function revealTableRows() {
+        const rows = document.querySelectorAll('.cm-data-row');
+        rows.forEach((row, idx) => {
+            setTimeout(() => {
+                row.classList.add('cm-reveal');
+            }, 70 * idx);
+        });
+    }
+
+    function toEpoch(dateText) {
+        if (!dateText) return 0;
+        const normalized = String(dateText).trim().replace(' ', 'T');
+        const t = Date.parse(normalized);
+        return Number.isNaN(t) ? 0 : t;
+    }
+
+    function statusRank(status) {
+        const map = { pending: 0, accepted: 1, rejected: 2 };
+        return map[String(status || '').toLowerCase()] ?? 99;
+    }
+
+    const cmSortState = { key: null, dir: 'asc' };
+    let cmActiveStatus = 'all';
+
+    function applyTableSortAndFilter() {
+        const tbody = document.querySelector('.cm-table tbody');
+        if (!tbody) return;
+
+        const rows = Array.from(tbody.querySelectorAll('.cm-data-row'));
+        const noMatchRow = document.getElementById('cmNoMatchRow');
+
+        if (cmSortState.key) {
+            rows.sort((a, b) => {
+                let av = 0;
+                let bv = 0;
+
+                if (cmSortState.key === 'request_sent_at') {
+                    av = toEpoch(a.dataset.requestSent);
+                    bv = toEpoch(b.dataset.requestSent);
+                } else if (cmSortState.key === 'messages_exchanged') {
+                    av = Number(a.dataset.messages || 0);
+                    bv = Number(b.dataset.messages || 0);
+                } else if (cmSortState.key === 'status') {
+                    av = statusRank(a.dataset.status);
+                    bv = statusRank(b.dataset.status);
+                }
+
+                return cmSortState.dir === 'asc' ? av - bv : bv - av;
+            });
+
+            rows.forEach((row) => tbody.appendChild(row));
+        }
+
+        let visibleCount = 0;
+        rows.forEach((row) => {
+            const rowStatus = String(row.dataset.status || '').toLowerCase();
+            const show = cmActiveStatus === 'all' || rowStatus === cmActiveStatus;
+            row.classList.toggle('d-none', !show);
+            if (show) visibleCount += 1;
+        });
+
+        if (noMatchRow) {
+            noMatchRow.classList.toggle('d-none', visibleCount > 0);
+        }
+    }
+
+    function initStatusChips() {
+        const chips = document.querySelectorAll('#cmStatusFilters .cm-chip');
+        chips.forEach((chip) => {
+            chip.addEventListener('click', () => {
+                chips.forEach((c) => c.classList.remove('active'));
+                chip.classList.add('active');
+                cmActiveStatus = chip.dataset.status || 'all';
+                applyTableSortAndFilter();
+            });
+        });
+    }
+
+    function initSortableColumns() {
+        const links = document.querySelectorAll('.cm-sort-link[data-sort-key]');
+        links.forEach((link) => {
+            link.addEventListener('click', () => {
+                const key = link.dataset.sortKey;
+                if (!key) return;
+
+                if (cmSortState.key === key) {
+                    cmSortState.dir = cmSortState.dir === 'asc' ? 'desc' : 'asc';
+                } else {
+                    cmSortState.key = key;
+                    cmSortState.dir = 'asc';
+                }
+
+                applyTableSortAndFilter();
+            });
+        });
+    }
+
+    function animateCount() {
+        const el = document.querySelector('.cm-count');
+        if (!el) return;
+        const target = Number(el.getAttribute('data-count') || 0);
+        let current = 0;
+        const step = Math.max(1, Math.ceil(target / 24));
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                el.textContent = target;
+                clearInterval(timer);
+                return;
+            }
+            el.textContent = current;
+        }, 22);
+    }
+
+    function animateKpiValues() {
+        const nodes = document.querySelectorAll('[data-kpi]');
+        nodes.forEach((el, index) => {
+            const target = Number(el.getAttribute('data-kpi') || 0);
+            let val = 0;
+            const step = Math.max(1, Math.ceil(target / 26));
+            setTimeout(() => {
+                const timer = setInterval(() => {
+                    val += step;
+                    if (val >= target) {
+                        el.textContent = target;
+                        clearInterval(timer);
+                        return;
+                    }
+                    el.textContent = val;
+                }, 20);
+            }, index * 55);
+        });
+    }
+
+    function initConnectionMonitorUI() {
+        setConnectionMonitorOffset();
+        revealTableRows();
+        animateCount();
+        animateKpiValues();
+        initStatusChips();
+        initSortableColumns();
+        applyTableSortAndFilter();
+    }
+
+    document.addEventListener('DOMContentLoaded', initConnectionMonitorUI);
+    window.addEventListener('resize', setConnectionMonitorOffset);
+    window.addEventListener('scroll', setConnectionMonitorOffset, { passive: true });
+
+    async function openProfileModal(userId) {
+        const body = document.getElementById('profileModalBody');
+        body.innerHTML = '<div class="text-center py-4 text-muted">Loading profile...</div>';
+
+        try {
+            const response = await fetch(`/admin/connection-monitor/user/${userId}`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                body.innerHTML = `<div class="alert alert-danger mb-0">${data.error || 'Failed to load profile.'}</div>`;
+            } else {
+                const user = data.user;
+                body.innerHTML = `
+                    <div class="row g-3">
+                        <div class="col-md-6"><strong>Name:</strong> ${user.name || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Role:</strong> ${(user.role || 'N/A')}</div>
+                        <div class="col-md-6"><strong>Email:</strong> ${user.email || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Department:</strong> ${user.department || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Skills:</strong> ${user.skills || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Current Domain:</strong> ${user.current_domain || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Passing Year:</strong> ${user.passing_year || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Current Company:</strong> ${user.current_company || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Followers:</strong> ${user.total_followers || 0}</div>
+                        <div class="col-md-6"><strong>Following:</strong> ${user.total_following || 0}</div>
+                        <div class="col-md-6"><strong>Total Connections:</strong> ${user.total_connections || 0}</div>
+                        <div class="col-md-6"><strong>Messages Exchanged:</strong> ${user.messages_exchanged || 0}</div>
+                        <div class="col-md-6"><strong>Last Login:</strong> ${user.last_login || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Online Status:</strong> ${user.online_status || 'offline'}</div>
+                    </div>
+                `;
+            }
+        } catch (err) {
+            body.innerHTML = '<div class="alert alert-danger mb-0">Error fetching user profile.</div>';
+        }
+
+        const modal = new bootstrap.Modal(document.getElementById('profileModal'));
+        modal.show();
+    }
+
+    // ===== REAL-TIME ADMIN MONITOR (Socket.IO) =====
+    (function initAdminMonitorSocket() {
+        if (typeof io === 'undefined') return;
+
+        const socket = io({ transports: ['websocket', 'polling'] });
+
+        // KPI element selectors
+        const kpiTotal    = document.querySelector('.cm-kpi:nth-child(1) .cm-kpi-value');
+        const kpiPending  = document.querySelector('.cm-kpi.pending  .cm-kpi-value');
+        const kpiAccepted = document.querySelector('.cm-kpi.accepted .cm-kpi-value');
+        const kpiRejected = document.querySelector('.cm-kpi.rejected .cm-kpi-value');
+        const kpiCount    = document.querySelector('.cm-count');
+
+        function bumpKpi(el) {
+            if (!el) return;
+            const v = parseInt(el.textContent) || 0;
+            el.textContent = v + 1;
+            el.style.transition = 'transform 0.25s ease, color 0.25s ease';
+            el.style.transform = 'scale(1.3)';
+            el.style.color = '#0ea5e9';
+            setTimeout(() => {
+                el.style.transform = 'scale(1)';
+                el.style.color = '';
+            }, 400);
+        }
+
+        function liveStatusBadge(status) {
+            const map = {
+                pending:  '<span class="cm-pill warn">Pending</span>',
+                accepted: '<span class="cm-pill ok">Accepted</span>',
+                rejected: '<span class="cm-pill danger">Rejected</span>'
+            };
+            return map[status] || '<span class="cm-pill neutral">Unknown</span>';
+        }
+
+        function addLiveRow(data) {
+            const tbody = document.querySelector('.cm-table tbody');
+            if (!tbody) return;
+
+            const tr = document.createElement('tr');
+            tr.className = 'cm-data-row';
+            tr.setAttribute('data-status', data.status || 'pending');
+            tr.setAttribute('data-request-sent', data.timestamp || '');
+            tr.setAttribute('data-messages', '0');
+            tr.style.cssText = 'opacity:0;transform:translateY(-10px);transition:opacity 0.4s ease,transform 0.4s ease;';
+            tr.innerHTML = `
+                <td>
+                    <div><strong>Sender Role:</strong> ${data.sender_role || ''}</div>
+                    <div class="mt-1"><strong>Status:</strong> ${liveStatusBadge(data.status)}</div>
+                    <div class="small text-muted"><strong>Sent:</strong> ${data.timestamp || 'just now'}</div>
+                    <div class="small text-muted"><strong>Accepted:</strong> N/A</div>
+                </td>
+                <td>
+                    <div class="cm-user-name">${data.sender_name || ''}</div>
+                    <div class="cm-user-mail small text-muted">${data.sender_role || ''}</div>
+                </td>
+                <td>
+                    <div class="cm-user-name">${data.receiver_name || ''}</div>
+                    <div class="cm-user-mail small text-muted">${data.receiver_role || ''}</div>
+                </td>
+                <td><span class="badge bg-secondary">—</span></td>
+                <td><span class="badge bg-secondary">—</span></td>
+                <td><span class="cm-msg-badge">0</span></td>
+                <td>
+                    <span class="badge bg-info text-dark" style="font-size:0.72rem;">
+                        <i class="fas fa-bolt me-1"></i>Live
+                    </span>
+                </td>`;
+
+            // Prepend before existing rows so it appears at top
+            const firstRow = tbody.querySelector('.cm-data-row');
+            if (firstRow) {
+                tbody.insertBefore(tr, firstRow);
+            } else {
+                tbody.appendChild(tr);
+            }
+
+            requestAnimationFrame(() => {
+                tr.style.opacity = '1';
+                tr.style.transform = 'translateY(0)';
+                tr.classList.add('cm-reveal');
+            });
+        }
+
+        function updateExistingRow(data) {
+            const rows = document.querySelectorAll('.cm-data-row');
+            for (const row of rows) {
+                // Match by sender+receiver name text (best we have without a request id in the DOM)
+                const nameText = row.textContent;
+                if (nameText.includes(data.sender_name) && nameText.includes(data.receiver_name)) {
+                    row.setAttribute('data-status', data.status);
+
+                    // Update status badge inside first td
+                    const statusDiv = row.querySelector('td:first-child .mt-1');
+                    if (statusDiv) {
+                        statusDiv.innerHTML = `<strong>Status:</strong> ${liveStatusBadge(data.status)}`;
+                    }
+
+                    // Flash highlight
+                    const prevBg = row.style.background;
+                    row.style.transition = 'background 0.4s ease';
+                    row.style.background = data.status === 'accepted'
+                        ? 'rgba(22, 163, 74, 0.08)'
+                        : 'rgba(220, 38, 38, 0.08)';
+                    setTimeout(() => { row.style.background = prevBg || ''; }, 1400);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function showAdminToast(msg, type) {
+            const color = type === 'success' ? '#16a34a' : type === 'danger' ? '#dc2626' : '#0ea5e9';
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position:fixed;bottom:1.4rem;right:1.4rem;z-index:9999;
+                background:#fff;border-left:4px solid ${color};
+                padding:0.65rem 1rem;border-radius:0.75rem;
+                box-shadow:0 8px 24px rgba(15,23,42,0.14);
+                font-weight:700;font-size:0.9rem;color:#0f172a;
+                animation:cmFadeUp 0.4s ease;max-width:320px;`;
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        socket.on('admin_connection_activity', function (data) {
+            bumpKpi(kpiTotal);
+            bumpKpi(kpiCount);
+
+            if (data.event === 'new_request') {
+                bumpKpi(kpiPending);
+                addLiveRow(data);
+                showAdminToast(`\u{1F514} New request: ${data.sender_name} \u2192 ${data.receiver_name}`, 'info');
+            } else if (data.event === 'accepted') {
+                // Decrement pending, increment accepted
+                if (kpiPending) kpiPending.textContent = Math.max(0, (parseInt(kpiPending.textContent) || 1) - 1);
+                bumpKpi(kpiAccepted);
+                const updated = updateExistingRow(data);
+                if (!updated) addLiveRow(data);
+                showAdminToast(`\u2705 Accepted: ${data.sender_name} \u2194 ${data.receiver_name}`, 'success');
+            } else if (data.event === 'rejected') {
+                if (kpiPending) kpiPending.textContent = Math.max(0, (parseInt(kpiPending.textContent) || 1) - 1);
+                bumpKpi(kpiRejected);
+                const updated = updateExistingRow(data);
+                if (!updated) addLiveRow(data);
+                showAdminToast(`\u274C Rejected: ${data.receiver_name} declined ${data.sender_name}`, 'danger');
+            }
+
+            // Re-apply chip filter so new row respects active filter
+            applyTableSortAndFilter();
+        });
+    }());
+</script>
+{% endblock %}

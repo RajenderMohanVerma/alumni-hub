@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}Reports & Issues - Alumni Hub{% endblock %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+    :root {
+        --terminal-bg: #030712;
+        --accent-primary: #6366f1;
+        --accent-secondary: #a855f7;
+        --accent-emerald: #10b981;
+        --accent-amber: #f59e0b;
+        --accent-rose: #ef4444;
+        --glass-bg: rgba(15, 23, 42, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-dim: #94a3b8;
+    }
+
+    body {
+        background: var(--terminal-bg);
+        color: white;
+        font-family: 'Outfit', sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* --- Background Layer --- */
+    .premium-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
+        z-index: -2;
+    }
+
+    .mesh-gradient {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .mesh-ball {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.1;
+        animation: floatOrb 20s infinite alternate;
+    }
+
+    @keyframes floatOrb {
+        0% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        100% {
+            transform: translate(100px, 50px) scale(1.1);
+        }
+    }
+
+    /* --- Page Layout --- */
+    .reports-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 120px 2rem 4rem;
+    }
+
+    .matrix-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(to right, #fff, #94a3b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -1px;
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    /* --- Glass Components --- */
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        padding: 0;
+        overflow: hidden;
+    }
+
+    /* --- Incident Table --- */
+    .premium-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .premium-table th {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 20px 24px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-dim);
+        border-bottom: 1px solid var(--glass-border);
+    }
+
+    .premium-table td {
+        padding: 24px;
+        border-bottom: 1px solid var(--glass-border);
+        transition: 0.3s;
+    }
+
+    .premium-table tr:hover td {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .id-tag {
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--accent-primary);
+        font-weight: 700;
+    }
+
+    .reporter-name {
+        font-weight: 700;
+        color: white;
+        display: block;
+    }
+
+    .reporter-role {
+        font-size: 0.7rem;
+        color: var(--text-dim);
+        text-transform: uppercase;
+    }
+
+    .status-badge {
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .status-pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--accent-amber);
+    }
+
+    .status-resolved {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--accent-emerald);
+    }
+
+    .btn-action {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        border: 1px solid var(--glass-border);
+        transition: 0.3s;
+    }
+
+    .btn-action:hover {
+        background: var(--accent-primary);
+        transform: scale(1.1);
+    }
+</style>
+
+<!-- Background Layer -->
+<div class="premium-bg"></div>
+<div class="mesh-gradient">
+    <div class="mesh-ball" style="background: #ef4444; top: -10%; left: -10%;"></div>
+    <div class="mesh-ball" style="background: #6366f1; bottom: -10%; right: -10%;"></div>
+</div>
+
+<div class="reports-wrapper">
+    <div class="header-section animate__animated animate__fadeInDown">
+        <h1 class="matrix-title">Incident Matrix</h1>
+        <div class="d-flex justify-content-center gap-3 mb-5">
+            <button class="status-badge status-pending"
+                style="background: var(--accent-primary); color: white;">ACTIVE_ISSUES</button>
+            <button class="status-badge"
+                style="border: 1px solid var(--glass-border); color: var(--text-dim);">RESOLVED_LOGS</button>
+        </div>
+    </div>
+
+    <div class="glass-card animate__animated animate__fadeInUp">
+        <div class="table-responsive">
+            <table class="premium-table">
+                <thead>
+                    <tr>
+                        <th>INCIDENT_ID</th>
+                        <th>REPORTER_SOURCE</th>
+                        <th>ISSUE_PROTOCOL</th>
+                        <th>TELEMETRY_DATA</th>
+                        <th>TIMESTAMP</th>
+                        <th>STATUS</th>
+                        <th class="text-end">INTERVENE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="id-tag">#1024</span></td>
+                        <td>
+                            <span class="reporter-name">John Doe</span>
+                            <span class="reporter-role">STUDENT_SEGMENT</span>
+                        </td>
+                        <td><span class="status-badge"
+                                style="background: rgba(239, 68, 68, 0.1); color: var(--accent-rose);">CORE_BUG</span>
+                        </td>
+                        <td class="text-dim">Login page failure on mobile viewport...</td>
+                        <td class="text-dim">Oct 24, 2025</td>
+                        <td><span class="status-badge status-pending">PENDING</span></td>
+                        <td class="text-end">
+                            <button class="btn-action"><i class="fas fa-eye"></i></button>
+                            <button class="btn-action ms-2"><i class="fas fa-check"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="id-tag">#1023</span></td>
+                        <td>
+                            <span class="reporter-name">Alice Smith</span>
+                            <span class="reporter-role">LEGACY_ALUMNI</span>
+                        </td>
+                        <td><span class="status-badge"
+                                style="background: rgba(245, 158, 11, 0.1); color: var(--accent-amber);">ACCOUNT_SYNC</span>
+                        </td>
+                        <td class="text-dim">Profile avatar upload timeout...</td>
+                        <td class="text-dim">Oct 23, 2025</td>
+                        <td><span class="status-badge"
+                                style="background: rgba(99, 102, 241, 0.1); color: var(--accent-primary);">IN_PROGRESS</span>
+                        </td>
+                        <td class="text-end">
+                            <button class="btn-action"><i class="fas fa-eye"></i></button>
+                            <button class="btn-action ms-2"><i class="fas fa-check"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

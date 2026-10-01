@@ -1,0 +1,1292 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+    :root {
+        --terminal-bg: #f8fafc;
+        --accent-primary: #6366f1;
+        --accent-secondary: #a855f7;
+        --accent-emerald: #10b981;
+        --accent-amber: #f59e0b;
+        --accent-rose: #ef4444;
+        --glass-bg: rgba(255, 255, 255, 0.85);
+        --glass-border: rgba(99, 102, 241, 0.15);
+        --text-main: #0f172a;
+        --text-dim: #475569;
+        --hero-dark-bg: #030712;
+        --fw-800: 800;
+    }
+
+    .fw-800 {
+        font-weight: 800;
+    }
+
+    .fs-7 {
+        font-size: 0.85rem;
+    }
+
+    .extra-small {
+        font-size: 0.7rem;
+    }
+
+    .text-main {
+        color: var(--text-main);
+    }
+
+    .bg-red-50 {
+        background-color: #fef2f2;
+    }
+
+    .text-red-500 {
+        color: #ef4444;
+    }
+
+    .text-slate-900 {
+        color: #0f172a;
+    }
+
+    .text-slate-500 {
+        color: #64748b;
+    }
+
+    .bg-slate-100 {
+        background-color: #f1f5f9;
+    }
+
+    .border-slate-200 {
+        border-color: #e2e8f0;
+    }
+
+    .rounded-full {
+        border-radius: 9999px;
+    }
+
+    .rounded-2xl {
+        border-radius: 1rem;
+    }
+
+    .text-amber-900 {
+        color: #78350f;
+    }
+
+    .shadow-2xl {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    body {
+        background: var(--terminal-bg);
+        color: var(--text-main);
+        font-family: 'Outfit', sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* --- Background Layer --- */
+    .premium-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+        z-index: -2;
+    }
+
+    .mesh-gradient {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .mesh-ball {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.2;
+        animation: floatOrb 20s infinite alternate;
+    }
+
+    /* --- Layout --- */
+    .admin-container {
+        max-width: 1800px;
+        margin: 0 auto;
+        padding: 80px 3rem 4rem;
+    }
+
+    /* --- Hero Terminal (STAY DARK) --- */
+    .hero-terminal {
+        background: var(--hero-dark-bg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 32px;
+        padding: 60px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 3rem;
+        backdrop-filter: blur(20px);
+        color: white;
+    }
+
+    .network-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(to right, #fff, #94a3b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -1.5px;
+        line-height: 1.1;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--accent-emerald);
+        margin-bottom: 20px;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    /* --- Matrix Cards (LIGHT THEME) --- */
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 28px;
+        padding: 30px;
+        height: 100%;
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.05);
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .matrix-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--accent-primary);
+        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1);
+        background: #fff;
+    }
+
+    .matrix-value {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 2.8rem;
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 5px;
+        color: var(--text-main);
+    }
+
+    .initials-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--accent-primary) 0%, #4f46e5 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.1rem;
+        border: 2px solid #f1f5f9;
+        text-transform: uppercase;
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+    }
+
+    .identity-avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .matrix-label {
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--text-dim);
+    }
+
+    .text-white {
+        color: var(--text-main) !important;
+    }
+
+    .hero-terminal .text-white {
+        color: white !important;
+    }
+
+    .hero-terminal .matrix-label {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .hero-terminal .glass-card {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: none;
+        color: white;
+    }
+
+    /* --- Enhanced Directory & Tables --- */
+    .directory-module {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 32px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .directory-header {
+        margin-bottom: 40px;
+    }
+
+    .directory-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--text-main);
+        letter-spacing: -0.5px;
+    }
+
+    .command-bar {
+        background: #f1f5f9;
+        padding: 8px;
+        border-radius: 20px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .command-input-wrapper {
+        position: relative;
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .command-input {
+        width: 100%;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 10px 15px 10px 45px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-main);
+        transition: 0.3s;
+    }
+
+    .command-input:focus {
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 10px rgba(99, 102, 241, 0.1);
+        outline: none;
+    }
+
+    .command-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-dim);
+    }
+
+    .command-select {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-main);
+        cursor: pointer;
+        min-width: 140px;
+    }
+
+    .node-row {
+        background: white;
+        border-radius: 16px;
+        margin-bottom: 10px;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid transparent;
+    }
+
+    .node-row:hover {
+        background: #f8fafc;
+        border-color: #e2e8f0;
+        transform: scale(1.005);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+
+    .node-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        padding: 4px 12px;
+        border-radius: 50px;
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--accent-emerald);
+    }
+
+    .node-status.offline {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--accent-rose);
+    }
+
+    .pulse-dot {
+        width: 6px;
+        height: 6px;
+        background: currentColor;
+        border-radius: 50%;
+        animation: pulseFade 2s infinite;
+    }
+
+    @keyframes pulseFade {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.3;
+        }
+    }
+
+    /* --- Advanced Export Console --- */
+    .export-module {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 32px;
+        padding: 45px;
+        margin-top: 50px;
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.03);
+    }
+
+    .export-console-card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        transition: 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .export-console-card:hover {
+        border-color: var(--accent-primary);
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.08);
+        transform: translateY(-5px);
+    }
+
+    .export-card-head {
+        padding: 25px;
+        background: white;
+        border-bottom: 1px solid #f1f5f9;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .export-card-body {
+        padding: 25px;
+        flex-grow: 1;
+    }
+
+    .export-card-footer {
+        padding: 20px 25px;
+        background: #f1f5f9;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .extraction-progress {
+        height: 6px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 15px 0;
+    }
+
+    .extraction-bar {
+        height: 100%;
+        background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .meta-tag {
+        font-size: 0.65rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: #f1f5f9;
+        color: var(--text-dim);
+    }
+
+    .security-badge {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--accent-emerald);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .hover-primary:hover {
+        color: var(--accent-primary) !important;
+        text-decoration: underline !important;
+    }
+
+    /* --- Action Deck --- */
+
+    .action-deck {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .deck-item {
+        background: #fff;
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 25px;
+        text-align: center;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    .deck-item:hover {
+        background: var(--accent-primary);
+        color: white;
+        transform: translateY(-5px);
+    }
+
+    .deck-item:hover i,
+    .deck-item:hover .text-dim {
+        color: white !important;
+    }
+
+    /* --- Tables --- */
+    .premium-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+    .premium-table thead th {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        color: var(--text-dim);
+        padding: 15px 20px;
+    }
+
+    .premium-table tbody tr {
+        background: white;
+        transition: 0.3s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+    }
+
+    .premium-table tbody tr:hover {
+        background: #f1f5f9;
+        transform: scale(1.01);
+    }
+
+    .premium-table td {
+        padding: 20px;
+        color: var(--text-main);
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* --- Controls --- */
+    .action-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: var(--text-main);
+        transition: 0.3s;
+        text-decoration: none;
+    }
+
+    .view-btn:hover {
+        background: var(--accent-primary);
+        color: white;
+        border-color: var(--accent-primary);
+    }
+
+    .delete-btn:hover {
+        background: var(--accent-rose);
+        color: white;
+        border-color: var(--accent-rose);
+    }
+
+    .clock-widget {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    }
+
+    input.form-control::placeholder {
+        color: var(--text-dim);
+    }
+
+    .bg-dark {
+        background: #fff !important;
+        color: var(--text-main) !important;
+    }
+</style>
+
+
+
+<!-- Background Elements -->
+<div class="premium-bg"></div>
+<div class="mesh-gradient">
+    <div class="mesh-ball" style="background: #4f46e5; top: -10%; left: -10%;"></div>
+    <div class="mesh-ball" style="background: #7c3aed; bottom: -10%; right: -10%;"></div>
+    <div class="mesh-ball"
+        style="background: #1e3a8a; top: 40%; right: 20%; width: 400px; height: 400px; opacity: 0.1;"></div>
+</div>
+
+<div class="admin-container">
+    <!-- Holographic Hero Section -->
+    <div class="hero-terminal animate__animated animate__zoomIn">
+        <canvas id="networkCanvas" class="network-canvas"></canvas>
+        <div class="row align-items-center position-relative">
+            <div class="col-lg-7">
+                <div class="hero-badge">
+                    <i class="fas fa-circle text-accent-success"></i>
+                    <span>ALUMNI HUB CORE • v2.0 ADMIN ENGINE</span>
+                </div>
+                <h1 class="hero-title">Welcome Back, <br><span id="typingName"></span></h1>
+                <p class="text-dim mt-3 fs-5">Digital Command Center. Monitoring <span class="text-white fw-bold">{{
+                        (s_count + a_count + f_count) }}</span> encrypted nodes across the network.</p>
+                <div class="mt-4 d-flex gap-3">
+                    <a href="{{ url_for('admin_messaging_control') }}" class="btn btn-primary btn-lg px-4"
+                        style="border-radius: 12px;">
+                        <i class="fas fa-satellite-dish me-2"></i> Signal Center
+                    </a>
+                    <button class="btn btn-outline-light btn-lg px-4"
+                        style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);">
+                        <i class="fas fa-fingerprint me-2"></i> Auth Audit
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-5 text-end d-none d-lg-block">
+                <div class="glass-card p-4 d-inline-block text-start" style="background: rgba(0,0,0,0.3);">
+                    <div class="matrix-label mb-2">System Temporal Status</div>
+                    <div class="clock-widget" id="dynamicClock">00:00:00</div>
+                    <div class="text-dim mt-2 fw-bold" id="dynamicDate">FEBRUARY 12, 2026</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Matrix -->
+    <div class="row g-4 mb-5">
+        <div class="col-6 col-xl-3 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+            <div class="glass-card matrix-card btn-action-nav" data-url="/admin/users/student" style="cursor: pointer;">
+                <div class="matrix-icon" style="color: #6366f1;"><i class="fas fa-user-graduate"></i></div>
+                <div class="matrix-value text-white">{{ s_count }}</div>
+                <div class="matrix-label">Students</div>
+                <div class="mt-3 overflow-hidden"
+                    style="height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px;">
+                    <div class="h-100" style="width: 75%; background: #6366f1; box-shadow: 0 0 10px #6366f1;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <div class="glass-card matrix-card btn-action-nav" data-url="/admin/users/alumni" style="cursor: pointer;">
+                <div class="matrix-icon" style="color: #f59e0b;"><i class="fas fa-user-tie"></i></div>
+                <div class="matrix-value text-white">{{ a_count }}</div>
+                <div class="matrix-label">Alumni</div>
+                <div class="mt-3 overflow-hidden"
+                    style="height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px;">
+                    <div class="h-100" style="width: 60%; background: #f59e0b; box-shadow: 0 0 10px #f59e0b;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3 animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+            <div class="glass-card matrix-card btn-action-nav" data-url="/admin/users/faculty" style="cursor: pointer;">
+                <div class="matrix-icon" style="color: #10b981;"><i class="fas fa-chalkboard-teacher"></i></div>
+                <div class="matrix-value text-white">{{ f_count }}</div>
+                <div class="matrix-label">Faculty</div>
+                <div class="mt-3 overflow-hidden"
+                    style="height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px;">
+                    <div class="h-100" style="width: 45%; background: #10b981; box-shadow: 0 0 10px #10b981;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3 animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <div class="glass-card matrix-card btn-action-nav" data-url="/admin/events" style="cursor: pointer;">
+                <div class="matrix-icon" style="color: #a855f7;"><i class="fas fa-calendar-check"></i></div>
+                <div class="matrix-value text-white">{{ event_total }}</div>
+                <div class="matrix-label">Events</div>
+                <div class="mt-3 overflow-hidden"
+                    style="height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px;">
+                    <div class="h-100" style="width: 85%; background: #a855f7; box-shadow: 0 0 10px #a855f7;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Core Control Deck -->
+    <div class="action-deck animate__animated animate__fadeInUp">
+        <div class="deck-item btn-action-nav" data-url="/admin/messaging-control">
+            <i class="fas fa-broadcast-tower"></i>
+            <div class="fw-bold">Omni Alert</div>
+            <div class="small text-dim">Broadcast Global Data</div>
+        </div>
+        <div class="deck-item btn-action-nav" data-url="/admin/events">
+            <i class="fas fa-calendar-plus"></i>
+            <div class="fw-bold">Nexus Event</div>
+            <div class="small text-dim">Sync New Meetup</div>
+        </div>
+        <div class="deck-item btn-action-nav" data-url="/admin/registrations">
+            <i class="fas fa-users-cog"></i>
+            <div class="fw-bold">User Matrix</div>
+            <div class="small text-dim">Node Configuration</div>
+        </div>
+        <div class="deck-item btn-action-nav" data-url="/admin/jobs">
+            <i class="fas fa-briefcase"></i>
+            <div class="fw-bold">Job Matrix</div>
+            <div class="small text-dim">Career Node Sync</div>
+        </div>
+        <div class="deck-item btn-action-nav" data-url="/admin/connection-monitor">
+            <i class="fas fa-link"></i>
+            <div class="fw-bold">Connection Monitor</div>
+            <div class="small text-dim">Track Student-Alumni Links</div>
+        </div>
+        <div class="deck-item btn-action-nav" data-url="/admin/analytics">
+            <i class="fas fa-atom"></i>
+            <div class="fw-bold">Terminal Mode</div>
+            <div class="small text-dim">Maintenance Override</div>
+        </div>
+    </div>
+
+
+    <!-- Analytics Dashboard Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-8">
+            <div class="glass-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0 text-white"><i class="fas fa-project-diagram me-2 text-primary"></i>
+                        Neural
+                        Expansion Growth</h4>
+                    <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3">Live Feed
+                    </div>
+                </div>
+                <div id="chart-data" data-years='{{ chart_data.years | tojson }}'
+                    data-students-growth='{{ chart_data.students | tojson }}'
+                    data-alumni-growth='{{ chart_data.alumni | tojson }}'
+                    data-faculty-growth='{{ chart_data.faculty | tojson }}' data-students='{{ s_count }}'
+                    data-alumni='{{ a_count }}' data-faculty='{{ f_count }}' style="display: none;"></div>
+                <div style="height: 350px;">
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="glass-card p-4 h-100">
+                <h4 class="fw-bold mb-4 text-white"><i class="fas fa-chart-pie me-2 text-warning"></i> Identity
+                    Ratio
+                </h4>
+                <div style="height: 350px;">
+                    <canvas id="userChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Identity Directory -->
+    <div class="directory-module animate__animated animate__fadeIn">
+        <div class="directory-header d-flex justify-content-between align-items-center flex-wrap gap-4">
+            <div>
+                <h3 class="directory-title mb-1"><i class="fas fa-id-card-alt me-2 text-primary"></i> Sovereignty
+                    Matrix
+                </h3>
+                <p class="text-dim mb-0 fw-bold small">NODE_DIRECTORY // ENCRYPTED_USER_SCAN</p>
+            </div>
+
+            <div class="command-bar">
+                <div class="command-input-wrapper">
+                    <i class="fas fa-search command-icon"></i>
+                    <input type="text" id="userSearch" class="command-input" placeholder="Scan node identities...">
+                </div>
+                <select id="roleFilter" class="command-select">
+                    <option value="all">ALL_NODES</option>
+                    <option value="student">STUDENTS</option>
+                    <option value="alumni">ALUMNI</option>
+                    <option value="faculty">FACULTY</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="premium-table" id="usersTable">
+                <thead>
+                    <tr>
+                        <th>Identity Profile</th>
+                        <th>Classification</th>
+                        <th>Nexus Dept</th>
+                        <th>Sync Status</th>
+                        <th>Operation</th>
+                    </tr>
+                </thead>
+                <tbody class="node-matrix-body">
+                    {% for user in users[:15] %}
+                    <tr class="user-row node-row" data-role="{{ user['role'] }}">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-node me-3"
+                                    style="width: 64px; height: 64px; border-radius: 14px; overflow: hidden; border: 2px solid #f1f5f9;">
+                                    {% if user['profile_pic'] and user['profile_pic'].startswith('/') %}
+                                    <img src="{{ user['profile_pic'] }}" alt="" class="identity-avatar-img">
+                                    {% else %}
+                                    <div class="initials-avatar">
+                                        {{ user['name'] | initials }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <div class="fw-800 text-main mb-0" style="font-size: 0.95rem;">
+                                        <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% else %}{{ url_for('faculty_profile', user_id=user['id']) }}{% endif %}"
+                                            class="text-decoration-none text-inherit hover-primary">
+                                            {{ user['name'] }}
+                                        </a>
+                                    </div>
+                                    <code class="text-dim" style="font-size: 0.75rem;">{{ user['email'] }}</code>
+                                </div>
+
+                            </div>
+                        </td>
+                        <td>
+                            {% if user['role'] == 'student' %}
+                            <span class="badge-modern badge-student"
+                                style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">Student</span>
+                            {% elif user['role'] == 'alumni' %}
+                            <span class="badge-modern badge-alumni"
+                                style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">Alumni</span>
+                            {% elif user['role'] == 'faculty' %}
+                            <span class="badge-modern badge-faculty"
+                                style="background: rgba(16, 185, 129, 0.1); color: #10b981;">Faculty</span>
+                            {% else %}
+                            <span class="badge-modern badge-admin"
+                                style="background: #fef3c7; color: #92400e;">Admin</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="fw-bold fs-7">{{ user['department'] or 'NULL_NODE' }}</div>
+                            <div class="text-dim extra-small">
+                                {% if user['role'] == 'student' and user['batch_info'] %}
+                                SEM_{{ user['batch_info'] }}
+                                {% elif user['role'] == 'alumni' and user['batch_info'] %}
+                                BATCH_{{ user['batch_info'] }}
+                                {% else %}
+                                PRO_LEVEL
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="node-status">
+                                <span class="pulse-dot"></span>
+                                VERIFIED
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                {% if user['email'] == 'admindbit195@college.edu' %}
+                                <div class="badge bg-slate-100 text-slate-500 border border-slate-200 px-3 py-2"
+                                    style="border-radius: 12px; font-size: 0.7rem;">
+                                    <i class="fas fa-lock me-1"></i> PROTECTED
+                                </div>
+                                {% else %}
+                                <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% else %}{{ url_for('faculty_profile', user_id=user['id']) }}{% endif %}"
+                                    class="action-btn view-btn" title="Inspect Node">
+                                    <i class="fas fa-crosshairs"></i>
+                                </a>
+                                <button class="action-btn delete-btn btn-delete-user"
+                                    onclick="confirmDelete('{{ user.id }}', '{{ user.name }}', this)"
+                                    title="Delete User">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Downloads Section -->
+    <div class="export-module mb-5 animate__animated animate__fadeInUp">
+        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-4">
+            <div>
+                <h3 class="directory-title mb-1"><i class="fas fa-server me-2 text-warning"></i> Data Extraction
+                    Console
+                </h3>
+                <p class="text-dim mb-0 fw-bold small">SECURE_EXPORT_SYNC // ENCRYPTED_SNAPSHOTS</p>
+            </div>
+
+            <div class="d-flex gap-2">
+                <div class="glass-card py-2 px-3 d-flex align-items-center gap-3 border"
+                    style="background: #f1f5f9; border-radius: 16px;">
+                    <span class="security-badge"><i class="fas fa-shield-alt"></i> SYSTEM_INTEGRITY: OPTIMAL</span>
+                    <span class="text-dim small fw-bold">|</span>
+                    <span class="text-dim small fw-bold">BACKUP_DEPTH: 84.2%</span>
+                </div>
+                <ul class="nav nav-pills command-bar p-1" id="exportTabs" role="tablist" style="border-radius: 14px;">
+                    <li class="nav-item">
+                        <button class="nav-link active px-4 py-2 border-0 fw-800" data-bs-toggle="pill"
+                            data-bs-target="#csvExports"
+                            style="border-radius: 10px; font-size: 0.75rem;">REPORTS_MD</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link px-4 py-2 border-0 fw-800" data-bs-toggle="pill"
+                            data-bs-target="#dbExports"
+                            style="border-radius: 10px; font-size: 0.75rem;">STORAGE_DB</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content" id="exportTabsContent">
+            <!-- CSV Exports -->
+            <div class="tab-pane fade show active" id="csvExports">
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="export-console-card">
+                            <div class="export-card-head">
+                                <div class="export-icon text-primary m-0"
+                                    style="width:40px; height:40px; font-size: 1rem;"><i
+                                        class="fas fa-user-graduate"></i></div>
+                                <div>
+                                    <h5 class="fw-800 mb-0">Student_Registry</h5>
+                                    <span class="meta-tag">Format: CSV</span>
+                                </div>
+                            </div>
+                            <div class="export-card-body">
+                                <p class="text-dim small mb-4">Complete node profile synchronization. Academic
+                                    metrics,
+                                    identity verification tokens, and registration metadata.</p>
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-dim extra-small fw-bold">READY_TO_EXTRACT</span>
+                                    <span class="text-dim extra-small fw-bold">100%</span>
+                                </div>
+                                <div class="extraction-progress">
+                                    <div class="extraction-bar"></div>
+                                </div>
+                            </div>
+                            <div class="export-card-footer">
+                                <button class="btn btn-primary w-100 fw-800 py-2"
+                                    onclick="downloadData('student', 'csv')"
+                                    style="border-radius: 10px; font-size: 0.8rem;">INITIATE_SYNC</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="export-console-card">
+                            <div class="export-card-head">
+                                <div class="export-icon text-warning m-0"
+                                    style="width:40px; height:40px; font-size: 1rem;"><i class="fas fa-user-tie"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-800 mb-0">Alumni_Directory</h5>
+                                    <span class="meta-tag">Format: CSV</span>
+                                </div>
+                            </div>
+                            <div class="export-card-body">
+                                <p class="text-dim small mb-4">Professional nexus directory. Career advancement
+                                    metadata, contact validation, and professional node links.</p>
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-dim extra-small fw-bold">READY_TO_EXTRACT</span>
+                                    <span class="text-dim extra-small fw-bold">100%</span>
+                                </div>
+                                <div class="extraction-progress">
+                                    <div class="extraction-bar"></div>
+                                </div>
+                            </div>
+                            <div class="export-card-footer">
+                                <button class="btn btn-warning w-100 fw-800 py-2 text-white"
+                                    onclick="downloadData('alumni', 'csv')"
+                                    style="border-radius: 10px; font-size: 0.8rem;">INITIATE_SYNC</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="export-console-card">
+                            <div class="export-card-head">
+                                <div class="export-icon text-success m-0"
+                                    style="width:40px; height:40px; font-size: 1rem;"><i
+                                        class="fas fa-users-viewfinder"></i></div>
+                                <div>
+                                    <h5 class="fw-800 mb-0">Master_Archive</h5>
+                                    <span class="meta-tag">Format: CSV</span>
+                                </div>
+                            </div>
+                            <div class="export-card-body">
+                                <p class="text-dim small mb-4">Complete Omni-Registry. The absolute master list of
+                                    all
+                                    identified entities across the university network.</p>
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-dim extra-small fw-bold">READY_TO_EXTRACT</span>
+                                    <span class="text-dim extra-small fw-bold">100%</span>
+                                </div>
+                                <div class="extraction-progress">
+                                    <div class="extraction-bar"></div>
+                                </div>
+                            </div>
+                            <div class="export-card-footer">
+                                <button class="btn btn-success w-100 fw-800 py-2" onclick="downloadData('all', 'csv')"
+                                    style="border-radius: 10px; font-size: 0.8rem;">INITIATE_SYNC</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DB Exports -->
+            <div class="tab-pane fade" id="dbExports">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="export-console-card">
+                            <div class="export-card-head">
+                                <div class="export-icon text-info m-0"
+                                    style="width:40px; height:40px; font-size: 1rem;"><i class="fas fa-database"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-800 mb-0">Network_Core_DB</h5>
+                                    <span class="meta-tag">Format: SQLITE (.db)</span>
+                                </div>
+                                <div class="ms-auto"><span class="badge bg-danger pulse-dot-static"
+                                        style="font-size: 0.6rem;">RESTRICTED</span></div>
+                            </div>
+                            <div class="export-card-body">
+                                <p class="text-dim small mb-4">Master relational database snapshot (college_pro.db).
+                                    Contains all encrypted tables, relations, and system logs.</p>
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-dim extra-small fw-bold">BUFFERING_SNAPSHOT</span>
+                                    <span class="text-dim extra-small fw-bold">94%</span>
+                                </div>
+                                <div class="extraction-progress">
+                                    <div class="extraction-bar" style="width: 94%;"></div>
+                                </div>
+                            </div>
+                            <div class="export-card-footer">
+                                <button class="btn btn-info text-white w-100 fw-800 py-2"
+                                    onclick="downloadData('college_pro', 'db')"
+                                    style="border-radius: 10px; font-size: 0.8rem;">SECURE_DOWNLOAD</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="export-console-card">
+                            <div class="export-card-head">
+                                <div class="export-icon text-secondary m-0"
+                                    style="width:40px; height:40px; font-size: 1rem;"><i
+                                        class="fas fa-shield-halved"></i></div>
+                                <div>
+                                    <h5 class="fw-800 mb-2">Alumni_Nexus_Storage</h5>
+                                    <span class="meta-tag">Format: SQLITE (.db)</span>
+                                </div>
+                                <div class="ms-auto"><span class="badge bg-warning text-dark"
+                                        style="font-size: 0.6rem;">PROTECTED</span></div>
+                            </div>
+                            <div class="export-card-body">
+                                <p class="text-dim small mb-4">Dedicated storage segment for alumni nodes.
+                                    High-fidelity
+                                    career relationship data and encrypted professional histories.</p>
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-dim extra-small fw-bold">SYNC_COMPLETE</span>
+                                    <span class="text-dim extra-small fw-bold">100%</span>
+                                </div>
+                                <div class="extraction-progress">
+                                    <div class="extraction-bar"></div>
+                                </div>
+                            </div>
+                            <div class="export-card-footer">
+                                <button class="btn btn-dark w-100 fw-800 py-2" onclick="downloadData('alumni', 'db')"
+                                    style="border-radius: 10px; font-size: 0.8rem;">SECURE_DOWNLOAD</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+
+    // --- Premium Interactive Controllers ---
+    document.addEventListener('DOMContentLoaded', function () {
+        // 1. Typing Effect for Admin Name
+        const adminName = "{{ current_user.name }}";
+        const typingElement = document.getElementById('typingName');
+        let i = 0;
+        function typeWriter() {
+            if (i < adminName.length) {
+                typingElement.innerHTML += adminName.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        typeWriter();
+
+        // 2. Network Canvas Animation (Background Hero)
+        const canvas = document.getElementById('networkCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            particles = [];
+            for (let i = 0; i < 40; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: Math.random() * 2 + 1
+                });
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(99, 102, 241, 0.5)';
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.1)';
+
+            particles.forEach((p, index) => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+        initCanvas();
+        animateCanvas();
+        window.addEventListener('resize', initCanvas);
+
+        // 3. Real-time Clock Widget
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
+
+            const clockEl = document.getElementById('dynamicClock');
+            const dateEl = document.getElementById('dynamicDate');
+
+            if (clockEl) clockEl.textContent = timeStr;
+            if (dateEl) dateEl.textContent = dateStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 4. Advanced Chart.js Customization
+        const chartFont = { family: "'JetBrains Mono', monospace", size: 11, color: '#64748b' };
+        const chartDataEl = document.getElementById('chart-data');
+        const years = JSON.parse(chartDataEl.dataset.years);
+
+        // Growth Chart (Line)
+        const ctxGrowth = document.getElementById('growthChart').getContext('2d');
+        new Chart(ctxGrowth, {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [
+                    {
+                        label: 'Students',
+                        data: JSON.parse(chartDataEl.dataset.studentsGrowth),
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#6366f1'
+                    },
+                    {
+                        label: 'Alumni',
+                        data: JSON.parse(chartDataEl.dataset.alumniGrowth),
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.05)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#f59e0b'
+                    },
+                    {
+                        label: 'Faculty',
+                        data: JSON.parse(chartDataEl.dataset.facultyGrowth),
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#10b981'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#64748b', font: chartFont } }
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: '#64748b', font: chartFont } },
+                    y: { grid: { color: '#f1f5f9' }, ticks: { color: '#64748b', font: chartFont } }
+                }
+            }
+        });
+
+        // Mix Chart (Doughnut)
+        const ctxUser = document.getElementById('userChart').getContext('2d');
+        new Chart(ctxUser, {
+            type: 'doughnut',
+            data: {
+                labels: ['Students', 'Alumni', 'Faculty'],
+                datasets: [{
+                    data: [
+                        parseInt(chartDataEl.dataset.students),
+                        parseInt(chartDataEl.dataset.alumni),
+                        parseInt(chartDataEl.dataset.faculty)
+                    ],
+                    backgroundColor: ['#6366f1', '#f59e0b', '#10b981'],
+                    borderWidth: 0,
+                    hoverOffset: 20
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '80%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#64748b', font: chartFont, padding: 20 } }
+                }
+            }
+        });
+
+        // Action Deck Navigation
+        document.querySelectorAll('.btn-action-nav').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const url = this.dataset.url;
+                if (url) {
+                    window.location.href = url;
+                }
+            });
+        });
+
+        // 5. Search & Search Matrix Logic
+
+        const searchInput = document.getElementById('userSearch');
+        const roleFilter = document.getElementById('roleFilter');
+        const userRows = document.querySelectorAll('.user-row');
+
+        function filterNodes() {
+            const query = searchInput.value.toLowerCase();
+            const role = roleFilter.value;
+            userRows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                const rowRole = row.dataset.role;
+                const matchesSearch = text.includes(query);
+                const matchesRole = role === 'all' || rowRole === role;
+                row.style.display = matchesSearch && matchesRole ? '' : 'none';
+            });
+        }
+        searchInput.addEventListener('input', filterNodes);
+        roleFilter.addEventListener('change', filterNodes);
+    });
+
+    function confirmDelete(id, name, btn) {
+        if (confirm(`Are you sure you want to delete user: ${name}? This action cannot be undone.`)) {
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+
+            fetch(`/api/delete-user/${id}`, { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        btn.innerHTML = '<i class="fas fa-check"></i>';
+                        btn.style.background = '#10b981';
+                        btn.style.color = 'white';
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        alert('❌ Delete failed: ' + data.error);
+                        btn.innerHTML = originalHtml;
+                        btn.disabled = false;
+                    }
+                })
+                .catch(err => {
+                    alert('❌ Connection Error: Delete Failed');
+                    btn.innerHTML = originalHtml;
+                    btn.disabled = false;
+                });
+        }
+    }
+
+    // 7. Matrix Data Export
+    function downloadData(category, type) {
+        const endpoint = type === 'csv' ? `/api/download-csv/${category}` : `/api/download-db/${category}`;
+        window.location.href = endpoint;
+    }
+</script>
+{% endblock %}

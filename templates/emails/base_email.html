@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Hub Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fa;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0ea5e9 100%);
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #0ea5e9;
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0284c7;
+        }
+
+        .footer {
+            background-color: #f8fafc;
+            padding: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .social-links {
+            margin-top: 10px;
+        }
+
+        .social-link {
+            color: #94a3b8;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Alumni Hub</h1>
+        </div>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+        <div class="footer">
+            <p>&copy; {{ year }} Alumni Hub. All rights reserved.</p>
+            <p>Connecting Alumni, Students, and Faculty.</p>
+            <div class="social-links">
+                <a href="http://alumnihub.com" class="social-link"
+                    style="color: #0ea5e9; font-weight: bold; margin-bottom: 15px; display: block;">Visit our
+                    Website</a>
+                <div style="margin-top: 15px;">
+                    <a href="https://linkedin.com/school/dbit" class="social-link"
+                        style="margin: 0 10px; font-size: 20px;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="24" height="24"
+                            alt="LinkedIn" style="vertical-align: middle;">
+                    </a>
+                    <a href="https://youtube.com/@dbitalumni" class="social-link"
+                        style="margin: 0 10px; font-size: 20px;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" width="24" height="24"
+                            alt="YouTube" style="vertical-align: middle;">
+                    </a>
+                    <a href="https://instagram.com/dbit_alumni" class="social-link"
+                        style="margin: 0 10px; font-size: 20px;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" width="24" height="24"
+                            alt="Instagram" style="vertical-align: middle;">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

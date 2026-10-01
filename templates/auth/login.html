@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login to Alumni Hub - Access your elite professional portal.">
+    <title>Login - ALUMNI HUB</title>
+
+    <!-- Premium Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --crystalline-primary: #6366f1;
+            --crystalline-secondary: #ec4899;
+            --crystalline-glass: rgba(255, 255, 255, 0.7);
+            --crystalline-glass-border: rgba(255, 255, 255, 0.5);
+            --crystalline-glow: rgba(99, 102, 241, 0.2);
+            --v3-font-heading: 'Outfit', sans-serif;
+            --v3-font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--v3-font-body);
+            background: #f8fafc;
+            min-height: 100vh;
+            margin: 0;
+            overflow-y: auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .iridescent-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #f5f3ff 50%, #fdf2f8 75%, #f0fdf4 100%);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .mesh-ball {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .ball-1 {
+            width: 400px;
+            height: 400px;
+            background: #818cf8;
+            top: -100px;
+            left: -100px;
+        }
+
+        .ball-2 {
+            width: 300px;
+            height: 300px;
+            background: #f472b6;
+            bottom: -50px;
+            right: -50px;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(20px, -30px) scale(1.05);
+            }
+        }
+
+        .crystalline-card {
+            background: var(--crystalline-glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--crystalline-glass-border);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1000px;
+            height: 85vh;
+            max-height: 850px;
+            min-height: 600px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+            margin-top: 80px;
+            /* Space for navbar */
+        }
+
+        /* Navbar Styling */
+        .crystalline-nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 800;
+            font-family: var(--v3-font-heading);
+            font-size: 1.2rem;
+        }
+
+        .nav-brand i {
+            color: var(--crystalline-primary);
+            font-size: 1.4rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+        }
+
+        .nav-links a:hover {
+            color: var(--crystalline-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .nav-auth-btn {
+            background: var(--crystalline-primary);
+            color: white !important;
+            padding: 0.6rem 1.5rem !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        .nav-auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .branding-sidebar {
+            width: 40%;
+            background: linear-gradient(165deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.95) 100%);
+            padding: 4rem 3rem;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .branding-sidebar::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.05), transparent 70%);
+            animation: shimmerRotate 20s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes shimmerRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Slide & Fade Animations */
+        .slide-rtl {
+            opacity: 0;
+            transform: translateX(40px);
+            animation: slideInRTL 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes slideInRTL {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .anim-delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .anim-delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .anim-delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        .anim-delay-4 {
+            animation-delay: 0.8s;
+        }
+
+        .form-area {
+            flex: 1;
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        h1,
+        h2,
+        h3,
+        h5 {
+            font-family: var(--v3-font-heading);
+            font-weight: 700;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #475569;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            border-radius: 16px;
+            border: 2px solid #f1f5f9;
+            padding: 1rem 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--crystalline-primary);
+            box-shadow: 0 0 0 4px var(--crystalline-glow);
+            outline: none;
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            border: none;
+            padding: 1.1rem;
+            border-radius: 18px;
+            font-weight: 700;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .reveal-fade {
+            animation: reveal 0.8s ease-out forwards;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 991px) {
+            .crystalline-card {
+                flex-direction: column;
+                max-width: 500px;
+                min-height: auto;
+                margin: 2rem 0;
+            }
+
+            .branding-sidebar {
+                width: 100%;
+                padding: 2.5rem;
+            }
+
+            .form-area {
+                padding: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="iridescent-bg"></div>
+    <div class="mesh-ball ball-1"></div>
+    <div class="mesh-ball ball-2"></div>
+
+    <nav class="crystalline-nav">
+        <a href="/" class="nav-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>ALUMNI HUB</span>
+        </a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/register">Register</a>
+            <a href="/login" class="nav-auth-btn">Sign In</a>
+        </div>
+    </nav>
+
+    <div class="container d-flex justify-content-center">
+        <div class="crystalline-card reveal-fade">
+            <!-- Left Branding -->
+            <div class="branding-sidebar">
+                <div class="mb-5 d-flex align-items-center gap-3 slide-rtl anim-delay-1">
+                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 40px; height: 40px;">
+                        <i class="fas fa-graduation-cap text-white"></i>
+                    </div>
+                    <h4 class="mb-0">ALUMNI HUB</h4>
+                </div>
+                <div class="my-auto">
+                    <h1 class="h2 mb-4 slide-rtl anim-delay-2">Welcome <br><span class="text-gradient">Back...</span>
+                    </h1>
+                    <p class="text-white-50 small slide-rtl anim-delay-3">Access your custom dashboard and stay
+                        connected
+                        with the network.</p>
+                </div>
+                <div class="mt-auto slide-rtl anim-delay-4">
+                    <a href="/" class="text-white-50 text-decoration-none small transition-all">
+                        <i class="fas fa-arrow-left me-2"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Form Area -->
+            <div class="form-area">
+                <div class="mb-5">
+                    <h2 class="mb-1">Sign In</h2>
+                    <p class="text-muted">Enter your institutional credentials</p>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }} fade show mb-4 border-0 shadow-sm rounded-4"
+                    role="alert">
+                    <i class="fas fa-info-circle me-2"></i> {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="/login">
+                    <div class="mb-4">
+                        <label class="form-label">Institutional Email</label>
+                        <input type="email" class="form-control" name="email" required placeholder="name@domain.com">
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Password</label>
+                        <div class="position-relative">
+                            <input type="password" class="form-control" name="password" id="password" required
+                                placeholder="••••••••" style="padding-right: 3.5rem;">
+                            <button type="button"
+                                class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent pe-3 text-muted"
+                                onclick="togglePassword('password', this)" tabindex="-1">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="text-end mt-2">
+                            <a href="{{ url_for('forgot_password') }}"
+                                class="small text-primary text-decoration-none fw-bold">Forgot Password?</a>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label text-muted small" for="rememberMe">Remember me</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-premium">
+                        Authenticate <i class="fas fa-sign-in-alt ms-2"></i>
+                    </button>
+
+                    <div class="text-center mt-5 text-muted">
+                        New here? <a href="/register" class="text-primary text-decoration-none fw-bold">Create
+                            account</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    </script>
+</body>
+
+</html>

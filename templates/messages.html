@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}Messages - Alumni Hub{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4" style="margin-top: 80px;">
+    <div class="row h-100">
+        <!-- Conversations Sidebar -->
+        <div class="col-md-4 col-lg-3 mb-4">
+            <div class="glass-card p-3 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">
+                        <i class="fas fa-comment-alt me-2"></i> Messages
+                    </h5>
+                    <button class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+
+                <!-- Search -->
+                <div class="mb-3">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" placeholder="Search conversations...">
+                    </div>
+                </div>
+
+                <!-- Conversation List -->
+                <div class="conversation-list" style="max-height: 600px; overflow-y: auto;">
+                    {% for i in range(1, 11) %}
+                    <div class="conversation-item p-3 mb-2 rounded {% if i == 1 %}active{% endif %}"
+                        style="cursor: pointer; transition: all 0.3s;">
+                        <div class="d-flex align-items-start">
+                            <div class="avatar-circle me-3"
+                                style="width: 45px; height: 45px; min-width: 45px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-weight: bold;">
+                                {{ ['A', 'R', 'S', 'P', 'K', 'M', 'N', 'V', 'D', 'T'][i-1] }}
+                            </div>
+                            <div class="flex-grow-1" style="min-width: 0;">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h6 class="mb-0 fw-bold text-truncate">Alumni Name {{ i }}</h6>
+                                    <small class="text-muted">{{ i }}h ago</small>
+                                </div>
+                                <p class="text-muted small mb-0 text-truncate">Last message preview goes here...</p>
+                                {% if i <= 3 %} <span class="badge bg-primary rounded-pill mt-1">{{ i }}</span>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="col-md-8 col-lg-9">
+            <div class="glass-card p-0 h-100 d-flex flex-column" style="min-height: 700px;">
+                <!-- Chat Header -->
+                <div class="p-4 border-bottom">
+                    <div class="d-flex align-items-center">
+                        <div class="avatar-circle me-3"
+                            style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-size: 1.5rem; font-weight: bold;">
+                            A
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-0 fw-bold">Alumni Name 1</h5>
+                            <small class="text-success">
+                                <i class="fas fa-circle" style="font-size: 8px;"></i> Online
+                            </small>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary me-2">
+                                <i class="fas fa-phone"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary me-2">
+                                <i class="fas fa-video"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages Area -->
+                <div class="flex-grow-1 p-4"
+                    style="overflow-y: auto; background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);">
+                    <div class="messages-container">
+                        <!-- Received Message -->
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="avatar-circle me-2"
+                                    style="width: 35px; height: 35px; min-width: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-weight: bold; font-size: 0.9rem;">
+                                    A
+                                </div>
+                                <div>
+                                    <div class="bg-white p-3 rounded-3 shadow-sm" style="max-width: 400px;">
+                                        <p class="mb-0">Hey! How are you doing? I saw your recent post about the new
+                                            project.</p>
+                                    </div>
+                                    <small class="text-muted ms-2">10:30 AM</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sent Message -->
+                        <div class="mb-4 text-end">
+                            <div class="d-flex align-items-start justify-content-end">
+                                <div>
+                                    <div class="bg-primary text-white p-3 rounded-3 shadow-sm"
+                                        style="max-width: 400px; display: inline-block;">
+                                        <p class="mb-0">Hi! I'm doing great, thanks for asking! Yes, the project is
+                                            going well.</p>
+                                    </div>
+                                    <small class="text-muted me-2">10:32 AM</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Received Message -->
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="avatar-circle me-2"
+                                    style="width: 35px; height: 35px; min-width: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-weight: bold; font-size: 0.9rem;">
+                                    A
+                                </div>
+                                <div>
+                                    <div class="bg-white p-3 rounded-3 shadow-sm" style="max-width: 400px;">
+                                        <p class="mb-0">That's awesome! Would love to hear more about it. Are you free
+                                            for a quick call sometime?</p>
+                                    </div>
+                                    <small class="text-muted ms-2">10:35 AM</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sent Message -->
+                        <div class="mb-4 text-end">
+                            <div class="d-flex align-items-start justify-content-end">
+                                <div>
+                                    <div class="bg-primary text-white p-3 rounded-3 shadow-sm"
+                                        style="max-width: 400px; display: inline-block;">
+                                        <p class="mb-0">Sure! How about tomorrow at 3 PM?</p>
+                                    </div>
+                                    <small class="text-muted me-2">10:37 AM</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Input -->
+                <div class="p-4 border-top">
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="fas fa-smile"></i>
+                        </button>
+                        <input type="text" class="form-control" placeholder="Type your message...">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-paper-plane me-2"></i> Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .conversation-item {
+        background: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .conversation-item:hover {
+        background: rgba(102, 126, 234, 0.1);
+        border-color: rgba(102, 126, 234, 0.2);
+    }
+
+    .conversation-item.active {
+        background: rgba(102, 126, 234, 0.15);
+        border-color: rgba(102, 126, 234, 0.3);
+    }
+
+    .conversation-list::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .conversation-list::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .conversation-list::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+
+    .conversation-list::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+{% endblock %}

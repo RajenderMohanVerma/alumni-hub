@@ -1,0 +1,37 @@
+{% extends 'emails/base_email.html' %}
+
+{% block content %}
+<h2 style="color: #1e293b; margin-top: 0;">New Connection Request</h2>
+<p style="font-size: 16px; color: #475569;">Hi <strong>{{ receiver_name }}</strong>,</p>
+
+<p style="font-size: 16px; color: #475569;">
+    You have a new connection request from <strong>{{ sender_name }}</strong> ({{ sender_email }}) on Alumni Hub.
+</p>
+
+<div style="background-color: #f1f5f9; padding: 20px; border-radius: 8px; margin: 25px 0;">
+    <p style="margin: 0; color: #334155; font-weight: 500;">
+        "I'd like to join your professional network on Alumni Hub."
+    </p>
+</div>
+
+<p style="font-size: 16px; color: #475569;">
+    Expanding your network helps you discover new opportunities and stay connected with your alma mater. You can review
+    <strong>{{ sender_name }}'s</strong> professional background and skills by visiting their profile.
+</p>
+
+<div style="text-align: center; margin: 35px 0;">
+    <a href="{{ profile_url }}" class="button"
+        style="background-color: #1e3a8a; display: block; margin-bottom: 15px;">View Profile & Respond</a>
+
+    {% if sender_phone %}
+    <a href="https://wa.me/{{ sender_phone }}" class="button" style="background-color: #25D366; display: block;">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="16" height="16" alt="WhatsApp"
+            style="vertical-align: middle; margin-right: 8px;"> Chat on WhatsApp
+    </a>
+    {% endif %}
+</div>
+
+<p style="font-size: 14px; color: #94a3b8; margin-top: 30px;">
+    If the buttons above don't work, verify by logging into your account.
+</p>
+{% endblock %}

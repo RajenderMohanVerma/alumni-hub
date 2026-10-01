@@ -1,0 +1,1378 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - Alumni Portal{% endblock %}
+
+{% block content %}
+
+<!-- Premium Fonts -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+<!-- =========================================================
+     ANIMATION KEYFRAMES
+========================================================= -->
+<style>
+    @keyframes meshFloat {
+        0% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        50% {
+            transform: translate(40px, -30px) scale(1.08);
+        }
+
+        100% {
+            transform: translate(-25px, 40px) scale(0.96);
+        }
+    }
+
+    @keyframes holographicMove {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        100% {
+            background-position: 300% 50%;
+        }
+    }
+
+    @keyframes pulseGlow {
+        0%, 100% {
+            box-shadow: 0 0 0 rgba(168, 85, 247, 0);
+        }
+
+        50% {
+            box-shadow: 0 0 28px rgba(168, 85, 247, 0.20);
+        }
+    }
+
+    @keyframes floatIcon {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+
+    @keyframes gradientBorder {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @keyframes heroGlow {
+        0%, 100% {
+            opacity: .55;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 1;
+            transform: scale(1.08);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .contact-hero-title {
+            font-size: 2.6rem !important;
+        }
+
+        .contact-hero-description {
+            font-size: 1rem !important;
+        }
+
+        .contact-main-container {
+            margin-top: -40px !important;
+        }
+
+        .contact-card {
+            border-radius: 22px !important;
+        }
+
+        .map-box {
+            height: 330px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .contact-hero-title {
+            font-size: 2.15rem !important;
+        }
+
+        .map-box {
+            height: 280px !important;
+        }
+    }
+</style>
+
+
+<!-- =========================================================
+     MAIN CONTACT WRAPPER
+========================================================= -->
+<div class="contact-wrapper"
+    style="
+        position:relative;
+        min-height:100vh;
+        overflow:hidden;
+        font-family:'Outfit',sans-serif;
+        background:
+        radial-gradient(circle at 10% 20%, rgba(99,102,241,.08), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(168,85,247,.08), transparent 30%),
+        #f8fafc;
+    ">
+
+    <!-- =====================================================
+         ANIMATED BACKGROUND
+    ====================================================== -->
+    <div class="mesh-background"
+        style="
+            position:fixed;
+            inset:0;
+            z-index:-2;
+            pointer-events:none;
+            overflow:hidden;
+        ">
+
+        <div class="mesh-ball"
+            style="
+                position:absolute;
+                width:500px;
+                height:500px;
+                border-radius:50%;
+                filter:blur(100px);
+                opacity:.12;
+                background:#6366f1;
+                top:-180px;
+                left:-150px;
+                animation:meshFloat 18s ease-in-out infinite alternate;
+            ">
+        </div>
+
+        <div class="mesh-ball"
+            style="
+                position:absolute;
+                width:450px;
+                height:450px;
+                border-radius:50%;
+                filter:blur(100px);
+                opacity:.11;
+                background:#a855f7;
+                right:-150px;
+                bottom:8%;
+                animation:meshFloat 20s ease-in-out -5s infinite alternate;
+            ">
+        </div>
+
+        <div class="mesh-ball"
+            style="
+                position:absolute;
+                width:350px;
+                height:350px;
+                border-radius:50%;
+                filter:blur(100px);
+                opacity:.08;
+                background:#ec4899;
+                left:35%;
+                top:45%;
+                animation:meshFloat 22s ease-in-out -9s infinite alternate;
+            ">
+        </div>
+
+        <div class="mesh-ball"
+            style="
+                position:absolute;
+                width:250px;
+                height:250px;
+                border-radius:50%;
+                filter:blur(90px);
+                opacity:.08;
+                background:#38bdf8;
+                right:20%;
+                top:20%;
+                animation:meshFloat 19s ease-in-out -13s infinite alternate;
+            ">
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         HERO SECTION
+    ====================================================== -->
+    <section class="contact-hero"
+        style="
+            position:relative;
+            min-height:470px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:120px 20px 150px;
+            overflow:hidden;
+            background:
+            radial-gradient(circle at 15% 25%, rgba(99,102,241,.24), transparent 32%),
+            radial-gradient(circle at 85% 70%, rgba(168,85,247,.22), transparent 35%),
+            linear-gradient(135deg,#070b17 0%,#11152b 50%,#1e1b4b 100%);
+            border-bottom-left-radius:50px;
+            border-bottom-right-radius:50px;
+            box-shadow:0 30px 80px rgba(15,23,42,.20);
+        ">
+
+        <!-- Grid -->
+        <div
+            style="
+                position:absolute;
+                inset:0;
+                opacity:.35;
+                background-image:
+                linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+                linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+                background-size:45px 45px;
+                mask-image:linear-gradient(to bottom,black,transparent);
+            ">
+        </div>
+
+        <!-- Glow -->
+        <div
+            style="
+                position:absolute;
+                width:500px;
+                height:500px;
+                border-radius:50%;
+                background:rgba(99,102,241,.12);
+                filter:blur(100px);
+                left:-180px;
+                top:-180px;
+                animation:heroGlow 7s ease-in-out infinite alternate;
+            ">
+        </div>
+
+        <div
+            style="
+                position:absolute;
+                width:450px;
+                height:450px;
+                border-radius:50%;
+                background:rgba(168,85,247,.12);
+                filter:blur(100px);
+                right:-180px;
+                bottom:-180px;
+                animation:heroGlow 8s ease-in-out -3s infinite alternate;
+            ">
+        </div>
+
+
+        <canvas class="network-canvas"
+            style="
+                position:absolute;
+                inset:0;
+                width:100%;
+                height:100%;
+                pointer-events:none;
+            ">
+        </canvas>
+
+
+        <div class="hero-particles"
+            style="
+                position:absolute;
+                inset:0;
+                background:
+                radial-gradient(circle at 20% 30%,rgba(96,165,250,.12),transparent 25%),
+                radial-gradient(circle at 80% 70%,rgba(192,132,252,.12),transparent 25%);
+                animation:heroGlow 8s ease-in-out infinite alternate;
+            ">
+        </div>
+
+
+        <div class="container"
+            style="
+                position:relative;
+                z-index:3;
+                max-width:1000px;
+            ">
+
+            <div class="hero-content text-center">
+
+                <!-- Badge -->
+                <div
+                    style="
+                        display:inline-flex;
+                        align-items:center;
+                        gap:8px;
+                        padding:10px 20px;
+                        margin-bottom:24px;
+                        border-radius:50px;
+                        color:#c4b5fd;
+                        background:rgba(255,255,255,.08);
+                        border:1px solid rgba(196,181,253,.25);
+                        backdrop-filter:blur(15px);
+                        -webkit-backdrop-filter:blur(15px);
+                        font-size:.75rem;
+                        font-weight:700;
+                        letter-spacing:1.5px;
+                        animation:pulseGlow 3s ease-in-out infinite;
+                    ">
+
+                    <i class="fas fa-paper-plane"></i>
+
+                    <span>CONNECT WITH US</span>
+
+                </div>
+
+
+                <!-- Heading -->
+                <h1
+                    class="contact-hero-title"
+                    style="
+                        margin:0 0 20px;
+                        color:#ffffff;
+                        font-family:'Plus Jakarta Sans',sans-serif;
+                        font-size:clamp(2.8rem,6vw,4.7rem);
+                        line-height:1.05;
+                        font-weight:800;
+                        letter-spacing:-2px;
+                        text-shadow:0 10px 40px rgba(0,0,0,.30);
+                    ">
+
+                    Get in
+
+                    <span
+                        style="
+                            background:linear-gradient(
+                                90deg,
+                                #60a5fa,
+                                #a78bfa,
+                                #f472b6,
+                                #60a5fa
+                            );
+                            background-size:300% 100%;
+                            -webkit-background-clip:text;
+                            background-clip:text;
+                            -webkit-text-fill-color:transparent;
+                            animation:holographicMove 6s linear infinite;
+                        ">
+                        Touch
+                    </span>
+
+                </h1>
+
+
+                <!-- Description -->
+                <p
+                    class="contact-hero-description"
+                    style="
+                        max-width:800px;
+                        margin:0 auto;
+                        color:rgba(255,255,255,.72);
+                        font-size:1.25rem;
+                        line-height:1.7;
+                        font-weight:400;
+                    ">
+
+                    Have questions or feedback? We're here to help you bridge
+                    the gap between students and alumni.
+
+                </p>
+
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+    <div
+        class="container contact-main-container"
+        style="
+            position:relative;
+            z-index:5;
+            margin-top:-60px;
+            padding-bottom:70px;
+        ">
+
+        <div class="row g-4 justify-content-center">
+
+
+            <!-- =================================================
+                 CONTACT INFORMATION
+            ================================================== -->
+            <div class="col-lg-4">
+
+                <!-- Campus -->
+                <div
+                    class="card contact-card"
+                    style="
+                        position:relative;
+                        border:1px solid rgba(255,255,255,.8);
+                        border-radius:28px;
+                        background:rgba(255,255,255,.96);
+                        backdrop-filter:blur(20px);
+                        -webkit-backdrop-filter:blur(20px);
+                        box-shadow:0 18px 45px rgba(15,23,42,.08);
+                        margin-bottom:22px;
+                        overflow:hidden;
+                        transition:all .35s ease;
+                    "
+                    onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 25px 55px rgba(15,23,42,.14)'"
+                    onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 18px 45px rgba(15,23,42,.08)'">
+
+                    <div class="card-body p-4 text-center">
+
+                        <div
+                            style="
+                                width:58px;
+                                height:58px;
+                                margin:0 auto 18px;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                border-radius:17px;
+                                color:#6366f1;
+                                background:linear-gradient(
+                                    135deg,
+                                    rgba(99,102,241,.14),
+                                    rgba(59,130,246,.08)
+                                );
+                                box-shadow:0 8px 25px rgba(99,102,241,.10);
+                                animation:floatIcon 3s ease-in-out infinite;
+                            ">
+                            <i class="fas fa-map-marker-alt" style="font-size:1.25rem;"></i>
+                        </div>
+
+                        <h5
+                            style="
+                                margin-bottom:9px;
+                                color:#172033;
+                                font-family:'Plus Jakarta Sans',sans-serif;
+                                font-weight:700;
+                            ">
+                            Our Campus
+                        </h5>
+
+                        <p
+                            style="
+                                margin:0;
+                                color:#64748b;
+                                font-size:.9rem;
+                                line-height:1.7;
+                            ">
+                            2, Okhla Rd, Sukdev Vihar<br>
+                            New Delhi, 110025
+                        </p>
+
+                    </div>
+                </div>
+
+
+                <!-- Call -->
+                <div
+                    class="card contact-card"
+                    style="
+                        position:relative;
+                        border:1px solid rgba(255,255,255,.8);
+                        border-radius:28px;
+                        background:rgba(255,255,255,.96);
+                        backdrop-filter:blur(20px);
+                        -webkit-backdrop-filter:blur(20px);
+                        box-shadow:0 18px 45px rgba(15,23,42,.08);
+                        margin-bottom:22px;
+                        overflow:hidden;
+                        transition:all .35s ease;
+                    "
+                    onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 25px 55px rgba(15,23,42,.14)'"
+                    onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 18px 45px rgba(15,23,42,.08)'">
+
+                    <div class="card-body p-4 text-center">
+
+                        <div
+                            style="
+                                width:58px;
+                                height:58px;
+                                margin:0 auto 18px;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                border-radius:17px;
+                                color:#10b981;
+                                background:linear-gradient(
+                                    135deg,
+                                    rgba(16,185,129,.14),
+                                    rgba(34,197,94,.08)
+                                );
+                                box-shadow:0 8px 25px rgba(16,185,129,.10);
+                                animation:floatIcon 3s ease-in-out .4s infinite;
+                            ">
+                            <i class="fas fa-phone-alt" style="font-size:1.2rem;"></i>
+                        </div>
+
+                        <h5
+                            style="
+                                margin-bottom:9px;
+                                color:#172033;
+                                font-family:'Plus Jakarta Sans',sans-serif;
+                                font-weight:700;
+                            ">
+                            Call Us
+                        </h5>
+
+                        <p
+                            style="
+                                margin:0;
+                                color:#64748b;
+                                font-size:.9rem;
+                                line-height:1.7;
+                            ">
+                            +91-9876-543-210<br>
+                            +91-11-2345-6789
+                        </p>
+
+                    </div>
+                </div>
+
+
+                <!-- Email -->
+                <div
+                    class="card contact-card"
+                    style="
+                        position:relative;
+                        border:1px solid rgba(255,255,255,.8);
+                        border-radius:28px;
+                        background:rgba(255,255,255,.96);
+                        backdrop-filter:blur(20px);
+                        -webkit-backdrop-filter:blur(20px);
+                        box-shadow:0 18px 45px rgba(15,23,42,.08);
+                        margin-bottom:22px;
+                        overflow:hidden;
+                        transition:all .35s ease;
+                    "
+                    onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 25px 55px rgba(15,23,42,.14)'"
+                    onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 18px 45px rgba(15,23,42,.08)'">
+
+                    <div class="card-body p-4 text-center">
+
+                        <div
+                            style="
+                                width:58px;
+                                height:58px;
+                                margin:0 auto 18px;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                border-radius:17px;
+                                color:#f59e0b;
+                                background:linear-gradient(
+                                    135deg,
+                                    rgba(245,158,11,.14),
+                                    rgba(249,115,22,.08)
+                                );
+                                box-shadow:0 8px 25px rgba(245,158,11,.10);
+                                animation:floatIcon 3s ease-in-out .8s infinite;
+                            ">
+                            <i class="fas fa-envelope-open-text" style="font-size:1.2rem;"></i>
+                        </div>
+
+                        <h5
+                            style="
+                                margin-bottom:9px;
+                                color:#172033;
+                                font-family:'Plus Jakarta Sans',sans-serif;
+                                font-weight:700;
+                            ">
+                            Email Support
+                        </h5>
+
+                        <p
+                            style="
+                                margin:0;
+                                color:#64748b;
+                                font-size:.9rem;
+                                line-height:1.7;
+                            ">
+                            support@alumnihub.com<br>
+                            info@alumnihub.com
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CONTACT FORM
+            ================================================== -->
+            <div class="col-lg-8">
+
+                <div
+                    class="card contact-card"
+                    style="
+                        position:relative;
+                        border:1px solid rgba(255,255,255,.8);
+                        border-radius:30px;
+                        background:rgba(255,255,255,.97);
+                        backdrop-filter:blur(25px);
+                        -webkit-backdrop-filter:blur(25px);
+                        box-shadow:0 22px 60px rgba(15,23,42,.10);
+                        overflow:hidden;
+                    ">
+
+                    <!-- Animated top border -->
+                    <div
+                        style="
+                            position:absolute;
+                            top:0;
+                            left:0;
+                            width:100%;
+                            height:3px;
+                            background:linear-gradient(
+                                90deg,
+                                #6366f1,
+                                #a855f7,
+                                #38bdf8,
+                                #ec4899
+                            );
+                            background-size:300% 100%;
+                            animation:gradientBorder 6s linear infinite;
+                        ">
+                    </div>
+
+
+                    <div class="card-body p-4 p-md-5">
+
+                        <div style="margin-bottom:30px;">
+
+                            <span
+                                style="
+                                    display:inline-block;
+                                    margin-bottom:10px;
+                                    color:#6366f1;
+                                    font-size:.75rem;
+                                    font-weight:800;
+                                    letter-spacing:1.4px;
+                                ">
+                                HAVE A QUESTION?
+                            </span>
+
+                            <h3
+                                style="
+                                    margin:0 0 8px;
+                                    color:#172033;
+                                    font-family:'Plus Jakarta Sans',sans-serif;
+                                    font-size:1.7rem;
+                                    font-weight:800;
+                                ">
+                                Send a Message
+                            </h3>
+
+                            <p
+                                style="
+                                    margin:0;
+                                    color:#64748b;
+                                    font-size:.92rem;
+                                ">
+                                Fill out the form and our team will get back to you.
+                            </p>
+
+                        </div>
+
+
+                        <form
+                            id="contactForm"
+                            method="POST"
+                            action="/contact"
+                            class="needs-validation">
+
+                            <div class="row g-4">
+
+                                <!-- Name -->
+                                <div class="col-md-6">
+
+                                    <div style="position:relative;">
+
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="name"
+                                            name="name"
+                                            required
+                                            placeholder="Your Name"
+                                            style="
+                                                height:60px;
+                                                padding:1rem 1rem;
+                                                border:1px solid #e2e8f0;
+                                                border-radius:15px;
+                                                background:#f8fafc;
+                                                color:#172033;
+                                                font-size:.92rem;
+                                                font-weight:500;
+                                                box-shadow:none;
+                                                transition:all .3s ease;
+                                            "
+                                            onfocus="this.style.borderColor='#6366f1';this.style.background='#fff';this.style.boxShadow='0 0 0 4px rgba(99,102,241,.08)'"
+                                            onblur="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc';this.style.boxShadow='none'">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Email -->
+                                <div class="col-md-6">
+
+                                    <div style="position:relative;">
+
+                                        <input
+                                            type="email"
+                                            class="form-control"
+                                            id="email"
+                                            name="email"
+                                            required
+                                            placeholder="Email Address"
+                                            style="
+                                                height:60px;
+                                                padding:1rem;
+                                                border:1px solid #e2e8f0;
+                                                border-radius:15px;
+                                                background:#f8fafc;
+                                                color:#172033;
+                                                font-size:.92rem;
+                                                font-weight:500;
+                                                box-shadow:none;
+                                                transition:all .3s ease;
+                                            "
+                                            onfocus="this.style.borderColor='#6366f1';this.style.background='#fff';this.style.boxShadow='0 0 0 4px rgba(99,102,241,.08)'"
+                                            onblur="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc';this.style.boxShadow='none'">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Subject -->
+                                <div class="col-12">
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="subject"
+                                        name="subject"
+                                        required
+                                        placeholder="Subject"
+                                        style="
+                                            height:60px;
+                                            padding:1rem;
+                                            border:1px solid #e2e8f0;
+                                            border-radius:15px;
+                                            background:#f8fafc;
+                                            color:#172033;
+                                            font-size:.92rem;
+                                            font-weight:500;
+                                            transition:all .3s ease;
+                                        "
+                                        onfocus="this.style.borderColor='#6366f1';this.style.background='#fff';this.style.boxShadow='0 0 0 4px rgba(99,102,241,.08)'"
+                                        onblur="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc';this.style.boxShadow='none'">
+
+                                </div>
+
+
+                                <!-- Message -->
+                                <div class="col-12">
+
+                                    <textarea
+                                        class="form-control"
+                                        id="message"
+                                        name="message"
+                                        required
+                                        placeholder="Write your message here..."
+                                        style="
+                                            min-height:160px;
+                                            padding:1rem;
+                                            border:1px solid #e2e8f0;
+                                            border-radius:15px;
+                                            background:#f8fafc;
+                                            color:#172033;
+                                            font-size:.92rem;
+                                            font-weight:500;
+                                            resize:vertical;
+                                            transition:all .3s ease;
+                                        "
+                                        onfocus="this.style.borderColor='#6366f1';this.style.background='#fff';this.style.boxShadow='0 0 0 4px rgba(99,102,241,.08)'"
+                                        onblur="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc';this.style.boxShadow='none'"></textarea>
+
+                                </div>
+
+
+                                <!-- Button -->
+                                <div class="col-12 text-end">
+
+                                    <button
+                                        type="submit"
+                                        class="magnetic-button"
+                                        style="
+                                            position:relative;
+                                            min-height:54px;
+                                            padding:14px 30px;
+                                            border:0;
+                                            border-radius:14px;
+                                            background:linear-gradient(
+                                                135deg,
+                                                #6366f1,
+                                                #7c3aed,
+                                                #4f46e5
+                                            );
+                                            background-size:200% 200%;
+                                            color:#fff;
+                                            font-size:1rem;
+                                            font-weight:700;
+                                            cursor:pointer;
+                                            overflow:hidden;
+                                            box-shadow:0 12px 28px rgba(99,102,241,.25);
+                                            transition:all .3s ease;
+                                        "
+                                        onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 18px 38px rgba(99,102,241,.35)'"
+                                        onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 12px 28px rgba(99,102,241,.25)'">
+
+                                        <span class="btn-text">
+                                            <i class="fas fa-paper-plane me-2"></i>
+                                            Send Message
+                                        </span>
+
+                                        <div
+                                            class="btn-glow"
+                                            style="
+                                                position:absolute;
+                                                width:110px;
+                                                height:110px;
+                                                border-radius:50%;
+                                                background:radial-gradient(
+                                                    circle,
+                                                    rgba(255,255,255,.35),
+                                                    transparent 70%
+                                                );
+                                                pointer-events:none;
+                                                opacity:0;
+                                                transform:translate(-50%,-50%);
+                                                transition:opacity .3s;
+                                            ">
+                                        </div>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             FAQ SECTION
+        ====================================================== -->
+        <div
+            style="
+                margin-top:80px;
+                padding-top:20px;
+            ">
+
+            <div class="text-center"
+                style="margin-bottom:45px;">
+
+                <span
+                    style="
+                        display:inline-block;
+                        margin-bottom:10px;
+                        color:#6366f1;
+                        font-size:.75rem;
+                        font-weight:800;
+                        letter-spacing:1.5px;
+                    ">
+                    NEED HELP?
+                </span>
+
+                <h2
+                    <h2
+    style="
+        margin:0 0 12px;
+        color:#111827;
+        font-family:'Plus Jakarta Sans',sans-serif;
+        font-size:clamp(2rem,4vw,3rem);
+        font-weight:800;
+    ">
+    Frequently Asked
+                   <span
+    style="
+        background:linear-gradient(
+            90deg,
+            #60a5fa,
+            #a78bfa,
+            #f472b6,
+            #60a5fa
+        );
+        background-size:300% 100%;
+        -webkit-background-clip:text;
+        background-clip:text;
+        -webkit-text-fill-color:transparent;
+        animation:holographicMove 6s linear infinite;
+    ">
+    Questions
+</span>
+                </h2>
+
+               <p
+    style="
+        margin:0;
+        color:#64748b;
+        font-size:.95rem;
+    ">
+    Quick answers to common questions about our community.
+</p>
+
+            </div>
+
+
+            <div class="row g-4">
+
+                <!-- FAQ 1 -->
+                <div class="col-md-6">
+
+                    <div
+                        class="faq-card"
+                        style="
+                            height:100%;
+                            position:relative;
+                            padding:28px;
+                            border-radius:24px;
+                            background:rgba(255,255,255,.97);
+                            border:1px solid rgba(255,255,255,.8);
+                            box-shadow:0 18px 45px rgba(15,23,42,.08);
+                            overflow:hidden;
+                            transition:all .35s ease;
+                        "
+                        onmouseover="this.style.transform='translateY(-7px)';this.style.boxShadow='0 25px 55px rgba(15,23,42,.13)'"
+                        onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 18px 45px rgba(15,23,42,.08)'">
+
+                        <div
+                            style="
+                                position:absolute;
+                                top:0;
+                                left:0;
+                                bottom:0;
+                                width:4px;
+                                background:linear-gradient(
+                                    to bottom,
+                                    #6366f1,
+                                    #a855f7
+                                );
+                            ">
+                        </div>
+
+                        <h5
+                            style="
+                                margin:0 0 14px;
+                                color:#4f46e5;
+                                font-family:'Plus Jakarta Sans',sans-serif;
+                                font-size:1rem;
+                                font-weight:700;
+                            ">
+
+                            <i class="fas fa-user-plus me-2"></i>
+                            How do I join the network?
+
+                        </h5>
+
+                        <p
+                            style="
+                                margin:0;
+                                color:#64748b;
+                                font-size:.9rem;
+                                line-height:1.75;
+                            ">
+                            Registration is open to all students and alumni of our
+                            institute. Simply click register and verify your university ID.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FAQ 2 -->
+                <div class="col-md-6">
+
+                    <div
+                        class="faq-card"
+                        style="
+                            height:100%;
+                            position:relative;
+                            padding:28px;
+                            border-radius:24px;
+                            background:rgba(255,255,255,.97);
+                            border:1px solid rgba(255,255,255,.8);
+                            box-shadow:0 18px 45px rgba(15,23,42,.08);
+                            overflow:hidden;
+                            transition:all .35s ease;
+                        "
+                        onmouseover="this.style.transform='translateY(-7px)';this.style.boxShadow='0 25px 55px rgba(15,23,42,.13)'"
+                        onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 18px 45px rgba(15,23,42,.08)'">
+
+                        <div
+                            style="
+                                position:absolute;
+                                top:0;
+                                left:0;
+                                bottom:0;
+                                width:4px;
+                                background:linear-gradient(
+                                    to bottom,
+                                    #ec4899,
+                                    #a855f7
+                                );
+                            ">
+                        </div>
+
+                        <h5
+                            style="
+                                margin:0 0 14px;
+                                color:#4f46e5;
+                                font-family:'Plus Jakarta Sans',sans-serif;
+                                font-size:1rem;
+                                font-weight:700;
+                            ">
+
+                            <i class="fas fa-briefcase me-2"></i>
+                            Can I post job openings?
+
+                        </h5>
+
+                        <p
+                            style="
+                                margin:0;
+                                color:#64748b;
+                                font-size:.9rem;
+                                line-height:1.75;
+                            ">
+                            Yes, alumni can post job opportunities and internships
+                            directly from their dashboard to help fellow graduates.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             MAP SECTION
+        ====================================================== -->
+        <div style="margin-top:70px;">
+
+            <div
+                class="map-box"
+                style="
+                    position:relative;
+                    height:400px;
+                    overflow:hidden;
+                    border-radius:30px;
+                    background:#111827;
+                    border:1px solid rgba(255,255,255,.7);
+                    box-shadow:0 25px 70px rgba(15,23,42,.14);
+                    transition:all .4s ease;
+                "
+                onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 30px 75px rgba(15,23,42,.20)'"
+                onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 25px 70px rgba(15,23,42,.14)'">
+
+                <iframe
+                    src="https://www.google.com/maps?q=Jagan+Institute+of+Management+Studies,+3+Institutional+Area,+Sector+5,+Rohini,+Delhi+110085&output=embed"
+                    width="100%"
+                    height="100%"
+                    style="
+                        display:block;
+                        border:0;
+                        width:100%;
+                        height:100%;
+                    "
+                    allowfullscreen=""
+                    loading="lazy">
+                </iframe>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* =====================================================
+       REVEAL ANIMATION
+    ====================================================== */
+
+    const revealElements = document.querySelectorAll(
+        '.contact-card, .faq-card, .map-box'
+    );
+
+    const revealObserver = new IntersectionObserver(
+        (entries) => {
+
+            entries.forEach((entry, index) => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+
+                    revealObserver.unobserve(entry.target);
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.10
+        }
+    );
+
+
+    revealElements.forEach((element, index) => {
+
+        element.style.opacity = '0';
+
+        element.style.transform =
+            'translateY(25px)';
+
+        element.style.transition =
+            `opacity .7s ease ${index * 0.08}s,
+             transform .7s ease ${index * 0.08}s`;
+
+        revealObserver.observe(element);
+
+    });
+
+
+
+    /* =====================================================
+       MAGNETIC BUTTON
+    ====================================================== */
+
+    const magneticButton =
+        document.querySelector('.magnetic-button');
+
+    const buttonGlow =
+        document.querySelector('.btn-glow');
+
+
+    if (magneticButton) {
+
+        magneticButton.addEventListener(
+            'mousemove',
+            (event) => {
+
+                const rect =
+                    magneticButton.getBoundingClientRect();
+
+                const x =
+                    event.clientX - rect.left;
+
+                const y =
+                    event.clientY - rect.top;
+
+                if (buttonGlow) {
+
+                    buttonGlow.style.left =
+                        `${x}px`;
+
+                    buttonGlow.style.top =
+                        `${y}px`;
+
+                    buttonGlow.style.opacity =
+                        '1';
+                }
+
+                const moveX =
+                    (x - rect.width / 2) * 0.15;
+
+                const moveY =
+                    (y - rect.height / 2) * 0.15;
+
+                magneticButton.style.transform =
+                    `translate(${moveX}px, ${moveY}px) scale(1.02)`;
+
+            }
+        );
+
+
+        magneticButton.addEventListener(
+            'mouseleave',
+            () => {
+
+                magneticButton.style.transform =
+                    'translate(0,0) scale(1)';
+
+                if (buttonGlow) {
+                    buttonGlow.style.opacity = '0';
+                }
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       HERO CANVAS PARTICLES
+    ====================================================== */
+
+    const canvas =
+        document.querySelector('.network-canvas');
+
+    if (canvas) {
+
+        const ctx =
+            canvas.getContext('2d');
+
+        let particles = [];
+
+        function resizeCanvas() {
+
+            canvas.width =
+                canvas.offsetWidth;
+
+            canvas.height =
+                canvas.offsetHeight;
+
+            particles = [];
+
+            const count =
+                window.innerWidth < 768 ? 25 : 45;
+
+            for (let i = 0; i < count; i++) {
+
+                particles.push({
+
+                    x: Math.random() * canvas.width,
+
+                    y: Math.random() * canvas.height,
+
+                    radius:
+                        Math.random() * 1.8 + .5,
+
+                    speedX:
+                        (Math.random() - .5) * .25,
+
+                    speedY:
+                        (Math.random() - .5) * .25
+
+                });
+
+            }
+
+        }
+
+
+        function animateParticles() {
+
+            ctx.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            particles.forEach((particle) => {
+
+                particle.x += particle.speedX;
+
+                particle.y += particle.speedY;
+
+
+                if (particle.x < 0 ||
+                    particle.x > canvas.width) {
+
+                    particle.speedX *= -1;
+                }
+
+
+                if (particle.y < 0 ||
+                    particle.y > canvas.height) {
+
+                    particle.speedY *= -1;
+                }
+
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    particle.x,
+                    particle.y,
+                    particle.radius,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx.fillStyle =
+                    'rgba(255,255,255,.45)';
+
+                ctx.fill();
+
+            });
+
+
+            requestAnimationFrame(
+                animateParticles
+            );
+
+        }
+
+
+        resizeCanvas();
+
+        animateParticles();
+
+        window.addEventListener(
+            'resize',
+            resizeCanvas
+        );
+
+    }
+
+});
+</script>
+
+{% endblock %}

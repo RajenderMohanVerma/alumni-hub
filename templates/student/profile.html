@@ -1,0 +1,828 @@
+<!-- filepath: d:\RajenderMohan_BCA\RajenderMohan_Projects\6_Semester\Major Project\Alumni App\templates\profile_student.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Premium Fonts -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+<div class="profile-wrapper">
+    <!-- Animated Mesh Background -->
+    <div class="mesh-background">
+        <div class="mesh-ball ball-1"></div>
+        <div class="mesh-ball ball-2"></div>
+        <div class="mesh-ball ball-3"></div>
+        <div class="mesh-ball ball-4"></div>
+    </div>
+
+    <!-- Header Section -->
+    <div class="profile-hero glass-hero">
+        <div class="hero-particles"></div>
+        <div class="hero-glow-point"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="hero-content">
+                        <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade"
+                            style="font-weight: 700; letter-spacing: 0.5px;">
+                            <i class="fas fa-id-card me-2"></i> OFFICIAL PROFILE
+                        </div>
+                        <h1 class="text-white display-4 fw-bold mb-3 reveal-text">
+                            Student <span class="text-holographic">Profile</span>
+                        </h1>
+                        <p class="text-white-50 lead mb-0 reveal-fade" style="font-size: 1.25rem;">
+                            Mapping the academic journey and future ambitions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5 mb-5">
+        <div class="row">
+            <!-- Left Sidebar -->
+            <div class="col-lg-4 mb-4 reveal-fade">
+                <!-- Profile Card -->
+                <div class="card border-0 glass-card holographic-border overflow-hidden">
+                    <div style="height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                    <div class="card-body text-center" style="padding-top: 3rem;">
+                        <!-- Avatar -->
+                        <div class="avatar-container">
+                            {% if user['profile_pic'] and user['profile_pic'].startswith('/') %}
+                            <img src="{{ user['profile_pic'] }}" alt="Avatar" class="avatar-img shadow-lg">
+                            {% else %}
+                            <div class="avatar-img shadow-lg initials-avatar-large">
+                                {{ user['name'] | initials }}
+                            </div>
+                            {% endif %}
+                            <div class="glass-tag">
+                                <span class="tag-dot"></span>
+                                STUDENT
+                            </div>
+                        </div>
+
+                        <!-- Info -->
+                        <h4 class="fw-bold mb-1">{{ user['name'] }}</h4>
+                        <p class="text-primary fw-bold mb-3"><i class="fas fa-graduation-cap"></i> Student</p>
+
+                        <div class="mb-3">
+                            <span class="badge bg-primary me-2">{{ profile['enrollment_no'] }}</span>
+                            <span class="badge bg-info">{{ profile['department'] }}</span>
+                        </div>
+
+                        <hr>
+
+                        <!-- Contact & Actions -->
+                        <div class="mb-4 text-start">
+                            <h6 class="fw-bold mb-3" style="font-size: 0.85rem; letter-spacing: 0.5px; color: #64748b;">
+                                <i class="fas fa-id-card me-2"></i> CONTACT OPTIONS
+                            </h6>
+
+                            <div class="d-grid gap-2">
+                                <!-- WhatsApp Bridge Button -->
+                                <a href="{{ url_for('whatsapp_bridge', user_id=user['id']) }}"
+                                    class="btn btn-whatsapp-modern w-100">
+                                    <i class="fab fa-whatsapp me-2"></i> WhatsApp Connect
+                                </a>
+
+                                <!-- Internal Compose Email Button -->
+                                <a href="{{ url_for('compose_email', user_id=user['id']) }}"
+                                    class="btn btn-email-modern w-100">
+                                    <i class="fas fa-paper-plane me-2"></i> Professional Mail
+                                </a>
+
+                                <!-- Gmail Redirection Button -->
+                                <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ user['email'] }}"
+                                    target="_blank" class="btn btn-outline-modern-small w-100">
+                                    <i class="fab fa-google me-2" style="color: #EA4335;"></i> Gmail Compose
+                                </a>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <!-- Actions -->
+                        {% if current_user.id == user['id'] %}
+                        <div class="d-grid gap-2">
+                            <a href="{{ url_for('edit_student_profile', user_id=user['id']) }}"
+                                class="btn btn-primary-premium">
+                                <i class="fas fa-user-edit me-2"></i> Edit Profile
+                            </a>
+                            <a href="{{ url_for('change_password') }}" class="btn btn-outline-warning-premium">
+                                <i class="fas fa-key me-2"></i> Change Password
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="d-grid gap-2">
+                            <button id="connection-btn" class="btn btn-success-premium" data-user-id="{{ user['id'] }}">
+                                <i class="fas fa-user-plus me-2"></i> Send Connection Request
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Content -->
+            <div class="col-lg-8">
+                <!-- Academic Information -->
+                <div class="card border-0 glass-card mb-4 reveal-fade">
+                    <div class="card-header-premium">
+                        <h5 class="text-white fw-bold mb-0" style="font-size: 1.2rem;">
+                            <i class="fas fa-book me-2"></i> Academic Information
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="info-box-premium reveal-fade">
+                                    <div class="info-icon"><i class="fas fa-book"></i></div>
+                                    <div class="info-details">
+                                        <small>Department</small>
+                                        <h6>{{ profile['department'] }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box-premium reveal-fade">
+                                    <div class="info-icon icon-blue"><i class="fas fa-certificate"></i></div>
+                                    <div class="info-details">
+                                        <small>Degree</small>
+                                        <h6>{{ profile['degree'] }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="info-box-premium reveal-fade">
+                                    <div class="info-icon icon-green"><i class="fas fa-layer-group"></i></div>
+                                    <div class="info-details w-100">
+                                        <small>Semester Progress</small>
+                                        <div class="progress mt-1"
+                                            style="height: 8px; border-radius: 4px; background: rgba(0,0,0,0.05);">
+                                            <div class="progress-bar bg-gradient-success" role="progressbar"
+                                                data-semester="{{ profile['semester'] or 0 }}" style="width: 0%"></div>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-1">
+                                            <small class="small-text">{{ profile['semester'] or '0' }}/6</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box-premium reveal-fade">
+                                    <div class="info-icon icon-orange"><i class="fas fa-chart-line"></i></div>
+                                    <div class="info-details">
+                                        <small>CGPA Score</small>
+                                        <h6 class="text-success fw-bold">{{ profile['cgpa'] if profile['cgpa'] else
+                                            'N/A' }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills & Achievements -->
+                <div class="card border-0 glass-card reveal-fade">
+                    <div class="card-header-premium color-2">
+                        <h5 class="text-white fw-bold mb-0" style="font-size: 1.2rem;">
+                            <i class="fas fa-star me-2"></i> Skills & Achievements
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <!-- Skills -->
+                        <div class="mb-4">
+                            <small class="text-muted fw-bold d-block mb-3 reveal-text"><i
+                                    class="fas fa-tools me-2"></i>Expertise & Skills</small>
+                            {% if profile['skills'] %}
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for skill in profile['skills'].split(',') %}
+                                <span class="skill-tag-premium reveal-fade">
+                                    {{ skill.strip() }}
+                                </span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <p class="text-muted mb-0">No skills added yet</p>
+                            {% endif %}
+                        </div>
+
+                        <hr class="my-4 opacity-10">
+
+                        <!-- Achievements -->
+                        <div>
+                            <small class="text-muted fw-bold d-block mb-3 reveal-text"><i
+                                    class="fas fa-trophy me-2"></i>Achievements & Awards</small>
+                            {% if profile['achievements'] %}
+                            <div class="achievement-list">
+                                {% for achievement in profile['achievements'].split('|') %}
+                                <div class="achievement-item-premium reveal-fade">
+                                    <div class="achievement-icon"><i class="fas fa-medal"></i></div>
+                                    <span>{{ achievement.strip() }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <p class="text-muted mb-0">No achievements added yet</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    /* Global Typography & Mesh */
+    body {
+        font-family: 'Outfit', sans-serif;
+        background-color: #f8fafc;
+        overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .profile-wrapper {
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+    }
+
+    .mesh-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        background: #f8fafc;
+        pointer-events: none;
+    }
+
+    .mesh-ball {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.12;
+        animation: mesh-float 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+    }
+
+    .ball-1 {
+        width: 600px;
+        height: 600px;
+        background: #6366f1;
+        top: -10%;
+        left: -10%;
+        animation-duration: 25s;
+    }
+
+    .ball-2 {
+        width: 500px;
+        height: 500px;
+        background: #a855f7;
+        bottom: 10%;
+        right: -5%;
+        animation-duration: 30s;
+    }
+
+    .ball-3 {
+        width: 400px;
+        height: 400px;
+        background: #ec4899;
+        top: 40%;
+        left: 30%;
+        animation-duration: 22s;
+    }
+
+    @keyframes mesh-float {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+
+        100% {
+            transform: translate(100px, 100px) rotate(180deg);
+        }
+    }
+
+    /* Hero Section */
+    .profile-hero {
+        padding: 120px 0 80px;
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
+    }
+
+    .hero-glow-point {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+        filter: blur(50px);
+        z-index: 1;
+    }
+
+    .text-holographic {
+        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: holographic-move 8s linear infinite;
+    }
+
+    @keyframes holographic-move {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        100% {
+            background-position: 300% 50%;
+        }
+    }
+
+    /* Reveal Animations */
+    .reveal-text {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .reveal-fade {
+        opacity: 0;
+        transform: scale(0.95);
+        transition: all 1s ease;
+    }
+
+    .revealed {
+        opacity: 1 !important;
+        transform: translate(0, 0) scale(1) !important;
+    }
+
+    /* Glass Cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        border-radius: 30px !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04) !important;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .glass-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 60px rgba(99, 102, 241, 0.1) !important;
+        background: rgba(255, 255, 255, 0.9);
+    }
+
+    .holographic-border {
+        position: relative;
+    }
+
+    .holographic-border::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        z-index: -1;
+        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
+        background-size: 300% 100%;
+        border-radius: 32px;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        animation: holographic-move 8s linear infinite;
+    }
+
+    .holographic-border:hover::before {
+        opacity: 0.5;
+    }
+
+    /* Avatar & Tags */
+    .avatar-container {
+        position: relative;
+        width: 140px;
+        height: 140px;
+        margin: -80px auto 1.5rem;
+        z-index: 10;
+    }
+
+    .avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 6px solid #fff;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .initials-avatar-large {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 3rem;
+        text-transform: uppercase;
+    }
+
+    .glass-tag {
+        position: absolute;
+        bottom: 5px;
+        right: -15px;
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .tag-dot {
+        width: 6px;
+        height: 6px;
+        background: #fff;
+        border-radius: 50%;
+        animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+
+        0%,
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.3);
+            opacity: 0.6;
+        }
+    }
+
+    /* Card Header Premium */
+    .card-header-premium {
+        background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+        padding: 1.5rem 2rem;
+        border: none;
+        border-radius: 30px 30px 0 0;
+    }
+
+    .card-header-premium.color-2 {
+        background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(90deg, #10b981, #34d399) !important;
+    }
+
+    .skill-tag-premium {
+        background: rgba(99, 102, 241, 0.08);
+        color: #4338ca;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .skill-tag-premium:hover {
+        background: #6366f1;
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+    }
+
+    /* Info Box Premium */
+    .info-box-premium {
+        background: #fff;
+        border-radius: 20px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        border: 1px solid #f1f5f9;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .info-box-premium:hover {
+        transform: translateX(8px);
+        border-color: #6366f1;
+    }
+
+    .info-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    .info-icon.icon-blue {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+    }
+
+    .info-icon.icon-green {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+    }
+
+    .info-icon.icon-orange {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+    }
+
+    .info-details small {
+        display: block;
+        color: #64748b;
+        font-weight: 600;
+        font-size: 0.75rem;
+        margin-bottom: 2px;
+        text-transform: uppercase;
+    }
+
+    .info-details h6 {
+        margin: 0;
+        color: #1e293b;
+        font-weight: 700;
+    }
+
+    /* Achievement Item Premium */
+    .achievement-item-premium {
+        background: #fff;
+        border-radius: 16px;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        border: 1px solid #f1f5f9;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .achievement-item-premium:hover {
+        transform: translateX(8px);
+        border-color: #f59e0b;
+    }
+
+    .achievement-icon {
+        color: #f59e0b;
+        font-size: 1.1rem;
+    }
+
+    .small-text {
+        font-size: 0.75rem;
+        color: #94a3b8;
+    }
+
+    /* New Contact Buttons */
+    .btn-whatsapp-modern {
+        background: rgba(37, 211, 102, 0.1);
+        color: #25D366;
+        border: 1px solid rgba(37, 211, 102, 0.2);
+        font-weight: 700;
+        border-radius: 12px;
+        padding: 12px;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn-whatsapp-modern:hover {
+        background: #25D366;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-email-modern {
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        font-weight: 700;
+        border-radius: 12px;
+        padding: 12px;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-email-modern:hover {
+        background: #6366f1;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-outline-modern-small {
+        background: transparent;
+        color: #64748b;
+        border: 1px solid #e2e8f0;
+        font-weight: 600;
+        font-size: 0.85rem;
+        border-radius: 12px;
+        padding: 10px;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-outline-modern-small:hover {
+        background: #f8fafc;
+        border-color: #cbd5e1;
+    }
+
+    /* Premium Action Buttons */
+    .btn-primary-premium {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 14px;
+        font-weight: 700;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+    }
+
+    .btn-primary-premium:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+        color: white;
+    }
+
+    .btn-success-premium {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 14px;
+        font-weight: 700;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+    }
+
+    .btn-success-premium:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
+        color: white;
+    }
+
+    .btn-outline-warning-premium {
+        background: transparent;
+        color: #f59e0b;
+        border: 2px solid rgba(245, 158, 11, 0.3);
+        padding: 12px;
+        border-radius: 14px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: 0.3s;
+    }
+
+    .btn-outline-warning-premium:hover {
+        background: rgba(245, 158, 11, 0.05);
+        border-color: #f59e0b;
+        color: #d97706;
+        transform: translateY(-2px);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Reveal Animations
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    if (entry.target.classList.contains('progress-bar')) {
+                        const target = (parseInt(entry.target.dataset.semester) / 6) * 100;
+                        entry.target.style.width = target + '%';
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(revealCallback, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-text, .reveal-fade, .progress-bar').forEach(el => observer.observe(el));
+
+        // Typing Effect for Profile Title
+        const typingText = document.querySelector('.text-holographic');
+        if (typingText) {
+            const originalText = typingText.innerHTML;
+            typingText.innerHTML = '';
+            let i = 0;
+            const type = () => {
+                if (i < originalText.length) {
+                    typingText.innerHTML += originalText.charAt(i);
+                    i++;
+                    setTimeout(type, 100);
+                }
+            };
+            setTimeout(type, 500);
+        }
+
+        // Connection Request Button Event Listener
+        const connectionBtn = document.getElementById('connection-btn');
+        if (connectionBtn) {
+            connectionBtn.addEventListener('click', function () {
+                const userId = this.getAttribute('data-user-id');
+                if (userId) {
+                    sendConnectionRequest(userId);
+                }
+            });
+        }
+    });
+
+    async function sendConnectionRequest(receiverId) {
+        const btn = document.getElementById('connection-btn');
+        if (!btn) return;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+        try {
+            const response = await fetch('/api/connection-request/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ receiver_id: receiverId })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-secondary');
+                btn.innerHTML = '<i class="fas fa-check"></i> Request Sent';
+                showToast('Connection request sent! ✓', 'success');
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> Send Connection Request';
+                showToast(data.error || 'Error sending request', 'danger');
+            }
+        } catch (error) {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-user-plus"></i> Send Connection Request';
+            showToast('Error: ' + error.message, 'danger');
+        }
+    }
+
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `alert alert-${type} position-fixed bottom-0 end-0 m-3 shadow-lg`;
+        toast.style.zIndex = '9999';
+        toast.style.borderRadius = '12px';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+</script>
+{% endblock %}

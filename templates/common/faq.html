@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+
+{% block title %}FAQ - Alumni Hub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Header -->
+            <div class="text-center mb-5" data-aos="fade-down">
+                <h1 class="display-4 fw-bold text-primary mb-3">
+                    <i class="fas fa-question-circle me-3"></i>Frequently Asked Questions
+                </h1>
+                <p class="lead text-muted">Find answers to common questions about Alumni Hub</p>
+            </div>
+
+            <!-- FAQ Accordion -->
+            <div class="accordion" id="faqAccordion" data-aos="fade-up">
+
+                <!-- General Questions -->
+                <div class="card mb-3 border-0 shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>General Questions</h4>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            <i class="fas fa-user-plus text-primary me-2"></i>How do I register on Alumni Hub?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <p>To register on Alumni Hub:</p>
+                            <ol>
+                                <li>Click on the "Register" button in the navigation bar</li>
+                                <li>Select your role (Student, Alumni, or Faculty)</li>
+                                <li>Fill in your details including name, email, phone, and role-specific information
+                                </li>
+                                <li>Submit the form and check your email for verification (if applicable)</li>
+                                <li>Log in with your credentials</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#faq2">
+                            <i class="fas fa-key text-primary me-2"></i>I forgot my password. How can I reset it?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <p>If you've forgotten your password:</p>
+                            <ol>
+                                <li>Go to the login page</li>
+                                <li>Click on "Forgot Password?" link</li>
+                                <li>Enter your registered email address</li>
+                                <li>Check your email for a password reset link</li>
+                                <li>Follow the instructions to create a new password</li>
+                            </ol>
+                            <div class="alert alert-info mt-3">
+                                <i class="fas fa-lightbulb me-2"></i>If you don't receive the email, check your spam
+                                folder or contact support.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Networking Questions -->
+                <div class="card mb-3 mt-4 border-0 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0"><i class="fas fa-users me-2"></i>Networking & Connections</h4>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#faq3">
+                            <i class="fas fa-handshake text-success me-2"></i>How do I connect with alumni?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <p>To connect with alumni:</p>
+                            <ol>
+                                <li>Browse the Alumni Directory from your dashboard</li>
+                                <li>Use filters to find alumni by department, graduation year, or company</li>
+                                <li>Click on a profile to view details</li>
+                                <li>Click the "Connect" button to send a connection request</li>
+                                <li>Wait for the alumni to accept your request</li>
+                            </ol>
+                            <p class="mt-3"><strong>Tip:</strong> Personalize your profile to increase the chances of
+                                connection acceptance!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#faq4">
+                            <i class="fas fa-bell text-success me-2"></i>How do I manage connection requests?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <p>You can manage connection requests from your dashboard:</p>
+                            <ul>
+                                <li><strong>View Requests:</strong> Check the "Pending Requests" section on your
+                                    dashboard</li>
+                                <li><strong>Accept:</strong> Click the green checkmark to accept a request</li>
+                                <li><strong>Reject:</strong> Click the red X to decline a request</li>
+                            </ul>
+                            <p class="mt-3">You'll receive notifications when someone sends you a connection request.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Questions -->
+                <div class="card mb-3 mt-4 border-0 shadow-sm">
+                    <div class="card-header bg-warning text-dark">
+                        <h4 class="mb-0"><i class="fas fa-user-edit me-2"></i>Profile Management</h4>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#faq5">
+                            <i class="fas fa-edit text-warning me-2"></i>How do I update my profile?
+                        </button>
+                    </h2>
+                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <p>To update your profile:</p>
+                            <ol>
+                                <li>Log in to your account</li>
+                                <li>Click on your name in the navigation bar</li>
+                                <li>Select "My Profile" from the dropdown</li>
+                                <li>Click the "Edit Profile" button</li>
+                                <li>Update your information and click "Save Changes"</li>
+                            </ol>
+                            <p class="mt-3">You can update your photo, bio, professional details, and social media
+                                links.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#faq6">
+                            <i class="fas fa-image text-warning me-2"></i>What image formats are supported for profile
+                            pictures?
+                        </button>
+                    </h2>
+                    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <p>Supported image formats:</p>
+                            <ul>
+                                <li>PNG (.png)</li>
+                                <li>JPEG (.jpg, .jpeg)</li>
+                                <li>GIF (.gif)</li>
+                            </ul>
+                            <div class="alert alert-warning mt-3">
+                                <i class="fas fa-exclamation-triangle me-2"></i>Maximum file size: 16MB
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Questions -->
+                <div class="card mb-3 mt-4 border-0 shadow-sm">
+                    <div class="card-header bg-danger text-white">
+                        <h4 class="mb-0"><i class="fas fa-cog me-2"></i>Technical Support</h4>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#faq7">
+                            <i class="fas fa-bug text-danger me-2"></i>I found a bug. How do I report it?
+                        </button>
+                    </h2>
+                    <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <p>We appreciate bug reports! To report a bug:</p>
+                            <ol>
+                                <li>Go to the <a href="{{ url_for('report_issue') }}"
+                                        class="text-primary fw-bold">Report Issue</a> page</li>
+                                <li>Select "Bug Report" as the issue type</li>
+                                <li>Provide detailed information about the bug</li>
+                                <li>Include steps to reproduce the issue</li>
+                                <li>Submit the form</li>
+                            </ol>
+                            <p class="mt-3">Our team will investigate and get back to you as soon as possible.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#faq8">
+                            <i class="fas fa-mobile-alt text-danger me-2"></i>Is Alumni Hub mobile-friendly?
+                        </button>
+                    </h2>
+                    <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <p>Yes! Alumni Hub is fully responsive and works seamlessly on:</p>
+                            <ul>
+                                <li><i class="fas fa-mobile-alt text-primary me-2"></i>Smartphones (iOS & Android)</li>
+                                <li><i class="fas fa-tablet-alt text-primary me-2"></i>Tablets</li>
+                                <li><i class="fas fa-laptop text-primary me-2"></i>Laptops & Desktops</li>
+                            </ul>
+                            <p class="mt-3">You can access all features from any device with a web browser.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Still Have Questions? -->
+            <div class="card bg-light border-0 mt-5" data-aos="fade-up">
+                <div class="card-body text-center p-5">
+                    <i class="fas fa-question-circle fa-3x text-primary mb-3"></i>
+                    <h3>Still Have Questions?</h3>
+                    <p class="text-muted mb-4">Can't find the answer you're looking for? We're here to help!</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{{ url_for('report_issue') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-flag me-2"></i>Report an Issue
+                        </a>
+                        <a href="mailto:support@alumnihub.com" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-envelope me-2"></i>Email Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <div class="text-center mt-4" data-aos="fade-up">
+                <a href="{{ url_for('home') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Home
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

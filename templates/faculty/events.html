@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Faculty Events - Alumni Hub{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="padding-top: 100px !important;">
+    <div class="d-flex justify-content-between align-items-center mb-5 animate__animated animate__fadeInDown">
+        <div>
+            <h1 class="fw-bold gradient-text display-5 mb-2">Events & Workshops</h1>
+            <p class="lead text-muted">Academic gatherings, seminars, and alumni reunions.</p>
+        </div>
+        <button class="btn btn-premium-gradient btn-lg shadow-premium rounded-pill px-4">
+            <i class="fas fa-calendar-plus me-2"></i> Organize Event
+        </button>
+    </div>
+
+    <!-- Monthly Calendar Highlights -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-4 animate__animated animate__fadeInLeft">
+            <div class="glass-card p-4 h-100 holographic-border">
+                <h5 class="fw-bold mb-4"><i class="fas fa-calendar-alt text-primary me-2"></i> This Month</h5>
+                <div class="event-timeline">
+                    <div class="timeline-item mb-4 d-flex">
+                        <div class="date-circle bg-primary text-white me-3">27</div>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-danger">Itrang'26</h6>
+                            <small class="text-muted">Cultural Fest • Main Campus</small>
+                        </div>
+                    </div>
+                    <div class="timeline-item mb-4 d-flex">
+                        <div class="date-circle bg-info text-dark me-3">15</div>
+                        <div>
+                            <h6 class="fw-bold mb-0">AI Webinar</h6>
+                            <small class="text-muted">Tech Talk • MS Teams</small>
+                        </div>
+                    </div>
+                    <div class="timeline-item d-flex">
+                        <div class="date-circle bg-warning text-dark me-3">22</div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Resume Workshop</h6>
+                            <small class="text-muted">Skill Building • Auditorium</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 animate__animated animate__fadeInRight">
+            <div class="row g-4">
+                <!-- Featured Event -->
+                <div class="col-md-6">
+                    <div class="glass-card event-card h-100 p-0 overflow-hidden">
+                        <div class="event-img"
+                            style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <div class="p-4 text-white">
+                                <span class="badge bg-danger mb-2 pulse-badge">Happening Now</span>
+                                <h4 class="fw-bold mb-0">Itrang'26</h4>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-muted small mb-3">The annual cultural extravaganza of DBIT. Join the
+                                celebration of talent and creativity.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted small"><i class="fas fa-users me-1"></i> 1000+ Students</span>
+                                <button class="btn btn-primary btn-sm rounded-pill">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Upcoming Event -->
+                <div class="col-md-6">
+                    <div class="glass-card event-card h-100 p-0 overflow-hidden">
+                        <div class="event-img"
+                            style="height: 200px; background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);">
+                            <div class="p-4 text-white">
+                                <span class="badge bg-success mb-2">Upcoming</span>
+                                <h4 class="fw-bold mb-0">Annual Alumni Meet</h4>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-muted small mb-3">Reconnect with your former students and fellow faculty
+                                members at this grand reunion.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted small"><i class="fas fa-users me-1"></i> 500+ RSVP</span>
+                                <button class="btn btn-outline-primary btn-sm rounded-pill">Manage RSVPs</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .date-circle {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        flex-shrink: 0;
+    }
+
+    .event-card {
+        transition: transform 0.3s ease;
+    }
+
+    .event-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+{% endblock %}

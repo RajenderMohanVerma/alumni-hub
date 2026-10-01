@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Faculty Notifications - Alumni Hub{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="padding-top: 100px !important;">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4 animate__animated animate__fadeInDown">
+                <h1 class="fw-bold gradient-text mb-0">Notifications</h1>
+                <button class="btn btn-light rounded-pill btn-sm">Mark all as read</button>
+            </div>
+
+            <div class="glass-card p-0 overflow-hidden animate__animated animate__fadeInUp">
+                <div class="list-group list-group-flush border-0">
+                    <!-- Notification 1 -->
+                    <div class="list-group-item bg-transparent p-4 border-bottom unread-notification">
+                        <div class="d-flex align-items-center">
+                            <div class="notif-icon bg-primary-soft text-primary me-4">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1 fw-bold">New Connection Request</h6>
+                                <p class="text-muted small mb-0">Alumni <strong>Rahul Mehta</strong> wants to connect
+                                    with you.</p>
+                                <small class="text-muted mt-2 d-block">10 minutes ago</small>
+                            </div>
+                            <div class="unread-dot"></div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 2 -->
+                    <div class="list-group-item bg-transparent p-4 border-bottom">
+                        <div class="d-flex align-items-center">
+                            <div class="notif-icon bg-success-soft text-success me-4">
+                                <i class="fas fa-comment-alt"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1 fw-bold">New Message</h6>
+                                <p class="text-muted small mb-0">You received a new message regarding the <strong>Alumni
+                                        Meet</strong>.</p>
+                                <small class="text-muted mt-2 d-block">2 hours ago</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 3 -->
+                    <div class="list-group-item bg-transparent p-4 border-bottom">
+                        <div class="d-flex align-items-center">
+                            <div class="notif-icon bg-danger-soft text-danger me-4">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1 fw-bold">Event Reminder</h6>
+                                <p class="text-muted small mb-0">The <strong>Cultural Fest '26</strong> starts tomorrow
+                                    at 9:00 AM.</p>
+                                <small class="text-muted mt-2 d-block">5 hours ago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center p-4 bg-light bg-opacity-10">
+                    <button class="btn btn-link text-decoration-none text-muted">View older notifications</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .notif-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .unread-notification {
+        background: rgba(13, 110, 253, 0.05) !important;
+    }
+
+    .unread-dot {
+        width: 10px;
+        height: 10px;
+        background: #0d6efd;
+        border-radius: 50%;
+        margin-left: 15px;
+    }
+
+    .bg-primary-soft {
+        background: #e7f1ff;
+    }
+
+    .bg-success-soft {
+        background: #eafbea;
+    }
+
+    .bg-danger-soft {
+        background: #ffeef0;
+    }
+</style>
+{% endblock %}

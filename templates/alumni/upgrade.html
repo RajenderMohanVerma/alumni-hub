@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mb-5" style="margin-top: 120px;">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0" style="border-radius: 15px; animation: slideInUp 0.6s ease;">
+                <div class="card-header bg-warning text-dark" style="border-radius: 15px 15px 0 0;">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-star fs-3 me-3"></i>
+                        <div>
+                            <h3 class="mb-0">Upgrade to Alumni</h3>
+                            <small>Join our exclusive alumni community</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-5">
+                    <div class="alert alert-success mb-4">
+                        <i class="fas fa-check-circle"></i> <strong>Congratulations!</strong>
+                        You're ready to transition to alumni status after graduation!
+                    </div>
+
+                    <form method="POST" class="needs-validation">
+                        <!-- Academic Summary -->
+                        <div class="card mb-4 border-light">
+                            <div class="card-header bg-light border-0">
+                                <h6 class="mb-0"><i class="fas fa-graduation-cap"></i> Your Academic Background</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Enrollment No.</label>
+                                        <input type="text" class="form-control" value="{{ profile['enrollment_no'] }}"
+                                            disabled>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Department</label>
+                                        <input type="text" class="form-control" value="{{ profile['department'] }}"
+                                            disabled>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Degree</label>
+                                        <input type="text" class="form-control" value="{{ profile['degree'] }}"
+                                            disabled>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">CGPA</label>
+                                        <input type="text" class="form-control" value="{{ profile['cgpa'] or 'N/A' }}"
+                                            disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Alumni Information -->
+                        <div class="card mb-4 border-light">
+                            <div class="card-header bg-light border-0">
+                                <h6 class="mb-0"><i class="fas fa-briefcase"></i> Alumni Information</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="pass_year" class="form-label">Year of Passing <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="pass_year" name="pass_year" min="2000"
+                                        max="2030" required placeholder="e.g., 2024">
+                                    <small class="text-muted">When did you graduate?</small>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="company_name" class="form-label">Current Company</label>
+                                        <input type="text" class="form-control" id="company_name" name="company_name"
+                                            placeholder="e.g., Google, Microsoft, Startup">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="designation" class="form-label">Current Designation</label>
+                                        <input type="text" class="form-control" id="designation" name="designation"
+                                            placeholder="e.g., Software Engineer, Product Manager">
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-info mt-3">
+                                    <small>💡 <strong>Tip:</strong> You can update your professional details later in
+                                        your profile.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Benefits Section -->
+                        <div class="card mb-4 border-success bg-light">
+                            <div class="card-body">
+                                <h6 class="text-success mb-3"><i class="fas fa-star"></i> Alumni Benefits:</h6>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2">✅ Register for exclusive Alumni Meet events</li>
+                                    <li class="mb-2">✅ Access to alumni-only network and resources</li>
+                                    <li class="mb-2">✅ Share career opportunities with current students</li>
+                                    <li class="mb-2">✅ Participate in mentorship and guidance programs</li>
+                                    <li class="mb-2">✅ Stay connected with your batch mates</li>
+                                    <li class="mb-2">✅ Contribute to college initiatives</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning btn-lg fw-bold">
+                                <i class="fas fa-arrow-up"></i> Complete Upgrade
+                            </button>
+                            <a href="{{ url_for('dashboard_student') }}" class="btn btn-outline-secondary">
+                                Not Yet, Go Back
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0 !important;
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,545 @@
+{% extends "base.html" %}
+
+{% block title %}Sovereignty Matrix - Messaging Control{% endblock %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+    :root {
+        --terminal-bg: #030712;
+        --accent-primary: #6366f1;
+        --accent-secondary: #a855f7;
+        --accent-emerald: #10b981;
+        --accent-amber: #f59e0b;
+        --accent-rose: #ef4444;
+        --glass-bg: rgba(15, 23, 42, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-dim: #94a3b8;
+    }
+
+    body {
+        background: var(--terminal-bg);
+        color: white;
+        font-family: 'Outfit', sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* --- Background Layer --- */
+    .premium-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
+        z-index: -2;
+    }
+
+    .mesh-gradient {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .mesh-ball {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.1;
+        animation: floatOrb 20s infinite alternate;
+    }
+
+    @keyframes floatOrb {
+        0% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        100% {
+            transform: translate(100px, 50px) scale(1.1);
+        }
+    }
+
+    /* --- Page Layout --- */
+    .mod-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 120px 2rem 4rem;
+    }
+
+    .matrix-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(to right, #fff, #94a3b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -1px;
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    /* --- Components --- */
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 30px;
+        height: 100%;
+        transition: 0.3s;
+    }
+
+    .section-header {
+        font-size: 0.8rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--accent-primary);
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .section-header::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, var(--glass-border), transparent);
+    }
+
+    /* --- Monitoring Rows --- */
+    .monitor-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--glass-border);
+    }
+
+    .monitor-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        color: var(--text-dim);
+    }
+
+    .monitor-value {
+        font-weight: 700;
+        color: white;
+    }
+
+    /* --- Stats Hub --- */
+    .stat-ring {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .stat-val {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 2rem;
+        font-weight: 800;
+        color: white;
+    }
+
+    .stat-lab {
+        font-size: 0.65rem;
+        color: var(--text-dim);
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-top: 5px;
+    }
+
+    /* --- Broadcast Feed --- */
+    .msg-scroll-area {
+        max-height: 500px;
+        overflow-y: auto;
+        padding-right: 15px;
+    }
+
+    .msg-scroll-area::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .msg-scroll-area::-webkit-scrollbar-thumb {
+        background: var(--glass-border);
+        border-radius: 10px;
+    }
+
+    .premium-msg-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: 0.3s;
+    }
+
+    .premium-msg-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--accent-primary);
+    }
+
+    /* --- Sanctioned Entities --- */
+    .suspended-user-card {
+        background: rgba(239, 68, 68, 0.05);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        border-radius: 16px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 10px;
+    }
+
+    .s-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .s-name {
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    .s-role {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.6rem;
+        color: var(--accent-rose);
+    }
+
+    /* --- Buttons --- */
+    .btn-transmit {
+        background: var(--accent-primary);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+        transition: 0.3s;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .btn-transmit:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-redact {
+        background: var(--accent-rose);
+    }
+
+    .btn-redact:hover:not(:disabled) {
+        box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+    }
+
+    .badge-locked {
+        color: var(--accent-rose);
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 800;
+    }
+
+    .badge-unlocked {
+        color: var(--accent-emerald);
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 800;
+    }
+
+    .terminal-textarea {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        color: white;
+        padding: 12px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        width: 100%;
+        resize: none;
+    }
+
+    .terminal-textarea:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+    }
+</style>
+
+<!-- Background Layer -->
+<div class="premium-bg"></div>
+<div class="mesh-gradient">
+    <div class="mesh-ball" style="background: #ef4444; top: -10%; left: -10%;"></div>
+    <div class="mesh-ball" style="background: #6366f1; bottom: -10%; right: -10%;"></div>
+</div>
+
+<div class="mod-wrapper">
+    <h1 class="matrix-title">Sovereignty Matrix</h1>
+
+    <div class="row g-4">
+        <!-- Control Panel -->
+        <div class="col-lg-4">
+            <div class="glass-card animate__animated animate__fadeInLeft">
+                <div class="section-header">
+                    <i class="fas fa-shield-alt"></i> SYSTEM_SOVEREIGNTY
+                </div>
+
+                <div class="monitor-row">
+                    <span class="monitor-label">STATUS</span>
+                    <span id="lockBadge" class="badge-unlocked">OPERATIONAL</span>
+                </div>
+                <div class="monitor-row">
+                    <span class="monitor-label">CONTROLLER</span>
+                    <span id="lockedByValue" class="monitor-value">-</span>
+                </div>
+                <div class="monitor-row">
+                    <span class="monitor-label">LAST_ACTION</span>
+                    <span id="lockedAtValue" class="monitor-value">-</span>
+                </div>
+
+                <div class="mt-4">
+                    <textarea id="lockReason" class="terminal-textarea" placeholder="REASON_FOR_INTERVENTION..."
+                        rows="2"></textarea>
+                    <button id="lockBtn" class="btn-transmit btn-redact" onclick="lockMessaging()">
+                        <i class="fas fa-lock me-2"></i>INITIATE_LOCK
+                    </button>
+                    <button id="unlockBtn" class="btn-transmit" onclick="unlockMessaging()" disabled
+                        style="background: var(--accent-emerald);">
+                        <i class="fas fa-unlock me-2"></i>RESTORE_SYSTEM
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Intel Hub -->
+        <div class="col-lg-8">
+            <div class="glass-card animate__animated animate__fadeInRight">
+                <div class="section-header">
+                    <i class="fas fa-chart-line"></i> REAL_TIME_INTEL
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="stat-ring">
+                            <div class="stat-val" id="publicMsgCount">0</div>
+                            <div class="stat-lab">BROADCASTS</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-ring">
+                            <div class="stat-val" id="privateMsgCount">0</div>
+                            <div class="stat-lab">PRIVATE_LINKS</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-ring">
+                            <div class="stat-val" id="conversationCount">0</div>
+                            <div class="stat-lab">ACTIVE_SESSIONS</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h6 class="font-monospace small text-dim mb-3"><i
+                        class="fas fa-user-slash me-2 text-danger"></i>SANCTIONED_ENTITIES</h6>
+                <div id="suspendedUsersList" class="scroll-area" style="max-height: 200px; overflow-y: auto;">
+                    <p class="text-center text-dim font-monospace small py-4">SCANNING_FOR_THREATS...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Moderation Hub -->
+        <div class="col-12">
+            <div class="glass-card animate__animated animate__fadeInUp">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="section-header m-0">
+                        <i class="fas fa-users-cog"></i> BROADCAST_MODERATION_HUB
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button id="toggleHiddenBtn" class="btn-transmit" style="padding: 8px 15px; width: auto;"
+                            onclick="toggleViewHidden()">
+                            <i class="fas fa-eye-slash"></i> AUDIT_HIDDEN
+                        </button>
+                        <button class="btn-transmit"
+                            style="padding: 8px 15px; width: auto; background: var(--accent-emerald);"
+                            onclick="loadPublicMessages()">
+                            <i class="fas fa-sync-alt"></i> SYNC_FEED
+                        </button>
+                    </div>
+                </div>
+
+                <div id="messagesList" class="msg-scroll-area">
+                    <div class="text-center py-5 text-dim font-monospace">
+                        <i class="fas fa-satellite-dish fa-3x mb-3"></i>
+                        <p>AWAITING_SIGNAL_SYNC...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let isLocked = false;
+    let viewingHidden = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        refreshLockStatus();
+        refreshStatistics();
+        loadPublicMessages();
+        loadSuspendedUsers();
+        setInterval(() => { refreshStatistics(); refreshLockStatus(); }, 15000);
+    });
+
+    function refreshLockStatus() {
+        fetch('/api/admin/messaging/status')
+            .then(r => r.json())
+            .then(data => {
+                isLocked = data.is_locked;
+                const badge = document.getElementById('lockBadge');
+                const lockBtn = document.getElementById('lockBtn');
+                const unlockBtn = document.getElementById('unlockBtn');
+
+                if (isLocked) {
+                    badge.className = 'badge-locked';
+                    badge.textContent = 'SYSTEM_LOCKED';
+                    lockBtn.disabled = true;
+                    unlockBtn.disabled = false;
+                    document.getElementById('lockedByValue').textContent = data.locked_by || 'ADMIN';
+                    document.getElementById('lockedAtValue').textContent = new Date(data.locked_at).toLocaleTimeString();
+                } else {
+                    badge.className = 'badge-unlocked';
+                    badge.textContent = 'OPERATIONAL';
+                    lockBtn.disabled = false;
+                    unlockBtn.disabled = true;
+                    document.getElementById('lockedByValue').textContent = '-';
+                    document.getElementById('lockedAtValue').textContent = 'N/A';
+                }
+            });
+    }
+
+    function lockMessaging() {
+        const reason = document.getElementById('lockReason').value;
+        fetch('/api/admin/messaging/lock', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reason })
+        }).then(() => { refreshLockStatus(); document.getElementById('lockReason').value = ''; });
+    }
+
+    function unlockMessaging() {
+        fetch('/api/admin/messaging/unlock', { method: 'POST' }).then(() => refreshLockStatus());
+    }
+
+    function refreshStatistics() {
+        fetch('/api/admin/messaging/statistics')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('publicMsgCount').textContent = data.statistics.total_public_messages;
+                document.getElementById('privateMsgCount').textContent = data.statistics.total_private_messages;
+                document.getElementById('conversationCount').textContent = data.statistics.total_conversations;
+            });
+    }
+
+    function loadPublicMessages() {
+        const includeHidden = viewingHidden ? 'true' : 'false';
+        fetch(`/api/admin/messaging/public-messages?include_hidden=${includeHidden}&limit=100`)
+            .then(r => r.json())
+            .then(data => {
+                const list = document.getElementById('messagesList');
+                if (!data.messages?.length) {
+                    list.innerHTML = '<p class="text-center py-5 text-dim font-monospace">FEED_EMPTY</p>';
+                    return;
+                }
+                list.innerHTML = '';
+                data.messages.forEach(msg => {
+                    const card = document.createElement('div');
+                    card.className = 'premium-msg-card';
+                    card.innerHTML = `
+                        <div class="msg-content">
+                            <div class="font-monospace small mb-1">
+                                <span class="text-primary fw-bold">${msg.name}</span> • 
+                                <span class="text-dim">${new Date(msg.created_at).toLocaleString()}</span>
+                                ${msg.is_hidden ? '<span class="text-danger fw-bold ms-2">[HIDDEN]</span>' : ''}
+                            </div>
+                            <div style="color: #cbd5e1;">${escapeHtml(msg.content)}</div>
+                        </div>
+                        <button class="btn-transmit btn-redact" style="width: auto; padding: 5px 12px;" onclick="deleteMessage(${msg.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    `;
+                    list.appendChild(card);
+                });
+            });
+    }
+
+    function toggleViewHidden() {
+        viewingHidden = !viewingHidden;
+        document.getElementById('toggleHiddenBtn').innerHTML = viewingHidden ? '<i class="fas fa-eye"></i> SHOW_ACTIVE' : '<i class="fas fa-eye-slash"></i> AUDIT_HIDDEN';
+        loadPublicMessages();
+    }
+
+    function deleteMessage(id) {
+        if (confirm('REDACT_BROADCAST?')) {
+            fetch(`/api/messages/public/${id}`, { method: 'DELETE' }).then(() => loadPublicMessages());
+        }
+    }
+
+    function loadSuspendedUsers() {
+        fetch('/api/admin/messaging/suspended-users')
+            .then(r => r.json())
+            .then(data => {
+                const list = document.getElementById('suspendedUsersList');
+                if (!data.users?.length) {
+                    list.innerHTML = '<p class="text-center py-4 text-dim font-monospace small">NO_SANCTIONS_DETECTED</p>';
+                    return;
+                }
+                list.innerHTML = '';
+                data.users.forEach(u => {
+                    const card = document.createElement('div');
+                    card.className = 'suspended-user-card';
+                    card.innerHTML = `
+                        <div class="s-avatar"></div>
+                        <div class="flex-grow-1">
+                            <div class="s-name">${u.name}</div>
+                            <div class="s-role">${u.role.toUpperCase()}</div>
+                        </div>
+                        <button class="btn-transmit" style="width: auto; padding: 5px 10px; font-size: 0.6rem; background: var(--accent-emerald);" onclick="unsuspendUser(${u.id})">RESTORE</button>
+                    `;
+                    list.appendChild(card);
+                });
+            });
+    }
+
+    function unsuspendUser(id) {
+        fetch('/api/admin/messaging/unsuspend', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: id })
+        }).then(() => loadSuspendedUsers());
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+</script>
+
+{% endblock %}

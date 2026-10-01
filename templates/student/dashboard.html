@@ -1,0 +1,2729 @@
+<!-- filepath: d:\RajenderMohan_BCA\RajenderMohan_Projects\6_Semester\Major Project\Alumni App\templates\dashboard_student.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Premium Fonts -->
+<!-- Premium Fonts & Scripts -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+
+<div class="dashboard-wrapper">
+    <!-- Animated Mesh Background -->
+    <div class="mesh-background">
+        <div class="mesh-ball ball-1"></div>
+        <div class="mesh-ball ball-2"></div>
+        <div class="mesh-ball ball-3"></div>
+        <div class="mesh-ball ball-4"></div>
+    </div>
+    <!-- Hero Section -->
+    <div class="hero-section glass-hero"
+        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 120px 0 100px 0; position: relative; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <!-- Advanced Animated Background -->
+        <div class="hero-bg">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <div class="animated-bg-lines"></div>
+        </div>
+
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <div class="hero-content" style="animation: fadeInLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);">
+                        <div class="badge-animated rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-lg border-0"
+                            id="timeGreetingBadge" style="display: inline-block; animation: bounceIn 0.8s ease;">
+                            <i class="far fa-clock me-1"></i> <span id="dynamicGreeting"
+                                class="fw-bold">Loading...</span>
+                        </div>
+                        <h1 class="text-white display-4 fw-bold mb-3 reveal-text split-text-hero"
+                            style="line-height: 1.2; letter-spacing: -1px;">
+                            <i class="fas fa-user-graduate me-3 slide-in-icon"></i><span
+                                class="word-reveal">Hello,</span> <span
+                                class="text-holographic typing-text gradient-text animate-gradient">{{ current_user.name
+                                }}!</span>
+                        </h1>
+                        <p class="text-white-50 lead mb-4 reveal-fade"
+                            style="font-size: 1.25rem; max-width: 600px; animation: slideInDown 1s ease 0.3s both;">
+                            Empower your future. Connect with the elite network of alumni and mentors.
+                        </p>
+
+                        <div class="hero-actions mb-4" style="animation: fadeInUp 0.8s ease 0.4s both;">
+                            <a href="{{ url_for('list_jobs') }}"
+                                class="btn btn-lg rounded-pill px-4 text-white shadow-lg"
+                                style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">
+                                <i class="fas fa-rocket me-2"></i> Explore Career Board
+                            </a>
+                            <a href="#recommendations" class="btn btn-lg rounded-pill px-4 text-white ms-2"
+                                style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
+                                <i class="fas fa-users me-2"></i> Network
+                            </a>
+                        </div>
+
+                        <!-- Profile Completeness with Advanced Animation -->
+                        <div class="profile-completeness-wrapper glass-card p-4 d-inline-block"
+                            style="min-width: 320px; animation: slideInLeft 0.8s ease 0.5s both; backdrop-filter: blur(15px);">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-white small fw-bold" style="font-size: 0.95rem;">Profile
+                                    Completeness</span>
+                                <span class="text-white small fw-bold badge bg-primary" id="completenessPercent"
+                                    style="font-size: 0.9rem; animation: counterPop 0.6s ease;">0%</span>
+                            </div>
+                            <div class="progress"
+                                style="height: 12px; border-radius: 8px; background: rgba(255,255,255,0.15); overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);">
+                                <div class="progress-bar bg-info progress-bar-striped" id="completenessBar"
+                                    role="progressbar"
+                                    style="width: 0%; border-radius: 8px; background: linear-gradient(90deg, #10b981, #3b82f6); box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); animation: slideUp 1s ease-out 0.7s both;">
+                                </div>
+                            </div>
+                            <p class="text-white-50 small mt-3 mb-0" style="font-size: 0.85rem;">
+                                <i class="fas fa-magic me-2 text-warning"
+                                    style="animation: spin 2s linear infinite;"></i> <span id="completenessTip">Complete
+                                    your profile to stand out!</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center d-none d-lg-block">
+                    <div class="hero-image-wrapper">
+                        <div class="hero-visual-container">
+                            <!-- Glow Aura -->
+                            <div class="glow-aura"></div>
+
+                            <!-- Floating Elements -->
+                            <div class="floating-elements">
+                                <div class="floating-shape shape-1"
+                                    style="animation: float-slow 8s ease-in-out infinite;"></div>
+                                <div class="floating-shape shape-2"
+                                    style="animation: float-medium 6s ease-in-out infinite;"></div>
+                                <div class="floating-icon icon-1"
+                                    style="animation: float-fast 4s ease-in-out infinite;">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="floating-icon icon-2"
+                                    style="animation: float-medium 7s ease-in-out infinite;">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div class="floating-icon icon-3"
+                                    style="animation: float-slow 9s ease-in-out infinite;">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                            </div>
+
+                            <div class="avatar-glass-card-wrapper">
+                                <div class="avatar-glass-card shadow-lg">
+                                    <div class="avatar-inner-border">
+                                        <img src="{{ current_user.profile_pic or 'https://ui-avatars.com/api/?name=' + current_user.name + '&size=200&background=667eea&color=fff' }}"
+                                            class="rounded-pill avatar-img shadow-lg">
+                                    </div>
+                                    <div class="glass-tag">
+                                        <span class="tag-dot"></span>
+                                        Student
+                                    </div>
+                                    <div class="card-shine"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-container container-fluid px-lg-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="stat-card" style="animation: slideUp 0.6s ease; --card-accent: #667eea;">
+                        <div class="stat-trend"><i class="fas fa-arrow-up"></i> Active</div>
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fas fa-users-viewfinder"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number counter" data-target="{{ alumni | length }}">0</h3>
+                            <p class="stat-label">Alumni</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card" style="animation: slideUp 0.7s ease; --card-accent: #f5576c;">
+                        <div class="stat-trend"><i class="fas fa-certificate"></i> Verified</div>
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number counter" data-target="{{ faculty | length }}">0</h3>
+                            <p class="stat-label">Mentors</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card" style="animation: slideUp 0.8s ease; --card-accent: #00d4ff;">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number counter" data-target="{{ student['semester'] or 0 }}">0</h3>
+                            <p class="stat-label">Semester</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card" style="animation: slideUp 0.9s ease; --card-accent: #10b981;">
+                        <div class="stat-trend bg-success text-white" style="padding: 2px 6px;">Peak</div>
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number counter-float" data-target="{{ (student['cgpa'] or 0) }}">0</h3>
+                            <p class="stat-label">GPA Score</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+
+    <!-- Network Insights Section (New) -->
+    <div class="container mb-5">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="glass-card p-4 h-100" style="background: rgba(255, 255, 255, 0.8);">
+                    <h4 class="fw-bold mb-3 text-dark"><i class="fas fa-chart-pie me-2 text-primary"></i>Alumni
+                        Distribution</h4>
+                    <canvas id="alumniChart" style="max-height: 300px;"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="glass-card p-4 h-100" style="background: rgba(255, 255, 255, 0.8);">
+                    <h4 class="fw-bold mb-3 text-dark"><i class="fas fa-building me-2 text-success"></i>Top Recruiters
+                    </h4>
+                    <canvas id="companyChart" style="max-height: 300px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommended for You Section -->
+    <div class="container mb-5" id="recommendations">
+        <div class="section-header mb-4 d-flex justify-content-between align-items-center">
+            <h2 class="section-title mb-0">
+                <i class="fas fa-magic me-2 text-primary"></i> Recommended for You
+                <small class="text-muted fs-6 ms-2 fw-normal">Based on your profile, skills &amp; interactions</small>
+            </h2>
+            <a href="{{ url_for('search_network') }}" class="btn btn-link text-primary fw-bold text-decoration-none">
+                View All <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+        </div>
+
+        <div class="row g-4" id="rec-cards-container">
+            {% if recommendations %}
+            {% for rec in recommendations %}
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="recommendation-card p-3 text-center h-100 shadow-sm border position-relative"
+                    style="border-radius: 20px; background: white; transition: all 0.3s ease;">
+                    <div class="position-absolute top-0 end-0 m-2">
+                        <span class="badge rounded-pill {{ 'bg-success' if rec.source == 'ml' else 'bg-soft-primary text-primary' }} px-2 py-1"
+                            style="font-size: 0.7rem;" title="{{ rec.reason|default('Profile match') }}">
+                            {{ rec.score }} pts
+                        </span>
+                    </div>
+                    {% if rec.source == 'ml' %}
+                    <div class="position-absolute top-0 start-0 m-2">
+                        <span class="badge rounded-pill bg-warning text-dark px-2 py-1" style="font-size: 0.6rem;" title="ML-powered recommendation">
+                            <i class="fas fa-robot"></i> AI
+                        </span>
+                    </div>
+                    {% endif %}
+                    <img src="{{ rec.profile_pic }}" class="rounded-circle mb-3 shadow-sm"
+                        style="width: 70px; height: 70px; object-fit: cover; border: 3px solid #e0e7ff;">
+                    <h6 class="fw-bold mb-1 text-truncate" title="{{ rec.name }}">{{ rec.name }}</h6>
+                    <p class="text-muted small mb-2">{{ rec.branch or 'General' }}</p>
+                    {% if rec.reason %}
+                    <p class="text-muted mb-2" style="font-size: 0.6rem;">{{ rec.reason }}</p>
+                    {% endif %}
+                    <div class="skills-preview-tiny mb-3">
+                        {% if rec.skills %}
+                        {% for skill in rec.skills.split(',')[:2] %}
+                        <span class="badge bg-light text-dark border-0 rounded-pill mb-1" style="font-size: 0.65rem;">{{
+                            skill.strip() }}</span>
+                        {% endfor %}
+                        {% else %}
+                        <span class="text-muted" style="font-size: 0.65rem;">Connect to grow</span>
+                        {% endif %}
+                    </div>
+                    <button class="btn btn-primary btn-sm rounded-pill w-100 py-2 fw-bold"
+                        onclick="connectUser('{{ rec.id }}', '{{ rec.role }}')">
+                        Connect
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="col-12">
+                <div class="glass-card p-5 text-center"
+                    style="background: rgba(255,255,255,0.5); border: 2px dashed #e0e7ff;">
+                    <i class="fas fa-users-slash display-4 text-muted mb-3"></i>
+                    <h5 class="text-muted">No recommendations available right now</h5>
+                    <p class="text-muted mb-0">Try updating your profile with skills and interests!</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Category Navigation Tabs -->
+    <div class="category-tabs mb-5" style="animation: slideUp 0.6s ease;">
+        <ul class="nav nav-pills nav-fill gradient-pills p-2 shadow-sm"
+            style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 18px; border: 1px solid #e0e7ff;">
+            <li class="nav-item">
+                <button class="nav-link category-btn active" data-category="alumni" onclick="switchCategory('alumni')">
+                    <i class="fas fa-graduation-cap me-2"></i> Alumni Network
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link category-btn" data-category="student" onclick="switchCategory('student')">
+                    <i class="fas fa-user-graduate me-2"></i> Student Directory
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link category-btn" data-category="faculty" onclick="switchCategory('faculty')">
+                    <i class="fas fa-chalkboard-teacher me-2"></i> Faculty Members
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Connection Requests (Collapsible) -->
+    {% if pending_requests %}
+    <div class="mb-5" id="pendingRequestsSection">
+        <div class="section-header mb-4" style="animation: slideInLeft 0.6s ease;">
+            <h2 class="section-title">
+                <i class="fas fa-bell me-2" style="color: #667eea;"></i> Pending Requests
+                <span class="badge bg-danger ms-2" id="requestCountBadge">{{ pending_count }}</span>
+            </h2>
+        </div>
+        <div class="card border-0 shadow-lg mb-4" style="border-radius: 20px; border-left: 5px solid #ef4444;">
+            <div class="card-body p-4">
+                <div id="pendingRequestsList" class="row g-3">
+                    {% for req in pending_requests %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="d-flex align-items-center p-3 border rounded-3 bg-light">
+                            <div class="avatar-sm me-3">
+                                <img src="{{ req['profile_pic'] or 'https://ui-avatars.com/api/?name=' + req['name'] }}"
+                                    class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;">
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0 fw-bold">{{ req['name'] }}</h6>
+                                <small class="text-muted">{{ req['role'] | capitalize }}</small>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-success rounded-circle shadow-sm"
+                                    onclick="handleRequest('{{ req.sender_id }}', 'accept')"><i
+                                        class="fas fa-check"></i></button>
+                                <button class="btn btn-sm btn-outline-danger rounded-circle shadow-sm"
+                                    onclick="handleRequest('{{ req.sender_id }}', 'reject')"><i
+                                        class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Filter & Search Section -->
+    <div class="card border-0 shadow-lg mb-5 reveal-fade"
+        style="border-radius: 30px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2);">
+        <div class="filter-section p-4 p-md-5" style="background: rgba(255,255,255,0.3); backdrop-filter: blur(20px);">
+            <div class="row g-4 align-items-end">
+                <div class="col-lg-6">
+                    <label class="form-label fw-bold mb-2"><i class="fas fa-search me-2 text-primary"></i> Global
+                        Search</label>
+                    <div class="search-input-group">
+                        <input type="text" class="form-control form-control-lg" id="globalSearch"
+                            placeholder="Search by name, department, company..."
+                            style="border-radius: 12px; border: 2px solid #e0e7ff; padding-right: 45px;">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label class="form-label fw-bold mb-2"><i class="fas fa-filter me-2 text-primary"></i> Category
+                        View</label>
+                    <select class="form-select form-select-lg" id="activeCategorySelect"
+                        onchange="switchCategory(this.value)" style="border-radius: 12px; border: 2px solid #e0e7ff;">
+                        <option value="alumni">Alumni</option>
+                        <option value="student">Students</option>
+                        <option value="faculty">Faculty</option>
+                    </select>
+                </div>
+                <div class="col-lg-3">
+                    <button class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-sm" onclick="resetAllFilters()"
+                        style="border-radius: 12px;">
+                        <i class="fas fa-redo-alt me-2"></i> Reset Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Directory Content -->
+    <div class="directory-container">
+        <!-- Alumni Tab -->
+        <div id="alumniContent" class="category-panel active-panel">
+            <div class="row g-4" id="alumniGrid">
+                {% for alum in alumni %}
+                <div class="col-lg-4 col-md-6 user-card alum-card" data-name="{{ alum['name'].lower() }}"
+                    data-info="{{ (alum['company_name'] or alum['department'] or '')|lower }}">
+                    <div class="premium-card holographic-border">
+                        <div class="card-gradient-top alumni-gradient"></div>
+                        <div class="card-avatar-wrapper">
+                            <img src="{{ alum['profile_pic'] or 'https://ui-avatars.com/api/?name=' + alum['name'] + '&bg=667eea&color=fff' }}"
+                                class="card-avatar">
+                        </div>
+                        <div class="card-body-content text-center pt-2">
+                            <h5 class="fw-bold mb-1 text-dark">{{ alum['name'] }}</h5>
+                            <div class="badge bg-soft-primary text-primary mb-3 px-3 py-2 rounded-pill small">
+                                <i class="fas fa-graduation-cap me-1"></i> Batch {{ alum['pass_year'] }}
+                            </div>
+                            <div class="info-badges mb-4 d-flex flex-wrap justify-content-center gap-1">
+                                <span class="badge rounded-pill bg-light text-muted border py-2 px-3"><i
+                                        class="fas fa-briefcase me-1"></i> {{ alum['company_name'] or 'N/A' }}</span>
+                                <span class="badge rounded-pill bg-light text-muted border py-2 px-3"><i
+                                        class="fas fa-location-dot me-1 text-danger"></i> {{ alum['work_location'] or
+                                    'Remote' }}</span>
+                            </div>
+                            <div class="card-footer-actions d-grid gap-2 mt-auto">
+                                <a href="{{ url_for('alumni_profile', user_id=alum['id']) }}"
+                                    class="btn btn-primary rounded-pill py-2 shadow-sm fw-bold"><i
+                                        class="fas fa-user-circle me-2"></i>Profile</a>
+                                <button class="btn btn-outline-primary rounded-pill btn-sm py-2 fw-600"
+                                    onclick="connectUser('{{ alum.id }}', 'alumni')"><i
+                                        class="fas fa-plus me-2"></i>Connect</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Students Tab -->
+        <div id="studentContent" class="category-panel">
+            <div class="row g-4" id="studentGrid">
+                {% for s in other_students %}
+                <div class="col-lg-4 col-md-6 user-card student-card" data-name="{{ s['name'].lower() }}"
+                    data-info="{{ (s['department'] or s['degree'] or '')|lower }}">
+                    <div class="premium-card holographic-border">
+                        <div class="card-gradient-top student-gradient"></div>
+                        <div class="card-avatar-wrapper">
+                            <img src="{{ s['profile_pic'] or 'https://ui-avatars.com/api/?name=' + s['name'] + '&bg=4facfe&color=fff' }}"
+                                class="card-avatar">
+                        </div>
+                        <div class="card-body-content text-center pt-2">
+                            <h5 class="fw-bold mb-1 text-dark">{{ s['name'] }}</h5>
+                            <div class="badge bg-soft-info text-info mb-3 px-3 py-2 rounded-pill small">
+                                <i class="fas fa-university me-1"></i> {{ s['department'] }}
+                            </div>
+                            <p class="text-muted small fw-600 mb-3">{{ s['degree'] }} | Semester {{ s['semester'] }}</p>
+
+                            <!-- Skills Preview -->
+                            <div class="skills-preview mb-4 d-flex flex-wrap justify-content-center gap-1">
+                                {% if s['skills'] %}
+                                {% for skill in s['skills'].split(',')[:3] %}
+                                <span class="skill-tag">{{ skill.strip() }}</span>
+                                {% endfor %}
+                                {% else %}
+                                <span class="text-muted small italic">No skills listed</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="card-footer-actions d-grid gap-2 mt-auto">
+                                <a href="{{ url_for('student_profile', user_id=s.id) }}"
+                                    class="btn btn-info text-white rounded-pill py-2 shadow-sm fw-bold">
+                                    <i class="fas fa-bolt me-2"></i>Quick View
+                                </a>
+                                <button class="btn btn-outline-info rounded-pill btn-sm py-2 fw-600"
+                                    onclick="connectUser('{{ s.id }}', 'student')">
+                                    <i class="fas fa-plus me-2"></i>Connect
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Faculty Tab -->
+        <div id="facultyContent" class="category-panel">
+            <div class="row g-4" id="facultyGrid">
+                {% for f in faculty %}
+                <div class="col-lg-4 col-md-6 user-card faculty-card" data-name="{{ f['name'].lower() }}"
+                    data-info="{{ (f['department'] or f['designation'] or '')|lower }}">
+                    <div class="premium-card holographic-border">
+                        <div class="card-gradient-top faculty-gradient"></div>
+                        <div class="card-avatar-wrapper">
+                            <img src="{{ f['profile_pic'] or 'https://ui-avatars.com/api/?name=' + f['name'] + '&bg=f093fb&color=fff' }}"
+                                class="card-avatar">
+                        </div>
+                        <div class="card-body-content text-center pt-2">
+                            <h5 class="fw-bold mb-1 text-dark">{{ f['name'] }}</h5>
+                            <div class="badge bg-soft-danger text-danger mb-3 px-3 py-2 rounded-pill small">
+                                <i class="fas fa-award me-1"></i> {{ f['department'] }}
+                            </div>
+                            <p class="text-muted small fw-600 mb-3">{{ f['designation'] }}</p>
+                            <div class="info-badges mb-4 d-flex justify-content-center">
+                                <span class="badge rounded-pill bg-light text-muted border py-2 px-3"><i
+                                        class="fas fa-envelope me-1"></i> {{ f['email'][:25] }}{% if f['email']|length >
+                                    25 %}...{% endif %}</span>
+                            </div>
+                            <div class="card-footer-actions d-grid gap-2 mt-auto">
+                                <a href="{{ url_for('faculty_profile', user_id=f['id']) }}"
+                                    class="btn btn-danger rounded-pill py-2 shadow-sm fw-bold"><i
+                                        class="fas fa-user-tie me-2"></i>Profile</a>
+                                <button class="btn btn-outline-danger rounded-pill btn-sm py-2 fw-600"
+                                    onclick="connectUser('{{ f.id }}', 'faculty')"><i
+                                        class="fas fa-link me-2"></i>Connect</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Mentorship Section -->
+    <div class="row mt-5 mb-5 g-4 align-items-center">
+        <div class="col-lg-6 reveal-text">
+            <div class="mentorship-hero d-flex align-items-center p-5 text-white shadow-lg"
+                style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 40px; position: relative; overflow: hidden; min-height: 400px; border: 1px solid rgba(255,255,255,0.1);">
+                <div class="hero-particles"></div>
+                <div class="glow-point"
+                    style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(59, 130, 246, 0.2); filter: blur(60px); border-radius: 50%;">
+                </div>
+                <div class="z-index-2 position-relative">
+                    <h2 class="display-6 fw-bold mb-3">Accelerate Your <br><span class="text-info">Career Journey</span>
+                    </h2>
+                    <p class="lead opacity-75 mb-4">Connect with industry leaders and alumni mentors who have walked the
+                        path you are on today.</p>
+                    <div class="d-flex gap-3">
+                        <div class="stat-mini">
+                            <h4 class="mb-0 fw-bold">500+</h4>
+                            <small class="opacity-50">Active Mentors</small>
+                        </div>
+                        <div class="stat-mini border-start ps-3">
+                            <h4 class="mb-0 fw-bold">1.2k</h4>
+                            <small class="opacity-50">Success Stories</small>
+                        </div>
+                    </div>
+                </div>
+                <i class="fas fa-rocket position-absolute bottom-0 end-0 m-4 opacity-10 display-1"></i>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="glass-card p-5 border-start-primary-thick h-100"
+                style="background: white; border: 1px solid #e2e8f0; border-radius: 30px; border-left: 8px solid #667eea;">
+                <h3 class="fw-bold mb-4 font-heading"><i class="fas fa-handshake-angle text-primary me-2"></i>Why
+                    Mentorship?</h3>
+                <ul class="list-unstyled space-y-4">
+                    <li class="d-flex align-items-start mb-4">
+                        <div class="icon-box-sm bg-light-primary text-primary me-3"><i class="fas fa-bullseye"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Career Goal Setting</h5>
+                            <p class="text-muted small mb-0">Define your path with experts who know the industry inside
+                                out.</p>
+                        </div>
+                    </li>
+                    <li class="d-flex align-items-start mb-4">
+                        <div class="icon-box-sm bg-light-info text-info me-3"><i class="fas fa-network-wired"></i></div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Network Expansion</h5>
+                            <p class="text-muted small mb-0">Open doors to referrals and internships at top companies.
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+                <a href="{{ url_for('search_network') }}"
+                    class="btn btn-primary btn-lg w-100 rounded-pill py-3 fw-bold shadow-lg mt-2">
+                    Start Your Journey <i class="fas fa-arrow-right ms-2 animate-bounce-x"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <!-- Action Buttons -->
+    <div class="action-buttons-container mt-5 mb-5 pb-5">
+        <div class="glass-card p-4 mx-auto" style="max-width: 900px; background: rgba(255, 255, 255, 0.6);">
+            <h4 class="text-center mb-4 fw-bold text-dark">Quick Actions</h4>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a href="{{ url_for('edit_student_profile', user_id=current_user.id) }}"
+                    class="btn btn-primary btn-lg action-btn-enhanced">
+                    <i class="fas fa-edit me-2"></i> Edit Profile
+                </a>
+                <button class="btn btn-warning text-white btn-lg action-btn-enhanced" data-bs-toggle="modal"
+                    data-bs-target="#upgradeModal">
+                    <i class="fas fa-crown me-2"></i> Upgrade to Alumni
+                </button>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger btn-lg action-btn-enhanced">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<!-- Alumni Modal -->
+<div class="modal fade" id="alumniDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header"
+                style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border: none; border-radius: 20px 20px 0 0;">
+                <h5 class="modal-title fw-bold text-white">
+                    <i class="fas fa-user-circle"></i> Alumni Details
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-5" id="alumniDetailsContent">
+                <div class="text-center">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a id="viewFullProfileBtn" href="#" class="btn btn-success">
+                    <i class="fas fa-external-link-alt"></i> Full Profile
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Student Modal -->
+<div class="modal fade" id="studentDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header"
+                style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border: none; border-radius: 20px 20px 0 0;">
+                <h5 class="modal-title fw-bold text-white">
+                    <i class="fas fa-user-graduate"></i> Student Details
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-5" id="studentDetailsContent">
+                <div class="text-center">
+                    <div class="spinner-border text-info" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-info text-white" id="connectStudentBtn" onclick="connectFromModal()">
+                    <i class="fas fa-plus me-2"></i> Connect
+                </button>
+            </div>
+        </div>
+
+        <!-- Floating Action Button -->
+        <div class="fab-container">
+            <div class="fab shadow-lg">
+                <div class="fab-content">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            <div class="sub-button shadow-sm" style="bottom: 90px; right: 28px;" title="Search">
+                <a href="#globalSearch" class="text-white"><i class="fas fa-search"></i></a>
+            </div>
+            <div class="sub-button shadow-sm" style="bottom: 150px; right: 28px;" title="Messages">
+                <a href="{{ url_for('messages') }}" class="text-white"><i class="fas fa-comment-dots"></i></a>
+            </div>
+            <div class="sub-button shadow-sm" style="bottom: 210px; right: 28px;" title="Profile">
+                <a href="{{ url_for('student_profile', user_id=current_user.id) }}" class="text-white"><i
+                        class="fas fa-user"></i></a>
+            </div>
+        </div>
+
+        <script>
+            // Initialize Vanilla Tilt
+            VanillaTilt.init(document.querySelectorAll(".stat-card, .premium-card, .glass-card"), {
+                max: 10,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.2,
+                scale: 1.02
+            });
+
+            // Chart.js - Alumni Distribution
+            const ctxAlumni = document.getElementById('alumniChart').getContext('2d');
+            new Chart(ctxAlumni, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [{
+                        label: 'Alumni Growth',
+                        data: [12, 19, 3, 5, 2, 3],
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { display: false } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Chart.js - Top Companies
+            const ctxCompany = document.getElementById('companyChart').getContext('2d');
+            new Chart(ctxCompany, {
+                type: 'doughnut',
+                data: {
+                    labels: ['TCS', 'Infosys', 'Wipro', 'Google', 'Microsoft'],
+                    datasets: [{
+                        data: [30, 20, 15, 10, 25],
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    },
+                    cutout: '70%'
+                }
+            });
+        </script>
+    </div>
+</div>
+
+<style>
+    /* Global Typography & Mesh */
+    body {
+        font-family: 'Outfit', sans-serif;
+        background-color: #f8fafc;
+        overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .dashboard-wrapper {
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+    }
+
+    .mesh-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        background: #f8fafc;
+        pointer-events: none;
+    }
+
+    .mesh-ball {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.15;
+        animation: mesh-float 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+    }
+
+    .ball-1 {
+        width: 600px;
+        height: 600px;
+        background: #6366f1;
+        top: -10%;
+        left: -10%;
+        animation-duration: 25s;
+    }
+
+    .ball-2 {
+        width: 500px;
+        height: 500px;
+        background: #a855f7;
+        bottom: 10%;
+        right: -5%;
+        animation-duration: 30s;
+    }
+
+    .ball-3 {
+        width: 400px;
+        height: 400px;
+        background: #ec4899;
+        top: 40%;
+        left: 30%;
+        animation-duration: 22s;
+    }
+
+    .ball-4 {
+        width: 450px;
+        height: 450px;
+        background: #3b82f6;
+        bottom: -5%;
+        left: 15%;
+        animation-duration: 28s;
+    }
+
+    @keyframes mesh-float {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+
+        100% {
+            transform: translate(100px, 100px) rotate(180deg);
+        }
+    }
+
+    /* Glassmorphism Classes */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 18px;
+    }
+
+    .glass-nav {
+        background: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .text-gradient-cyan {
+        background: linear-gradient(45deg, #00d4ff, #00f2fe);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .text-holographic {
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: holographic-move 6s linear infinite;
+    }
+
+    @keyframes holographic-move {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        100% {
+            background-position: 300% 50%;
+        }
+    }
+
+    .reveal-text {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .reveal-fade {
+        opacity: 0;
+        transition: opacity 1.5s ease;
+    }
+
+    .revealed {
+        opacity: 1 !important;
+        transform: translate(0, 0) !important;
+    }
+
+    .avatar-glass-card {
+        position: relative;
+        display: inline-block;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.2),
+            inset 0 0 20px rgba(255, 255, 255, 0.1);
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        z-index: 5;
+    }
+
+    .avatar-inner-border {
+        padding: 5px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .avatar-img {
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+        border: 4px solid white;
+        border-radius: 50%;
+        /* Force circle */
+        transition: transform 0.5s ease;
+        display: block;
+    }
+
+    .glass-tag {
+        position: absolute;
+        bottom: 15px;
+        right: -10px;
+        background: linear-gradient(135deg, #00d4ff 0%, #0080ff 100%);
+        color: white;
+        padding: 6px 16px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 800;
+        box-shadow: 0 10px 20px rgba(0, 212, 255, 0.4);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        z-index: 10;
+        animation: tag-pulse 2s infinite;
+    }
+
+    .tag-dot {
+        width: 8px;
+        height: 8px;
+        background: white;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 10px white;
+    }
+
+    @keyframes tag-pulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    /* Hero Visual container and floating elements */
+    .hero-visual-container {
+        position: relative;
+        padding: 60px;
+        /* Increased padding */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 1000px;
+        min-height: 400px;
+    }
+
+    .avatar-glass-card-wrapper {
+        position: relative;
+        z-index: 5;
+        transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        transform-style: preserve-3d;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-visual-container:hover .avatar-glass-card-wrapper {
+        transform: rotateX(5deg) rotateY(10deg) scale(1.05);
+    }
+
+    .hero-visual-container:hover .avatar-img {
+        transform: scale(1.05);
+    }
+
+    .glow-aura {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(102, 126, 234, 0.4) 0%, transparent 70%);
+        border-radius: 50%;
+        filter: blur(40px);
+        z-index: 1;
+        animation: pulse-aura 4s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    .hero-particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background: radial-gradient(circle at center, rgba(102, 126, 234, 0.05), transparent);
+    }
+
+    @keyframes pulse-aura {
+
+        0%,
+        100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.4;
+        }
+
+        50% {
+            transform: translate(-50%, -50%) scale(1.2);
+            opacity: 0.7;
+        }
+    }
+
+    .floating-elements {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .floating-shape {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .shape-1 {
+        width: 60px;
+        height: 60px;
+        top: 10%;
+        left: 10%;
+    }
+
+    .shape-2 {
+        width: 40px;
+        height: 40px;
+        bottom: 20%;
+        right: 15%;
+    }
+
+    .floating-icon {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background: white;
+        color: #667eea;
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transform-style: preserve-3d;
+    }
+
+    .icon-1 {
+        top: 15%;
+        right: 10%;
+    }
+
+    .icon-2 {
+        bottom: 25%;
+        left: 5%;
+    }
+
+    .icon-3 {
+        top: 60%;
+        right: 5%;
+    }
+
+    @keyframes float-slow {
+
+        0%,
+        100% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+
+        33% {
+            transform: translate(15px, -20px) rotate(5deg);
+        }
+
+        66% {
+            transform: translate(-10px, 15px) rotate(-5deg);
+        }
+    }
+
+    @keyframes float-medium {
+
+        0%,
+        100% {
+            transform: translate(0, 0) rotate(10deg);
+        }
+
+        50% {
+            transform: translate(-20px, 15px) rotate(-10deg);
+        }
+    }
+
+    @keyframes float-fast {
+
+        0%,
+        100% {
+            transform: translateY(0) scale(1);
+        }
+
+        50% {
+            transform: translateY(-30px) scale(1.1);
+        }
+    }
+
+    .card-shine {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%);
+        transform: skewX(-25deg);
+        transition: 0.75s;
+        z-index: 3;
+    }
+
+    .avatar-glass-card:hover .card-shine {
+        left: 125%;
+    }
+
+    /* Interactive Skills Tags */
+    .skill-tag {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+        background: rgba(79, 172, 254, 0.1);
+        color: #0369a1;
+        border-radius: 8px;
+        margin: 2px;
+        display: inline-block;
+        font-weight: 600;
+        border: 1px solid rgba(79, 172, 254, 0.2);
+    }
+
+    /* Skeleton Loader */
+    .skeleton-loader {
+        background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 12px;
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+
+        100% {
+            background-position: 200% 0;
+        }
+    }
+
+    .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .is-loading .loading-overlay {
+        opacity: 0.8;
+        pointer-events: auto;
+    }
+
+    /* Category-Toggle Improvements */
+    .category-panel {
+        display: none;
+        position: relative;
+    }
+
+    .active-panel {
+        display: block;
+        animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes scaleIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .category-btn {
+        border-radius: 14px;
+        font-weight: 700;
+        padding: 14px 24px;
+        color: #4b5563;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid transparent;
+    }
+
+    .category-btn:hover {
+        background: rgba(102, 126, 234, 0.05);
+        color: #667eea;
+        transform: translateY(-2px);
+    }
+
+    .category-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
+        transform: translateY(-3px) scale(1.05);
+    }
+
+    /* Premium Component Styles */
+    .premium-card {
+        background: white;
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+        transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+    }
+
+    .premium-card::after {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), transparent, rgba(255, 255, 255, 0.2));
+        border-radius: 28px;
+        z-index: -1;
+        transition: opacity 0.4s ease;
+        opacity: 0;
+    }
+
+    .premium-card:hover::after {
+        opacity: 1;
+    }
+
+    .holographic-border {
+        position: relative;
+    }
+
+    .holographic-border:hover {
+        border: 1px solid transparent !important;
+        background-clip: padding-box;
+    }
+
+    .holographic-border::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        z-index: -1;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
+        background-size: 300% 100%;
+        border-radius: 30px;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        animation: holographic-move 6s linear infinite;
+    }
+
+    .holographic-border:hover::before {
+        opacity: 0.6;
+    }
+
+    .bg-soft-primary {
+        background-color: rgba(102, 126, 234, 0.1);
+    }
+
+    .bg-soft-info {
+        background-color: rgba(79, 172, 254, 0.1);
+    }
+
+    .bg-soft-danger {
+        background-color: rgba(245, 87, 108, 0.1);
+    }
+
+    .fw-600 {
+        font-weight: 600;
+    }
+
+    .premium-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 25px 50px rgba(102, 126, 234, 0.15);
+        border-color: rgba(102, 126, 234, 0.2);
+    }
+
+    .card-gradient-top {
+        height: 100px;
+        width: 100%;
+        transition: all 0.4s ease;
+    }
+
+    .premium-card:hover .card-gradient-top {
+        height: 110px;
+    }
+
+    .alumni-gradient {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+    }
+
+    .student-gradient {
+        background: linear-gradient(45deg, #4facfe, #00f2fe);
+    }
+
+    .faculty-gradient {
+        background: linear-gradient(45deg, #f093fb, #f5576c);
+    }
+
+    .card-avatar-wrapper {
+        width: 120px;
+        height: 120px;
+        margin: -60px auto 15px;
+        border-radius: 50%;
+        border: 8px solid white;
+        background: white;
+        overflow: hidden;
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        z-index: 5;
+    }
+
+    .card-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .premium-card:hover .card-avatar {
+        transform: scale(1.1);
+    }
+
+    .premium-card:hover .card-avatar-wrapper {
+        transform: scale(1.08) translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        border-color: #fff;
+    }
+
+    .card-body-content {
+        padding: 0 24px 28px;
+        flex-grow: 1;
+    }
+
+    .info-badges .badge {
+        font-size: 0.8rem;
+        padding: 6px 14px;
+        border-radius: 12px;
+        background: #f8fafc !important;
+        color: #475569 !important;
+        border: 1px solid #e2e8f0 !important;
+        transition: all 0.3s ease;
+    }
+
+    .premium-card:hover .info-badges .badge {
+        border-color: #cbd5e1 !important;
+        transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+    /* Search Bar Design */
+    .search-input-group {
+        position: relative;
+    }
+
+    .search-icon {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #667eea;
+        font-size: 1.2rem;
+    }
+
+    .is-loading {
+        pointer-events: none;
+    }
+
+    .directory-container {
+        min-height: 400px;
+        transition: opacity 0.3s ease;
+    }
+
+    .is-loading .user-card {
+        filter: blur(4px);
+        opacity: 0.6;
+    }
+
+    /* Stats Section Premium Styles */
+    .stats-container {
+        position: relative;
+        padding: 40px 0;
+        background: radial-gradient(circle at top left, rgba(102, 126, 234, 0.03), transparent),
+            radial-gradient(circle at bottom right, rgba(122, 79, 162, 0.03), transparent);
+        border-radius: 40px;
+        margin: 40px 0;
+    }
+
+    .stat-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 24px;
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        cursor: default;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--card-accent, #667eea);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.9);
+        border-color: var(--card-accent, rgba(102, 126, 234, 0.3));
+    }
+
+    .stat-card:hover::before {
+        opacity: 1;
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+        margin-right: 20px;
+        flex-shrink: 0;
+        transition: all 0.4s ease;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    .stat-icon::after {
+        content: '';
+        position: absolute;
+        inset: -5px;
+        background: inherit;
+        filter: blur(15px);
+        opacity: 0.3;
+        border-radius: inherit;
+        z-index: -1;
+    }
+
+    .stat-card:hover .stat-icon {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-content h3 {
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin: 0;
+        color: #1e293b;
+        letter-spacing: -1px;
+    }
+
+    .stat-label {
+        margin: 0;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-trend {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+    }
+
+    .animate-bounce-x {
+        animation: bounceX 1s infinite;
+    }
+
+    @keyframes bounceX {
+
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+
+        50% {
+            transform: translateX(5px);
+        }
+    }
+
+    /* ===== ADVANCED ANIMATION STYLES ===== */
+
+    /* Split Text Animations */
+    .split-text-hero {
+        display: block;
+        overflow: hidden;
+    }
+
+    .split-text-hero .word-reveal {
+        display: inline-block;
+        animation: slideInDown 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
+        opacity: 0;
+    }
+
+    @keyframes slideInDown {
+        from {
+            transform: translateY(-40px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .gradient-text {
+        background: linear-gradient(90deg, #00d4ff, #0099ff, #00d4ff, #00d4ff);
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .animate-gradient {
+        animation: gradientShift 5s ease infinite;
+    }
+
+    @keyframes gradientShift {
+
+        0%,
+        100% {
+            background-position: 0% center;
+        }
+
+        50% {
+            background-position: 100% center;
+        }
+    }
+
+    .slide-in-icon {
+        display: inline-block;
+        animation: slideInLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .badge-animated {
+        animation: float 3s ease-in-out infinite;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+
+    .badge-animated:hover {
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
+        transform: translateY(-2px);
+    }
+
+    @keyframes bounceIn {
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Animated Background Lines */
+    .animated-bg-lines {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.08;
+        background-image:
+            linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .2) 25%, rgba(255, 255, 255, .2) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .2) 75%, rgba(255, 255, 255, .2) 76%, transparent 77%, transparent),
+            linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .2) 25%, rgba(255, 255, 255, .2) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .2) 75%, rgba(255, 255, 255, .2) 76%, transparent 77%, transparent);
+        background-size: 50px 50px;
+        animation: moveLines 15s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes moveLines {
+        0% {
+            transform: translateY(0);
+        }
+
+        100% {
+            transform: translateY(50px);
+        }
+    }
+
+    /* Enhanced Stat Cards with Stagger */
+    .stat-card {
+        animation: slideUp 0.6s ease-out both;
+        position: relative;
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .stat-card:hover::before {
+        left: 100%;
+    }
+
+    .stat-card:nth-child(1) {
+        animation-delay: 0.2s;
+    }
+
+    .stat-card:nth-child(2) {
+        animation-delay: 0.4s;
+    }
+
+    .stat-card:nth-child(3) {
+        animation-delay: 0.6s;
+    }
+
+    .stat-card:nth-child(4) {
+        animation-delay: 0.8s;
+    }
+
+    /* Premium Card Enhancements */
+    .premium-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .premium-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+        animation: rotate 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Premium Card with hover lift effect */
+    .premium-card {
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .premium-card:hover {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: 0 30px 60px rgba(102, 126, 234, 0.25);
+    }
+
+    /* Text Reveal Animation */
+    .text-reveal {
+        animation: textReveal 0.8s ease forwards;
+        overflow: hidden;
+    }
+
+    @keyframes textReveal {
+        from {
+            width: 0;
+            opacity: 0;
+        }
+
+        to {
+            width: 100%;
+            opacity: 1;
+        }
+    }
+
+    /* Neon Glow Effect */
+    .neon-glow {
+        text-shadow: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.3);
+        animation: neonFlicker 3s infinite;
+    }
+
+    @keyframes neonFlicker {
+
+        0%,
+        18%,
+        22%,
+        25%,
+        53%,
+        57%,
+        100% {
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        20%,
+        24%,
+        55% {
+            text-shadow: 0 0 5px rgba(0, 212, 255, 0.2);
+        }
+    }
+
+    /* Category Pills with Enhanced Animation */
+    .gradient-pills .nav-link {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+    }
+
+    .gradient-pills .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        transition: width 0.4s ease;
+    }
+
+    .gradient-pills .nav-link:hover::after {
+        width: 100%;
+    }
+
+    /* Counter Animation Improvements */
+    .counter {
+        font-weight: 800;
+        animation: counterPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes counterPop {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Floating Animation Enhancement */
+    @keyframes floatUpDown {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    .floating-shape {
+        animation: floatUpDown 6s ease-in-out infinite;
+    }
+
+    /* Modal Enter Animation */
+    .modal.fade .modal-dialog {
+        animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes modalSlideIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9) translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    /* Card Stagger Animation */
+    .alumniGrid,
+    .studentGrid,
+    .facultyGrid {
+        animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Ripple Effect for Buttons */
+    .btn.ripple {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .ripple-effect {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple-animation 0.6s ease-out;
+        pointer-events: none;
+    }
+
+    @keyframes ripple-animation {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+
+    /* Spin Animation for Icons */
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Advanced Counter Pop Animation */
+    @keyframes counterPop {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+        50% {
+            transform: scale(1.2);
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Smooth Stagger Animation */
+    @keyframes stagger {
+        0% {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Pulse Glow Animation */
+    @keyframes pulseGlow {
+
+        0%,
+        100% {
+            box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+        }
+
+        50% {
+            box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+        }
+    }
+
+    /* Action Button Enhancements */
+    .action-btn {
+        animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .action-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .action-btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    /* Professional Stat Card Hover */
+    .stat-card {
+        position: relative;
+    }
+
+    .stat-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+        border-radius: 24px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .stat-card:hover::after {
+        opacity: 1;
+    }
+
+    /* Modal Professional Animation */
+    .modal.fade .modal-dialog {
+        animation: modalSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes modalSlideUp {
+        from {
+            opacity: 0;
+            transform: scale(0.85) translateY(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    /* Badge Pulse Animation */
+    .badge-animated {
+        animation: badgePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes badgePulse {
+
+        0%,
+        100% {
+            box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+        }
+
+        50% {
+            box-shadow: 0 0 0 8px rgba(102, 126, 234, 0);
+        }
+    }
+
+    /* Smooth Transition for Category Switch */
+    .category-panel {
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* ===== MODAL STYLES ===== */
+    .modal {
+        z-index: 1050;
+    }
+
+    .modal-backdrop {
+        z-index: 1040;
+        backdrop-filter: blur(4px);
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal.show {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-dialog {
+        margin: 0;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modal-content {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        border: none;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-body {
+        max-height: calc(90vh - 120px);
+        overflow-y: auto;
+    }
+
+    .modal-footer {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-close-white {
+        filter: invert(1);
+    }
+
+    .btn-close-white:focus {
+        box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+    }
+
+    /* ===== RESPONSIVE MEDIA QUERIES ===== */
+    @media (max-width: 991px) {
+        .hero-section {
+            padding: 80px 0 !important;
+        }
+
+        .hero-section h1 {
+            font-size: 2.8rem !important;
+        }
+
+        .stats-container {
+            margin: 20px 0;
+            padding: 20px 0;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            text-align: center;
+            padding: 60px 0 !important;
+        }
+
+        .hero-section h1 {
+            font-size: 2.2rem !important;
+        }
+
+        .hero-section .lead {
+            font-size: 1.1rem !important;
+            margin: 0 auto 1.5rem !important;
+        }
+
+        .profile-completeness-wrapper {
+            min-width: 100% !important;
+            margin-top: 1.5rem;
+        }
+
+        .category-tabs .nav-pills {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .category-btn {
+            width: 100%;
+            padding: 10px 15px;
+        }
+
+        .filter-section {
+            padding: 2rem !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .hero-section h1 {
+            font-size: 1.8rem !important;
+        }
+
+        .stat-card {
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-icon {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+
+        .avatar-img {
+            width: 140px;
+            height: 140px;
+        }
+
+        .hero-visual-container {
+            min-height: 300px;
+            padding: 20px;
+        }
+    }
+</style>
+
+<script>
+    // Unified Student Dashboard Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Dynamic Greeting
+        const hour = new Date().getHours();
+        let greeting = "Good Morning";
+        if (hour >= 12 && hour < 17) greeting = "Good Afternoon";
+        else if (hour >= 17) greeting = "Good Evening";
+
+        const greetingEl = document.getElementById('dynamicGreeting');
+        if (greetingEl) greetingEl.innerText = greeting;
+
+        // 2. Typing Effect
+        const typingEl = document.querySelector('.typing-text');
+        if (typingEl) {
+            setTimeout(() => typeText(typingEl), 800);
+        }
+
+        // 3. Reveal Animations (Intersection Observer)
+        const revealCallback = (entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+
+                    // Counter logic with double-guard
+                    if (entry.target.classList.contains('counter') || entry.target.classList.contains('counter-float')) {
+                        if (!entry.target.dataset.animated) {
+                            entry.target.dataset.animated = 'true';
+                            animateValue(entry.target);
+                        }
+                    }
+
+                    // Immediately stop observing once triggered
+                    obs.unobserve(entry.target);
+                }
+            });
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px' // Trigger slightly before it comes into view
+        });
+
+        document.querySelectorAll('.reveal-text, .reveal-fade, .stat-card, .premium-card, .counter, .counter-float').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // 4. Advanced Animations (Hover & Stagger)
+        initAdvancedAnimations();
+        staggerCardAnimations();
+
+        // 5. Profile Completeness Logic
+        const studentData = {
+            profile_pic: "{{ current_user.profile_pic }}",
+            enrollment_no: "{{ student['enrollment_no'] }}",
+            department: "{{ student['department'] }}",
+            degree: "{{ student['degree'] }}",
+            semester: "{{ student['semester'] }}",
+            cgpa: "{{ student['cgpa'] }}",
+            skills: "{{ student['skills'] }}",
+            achievements: "{{ student['achievements'] }}",
+            resume_link: "{{ student['resume_link'] }}"
+        };
+
+        const fields = Object.keys(studentData);
+        const filled = fields.filter(f => studentData[f] && studentData[f] !== 'None' && studentData[f] !== '').length;
+        const completeness = Math.round((filled / fields.length) * 100);
+
+        const bar = document.getElementById('completenessBar');
+        const text = document.getElementById('completenessPercent');
+        const tip = document.getElementById('completenessTip');
+
+        if (bar && text && tip) {
+            bar.style.transition = 'width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            setTimeout(() => {
+                bar.style.width = completeness + '%';
+                text.innerText = completeness + '%';
+
+                if (completeness < 50) tip.innerText = "Add skills to improve your visibility!";
+                else if (completeness < 80) tip.innerText = "Almost there! Add achievements or resume.";
+                else tip.innerText = "Your profile looks professional!";
+            }, 600);
+        }
+    });
+
+    function animateValue(el) {
+        if (el.dataset.currentlyAnimating) return;
+        el.dataset.currentlyAnimating = 'true';
+
+        const target = parseFloat(el.dataset.target) || 0;
+        const isFloat = el.classList.contains('counter-float');
+        const duration = 2000;
+        const startTime = performance.now();
+
+        function step(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Easing function: easeOutExpo
+            const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            const current = easeProgress * target;
+
+            if (isFloat) {
+                el.innerText = current.toFixed(2);
+            } else {
+                el.innerText = Math.floor(current);
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                el.innerText = isFloat ? target.toFixed(2) : Math.floor(target);
+                delete el.dataset.currentlyAnimating;
+            }
+        }
+        requestAnimationFrame(step);
+    }
+
+    // Typing Effect
+    function typeText(el) {
+        const text = el.innerText;
+        el.innerText = '';
+        let i = 0;
+        const speed = 80;
+
+        function type() {
+            if (i < text.length) {
+                el.innerText += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        }
+        type();
+    }
+
+    function initAdvancedAnimations() {
+        // Card hover effects
+        const cards = document.querySelectorAll('.premium-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function () {
+                this.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+
+                const avatar = this.querySelector('.card-avatar-wrapper');
+                if (avatar) avatar.style.transform = 'scale(1.1) rotate(5deg)';
+            });
+
+            card.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0) scale(1)';
+                const avatar = this.querySelector('.card-avatar-wrapper');
+                if (avatar) avatar.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // Glow effect on buttons
+        const buttons = document.querySelectorAll('.btn-primary, .btn-info');
+        buttons.forEach(btn => {
+            btn.addEventListener('mouseenter', function () {
+                this.style.boxShadow = '0 0 25px rgba(102, 126, 234, 0.6)';
+                this.style.transition = 'all 0.3s ease';
+                this.style.transform = 'translateY(-2px)';
+            });
+
+            btn.addEventListener('mouseleave', function () {
+                this.style.boxShadow = '';
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    }
+
+    function staggerCardAnimations() {
+        const cards = document.querySelectorAll('.premium-card');
+        cards.forEach((card, index) => {
+            card.style.animation = `slideUp 0.6s ease-out backwards`;
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+    }
+
+    let currentCategory = 'alumni';
+
+    function switchCategory(cat) {
+        const container = document.querySelector('.directory-container');
+        if (container) {
+            container.style.opacity = '0';
+            container.style.transform = 'scale(0.95)';
+        }
+
+        setTimeout(() => {
+            currentCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.category === cat);
+            });
+            const select = document.getElementById('activeCategorySelect');
+            if (select) select.value = cat;
+
+            document.querySelectorAll('.category-panel').forEach(p => {
+                p.classList.toggle('active-panel', p.id === (cat + 'Content'));
+            });
+
+            performSearch();
+            if (container) {
+                container.style.opacity = '1';
+                container.style.transition = 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                container.style.transform = 'scale(1)';
+            }
+        }, 300);
+    }
+
+    function performSearch() {
+        const searchInput = document.getElementById('globalSearch');
+        if (!searchInput) return;
+        const q = searchInput.value.toLowerCase();
+        const cards = document.querySelectorAll(`.${currentCategory}-card`);
+
+        cards.forEach((c, index) => {
+            const name = c.dataset.name || "";
+            const info = c.dataset.info || "";
+            const isMatch = (name.includes(q) || info.includes(q));
+
+            c.style.display = isMatch ? 'block' : 'none';
+            if (isMatch) {
+                c.style.animation = `slideUp 0.4s ease-out backwards`;
+                c.style.animationDelay = `${index * 0.05}s`;
+            }
+        });
+    }
+
+    const searchInput = document.getElementById('globalSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', performSearch);
+        // Debounce for better performance
+        let searchTimeout;
+        searchInput.addEventListener('keyup', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(performSearch, 300);
+        });
+    }
+
+    function resetAllFilters() {
+        document.getElementById('globalSearch').value = '';
+        performSearch();
+    }
+
+    function handleRequest(senderId, action) {
+        fetch(`/api/connection-request/${action}/${senderId}`, {
+            method: 'POST'
+        }).then(r => r.json()).then(d => {
+            if (d.success) {
+                showToast(`Connection ${action}ed successfully!`, 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast('Error: ' + d.error, 'danger');
+            }
+        });
+    }
+
+    function connectUser(userId, role) {
+        fetch('/api/connection-request/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ receiver_id: userId })
+        }).then(r => r.json()).then(d => {
+            if (d.success) {
+                showToast(d.message || 'Connection request sent!', 'success');
+            } else {
+                showToast(d.error || 'Connection failed', 'danger');
+            }
+        });
+    }
+
+    function viewStudentModal(studentId) {
+        try {
+            const contentEl = document.getElementById('studentDetailsContent');
+            const modalEl = document.getElementById('studentDetailsModal');
+
+            if (!contentEl) {
+                console.error('studentDetailsContent element not found');
+                return;
+            }
+            if (!modalEl) {
+                console.error('studentDetailsModal element not found');
+                return;
+            }
+
+            contentEl.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-info"></div></div>';
+
+            // Ensure Bootstrap Modal is available
+            if (!window.bootstrap || !window.bootstrap.Modal) {
+                console.error('Bootstrap Modal not loaded');
+                return;
+            }
+
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
+
+            fetch(`/api/student/${studentId}`)
+                .then(r => {
+                    if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`);
+                    return r.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        contentEl.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                        return;
+                    }
+
+                    const u = data.user;
+                    const p = data.profile;
+                    const profileImg = u.profile_pic || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(u.name);
+
+                    contentEl.innerHTML = `
+                        <div class="text-center mb-4">
+                            <img src="${profileImg}" class="rounded-circle shadow" style="width: 100px; height: 100px; object-fit: cover;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&bg=4facfe&color=fff'">
+                            <h4 class="mt-3 fw-bold">${u.name}</h4>
+                            <span class="badge bg-info">${p.degree} | Semester ${p.semester}</span>
+                        </div>
+                        <div class="p-4 bg-light rounded-4 border-start border-4 border-info">
+                            <div class="row g-3">
+                                <div class="col-6"><p class="mb-0 text-muted small">Department</p><p class="fw-bold">${p.department}</p></div>
+                                <div class="col-6"><p class="mb-0 text-muted small">Semester</p><p class="fw-bold">${p.semester}</p></div>
+                                <div class="col-12"><p class="mb-0 text-muted small">Email Address</p><p class="fw-bold">${u.email}</p></div>
+                            </div>
+                        </div>`;
+                    document.getElementById('connectStudentBtn').setAttribute('onclick', `connectUser('${u.id}', 'student')`);
+                })
+                .catch(err => {
+                    console.error('Error fetching student data:', err);
+                    contentEl.innerHTML = `<div class="alert alert-danger">Error loading student details. Please try again.</div>`;
+                });
+        } catch (err) {
+            console.error('Error in viewStudentModal:', err);
+        }
+    }
+
+    function showAlumniModal(alumId) {
+        try {
+            const contentEl = document.getElementById('alumniDetailsContent');
+            const modalEl = document.getElementById('alumniDetailsModal');
+
+            if (!contentEl) {
+                console.error('alumniDetailsContent element not found');
+                return;
+            }
+            if (!modalEl) {
+                console.error('alumniDetailsModal element not found');
+                return;
+            }
+
+            contentEl.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-primary"></div></div>';
+
+            // Ensure Bootstrap Modal is available
+            if (!window.bootstrap || !window.bootstrap.Modal) {
+                console.error('Bootstrap Modal not loaded');
+                return;
+            }
+
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
+
+            fetch(`/api/alumni/${alumId}`)
+                .then(r => {
+                    if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`);
+                    return r.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        contentEl.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                        return;
+                    }
+
+                    const u = data.user;
+                    const p = data.profile;
+                    const profileImg = u.profile_pic || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(u.name);
+
+                    contentEl.innerHTML = `
+                        <div class="text-center mb-4">
+                            <img src="${profileImg}" class="rounded-circle shadow" style="width: 100px; height: 100px; object-fit: cover;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&bg=667eea&color=fff'">
+                            <h4 class="mt-3 fw-bold">${u.name}</h4>
+                            <span class="badge bg-primary">Batch ${p.pass_year}</span>
+                        </div>
+                        <div class="p-4 bg-light rounded-4 border-start border-4 border-primary">
+                            <div class="row g-3">
+                                <div class="col-6"><p class="mb-0 text-muted small">Company</p><p class="fw-bold">${p.company_name || 'N/A'}</p></div>
+                                <div class="col-6"><p class="mb-0 text-muted small">Position</p><p class="fw-bold">${p.designation || 'N/A'}</p></div>
+                                <div class="col-6"><p class="mb-0 text-muted small">Department</p><p class="fw-bold">${p.department}</p></div>
+                                <div class="col-6"><p class="mb-0 text-muted small">Location</p><p class="fw-bold">${p.work_location || 'Remote'}</p></div>
+                            </div>
+                        </div>`;
+                    document.getElementById('viewFullProfileBtn').style.display = 'inline-block';
+                    document.getElementById('viewFullProfileBtn').href = `/alumni/profile/${alumId}`;
+                })
+                .catch(err => {
+                    console.error('Error fetching alumni data:', err);
+                    contentEl.innerHTML = `<div class="alert alert-danger">Error loading alumni details. Please try again.</div>`;
+                });
+        } catch (err) {
+            console.error('Error in showAlumniModal:', err);
+        }
+    }
+
+    function showToast(message, type = 'info') {
+        const bgColor = {
+            'success': '#10b981', 'danger': '#ef4444', 'warning': '#f59e0b', 'info': '#3b82f6'
+        };
+        const color = bgColor[type] || '#3b82f6';
+        const toast = document.createElement('div');
+        toast.className = 'position-fixed bottom-0 end-0 m-4';
+        toast.style.zIndex = '9999';
+        toast.style.animation = 'slideUp 0.4s ease';
+
+        const iconClass = type === 'success' ? 'fa-check-circle' : type === 'danger' ? 'fa-exclamation-circle' : 'fa-info-circle';
+
+        toast.innerHTML = `
+            <div style="background: linear-gradient(135deg, ${color}, ${color}dd); color: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 12px 35px rgba(0,0,0,0.25); font-weight: 600; min-width: 280px; border-left: 4px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px);">
+                <i class="fas ${iconClass} me-2"></i>${message}
+            </div>`;
+        document.body.appendChild(toast);
+
+        toast.style.animation = 'slideUp 0.4s ease-out';
+
+        setTimeout(() => {
+            toast.style.animation = 'slideDown 0.4s ease-out forwards';
+            setTimeout(() => toast.remove(), 400);
+        }, 3000);
+    }
+
+    function connectUser(userId, role) {
+        fetch('/api/connection-request/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `receiver_id=${userId}`
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Connection request sent successfully!', 'success');
+                    // Optional: Hide the card or change button state
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showToast(data.error || 'Failed to send request', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('An error occurred. Please try again.', 'danger');
+            });
+    }
+
+    // Add missing animations
+    const animationStyle = document.createElement('style');
+    animationStyle.textContent = `
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+        @keyframes slideDown {
+            from { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+            to { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+        }
+        @keyframes slideInLeft {
+            from { 
+                opacity: 0; 
+                transform: translateX(-30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(0);
+            }
+        }
+    `;
+    document.head.appendChild(animationStyle);
+
+    // ===== REAL-TIME CONNECTION EVENTS (Socket.IO) =====
+    (function initConnectionSocket() {
+        if (typeof io === 'undefined') return;
+
+        const socket = io({ transports: ['websocket', 'polling'] });
+
+        // --- Event: someone sent ME a connection request ---
+        socket.on('connection_request_received', function (data) {
+            // Update badge count
+            const badge = document.getElementById('requestCountBadge');
+            if (badge) {
+                const current = parseInt(badge.textContent) || 0;
+                badge.textContent = current + 1;
+            }
+
+            // If the pending requests section exists, inject a new card live
+            const list = document.getElementById('pendingRequestsList');
+            if (list) {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-lg-4';
+                col.style.animation = 'slideInLeft 0.45s ease';
+                col.innerHTML = `
+                    <div class="d-flex align-items-center p-3 border rounded-3 bg-light">
+                        <div class="avatar-sm me-3">
+                            <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(data.sender_name)}&background=667eea&color=fff"
+                                 class="rounded-circle" style="width:45px;height:45px;object-fit:cover;">
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0 fw-bold">${data.sender_name}</h6>
+                            <small class="text-muted">${data.sender_role || ''}</small>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-success rounded-circle shadow-sm"
+                                onclick="handleRequest('${data.sender_id}', 'accept')">
+                                <i class="fas fa-check"></i></button>
+                            <button class="btn btn-sm btn-outline-danger rounded-circle shadow-sm"
+                                onclick="handleRequest('${data.sender_id}', 'reject')">
+                                <i class="fas fa-times"></i></button>
+                        </div>
+                    </div>`;
+                list.prepend(col);
+
+                // Show section if it was hidden (no pending requests at page load)
+                const section = document.getElementById('pendingRequestsSection');
+                if (section) section.classList.remove('d-none');
+            }
+
+            showToast(`\u{1F514} New connection request from ${data.sender_name}`, 'primary');
+        });
+
+        // --- Event: my outgoing request was accepted or rejected ---
+        socket.on('connection_status_update', function (data) {
+            if (data.status === 'accepted') {
+                showToast(`\u2705 ${data.by_user_name} accepted your connection request!`, 'success');
+            } else if (data.status === 'rejected') {
+                showToast(`\u274C ${data.by_user_name} declined your connection request.`, 'warning');
+            }
+        });
+    }());
+
+</script>
+
+{% endblock %}

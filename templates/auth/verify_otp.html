@@ -1,0 +1,377 @@
+{% extends 'base.html' %}
+
+{% block title %}Secure Verification - Alumni Hub{% endblock %}
+
+{% block content %}
+<link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+    rel="stylesheet">
+
+<style>
+    :root {
+        --accent-primary: #4f46e5;
+        --accent-secondary: #7c3aed;
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.4);
+    }
+
+    .verify-page {
+        min-height: 100vh;
+        background: #f8fafc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Abstract Background */
+    .bg-sphere {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        filter: blur(140px);
+        z-index: 0;
+        opacity: 0.15;
+    }
+
+    .sphere-1 {
+        background: var(--accent-primary);
+        top: -20%;
+        left: -10%;
+    }
+
+    .sphere-2 {
+        background: var(--accent-secondary);
+        bottom: -20%;
+        right: -10%;
+    }
+
+    .verify-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 40px;
+        padding: 3.5rem;
+        width: 100%;
+        max-width: 500px;
+        position: relative;
+        z-index: 10;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+        text-align: center;
+    }
+
+    .icon-wrapper {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+        color: white;
+        font-size: 2rem;
+        box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        transform: rotate(-5deg);
+        animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0) rotate(-5deg);
+        }
+
+        50% {
+            transform: translateY(-10px) rotate(2deg);
+        }
+    }
+
+    .otp-title {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 800;
+        letter-spacing: -1px;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+    }
+
+    .otp-subtitle {
+        color: #64748b;
+        font-size: 0.95rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .otp-input-group {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .otp-field {
+        width: 54px;
+        height: 64px;
+        border-radius: 16px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        text-align: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--accent-primary);
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .otp-field:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        transform: translateY(-4px);
+    }
+
+    .timer-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 2rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 600;
+        color: #64748b;
+    }
+
+    .timer-bar-bg {
+        width: 100%;
+        height: 6px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        margin-bottom: 2.5rem;
+        overflow: hidden;
+    }
+
+    .timer-bar-fill {
+        height: 100%;
+        background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+        width: 100%;
+        transition: 1s linear;
+    }
+
+    .verify-btn {
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        color: white;
+        border: none;
+        padding: 1.25rem;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        width: 100%;
+        transition: 0.4s;
+        box-shadow: 0 10px 25px rgba(79, 70, 229, 0.2);
+    }
+
+    .verify-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(79, 70, 229, 0.3);
+    }
+
+    .verify-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .resend-section {
+        margin-top: 2rem;
+        font-size: 0.9rem;
+        color: #64748b;
+    }
+
+    .resend-link {
+        color: var(--accent-primary);
+        font-weight: 700;
+        text-decoration: none;
+        transition: 0.2s;
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    .resend-link.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .resend-link.active:hover {
+        text-decoration: underline;
+    }
+
+    /* Animation classes */
+    .fade-up {
+        animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        opacity: 0;
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="verify-page">
+    <div class="bg-sphere sphere-1"></div>
+    <div class="bg-sphere sphere-2"></div>
+
+    <div class="verify-card fade-up">
+        <div class="icon-wrapper">
+            <i class="fas fa-fingerprint"></i>
+        </div>
+
+        <h2 class="otp-title">Identity Check</h2>
+        <p class="otp-subtitle">A security code was sent to <br><b class="text-dark">{{ email }}</b></p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div
+            class="alert alert-{{ 'danger' if category == 'error' else category }} rounded-4 py-3 mb-4 border-0 shadow-sm small">
+            <i class="fas fa-{{ 'exclamation-circle' if category == 'danger' else 'check-circle' }} me-2"></i>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ action_url or '/verify-otp' }}" id="otpForm">
+            <input type="hidden" name="email" value="{{ email }}">
+            <input type="hidden" name="otp" id="finalOtp">
+
+            <div class="otp-input-group">
+                <input type="text" maxlength="1" class="otp-field" data-index="1" oninput="moveToNext(this, 'otp2')"
+                    id="otp1">
+                <input type="text" maxlength="1" class="otp-field" data-index="2"
+                    oninput="moveToNext(this, 'otp3', 'otp1')" id="otp2">
+                <input type="text" maxlength="1" class="otp-field" data-index="3"
+                    oninput="moveToNext(this, 'otp4', 'otp2')" id="otp3">
+                <input type="text" maxlength="1" class="otp-field" data-index="4"
+                    oninput="moveToNext(this, 'otp5', 'otp3')" id="otp4">
+                <input type="text" maxlength="1" class="otp-field" data-index="5"
+                    oninput="moveToNext(this, 'otp6', 'otp4')" id="otp5">
+                <input type="text" maxlength="1" class="otp-field" data-index="6"
+                    oninput="checkCompletion(this, 'otp5')" id="otp6">
+            </div>
+
+            <div class="timer-container">
+                <i class="far fa-clock"></i>
+                <span id="countdown">02:00</span>
+            </div>
+
+            <div class="timer-bar-bg">
+                <div class="timer-bar-fill" id="timerBar"></div>
+            </div>
+
+            <button type="submit" class="verify-btn" id="verifyBtn">
+                SECURE VERIFICATION
+            </button>
+        </form>
+
+        <div class="resend-section">
+            <p id="resendMessage">Resend code available in <span id="resendTimer">120</span>s</p>
+            <form action="/resend-otp" method="POST" id="resendForm" style="display: none;">
+                <input type="hidden" name="email" value="{{ email }}">
+                <p>Didn't get the code? <button type="submit" class="btn btn-link p-0 fw-bold resend-link active"
+                        style="font-size: 0.9rem;">Resend Now</button></p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let timeLeft = 120; // 2 minutes
+    const countdownEl = document.getElementById('countdown');
+    const timerBar = document.getElementById('timerBar');
+    const resendTimerEl = document.getElementById('resendTimer');
+    const resendMessage = document.getElementById('resendMessage');
+    const resendForm = document.getElementById('resendForm');
+
+    const timer = setInterval(() => {
+        timeLeft--;
+
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+
+        countdownEl.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        resendTimerEl.innerText = timeLeft;
+
+        const percentage = (timeLeft / 120) * 100;
+        timerBar.style.width = `${percentage}%`;
+
+        if (timeLeft <= 30) {
+            timerBar.style.background = '#f43f5e';
+            countdownEl.style.color = '#f43f5e';
+        }
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            resendMessage.style.display = 'none';
+            resendForm.style.display = 'block';
+            document.getElementById('verifyBtn').disabled = true;
+            document.getElementById('verifyBtn').innerText = 'EXPIRED';
+        }
+    }, 1000);
+
+    function moveToNext(current, nextFieldID, prevFieldID) {
+        if (current.value.length >= 1) {
+            document.getElementById(nextFieldID).focus();
+        }
+        updateFinalOtp();
+    }
+
+    function checkCompletion(current, prevFieldID) {
+        updateFinalOtp();
+    }
+
+    function updateFinalOtp() {
+        let otpValue = '';
+        for (let i = 1; i <= 6; i++) {
+            otpValue += document.getElementById(`otp${i}`).value;
+        }
+        document.getElementById('finalOtp').value = otpValue;
+    }
+
+    // Auto-focus first field
+    window.onload = () => document.getElementById('otp1').focus();
+
+    // Handle backspace
+    document.querySelectorAll('.otp-field').forEach((field, index) => {
+        field.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && field.value.length === 0 && index > 0) {
+                document.querySelectorAll('.otp-field')[index - 1].focus();
+            }
+        });
+
+        // Handle Paste
+        field.addEventListener('paste', (e) => {
+            const pasteData = e.clipboardData.getData('text').slice(0, 6);
+            if (!/^\d+$/.test(pasteData)) return;
+
+            pasteData.split('').forEach((char, i) => {
+                const target = document.getElementById(`otp${i + 1}`);
+                if (target) target.value = char;
+            });
+            updateFinalOtp();
+            document.getElementById('otp6').focus();
+            e.preventDefault();
+        });
+    });
+</script>
+{% endblock %}

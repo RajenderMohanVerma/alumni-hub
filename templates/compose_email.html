@@ -1,0 +1,408 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="compose-wrapper pb-5" style="margin-top: 100px;">
+    <!-- Background Accents -->
+    <div class="mesh-background">
+        <div class="mesh-ball ball-1"></div>
+        <div class="mesh-ball ball-2"></div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="text-center mb-5" data-aos="fade-down">
+                    <span class="badge glass-pill-primary px-3 py-2 mb-3">
+                        <i class="fas fa-paper-plane me-2"></i> NEW MESSAGE
+                    </span>
+                    <h1 class="fw-bold display-6">Compose <span class="text-primary">Email</span></h1>
+                </div>
+
+                <div class="row g-5">
+                    <!-- Form Column -->
+                    <div class="col-lg-7" data-aos="fade-right">
+                        <div class="glass-card-premium p-4 p-md-5">
+                            <div class="recipient-badge mb-4 d-inline-flex align-items-center">
+                                <div class="avatar-small me-3">
+                                    {{ recipient['name'] | initials }}
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block uppercase fw-bold"
+                                        style="font-size: 0.7rem; letter-spacing: 1px;">RECIPIENT</small>
+                                    <h5 class="mb-0 fw-bold">{{ recipient['name'] }}</h5>
+                                </div>
+                            </div>
+
+                            <form action="/send-email" method="POST" class="needs-validation">
+                                <input type="hidden" name="recipient_email" value="{{ recipient['email'] }}">
+
+                                <div class="form-group-custom mb-4">
+                                    <label for="subject" class="form-label-custom">Subject Line</label>
+                                    <div class="input-modern-wrapper">
+                                        <i class="fas fa-tag"></i>
+                                        <input type="text" id="subject" name="subject" class="form-control-modern"
+                                            placeholder="What is this regarding?" required autocomplete="off">
+                                    </div>
+                                </div>
+
+                                <div class="form-group-custom mb-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <label for="message" class="form-label-custom mb-0">Your Message</label>
+                                        <span id="charCount" class="text-muted small">0 / 2000</span>
+                                    </div>
+                                    <textarea id="message" name="message" class="form-control-modern mt-2"
+                                        style="height: 250px; padding-top: 15px;"
+                                        placeholder="Type your message here..." required></textarea>
+                                </div>
+
+                                <div class="d-flex flex-column flex-md-row gap-3 mt-4">
+                                    <button type="submit" class="btn btn-primary-premium flex-grow-1 py-3">
+                                        <i class="fas fa-paper-plane me-2"></i> Send Message
+                                    </button>
+                                    <a href="{{ request.referrer or url_for('home') }}"
+                                        class="btn btn-outline-custom py-3 px-4 text-center">
+                                        Cancel
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Preview Column -->
+                    <div class="col-lg-5" data-aos="fade-left">
+                        <div class="sticky-top" style="top: 110px;">
+                            <div class="preview-header mb-3 ms-2">
+                                <h6 class="text-muted uppercase fw-bold"
+                                    style="font-size: 0.75rem; letter-spacing: 1.5px;">
+                                    <i class="fas fa-eye me-2"></i> LIVE EMAIL PREVIEW
+                                </h6>
+                            </div>
+
+                            <!-- Email Mockup Outer -->
+                            <div class="email-mockup shadow-2xl">
+                                <div class="mockup-header">
+                                    <div class="mockup-dots"><span></span><span></span><span></span></div>
+                                    <div class="mockup-title">alumni-hub.com</div>
+                                </div>
+
+                                <div class="mockup-content">
+                                    <div class="email-branding">
+                                        <h2 style="margin:0; font-size: 16px;"> ALUMNI HUB</h2>
+                                    </div>
+
+                                    <div class="email-body">
+                                        <div class="email-subject-line mb-3">
+                                            <strong id="previewSubject">Subject: (Your subject here)</strong>
+                                        </div>
+                                        <p class="text-muted small mb-3 uppercase">Message from {{ current_user.name }}:
+                                        </p>
+                                        <div class="email-message-box">
+                                            <p id="previewMessage" style="white-space: pre-wrap; margin:0;">Your message
+                                                will
+                                                appear here as you type...</p>
+                                        </div>
+
+                                        <div class="email-signature mt-4 pt-3 border-top">
+                                            <p class="fw-bold small mb-2">Contact the Sender</p>
+                                            <div class="d-flex gap-2 flex-wrap">
+                                                <a href="{{ url_for('whatsapp_bridge', user_id=current_user.id) }}"
+                                                    class="btn-fake text-decoration-none"
+                                                    style="background: rgba(37, 211, 102, 0.1); color: #25D366; border: 1px solid rgba(37, 211, 102, 0.2);">
+                                                    <i class="fab fa-whatsapp me-1"></i> WhatsApp
+                                                </a>
+                                                <span class="btn-fake">Profile</span>
+                                                <span class="btn-fake btn-indigo">Reply</span>
+                                            </div>
+                                            <p style="margin-top: 10px; font-size: 10px; color: #9ca3af;">Sent via DBIT
+                                                Alumni Hub Official Portal</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .compose-wrapper {
+        position: relative;
+        min-height: calc(100vh - 100px);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .mesh-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: #fcfdfe;
+        overflow: hidden;
+    }
+
+    .mesh-ball {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.1;
+    }
+
+    .ball-1 {
+        width: 500px;
+        height: 500px;
+        background: #6366f1;
+        top: -10%;
+        right: -5%;
+    }
+
+    .ball-2 {
+        width: 400px;
+        height: 400px;
+        background: #a855f7;
+        bottom: 10%;
+        left: -5%;
+    }
+
+    .glass-card-premium {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 35px;
+        box-shadow: 0 25px 50px -12px rgba(67, 56, 202, 0.1);
+    }
+
+    .recipient-badge {
+        background: rgba(99, 102, 241, 0.05);
+        padding: 12px 20px;
+        border-radius: 20px;
+        border: 1px solid rgba(99, 102, 241, 0.1);
+    }
+
+    .avatar-small {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 0.8rem;
+    }
+
+    /* Form Styling */
+    .form-label-custom {
+        display: block;
+        font-weight: 700;
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+        color: #1e293b;
+        letter-spacing: 0.5px;
+    }
+
+    .input-modern-wrapper {
+        position: relative;
+    }
+
+    .input-modern-wrapper i {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 1rem;
+    }
+
+    .form-control-modern {
+        width: 100%;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 14px 18px 14px 48px;
+        transition: 0.3s;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #1e293b;
+    }
+
+    textarea.form-control-modern {
+        padding-left: 18px;
+    }
+
+    .form-control-modern:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        outline: none;
+    }
+
+    /* Email Mockup Preview */
+    .email-mockup {
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+    }
+
+    .mockup-header {
+        background: #f1f5f9;
+        padding: 8px 15px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .mockup-dots {
+        display: flex;
+        gap: 5px;
+        margin-right: 20px;
+    }
+
+    .mockup-dots span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #cbd5e1;
+    }
+
+    .mockup-title {
+        font-size: 0.7rem;
+        color: #64748b;
+        background: #fff;
+        padding: 2px 30px;
+        border-radius: 5px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .mockup-content {
+        background: #f9fafb;
+        padding: 15px;
+    }
+
+    .email-branding {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        padding: 15px;
+        text-align: center;
+        color: white;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .email-body {
+        background: white;
+        padding: 20px;
+        border-left: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
+        border-bottom: 1px solid #e5e7eb;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .email-message-box {
+        background: #f3f4f6;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 3px solid #3b82f6;
+        min-height: 100px;
+        font-size: 13px;
+        color: #374151;
+    }
+
+    .btn-fake {
+        font-size: 10px;
+        padding: 6px 10px;
+        background: #3b82f6;
+        color: white;
+        border-radius: 4px;
+        font-weight: 700;
+    }
+
+    .btn-fake.btn-green {
+        background: #10b981;
+    }
+
+    .btn-fake.btn-indigo {
+        background: #6366f1;
+    }
+
+    /* Modern Buttons */
+    .btn-primary-premium {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        color: white !important;
+        border: none;
+        border-radius: 18px;
+        font-weight: 700;
+        transition: 0.3s;
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+    }
+
+    .btn-primary-premium:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-outline-custom {
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: #64748b;
+        border-radius: 18px;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .btn-outline-custom:hover {
+        background: #f8fafc;
+        border-color: #cbd5e1;
+        color: #1e293b;
+    }
+
+    .glass-pill-primary {
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        border-radius: 50px;
+        font-weight: 700;
+    }
+
+    .uppercase {
+        text-transform: uppercase;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Init Animation
+        if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
+
+        // Live Preview Logic
+        const subjectInput = document.getElementById('subject');
+        const messageInput = document.getElementById('message');
+        const previewSubject = document.getElementById('previewSubject');
+        const previewMessage = document.getElementById('previewMessage');
+        const charCount = document.getElementById('charCount');
+
+        function updatePreview() {
+            // Update Subject
+            const subjectVal = subjectInput.value.trim();
+            previewSubject.textContent = subjectVal ? `Subject: [Alumni Hub] ${subjectVal}` : 'Subject: (Your subject here)';
+
+            // Update Message
+            const messageVal = messageInput.value.trim();
+            previewMessage.textContent = messageVal || 'Your message will appear here as you type...';
+
+            // Update Char Count
+            const count = messageInput.value.length;
+            charCount.textContent = `${count} / 2000`;
+            if (count > 1800) charCount.className = 'text-warning small';
+            else if (count > 2000) charCount.className = 'text-danger small';
+            else charCount.className = 'text-muted small';
+        }
+
+        subjectInput.addEventListener('input', updatePreview);
+        messageInput.addEventListener('input', updatePreview);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0" style="border-radius: 15px; animation: slideInUp 0.6s ease;">
+                <div class="card-header bg-primary text-white" style="border-radius: 15px 15px 0 0;">
+                    <h3 class="mb-0"><i class="fas fa-user-check"></i> Complete Your Profile</h3>
+                    <small>Let's get you set up! Add your details to get started.</small>
+                </div>
+                <div class="card-body p-5">
+                    <div class="alert alert-info mb-4">
+                        <i class="fas fa-info-circle"></i> Complete your profile to unlock all features!
+                    </div>
+
+                    <form method="POST" enctype="multipart/form-data">
+                        <!-- Profile Photo Section -->
+                        <div class="card mb-4 border-light">
+                            <div class="card-header bg-light border-0">
+                                <h6 class="mb-0"><i class="fas fa-image"></i> Profile Photo</h6>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <div class="avatar-preview" style="width: 150px; height: 150px; margin: 0 auto; border-radius: 50%; border: 3px dashed #0D6EFD; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+                                        <img id="photoPreview" 
+                                             src="https://ui-avatars.com/api/?name={{ user['name'] }}&size=150&background=0D6EFD&color=fff&rounded=true" 
+                                             alt="Preview" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                                    </div>
+                                </div>
+                                <input type="file" class="form-control" id="profile_pic" name="profile_pic" 
+                                       accept="image/*" onchange="previewPhoto(this)">
+                                <small class="form-text text-muted">JPG, PNG, or GIF (Max 16MB)</small>
+                            </div>
+                        </div>
+
+                        <!-- Personal Information -->
+                        <div class="card mb-4 border-light">
+                            <div class="card-header bg-light border-0">
+                                <h6 class="mb-0"><i class="fas fa-user"></i> Personal Information</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="name" name="name" 
+                                           value="{{ user['name'] }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" 
+                                           value="{{ user['phone'] or '' }}" required placeholder="+91 XXXXX XXXXX">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email (Read-only)</label>
+                                    <input type="email" class="form-control" value="{{ user['email'] }}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Role-Specific Info -->
+                        {% if role == 'student' %}
+                        <div class="alert alert-success">
+                            <strong>Student Registration!</strong> Complete your academic details in your profile after signup.
+                        </div>
+                        {% elif role == 'alumni' %}
+                        <div class="alert alert-success">
+                            <strong>Alumni Registration!</strong> Add your professional experience to help current students.
+                        </div>
+                        {% elif role == 'faculty' %}
+                        <div class="alert alert-success">
+                            <strong>Faculty Registration!</strong> Share your expertise with students and alumni.
+                        </div>
+                        {% endif %}
+
+                        <!-- Submit Buttons -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold">
+                                <i class="fas fa-check-circle"></i> Complete Profile
+                            </button>
+                            <a href="{{ url_for('profile') }}" class="btn btn-outline-secondary">
+                                Skip for Now
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .avatar-preview {
+        transition: all 0.3s ease;
+    }
+
+    .avatar-preview:hover {
+        box-shadow: 0 0 20px rgba(13, 110, 253, 0.3);
+    }
+</style>
+
+<script>
+function previewPhoto(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('photoPreview').src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+{% endblock %}

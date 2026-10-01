@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+
+{% block title %}Event Orchestration - Alumni Hub{% endblock %}
+
+{% block content %}
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+    :root {
+        --terminal-bg: #030712;
+        --accent-primary: #6366f1;
+        --accent-secondary: #a855f7;
+        --accent-success: #10b981;
+        --accent-warning: #f59e0b;
+        --accent-danger: #ef4444;
+        --glass-bg: rgba(15, 23, 42, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-dim: #94a3b8;
+    }
+
+    body {
+        background: var(--terminal-bg);
+        color: white;
+        font-family: 'Outfit', sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* --- Background Layer --- */
+    .premium-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
+        z-index: -2;
+    }
+
+    .mesh-gradient {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .mesh-ball {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.15;
+        animation: floatOrb 20s infinite alternate;
+    }
+
+    @keyframes floatOrb {
+        0% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        100% {
+            transform: translate(100px, 50px) scale(1.1);
+        }
+    }
+
+    /* --- Page Layout --- */
+    .event-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 120px 2rem 4rem;
+    }
+
+    .matrix-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(to right, #fff, #94a3b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -1px;
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    /* --- Glass Components --- */
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+    }
+
+    .btn-initiate {
+        background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+        color: white;
+        padding: 14px 28px;
+        border-radius: 16px;
+        font-weight: 800;
+        border: none;
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-initiate:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);
+    }
+
+    /* --- Premium Table --- */
+    .premium-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+    .premium-table thead th {
+        color: var(--text-dim);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 1rem 1.5rem;
+    }
+
+    .premium-table tbody tr {
+        background: rgba(255, 255, 255, 0.03);
+        transition: 0.3s;
+    }
+
+    .premium-table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.07);
+    }
+
+    .premium-table tbody td {
+        padding: 1.5rem;
+        vertical-align: middle;
+    }
+
+    /* --- Status Elements --- */
+    .status-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 6px;
+        letter-spacing: 0.5px;
+    }
+
+    .status-published {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--accent-success);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .status-draft {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--accent-warning);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .type-pill {
+        background: rgba(99, 102, 241, 0.1);
+        color: #818cf8;
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .action-circle {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        border: 1px solid var(--glass-border);
+        transition: 0.3s;
+    }
+
+    .action-circle:hover {
+        background: var(--accent-primary);
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .action-redact:hover {
+        background: var(--accent-danger);
+    }
+</style>
+
+<!-- Background Layer -->
+<div class="premium-bg"></div>
+<div class="mesh-gradient">
+    <div class="mesh-ball" style="background: #4f46e5; top: -10%; left: -10%;"></div>
+    <div class="mesh-ball" style="background: #7c3aed; bottom: -10%; right: -10%;"></div>
+</div>
+
+<div class="event-wrapper">
+    <div class="matrix-header animate__animated animate__fadeInDown">
+        <h1 class="matrix-title">Event Orchestration</h1>
+        <p class="text-center text-dim fs-5 mb-5">Lifecycle Management • Engagement Telemetry • Objective Planning</p>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="header-section animate__animated animate__fadeInUp">
+        <div class="d-none d-md-block">
+            <h5 class="fw-bold text-white mb-1"><i class="fas fa-layer-group me-2 text-primary"></i> ACTIVE_SESSIONS
+            </h5>
+            <p class="text-dim small mb-0">Managing platform deployment lifecycles</p>
+        </div>
+        <button class="btn-initiate">
+            <i class="fas fa-plus-circle me-2"></i> INITIATE_MISSION
+        </button>
+    </div>
+
+    <!-- Main List Matrix -->
+    <div class="glass-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+        <div class="table-responsive">
+            <table class="premium-table">
+                <thead>
+                    <tr>
+                        <th>Mission Objective</th>
+                        <th>Temporal Log</th>
+                        <th>Classification</th>
+                        <th>Engagement</th>
+                        <th>Operational Status</th>
+                        <th class="text-end">Command</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="event-row">
+                        <td>
+                            <div class="d-flex flex-column">
+                                <span class="fw-bold text-white fs-5">Annual Alumni Meet 2026</span>
+                                <span class="text-dim small">Flagship Institutional Reunion</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-white small fw-bold">
+                                <i class="far fa-calendar-alt me-1 text-primary"></i> 10 APR 2026
+                            </div>
+                        </td>
+                        <td><span class="type-pill">REUNION_EVENT</span></td>
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="flex-grow-1" style="width: 100px;">
+                                    <div class="progress"
+                                        style="height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                                        <div class="progress-bar bg-primary" style="width: 24%"></div>
+                                    </div>
+                                </div>
+                                <span class="text-white small fw-bold">24%</span>
+                            </div>
+                        </td>
+                        <td><span class="status-badge status-published">LEVEL_ACTIVE</span></td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-end">
+                                <button class="action-circle" title="Inspec Node"><i
+                                        class="fas fa-search-plus"></i></button>
+                                <button class="action-circle" title="Edit Parameters"><i
+                                        class="fas fa-sliders-h"></i></button>
+                                <button class="action-circle action-redact" title="Abort Mission"><i
+                                        class="fas fa-power-off"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="event-row">
+                        <td>
+                            <div class="d-flex flex-column">
+                                <span class="fw-bold text-white fs-5">Intro to Cloud Computing</span>
+                                <span class="text-dim small">Technical Knowledge Transfer</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-white small fw-bold">
+                                <i class="far fa-calendar-alt me-1 text-primary"></i> 15 MAR 2026
+                            </div>
+                        </td>
+                        <td><span class="type-pill">TECH_WEBINAR</span></td>
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="flex-grow-1" style="width: 100px;">
+                                    <div class="progress"
+                                        style="height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                                        <div class="progress-bar bg-info" style="width: 45%"></div>
+                                    </div>
+                                </div>
+                                <span class="text-white small fw-bold">45%</span>
+                            </div>
+                        </td>
+                        <td><span class="status-badge status-draft">DRAFT_MODE</span></td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-end">
+                                <button class="action-circle" title="Inspec Node"><i
+                                        class="fas fa-search-plus"></i></button>
+                                <button class="action-circle" title="Edit Parameters"><i
+                                        class="fas fa-sliders-h"></i></button>
+                                <button class="action-circle action-redact" title="Abort Mission"><i
+                                        class="fas fa-power-off"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

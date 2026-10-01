@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Official Alumni Hub - Connect, network, and grow with the Don Bosco Institute of Technology alumni community.">
+    <title>Register - ALUMNI HUB</title>
+
+    <!-- Premium Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --crystalline-primary: #6366f1;
+            --crystalline-secondary: #ec4899;
+            --crystalline-glass: rgba(255, 255, 255, 0.7);
+            --crystalline-glass-border: rgba(255, 255, 255, 0.5);
+            --crystalline-glow: rgba(99, 102, 241, 0.2);
+            --v3-font-heading: 'Outfit', sans-serif;
+            --v3-font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--v3-font-body);
+            background: #f8fafc;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        /* Animated Iridescent Background */
+        .iridescent-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #f5f3ff 50%, #fdf2f8 75%, #f0fdf4 100%);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .mesh-ball {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .ball-1 {
+            width: 400px;
+            height: 400px;
+            background: #818cf8;
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .ball-2 {
+            width: 300px;
+            height: 300px;
+            background: #f472b6;
+            bottom: -50px;
+            right: -50px;
+            animation-delay: -5s;
+        }
+
+        .ball-3 {
+            width: 250px;
+            height: 250px;
+            background: #2dd4bf;
+            top: 40%;
+            left: 60%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        /* Centered Crystalline Card */
+        .crystalline-card {
+            background: var(--crystalline-glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--crystalline-glass-border);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            width: 95%;
+            max-width: 1400px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+            margin-top: 80px;
+            /* Space for navbar */
+            height: 85vh;
+            max-height: 900px;
+            min-height: 600px;
+        }
+
+        /* Navbar Styling */
+        .crystalline-nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 800;
+            font-family: var(--v3-font-heading);
+            font-size: 1.2rem;
+        }
+
+        .nav-brand i {
+            color: var(--crystalline-primary);
+            font-size: 1.4rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+        }
+
+        .nav-links a:hover {
+            color: var(--crystalline-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .nav-auth-btn {
+            background: var(--crystalline-primary);
+            color: white !important;
+            padding: 0.6rem 1.5rem !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        .nav-auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Branding Sidebar (v3 version) */
+        .branding-sidebar {
+            width: 38%;
+            background: linear-gradient(165deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.95) 100%);
+            padding: 4rem 3rem;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .branding-sidebar::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.05), transparent 70%);
+            animation: shimmerRotate 20s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes shimmerRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Slide & Fade Animations */
+        .slide-rtl {
+            opacity: 0;
+            transform: translateX(40px);
+            animation: slideInRTL 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes slideInRTL {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .anim-delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .anim-delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .anim-delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        .anim-delay-4 {
+            animation-delay: 0.8s;
+        }
+
+        .branding-sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent);
+            pointer-events: none;
+        }
+
+        /* Form Area */
+        .form-area {
+            flex: 1;
+            padding: 3rem 4rem;
+            background: rgba(255, 255, 255, 0.5);
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h5 {
+            font-family: var(--v3-font-heading);
+            font-weight: 700;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Progress Tracker */
+        .progress-header {
+            position: sticky;
+            top: -3rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            margin: -3rem -4rem 2rem -4rem;
+            padding: 1.5rem 4rem;
+            z-index: 20;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-bar-container {
+            height: 6px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #6366f1, #ec4899);
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Role Cards */
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .role-card {
+            border: 2px solid transparent;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .role-input:checked+.role-card {
+            border-color: var(--crystalline-primary);
+            background: rgba(99, 102, 241, 0.03);
+            transform: scale(1.02);
+            box-shadow: 0 0 0 4px var(--crystalline-glow);
+        }
+
+        /* Form Controls */
+        .form-label {
+            font-weight: 600;
+            color: #475569;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 16px;
+            border: 2px solid #f1f5f9;
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--crystalline-primary);
+            box-shadow: 0 0 0 4px var(--crystalline-glow);
+            outline: none;
+        }
+
+        /* Buttons */
+        .btn-premium {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: all 0.4s;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            width: 100%;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.4);
+            filter: brightness(1.1);
+        }
+
+        /* Animations */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in-section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 991px) {
+            .crystalline-card {
+                flex-direction: column;
+                max-width: 600px;
+                min-height: auto;
+                margin: 2rem 0;
+            }
+
+            .branding-sidebar {
+                width: 100%;
+                padding: 2rem;
+            }
+
+            .form-area {
+                padding: 2rem;
+            }
+
+            .role-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="iridescent-bg"></div>
+    <div class="mesh-ball ball-1"></div>
+    <div class="mesh-ball ball-2"></div>
+    <div class="mesh-ball ball-3"></div>
+
+    <nav class="crystalline-nav">
+        <a href="/" class="nav-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>ALUMNI HUB</span>
+        </a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/login">Sign In</a>
+            <a href="/register" class="nav-auth-btn">Register</a>
+        </div>
+    </nav>
+
+    <div class="container d-flex justify-content-center py-5">
+        <div class="crystalline-card">
+            <!-- Left Branding -->
+            <div class="branding-sidebar">
+                <div class="mb-5 d-flex align-items-center gap-3 slide-rtl anim-delay-1">
+                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 40px; height: 40px;">
+                        <i class="fas fa-graduation-cap text-white"></i>
+                    </div>
+                    <h4 class="mb-0">ALUMNI HUB</h4>
+                </div>
+                <div class="my-auto">
+                    <h1 class="h2 mb-4 slide-rtl anim-delay-2">Empowering Innovation. <br><span
+                            class="text-gradient">Catalyzing
+                            Success.</span> <br>Upholding Excellence.
+                    </h1>
+                    <p class="text-white-50 small slide-rtl anim-delay-3">Step into an exclusive ecosystem of DBIT
+                        visionaries and shape the
+                        future of professional excellence.</p>
+                </div>
+                <div class="mt-auto slide-rtl anim-delay-4">
+                    <a href="/" class="text-white-50 text-decoration-none small transition-all">
+                        <i class="fas fa-arrow-left me-2"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Form Area -->
+            <div class="form-area">
+                <div class="progress-header">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h4 class="mb-0">Create Account</h4>
+                        <span id="completion-badge" class="badge rounded-pill bg-light text-primary border px-3 py-2">0%
+                            Completed</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div id="form-progress" class="progress-bar-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }} fade show mb-4 border-0 shadow-sm rounded-4"
+                    role="alert">
+                    <i class="fas fa-info-circle me-2"></i> {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <form method="POST" id="registerForm" class="needs-validation" onsubmit="return validateRegisterForm()">
+
+                    <!-- Role Selection -->
+                    <div class="fade-in-section active mb-5">
+                        <label class="form-label">Classification</label>
+                        <div class="role-grid">
+                            <label class="position-relative">
+                                <input type="radio" name="role" value="student" class="role-input d-none"
+                                    id="roleStudent" {% if role=='student' or not role %}checked{% endif %}
+                                    onchange="updateFormFields()">
+                                <div class="role-card">
+                                    <i class="fas fa-graduation-cap fa-2x mb-3 text-primary"></i>
+                                    <div class="fw-bold">Student</div>
+                                </div>
+                            </label>
+                            <label class="position-relative">
+                                <input type="radio" name="role" value="alumni" class="role-input d-none" id="roleAlumni"
+                                    {% if role=='alumni' %}checked{% endif %} onchange="updateFormFields()">
+                                <div class="role-card">
+                                    <i class="fas fa-user-tie fa-2x mb-3 text-success"></i>
+                                    <div class="fw-bold">Alumni</div>
+                                </div>
+                            </label>
+                            <label class="position-relative">
+                                <input type="radio" name="role" value="faculty" class="role-input d-none"
+                                    id="roleFaculty" {% if role=='faculty' %}checked{% endif %}
+                                    onchange="updateFormFields()">
+                                <div class="role-card">
+                                    <i class="fas fa-chalkboard-teacher fa-2x mb-3 text-warning"></i>
+                                    <div class="fw-bold">Faculty</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information -->
+                    <div class="fade-in-section active mb-5">
+                        <h5 class="mb-4 text-gradient">Personal Credentials</h5>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" name="name" id="name" required
+                                    placeholder="John Doe" value="{{ form_data.get('name', '') if form_data else '' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-control" name="email" id="email" required
+                                    placeholder="john@gmail.com"
+                                    value="{{ form_data.get('email', '') if form_data else '' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" name="phone" id="phone" required
+                                    placeholder="+91 9876543210"
+                                    value="{{ form_data.get('phone', '') if form_data else '' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">City</label>
+                                <input type="text" class="form-control" name="city" id="city" required
+                                    placeholder="Mumbai / Delhi" list="cityList">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">State</label>
+                                <input type="text" class="form-control" name="state" id="state" required
+                                    placeholder="Maharashtra" list="stateList">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Password</label>
+                                <div class="position-relative">
+                                    <input type="password" class="form-control" name="password" id="password" required
+                                        placeholder="••••••••" style="padding-right: 3.5rem;">
+                                    <button type="button"
+                                        class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent pe-3 text-muted"
+                                        onclick="togglePassword('password', this)" tabindex="-1">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Confirm Password</label>
+                                <div class="position-relative">
+                                    <input type="password" class="form-control" name="confirm_password"
+                                        id="confirm_password" required placeholder="••••••••"
+                                        style="padding-right: 3.5rem;">
+                                    <button type="button"
+                                        class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent pe-3 text-muted"
+                                        onclick="togglePassword('confirm_password', this)" tabindex="-1">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Role Specific Fields -->
+                    <div id="studentFields" class="fade-in-section mb-5" style="display: none;">
+                        <h5 class="mb-4 text-primary">Academic Details</h5>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Enrollment No</label>
+                                <input type="text" class="form-control" name="enrollment_no" id="enrollment_no"
+                                    placeholder="D123456789">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Department / Branch</label>
+                                <input type="text" class="form-control" name="stu_department" id="stu_department"
+                                    placeholder="IT / Engineering" list="categoryList" oninput="updateCourseDropdown()">
+                                <datalist id="categoryList">
+                                    <option value="IT">IT / Technology</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Management">Management</option>
+                                    <option value="Science">Science (Pure/Applied)</option>
+                                    <option value="Commerce">Commerce & Finance</option>
+                                    <option value="Arts & Humanities">Arts / Humanities</option>
+                                    <option value="Medical">Medical / Healthcare</option>
+                                    <option value="Law">Law / Legal Studies</option>
+                                    <option value="Design">Architecture & Design</option>
+                                    <option value="Education">Education / Teaching</option>
+                                    <option value="Media">Media & Communications</option>
+                                    <option value="Hospitality">Hospitality & Tourism</option>
+                                    <option value="Fine Arts">Fine Arts & Music</option>
+                                </datalist>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Year of Study / Semester</label>
+                                <input type="text" class="form-control" name="stu_semester" id="stu_semester"
+                                    placeholder="e.g. 4th Semester" list="semesterList">
+                                <datalist id="semesterList">
+                                    <option value="1st Semester">
+                                    <option value="2nd Semester">
+                                    <option value="3rd Semester">
+                                    <option value="4th Semester">
+                                    <option value="5th Semester">
+                                    <option value="6th Semester">
+                                    <option value="7th Semester">
+                                    <option value="8th Semester">
+                                </datalist>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Level</label>
+                                <input type="text" class="form-control" name="stu_level" id="stu_level"
+                                    placeholder="UG / PG" list="levelList" oninput="updateCourseDropdown()">
+                                <datalist id="levelList">
+                                    <option value="UG">Undergraduate / Bachelor's</option>
+                                    <option value="PG">Postgraduate / Master's</option>
+                                    <option value="Diploma">Diploma (Polytechnic/Vocational)</option>
+                                    <option value="PG Diploma">Postgraduate Diploma (PGD)</option>
+                                    <option value="Integrated">Integrated Degree (UG+PG)</option>
+                                    <option value="PhD">Doctorate (PhD)</option>
+                                    <option value="M.Phil">Master of Philosophy (M.Phil)</option>
+                                    <option value="Post-Doc">Post-Doctoral Fellowship</option>
+                                    <option value="Certificate">Certificate / Short-term Course</option>
+                                    <option value="Professional">Professional Qualification (CA/CS/CMA)</option>
+                                </datalist>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Course</label>
+                                <input type="text" class="form-control" name="stu_degree" id="stu_degree"
+                                    placeholder="BCA / B.Tech" list="courseList">
+                                <datalist id="courseList">
+                                    <!-- Dynamically populated -->
+                                </datalist>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="alumniFields" class="fade-in-section mb-5" style="display: none;">
+                        <h5 class="mb-4 text-success">Academic & Professional Details</h5>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Enrollment No (Alumni)</label>
+                                <input type="text" class="form-control" name="alum_enrollment_no"
+                                    id="alum_enrollment_no" placeholder="D123456789">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Degree Category (Completed)</label>
+                                <input type="text" class="form-control" name="alum_department" id="alum_department"
+                                    placeholder="IT / Engineering" list="categoryList"
+                                    oninput="updateAlumniCourseDropdown()">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Degree Level</label>
+                                <input type="text" class="form-control" name="alum_level" id="alum_level"
+                                    placeholder="UG / PG" list="levelList" oninput="updateAlumniCourseDropdown()">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Course / Degree</label>
+                                <input type="text" class="form-control" name="alum_degree" id="alum_degree"
+                                    placeholder="BCA / B.Tech" list="alumniCourseList">
+                                <datalist id="alumniCourseList">
+                                    <!-- Dynamically populated -->
+                                </datalist>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Passing Year</label>
+                                <input type="text" class="form-control" name="pass_year" id="pass_year"
+                                    placeholder="e.g. 2024" list="yearList">
+                                <datalist id="yearList">
+                                    {% for year in range(2025, 1999, -1) %}
+                                    <option value="{{ year }}">
+                                        {% endfor %}
+                                </datalist>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Current Company</label>
+                                <input type="text" class="form-control" name="company_name" id="company_name"
+                                    placeholder="Google / Microsoft" list="companyList">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Current Designation</label>
+                                <input type="text" class="form-control" name="designation" id="alumni_designation"
+                                    placeholder="Software Engineer / Manager" list="designationList">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="facultyFields" class="fade-in-section mb-5" style="display: none;">
+                        <h5 class="mb-4 text-warning">Faculty Details</h5>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Employee ID</label>
+                                <input type="text" class="form-control" name="fac_employee_id" id="fac_employee_id">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Department</label>
+                                <input type="text" class="form-control" name="fac_department" id="fac_department"
+                                    placeholder="IT / Mechanical" list="deptList">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Current Designation</label>
+                                <input type="text" class="form-control" name="fac_designation" id="fac_designation"
+                                    placeholder="Professor / HOD" list="designationList">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Qualification</label>
+                                <input type="text" class="form-control" name="fac_qualification" id="fac_qualification"
+                                    placeholder="PhD / M.Tech">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms -->
+                    <div class="mb-5">
+                        <div class="form-check p-0 d-flex align-items-center gap-3">
+                            <input type="checkbox" class="form-check-input ms-0" id="terms" required
+                                style="width: 20px; height: 20px;">
+                            <label class="form-check-label text-muted small" for="terms">
+                                I agree to the <a href="#" class="text-primary text-decoration-none fw-bold">Terms &
+                                    Conditions</a>.
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- DataLists for Autocomplete -->
+                    <datalist id="cityList">
+                        <option value="Mumbai">
+                        <option value="Pune">
+                        <option value="Delhi">
+                        <option value="Bangalore">
+                        <option value="Hyderabad">
+                        <option value="Chennai">
+                        <option value="Kolkata">
+                        <option value="Ahmedabad">
+                        <option value="Surat">
+                        <option value="Jaipur">
+                        <option value="Lucknow">
+                        <option value="Kanpur">
+                        <option value="Nagpur">
+                        <option value="Indore">
+                        <option value="Thane">
+                        <option value="Bhopal">
+                        <option value="Visakhapatnam">
+                        <option value="Pimpri-Chinchwad">
+                        <option value="Patna">
+                        <option value="Vadodara">
+                        <option value="Ghaziabad">
+                        <option value="Ludhiana">
+                        <option value="Agra">
+                        <option value="Nashik">
+                        <option value="Faridabad">
+                        <option value="Meerut">
+                        <option value="Rajkot">
+                        <option value="Kalyan-Dombivli">
+                        <option value="Vasai-Virar">
+                        <option value="Varanasi">
+                        <option value="Srinagar">
+                        <option value="Aurangabad">
+                        <option value="Dhanbad">
+                        <option value="Amritsar">
+                        <option value="Navi Mumbai">
+                        <option value="Allahabad">
+                        <option value="Ranchi">
+                        <option value="Howrah">
+                        <option value="Coimbatore">
+                        <option value="Jabalpur">
+                        <option value="Gwalior">
+                        <option value="Vijayawada">
+                        <option value="Jodhpur">
+                        <option value="Madurai">
+                        <option value="Raipur">
+                        <option value="Kota">
+                        <option value="Guwahati">
+                        <option value="Chandigarh">
+                        <option value="Solapur">
+                    </datalist>
+
+                    <datalist id="stateList">
+                        <option value="Andhra Pradesh">
+                        <option value="Arunachal Pradesh">
+                        <option value="Assam">
+                        <option value="Bihar">
+                        <option value="Chhattisgarh">
+                        <option value="Goa">
+                        <option value="Gujarat">
+                        <option value="Haryana">
+                        <option value="Himachal Pradesh">
+                        <option value="Jharkhand">
+                        <option value="Karnataka">
+                        <option value="Kerala">
+                        <option value="Madhya Pradesh">
+                        <option value="Maharashtra">
+                        <option value="Manipur">
+                        <option value="Meghalaya">
+                        <option value="Mizoram">
+                        <option value="Nagaland">
+                        <option value="Odisha">
+                        <option value="Punjab">
+                        <option value="Rajasthan">
+                        <option value="Sikkim">
+                        <option value="Tamil Nadu">
+                        <option value="Telangana">
+                        <option value="Tripura">
+                        <option value="Uttar Pradesh">
+                        <option value="Uttarakhand">
+                        <option value="West Bengal">
+                        <option value="Andaman and Nicobar Islands">
+                        <option value="Chandigarh">
+                        <option value="Dadra and Nagar Haveli and Daman and Diu">
+                        <option value="Delhi">
+                        <option value="Jammu and Kashmir">
+                        <option value="Ladakh">
+                        <option value="Lakshadweep">
+                        <option value="Puducherry">
+                    </datalist>
+
+                    <datalist id="designationList">
+                        <option value="Software Engineer">
+                        <option value="Senior Software Engineer">
+                        <option value="Associate Engineer">
+                        <option value="System Analyst">
+                        <option value="Data Scientist">
+                        <option value="Web Developer">
+                        <option value="UI/UX Designer">
+                        <option value="Project Manager">
+                        <option value="Product Manager">
+                        <option value="Technical Lead">
+                        <option value="CTO">
+                        <option value="CEO">
+                        <option value="Founder">
+                        <option value="Operations Manager">
+                        <option value="Marketing Executive">
+                        <option value="Sales Manager">
+                        <option value="Assistant Professor">
+                        <option value="Associate Professor">
+                        <option value="Professor">
+                        <option value="HOD (Head of Department)">
+                        <option value="Dean">
+                        <option value="Network Engineer">
+                        <option value="Cybersecurity Analyst">
+                        <option value="Full Stack Developer">
+                        <option value="DevOps Engineer">
+                        <option value="QA Tester">
+                        <option value="Mechanical Engineer">
+                        <option value="Civil Engineer">
+                        <option value="Electrical Engineer">
+                        <option value="Consultant">
+                        <option value="HR Manager">
+                    </datalist>
+
+                    <datalist id="companyList">
+                        <option value="Google">
+                        <option value="Microsoft">
+                        <option value="Amazon">
+                        <option value="Meta (Facebook)">
+                        <option value="Apple">
+                        <option value="TCS (Tata Consultancy Services)">
+                        <option value="Infosys">
+                        <option value="Wipro">
+                        <option value="HCLTech">
+                        <option value="Tech Mahindra">
+                        <option value="Accenture">
+                        <option value="Capgemini">
+                        <option value="IBM">
+                        <option value="Oracle">
+                        <option value="Adobe">
+                        <option value="Salesforce">
+                        <option value="Intel">
+                        <option value="Nvidia">
+                        <option value="Netflix">
+                        <option value="Spotify">
+                        <option value="Tesla">
+                        <option value="SpaceX">
+                        <option value="Uber">
+                        <option value="Airbnb">
+                        <option value="Flipkart">
+                        <option value="Zomato">
+                        <option value="Swiggy">
+                        <option value="Paytm">
+                        <option value="Reliance Industries">
+                        <option value="Larsen & Toubro (L&T)">
+                        <option value="J.P. Morgan Chase">
+                        <option value="Morgan Stanley">
+                        <option value="Goldman Sachs">
+                        <option value="Barclays">
+                        <option value="HSBC">
+                        <option value="Deloitte">
+                        <option value="KPMG">
+                        <option value="PwC">
+                        <option value="EY (Ernst & Young)">
+                        <option value="HDFC Bank">
+                        <option value="ICICI Bank">
+                        <option value="State Bank of India (SBI)">
+                        <option value="Cognizant">
+                        <option value="DXC Technology">
+                        <option value="Cisco">
+                        <option value="HP">
+                        <option value="Dell">
+                        <option value="SAP">
+                        <option value="ServiceNow">
+                        <option value="Atlassian">
+                        <option value="Red Hat">
+                        <option value="Viacom18">
+                        <option value="Walt Disney">
+                        <option value="Warner Bros">
+                    </datalist>
+
+                    <datalist id="deptList">
+                        <option value="Information Technology">
+                        <option value="Computer Engineering">
+                        <option value="Mechanical Engineering">
+                        <option value="Electronics & Telecommunication">
+                        <option value="First Year Engineering">
+                        <option value="Civil Engineering">
+                        <option value="Applied Science & Humanities">
+                        <option value="Management Studies">
+                        <option value="Administration">
+                        <option value="Library">
+                        <option value="Placements Cell">
+                    </datalist>
+
+                    <button type="submit" class="btn btn-premium btn-lg">
+                        Create Account <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+
+                    <div class="text-center mt-4 text-muted">
+                        Already a member? <a href="/login" class="text-primary text-decoration-none fw-bold">Sign In</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const courseData = {
+            'IT': {
+                'UG': ['BCA', 'B.Sc IT', 'B.Sc CS', 'B.Sc Data Science', 'B.Sc Cyber Security', 'B.Sc AI', 'BIT'],
+                'PG': ['MCA', 'M.Sc IT', 'M.Sc CS', 'M.Sc Data Science', 'M.Sc AI', 'MIT'],
+                'Diploma': ['Diploma in CS', 'Diploma in IT', 'Diploma in Hardware & Networking'],
+                'PG Diploma': ['PGDCA', 'PGDIT', 'PG Diploma in Data Science'],
+                'Integrated': ['Integrated MCA (BCA+MCA)'],
+                'Certificate': ['Python Certification', 'Web Dev Bootcamp', 'Cloud Computing Cert']
+            },
+            'Engineering': {
+                'UG': ['B.Tech CS', 'B.Tech IT', 'B.Tech Mechanical', 'B.Tech Civil', 'B.Tech E&TC', 'B.Tech Electrical', 'B.Tech Aerospace', 'B.Tech Biotech'],
+                'PG': ['M.Tech CS', 'M.Tech Mechanical', 'M.Tech Electronics', 'M.Tech Civil', 'M.Tech AI & Data Science'],
+                'Diploma': ['Diploma in Mechanical', 'Diploma in Civil', 'Diploma in Electrical'],
+                'Integrated': ['Integrated B.Tech-M.Tech (5-Year)'],
+                'PhD': ['PhD in Mechanical', 'PhD in CS', 'PhD in Engineering']
+            },
+            'Management': {
+                'UG': ['BBA', 'BMS', 'BMM', 'BHM (Hospitality)'],
+                'PG': ['MBA Finance', 'MBA Marketing', 'MBA IT', 'MBA HR', 'MBA Operations', 'PGDM', 'MMS'],
+                'PG Diploma': ['PGDM', 'PGDBM', 'PGD in Marketing'],
+                'Integrated': ['Integrated MBA (BBA+MBA)']
+            },
+            'Medical': {
+                'UG': ['MBBS', 'BDS (Dental)', 'B.Pharm', 'B.Sc Nursing', 'BPT (Physiotherapy)', 'BAMS', 'BHMS'],
+                'PG': ['MD', 'MS (Surgery)', 'M.Pharm', 'MDS', 'M.Sc Nursing'],
+                'Diploma': ['Diploma in Pharmacy', 'Diploma in Nursing', 'DMLT'],
+                'Professional': ['Registered Medical Practitioner (RMP)']
+            },
+            'Law': {
+                'UG': ['LLB (3-Year)', 'Integrated BA-LLB (5-Year)', 'Integrated BBA-LLB', 'B.Com-LLB'],
+                'PG': ['LLM', 'LLD (Doctor of Laws)'],
+                'Integrated': ['BA-LLB', 'BBA-LLB']
+            },
+            'Science': {
+                'UG': ['B.Sc Physics', 'B.Sc Chemistry', 'B.Sc Maths', 'B.Sc Biotech', 'B.Sc Forensic Science', 'B.Sc Agriculture'],
+                'PG': ['M.Sc Physics', 'M.Sc Chemistry', 'M.Sc Pharma', 'M.Sc Environmental Science'],
+                'PhD': ['PhD in Physics', 'PhD in Chemistry', 'PhD in Mathematics']
+            },
+            'Commerce': {
+                'UG': ['B.Com General', 'B.Com Accounting', 'B.Com Banking', 'BBI', 'BAF'],
+                'PG': ['M.Com', 'MFA'],
+                'Professional': ['CA (Chartered Accountancy)', 'CS (Company Secretary)', 'CMA', 'CFA', 'ACCA', 'FRM']
+            },
+            'Arts & Humanities': {
+                'UG': ['BA Psychology', 'BA English', 'BA History', 'BA Sociology', 'BA Economics', 'BA Political Science'],
+                'PG': ['MA Psychology', 'MA English', 'MA Economics', 'MA History', 'MSW'],
+                'M.Phil': ['M.Phil in Psychology', 'M.Phil in Humanities']
+            },
+            'Design': {
+                'UG': ['B.Arch', 'B.Des (UI/UX)', 'B.Des (Fashion)', 'B.Des (Interior)', 'BFA'],
+                'PG': ['M.Arch', 'M.Des', 'MFA'],
+                'Diploma': ['Diploma in Interior Design', 'Diploma in Fashion']
+            },
+            'Education': {
+                'UG': ['B.Ed', 'B.El.Ed', 'B.P.Ed'],
+                'PG': ['M.Ed', 'MA Education'],
+                'Diploma': ['D.El.Ed', 'Nursery Teacher Training']
+            },
+            'Media': {
+                'UG': ['BJMC (Journalism)', 'BA Media', 'BA Animation'],
+                'PG': ['MJMC', 'MA Film Production'],
+                'Diploma': ['Diploma in Journalism', 'Diploma in Photography']
+            },
+            'Hospitality': {
+                'UG': ['BHMCT', 'B.Sc Hospitality', 'B.Sc Travel'],
+                'PG': ['MHM', 'MBA Hospitality'],
+                'Diploma': ['Diploma in Food & Beverage', 'Diploma in Hotel Operations']
+            },
+            'Fine Arts': {
+                'UG': ['B.Mus', 'BPA', 'BVA'],
+                'PG': ['M.Mus', 'MPA'],
+                'Certificate': ['Certificate in Music', 'Certificate in Painting']
+            }
+        };
+
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function updateFormFields() {
+            const role = document.querySelector('input[name="role"]:checked')?.value;
+            ['student', 'alumni', 'faculty'].forEach(r => {
+                const div = document.getElementById(r + 'Fields');
+                if (div) {
+                    div.style.display = (role === r) ? 'block' : 'none';
+                    if (role === r) setTimeout(() => div.classList.add('active'), 50);
+                    else div.classList.remove('active');
+                }
+            });
+            calculateProgress();
+        }
+
+        function updateCourseDropdown() {
+            const cat = document.getElementById('stu_department').value;
+            const lvl = document.getElementById('stu_level').value;
+            const degList = document.getElementById('courseList');
+            degList.innerHTML = '';
+            if (cat && lvl && courseData[cat] && courseData[cat][lvl]) {
+                courseData[cat][lvl].forEach(c => {
+                    const o = document.createElement('option');
+                    o.value = c;
+                    degList.appendChild(o);
+                });
+            }
+            calculateProgress();
+        }
+
+        function updateAlumniCourseDropdown() {
+            const cat = document.getElementById('alum_department').value;
+            const lvl = document.getElementById('alum_level').value;
+            const degList = document.getElementById('alumniCourseList');
+            degList.innerHTML = '';
+            if (cat && lvl && courseData[cat] && courseData[cat][lvl]) {
+                courseData[cat][lvl].forEach(c => {
+                    const o = document.createElement('option');
+                    o.value = c;
+                    degList.appendChild(o);
+                });
+            }
+            calculateProgress();
+        }
+
+        function calculateProgress() {
+            let total = 0;
+            let filled = 0;
+
+            // Common Fields
+            const common = ['name', 'email', 'phone', 'city', 'state', 'password', 'confirm_password'];
+            total += common.length;
+            common.forEach(id => {
+                if (document.getElementById(id).value.trim() !== '') filled++;
+            });
+
+            // Role
+            const role = document.querySelector('input[name="role"]:checked')?.value;
+            if (role) {
+                total++; filled++;
+                const container = document.getElementById(role + 'Fields');
+                if (container) {
+                    const inputs = container.querySelectorAll('input:not([type="hidden"]), select');
+                    inputs.forEach(i => {
+                        total++;
+                        if (i.value.trim() !== '') filled++;
+                    });
+                }
+            }
+
+            // Terms
+            total++;
+            if (document.getElementById('terms').checked) filled++;
+
+            const pct = Math.round((filled / total) * 100);
+            document.getElementById('form-progress').style.width = pct + '%';
+            document.getElementById('completion-badge').textContent = pct + '% Complete';
+        }
+
+        function validateRegisterForm() {
+            const p1 = document.getElementById('password').value;
+            const p2 = document.getElementById('confirm_password').value;
+            if (p1 !== p2) { alert('Passwords mismatch!'); return false; }
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateFormFields();
+            document.querySelectorAll('input, select').forEach(el => {
+                el.addEventListener('input', calculateProgress);
+                el.addEventListener('change', calculateProgress);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,186 @@
+/* ===== SERVICES PAGE ADVANCED ENHANCEMENTS ===== */
+
+/* Hero Section */
+.services-hero {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 6s ease infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.services-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: rotate360 20s linear infinite;
+}
+
+/* Service Cards with Tilt Effect */
+.service-card {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.service-card:hover::before {
+    left: 100%;
+}
+
+.service-card:hover {
+    transform: translateY(-20px) rotateX(5deg) rotateY(5deg) scale(1.05);
+    box-shadow: 0 30px 60px rgba(79, 172, 254, 0.3), 0 0 40px rgba(79, 172, 254, 0.2);
+}
+
+/* Gradient Border Animation */
+.service-card {
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+        linear-gradient(90deg, #4facfe, #00f2fe, #4facfe) border-box;
+    background-size: 200% 200%;
+    animation: borderGradient 3s ease infinite;
+}
+
+/* Service Icons with Bounce */
+.service-card .icon {
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.service-card:hover .icon {
+    animation: bounce 0.6s ease;
+    transform: scale(1.3);
+    filter: drop-shadow(0 10px 20px rgba(79, 172, 254, 0.5));
+}
+
+/* Process Steps with Sequential Animation */
+.process-step {
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.process-step:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.process-step:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.process-step:nth-child(3) {
+    animation-delay: 0.5s;
+}
+
+.process-step:nth-child(4) {
+    animation-delay: 0.7s;
+}
+
+.process-step:hover {
+    transform: translateY(-10px) scale(1.05);
+}
+
+.process-step .number {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+    transition: all 0.4s ease;
+}
+
+.process-step:hover .number {
+    transform: rotate(360deg) scale(1.2);
+    box-shadow: 0 10px 30px rgba(79, 172, 254, 0.5);
+}
+
+/* Feature List with Checkmarks */
+.service-card ul li {
+    position: relative;
+    padding-left: 30px;
+    transition: all 0.3s ease;
+}
+
+.service-card ul li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #4facfe;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover ul li::before {
+    transform: scale(1.3) rotate(360deg);
+}
+
+.service-card ul li:hover {
+    transform: translateX(10px);
+    color: #4facfe;
+}
+
+/* CTA Buttons with Ripple */
+.service-card .btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card .btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.service-card .btn:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Pricing Cards (if any) */
+.pricing-card {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pricing-card:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 25px 50px rgba(79, 172, 254, 0.3);
+}
+
+.pricing-card .price {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Gradient Headings */
+.services-hero h1,
+.section-header h2 {
+    background: linear-gradient(90deg, #4facfe, #00f2fe, #4facfe);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease infinite;
+}

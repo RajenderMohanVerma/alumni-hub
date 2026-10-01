@@ -1,0 +1,1106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Font Awesome & Google Fonts are inherited from base.html -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<div class="dashboard-container">
+    <!-- Animated Hero Section -->
+    <div class="hero-wrap">
+        <div class="animated-bg">
+            <div class="blob-shape blob-1"></div>
+            <div class="blob-shape blob-2"></div>
+            <div class="blob-shape blob-3"></div>
+        </div>
+
+        <div class="container position-relative z-index-10 pt-5 pb-5">
+            <div class="row align-items-center">
+                <div class="col-lg-7 mb-4 mb-lg-0">
+                    <div class="hero-content" data-aos="fade-right">
+                        <div class="inline-badge mb-3 animate__animated animate__fadeInDown">
+                            <i class="far fa-clock me-2"></i><span id="greetingText">Welcome</span>
+                        </div>
+                        <h1 class="hero-title text-white fw-bold mb-3">
+                            <span class="d-block animate__animated animate__fadeInLeft animate__delay-1s">Welcome
+                                back,</span>
+                            <span class="typing-text text-warning">{{ current_user.name }}</span><span
+                                class="cursor">|</span>
+                        </h1>
+                        <p
+                            class="hero-subtitle text-white-50 mb-4 animate__animated animate__fadeInUp animate__delay-2s">
+                            Manage your academic network, connect with alumni, and guide students towards their future.
+                        </p>
+
+                        <div class="d-flex flex-wrap gap-3 animate__animated animate__fadeInUp animate__delay-3s">
+                            <a href="{{ url_for('edit_faculty_profile', user_id=current_user.id) }}"
+                                class="btn btn-glass-light btn-lg rounded-pill hover-lift">
+                                <i class="fas fa-user-edit me-2"></i> Edit Profile
+                            </a>
+                            <button class="btn btn-outline-light btn-lg rounded-pill hover-lift"
+                                onclick="document.getElementById('directorySection').scrollIntoView({behavior: 'smooth'})">
+                                <i class="fas fa-users me-2"></i> Browse Directory
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 text-center d-none d-lg-block">
+                    <div class="hero-card-3d animate__animated animate__zoomIn animate__delay-1s" data-tilt
+                        data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                        <div class="glass-panel text-center p-5 border-0 shadow-premium"
+                            style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(30px);">
+                            <div class="profile-img-wrap mb-4">
+                                <img src="{{ current_user.profile_pic or 'https://ui-avatars.com/api/?name=' + current_user.name + '&background=f59e0b&color=fff' }}"
+                                    class="img-fluid rounded-circle shadow-lg main-profile-img animate__animated animate__bounceIn animate__delay-2s">
+                                <div class="status-indicator online"
+                                    style="width: 25px; height: 25px; bottom: 15px; right: 15px; border-width: 4px;">
+                                </div>
+                            </div>
+                            <h2 class="text-white fw-bold mb-1 animate__animated animate__fadeInUp animate__delay-2s">{{
+                                current_user.name }}</h2>
+                            <p class="text-white-50 mb-0 animate__animated animate__fadeInUp animate__delay-3s">{{
+                                profile['designation'] or 'Faculty Member' }}</p>
+                            <div
+                                class="mt-3 d-flex justify-content-center gap-2 animate__animated animate__fadeInUp animate__delay-3s">
+                                <span class="badge bg-white text-dark rounded-pill px-3"><i
+                                        class="fas fa-building me-1"></i> {{ profile['department'] or 'Department N/A'
+                                    }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="container mt-n5 position-relative z-index-20">
+        <div class="row g-4">
+            <!-- Alumni Card -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card-modern card-1 h-100">
+                    <div class="card-body p-4 position-relative overflow-hidden">
+                        <div class="d-flex justify-content-between align-items-start z-index-1 position-relative">
+                            <div>
+                                <p class="text-uppercase fw-bold text-white-50 small mb-1 ls-1">Alumni Network</p>
+                                <h2 class="display-5 fw-bold text-white mb-0 counter-value"
+                                    data-target="{{ alumni | length }}">0</h2>
+                            </div>
+                            <div class="icon-box bg-white-20 text-white rounded-circle">
+                                <i class="fas fa-user-graduate fa-lg"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-2 position-relative z-index-1">
+                            <a href="#"
+                                onclick="document.getElementById('directorySection').scrollIntoView({behavior: 'smooth'}); setTimeout(() => document.getElementById('tab-alumni').click(), 200); return false;"
+                                class="text-white text-decoration-none small opacity-75 hover-opacity-100 d-flex align-items-center">
+                                View Directory <i class="fas fa-arrow-right ms-2 transition-x"></i>
+                            </a>
+                        </div>
+                        <!-- Decorative Big Icon -->
+                        <div class="position-absolute bottom-0 end-0 opacity-10 me-n3 mb-n3 z-index-0">
+                            <i class="fas fa-user-graduate fa-6x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students Card -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-card-modern card-2 h-100">
+                    <div class="card-body p-4 position-relative overflow-hidden">
+                        <div class="d-flex justify-content-between align-items-start z-index-1 position-relative">
+                            <div>
+                                <p class="text-uppercase fw-bold text-white-50 small mb-1 ls-1">Active Students</p>
+                                <h2 class="display-5 fw-bold text-white mb-0 counter-value"
+                                    data-target="{{ students | length }}">0</h2>
+                            </div>
+                            <div class="icon-box bg-white-20 text-white rounded-circle">
+                                <i class="fas fa-users fa-lg"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-2 position-relative z-index-1">
+                            <a href="#"
+                                onclick="document.getElementById('directorySection').scrollIntoView({behavior: 'smooth'}); setTimeout(() => document.getElementById('tab-student').click(), 200); return false;"
+                                class="text-white text-decoration-none small opacity-75 hover-opacity-100 d-flex align-items-center">
+                                View Directory <i class="fas fa-arrow-right ms-2 transition-x"></i>
+                            </a>
+                        </div>
+                        <div class="position-absolute bottom-0 end-0 opacity-10 me-n3 mb-n3 z-index-0">
+                            <i class="fas fa-users fa-6x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Faculty Card -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="350">
+                <div class="stat-card-modern card-5 h-100">
+                    <div class="card-body p-4 position-relative overflow-hidden">
+                        <div class="d-flex justify-content-between align-items-start z-index-1 position-relative">
+                            <div>
+                                <p class="text-uppercase fw-bold text-white-50 small mb-1 ls-1">Faculty Members</p>
+                                <h2 class="display-5 fw-bold text-white mb-0 counter-value"
+                                    data-target="{{ faculty | length }}">0</h2>
+                            </div>
+                            <div class="icon-box bg-white-20 text-white rounded-circle">
+                                <i class="fas fa-chalkboard-teacher fa-lg"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-2 position-relative z-index-1">
+                            <a href="#"
+                                onclick="document.getElementById('directorySection').scrollIntoView({behavior: 'smooth'}); setTimeout(() => document.getElementById('tab-faculty').click(), 200); return false;"
+                                class="text-white text-decoration-none small opacity-75 hover-opacity-100 d-flex align-items-center">
+                                View Directory <i class="fas fa-arrow-right ms-2 transition-x"></i>
+                            </a>
+                        </div>
+                        <div class="position-absolute bottom-0 end-0 opacity-10 me-n3 mb-n3 z-index-0">
+                            <i class="fas fa-chalkboard-teacher fa-6x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Pending Requests Card -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-card-modern card-3 h-100">
+                    <div class="card-body p-4 position-relative overflow-hidden">
+                        <div class="d-flex justify-content-between align-items-start z-index-1 position-relative">
+                            <div>
+                                <p class="text-uppercase fw-bold text-white-50 small mb-1 ls-1">Pending Requests</p>
+                                <h2 class="display-5 fw-bold text-white mb-0 counter-value"
+                                    data-target="{{ pending_count }}">0</h2>
+                            </div>
+                            <div class="icon-box bg-white-20 text-white rounded-circle position-relative">
+                                <i class="fas fa-bell fa-lg"></i>
+                                {% if pending_count > 0 %}
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                    <span class="visually-hidden">New alerts</span>
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-2 position-relative z-index-1">
+                            <span class="text-white small opacity-75">
+                                {% if pending_count > 0 %}
+                                <i class="fas fa-exclamation-circle me-1 text-warning"></i> Action Required
+                                {% else %}
+                                <i class="fas fa-check-circle me-1"></i> All caught up
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="position-absolute bottom-0 end-0 opacity-10 me-n3 mb-n3 z-index-0">
+                            <i class="fas fa-bell fa-6x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Experience Card -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-card-modern card-4 h-100">
+                    <div class="card-body p-4 position-relative overflow-hidden">
+                        <div class="d-flex justify-content-between align-items-start z-index-1 position-relative">
+                            <div>
+                                <p class="text-uppercase fw-bold text-white-50 small mb-1 ls-1">Experience</p>
+                                <div class="d-flex align-items-baseline text-white">
+                                    <h2 class="display-5 fw-bold mb-0">{{ profile['experience_years'] or 0 }}</h2>
+                                    <span class="fs-6 opacity-75 ms-1">Years</span>
+                                </div>
+                            </div>
+                            <div class="icon-box bg-white-20 text-white rounded-circle">
+                                <i class="fas fa-briefcase fa-lg"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-2 position-relative z-index-1">
+                            <a href="{{ url_for('edit_faculty_profile', user_id=current_user.id) }}"
+                                class="text-white text-decoration-none small opacity-75 hover-opacity-100 d-flex align-items-center">
+                                Update Profile <i class="fas fa-arrow-right ms-2 transition-x"></i>
+                            </a>
+                        </div>
+                        <div class="position-absolute bottom-0 end-0 opacity-10 me-n3 mb-n3 z-index-0">
+                            <i class="fas fa-briefcase fa-6x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="container my-5" id="directorySection">
+
+        <!-- Connection Requests (Collapsible) -->
+        {% if pending_requests %}
+        <div class="mb-5" data-aos="fade-up">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h3 class="section-heading"><i class="fas fa-user-clock text-warning me-2"></i> Pending Connections</h3>
+                <span class="badge bg-warning text-dark rounded-pill">{{ pending_count }} Waiting</span>
+            </div>
+
+            <div class="request-slider-wrap">
+                <div class="row g-3 flex-nowrap overflow-auto py-2 custom-scrollbar">
+                    {% for req in pending_requests %}
+                    <div class="col-10 col-md-5 col-lg-4">
+                        <div
+                            class="request-card p-3 bg-white rounded-4 shadow-sm border-start border-4 border-warning h-100">
+                            <div class="d-flex align-items-center">
+                                <img src="{{ req['profile_pic'] or 'https://ui-avatars.com/api/?name=' + req['name'] }}"
+                                    class="rounded-circle me-3" width="50" height="50">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1 fw-bold">{{ req['name'] }}</h6>
+                                    <p class="mb-0 small text-muted">{{ req['role'] | capitalize }}</p>
+                                </div>
+                                <div class="action-buttons d-flex gap-2">
+                                    <button class="btn btn-sm btn-success rounded-circle"
+                                        onclick="handleRequest('{{ req.id }}', 'accept')" title="Accept">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-circle"
+                                        onclick="handleRequest('{{ req.id }}', 'reject')" title="Reject">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-end">
+                                <small class="text-muted fst-italic" style="font-size: 0.75rem;">Received {{
+                                    req['created_at'].split()[0] }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Directory Controls -->
+        <div class="directory-header mb-5 position-relative" data-aos="fade-up">
+            <div class="glass-panel p-4 p-lg-5" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+                <div class="row g-4 align-items-center">
+                    <div class="col-lg-6">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="badge bg-primary-gradient rounded-pill px-3 py-2 me-2">Directory</span>
+                            <h3 class="mb-0 fw-bold text-white">Academic Network</h3>
+                        </div>
+                        <p class="text-white-50 mb-0">Connect with students, alumni, and faculty members to expand your
+                            professional circle.</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="search-box position-relative">
+                            <input type="text" id="globalSearch"
+                                class="form-control form-control-lg rounded-pill ps-5 border-0 bg-white-10 text-white placeholder-white-50 shadow-inner"
+                                placeholder="Search people, departments, skills...">
+                            <i
+                                class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav nav-pills custom-pills mt-4 justify-content-center justify-content-lg-start gap-2"
+                    id="directoryTabs" role="tablist">
+                    <button class="nav-link active rounded-pill px-4 py-2 d-flex align-items-center gap-2"
+                        id="tab-student" data-bs-toggle="pill" data-bs-target="#content-student" type="button"
+                        role="tab">
+                        <i class="fas fa-user-graduate"></i> Students
+                    </button>
+                    <button class="nav-link rounded-pill px-4 py-2 d-flex align-items-center gap-2" id="tab-alumni"
+                        data-bs-toggle="pill" data-bs-target="#content-alumni" type="button" role="tab">
+                        <i class="fas fa-graduation-cap"></i> Alumni
+                    </button>
+                    <button class="nav-link rounded-pill px-4 py-2 d-flex align-items-center gap-2" id="tab-faculty"
+                        data-bs-toggle="pill" data-bs-target="#content-faculty" type="button" role="tab">
+                        <i class="fas fa-chalkboard-teacher"></i> Faculty
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Directory Content -->
+        <div class="tab-content" id="directoryTabContent">
+
+            <!-- Students Tab -->
+            <div class="tab-pane fade show active" id="content-student" role="tabpanel">
+                <div class="row g-4" id="studentGrid">
+                    {% for s in students %}
+                    <div class="col-md-6 col-lg-4 user-item"
+                        data-search="{{ s['name'] }} {{ s['department'] }} {{ s['skills'] }}">
+                        <div class="profile-card-modern">
+                            <div class="card-cover bg-gradient-info"></div>
+                            <div class="card-content text-center">
+                                <div class="avatar-holder">
+                                    <img src="{{ s['profile_pic'] or 'https://ui-avatars.com/api/?name=' + s['name'] }}"
+                                        alt="{{ s['name'] }}">
+                                </div>
+                                <h5 class="fw-bold mt-3 mb-1">{{ s['name'] }}</h5>
+                                <div class="badge bg-light text-dark mb-2 border">{{ s['department'] }}</div>
+                                <p class="small text-muted mb-3">{{ s['degree'] }} • Sem {{ s['semester'] }}</p>
+
+                                <div class="skills-container mb-3 text-truncate">
+                                    {% if s['skills'] %}
+                                    {% for skill in s['skills'].split(',')[:3] %}
+                                    <span class="skill-pill">{{ skill.strip() }}</span>
+                                    {% endfor %}
+                                    {% else %}
+                                    <span class="text-muted small">No skills listed</span>
+                                    {% endif %}
+                                </div>
+
+                                <div class="action-buttons-grid">
+                                    <a href="{{ url_for('student_profile', user_id=s['id']) }}"
+                                        class="btn btn-sm btn-light rounded-pill"><i class="fas fa-user me-1"></i>
+                                        Profile</a>
+                                    <button class="btn btn-sm btn-primary rounded-pill" data-user-id="{{ s['id'] }}"
+                                        onclick="connectUser(this.getAttribute('data-user-id'), 'student', this)"><i
+                                            class="fas fa-user-plus me-1"></i> Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Alumni Tab -->
+            <div class="tab-pane fade" id="content-alumni" role="tabpanel">
+                <div class="row g-4" id="alumniGrid">
+                    {% for alum in alumni %}
+                    <div class="col-md-6 col-lg-4 user-item"
+                        data-search="{{ alum['name'] }} {{ alum['company_name'] }} {{ alum['department'] }}">
+                        <div class="profile-card-modern">
+                            <div class="card-cover bg-gradient-primary"></div>
+                            <div class="card-content text-center">
+                                <div class="avatar-holder">
+                                    <img src="{{ alum['profile_pic'] or 'https://ui-avatars.com/api/?name=' + alum['name'] }}"
+                                        alt="{{ alum['name'] }}">
+                                </div>
+                                <h5 class="fw-bold mt-3 mb-1">{{ alum['name'] }}</h5>
+                                <div class="badge bg-light text-primary mb-2 border">{{ alum['company_name'] or 'Working
+                                    Professional' }}</div>
+                                <p class="small text-muted mb-3">{{ alum['designation'] or 'Alumni' }}</p>
+
+                                <div class="info-row mb-3 d-flex justify-content-center gap-2 small text-muted">
+                                    <span><i class="fas fa-calendar-alt me-1"></i> {{ alum['pass_year'] }}</span>
+                                    <span><i class="fas fa-map-marker-alt me-1"></i> {{ alum['work_location'] or
+                                        'Remote' }}</span>
+                                </div>
+
+                                <div class="action-buttons-grid">
+                                    <a href="{{ url_for('alumni_profile', user_id=alum['id']) }}"
+                                        class="btn btn-sm btn-light rounded-pill"><i class="fas fa-user me-1"></i>
+                                        Profile</a>
+                                    <button class="btn btn-sm btn-primary rounded-pill" data-user-id="{{ alum['id'] }}"
+                                        onclick="connectUser(this.getAttribute('data-user-id'), 'alumni', this)"><i
+                                            class="fas fa-user-plus me-1"></i> Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Faculty Tab -->
+            <div class="tab-pane fade" id="content-faculty" role="tabpanel">
+                <div class="row g-4" id="facultyGrid">
+                    {% for fac in faculty %}
+                    <div class="col-md-6 col-lg-4 user-item" data-search="{{ fac['name'] }} {{ fac['department'] }}">
+                        <div class="profile-card-modern">
+                            <div class="card-cover bg-gradient-warning"></div>
+                            <div class="card-content text-center">
+                                <div class="avatar-holder">
+                                    <img src="{{ fac['profile_pic'] or 'https://ui-avatars.com/api/?name=' + fac['name'] }}"
+                                        alt="{{ fac['name'] }}">
+                                </div>
+                                <h5 class="fw-bold mt-3 mb-1">{{ fac['name'] }}</h5>
+                                <div class="badge bg-light text-warning mb-2 border">{{ fac['designation'] or 'Faculty'
+                                    }}</div>
+                                <p class="small text-muted mb-3">{{ fac['department'] }}</p>
+
+                                <div class="info-row mb-3 d-flex justify-content-center gap-2 small text-muted">
+                                    <span><i class="fas fa-door-open me-1"></i> {{ fac['office_location'] or 'Office
+                                        N/A' }}</span>
+                                </div>
+
+                                <div class="action-buttons-grid">
+                                    <a href="{{ url_for('faculty_profile', user_id=fac['id']) }}"
+                                        class="btn btn-sm btn-light rounded-pill"><i class="fas fa-user me-1"></i>
+                                        Profile</a>
+                                    <button class="btn btn-sm btn-warning text-white rounded-pill"
+                                        data-user-id="{{ fac['id'] }}"
+                                        onclick="connectUser(this.getAttribute('data-user-id'), 'faculty', this)"><i
+                                            class="fas fa-user-plus me-1"></i> Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    /* VARIABLES - MODERN PALETTE */
+    :root {
+        --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+        --info-gradient: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        --purple-gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.5);
+        --card-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+        --hover-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* GENERAL */
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+
+    .dashboard-container {
+        background-color: #f3f4f6;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    /* HERO SECTION - MESH GRADIENT */
+    .hero-wrap {
+        position: relative;
+        background: #0f172a;
+        color: white;
+        overflow: hidden;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+    }
+
+    .animated-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    .blob-shape {
+        position: absolute;
+        filter: blur(80px);
+        opacity: 0.5;
+        border-radius: 50%;
+        animation: rotate 20s infinite linear;
+    }
+
+    .blob-1 {
+        width: 500px;
+        height: 500px;
+        background: #4f46e5;
+        top: -100px;
+        left: -100px;
+    }
+
+    .blob-2 {
+        width: 400px;
+        height: 400px;
+        background: #f59e0b;
+        bottom: -50px;
+        right: -50px;
+        animation-delay: -5s;
+    }
+
+    .blob-3 {
+        width: 300px;
+        height: 300px;
+        background: #ec4899;
+        top: 20%;
+        right: 10%;
+        animation-delay: -10s;
+    }
+
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg) scale(1);
+        }
+
+        to {
+            transform: rotate(360deg) scale(1.1);
+        }
+    }
+
+    .mesh-gradient-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        z-index: 0;
+        background: radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+            radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+            radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+    }
+
+    .mesh-1,
+    .mesh-2,
+    .mesh-3,
+    .mesh-4 {
+        position: absolute;
+        filter: blur(80px);
+        opacity: 0.6;
+        animation: float 20s infinite alternate;
+        border-radius: 50%;
+    }
+
+    .mesh-1 {
+        top: -10%;
+        left: -10%;
+        width: 50vw;
+        height: 50vw;
+        background: #4f46e5;
+        animation-delay: 0s;
+    }
+
+    .mesh-2 {
+        bottom: 10%;
+        right: -10%;
+        width: 40vw;
+        height: 40vw;
+        background: #f59e0b;
+        animation-delay: -5s;
+    }
+
+    .mesh-3 {
+        top: 30%;
+        right: 20%;
+        width: 30vw;
+        height: 30vw;
+        background: #ec4899;
+        animation-delay: -10s;
+    }
+
+    .mesh-4 {
+        bottom: 20%;
+        left: 20%;
+        width: 25vw;
+        height: 25vw;
+        background: #06b6d4;
+        animation-delay: -15s;
+    }
+
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+        transition: transform 0.3s ease;
+    }
+
+    .bg-white-10 {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .border-white-20 {
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* UTILS & BUTTONS */
+    .btn-glass-light {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+    }
+
+    .btn-glass-light:hover {
+        background: white;
+        color: #4f46e5;
+        transform: translateY(-2px);
+    }
+
+    .bg-primary-gradient {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+    }
+
+    .placeholder-white-50::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .shadow-inner {
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* TABS & SEARCH */
+    .custom-pills .nav-link {
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .custom-pills .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .custom-pills .nav-link.active {
+        background: var(--warning-gradient);
+        color: white;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        border-color: transparent;
+        transform: translateY(-2px);
+    }
+
+    .main-profile-img {
+        width: 180px;
+        height: 180px;
+        border: 6px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .profile-img-wrap {
+        position: relative;
+        display: inline-block;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @keyframes float {
+        0% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        100% {
+            transform: translate(30px, -30px) scale(1.1);
+        }
+    }
+
+
+    /* PROFILE CARDS MODERN */
+    .profile-card-modern {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        height: 100%;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        animation: fadeUpCard 0.6s ease forwards;
+        opacity: 0;
+    }
+
+    .profile-card-modern:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--hover-shadow);
+        z-index: 10;
+    }
+
+    .card-cover {
+        height: 100px;
+        width: 100%;
+        position: relative;
+    }
+
+    .card-cover::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background: linear-gradient(to top, white, transparent);
+    }
+
+    .bg-gradient-info {
+        background: var(--info-gradient);
+    }
+
+    .bg-gradient-primary {
+        background: var(--primary-gradient);
+    }
+
+    .bg-gradient-warning {
+        background: var(--warning-gradient);
+    }
+
+    .avatar-holder {
+        margin-top: -55px;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .avatar-holder img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 4px solid white;
+        object-fit: cover;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        background: white;
+        transition: transform 0.3s ease;
+    }
+
+    .profile-card-modern:hover .avatar-holder img {
+        transform: scale(1.1);
+        border-color: #f8fafc;
+    }
+
+    .card-content {
+        padding: 10px 25px 25px;
+    }
+
+    .skill-pill {
+        display: inline-block;
+        background: #f1f5f9;
+        color: #475569;
+        font-size: 0.75rem;
+        padding: 4px 12px;
+        border-radius: 20px;
+        margin: 2px;
+        font-weight: 600;
+        border: 1px solid #e2e8f0;
+    }
+
+    .action-buttons-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px dashed #e2e8f0;
+    }
+
+    .btn-sm {
+        padding: 0.4rem 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+    }
+
+    /* SCROLLBAR & ANIMATIONS */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+
+    @keyframes fadeUpCard {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* MEDIA QUERIES */
+    @media (max-width: 992px) {
+        .hero-wrap {
+            clip-path: none;
+            padding-bottom: 40px;
+            text-align: center;
+        }
+
+        .hero-content {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-title {
+            font-size: 2.5rem !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .stat-card-modern {
+            margin-bottom: 10px;
+        }
+
+        .hero-title {
+            font-size: 2rem !important;
+        }
+
+        .action-buttons-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .custom-pills {
+            flex-direction: column;
+        }
+    }
+
+    /* MODERN STATS CARDS */
+    .stat-card-modern {
+        border-radius: 20px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+        border: none;
+        background: white;
+    }
+
+    .stat-card-modern:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-1 {
+        background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+    }
+
+    .card-2 {
+        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+    }
+
+    .card-3 {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+
+    .card-4 {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .card-5 {
+        background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+    }
+
+    .bg-white-20 {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+    }
+
+    .opacity-10 {
+        opacity: 0.1;
+    }
+
+    .opacity-75 {
+        opacity: 0.75;
+    }
+
+    .ls-1 {
+        letter-spacing: 1px;
+    }
+
+    .icon-box {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hover-opacity-100:hover {
+        opacity: 1 !important;
+    }
+
+    .transition-x {
+        transition: transform 0.3s ease;
+    }
+
+    .stat-card-modern:hover .transition-x {
+        transform: translateX(5px);
+    }
+
+    /* Animation Delays Custom */
+    .animate__delay-1s {
+        animation-delay: 0.3s;
+    }
+
+    .animate__delay-2s {
+        animation-delay: 0.6s;
+    }
+
+    .animate__delay-3s {
+        animation-delay: 0.9s;
+    }
+
+    .animate__delay-4s {
+        animation-delay: 1.2s;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Greeting Time Logic
+        const hour = new Date().getHours();
+        const greetingSpan = document.getElementById('greetingText');
+        if (hour < 12) greetingSpan.textContent = "Good Morning";
+        else if (hour < 18) greetingSpan.textContent = "Good Afternoon";
+        else greetingSpan.textContent = "Good Evening";
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.counter-value');
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            const duration = 2000; // 2 seconds
+            const increment = target / (duration / 16); // 60fps
+
+            let current = 0;
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    counter.innerText = Math.ceil(current);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCounter();
+        });
+
+        // Search Filter
+        const searchInput = document.getElementById('globalSearch');
+        searchInput.addEventListener('input', function (e) {
+            const term = e.target.value.toLowerCase();
+            const activeTab = document.querySelector('.tab-pane.active');
+            const items = activeTab.querySelectorAll('.user-item');
+
+            items.forEach(item => {
+                const searchData = item.getAttribute('data-search').toLowerCase();
+                if (searchData.includes(term)) {
+                    item.style.display = 'block';
+                    // Re-trigger animation if hidden previously
+                    item.classList.add('animate__animated', 'animate__fadeIn');
+                } else {
+                    item.style.display = 'none';
+                    item.classList.remove('animate__animated', 'animate__fadeIn');
+                }
+            });
+        });
+
+        // Re-apply search when tab changes
+        const tabTriggerList = [].slice.call(document.querySelectorAll('button[data-bs-toggle="pill"]'));
+        tabTriggerList.forEach(function (triggerEl) {
+            triggerEl.addEventListener('shown.bs.tab', function (event) {
+                // Trigger input event to filter new tab content
+                searchInput.dispatchEvent(new Event('input'));
+            });
+        });
+
+        // Initialize Tilt
+        VanillaTilt.init(document.querySelectorAll(".hero-card-3d"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+        });
+    });
+
+    // Connection Request Logic
+    function handleRequest(requestId, action) {
+        if (!confirm(`Are you sure you want to ${action} this request?`)) return;
+
+        fetch(`/api/connection-request/${action}/${requestId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // Animate removal
+                    const card = document.querySelector(`button[onclick*="'${requestId}'"]`).closest('.col-10');
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.8)';
+                    setTimeout(() => location.reload(), 500);
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            });
+    }
+
+    function connectUser(userId, role, btn) {
+        const originalContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        btn.disabled = true;
+
+        fetch('/api/connection-request/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ receiver_id: userId })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Sent';
+                    btn.classList.add('btn-success');
+                    btn.classList.remove('btn-primary', 'btn-warning');
+                } else {
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                    alert(data.error);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            });
+    }
+</script>
+<!-- Socket.IO for real-time job approval notifications -->
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+(function initJobApprovalSocket() {
+    if (typeof io === 'undefined') return;
+
+    function showJobToast(message, type) {
+        const toast = document.createElement('div');
+        const color = type === 'success' ? 'linear-gradient(135deg,#28a745,#20c997)' : 'linear-gradient(135deg,#dc3545,#c0392b)';
+        toast.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;opacity:1;animation:slideUp 0.4s ease;';
+        toast.innerHTML = '<div style="background:' + color + ';color:white;padding:15px 25px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);font-weight:600;min-width:280px;">' +
+            '<i class="fas ' + (type === 'success' ? 'fa-check-circle' : 'fa-times-circle') + ' me-2"></i>' + message + '</div>';
+        document.body.appendChild(toast);
+        setTimeout(function() {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.4s ease';
+            setTimeout(function() { toast.remove(); }, 400);
+        }, 4000);
+    }
+
+    const socket = io({ transports: ['websocket', 'polling'] });
+    socket.on('job_approval_update', function(data) {
+        if (data.status === 'approved') {
+            showJobToast('✅ Your job "' + data.job_title + '" has been approved and is now live!', 'success');
+        } else if (data.status === 'rejected') {
+            const reason = data.reason ? ': ' + data.reason : '';
+            showJobToast('❌ Your job "' + data.job_title + '" was rejected by admin' + reason, 'error');
+        }
+    });
+}());
+</script>
+{% endblock %}

@@ -1,0 +1,373 @@
+{% extends "base.html" %}
+
+{% block title %}Jobs & Internships - Alumni Hub{% endblock %}
+
+{% block content %}
+<style>
+    /* Premium Jobs Page Styles */
+    .jobs-hero {
+        position: relative;
+        padding: 100px 0 80px;
+        background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent),
+            radial-gradient(circle at bottom left, rgba(79, 70, 229, 0.05), transparent);
+        overflow: hidden;
+    }
+
+    .jobs-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+        filter: blur(80px);
+        z-index: -1;
+        animation: pulse-slow 15s infinite alternate;
+    }
+
+    @keyframes pulse-slow {
+        0% {
+            transform: scale(1) translate(0, 0);
+        }
+
+        100% {
+            transform: scale(1.2) translate(-50px, 50px);
+        }
+    }
+
+    .typing-text {
+        display: inline-block;
+        border-right: 3px solid var(--primary);
+        white-space: nowrap;
+        overflow: hidden;
+        animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+        from {
+            width: 0
+        }
+
+        to {
+            width: 100%
+        }
+    }
+
+    @keyframes blink-caret {
+
+        from,
+        to {
+            border-color: transparent
+        }
+
+        50% {
+            border-color: var(--primary)
+        }
+    }
+
+    .filter-glass-bar {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+        transform: translateY(-50%);
+        z-index: 10;
+        transition: all 0.3s ease;
+    }
+
+    .filter-glass-bar:focus-within {
+        box-shadow: 0 20px 45px rgba(99, 102, 241, 0.15);
+        transform: translateY(-52%);
+    }
+
+    .job-card-premium {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        border-radius: 24px;
+        padding: 30px;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .job-card-premium:hover {
+        transform: translateY(-10px) scale(1.01);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+        border-color: rgba(99, 102, 241, 0.2);
+    }
+
+    .job-card-premium::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 0;
+        background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        transition: height 0.4s ease;
+    }
+
+    .job-card-premium:hover::after {
+        height: 100%;
+    }
+
+    .company-logo-box {
+        width: 70px;
+        height: 70px;
+        background: #f8fafc;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .job-card-premium:hover .company-logo-box {
+        background: white;
+        transform: rotate(-5deg);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .badge-job-type {
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+
+    .skill-tag {
+        background: rgba(99, 102, 241, 0.05);
+        color: var(--primary);
+        padding: 5px 12px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .skill-tag:hover {
+        background: var(--primary);
+        color: white;
+    }
+
+    .apply-btn-expand {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        border-radius: 12px;
+        padding: 12px 28px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+
+    .apply-btn-expand i {
+        transition: transform 0.3s ease;
+    }
+
+    .apply-btn-expand:hover i {
+        transform: translateX(5px);
+    }
+
+    .section-tag {
+        display: inline-block;
+        padding: 5px 15px;
+        background: rgba(99, 102, 241, 0.1);
+        color: var(--primary);
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="jobs-hero">
+    <div class="container text-center text-md-start">
+        <div class="row align-items-center">
+            <div class="col-lg-7" data-aos="fade-right">
+                <span class="section-tag animate__animated animate__fadeInDown">Career Launchpad</span>
+                <h1 class="display-4 fw-800 text-dark mb-3">
+                    Your Next <span class="gradient-text typing-text">Big Opportunity</span> <br> Starts Here.
+                </h1>
+                <p class="lead text-muted mb-4 opacity-75">
+                    Connect with industry-leading companies from our alumni network. <br class="d-none d-md-block">
+                    Explore curated jobs and internships tailored for DBIT talent.
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-md-start">
+                    <a href="#listings" class="btn btn-premium-gradient btn-lg shadow-premium">
+                        Browse Listings <i class="fas fa-chevron-down ms-2 small"></i>
+                    </a>
+                    <a href="/post-job" class="btn btn-outline-primary btn-lg rounded-pill px-4">
+                        <i class="fas fa-plus-circle me-2"></i> Post a Job
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block" data-aos="zoom-in">
+                <div class="position-relative">
+                    <img src="https://illustrations.popsy.co/amber/working-from-home.svg" alt="Jobs Illustration"
+                        class="img-fluid floating-anim">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Filter Section -->
+<div class="container" id="listings">
+    <div class="filter-glass-bar p-4" data-aos="fade-up" data-aos-delay="200">
+        <form class="row g-3 align-items-center">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-0"><i
+                            class="fas fa-search text-primary"></i></span>
+                    <input type="text" class="form-control border-0 bg-transparent"
+                        placeholder="Search Role, Skill, or Company...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-0"><i
+                            class="fas fa-briefcase text-muted"></i></span>
+                    <select class="form-select border-0 bg-transparent">
+                        <option selected>All Job Types</option>
+                        <option>Full Time</option>
+                        <option>Internship</option>
+                        <option>Freelance</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-0"><i
+                            class="fas fa-map-marker-alt text-muted"></i></span>
+                    <select class="form-select border-0 bg-transparent">
+                        <option selected>Lcation</option>
+                        <option>Remote</option>
+                        <option>Mumbai</option>
+                        <option>Bangalore</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2 text-end">
+                <button type="button" class="btn btn-premium-gradient w-100 rounded-pill py-2">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Listings -->
+    <div class="row g-4 pb-5">
+        <!-- Job Card 1 -->
+        <div class="col-12" data-aos="fade-up" data-aos-delay="300">
+            <div class="job-card-premium d-flex flex-column flex-md-row align-items-center gap-4">
+                <div class="company-logo-box">
+                    <i class="fab fa-google fa-2x text-primary"></i>
+                </div>
+                <div class="flex-grow-1 text-center text-md-start">
+                    <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mb-2">
+                        <h4 class="mb-0 fw-bold">Senior Frontend Architect</h4>
+                        <span class="badge bg-primary-subtle text-primary badge-job-type">Full Time</span>
+                    </div>
+                    <p class="text-muted mb-3"><i class="far fa-building me-1"></i> Google • <i
+                            class="fas fa-map-marker-alt me-1"></i> Bangalore (Hybrid)</p>
+                    <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
+                        <span class="skill-tag">Next.js</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">System Design</span>
+                    </div>
+                </div>
+                <div class="text-center text-md-end border-start-md ps-md-4">
+                    <h5 class="fw-bold text-success mb-1">₹25L - ₹35L</h5>
+                    <p class="text-muted small mb-3">Posted 4 hours ago</p>
+                    <button class="btn btn-premium-gradient apply-btn-expand px-4">
+                        Apply Now <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Card 2 -->
+        <div class="col-12" data-aos="fade-up" data-aos-delay="400">
+            <div class="job-card-premium d-flex flex-column flex-md-row align-items-center gap-4">
+                <div class="company-logo-box">
+                    <i class="fab fa-amazon fa-2x text-warning"></i>
+                </div>
+                <div class="flex-grow-1 text-center text-md-start">
+                    <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mb-2">
+                        <h4 class="mb-0 fw-bold">Cloud Engineering Intern</h4>
+                        <span class="badge bg-info-subtle text-info badge-job-type">Internship</span>
+                    </div>
+                    <p class="text-muted mb-3"><i class="far fa-building me-1"></i> Amazon Web Services • <i
+                            class="fas fa-map-marker-alt me-1"></i> Remote</p>
+                    <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Terraform</span>
+                    </div>
+                </div>
+                <div class="text-center text-md-end border-start-md ps-md-4">
+                    <h5 class="fw-bold text-success mb-1">₹60k / month</h5>
+                    <p class="text-muted small mb-3">Posted 1 day ago</p>
+                    <button class="btn btn-premium-gradient apply-btn-expand px-4">
+                        Apply Now <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Card 3 -->
+        <div class="col-12" data-aos="fade-up" data-aos-delay="500">
+            <div class="job-card-premium d-flex flex-column flex-md-row align-items-center gap-4">
+                <div class="company-logo-box">
+                    <i class="fab fa-microsoft fa-2x text-info"></i>
+                </div>
+                <div class="flex-grow-1 text-center text-md-start">
+                    <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mb-2">
+                        <h4 class="mb-0 fw-bold">DevOps Engineer</h4>
+                        <span class="badge bg-success-subtle text-success badge-job-type">Full Time</span>
+                    </div>
+                    <p class="text-muted mb-3"><i class="far fa-building me-1"></i> Microsoft • <i
+                            class="fas fa-map-marker-alt me-1"></i> Hyderabad</p>
+                    <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
+                        <span class="skill-tag">Azure</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Kubernetes</span>
+                    </div>
+                </div>
+                <div class="text-center text-md-end border-start-md ps-md-4">
+                    <h5 class="fw-bold text-success mb-1">₹18L - ₹28L</h5>
+                    <p class="text-muted small mb-3">Posted 3 days ago</p>
+                    <button class="btn btn-premium-gradient apply-btn-expand px-4">
+                        Apply Now <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination / View More -->
+    <div class="text-center py-5" data-aos="fade-up">
+        <button class="btn btn-outline-primary btn-lg rounded-pill px-5">
+            Load More Opportunities <i class="fas fa-sync-alt ms-2"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+    // Initialize AOS if needed, although it should be global
+    document.addEventListener('DOMContentLoaded', function () {
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 1000,
+                once: true,
+                offset: 100
+            });
+        }
+    });
+</script>
+{% endblock %}

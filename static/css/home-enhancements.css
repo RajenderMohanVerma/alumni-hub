@@ -1,0 +1,229 @@
+/* ===== HOME PAGE ADVANCED ENHANCEMENTS ===== */
+
+/* Enhanced Hero Title with Gradient Animation */
+.hero h1 {
+    background: linear-gradient(90deg, #ffffff, #f0f9ff, #dbeafe, #bfdbfe, #93c5fd, #60a5fa);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: slideInDown 1s ease-out, gradientShift 5s ease infinite !important;
+    position: relative;
+}
+
+/* Typing Cursor Effect for Hero Subtitle */
+.hero .typing-subtitle {
+    display: inline-block;
+    border-right: 3px solid rgba(255, 255, 255, 0.8);
+    animation: blink 0.75s step-end infinite;
+    padding-right: 5px;
+}
+
+/* Feature Cards with 3D Flip Effect */
+.feature-card {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.feature-card:hover {
+    transform: translateY(-15px) rotateY(5deg) scale(1.05);
+    box-shadow: 0 25px 50px rgba(102, 126, 234, 0.3), 0 0 30px rgba(102, 126, 234, 0.2);
+}
+
+.feature-card .icon {
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.feature-card:hover .icon {
+    transform: scale(1.2) rotate(360deg);
+    filter: drop-shadow(0 0 15px rgba(102, 126, 234, 0.6));
+}
+
+/* Stats Counter Animation */
+.stat-card h3 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: scaleIn 0.8s ease-out;
+}
+
+.stat-card:hover h3 {
+    animation: pulse 0.6s ease;
+    transform: scale(1.1);
+}
+
+/* CTA Buttons with Magnetic Effect */
+.hero .btn-primary,
+.hero .btn-outline-light {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.hero .btn-primary::before,
+.hero .btn-outline-light::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.hero .btn-primary:hover::before,
+.hero .btn-outline-light:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.hero .btn-primary:hover,
+.hero .btn-outline-light:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Marquee Enhanced Animation */
+.marquee {
+    animation: marqueeScroll 30s linear infinite;
+}
+
+.marquee:hover {
+    animation-play-state: paused;
+}
+
+/* Guide Points with Staggered Animation */
+.guide-point {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.guide-point:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.guide-point:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.guide-point:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.guide-point:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.guide-point:hover {
+    transform: translateX(15px) scale(1.05);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+}
+
+.guide-point .number {
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.guide-point:hover .number {
+    transform: rotate(360deg) scale(1.2);
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+}
+
+/* Floating Animation for Icons */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.feature-card .icon,
+.stat-card .icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+.feature-card:nth-child(1) .icon {
+    animation-delay: 0s;
+}
+
+.feature-card:nth-child(2) .icon {
+    animation-delay: 0.5s;
+}
+
+.feature-card:nth-child(3) .icon {
+    animation-delay: 1s;
+}
+
+.feature-card:nth-child(4) .icon {
+    animation-delay: 1.5s;
+}
+
+/* Glow Effect on Hover */
+.feature-card:hover,
+.stat-card:hover {
+    animation: glow 1.5s ease-in-out infinite;
+}
+
+/* Progress Bar for Stats */
+.stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 0;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 1.5s ease-out;
+}
+
+.stat-card:hover::after {
+    width: 100%;
+}
+
+/* Shimmer Effect on Section Headers */
+.section-header h2 {
+    position: relative;
+    overflow: hidden;
+}
+
+.section-header h2::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .feature-card:hover {
+        transform: translateY(-10px) scale(1.02);
+    }
+
+    .stat-card h3 {
+        font-size: 2.5rem;
+    }
+}

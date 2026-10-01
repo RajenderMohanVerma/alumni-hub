@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Faculty Announcements - Alumni Hub{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="padding-top: 100px !important;">
+    <div class="d-flex justify-content-between align-items-center mb-5 animate__animated animate__fadeInDown">
+        <div>
+            <h1 class="fw-bold gradient-text display-5 mb-2">Notice Board</h1>
+            <p class="lead text-muted">Manage department updates and official communications.</p>
+        </div>
+        <button class="btn btn-premium-gradient btn-lg shadow-premium rounded-pill px-4">
+            <i class="fas fa-plus-circle me-2"></i> Create Announcement
+        </button>
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="glass-card p-3 mb-5 animate__animated animate__fadeIn">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-end-0"><i
+                            class="fas fa-search text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0 ps-0" placeholder="Search notices...">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="d-flex gap-2 justify-content-md-end">
+                    <button class="btn btn-light rounded-pill px-3 active">All</button>
+                    <button class="btn btn-light rounded-pill px-3">Important</button>
+                    <button class="btn btn-light rounded-pill px-3">Department</button>
+                    <button class="btn btn-light rounded-pill px-3">Events</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Announcements List -->
+    <div class="row g-4">
+        <!-- Notice 1 -->
+        <div class="col-12 animate__animated animate__fadeInUp" style="--delay: 0.1s">
+            <div class="glass-card p-4 border-start border-5 border-danger position-relative overflow-hidden">
+                <div class="cta-glow opacity-25"
+                    style="background: radial-gradient(circle, rgba(220, 53, 69, 0.1) 0%, transparent 70%);"></div>
+                <div class="d-flex justify-content-between align-items-start position-relative">
+                    <div>
+                        <span class="badge bg-danger mb-2">Important</span>
+                        <h4 class="fw-bold mb-2">Final Year Project Submission Deadline Extended</h4>
+                        <p class="text-muted mb-3">
+                            The deadline for final year project submission has been extended by one week.
+                            Please ensure all documentation is uploaded to the portal by March 15th.
+                        </p>
+                        <div class="d-flex align-items-center text-muted small">
+                            <i class="far fa-user-circle me-2 text-danger"></i> Dean's Office •
+                            <i class="far fa-clock ms-2 me-2"></i> 2 hours ago •
+                            <i class="fas fa-eye ms-2 me-2"></i> 245 Views
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-muted" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <ul class="dropdown-menu shadow-premium border-0">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i> Edit</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-share-alt me-2"></i> Share</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash-alt me-2"></i>
+                                    Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notice 2 -->
+        <div class="col-12 animate__animated animate__fadeInUp" style="--delay: 0.2s">
+            <div class="glass-card p-4 border-start border-5 border-info">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="badge bg-info text-dark mb-2">Event</span>
+                        <h4 class="fw-bold mb-2">Guest Lecture: Cloud Computing Trends</h4>
+                        <p class="text-muted mb-3">
+                            Join us for an insightful session with industry experts on the latest trends in Cloud
+                            Computing.
+                            Attendance is mandatory for 3rd year students.
+                        </p>
+                        <div class="d-flex align-items-center text-muted small">
+                            <i class="far fa-user-circle me-2 text-info"></i> Prof. Sharma •
+                            <i class="far fa-clock ms-2 me-2"></i> Yesterday •
+                            <i class="fas fa-eye ms-2 me-2"></i> 180 Views
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-muted" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

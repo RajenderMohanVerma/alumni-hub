@@ -1,0 +1,621 @@
+{% extends "base.html" %}
+
+{% block title %}WhatsApp Broadcast - Advanced Admin Panel{% endblock %}
+
+{% block extra_css %}
+<!-- Professional Fonts -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Lexend:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+<!-- Core Libraries for Extreme UI -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+<style>
+    :root {
+        --neon-primary: #00f2ff;
+        --neon-secondary: #7000ff;
+        --neon-accent: #ff00c8;
+        --dark-bg: #050505;
+        --glass-bg: rgba(15, 15, 15, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-main: #e2e8f0;
+        --text-dim: #94a3b8;
+    }
+
+    body {
+        font-family: 'Outfit', sans-serif;
+        background: var(--dark-bg);
+        color: var(--text-main);
+        overflow-x: hidden;
+        min-height: 100vh;
+    }
+
+    /* Particle Background Container */
+    #particles-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        background: radial-gradient(circle at 50% 50%, #10101a 0%, #050505 100%);
+    }
+
+    /* Neon Glass Card */
+    .neon-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 28px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .neon-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        transition: 0.5s;
+    }
+
+    .neon-card:hover::before {
+        left: 100%;
+    }
+
+    .neon-card:hover {
+        border-color: rgba(0, 242, 255, 0.3);
+        box-shadow: 0 0 30px rgba(0, 242, 255, 0.1);
+    }
+
+    /* Shimmer Text */
+    .shimmer-text {
+        background: linear-gradient(90deg, #fff, var(--neon-primary), var(--neon-secondary), #fff);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 4s linear infinite;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    @keyframes shimmer {
+        to {
+            background-position: 200% center;
+        }
+    }
+
+    /* Glowing Badge */
+    .glow-badge {
+        background: rgba(0, 242, 255, 0.1);
+        border: 1px solid rgba(0, 242, 255, 0.2);
+        color: var(--neon-primary);
+        text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    }
+
+    /* Animated Button */
+    .btn-cyber {
+        background: linear-gradient(45deg, var(--neon-secondary), var(--neon-primary));
+        border: none;
+        color: white;
+        padding: 14px 34px;
+        border-radius: 14px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        transition: 0.3s;
+    }
+
+    .btn-cyber::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary));
+        z-index: -1;
+        opacity: 0;
+        transition: 0.3s;
+    }
+
+    .btn-cyber:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 0 25px rgba(112, 0, 255, 0.5);
+        color: white;
+    }
+
+    .btn-cyber:hover::after {
+        opacity: 1;
+    }
+
+    /* WhatsApp Preview Box */
+    .wa-preview {
+        background: #075e54;
+        background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
+        border-radius: 12px;
+        padding: 15px;
+        max-width: 300px;
+        margin-top: 15px;
+        position: relative;
+    }
+
+    .wa-bubble {
+        background: #dcf8c6;
+        color: #303030;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        position: relative;
+        word-wrap: break-word;
+        box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+    }
+
+    .wa-bubble::after {
+        content: '';
+        position: absolute;
+        right: -8px;
+        top: 0;
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-left: 8px solid #dcf8c6;
+        border-top: 0;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--dark-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(var(--neon-secondary), var(--neon-primary));
+        border-radius: 5px;
+    }
+
+    /* GSAP Hidden Initial State */
+    .reveal {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    /* Floating Stats Overhaul */
+    .cyber-stats {
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        width: 320px;
+        z-index: 2000;
+        border-left: 4px solid var(--neon-primary);
+        background: rgba(10, 10, 20, 0.9);
+        display: none;
+    }
+
+    .stat-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .stat-icon {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        margin-right: 12px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mesh-bg"></div>
+
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Header Section -->
+            <div class="glass-card p-5 mb-4 stagger-in" style="animation-delay: 0.1s;">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h1 class="fw-bold text-primary-gradient mb-2 display-6">
+                            <i class="fab fa-whatsapp me-2"></i>Project Broadcast
+                        </h1>
+                        <p class="text-muted mb-0 fs-5">Advanced Communication Suite for Administrators</p>
+                    </div>
+                    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-dark btn-sm rounded-pill px-4">
+                        <i class="fas fa-arrow-left me-1"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <!-- Configuration Form -->
+            <div class="glass-card p-5 mb-4 stagger-in" style="animation-delay: 0.2s;">
+                <form method="POST" class="row g-4">
+                    <div class="col-md-4">
+                        <label for="role" class="form-label fw-bold text-dark"><i
+                                class="fas fa-users-cog me-2 text-primary"></i>Target Audience</label>
+                        <select class="form-select form-select-lg border-0 bg-light rounded-4 shadow-none" id="role"
+                            name="role">
+                            <option value="all" {% if selected_role=='all' %}selected{% endif %}>Public Broadcast (All)
+                            </option>
+                            <option value="student" {% if selected_role=='student' %}selected{% endif %}>Internal
+                                Students</option>
+                            <option value="alumni" {% if selected_role=='alumni' %}selected{% endif %}>Global Alumni
+                                Network</option>
+                            <option value="faculty" {% if selected_role=='faculty' %}selected{% endif %}>Academic
+                                Faculty</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8">
+                        <label for="message" class="form-label fw-bold text-dark d-flex justify-content-between">
+                            <span><i class="fas fa-pen-nib me-2 text-primary"></i>Craft Message</span>
+                            <span id="charCount" class="badge bg-light text-dark fw-normal rounded-pill">0 chars</span>
+                        </label>
+                        <textarea class="form-control border-0 bg-light rounded-4 p-4 shadow-none" id="message"
+                            name="message" rows="4" placeholder="Type your announcement here..." required
+                            style="resize: none;">{{ message }}</textarea>
+                    </div>
+                    <div class="col-12 d-flex justify-content-end gap-3 pt-3">
+                        <button type="submit" name="action" value="generate"
+                            class="btn btn-light btn-lg px-5 rounded-pill shadow-sm hover-elevate">
+                            <i class="fas fa-layer-group me-2"></i>Preview
+                        </button>
+                        <button type="submit" name="action" value="auto_send"
+                            class="btn btn-premium btn-lg px-5 rounded-pill shadow-sm">
+                            <i class="fas fa-bolt me-2"></i>Auto-Dispatch
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            {% if users %}
+            <!-- Results Table -->
+            <div class="glass-card p-5 stagger-in" style="animation-delay: 0.3s;">
+                <input type="hidden" id="autoStartFlag" value="{{ 'true' if auto_start else 'false' }}">
+                <div class="d-flex align-items-center justify-content-between mb-5">
+                    <div>
+                        <h4 class="fw-bold mb-0">Filtered Audience</h4>
+                        <span class="text-muted small">Targeting {{ users|length }} verified contacts</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button id="startAutoBroadcast" class="btn btn-success rounded-pill px-5 shadow-sm fw-600">
+                            <i class="fas fa-play-circle me-2"></i>Begin Automated Flow
+                        </button>
+                        <button id="stopAutoBroadcast" class="btn btn-danger rounded-pill px-4 shadow-sm d-none">
+                            <i class="fas fa-stop-circle me-2"></i>Emergency Stop
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Dashboard -->
+                <div id="progressContainer" class="mb-5 d-none p-4 bg-light rounded-4 border">
+                    <div class="d-flex justify-content-between mb-3 align-items-end">
+                        <div id="progressStatus" class="fw-bold text-dark fs-5">Initializing Sequence...</div>
+                        <div id="progressPercent" class="text-primary fw-bold display-6">0%</div>
+                    </div>
+                    <div class="progress" style="height: 12px; border-radius: 6px; background: #e2e8f0;">
+                        <div id="progressBar"
+                            class="progress-bar progress-bar-striped progress-bar-animated bg-primary shadow-sm"
+                            role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-borderless align-middle custom-table" id="userTable">
+                        <thead>
+                            <tr>
+                                <th class="rounded-start">Verified Identity</th>
+                                <th>Category</th>
+                                <th class="text-center">Live Status</th>
+                                <th class="text-center rounded-end">Direct Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr class="stagger-in" style="--delay: {{ loop.index0 * 0.05 + 0.4 }}s;"
+                                data-phone="{{ user.phone }}" data-message="{{ message }}">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-sm me-3 bg-soft-primary text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold"
+                                            style="width: 40px; height: 40px; background: rgba(99, 102, 241, 0.1);">
+                                            {{ user.name[:1] }}
+                                        </div>
+                                        <span class="fw-600 text-dark">{{ user.name }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span
+                                        class="badge {% if user.role == 'student' %}bg-soft-info text-info{% elif user.role == 'alumni' %}bg-soft-warning text-warning{% else %}bg-soft-success text-success{% endif %} rounded-pill px-3"
+                                        style="background: rgba(0,0,0,0.05);">
+                                        {{ user.role|capitalize }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge bg-light text-muted rounded-pill px-3 py-2 status-badge border">
+                                        <i class="fas fa-clock me-2"></i>Pending
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ user.whatsapp_url }}" target="_blank"
+                                        class="btn btn-icon btn-outline-success rounded-circle hover-elevate individual-send"
+                                        style="width: 36px; height: 36px; padding: 0; line-height: 36px;">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Floating Stats Card -->
+<div id="statsFloating" class="glass-card p-4 floating-stats shadow-lg stagger-in"
+    style="display: none; background: rgba(255,255,255,0.9);">
+    <h5 class="fw-bold mb-3 border-bottom pb-2">Session Insights</h5>
+    <div class="stat-item">
+        <span class="stat-label">Processed</span>
+        <span id="sentCount" class="stat-value text-success">0</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-label">Pending</span>
+        <span id="pendingCount" class="stat-value text-primary">0</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-label">Failures</span>
+        <span id="failCount" class="stat-value text-danger">0</span>
+    </div>
+    <div class="progress mt-3" style="height: 6px; border-radius: 3px;">
+        <div id="statProgressBar" class="progress-bar bg-success" style="width: 0%"></div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const startBtn = document.getElementById('startAutoBroadcast');
+        const stopBtn = document.getElementById('stopAutoBroadcast');
+        const progressBar = document.getElementById('progressBar');
+        const statProgressBar = document.getElementById('statProgressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressStatus = document.getElementById('progressStatus');
+        const progressPercent = document.getElementById('progressPercent');
+        const tableRows = document.querySelectorAll('#userTable tbody tr');
+        const autoStartInput = document.getElementById('autoStartFlag');
+        const messageInput = document.getElementById('message');
+        const charCount = document.getElementById('charCount');
+        const statsFloating = document.getElementById('statsFloating');
+
+        // Stats elements
+        const sentCountEl = document.getElementById('sentCount');
+        const pendingCountEl = document.getElementById('pendingCount');
+        const failCountEl = document.getElementById('failCount');
+
+        let isRunning = false;
+        let currentIndex = 0;
+        let timer = null;
+        let stats = { sent: 0, pending: tableRows.length, fail: 0 };
+
+        // Character counter
+        if (messageInput && charCount) {
+            const updateCount = () => {
+                charCount.innerText = messageInput.value.length + " chars";
+            };
+            messageInput.addEventListener('input', updateCount);
+            updateCount();
+        }
+
+        const updateUIStats = () => {
+            if (sentCountEl) sentCountEl.innerText = stats.sent;
+            if (pendingCountEl) pendingCountEl.innerText = stats.pending;
+            if (failCountEl) failCountEl.innerText = stats.fail;
+            if (statProgressBar) {
+                const percent = tableRows.length > 0 ? (stats.sent / tableRows.length) * 100 : 0;
+                statProgressBar.style.width = percent + '%';
+            }
+        };
+
+        if (startBtn) {
+            startBtn.addEventListener('click', function () {
+                if (tableRows.length === 0) return;
+
+                const confirmStart = confirm("Advanced Automated Dispatch Initiated. \n\nSystem will sequentially process all " + tableRows.length + " recipients. \n\nIMPORTANT: Do not interrupt the browser focus while sending. \n\nProceed?");
+                if (!confirmStart) return;
+
+                isRunning = true;
+                currentIndex = 0;
+                stats = { sent: 0, pending: tableRows.length, fail: 0 };
+                updateUIStats();
+
+                startBtn.classList.add('d-none');
+                stopBtn.classList.remove('d-none');
+                progressContainer.classList.remove('d-none');
+                if (statsFloating) statsFloating.style.display = 'block';
+
+                tableRows.forEach(row => {
+                    const statusBadge = row.querySelector('.status-badge');
+                    if (statusBadge) {
+                        statusBadge.className = "badge bg-light text-muted rounded-pill px-3 py-2 status-badge border";
+                        statusBadge.innerHTML = '<i class="fas fa-clock me-2"></i>Pending';
+                    }
+                });
+
+                processNext();
+            });
+        }
+
+        if (stopBtn) {
+            stopBtn.addEventListener('click', function () {
+                isRunning = false;
+                if (timer) clearTimeout(timer);
+                startBtn.classList.remove('d-none');
+                stopBtn.classList.add('d-none');
+                progressStatus.innerText = "Dispatch Paused Stage: " + (currentIndex) + "/" + tableRows.length;
+            });
+        }
+
+        // Auto-start logic
+        if (autoStartInput && autoStartInput.value === 'true' && tableRows.length > 0) {
+            setTimeout(() => {
+                if (startBtn) startBtn.click();
+            }, 1200);
+        }
+
+        async function processNext() {
+            if (!isRunning || currentIndex >= tableRows.length) {
+                if (currentIndex >= tableRows.length) {
+                    progressStatus.innerHTML = '<i class="fas fa-check-circle text-success me-2"></i>All Communications Dispatched Successfully.';
+                    startBtn.classList.remove('d-none');
+                    stopBtn.classList.add('d-none');
+                    startBtn.innerHTML = '<i class="fas fa-redo me-2"></i>Restart Broadcast';
+                    progressBar.classList.remove('progress-bar-striped', 'progress-bar-animated');
+                }
+                return;
+            }
+
+            const row = tableRows[currentIndex];
+            const phone = row.getAttribute('data-phone');
+            const message = row.getAttribute('data-message');
+            const statusBadge = row.querySelector('.status-badge');
+
+            if (statusBadge) {
+                statusBadge.className = "badge bg-soft-primary text-primary rounded-pill px-3 py-2 status-badge animate__animated animate__pulse animate__infinite";
+                statusBadge.style.background = "rgba(99, 102, 241, 0.1)";
+                statusBadge.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i>Sending...';
+            }
+            progressStatus.innerText = "Contacting " + row.cells[0].innerText.trim() + "...";
+
+            const percent = Math.round(((currentIndex + 1) / tableRows.length) * 100);
+            progressBar.style.width = percent + '%';
+            progressPercent.innerText = percent + '%';
+
+            try {
+                const response = await fetch('/admin/whatsapp-send-api', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, message })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    stats.sent++;
+                    stats.pending--;
+                    if (statusBadge) {
+                        statusBadge.className = "badge bg-success rounded-pill px-3 py-2 status-badge animate__animated animate__fadeIn";
+                        statusBadge.innerHTML = '<i class="fas fa-check-double me-2"></i>Delivered';
+                    }
+                } else {
+                    throw new Error(result.error || 'Gateway Timeout');
+                }
+            } catch (e) {
+                stats.fail++;
+                stats.pending--;
+                console.error(e);
+                if (statusBadge) {
+                    statusBadge.className = "badge bg-danger rounded-pill px-3 py-2 status-badge";
+                    statusBadge.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i>' + (e.message || 'Failed');
+                }
+            }
+
+            updateUIStats();
+            currentIndex++;
+            timer = setTimeout(processNext, 5000);
+        }
+    });
+</script>
+
+<style>
+    /* Final overrides and layout polish */
+    .fw-600 {
+        font-weight: 600;
+    }
+
+    .bg-soft-primary {
+        background: rgba(99, 102, 241, 0.1);
+    }
+
+    .text-primary {
+        color: #6366f1 !important;
+    }
+
+    .bg-soft-info {
+        background: rgba(14, 165, 233, 0.1);
+    }
+
+    .text-info {
+        color: #0ea5e9 !important;
+    }
+
+    .bg-soft-warning {
+        background: rgba(245, 158, 11, 0.1);
+    }
+
+    .text-warning {
+        color: #f59e0b !important;
+    }
+
+    .bg-soft-success {
+        background: rgba(34, 197, 94, 0.1);
+    }
+
+    .text-success {
+        color: #22c55e !important;
+    }
+
+    .btn-icon:hover {
+        background: var(--accent-color);
+        color: white !important;
+        transform: rotate(15deg) scale(1.1);
+    }
+
+    /* Message counter styling */
+    #message:focus {
+        background: #fff !important;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1) !important;
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+</style>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{% endblock %}

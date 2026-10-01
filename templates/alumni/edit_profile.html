@@ -1,0 +1,1670 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<div class="edit-profile-premium">
+    <!-- Animated Mesh Background -->
+    <div class="mesh-background">
+        <div class="mesh-gradient mesh-1"></div>
+        <div class="mesh-gradient mesh-2"></div>
+        <div class="mesh-gradient mesh-3"></div>
+        <div class="mesh-gradient mesh-4"></div>
+        <div class="mesh-gradient mesh-5"></div>
+    </div>
+
+    <!-- Floating Elements -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <div class="container-fluid px-4 py-5">
+        <!-- Premium Header -->
+        <div class="profile-header text-center mb-5 animate__animated animate__fadeInDown">
+            <div class="header-badge mb-3">
+                <div class="badge-glow"></div>
+                <i class="fas fa-user-edit"></i>
+            </div>
+            <h1 class="header-title mb-2">
+                <span class="text-reveal">Edit Your Profile</span>
+            </h1>
+            <p class="header-subtitle animate__animated animate__fadeIn animate__delay-1s">
+                Craft your professional identity with precision
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Main Form Column -->
+            <div class="col-xl-8">
+                <form id="editForm" method="POST" enctype="multipart/form-data">
+
+                    <!-- Profile Photo Card -->
+                    <div class="premium-card mb-4 animate__animated animate__fadeInLeft">
+                        <div class="card-header-premium">
+                            <div class="header-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title-premium mb-1">Profile Photo</h5>
+                                <p class="card-subtitle-premium mb-0">Upload a professional headshot</p>
+                            </div>
+                        </div>
+                        <div class="card-body-premium">
+                            <div class="photo-upload-advanced">
+                                <div class="upload-grid">
+                                    <!-- Photo Circle with Advanced Effects -->
+                                    <div class="photo-circle-container">
+                                        <div class="circle-glow-ring"></div>
+                                        <div class="photo-circle-wrapper"
+                                            onclick="document.getElementById('profile_pic').click()">
+                                            <div class="photo-circle">
+                                                <!-- Progress Ring -->
+                                                <svg class="progress-ring" width="190" height="190">
+                                                    <circle class="progress-ring-circle" stroke="url(#gradient)"
+                                                        stroke-width="4" fill="transparent" r="90" cx="95" cy="95" />
+                                                    <defs>
+                                                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%"
+                                                            y2="100%">
+                                                            <stop offset="0%"
+                                                                style="stop-color:#667eea;stop-opacity:1" />
+                                                            <stop offset="100%"
+                                                                style="stop-color:#764ba2;stop-opacity:1" />
+                                                        </linearGradient>
+                                                    </defs>
+                                                </svg>
+
+                                                <!-- Images -->
+                                                <img id="uploadPreview" src="{{ user['profile_pic'] }}"
+                                                    class="{% if user['profile_pic'] %}d-block{% else %}d-none{% endif %}">
+                                                <img id="svgPlaceholder"
+                                                    src="{{ url_for('static', filename='images/camera_pic.svg') }}"
+                                                    alt="Upload Photo"
+                                                    class="camera-svg-placeholder {% if user['profile_pic'] %}d-none{% else %}d-block{% endif %}">
+
+                                                <!-- Hover Overlay -->
+                                                <div class="photo" id="photoPlaceholder">
+                                                    <div class="overlay-content">
+                                                        <i class="fas fa-camera fa-3x mb-3 pulse-icon"></i>
+                                                        <span class="fw-bold fs-5 mb-2">Upload Photo</span>
+                                                        <span class="small opacity-75">Click or Drop Here</span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Upload Success Checkmark -->
+                                                <div class="upload-success" id="uploadSuccess">
+                                                    <i class="fas fa-check-circle fa-3x"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Edit/Remove Buttons -->
+                                        <div class="photo-actions {% if user['profile_pic'] %}d-flex{% else %}d-none{% endif %}"
+                                            id="photoActions">
+                                            <button type="button" class="action-btn edit-btn"
+                                                onclick="document.getElementById('profile_pic').click()">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="action-btn remove-btn" onclick="removePhoto()">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Upload Info Panel -->
+                                    <div class="upload-info-panel">
+                                        <div class="info-header">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <h6 class="mb-0">Upload Guidelines</h6>
+                                        </div>
+
+                                        <div class="info-items">
+                                            <div class="info-item">
+                                                <i class="fas fa-check-circle text-success"></i>
+                                                <span>Professional headshot recommended</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <i class="fas fa-check-circle text-success"></i>
+                                                <span>Clear, well-lit photo</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <i class="fas fa-check-circle text-success"></i>
+                                                <span>Square aspect ratio (1:1)</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <i class="fas fa-file-image text-primary"></i>
+                                                <span>JPG, PNG, or GIF format</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <i class="fas fa-weight text-warning"></i>
+                                                <span>Maximum size: 5MB</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Drag & Drop Zone -->
+                                        <div class="drag-drop-zone" id="dragDropZone">
+                                            <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
+                                            <p class="fw-bold mb-1">Drag & Drop</p>
+                                            <p class="small mb-0 text-white">or click to browse</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="file" id="profile_pic" name="profile_pic" class="d-none" accept="image/*"
+                                    onchange="handlePhotoUpload(this)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information Card -->
+                    <div class="premium-card mb-4 animate__animated animate__fadeInLeft animate__delay-1s">
+                        <div class="card-header-premium">
+                            <div class="header-icon">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title-premium mb-1">Personal Information</h5>
+                                <p class="card-subtitle-premium mb-0">Your basic details</p>
+                            </div>
+                        </div>
+                        <div class="card-body-premium">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium">
+                                            <i class="fas fa-user me-2"></i>Full Name
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-input-premium" id="name" name="name"
+                                            value="{{ user['name'] }}" placeholder="Enter your full name" required
+                                            oninput="updatePreview()">
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium">
+                                            <i class="fas fa-phone me-2"></i>Phone Number
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="tel" class="form-input-premium" id="phone" name="phone"
+                                            value="{{ user['phone'] or '' }}" placeholder="+91 XXXXX XXXXX" required
+                                            oninput="updatePreview()">
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Details Card -->
+                    <div class="premium-card mb-4 animate__animated animate__fadeInLeft animate__delay-2s">
+                        <div class="card-header-premium">
+                            <div class="header-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title-premium mb-1">Professional Details</h5>
+                                <p class="card-subtitle-premium mb-0">Your career information</p>
+                            </div>
+                        </div>
+                        <div class="card-body-premium">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium">
+                                            <i class="fas fa-building me-2"></i>Current Company
+                                        </label>
+                                        <input type="text" class="form-input-premium" id="company" name="company_name"
+                                            value="{{ profile['company_name'] or '' }}"
+                                            placeholder="e.g., Google, Microsoft" oninput="updatePreview()">
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium">
+                                            <i class="fas fa-id-badge me-2"></i>Job Title
+                                        </label>
+                                        <input type="text" class="form-input-premium" id="designation"
+                                            name="designation" value="{{ profile['designation'] or '' }}"
+                                            placeholder="e.g., Senior Software Engineer" oninput="updatePreview()">
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium">
+                                            <i class="fas fa-map-marker-alt me-2"></i>Work Location
+                                        </label>
+                                        <input type="text" class="form-input-premium" id="location" name="work_location"
+                                            value="{{ profile['work_location'] or '' }}"
+                                            placeholder="e.g., Bangalore, India" oninput="updatePreview()">
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium">
+                                            <i class="fas fa-calendar-alt me-2"></i>Years of Experience
+                                        </label>
+                                        <input type="number" class="form-input-premium" id="experience"
+                                            name="experience_years" value="{{ profile['experience_years'] or '' }}"
+                                            placeholder="e.g., 5" min="0" oninput="updatePreview()">
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium">
+                                            <i class="fas fa-pen-fancy me-2"></i>Professional Bio
+                                        </label>
+                                        <textarea class="form-input-premium" id="bio" name="bio" rows="4"
+                                            placeholder="Tell us about your professional journey, expertise, and achievements..."
+                                            oninput="updatePreview()">{{ profile['bio'] or '' }}</textarea>
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social & Achievements Card -->
+                    <div class="premium-card mb-4 animate__animated animate__fadeInLeft animate__delay-3s">
+                        <div class="card-header-premium">
+                            <div class="header-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title-premium mb-1">Achievements & Social Links</h5>
+                                <p class="card-subtitle-premium mb-0">Showcase your accomplishments</p>
+                            </div>
+                        </div>
+                        <div class="card-body-premium">
+                            <div class="row g-4">
+                                <div class="col-12">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium">
+                                            <i class="fab fa-linkedin me-2"></i>LinkedIn Profile
+                                        </label>
+                                        <input type="url" class="form-input-premium" id="linkedin" name="linkedin_url"
+                                            value="{{ profile['linkedin_url'] or '' }}"
+                                            placeholder="https://linkedin.com/in/yourprofile" oninput="updatePreview()">
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium">
+                                            <i class="fas fa-star me-2"></i>Key Achievements
+                                        </label>
+                                        <textarea class="form-input-premium" id="achievements" name="achievements"
+                                            rows="3"
+                                            placeholder="List your major achievements (separate with | symbol)">{{ profile['achievements'] or '' }}</textarea>
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons animate__animated animate__fadeInUp animate__delay-4s">
+                        <a href="{{ url_for('alumni_profile', user_id=user['id']) }}"
+                            class="btn-premium btn-secondary-premium">
+                            <i class="fas fa-times me-2"></i>
+                            <span>Cancel</span>
+                        </a>
+                        <button type="submit" class="btn-premium btn-primary-premium">
+                            <span>Save Changes</span>
+                            <i class="fas fa-check ms-2"></i>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Live Preview Sidebar -->
+            <div class="col-xl-4">
+                <div class="preview-sidebar animate__animated animate__fadeInRight">
+                    <div class="preview-sticky">
+                        <div class="preview-label mb-3">
+                            <i class="fas fa-eye me-2"></i>
+                            <span>Live Preview</span>
+                            <div class="pulse-dot"></div>
+                        </div>
+
+                        <div class="preview-card-premium">
+                            <div class="preview-banner-gradient"></div>
+                            <div class="preview-body">
+                                <div class="preview-avatar">
+                                    <img id="previewImg"
+                                        src="{{ user['profile_pic'] if user['profile_pic'] else 'https://ui-avatars.com/api/?name=' + user['name']|replace(' ', '+') + '&size=400&background=667eea&color=fff&bold=true&format=svg' }}"
+                                        alt="Preview">
+                                    <div class="online-indicator"></div>
+                                </div>
+
+                                <h4 id="previewName" class="preview-name">{{ user['name'] }}</h4>
+                                <p id="previewRole" class="preview-designation">{{ profile['designation'] or 'Your
+                                    Designation' }}</p>
+
+                                <div class="preview-stats">
+                                    <div class="stat-item">
+                                        <i class="fas fa-building"></i>
+                                        <span id="previewCompany">{{ profile['company_name'] or 'Company' }}</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span id="previewLocation">{{ profile['work_location'] or 'Location' }}</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-briefcase"></i>
+                                        <span><span id="previewExp">{{ profile['experience_years'] or '0' }}</span>
+                                            years</span>
+                                    </div>
+                                </div>
+
+                                <div class="preview-bio">
+                                    <p id="previewBio">{{ profile['bio'] or 'Your professional bio will appear here.
+                                        Share your journey, expertise, and what makes you unique!' }}</p>
+                                </div>
+
+                                <button class="btn-preview-action">
+                                    <i class="fas fa-arrow-right me-2"></i>
+                                    View Full Profile
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quick Tips -->
+                        <div class="quick-tips mt-4">
+                            <h6 class="tips-title">
+                                <i class="fas fa-lightbulb me-2"></i>
+                                Quick Tips
+                            </h6>
+                            <ul class="tips-list">
+                                <li><i class="fas fa-check-circle me-2"></i>Use a professional photo</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Keep bio concise and impactful</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Highlight key achievements</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Global Styles */
+    .edit-profile-premium {
+        min-height: 100vh;
+        background: #0a0e27;
+        position: relative;
+        overflow-x: hidden;
+        font-family: 'Inter', sans-serif;
+        padding-top: 80px;
+    }
+
+    /* Mesh Background */
+    .mesh-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .mesh-gradient {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.4;
+        animation: float-mesh 25s infinite ease-in-out;
+    }
+
+    .mesh-1 {
+        width: 600px;
+        height: 600px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        top: -200px;
+        left: -200px;
+        animation-delay: 0s;
+    }
+
+    .mesh-2 {
+        width: 500px;
+        height: 500px;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        bottom: -150px;
+        right: -150px;
+        animation-delay: -8s;
+    }
+
+    .mesh-3 {
+        width: 450px;
+        height: 450px;
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        top: 40%;
+        left: 60%;
+        animation-delay: -16s;
+    }
+
+    .mesh-4 {
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        top: 20%;
+        right: 10%;
+        animation-delay: -12s;
+    }
+
+    .mesh-5 {
+        width: 350px;
+        height: 350px;
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        bottom: 30%;
+        left: 20%;
+        animation-delay: -20s;
+    }
+
+    @keyframes float-mesh {
+
+        0%,
+        100% {
+            transform: translate(0, 0) rotate(0deg) scale(1);
+        }
+
+        25% {
+            transform: translate(100px, 100px) rotate(90deg) scale(1.1);
+        }
+
+        50% {
+            transform: translate(0, 200px) rotate(180deg) scale(0.9);
+        }
+
+        75% {
+            transform: translate(-100px, 100px) rotate(270deg) scale(1.05);
+        }
+    }
+
+    /* Floating Shapes */
+    .floating-shapes {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .shape {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+        animation: float-shape 20s infinite ease-in-out;
+    }
+
+    .shape-1 {
+        width: 80px;
+        height: 80px;
+        top: 10%;
+        left: 10%;
+        animation-delay: 0s;
+    }
+
+    .shape-2 {
+        width: 60px;
+        height: 60px;
+        top: 60%;
+        right: 15%;
+        animation-delay: -5s;
+    }
+
+    .shape-3 {
+        width: 100px;
+        height: 100px;
+        bottom: 20%;
+        left: 20%;
+        animation-delay: -10s;
+    }
+
+    .shape-4 {
+        width: 70px;
+        height: 70px;
+        top: 30%;
+        right: 30%;
+        animation-delay: -15s;
+    }
+
+    @keyframes float-shape {
+
+        0%,
+        100% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        50% {
+            transform: translateY(-50px) rotate(180deg);
+        }
+    }
+
+    /* Header */
+    .profile-header {
+        position: relative;
+        z-index: 2;
+    }
+
+    .header-badge {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .badge-glow {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 30px;
+        animation: pulse-glow 2s infinite;
+        opacity: 0.5;
+    }
+
+    @keyframes pulse-glow {
+
+        0%,
+        100% {
+            transform: scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+    }
+
+    .header-badge i {
+        font-size: 3rem;
+        color: white;
+        z-index: 1;
+        position: relative;
+    }
+
+    .header-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #fff 0%, #a8b3ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+    }
+
+    .text-reveal {
+        display: inline-block;
+        animation: text-reveal 1s ease-out;
+    }
+
+    @keyframes text-reveal {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+    }
+
+    .header-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1rem;
+        font-weight: 400;
+    }
+
+    /* Premium Cards */
+    .premium-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        overflow: hidden;
+        position: relative;
+        z-index: 2;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .premium-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(102, 126, 234, 0.5);
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+    }
+
+    .card-header-premium {
+        padding: 1.5rem 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .header-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.3rem;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    .card-title-premium {
+        color: white;
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    .card-subtitle-premium {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.875rem;
+    }
+
+    .card-body-premium {
+        padding: 2rem;
+    }
+
+    /* Photo Upload */
+    .photo-upload-premium {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .photo-container {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+        padding: 2rem;
+        border: 2px dashed rgba(102, 126, 234, 0.3);
+        border-radius: 16px;
+        background: rgba(102, 126, 234, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .photo-container:hover {
+        border-color: rgba(102, 126, 234, 0.6);
+        background: rgba(102, 126, 234, 0.1);
+        transform: scale(1.02);
+    }
+
+    .photo-circle {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        position: relative;
+        flex-shrink: 0;
+        overflow: hidden;
+        border: 4px solid rgba(102, 126, 234, 0.5);
+        box-shadow: 0 15px 50px rgba(102, 126, 234, 0.3);
+    }
+
+    .photo-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    #uploadPreview {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    #uploadPreview:not([src]),
+    #uploadPreview[src=""] {
+        display: none !important;
+    }
+
+    .avatar-icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .icon-stack {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .camera-badge {
+        position: absolute;
+        bottom: -10px;
+        right: -20px;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem;
+        border-radius: 50%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        animation: bounce-camera 2s infinite;
+    }
+
+    .camera-svg-icon {
+        width: 120px;
+        height: 120px;
+        filter: brightness(1.2) drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+        animation: float-svg 3s ease-in-out infinite;
+    }
+
+    .camera-svg-placeholder {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 20px;
+        animation: float-svg 3s ease-in-out infinite;
+    }
+
+    @keyframes float-svg {
+
+        0%,
+        100% {
+            transform: translateY(0) scale(1);
+        }
+
+        50% {
+            transform: translateY(-10px) scale(1.05);
+        }
+    }
+
+    @keyframes bounce-camera {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+
+    /* Advanced Upload Styles */
+    .photo-upload-advanced {
+        padding: 0;
+    }
+
+    .upload-grid {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 3rem;
+        align-items: start;
+    }
+
+    .photo-circle-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .circle-glow-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        opacity: 0.2;
+        filter: blur(30px);
+        animation: pulse-glow-ring 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow-ring {
+
+        0%,
+        100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.2;
+        }
+
+        50% {
+            transform: translate(-50%, -50%) scale(1.1);
+            opacity: 0.3;
+        }
+    }
+
+    .photo-circle-wrapper {
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .photo-circle-wrapper:hover {
+        transform: scale(1.05);
+    }
+
+    .progress-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .progress-ring.active {
+        opacity: 1;
+    }
+
+    .progress-ring-circle {
+        stroke-dasharray: 565;
+        stroke-dashoffset: 565;
+        transition: stroke-dashoffset 0.5s ease;
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+    }
+
+    .photo-hover-overlay-advanced {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(102, 126, 234, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+
+    .photo-circle-wrapper:hover .photo-hover-overlay-advanced {
+        opacity: 1;
+    }
+
+    .overlay-content {
+        text-align: center;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .pulse-icon {
+        animation: pulse-icon 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-icon {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    .upload-success {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        background: rgba(16, 185, 129, 0.95);
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        z-index: 15;
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .upload-success.show {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    .photo-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .action-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .edit-btn:hover {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .remove-btn:hover {
+        background: linear-gradient(135deg, #f093fb, #f5576c);
+    }
+
+    .upload-info-panel {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .info-header {
+        display: flex;
+        align-items: center;
+        color: white;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .info-header i {
+        color: #667eea;
+        font-size: 1.2rem;
+    }
+
+    .info-items {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+        padding: 0.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .info-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateX(5px);
+    }
+
+    .info-item i {
+        font-size: 1.1rem;
+        width: 20px;
+        text-align: center;
+    }
+
+    .drag-drop-zone {
+        text-align: center;
+        padding: 2rem;
+        border: 2px dashed rgba(102, 126, 234, 0.4);
+        border-radius: 12px;
+        background: rgba(102, 126, 234, 0.05);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .drag-drop-zone:hover {
+        border-color: rgba(102, 126, 234, 0.8);
+        background: rgba(102, 126, 234, 0.1);
+        transform: scale(1.02);
+    }
+
+    .drag-drop-zone.drag-over {
+        border-color: #667eea;
+        background: rgba(102, 126, 234, 0.2);
+        transform: scale(1.05);
+    }
+
+    .drag-drop-zone i {
+        color: #667eea;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+        .upload-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .photo-circle-container {
+            margin: 0 auto;
+        }
+    }
+
+    @keyframes bounce-camera {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+
+    .photo-hover-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(102, 126, 234, 0.95);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        z-index: 10;
+    }
+
+    .upload-info {
+        flex: 1;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .upload-info i {
+        color: #667eea;
+    }
+
+    /* Form Groups */
+    .form-group-premium {
+        position: relative;
+        margin-bottom: 0;
+    }
+
+    .form-label-premium {
+        display: block;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .form-input-premium {
+        width: 100%;
+        padding: 1rem 1.25rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .form-input-premium::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    .form-input-premium:focus {
+        outline: none;
+        background: rgba(255, 255, 255, 0.08);
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+    }
+
+    .input-focus-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        transition: width 0.3s ease;
+    }
+
+    .form-input-premium:focus+.input-focus-line {
+        width: 100%;
+    }
+
+    textarea.form-input-premium {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        position: relative;
+        z-index: 2;
+    }
+
+    .btn-premium {
+        padding: 1rem 2.5rem;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-primary-premium {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-primary-premium:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+    }
+
+    .btn-secondary-premium {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary-premium:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-glow {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        animation: btn-shine 3s infinite;
+    }
+
+    @keyframes btn-shine {
+        0% {
+            left: -100%;
+        }
+
+        50%,
+        100% {
+            left: 100%;
+        }
+    }
+
+    /* Preview Sidebar */
+    .preview-sidebar {
+        position: relative;
+        z-index: 2;
+    }
+
+    .preview-sticky {
+        position: sticky;
+        top: 100px;
+    }
+
+    .preview-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: white;
+        font-weight: 700;
+        font-size: 1.1rem;
+        position: relative;
+    }
+
+    .pulse-dot {
+        width: 10px;
+        height: 10px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+
+        0%,
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.3);
+            opacity: 0.7;
+        }
+    }
+
+    .preview-card-premium {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .preview-banner-gradient {
+        height: 120px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .preview-body {
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .preview-avatar {
+        width: 120px;
+        height: 120px;
+        margin: -60px auto 1.5rem;
+        position: relative;
+    }
+
+    .preview-avatar img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 5px solid rgba(10, 14, 39, 0.8);
+        object-fit: cover;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .online-indicator {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        width: 25px;
+        height: 25px;
+        background: #10b981;
+        border: 4px solid rgba(10, 14, 39, 0.8);
+        border-radius: 50%;
+        animation: pulse-online 2s infinite;
+    }
+
+    @keyframes pulse-online {
+
+        0%,
+        100% {
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        }
+
+        50% {
+            box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+        }
+    }
+
+    .preview-name {
+        color: white;
+        font-weight: 800;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .preview-designation {
+        color: #667eea;
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .preview-stats {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+    }
+
+    .stat-item i {
+        color: #667eea;
+        width: 20px;
+    }
+
+    .preview-bio {
+        padding: 1.25rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+    }
+
+    .preview-bio p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin: 0;
+        font-style: italic;
+    }
+
+    .btn-preview-action {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-preview-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+    }
+
+    /* Quick Tips */
+    .quick-tips {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+    }
+
+    .tips-title {
+        color: white;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .tips-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .tips-list li {
+        color: rgba(255, 255, 255, 0.7);
+        padding: 0.5rem 0;
+        font-size: 0.9rem;
+    }
+
+    .tips-list i {
+        color: #10b981;
+    }
+
+    /* Responsive */
+    @media (max-width: 1199px) {
+        .header-title {
+            font-size: 2.5rem;
+        }
+
+        .preview-sticky {
+            position: relative;
+            top: 0;
+            margin-top: 2rem;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .header-title {
+            font-size: 2rem;
+        }
+
+        .photo-container {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn-premium {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+    function updatePreview() {
+        const name = document.getElementById('name').value || 'Your Name';
+        const designation = document.getElementById('designation').value || 'Your Designation';
+        const company = document.getElementById('company').value || 'Company';
+        const location = document.getElementById('location').value || 'Location';
+        const experience = document.getElementById('experience').value || '0';
+        const bio = document.getElementById('bio').value || 'Your professional bio will appear here. Share your journey, expertise, and what makes you unique!';
+
+        document.getElementById('previewName').textContent = name;
+        document.getElementById('previewRole').textContent = designation;
+        document.getElementById('previewCompany').textContent = company;
+        document.getElementById('previewLocation').textContent = location;
+        document.getElementById('previewExp').textContent = experience;
+        document.getElementById('previewBio').textContent = bio;
+    }
+
+    // Enhanced Photo Upload Handler
+    function handlePhotoUpload(input) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+
+            // Validate file size (5MB max)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size must be less than 5MB');
+                return;
+            }
+
+            // Validate file type
+            if (!file.type.match('image.*')) {
+                alert('Please upload an image file');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Show uploaded image
+                const uploadPreview = document.getElementById('uploadPreview');
+                uploadPreview.src = e.target.result;
+                uploadPreview.style.display = 'block';
+
+                // Hide SVG placeholder
+                const svgPlaceholder = document.getElementById('svgPlaceholder');
+                if (svgPlaceholder) {
+                    svgPlaceholder.style.display = 'none';
+                }
+
+                // Hide photo overlay
+                const placeholder = document.getElementById('photoPlaceholder');
+                if (placeholder) {
+                    placeholder.style.display = 'none';
+                }
+
+                // Show success animation
+                const successEl = document.getElementById('uploadSuccess');
+                successEl.classList.add('show');
+                setTimeout(() => {
+                    successEl.classList.remove('show');
+                }, 1500);
+
+                // Show action buttons
+                const photoActions = document.getElementById('photoActions');
+                if (photoActions) {
+                    photoActions.style.display = 'flex';
+                }
+
+                // Update preview card
+                document.getElementById('previewImg').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removePhoto() {
+        const uploadPreview = document.getElementById('uploadPreview');
+        uploadPreview.src = '';
+        uploadPreview.style.display = 'none';
+
+        const svgPlaceholder = document.getElementById('svgPlaceholder');
+        if (svgPlaceholder) {
+            svgPlaceholder.style.display = 'block';
+        }
+
+        const placeholder = document.getElementById('photoPlaceholder');
+        if (placeholder) {
+            placeholder.style.display = 'flex';
+        }
+
+        const photoActions = document.getElementById('photoActions');
+        if (photoActions) {
+            photoActions.style.display = 'none';
+        }
+
+        document.getElementById('profile_pic').value = '';
+    }
+
+    // Drag and Drop functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        const dragDropZone = document.getElementById('dragDropZone');
+        const fileInput = document.getElementById('profile_pic');
+
+        if (dragDropZone) {
+            dragDropZone.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            dragDropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dragDropZone.classList.add('drag-over');
+            });
+
+            dragDropZone.addEventListener('dragleave', () => {
+                dragDropZone.classList.remove('drag-over');
+            });
+
+            dragDropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dragDropZone.classList.remove('drag-over');
+
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    handlePhotoUpload(fileInput);
+                }
+            });
+        }
+
+        // Animate cards on scroll
+        const cards = document.querySelectorAll('.premium-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+    });
+
+    // Add smooth scroll animations
+    document.addEventListener('DOMContentLoaded', function () {
+        const inputs = document.querySelectorAll('.form-input-premium');
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', function () {
+                this.parentElement.classList.add('focused');
+            });
+
+            input.addEventListener('blur', function () {
+                this.parentElement.classList.remove('focused');
+            });
+        });
+
+        // Animate cards on scroll
+        const cards = document.querySelectorAll('.premium-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+    });
+</script>
+{% endblock %}

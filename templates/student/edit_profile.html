@@ -1,0 +1,774 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Premium Fonts -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+<div class="profile-wrapper">
+    <!-- Animated Mesh Background -->
+    <div class="mesh-background">
+        <div class="mesh-ball ball-1"></div>
+        <div class="mesh-ball ball-2"></div>
+        <div class="mesh-ball ball-3"></div>
+        <div class="mesh-ball ball-4"></div>
+    </div>
+
+    <!-- Header Section -->
+    <div class="profile-hero glass-hero">
+        <div class="hero-particles"></div>
+        <div class="hero-glow-point"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="hero-content">
+                        <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade"
+                            style="font-weight: 700; letter-spacing: 0.5px;">
+                            <i class="fas fa-edit me-2"></i> PROFILE SETTINGS
+                        </div>
+                        <h1 class="text-white display-4 fw-bold mb-3 reveal-text">
+                            Edit <span class="text-holographic">Profile</span>
+                        </h1>
+                        <p class="text-white-50 lead mb-0 reveal-fade" style="font-size: 1.25rem;">
+                            Keep your professional and academic presence up to date.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-n5 mb-5" style="position: relative; z-index: 5; margin-top: -60px;">
+        <!-- Form Progress Tracker -->
+        <div class="progress-container mb-4 reveal-fade">
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-white-50 small fw-bold">PROFILE COMPLETION</span>
+                <span class="text-white small fw-bold" id="completionText">0%</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="completionBar"></div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10 tilt-container">
+                <form id="editForm" method="POST" enctype="multipart/form-data" class="needs-validation">
+                    <div class="card border-0 glass-card holographic-border mb-5 reveal-fade tilt-element">
+                        <div class="card-body p-4 p-md-5">
+                            <!-- Photo Section -->
+                            <div class="text-center mb-5 section-reveal">
+                                <div class="avatar-edit-container mb-4">
+                                    <img id="photoPreview"
+                                        src="{{ user['profile_pic'] if user['profile_pic'] and user['profile_pic'].startswith('/') else 'https://ui-avatars.com/api/?name=' + user['name'] + '&size=200&background=6366f1&color=fff' }}"
+                                        alt="Profile Photo" class="avatar-img shadow-lg">
+                                    <label for="profile_pic" class="avatar-upload-badge shadow-lg">
+                                        <i class="fas fa-camera"></i>
+                                    </label>
+                                </div>
+                                <input type="file" id="profile_pic" name="profile_pic" class="d-none" accept="image/*"
+                                    onchange="previewPhoto(this)">
+                                <h4 class="fw-bold text-dark mb-1">{{ user['name'] }}</h4>
+                                <p class="text-muted small">Update your profile picture to stand out</p>
+                            </div>
+
+                            <!-- Personal Info Section -->
+                            <div class="premium-form-section mb-5">
+                                <h5 class="section-title mb-4 reveal-text">
+                                    <span class="title-icon icon-blue"><i class="fas fa-user"></i></span>
+                                    Personal Information
+                                </h5>
+                                <div class="row g-4">
+                                    <div class="col-md-6 reveal-fade">
+                                        <div class="form-floating-premium">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                value="{{ user['name'] }}" required>
+                                            <label for="name">Full Name</label>
+                                            <div class="focus-border"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 reveal-fade">
+                                        <div class="form-floating-premium">
+                                            <input type="tel" class="form-control" id="phone" name="phone"
+                                                value="{{ user['phone'] or '' }}" required>
+                                            <label for="phone">Phone Number</label>
+                                            <div class="focus-border"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 reveal-fade">
+                                        <div class="form-floating-premium">
+                                            <input type="email" class="form-control disabled-input"
+                                                value="{{ user['email'] }}" disabled placeholder="Email">
+                                            <label>Email (Locked)</label>
+                                            <i class="fas fa-lock input-locked-icon"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Academic Info Section -->
+                            <div class="premium-form-section mb-5">
+                                <h5 class="section-title mb-4 reveal-text">
+                                    <span class="title-icon icon-green"><i class="fas fa-graduation-cap"></i></span>
+                                    Academic Information
+                                </h5>
+                                <div class="row g-4">
+                                    <div class="col-md-6 reveal-fade">
+                                        <div class="form-floating-premium">
+                                            <input type="text" class="form-control disabled-input"
+                                                value="{{ profile['enrollment_no'] }}" disabled>
+                                            <label>Enrollment No.</label>
+                                            <i class="fas fa-lock input-locked-icon"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 reveal-fade">
+                                        <div class="form-floating-premium">
+                                            <input type="text" class="form-control disabled-input"
+                                                value="{{ profile['department'] }}" disabled>
+                                            <label>Department</label>
+                                            <i class="fas fa-lock input-locked-icon"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 reveal-fade">
+                                        <div class="form-floating-premium">
+                                            <select class="form-select" id="semester" name="semester" required>
+                                                <option value="" disabled {% if not profile['semester'] %}selected{%
+                                                    endif %}>Select Semester</option>
+                                                {% for i in range(1, 7) %}
+                                                <option value="{{ i }}" {% if profile['semester']==i %}selected{% endif
+                                                    %}>{{ i }}{{ 'st' if i == 1 else 'nd' if i == 2 else 'rd' if i == 3
+                                                    else 'th' }} Semester</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label for="semester">Current Semester</label>
+                                            <div class="focus-border"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 reveal-fade">
+                                        <div class="form-floating-premium">
+                                            <input type="number" class="form-control" id="cgpa" name="cgpa" step="0.01"
+                                                min="0" max="10" value="{{ profile['cgpa'] or '' }}">
+                                            <label for="cgpa">Current CGPA</label>
+                                            <div class="focus-border"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Skills & Links Section -->
+                            <div class="premium-form-section mb-5">
+                                <h5 class="section-title mb-4 reveal-text">
+                                    <span class="title-icon icon-orange"><i class="fas fa-star"></i></span>
+                                    Expertise & Portfolio
+                                </h5>
+                                <div class="row g-4">
+                                    <div class="col-12 reveal-fade">
+                                        <div class="form-floating-premium">
+                                            <textarea class="form-control" id="skills" name="skills"
+                                                style="height: 100px">{{ profile['skills'] or '' }}</textarea>
+                                            <label for="skills">Key Skills (comma separated)</label>
+                                            <div class="focus-border"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 reveal-fade">
+                                        <div class="form-floating-premium">
+                                            <textarea class="form-control" id="achievements" name="achievements"
+                                                style="height: 120px">{{ profile['achievements'] or '' }}</textarea>
+                                            <label for="achievements">Achievements & Awards (use , to separate)</label>
+                                            <div class="focus-border"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 reveal-fade">
+                                        <div class="form-floating-premium">
+                                            <input type="url" class="form-control" id="resume_link" name="resume_link"
+                                                value="{{ profile['resume_link'] or '' }}">
+                                            <label for="resume_link">LinkedIn / Resume Link</label>
+                                            <div class="focus-border"></div>
+                                            <i class="fas fa-link input-icon"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="d-flex flex-column flex-md-row gap-3 pt-4 reveal-fade">
+                                <button type="submit" class="btn btn-premium-gradient flex-grow-1 magnetic-button">
+                                    <span class="btn-text"><i class="fas fa-save me-2"></i> Save Changes</span>
+                                    <div class="btn-glow"></div>
+                                </button>
+                                <a href="{{ url_for('student_profile', user_id=user['id']) }}"
+                                    class="btn btn-glass-outline">
+                                    Cancel
+                                </a>
+                                <a href="{{ url_for('change_password') }}" class="btn btn-glass-info">
+                                    <i class="fas fa-lock me-2"></i> Security
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Global Styles & Mesh */
+    body {
+        font-family: 'Outfit', sans-serif;
+        background-color: #f8fafc;
+        overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .profile-wrapper {
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+    }
+
+    .mesh-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        background: #f8fafc;
+        pointer-events: none;
+    }
+
+    .mesh-ball {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.12;
+        animation: mesh-float 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+    }
+
+    .ball-1 {
+        width: 600px;
+        height: 600px;
+        background: #6366f1;
+        top: -10%;
+        left: -10%;
+        animation-duration: 25s;
+    }
+
+    .ball-2 {
+        width: 500px;
+        height: 500px;
+        background: #a855f7;
+        bottom: 10%;
+        right: -5%;
+        animation-duration: 30s;
+    }
+
+    .ball-3 {
+        width: 400px;
+        height: 400px;
+        background: #ec4899;
+        top: 40%;
+        left: 30%;
+        animation-duration: 22s;
+    }
+
+    @keyframes mesh-float {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+
+        100% {
+            transform: translate(100px, 100px) rotate(180deg);
+        }
+    }
+
+    /* Hero Section */
+    .profile-hero {
+        padding: 120px 0 100px;
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
+    }
+
+    .text-holographic {
+        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: holographic-move 8s linear infinite, glitch-flicker 4s infinite;
+        position: relative;
+    }
+
+    @keyframes glitch-flicker {
+
+        0%,
+        100% {
+            opacity: 1;
+            transform: skew(0);
+        }
+
+        33% {
+            transform: skew(0.5deg);
+        }
+
+        34% {
+            transform: skew(-0.5deg);
+            opacity: 0.9;
+        }
+
+        35% {
+            transform: skew(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes holographic-move {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        100% {
+            background-position: 300% 50%;
+        }
+    }
+
+    /* 3D Tilt */
+    .tilt-container {
+        perspective: 2000px;
+    }
+
+    .tilt-element {
+        transform-style: preserve-3d;
+        transition: transform 0.1s ease-out;
+    }
+
+    /* Progress Tracker */
+    .progress-track {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        backdrop-filter: blur(5px);
+    }
+
+    .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #60a5fa, #f472b6);
+        box-shadow: 0 0 15px rgba(96, 165, 250, 0.5);
+        transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Glass Cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.6) !important;
+        border-radius: 40px !important;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.1), 0 0 40px rgba(255, 255, 255, 0.5) !important;
+        transform: translateZ(20px);
+    }
+
+    .holographic-border {
+        position: relative;
+    }
+
+    .holographic-border::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        z-index: -1;
+        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
+        background-size: 300% 100%;
+        border-radius: 42px;
+        opacity: 0.15;
+        animation: holographic-move 8s linear infinite;
+    }
+
+    /* Photo Edit */
+    .avatar-edit-container {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        margin: 0 auto;
+    }
+
+    .avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 6px solid #fff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .avatar-upload-badge {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        width: 45px;
+        height: 45px;
+        background: #6366f1;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .avatar-upload-badge:hover {
+        transform: scale(1.1) rotate(15deg);
+        background: #4f46e5;
+    }
+
+    /* Premium Form Inputs */
+    .premium-form-section .section-title {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #0f172a;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .title-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+    }
+
+    .icon-blue {
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+    }
+
+    .icon-green {
+        background: rgba(5, 150, 105, 0.15);
+        color: #059669;
+    }
+
+    .icon-orange {
+        background: rgba(217, 119, 6, 0.15);
+        color: #d97706;
+    }
+
+    .form-floating-premium {
+        position: relative;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-floating-premium .form-control,
+    .form-floating-premium .form-select {
+        height: 60px;
+        padding: 1.5rem 1rem 0.5rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 16px;
+        font-weight: 600;
+        color: #1e293b;
+        background: #fff;
+        transition: all 0.3s ease;
+    }
+
+    .form-floating-premium .form-control:focus,
+    .form-floating-premium .form-select:focus {
+        border-color: transparent;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        outline: none;
+        background: linear-gradient(white, white) padding-box,
+            linear-gradient(90deg, #6366f1, #f472b6, #6366f1) border-box;
+        border: 2px solid transparent !important;
+        background-size: 200% 100%;
+        animation: liquid-border 3s linear infinite;
+    }
+
+    @keyframes liquid-border {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        100% {
+            background-position: 200% 50%;
+        }
+    }
+
+    .form-floating-premium label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        padding: 1.1rem 1rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #475569;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 1;
+    }
+
+    .form-floating-premium .form-control:focus~label,
+    .form-floating-premium .form-control:not(:placeholder-shown)~label,
+    .form-floating-premium .form-control:disabled~label,
+    .form-floating-premium .form-select:focus~label,
+    .form-floating-premium .form-select:valid~label,
+    .form-floating-premium .form-select:not([value=""])~label {
+        transform: translateY(-34px) scale(0.8);
+        color: #1e1b4b;
+        font-weight: 800;
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 0.2rem 0.8rem;
+        border-radius: 8px;
+        left: 10px;
+    }
+
+    /* Extra safety for select */
+    .form-floating-premium select:not([value=""])~label {
+        transform: translateY(-22px) scale(0.8);
+        color: #1e1b4b;
+    }
+
+    .disabled-input {
+        background: #f8fafc !important;
+        cursor: not-allowed;
+        color: #475569 !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    .input-locked-icon {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 0.8rem;
+    }
+
+    .input-icon {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        color: #6366f1;
+        opacity: 0.5;
+    }
+
+    /* Buttons */
+    .btn-premium-gradient {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        color: white;
+        padding: 14px 28px;
+        border-radius: 16px;
+        font-weight: 700;
+        border: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+    }
+
+    /* Magnetic Button */
+    .magnetic-button {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .btn-text {
+        position: relative;
+        z-index: 2;
+    }
+
+    .btn-glow {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .magnetic-button:hover .btn-glow {
+        opacity: 1;
+    }
+
+    /* Reveal */
+    .reveal-text {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.8s ease;
+    }
+
+    .reveal-fade {
+        opacity: 0;
+        transform: scale(0.98);
+        transition: all 0.8s ease;
+    }
+
+    .revealed {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translate(0, 0) scale(1) !important;
+    }
+
+    /* Fallback for no-js or slow observer */
+    .reveal-text,
+    .reveal-fade {
+        visibility: hidden;
+    }
+
+    .revealed {
+        visibility: visible !important;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Reveal Animations with stagger
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, idx) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('revealed');
+                    }, idx * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-text, .reveal-fade').forEach(el => observer.observe(el));
+
+        // 3D Tilt Logic
+        const tiltContainer = document.querySelector('.tilt-container');
+        const tiltElement = document.querySelector('.tilt-element');
+
+        if (tiltContainer && tiltElement) {
+            tiltContainer.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = tiltContainer.getBoundingClientRect();
+                const x = (e.clientX - left) / width;
+                const y = (e.clientY - top) / height;
+
+                const tiltX = (y - 0.5) * 10;
+                const tiltY = (x - 0.5) * -10;
+
+                tiltElement.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateZ(20px)`;
+            });
+
+            tiltContainer.addEventListener('mouseleave', () => {
+                tiltElement.style.transform = `rotateX(0deg) rotateY(0deg) translateZ(0px)`;
+            });
+        }
+
+        // Magnetic Button Logic
+        const magneticBtn = document.querySelector('.magnetic-button');
+        const btnGlow = document.querySelector('.btn-glow');
+
+        if (magneticBtn) {
+            magneticBtn.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = magneticBtn.getBoundingClientRect();
+                const x = e.clientX - left;
+                const y = e.clientY - top;
+
+                // Move glow
+                if (btnGlow) {
+                    btnGlow.style.left = `${x}px`;
+                    btnGlow.style.top = `${y}px`;
+                }
+
+                // Magnetic pull
+                const moveX = (x - width / 2) * 0.35;
+                const moveY = (y - height / 2) * 0.35;
+                magneticBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+
+            magneticBtn.addEventListener('mouseleave', () => {
+                magneticBtn.style.transform = `translate(0, 0)`;
+            });
+        }
+
+        // Form Progress Tracking
+        const form = document.querySelector('#editForm');
+        const fill = document.querySelector('#completionBar');
+        const text = document.querySelector('#completionText');
+        const inputs = form.querySelectorAll('input[required], select[required]');
+
+        const updateProgress = () => {
+            let filled = 0;
+            inputs.forEach(input => {
+                if (input.value.trim() !== '') filled++;
+            });
+            const percent = Math.round((filled / inputs.length) * 100);
+            if (fill) fill.style.width = `${percent}%`;
+            if (text) text.innerText = `${percent}%`;
+        };
+
+        inputs.forEach(input => input.addEventListener('input', updateProgress));
+        updateProgress();
+
+        // Profile Title Typing Effect
+        const title = document.querySelector('.text-holographic');
+        if (title) {
+            const txt = title.innerText;
+            title.innerHTML = '';
+            let i = 0;
+            const type = () => {
+                if (i < txt.length) {
+                    title.innerHTML += txt.charAt(i);
+                    i++;
+                    setTimeout(type, 100);
+                }
+            };
+            setTimeout(type, 800);
+        }
+    });
+
+    function previewPhoto(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('photoPreview').src = e.target.result;
+                showToast('Perfect! New photo selected.', 'success');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function showToast(message, type = 'primary') {
+        const toast = document.createElement('div');
+        toast.className = `alert alert-${type} position-fixed top-0 end-0 m-4 shadow-lg reveal-fade`;
+        toast.style.zIndex = '9999';
+        toast.style.borderRadius = '16px';
+        toast.innerHTML = `<i class="fas fa-check-circle me-2"></i> ${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.classList.add('revealed'), 100);
+        setTimeout(() => toast.remove(), 4000);
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mb-5" style="margin-top: 120px;">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Alumni Meet Registration - View Details</h3>
+                    <a href="{{ url_for('alumni_meet_register') }}" class="btn btn-sm btn-light">Edit</a>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-success">
+                        <strong>✓ Registration Confirmed!</strong> Your alumni meet registration has been successfully
+                        submitted.
+                    </div>
+
+                    <h5 class="mt-4 mb-3"><strong>Personal Details</strong></h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Full Name</label>
+                            <p>{{ registration['full_name'] }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Gender</label>
+                            <p>{{ registration['gender'] }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Date of Birth</label>
+                            <p>{{ registration['dob'] }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Contact No.</label>
+                            <p>{{ registration['contact_no'] }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Email</label>
+                            <p>{{ registration['email'] }}</p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted">Current Address</label>
+                        <p>{{ registration['current_address'] }}</p>
+                    </div>
+
+                    <h5 class="mt-4 mb-3"><strong>Academic Details</strong></h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Enrollment No.</label>
+                            <p>{{ registration['enrollment_no'] }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Course</label>
+                            <p>{{ registration['course'] }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Year of Passing</label>
+                            <p>{{ registration['passing_year'] }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Current Status</label>
+                            <p>{{ registration['current_status'] }}</p>
+                        </div>
+                    </div>
+
+                    {% if registration['company_name'] %}
+                    <h5 class="mt-4 mb-3"><strong>Professional Details</strong></h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Company Name</label>
+                            <p>{{ registration['company_name'] }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Designation</label>
+                            <p>{{ registration['designation'] }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Work Location</label>
+                            <p>{{ registration['work_location'] }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Experience (Years)</label>
+                            <p>{{ registration['experience_years'] }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if registration['university_name'] %}
+                    <h5 class="mt-4 mb-3"><strong>Higher Studies Details</strong></h5>
+                    <div class="mb-3">
+                        <label class="text-muted">University/College</label>
+                        <p>{{ registration['university_name'] }}</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Course</label>
+                            <p>{{ registration['higher_study_course'] }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Country</label>
+                            <p>{{ registration['higher_study_country'] }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">State</label>
+                            <p>{{ registration['higher_study_state'] }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted">Enrollment Year</label>
+                            <p>{{ registration['enrollment_year'] }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <h5 class="mt-4 mb-3"><strong>Alumni Contributions</strong></h5>
+                    <div class="mb-3">
+                        <label class="text-muted">Want to Contribute?</label>
+                        <p>{{ registration['contribute_to_college'] }}</p>
+                    </div>
+                    {% if registration['contribution_areas'] %}
+                    <div class="mb-3">
+                        <label class="text-muted">Contribution Areas</label>
+                        <p>{{ registration['contribution_areas'].replace(',', ', ') }}</p>
+                    </div>
+                    {% endif %}
+
+                    <h5 class="mt-4 mb-3"><strong>Event Confirmation</strong></h5>
+                    <div class="mb-3">
+                        <label class="text-muted">Attending Alumni Meet?</label>
+                        <p><strong class="text-success">{{ registration['attending_meet'] }}</strong></p>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <a href="{{ url_for('dashboard_alumni') }}" class="btn btn-primary">Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

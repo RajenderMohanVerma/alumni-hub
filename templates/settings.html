@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - Alumni Hub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Settings Sidebar -->
+        <div class="col-md-3 mb-4 animate__animated animate__fadeInLeft">
+            <div class="glass-card p-3">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="nav-link active mb-2 text-start" id="v-pills-profile-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-profile" type="button" role="tab">
+                        <i class="fas fa-user-circle me-2"></i> Profile
+                    </button>
+                    <button class="nav-link mb-2 text-start" id="v-pills-account-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-account" type="button" role="tab">
+                        <i class="fas fa-lock me-2"></i> Security
+                    </button>
+                    <button class="nav-link mb-2 text-start" id="v-pills-notifications-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-notifications" type="button" role="tab">
+                        <i class="fas fa-bell me-2"></i> Notifications
+                    </button>
+                    <button class="nav-link text-start" id="v-pills-privacy-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-privacy" type="button" role="tab">
+                        <i class="fas fa-eye-slash me-2"></i> Privacy
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Content -->
+        <div class="col-md-9 animate__animated animate__fadeInRight">
+            <div class="glass-card p-4">
+                <div class="tab-content" id="v-pills-tabContent">
+
+                    <!-- Profile Settings -->
+                    <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel">
+                        <h4 class="fw-bold mb-4">Profile Settings</h4>
+                        <form>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" value="{{ current_user.name }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" value="{{ current_user.email }}" disabled>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Bio</label>
+                                <textarea class="form-control" rows="3">Passionate learner.</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+
+                    <!-- Security Settings -->
+                    <div class="tab-pane fade" id="v-pills-account" role="tabpanel">
+                        <h4 class="fw-bold mb-4">Security Settings</h4>
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label">Current Password</label>
+                                <input type="password" class="form-control">
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">New Password</label>
+                                    <input type="password" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Confirm New Password</label>
+                                    <input type="password" class="form-control">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Password</button>
+                        </form>
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div class="tab-pane fade" id="v-pills-notifications" role="tabpanel">
+                        <h4 class="fw-bold mb-4">Notification Preferences</h4>
+                        <form>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="emailNotif" checked>
+                                <label class="form-check-label" for="emailNotif">Email Notifications</label>
+                                <div class="form-text">Receive emails about new events and job posts.</div>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="msgNotif" checked>
+                                <label class="form-check-label" for="msgNotif">Direct Messages</label>
+                                <div class="form-text">Receive notifications when someone sends you a message.</div>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="marketingNotif">
+                                <label class="form-check-label" for="marketingNotif">Marketing Emails</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Save Preferences</button>
+                        </form>
+                    </div>
+
+                    <!-- Privacy Settings -->
+                    <div class="tab-pane fade" id="v-pills-privacy" role="tabpanel">
+                        <h4 class="fw-bold mb-4">Privacy Settings</h4>
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label">Profile Visibility</label>
+                                <select class="form-select">
+                                    <option>Public (Visible to everyone)</option>
+                                    <option selected>Community (Visible to alumni only)</option>
+                                    <option>Private (Hidden)</option>
+                                </select>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="showEmail">
+                                <label class="form-check-label" for="showEmail">Show my email address on my
+                                    profile</label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="showPhone">
+                                <label class="form-check-label" for="showPhone">Show my phone number on my
+                                    profile</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Update Privacy</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

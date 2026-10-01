@@ -1,0 +1,762 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - Alumni Hub{% endblock %}
+
+{% block content %}
+<!-- Premium Fonts -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+<div class="settings-wrapper">
+    <!-- Animated Background -->
+    <div class="settings-bg">
+        <div class="bg-blob blob-1"></div>
+        <div class="bg-blob blob-2"></div>
+        <div class="bg-blob blob-3"></div>
+    </div>
+
+    <!-- Header Section -->
+    <div class="settings-hero">
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="hero-content">
+                        <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade"
+                            style="font-weight: 700; letter-spacing: 0.5px;">
+                            <i class="fas fa-cog me-2"></i> ACCOUNT SETTINGS
+                        </div>
+                        <h1 class="text-white display-5 fw-bold mb-3 reveal-text">
+                            Manage Your <span class="text-holographic">Settings</span>
+                        </h1>
+                        <p class="text-white-50 lead mb-0 reveal-fade" style="font-size: 1.1rem;">
+                            Customize your profile, security, and preferences
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-n5 mb-5" style="position: relative; z-index: 5; margin-top: -60px;">
+        <div class="row">
+            <!-- Settings Sidebar -->
+            <div class="col-lg-3 mb-4 reveal-fade">
+                <div class="glass-card p-3 sticky-sidebar">
+                    <div class="nav flex-column nav-pills settings-nav" id="v-pills-tab" role="tablist"
+                        aria-orientation="vertical">
+                        <button class="nav-link active mb-2 text-start" id="v-pills-profile-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-profile" type="button" role="tab">
+                            <i class="fas fa-user-circle me-2"></i> Profile
+                        </button>
+                        <button class="nav-link mb-2 text-start" id="v-pills-account-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-account" type="button" role="tab">
+                            <i class="fas fa-lock me-2"></i> Security
+                        </button>
+                        <button class="nav-link mb-2 text-start" id="v-pills-notifications-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-notifications" type="button" role="tab">
+                            <i class="fas fa-bell me-2"></i> Notifications
+                        </button>
+                        <button class="nav-link mb-2 text-start" id="v-pills-privacy-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-privacy" type="button" role="tab">
+                            <i class="fas fa-eye-slash me-2"></i> Privacy
+                        </button>
+                        <button class="nav-link text-start" id="v-pills-appearance-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-appearance" type="button" role="tab">
+                            <i class="fas fa-palette me-2"></i> Appearance
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Content -->
+            <div class="col-lg-9 reveal-fade">
+                <div class="glass-card p-4 p-md-5">
+                    <div class="tab-content" id="v-pills-tabContent">
+
+                        <!-- Profile Settings -->
+                        <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel">
+                            <h4 class="fw-bold mb-4 section-title"
+                                style="background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                                <i class="fas fa-user-circle me-2"></i> Profile Settings
+                            </h4>
+                            <form id="profileForm">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="form-floating-premium">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                value="{{ current_user.name }}" required>
+                                            <label for="name">Full Name</label>
+                                            <div class="focus-border"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating-premium">
+                                            <input type="email" class="form-control disabled-input"
+                                                value="{{ current_user.email }}" disabled>
+                                            <label>Email (Locked)</label>
+                                            <i class="fas fa-lock input-locked-icon"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="form-floating-premium">
+                                        <textarea class="form-control" id="bio" name="bio"
+                                            style="height: 100px;">Passionate learner and tech enthusiast.</textarea>
+                                        <label for="bio">Bio</label>
+                                        <div class="focus-border"></div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-premium-gradient">
+                                    <i class="fas fa-save me-2"></i> Save Changes
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Security Settings -->
+                        <div class="tab-pane fade" id="v-pills-account" role="tabpanel">
+                            <h4 class="fw-bold mb-4 section-title"
+                                style="background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                                <i class="fas fa-lock me-2"></i> Security Settings
+                            </h4>
+                            <form id="securityForm">
+                                <div class="mb-4">
+                                    <div class="form-floating-premium">
+                                        <input type="password" class="form-control" id="currentPassword"
+                                            name="currentPassword" required>
+                                        <label for="currentPassword">Current Password</label>
+                                        <div class="focus-border"></div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="form-floating-premium">
+                                            <input type="password" class="form-control" id="newPassword"
+                                                name="newPassword" required>
+                                            <label for="newPassword">New Password</label>
+                                            <div class="focus-border"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating-premium">
+                                            <input type="password" class="form-control" id="confirmPassword"
+                                                name="confirmPassword" required>
+                                            <label for="confirmPassword">Confirm New Password</label>
+                                            <div class="focus-border"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Password Strength Indicator -->
+                                <div class="password-strength mb-4">
+                                    <small class="text-muted fw-bold">Password Strength:</small>
+                                    <div class="strength-bar">
+                                        <div class="strength-fill" id="strengthBar"></div>
+                                    </div>
+                                    <small id="strengthText" class="text-muted"></small>
+                                </div>
+
+                                <button type="submit" class="btn btn-premium-gradient">
+                                    <i class="fas fa-shield-alt me-2"></i> Update Password
+                                </button>
+                            </form>
+
+                            <!-- Two-Factor Authentication -->
+                            <hr class="my-5">
+                            <h5 class="fw-bold mb-3">Two-Factor Authentication</h5>
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i> Add an extra layer of security to your account
+                            </div>
+                            <button class="btn btn-outline-primary">
+                                <i class="fas fa-mobile-alt me-2"></i> Enable 2FA
+                            </button>
+                        </div>
+
+                        <!-- Notification Settings -->
+                        <div class="tab-pane fade" id="v-pills-notifications" role="tabpanel">
+                            <h4 class="fw-bold mb-4 section-title"
+                                style="background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                                <i class="fas fa-bell me-2"></i> Notification Preferences
+                            </h4>
+                            <form id="notificationForm">
+                                <div class="notification-group mb-4">
+                                    <div class="form-check form-switch-premium mb-3">
+                                        <input class="form-check-input" type="checkbox" id="emailNotif" checked>
+                                        <label class="form-check-label" for="emailNotif">
+                                            <strong>Email Notifications</strong>
+                                            <small class="d-block text-muted">Receive emails about new events and job
+                                                posts</small>
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-switch-premium mb-3">
+                                        <input class="form-check-input" type="checkbox" id="msgNotif" checked>
+                                        <label class="form-check-label" for="msgNotif">
+                                            <strong>Direct Messages</strong>
+                                            <small class="d-block text-muted">Get notified when someone sends you a
+                                                message</small>
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-switch-premium mb-3">
+                                        <input class="form-check-input" type="checkbox" id="jobNotif" checked>
+                                        <label class="form-check-label" for="jobNotif">
+                                            <strong>Job Alerts</strong>
+                                            <small class="d-block text-muted">Receive notifications for new job
+                                                postings</small>
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-switch-premium mb-3">
+                                        <input class="form-check-input" type="checkbox" id="eventNotif">
+                                        <label class="form-check-label" for="eventNotif">
+                                            <strong>Event Reminders</strong>
+                                            <small class="d-block text-muted">Get reminders for upcoming events</small>
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-switch-premium">
+                                        <input class="form-check-input" type="checkbox" id="marketingNotif">
+                                        <label class="form-check-label" for="marketingNotif">
+                                            <strong>Marketing Emails</strong>
+                                            <small class="d-block text-muted">Promotional content and updates</small>
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-premium-gradient">
+                                    <i class="fas fa-check me-2"></i> Save Preferences
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Privacy Settings -->
+                        <div class="tab-pane fade" id="v-pills-privacy" role="tabpanel">
+                            <h4 class="fw-bold mb-4 section-title"
+                                style="background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                                <i class="fas fa-eye-slash me-2"></i> Privacy Settings
+                            </h4>
+                            <form id="privacyForm">
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Profile Visibility</label>
+                                    <select class="form-select form-select-premium">
+                                        <option>Public (Visible to everyone)</option>
+                                        <option selected>Community (Visible to alumni only)</option>
+                                        <option>Private (Hidden)</option>
+                                    </select>
+                                </div>
+                                <div class="privacy-options mb-4">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="showEmail">
+                                        <label class="form-check-label" for="showEmail">
+                                            Show my email address on my profile
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="showPhone">
+                                        <label class="form-check-label" for="showPhone">
+                                            Show my phone number on my profile
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="allowMessages" checked>
+                                        <label class="form-check-label" for="allowMessages">
+                                            Allow others to send me messages
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="showActivity" checked>
+                                        <label class="form-check-label" for="showActivity">
+                                            Show my activity status
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-premium-gradient">
+                                    <i class="fas fa-shield-alt me-2"></i> Update Privacy
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Appearance Settings -->
+                        <div class="tab-pane fade" id="v-pills-appearance" role="tabpanel">
+                            <h4 class="fw-bold mb-4 section-title"
+                                style="background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                                <i class="fas fa-palette me-2"></i> Appearance
+                            </h4>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Theme</label>
+                                <div class="theme-selector">
+                                    <div class="theme-option active" data-theme="light">
+                                        <div class="theme-preview light-theme">
+                                            <i class="fas fa-sun"></i>
+                                        </div>
+                                        <span>Light</span>
+                                    </div>
+                                    <div class="theme-option" data-theme="dark">
+                                        <div class="theme-preview dark-theme">
+                                            <i class="fas fa-moon"></i>
+                                        </div>
+                                        <span>Dark</span>
+                                    </div>
+                                    <div class="theme-option" data-theme="auto">
+                                        <div class="theme-preview auto-theme">
+                                            <i class="fas fa-adjust"></i>
+                                        </div>
+                                        <span>Auto</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle me-2"></i> Theme preferences saved automatically
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Global Styles */
+    body {
+        font-family: 'Outfit', sans-serif;
+        background-color: #f8fafc;
+        overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .settings-wrapper {
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+    }
+
+    /* Animated Background */
+    .settings-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        background: #f8fafc;
+        pointer-events: none;
+    }
+
+    .bg-blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.12;
+        animation: blob-float 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+    }
+
+    .blob-1 {
+        width: 600px;
+        height: 600px;
+        background: #6366f1;
+        top: -10%;
+        left: -10%;
+        animation-duration: 25s;
+    }
+
+    .blob-2 {
+        width: 500px;
+        height: 500px;
+        background: #a855f7;
+        bottom: 10%;
+        right: -5%;
+        animation-duration: 30s;
+    }
+
+    .blob-3 {
+        width: 400px;
+        height: 400px;
+        background: #ec4899;
+        top: 40%;
+        left: 30%;
+        animation-duration: 22s;
+    }
+
+    @keyframes blob-float {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+
+        100% {
+            transform: translate(100px, 100px) rotate(180deg);
+        }
+    }
+
+    /* Hero Section */
+    .settings-hero {
+        padding: 120px 0 100px;
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .text-holographic {
+        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: holographic-move 8s linear infinite;
+    }
+
+    @keyframes holographic-move {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        100% {
+            background-position: 300% 50%;
+        }
+    }
+
+    /* Reveal Animations */
+    .reveal-text {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .reveal-fade {
+        opacity: 0;
+        transform: scale(0.95);
+        transition: all 1s ease;
+    }
+
+    .revealed {
+        opacity: 1 !important;
+        transform: translate(0, 0) scale(1) !important;
+    }
+
+    /* Glass Cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.6) !important;
+        border-radius: 30px !important;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Sticky Sidebar */
+    .sticky-sidebar {
+        position: sticky;
+        top: 100px;
+    }
+
+    /* Settings Navigation */
+    .settings-nav .nav-link {
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-weight: 600;
+        color: #64748b;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .settings-nav .nav-link:hover {
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        transform: translateX(5px);
+    }
+
+    .settings-nav .nav-link.active {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Premium Form Inputs */
+    .form-floating-premium {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-floating-premium .form-control {
+        height: 60px;
+        padding: 1.5rem 1rem 0.5rem;
+        border: 2px solid #cbd5e1;
+        border-radius: 16px;
+        font-weight: 600;
+        color: #1e293b;
+        background: #fff;
+        transition: all 0.3s ease;
+    }
+
+    .form-floating-premium .form-control:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        outline: none;
+    }
+
+    .form-floating-premium label {
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #475569;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .form-floating-premium .form-control:focus~label,
+    .form-floating-premium .form-control:not(:placeholder-shown)~label {
+        top: 12px;
+        font-size: 0.75rem;
+        color: #6366f1;
+    }
+
+    .form-floating-premium textarea.form-control {
+        height: auto;
+        padding-top: 1.5rem;
+    }
+
+    .disabled-input {
+        background: #f8fafc !important;
+        cursor: not-allowed;
+        color: #475569 !important;
+    }
+
+    .input-locked-icon {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 0.8rem;
+    }
+
+    /* Buttons */
+    .btn-premium-gradient {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        color: white;
+        padding: 14px 28px;
+        border-radius: 16px;
+        font-weight: 700;
+        border: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+    }
+
+    .btn-premium-gradient:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+        background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    }
+
+    /* Password Strength */
+    .password-strength {
+        margin-top: 1rem;
+    }
+
+    .strength-bar {
+        height: 6px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 8px 0;
+    }
+
+    .strength-fill {
+        height: 100%;
+        width: 0%;
+        transition: all 0.3s ease;
+        border-radius: 10px;
+    }
+
+    .strength-weak {
+        background: #ef4444;
+        width: 33%;
+    }
+
+    .strength-medium {
+        background: #f59e0b;
+        width: 66%;
+    }
+
+    .strength-strong {
+        background: #10b981;
+        width: 100%;
+    }
+
+    /* Switch Premium */
+    .form-check-input {
+        width: 50px;
+        height: 26px;
+        cursor: pointer;
+        border: 2px solid #cbd5e1;
+    }
+
+    .form-check-input:checked {
+        background-color: #6366f1;
+        border-color: #6366f1;
+    }
+
+    .form-check-label {
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+    /* Theme Selector */
+    .theme-selector {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .theme-option {
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .theme-preview {
+        width: 100px;
+        height: 100px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        border: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .light-theme {
+        background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+        color: #6366f1;
+    }
+
+    .dark-theme {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        color: #60a5fa;
+    }
+
+    .auto-theme {
+        background: linear-gradient(135deg, #fff 0%, #1e293b 100%);
+        color: #a855f7;
+    }
+
+    .theme-option.active .theme-preview {
+        border-color: #6366f1;
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        transform: scale(1.05);
+    }
+
+    .form-select-premium {
+        padding: 12px 16px;
+        border: 2px solid #cbd5e1;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .form-select-premium:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        outline: none;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Reveal Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, idx) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('revealed');
+                    }, idx * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-text, .reveal-fade').forEach(el => observer.observe(el));
+
+        // Password Strength Checker
+        const newPasswordInput = document.getElementById('newPassword');
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthText = document.getElementById('strengthText');
+
+        if (newPasswordInput) {
+            newPasswordInput.addEventListener('input', (e) => {
+                const password = e.target.value;
+                let strength = 0;
+
+                if (password.length >= 8) strength++;
+                if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+                if (password.match(/[0-9]/)) strength++;
+                if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+                strengthBar.className = 'strength-fill';
+                if (strength === 1 || strength === 2) {
+                    strengthBar.classList.add('strength-weak');
+                    strengthText.textContent = 'Weak';
+                    strengthText.style.color = '#ef4444';
+                } else if (strength === 3) {
+                    strengthBar.classList.add('strength-medium');
+                    strengthText.textContent = 'Medium';
+                    strengthText.style.color = '#f59e0b';
+                } else if (strength === 4) {
+                    strengthBar.classList.add('strength-strong');
+                    strengthText.textContent = 'Strong';
+                    strengthText.style.color = '#10b981';
+                } else {
+                    strengthBar.style.width = '0%';
+                    strengthText.textContent = '';
+                }
+            });
+        }
+
+        // Theme Selector
+        document.querySelectorAll('.theme-option').forEach(option => {
+            option.addEventListener('click', function () {
+                document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+
+                const theme = this.dataset.theme;
+                showToast(`Theme changed to ${theme}`, 'success');
+            });
+        });
+
+        // Form Submissions
+        const forms = ['profileForm', 'securityForm', 'notificationForm', 'privacyForm'];
+        forms.forEach(formId => {
+            const form = document.getElementById(formId);
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    showToast('Settings saved successfully!', 'success');
+                });
+            }
+        });
+    });
+
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `alert alert-${type} position-fixed top-0 end-0 m-4 shadow-lg reveal-fade`;
+        toast.style.zIndex = '9999';
+        toast.style.borderRadius = '16px';
+        toast.innerHTML = `<i class="fas fa-check-circle me-2"></i> ${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.classList.add('revealed'), 100);
+        setTimeout(() => toast.remove(), 4000);
+    }
+</script>
+{% endblock %}

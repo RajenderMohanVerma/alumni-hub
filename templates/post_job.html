@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="post-job-wrapper py-5"
+    style="margin-top: 100px; min-height: 100vh; background: #0f172a; position: relative; overflow: hidden;">
+    <!-- Background Accents -->
+    <div class="mesh-background"
+        style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 1;">
+        <div class="ball ball-1"
+            style="position: absolute; width: 500px; height: 500px; background: rgba(99, 102, 241, 0.15); filter: blur(100px); border-radius: 50%; top: -10%; left: -10%;">
+        </div>
+        <div class="ball ball-2"
+            style="position: absolute; width: 400px; height: 400px; background: rgba(16, 185, 129, 0.1); filter: blur(100px); border-radius: 50%; bottom: -5%; right: -5%;">
+        </div>
+    </div>
+
+    <div class="container" style="position: relative; z-index: 2;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <div class="glass-card p-4 p-md-5"
+                    style="background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+                    <div class="text-center mb-5">
+                        <div class="icon-box mb-3 d-inline-block p-3"
+                            style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); border-radius: 20px; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);">
+                            <i class="fas fa-briefcase fa-2x text-white"></i>
+                        </div>
+                        <h2 class="fw-bold text-white mb-2">Post a New Opportunity</h2>
+                        <p class="text-slate-400">Help the next generation of DBITians find their dream careers.</p>
+                    </div>
+
+                    <form action="{{ url_for('post_job') }}" method="POST" class="needs-validation" novalidate>
+                        <div class="row g-4">
+                            <!-- Job Title -->
+                            <div class="col-md-12">
+                                <label class="form-label text-slate-300 small fw-bold mb-2">JOB TITLE</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-slate-800 border-slate-700 text-slate-400"><i
+                                            class="fas fa-heading"></i></span>
+                                    <input type="text" name="title"
+                                        class="form-control bg-slate-800 border-slate-700 text-white p-3"
+                                        placeholder="e.g. Senior Software Engineer" required>
+                                </div>
+                            </div>
+
+                            <!-- Company -->
+                            <div class="col-md-6">
+                                <label class="form-label text-slate-300 small fw-bold mb-2">COMPANY NAME</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-slate-800 border-slate-700 text-slate-400"><i
+                                            class="fas fa-building"></i></span>
+                                    <input type="text" name="company"
+                                        class="form-control bg-slate-800 border-slate-700 text-white p-3"
+                                        placeholder="e.g. Google" required>
+                                </div>
+                            </div>
+
+                            <!-- Location & Job Type -->
+                            <div class="col-md-6">
+                                <label class="form-label text-slate-300 small fw-bold mb-2">LOCATION</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-slate-800 border-slate-700 text-slate-400"><i
+                                            class="fas fa-map-marker-alt"></i></span>
+                                    <input type="text" name="location"
+                                        class="form-control bg-slate-800 border-slate-700 text-white p-3"
+                                        placeholder="e.g. Mumbai, Remote">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-slate-300 small fw-bold mb-2">JOB TYPE</label>
+                                <select name="job_type"
+                                    class="form-select bg-slate-800 border-slate-700 text-white p-3">
+                                    <option value="Full-time">Full-time</option>
+                                    <option value="Internship">Internship</option>
+                                    <option value="Part-time">Part-time</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Remote">Remote</option>
+                                </select>
+                            </div>
+
+                            <!-- Salary & Apply Link -->
+                            <div class="col-md-6">
+                                <label class="form-label text-slate-300 small fw-bold mb-2">SALARY RANGE</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-slate-800 border-slate-700 text-slate-400"><i
+                                            class="fas fa-money-bill-wave"></i></span>
+                                    <input type="text" name="salary"
+                                        class="form-control bg-slate-800 border-slate-700 text-white p-3"
+                                        placeholder="e.g. 5-8 LPA">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-slate-300 small fw-bold mb-2">APPLICATION LINK</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-slate-800 border-slate-700 text-slate-400"><i
+                                            class="fas fa-link"></i></span>
+                                    <input type="text" name="apply_link"
+                                        class="form-control bg-slate-800 border-slate-700 text-white p-3"
+                                        placeholder="URL or Email">
+                                </div>
+                            </div>
+
+                            <!-- Required Skills -->
+                            <div class="col-md-12">
+                                <label class="form-label text-slate-300 small fw-bold mb-2">SKILLS (COMMA
+                                    SEPARATED)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-slate-800 border-slate-700 text-slate-400"><i
+                                            class="fas fa-tags"></i></span>
+                                    <input type="text" name="skills"
+                                        class="form-control bg-slate-800 border-slate-700 text-white p-3"
+                                        placeholder="e.g. Python, Flask, SQL">
+                                </div>
+                            </div>
+
+                            <!-- Job Description -->
+                            <div class="col-12">
+                                <label class="form-label text-slate-300 small fw-bold mb-2">JOB DESCRIPTION</label>
+                                <textarea name="description"
+                                    class="form-control bg-slate-800 border-slate-700 text-white p-3" rows="6"
+                                    placeholder="Describe the role, responsibilities, and benefits..."></textarea>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="col-12 mt-5">
+                                <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-xl"
+                                    style="background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); border: none; font-size: 1.1rem; transition: 0.3s;">
+                                    🚀 Launch Opportunity
+                                </button>
+                                <a href="{{ url_for('alumni_dashboard') }}"
+                                    class="btn btn-outline-slate w-100 py-3 mt-2 text-slate-400 border-slate-700">Cancel
+                                    and Return</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .glass-card {
+        transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .glass-card:hover {
+        border-color: rgba(99, 102, 241, 0.4);
+    }
+
+    .form-control:focus {
+        background: rgba(15, 23, 42, 0.9) !important;
+        border-color: #6366f1 !important;
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    }
+</style>
+{% endblock %}

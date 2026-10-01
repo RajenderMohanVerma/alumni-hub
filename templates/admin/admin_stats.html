@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}Telemetry Core - Alumni Hub{% endblock %}
+
+{% block content %}
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+    :root {
+        --terminal-bg: #030712;
+        --accent-primary: #6366f1;
+        --accent-secondary: #a855f7;
+        --accent-emerald: #10b981;
+        --accent-amber: #f59e0b;
+        --glass-bg: rgba(15, 23, 42, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-dim: #94a3b8;
+    }
+
+    body {
+        background: var(--terminal-bg);
+        color: white;
+        font-family: 'Outfit', sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* --- Background Layer --- */
+    .premium-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
+        z-index: -2;
+    }
+
+    .mesh-gradient {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .mesh-ball {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.15;
+        animation: floatOrb 20s infinite alternate;
+    }
+
+    @keyframes floatOrb {
+        0% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        100% {
+            transform: translate(100px, 50px) scale(1.1);
+        }
+    }
+
+    /* --- Page Layout --- */
+    .stats-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 120px 2rem 4rem;
+    }
+
+    .matrix-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(to right, #fff, #94a3b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -1px;
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    /* --- Glass Components --- */
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+        height: 100%;
+    }
+
+    .stat-mini {
+        padding: 24px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--glass-border);
+        text-align: center;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .stat-mini:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .mini-value {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 700;
+        font-size: 2rem;
+        display: block;
+        color: white;
+    }
+
+    .mini-label {
+        color: var(--text-dim);
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 5px;
+    }
+</style>
+
+<!-- Background Layer -->
+<div class="premium-bg"></div>
+<div class="mesh-gradient">
+    <div class="mesh-ball" style="background: #4f46e5; top: -10%; left: -10%;"></div>
+    <div class="mesh-ball" style="background: #7c3aed; bottom: -10%; right: -10%;"></div>
+</div>
+
+<div class="stats-wrapper">
+    <div class="matrix-header animate__animated animate__fadeInDown">
+        <h1 class="matrix-title">Telemetry Core</h1>
+        <p class="text-center text-dim fs-5 mb-5">System Intelligence • Growth Analytics • Ecosystem Density</p>
+    </div>
+
+    <!-- Quick Stats Hub -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3 animate__animated animate__zoomIn">
+            <div class="stat-mini">
+                <span class="mini-value">1,250</span>
+                <span class="mini-label">TOTAL_SYSTEM_NODES</span>
+            </div>
+        </div>
+        <div class="col-md-3 animate__animated animate__zoomIn" style="animation-delay: 0.1s;">
+            <div class="stat-mini">
+                <span class="mini-value" style="color: var(--accent-emerald);">850</span>
+                <span class="mini-label">LEGACY_SEGMENT</span>
+            </div>
+        </div>
+        <div class="col-md-3 animate__animated animate__zoomIn" style="animation-delay: 0.2s;">
+            <div class="stat-mini">
+                <span class="mini-value" style="color: var(--accent-primary);">350</span>
+                <span class="mini-label">LEARNER_NODES</span>
+            </div>
+        </div>
+        <div class="col-md-3 animate__animated animate__zoomIn" style="animation-delay: 0.3s;">
+            <div class="stat-mini">
+                <span class="mini-value" style="color: var(--accent-amber);">50</span>
+                <span class="mini-label">MENTORSHIP_CORE</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Matrices -->
+    <div class="row g-4">
+        <div class="col-lg-8 animate__animated animate__fadeInUp">
+            <div class="glass-card">
+                <h5 class="fw-bold text-white mb-4"><i class="fas fa-wave-square me-2 text-primary"></i>
+                    TEMPORAL_GROWTH_CURVE</h5>
+                <canvas id="userGrowthChart" height="150"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-4 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+            <div class="glass-card">
+                <h5 class="fw-bold text-white mb-4"><i class="fas fa-chart-pie me-2 text-primary"></i> SEGMENT_DENSITY
+                </h5>
+                <canvas id="roleDistChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const growthCtx = document.getElementById('userGrowthChart').getContext('2d');
+        new Chart(growthCtx, {
+            type: 'line',
+            data: {
+                labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN'],
+                datasets: [{
+                    label: 'Registrations',
+                    data: [65, 59, 80, 81, 56, 155],
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { display: false } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        const roleCtx = document.getElementById('roleDistChart').getContext('2d');
+        new Chart(roleCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['ALUMNI', 'STUDENTS', 'FACULTY'],
+                datasets: [{
+                    data: [850, 350, 50],
+                    backgroundColor: ['#10b981', '#0ea5e9', '#f59e0b'],
+                    borderWidth: 0,
+                    hoverOffset: 20
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '70%',
+                plugins: { legend: { position: 'bottom', labels: { font: { weight: 'bold' }, padding: 20 } } }
+            }
+        });
+    });
+</script>
+{% endblock %}

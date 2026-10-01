@@ -1,0 +1,27 @@
+{% extends 'emails/base_email.html' %}
+
+{% block content %}
+<h2 style="color: #1e293b; margin-top: 0;">Connection Accepted! 🎉</h2>
+<p style="font-size: 16px; color: #475569;">Hi <strong>{{ sender_name }}</strong>,</p>
+
+<p style="font-size: 16px; color: #475569;">
+    Good news! <strong>{{ receiver_name }}</strong> has accepted your connection request.
+</p>
+
+<p style="font-size: 16px; color: #475569;">
+    You are now connected on Alumni Hub. You can view their full profile, contact them via email at <strong>{{
+        receiver_email }}</strong>, or start a conversation directly.
+</p>
+
+<div style="text-align: center; margin: 35px 0;">
+    <a href="{{ profile_url }}" class="button"
+        style="background-color: #1e3a8a; display: block; margin-bottom: 15px;">View Profile</a>
+
+    {% if receiver_phone %}
+    <a href="https://wa.me/{{ receiver_phone }}" class="button" style="background-color: #25D366; display: block;">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="16" height="16" alt="WhatsApp"
+            style="vertical-align: middle; margin-right: 8px;"> Chat on WhatsApp
+    </a>
+    {% endif %}
+</div>
+{% endblock %}

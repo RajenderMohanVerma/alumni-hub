@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Official ALUMNI HUB - Connect, network, and grow with the Don Bosco Institute of Technology alumni community. Post jobs, find mentors, and stay updated with college events.">
+    <meta name="keywords"
+        content="DBIT Alumni, Don Bosco Institute of Technology, Alumni Network, Mentorship, Job Portal, College Networking, Mumbai Engineering Alumni">
+    <meta name="author" content="DBIT Alumni Association">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ request.url }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:title" content="ALUMNI HUB - Connect & Grow">
+    <meta property="og:description"
+        content="The official platform for DBIT alumni to connect with students and grow professionally.">
+    <meta property="og:image" content="{{ url_for('static', filename='img/og-image.jpg', _external=True) }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.url }}">
+    <meta property="twitter:title" content="ALUMNI HUB - Connect & Grow">
+    <meta property="twitter:description"
+        content="The official platform for DBIT alumni to connect with students and grow professionally.">
+    <meta property="twitter:image" content="{{ url_for('static', filename='img/og-image.jpg', _external=True) }}">
+
+    <title>{% block title %}ALUMNI HUB{% endblock %}</title>
+
+    <!-- Premium Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar-professional.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/social_pages.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ui-enhancements.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+
+
+    <style>
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .map-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .map-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .map-container:hover .map-overlay {
+            opacity: 1;
+        }
+
+        .map-overlay-text {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Global Network Animation */
+        .network-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* Alumni Navbar Compact Styles */
+        .nav-alumni-link {
+            font-size: 0.9rem !important;
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+            white-space: nowrap;
+        }
+
+        .nav-alumni-link i {
+            font-size: 1rem;
+            color: var(--primary-color, #4f46e5);
+            /* Brand color hint */
+        }
+
+        @media (max-width: 1200px) {
+            .nav-alumni-link span.d-xl-inline {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="premium-theme">
+    <!-- Global Particle Canvas -->
+    <canvas id="particle-canvas" class="particle-canvas"></canvas>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg navbar-floating fixed-top smart-scroll-nav nav-dark-mode" id="mainNavbar">
+        <div class="container-fluid navbar-container">
+            <a class="navbar-brand brand-premium" href="/">
+                <div class="brand-logo-container">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <strong class="brand-text-premium brand-animate-rtl">ALUMNI HUB</strong><br>
+            </a>
+
+            <!-- Open Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation" id="navbarToggler">
+                <div class="hamburger-lines">
+                    <span class="line line1"></span>
+                    <span class="line line2"></span>
+                    <span class="line line3"></span>
+                </div>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    {% if not current_user.is_authenticated %}
+                    <!-- Public View -->
+                    <!-- Island Navigation (Centered) -->
+                    <ul class="navbar-nav mx-auto d-none d-lg-flex align-items-center gap-1 shadow-sm rounded-pill px-2 py-1 bg-white border"
+                        style="box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important;">
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill-link" href="/">
+                                <i class="fas fa-home text-primary bg-primary-subtle rounded-circle p-2"
+                                    style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"></i>
+                                <span class="fw-semibold text-dark d-none d-xl-inline">Home</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill-link" href="/about">
+                                <span class="fw-semibold text-secondary hover-text-primary transition-all">About</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill-link" href="/services">
+                                <span
+                                    class="fw-semibold text-secondary hover-text-primary transition-all">Services</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill-link" href="/events">
+                                <span class="fw-semibold text-secondary hover-text-primary transition-all">Events</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill-link" href="/contact">
+                                <span
+                                    class="fw-semibold text-secondary hover-text-primary transition-all">Contact</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Right Actions -->
+                    <div class="d-flex align-items-center ms-auto gap-3">
+                        <a class="nav-link fw-bold text-dark px-3" href="/login">
+                            Log In
+                        </a>
+                        <a class="btn btn-premium-gradient btn-glow rounded-pill px-4 py-2 fw-bold text-nowrap"
+                            href="/register" style="box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);">
+                            Get Started <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                    {% else %}
+                    <!-- Authenticated View -->
+                    {% if current_user.role == 'student' %}
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link" href="/student/dashboard">
+                            <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <!-- Connect Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-pill-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-users"></i> <span>Connect</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/network"><i class="fas fa-network-wired me-2"></i>
+                                    Network</a></li>
+                            <li><a class="dropdown-item" href="/messages"><i class="fas fa-comment-alt me-2"></i>
+                                    Messages</a></li>
+                            <li><a class="dropdown-item" href="/mentorship"><i class="fas fa-user-graduate me-2"></i>
+                                    Mentorship</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Opportunities Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-pill-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-briefcase"></i> <span>Opportunities</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/jobs"><i class="fas fa-briefcase me-2"></i> Jobs</a>
+                            </li>
+                            <li><a class="dropdown-item" href="/events"><i class="fas fa-calendar-alt me-2"></i>
+                                    Events</a></li>
+                        </ul>
+                    </li>
+
+
+                    <!-- More Dropdown -->
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link" href="/notifications">
+                            <i class="fas fa-bell"></i> <span>Notifications</span>
+                        </a>
+                    </li>
+
+                    {% elif current_user.role == 'alumni' %}
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link nav-alumni-link" href="/alumni/dashboard">
+                            <i class="fas fa-tachometer-alt"></i> <span class="d-none d-xl-inline">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <!-- Connect Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-pill-link dropdown-toggle nav-alumni-link" href="#"
+                            id="alumniConnectDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-users"></i> <span class="d-none d-lg-inline">Connect</span>
+                        </a>
+                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="alumniConnectDropdown">
+                            <li>
+                                <a class="dropdown-item" href="/alumni/network">
+                                    <i class="fas fa-network-wired me-2"></i> Network
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/alumni/mentorship">
+                                    <i class="fas fa-chalkboard-teacher me-2"></i> Mentorship
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/alumni/spotlight">
+                                    <i class="fas fa-star me-2"></i> Spotlight
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Opportunities Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-pill-link dropdown-toggle nav-alumni-link" href="#"
+                            id="opportunitiesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-briefcase"></i> <span class="d-none d-lg-inline">Opportunities</span>
+                        </a>
+                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="opportunitiesDropdown">
+                            <li>
+                                <a class="dropdown-item" href="/alumni/jobs">
+                                    <i class="fas fa-search me-2"></i> Find Jobs
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/alumni/post-job">
+                                    <i class="fas fa-plus-circle me-2"></i> Post a Job
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link nav-alumni-link" href="/alumni/events">
+                            <i class="fas fa-calendar-alt"></i> <span class="d-none d-xl-inline">Events</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-pill-link dropdown-toggle nav-alumni-link" href="#" id="updatesDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bell"></i> <span class="d-none d-lg-inline">Updates</span>
+                        </a>
+                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="updatesDropdown">
+                            <li>
+                                <a class="dropdown-item" href="/alumni/messages">
+                                    <i class="fas fa-comment-alt me-2"></i> Messages
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/alumni/notifications">
+                                    <i class="fas fa-bell me-2"></i> Notifications
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    {% elif current_user.role == 'faculty' %}
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link nav-faculty-link" href="/faculty/dashboard">
+                            <i class="fas fa-tachometer-alt"></i> <span class="d-none d-xl-inline">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <!-- Connect Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-pill-link dropdown-toggle nav-faculty-link" href="#"
+                            id="facultyConnectDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-users"></i> <span class="d-none d-lg-inline">Connect</span>
+                        </a>
+                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="facultyConnectDropdown">
+                            <li>
+                                <a class="dropdown-item" href="/network">
+                                    <i class="fas fa-network-wired me-2"></i> Network
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/profile">
+                                    <i class="fas fa-user me-2"></i> My Profile
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Manage Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-pill-link dropdown-toggle nav-faculty-link" href="#" id="manageDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-tasks"></i> <span class="d-none d-lg-inline">Manage</span>
+                        </a>
+                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="manageDropdown">
+                            <li>
+                                <a class="dropdown-item" href="/announcements">
+                                    <i class="fas fa-bullhorn me-2"></i> Announcements
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/reports">
+                                    <i class="fas fa-file-alt me-2"></i> Reports
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="/post-job">
+                                    <i class="fas fa-plus-circle me-2 text-success"></i> Post a Job
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/jobs">
+                                    <i class="fas fa-briefcase me-2 text-primary"></i> View Jobs
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link nav-faculty-link" href="/events">
+                            <i class="fas fa-calendar-alt"></i> <span class="d-none d-xl-inline">Events</span>
+                        </a>
+                    </li>
+
+                    <!-- Updates Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-pill-link dropdown-toggle nav-faculty-link" href="#"
+                            id="facultyUpdatesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bell"></i> <span class="d-none d-lg-inline">Updates</span>
+                        </a>
+                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="facultyUpdatesDropdown">
+                            <li>
+                                <a class="dropdown-item" href="/messages">
+                                    <i class="fas fa-comment-alt me-2"></i> Messages
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/notifications">
+                                    <i class="fas fa-bell me-2"></i> Notifications
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    {% elif current_user.role == 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link {% if request.endpoint == 'dashboard_admin' %}active{% endif %}"
+                            href="{{ url_for('dashboard_admin') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+
+                    <!-- Users Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-pill-link dropdown-toggle" href="#" id="usersDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-users-cog"></i> Users
+                        </a>
+                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="usersDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_view_users', role='all') }}">
+                                    <i class="fas fa-list me-2 text-primary"></i> All Users
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_view_users', role='student') }}">
+                                    <i class="fas fa-user-graduate me-2 text-info"></i> Students
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_view_users', role='alumni') }}">
+                                    <i class="fas fa-user-tie me-2 text-warning"></i> Alumni
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_view_users', role='faculty') }}">
+                                    <i class="fas fa-chalkboard-teacher me-2 text-success"></i> Faculty
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_approve_requests') }}">
+                                    <i class="fas fa-user-check me-2 text-danger"></i> Approve Requests
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- System Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-pill-link dropdown-toggle" href="#" id="systemDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-cogs"></i> System
+                        </a>
+                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="systemDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_jobs') }}">
+                                    <i class="fas fa-briefcase me-2 text-primary"></i> Jobs Matrix
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item position-relative" href="{{ url_for('admin_jobs') }}#pending">
+                                    <i class="fas fa-clipboard-check me-2 text-warning"></i> Job Approvals
+                                    <span class="badge bg-danger ms-1" id="pendingJobsBadge" style="font-size:0.65rem;"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_whatsapp_broadcast') }}">
+                                    <i class="fab fa-whatsapp me-2 text-success"></i> WhatsApp Broadcast
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_messaging_control') }}">
+                                    <i class="fas fa-comments me-2 text-indigo"></i> Messaging
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_connection_monitor') }}">
+                                    <i class="fas fa-link me-2 text-info"></i> Connection Monitor
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_analytics') }}">
+                                    <i class="fas fa-chart-line me-2 text-purple"></i> Analytics
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_registrations') }}">
+                                    <i class="fas fa-clipboard-list me-2 text-orange"></i> Registration Logs
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                    <!-- User Profile Dropdown -->
+                    <li class="nav-item dropdown px-2 user-dropdown">
+                        <a class="nav-link user-pill dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar overflow-hidden">
+                                {% if current_user.profile_pic and current_user.profile_pic.startswith('/') %}
+                                <img src="{{ current_user.profile_pic }}" alt=""
+                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                {% else %}
+                                <span>{{ current_user.name | initials }}</span>
+                                {% endif %}
+                            </div>
+                            <span class="user-name d-none d-sm-inline">{{ current_user.name }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-premium" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-header-custom">
+                                <span>Signed in as</span>
+                                <strong>{{ current_user.name }}</strong>
+                            </div>
+                            <li><a class="dropdown-item" href="/profile"><i class="fas fa-user"></i> My Profile</a></li>
+                    </li>
+                    {% if current_user.role == 'student' %}
+                    <li><a class="dropdown-item" href="/upgrade"><i class="fas fa-crown"></i> Upgrade to Pro</a>
+                    </li>
+                    {% endif %}
+                    {% if current_user.role == 'student' %}
+                    <li><a class="dropdown-item" href="{{ url_for('settings') }}"><i class="fas fa-cog"></i>
+                            Settings</a></li>
+                    {% elif current_user.role == 'admin' %}
+                    <li><a class="dropdown-item" href="{{ url_for('edit_admin_profile', user_id=current_user.id) }}"><i
+                                class="fas fa-cog"></i> Settings</a></li>
+                    {% elif current_user.role == 'alumni' %}
+                    <li><a class="dropdown-item" href="{{ url_for('edit_alumni_profile', user_id=current_user.id) }}"><i
+                                class="fas fa-cog"></i> Settings</a></li>
+                    {% elif current_user.role == 'faculty' %}
+                    <li><a class="dropdown-item"
+                            href="{{ url_for('edit_faculty_profile', user_id=current_user.id) }}"><i
+                                class="fas fa-cog"></i> Settings</a></li>
+                    {% endif %}
+                    <li><a class="dropdown-item" href="/change_password"><i class="fas fa-lock"></i> Change
+                            Password</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item text-danger" href="/logout"><i class="fas fa-sign-out-alt"></i>
+                            Logout</a></li>
+                </ul>
+                </li>
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+            <!-- Close Button -->
+            <button class="btn position-absolute top-0 end-0 m-4 shadow-lg mobile-close-btn" id="closeMobileMenu">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="mobile-menu-content">
+                <!-- User Profile Section for Mobile -->
+                {% if current_user.is_authenticated %}
+                <div class="mobile-profile-card" style="--delay: 0.1s">
+                    <div class="mobile-avatar">
+                        {{ current_user.name[0] }}
+                    </div>
+                    <div class="mobile-user-info">
+                        <h4>{{ current_user.name }}</h4>
+                        <span class="badge badge-role">{{ current_user.role|capitalize }}</span>
+                    </div>
+                    <div class="mobile-quick-actions">
+                        {% if current_user.role == 'admin' %}
+                        <a href="/admin/dashboard" class="action-btn"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                        <a href="/admin/approve-requests" class="action-btn"><i class="fas fa-check-double"></i>
+                            Approve</a>
+                        <a href="/admin/users/all" class="action-btn"><i class="fas fa-users-cog"></i> Users</a>
+
+                        <!-- Mobile specific admin links container -->
+                        <div class="w-100 mt-3 d-grid gap-2">
+                            <a href="/admin/messaging_control" class="btn btn-sm btn-outline-light text-start">
+                                <i class="fas fa-comments me-2"></i> Messaging Control
+                            </a>
+                            <a href="/announcements" class="btn btn-sm btn-outline-light text-start">
+                                <i class="fas fa-bullhorn me-2"></i> Announcements
+                            </a>
+                            <a href="/admin/reports" class="btn btn-sm btn-outline-light text-start">
+                                <i class="fas fa-file-invoice me-2"></i> Reports & Stats
+                            </a>
+                        </div>
+                        {% elif current_user.role == 'alumni' %}
+                        <a href="/alumni/dashboard" class="action-btn"><i class="fas fa-user-tie"></i> Dashboard</a>
+                        {% elif current_user.role == 'student' %}
+                        <a href="/student/dashboard" class="action-btn"><i class="fas fa-search"></i> Dashboard</a>
+                        {% elif current_user.role == 'faculty' %}
+                        <a href="/faculty/dashboard" class="action-btn"><i class="fas fa-chalkboard-user"></i>
+                            Dashboard</a>
+                        {% endif %}
+                        <a href="/profile" class="action-btn"><i class="fas fa-user"></i> Profile</a>
+                    </div>
+                </div>
+                <!-- Divider -->
+                <hr class="w-100 border-white opacity-25" style="max-width: 80%;">
+                {% endif %}
+
+                <div class="mobile-links-container">
+                    <a href="/" class="mobile-nav-link" style="--delay: 0.2s"><i class="fas fa-home me-2"></i> Home</a>
+                    <a href="/about" class="mobile-nav-link" style="--delay: 0.25s"><i
+                            class="fas fa-info-circle me-2"></i> About</a>
+
+                    {% if current_user.is_authenticated %}
+                    {% if current_user.role == 'student' %}
+                    <a href="/student/dashboard" class="mobile-nav-link" style="--delay: 0.3s"><i
+                            class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+                    <a href="/network" class="mobile-nav-link" style="--delay: 0.35s"><i
+                            class="fas fa-network-wired me-2"></i> Network</a>
+                    <a href="/messages" class="mobile-nav-link" style="--delay: 0.4s"><i
+                            class="fas fa-comment-alt me-2"></i> Messages</a>
+                    <a href="/mentorship" class="mobile-nav-link" style="--delay: 0.45s"><i
+                            class="fas fa-user-graduate me-2"></i> Mentorship</a>
+                    <a href="/jobs" class="mobile-nav-link" style="--delay: 0.5s"><i class="fas fa-briefcase me-2"></i>
+                        Jobs</a>
+                    {% elif current_user.role == 'alumni' %}
+                    <a href="/alumni/dashboard" class="mobile-nav-link" style="--delay: 0.3s"><i
+                            class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+                    <a href="/network" class="mobile-nav-link" style="--delay: 0.35s"><i
+                            class="fas fa-network-wired me-2"></i> Network</a>
+                    <a href="/messages" class="mobile-nav-link" style="--delay: 0.4s"><i
+                            class="fas fa-comment-alt me-2"></i> Messages</a>
+                    <a href="/post-job" class="mobile-nav-link" style="--delay: 0.45s"><i
+                            class="fas fa-plus-circle me-2"></i> Post Jobs</a>
+                    <a href="/mentorship" class="mobile-nav-link" style="--delay: 0.5s"><i
+                            class="fas fa-chalkboard-teacher me-2"></i> Mentorship</a>
+                    {% elif current_user.role == 'faculty' %}
+                    <a href="/faculty/dashboard" class="mobile-nav-link" style="--delay: 0.3s"><i
+                            class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+                    <a href="/network" class="mobile-nav-link" style="--delay: 0.35s"><i
+                            class="fas fa-network-wired me-2"></i> Network</a>
+                    <a href="/messages" class="mobile-nav-link" style="--delay: 0.4s"><i
+                            class="fas fa-comment-alt me-2"></i> Messages</a>
+                    <a href="/announcements" class="mobile-nav-link" style="--delay: 0.45s"><i
+                            class="fas fa-bullhorn me-2"></i> Announcements</a>
+                    {% elif current_user.role == 'admin' %}
+                    <a href="{{ url_for('dashboard_admin') }}" class="mobile-nav-link" style="--delay: 0.3s"><i
+                            class="fas fa-chart-line me-2"></i> Dashboard</a>
+                    <a href="/admin/approve-requests" class="mobile-nav-link" style="--delay: 0.35s"><i
+                            class="fas fa-check-double me-2"></i> Approve</a>
+                    <a href="{{ url_for('admin_view_users', role='all') }}" class="mobile-nav-link"
+                        style="--delay: 0.4s"><i class="fas fa-users-cog me-2"></i> Users Management</a>
+                    <a href="{{ url_for('admin_messaging_control') }}" class="mobile-nav-link" style="--delay: 0.45s"><i
+                            class="fas fa-comments me-2"></i> Messaging Control</a>
+                        <a href="{{ url_for('admin_connection_monitor') }}" class="mobile-nav-link" style="--delay: 0.5s"><i
+                            class="fas fa-link me-2"></i> Connection Monitor</a>
+                        <a href="/announcements" class="mobile-nav-link" style="--delay: 0.55s"><i
+                            class="fas fa-bullhorn me-2"></i> Announcements</a>
+                        <a href="/admin/events" class="mobile-nav-link" style="--delay: 0.6s"><i
+                            class="fas fa-calendar-check me-2"></i> Events</a>
+                        <a href="/reports" class="mobile-nav-link" style="--delay: 0.65s"><i
+                            class="fas fa-file-invoice me-2"></i> Reports</a>
+                        <a href="/admin/stats" class="mobile-nav-link" style="--delay: 0.7s"><i
+                            class="fas fa-chart-pie me-2"></i> Statistics</a>
+                    {% endif %}
+                    <a href="/events" class="mobile-nav-link" style="--delay: 0.7s"><i
+                            class="fas fa-calendar-alt me-2"></i> Events</a>
+                    {% else %}
+                    <a href="/services" class="mobile-nav-link" style="--delay: 0.3s"><i
+                            class="fas fa-briefcase me-2"></i> Services</a>
+                    <a href="/events" class="mobile-nav-link" style="--delay: 0.35s"><i
+                            class="fas fa-calendar-alt me-2"></i> Events</a>
+                    <a href="/contact" class="mobile-nav-link" style="--delay: 0.4s"><i
+                            class="fas fa-envelope me-2"></i> Contact</a>
+                    {% endif %}
+                </div>
+
+                {% if current_user.is_authenticated %}
+                <div class="mobile-logout-section w-100 px-4 mt-3" style="--delay: 0.6s">
+                    <a href="/logout" class="btn btn-white text-danger btn-lg w-100 shadow-sm"
+                        style="border-radius: 12px; font-weight: 600;">
+                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                    </a>
+                </div>
+                {% else %}
+                <div class="mobile-auth-buttons px-4" style="--delay: 0.6s">
+                    <a href="/login" class="btn btn-light btn-lg w-100 shadow-sm"
+                        style="color: var(--primary); font-weight: 700;">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                    </a>
+                    <a href="/register" class="btn btn-premium-gradient btn-lg w-100 shadow-premium">
+                        Register Now <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="mobile-menu-bg-decoration">
+                <div class="blob blob-1"></div>
+                <div class="blob blob-2"></div>
+            </div>
+    </nav>
+
+    <!-- ===== ALERTS ===== -->
+    <div class="alerts-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-modern alert-{{ 'danger' if category == 'danger' else 'success' if category == 'success' else 'warning' if category == 'warning' else 'info' }}-modern alert-dismissible fade show"
+            role="alert">
+            <i
+                class="fas fa-{{ 'exclamation-circle' if category == 'danger' else 'check-circle' if category == 'success' else 'exclamation-triangle' if category == 'warning' else 'info-circle' }}"></i>
+            <span>{{ message }}</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- ===== SCROLL TO TOP BUTTON ===== -->
+    <button id="scrollToTopBtn" class="scroll-to-top-btn" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-wrapper">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer-custom">
+        <!-- Footer Marquee -->
+        <div class="footer-marquee">
+            <div class="marquee-inner">
+                <span>⭐ Join 15000+ Alumni</span>
+                <span>🌍 Connect Globally</span>
+                <span>💼 Career Opportunities</span>
+                <span>📚 Learning Resources</span>
+                <span>🤝 Networking Events</span>
+                <span>⭐ Join 15000+ Alumni</span>
+            </div>
+        </div>
+
+        <!-- Footer Content -->
+        <div class="footer-content">
+            <div class="container">
+                <div class="row g-4">
+                    <!-- ALUMNI HUB Info -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                        <div class="footer-section px-lg-4">
+                            <h5 class="footer-title">
+                                <i class="fas fa-graduation-cap"></i> ALUMNI HUB
+                            </h5>
+                            <p class="footer-text">
+                                We are the definitive bridge between university excellence and industry leadership.
+                                Connecting DBIT alumni worldwide to build a legacy of shared success.
+                            </p>
+
+                            <div class="social-links-container">
+                                <div class="social-links-grid">
+                                    <a href="#" class="social-icon-btn"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                                    <a href="#" class="social-icon-btn"><i class="fab fa-github"></i> GitHub</a>
+                                    <a href="#" class="social-icon-btn"><i class="fab fa-instagram"></i> Instagram</a>
+                                    <a href="#" class="social-icon-btn"><i class="fab fa-facebook-f"></i> Facebook</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Quick Links</h5>
+                            <ul class="footer-links">
+                                <li><a href="/" class="footer-link"><i class="fas fa-chevron-right"></i> Home</a></li>
+                                <li><a href="/about" class="footer-link"><i class="fas fa-chevron-right"></i> About</a>
+                                </li>
+                                <li><a href="/services" class="footer-link"><i class="fas fa-chevron-right"></i>
+                                        Services</a></li>
+                                <li><a href="/contact" class="footer-link"><i class="fas fa-chevron-right"></i>
+                                        Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Information -->
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Information</h5>
+                            <ul class="footer-links">
+                                <li><a href="{{ url_for('privacy_policy') }}" class="footer-link"><i
+                                            class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                                <li><a href="{{ url_for('terms_conditions') }}" class="footer-link"><i
+                                            class="fas fa-chevron-right"></i> Terms & Conditions</a></li>
+                                <li><a href="{{ url_for('faq') }}" class="footer-link"><i
+                                            class="fas fa-chevron-right"></i> FAQ</a></li>
+                                <li><a href="{{ url_for('report_issue') }}" class="footer-link"><i
+                                            class="fas fa-chevron-right"></i> Report Issue</a></li>
+                            </ul>
+                        </div>
+                    </div>
+<!-- Location Map -->
+<div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+    <div class="footer-section">
+        <h5 class="footer-title">
+            <i class="fas fa-map-location-dot"></i> Our Location
+        </h5>
+
+        <div class="map-container" id="mapContainer" title="Click to open in Google Maps">
+            <a href="https://maps.app.goo.gl/3BiLNAGwhh4jS9na8"
+                target="_blank" class="d-block w-100 h-100 text-decoration-none">
+
+               <img src="{{ url_for('static', filename='images/location_img.png') }}"
+    alt="JIMS Rohini Location"
+    style="width: 100%; height: 100%; margin: 0 auto; display: block; object-fit: cover; object-position: center;">
+ 
+                <div class="map-overlay">
+                    <div class="map-overlay-text text-black">
+                        <i class="fas fa-arrow-up-right-from-square"></i> View on Maps
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <p class="footer-text mt-3" style="font-size: 0.9rem;">
+            <i class="fas fa-map-marker-alt text-danger"></i>
+            Jagan Institute of Management Studies (JIMS), Rohini, Delhi
+        </p>
+    </div>
+</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="footer-bottom-text">
+                            &copy; 2026 ALUMNI HUB. All rights reserved.
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <p class="footer-bottom-text">
+                            Designed & Developed with <i class="fas fa-heart text-danger"></i> by ALUMNI HUB Team
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+
+        // 1. ACTIVE LINK HIGHLIGHTING
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-pill-link, .mobile-nav-link');
+
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPath || (href !== '/' && currentPath.startsWith(href))) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 2. SMART SCROLL LOGIC
+        let lastScrollY = window.scrollY;
+        const nav = document.getElementById('mainNavbar');
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            // Hide/Show Logic
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                // Scrolling DOWN -> Hide
+                nav.classList.add('scrolled-down');
+                nav.classList.remove('scrolled-up');
+            } else {
+                // Scrolling UP -> Show
+                nav.classList.remove('scrolled-down');
+                if (currentScrollY > 50) {
+                    nav.classList.add('scrolled-up');
+                } else {
+                    nav.classList.remove('scrolled-up');
+                }
+            }
+            lastScrollY = currentScrollY;
+        });
+
+        // Mobile Menu Toggle Logic
+        const toggler = document.getElementById('navbarToggler');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        const closeBtn = document.getElementById('closeMobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function toggleMenu() {
+            if (toggler && overlay) {
+                toggler.classList.toggle('active');
+                overlay.classList.toggle('active');
+                // Toggle body scroll
+                if (overlay.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
+        if (toggler && overlay) {
+            toggler.addEventListener('click', toggleMenu);
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                if (overlay && overlay.classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+        }
+
+        // Close menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (overlay && overlay.classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        // Magnetic Branding
+        const brand = document.querySelector('.navbar-brand');
+        if (brand) {
+            brand.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = brand.getBoundingClientRect();
+                const x = (e.clientX - left - width / 2) * 0.3;
+                const y = (e.clientY - top - height / 2) * 0.3;
+                brand.style.transform = `translate(${x}px, ${y}px)`;
+            });
+            brand.addEventListener('mouseleave', () => {
+                brand.style.transform = 'translate(0, 0)';
+            });
+        }
+
+        // Nav Pill Magnetic Hover Effect
+        document.querySelectorAll('.nav-pill-link').forEach(link => {
+            link.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = link.getBoundingClientRect();
+                const x = (e.clientX - left - width / 2) * 0.2;
+                const y = (e.clientY - top - height / 2) * 0.2;
+                link.style.transform = `translate(${x}px, ${y}px)`;
+            });
+
+            link.addEventListener('mouseleave', () => {
+                link.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // 4. SCROLL PROGRESS BAR
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / scrollHeight) * 100;
+            const progressBar = document.getElementById('scrollProgressBar');
+            if (progressBar) {
+                progressBar.style.width = scrollPercentage + '%';
+            }
+        });
+
+        // 3. GLOBAL PAGE REVEAL
+        window.addEventListener('load', () => {
+            const wrapper = document.querySelector('.main-wrapper');
+            if (wrapper) wrapper.classList.add('page-revealed');
+        });
+
+        // 5. SCROLL TO TOP BUTTON
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        // Show/hide button based on scroll position
+        if (scrollToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.add('show');
+                } else {
+                    scrollToTopBtn.classList.remove('show');
+                }
+            });
+
+            // Smooth scroll to top on click
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // 6. AUTO-DISMISS ALERTS (5 SECONDS)
+        document.addEventListener("DOMContentLoaded", function () {
+            const alerts = document.querySelectorAll('.alert-modern');
+            alerts.forEach(function (alert) {
+                setTimeout(function () {
+                    const closeButton = alert.querySelector('.btn-close');
+                    if (closeButton) {
+                        closeButton.click();
+                    } else {
+                        // Fallback if close button not found
+                        alert.classList.remove('show');
+                        setTimeout(() => alert.remove(), 150);
+                    }
+                }, 5000); // 5 seconds
+            });
+        });
+    </script>
+
+    <!-- Advanced Animations Library -->
+    <script src="{{ url_for('static', filename='js/sparkles.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+
+    <!-- Bootstrap 5 Bundle (includes Popper) (Local) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/network-animation.js') }}"></script>
+    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+    <script>
+    (function loadPendingJobsBadge() {
+        function updateBadge() {
+            fetch('/api/admin/jobs/pending-count')
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    var badge = document.getElementById('pendingJobsBadge');
+                    if (badge) {
+                        badge.textContent = data.count > 0 ? data.count : '';
+                    }
+                })
+                .catch(function() {});
+        }
+        updateBadge();
+        setInterval(updateBadge, 60000); // refresh every minute
+    }());
+    </script>
+    {% endif %}
+</body>
+
+</html>

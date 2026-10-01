@@ -1,0 +1,913 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Premium Fonts -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}">
+
+<div class="home-wrapper">
+    <!-- Animated Mesh Background -->
+    <div class="mesh-background">
+        <div class="mesh-ball ball-1"></div>
+        <div class="mesh-ball ball-2"></div>
+        <div class="mesh-ball ball-3"></div>
+        <div class="mesh-ball ball-4"></div>
+    </div>
+
+
+    <style>
+        .section-header h2 {
+            background: linear-gradient(180deg,
+                    #ffffff 0%,
+                    rgba(255, 255, 255, 0.98) 50%,
+                    #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -2px;
+            text-shadow: 0 10px 30px rgba(30, 58, 138, 0.2);
+            animation: slideInDown 0.8s ease-out, titleGlow 3.5s ease-in-out infinite;
+            line-height: 1.1;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes titleGlow {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 5px rgba(14, 165, 233, 0.3));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 25px rgba(14, 165, 233, 0.6)) drop-shadow(0 0 15px rgba(245, 158, 11, 0.3));
+            }
+        }
+
+        .section-header:hover h2 {
+            filter: drop-shadow(0 0 30px rgba(14, 165, 233, 0.7)) drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
+            animation: titleGlow 1.5s ease-in-out infinite;
+            transform: scale(1.05) translateY(-8px);
+            letter-spacing: -1px;
+        }
+
+        .section-header p {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 750px;
+            margin: 0 auto;
+            animation: slideInUp 0.8s ease-out 0.2s both;
+            letter-spacing: 0.6px;
+            line-height: 1.9;
+            font-weight: 500;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 1;
+            text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(180deg,
+                    rgba(255, 255, 255, 1) 0%,
+                    rgba(255, 255, 255, 0.95) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header:hover p {
+            transform: translateY(-5px);
+            filter: brightness(1.15);
+            letter-spacing: 0.8px;
+            animation: subtitlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes subtitlePulse {
+
+            0%,
+            100% {
+                filter: brightness(1.15) drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+            }
+
+            50% {
+                filter: brightness(1.25) drop-shadow(0 0 20px rgba(14, 165, 233, 0.3));
+            }
+        }
+
+        /* Decorative accent line above */
+        .section-header .accent-line-top {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 5px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    var(--primary) 10%,
+                    var(--accent) 50%,
+                    var(--secondary) 90%,
+                    transparent);
+            border-radius: 3px;
+            animation: expandLineTop 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+        }
+
+        @keyframes expandLineTop {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+
+            to {
+                width: 120px;
+                opacity: 1;
+            }
+        }
+
+        /* Animation Classes */
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleUp {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes rippleEffect {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        @keyframes iconBounce {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            25% {
+                transform: translateY(-10px) scale(1.05);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.1);
+            }
+
+            75% {
+                transform: translateY(-10px) scale(1.05);
+            }
+        }
+
+        @keyframes iconBounceIntense {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.4);
+            }
+
+            100% {
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes progressLoad {
+            0% {
+                width: 0 !important;
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0.5);
+            }
+
+            100% {
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        @keyframes progressPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 25px rgba(255, 255, 255, 0.7);
+            }
+        }
+
+        .animate-fade-down {
+            animation: fadeDown 0.8s ease-out;
+        }
+
+        .animate-feature {
+            animation: scaleUp 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .animate-scale-up {
+            animation: scaleUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .animate-slide-left {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .animate-slide-right {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .hero-premium h1 {
+                font-size: 3rem;
+                white-space: normal;
+            }
+
+            .hero-content p {
+                font-size: 1.2rem !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-premium {
+                padding: 120px 0 60px;
+                min-height: auto;
+            }
+
+            .hero-premium h1 {
+                font-size: 2.2rem;
+            }
+
+            .guide-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .marquee {
+                font-size: 0.9rem;
+                gap: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .cta-content h2 {
+                font-size: 1.8rem;
+            }
+
+            .d-flex.justify-content-center.gap-3 {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-premium {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-premium h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+
+    <!-- Hero Section (Premium Liquid Upgrade) -->
+    <section class="hero-premium glass-hero position-relative overflow-hidden">
+        <canvas class="network-canvas"></canvas>
+        <div class="hero-particles"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="hero-content text-center">
+                <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-4 shadow-sm reveal-fade"
+                    style="font-weight: 700; letter-spacing: 1.5px;">
+                    <i class="fas fa-sparkles me-2"></i> WELCOME TO THE FUTURE
+                </div>
+                <h1 class="display-2 fw-bold mb-4 reveal-text text-white text-center">Welcome to <span
+                        class="text-holographic">Alumni Hub</span></h1>
+                <p class="text-white-50 lead mb-5 reveal-fade"
+                    style="font-size: 1.5rem; max-width: 850px; margin: 0 auto; font-weight: 500; line-height: 1.6;">
+                    Connect, Network, and Grow with the Alumni Community. <br>
+                    Join thousands of successful professionals globally.
+                </p>
+                <div class="d-flex justify-content-center gap-3 reveal-fade" style="margin-top: 2.5rem;">
+                    {% if session.get('user_id') %}
+                    <a href="/student/dashboard" class="btn btn-premium btn-premium-primary magnetic-button">
+                        Go to Dashboard <div class="btn-glow"></div>
+                    </a>
+                    {% else %}
+                    <a href="/login" class="btn btn-premium btn-premium-primary magnetic-button">
+                        Login Now <div class="btn-glow"></div>
+                    </a>
+                    <a href="/register" class="btn btn-premium btn-premium-secondary magnetic-button">
+                        Create Account <div class="btn-glow"></div>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MARQUEE SECTION ===== -->
+    <section class="marquee-section">
+        <div class="marquee-container">
+            <div class="marquee">
+                <span>⭐ 15000+ Alumni Network</span>
+                <span>🌍 50+ Countries</span>
+                <span>💼 1000+ Job Opportunities</span>
+                <span>🏆 Top Companies Hiring</span>
+                <span>📚 Premium Learning Resources</span>
+                <span>⭐ 15000+ Alumni Network</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section (Glass Grid) -->
+    <section class="features-section py-5">
+        <div class="container pb-5">
+            <div class="text-center mb-5 reveal-text">
+                <div class="section-tag mb-3">
+                    <span class="tag-label text-primary fw-bold" style="letter-spacing: 2px;">THE BENEFITS</span>
+                </div>
+                <h2 class="display-4 fw-bold mb-3">Why Join <span class="text-gradient-indigo">Alumni Hub?</span>
+                </h2>
+                <p class="text-muted lead mx-auto" style="max-width: 700px;">Discover the professional and personal
+                    advantages of being part of our thriving community.</p>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-3 col-md-6 reveal-fade">
+                    <div class="card glass-feature-card h-100 tilt-element">
+                        <div class="feature-icon-box bg-blue-light text-primary">🤝</div>
+                        <h4 class="fw-bold mb-3">Professional Network</h4>
+                        <p class="text-muted small">Connect with thousands of LPU alumni across the globe and build
+                            meaningful relationships.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.1s;">
+                    <div class="card glass-feature-card h-100 tilt-element">
+                        <div class="feature-icon-box bg-green-light text-success">💼</div>
+                        <h4 class="fw-bold mb-3">Career Growth</h4>
+                        <p class="text-muted small">Access exclusive job postings, internships, and career advancement
+                            opportunities.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.2s;">
+                    <div class="card glass-feature-card h-100 tilt-element">
+                        <div class="feature-icon-box bg-orange-light text-danger">📚</div>
+                        <h4 class="fw-bold mb-3">Learning Hub</h4>
+                        <p class="text-muted small">Learn from webinars, workshops, and mentorship programs led by
+                            successful alumni.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.3s;">
+                    <div class="card glass-feature-card h-100 tilt-element">
+                        <div class="feature-icon-box bg-purple-light text-info">🏆</div>
+                        <h4 class="fw-bold mb-3">Global Success</h4>
+                        <p class="text-muted small">Get inspired by stories of alumni who have achieved remarkable
+                            success worldwide.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alumni Guide Section (Premium Holographic) -->
+    <section class="guide-section-premium py-5" id="alumni-guide">
+        <div class="container py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7 reveal-text">
+                    <div class="section-tag mb-3">
+                        <span class="tag-label text-primary fw-bold" style="letter-spacing: 2px;">FOR ALUMNI</span>
+                    </div>
+                    <h2 class="display-4 fw-bold mb-4">Empower the <span class="text-gradient-indigo">Next
+                            Generation</span></h2>
+                    <p class="text-muted lead mb-5">Share your expertise, mentor students, and help build a legacy of
+                        success within our community.</p>
+
+                    <div class="guide-steps row g-4">
+                        <div class="col-sm-6 reveal-fade">
+                            <div class="holographic-step p-4">
+                                <div class="step-num text-primary fw-bold mb-2">01</div>
+                                <h5 class="fw-bold">Dynamic Profile</h5>
+                                <p class="text-muted small mb-0">Showcase your career journey and skills to the entire
+                                    network.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.1s;">
+                            <div class="holographic-step p-4">
+                                <div class="step-num text-success fw-bold mb-2">02</div>
+                                <h5 class="fw-bold">Share Wisdom</h5>
+                                <p class="text-muted small mb-0">Post opportunities and guide students through their
+                                    career path.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.2s;">
+                            <div class="holographic-step p-4">
+                                <div class="step-num text-danger fw-bold mb-2">03</div>
+                                <h5 class="fw-bold">Mentor Hub</h5>
+                                <p class="text-muted small mb-0">Provide direct insights to students seeking
+                                    professional guidance.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.3s;">
+                            <div class="holographic-step p-4">
+                                <div class="step-num text-info fw-bold mb-2">04</div>
+                                <h5 class="fw-bold">Global Impact</h5>
+                                <p class="text-muted small mb-0">Collaborate with fellow alumni for worldwide
+                                    professional growth.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if not session.get('user_id') %}
+                    <div class="mt-5 reveal-fade">
+                        <a href="/register" class="btn btn-premium btn-premium-primary magnetic-button">
+                            JOIN AS ALUMNI <div class="btn-glow"></div>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-5 reveal-fade text-center">
+                    <div class="holographic-card tilt-element mx-auto" style="max-width: 400px;">
+                        <div class="display-1 mb-4">👨‍💼</div>
+                        <h3 class="fw-bold">Industry Leader</h3>
+                        <p class="text-muted">A legacy of LPU excellence.</p>
+                        <div class="card-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Student Guide Section (Premium Reverse) -->
+    <section class="guide-section-premium py-5 bg-gradient-light">
+        <div class="container py-5">
+            <div class="row align-items-center g-5 flex-row-reverse">
+                <div class="col-lg-7 reveal-text">
+                    <div class="section-tag mb-3">
+                        <span class="tag-label text-success fw-bold" style="letter-spacing: 2px;">FOR STUDENTS</span>
+                    </div>
+                    <h2 class="display-4 fw-bold mb-4">Design Your <span class="text-gradient-purple">Future Path</span>
+                    </h2>
+                    <p class="text-muted lead mb-5">Connect with industry veterans, find mentors, and unlock exclusive
+                        career opportunities shared by our alumni network.</p>
+
+                    <div class="guide-steps row g-4">
+                        <div class="col-sm-6 reveal-fade">
+                            <div class="holographic-step p-4">
+                                <div class="step-num text-success fw-bold mb-2">01</div>
+                                <h5 class="fw-bold">Career Guidance</h5>
+                                <p class="text-muted small mb-0">Learn from real-world success stories and diverse
+                                    career journeys.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.1s;">
+                            <div class="holographic-step p-4">
+                                <div class="step-num text-primary fw-bold mb-2">02</div>
+                                <h5 class="fw-bold">Elite Mentorship</h5>
+                                <p class="text-muted small mb-0">Connect with mentors who can accelerate your
+                                    professional growth.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.2s;">
+                            <div class="holographic-step p-4">
+                                <div class="step-num text-warning fw-bold mb-2">03</div>
+                                <h5 class="fw-bold">Exclusive Jobs</h5>
+                                <p class="text-muted small mb-0">Apply for high-tier internships and jobs shared by
+                                    alumni.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.3s;">
+                            <div class="holographic-step p-4">
+                                <div class="step-num text-danger fw-bold mb-2">04</div>
+                                <h5 class="fw-bold">Skill Mastery</h5>
+                                <p class="text-muted small mb-0">Join workshops and webinars led by industry experts.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if not session.get('user_id') %}
+                    <div class="mt-5 reveal-fade">
+                        <a href="/register" class="btn btn-premium btn-premium-primary magnetic-button">
+                            START YOUR JOURNEY <div class="btn-glow"></div>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-5 reveal-fade text-center">
+                    <div class="holographic-card tilt-element mx-auto" style="max-width: 400px;">
+                        <div class="display-1 mb-4">👨‍🎓</div>
+                        <h3 class="fw-bold">Future Leader</h3>
+                        <p class="text-muted">Innovators of tomorrow.</p>
+                        <div class="card-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section (Premium Glass) -->
+    <section class="stats-section py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5 reveal-text">
+                <div class="section-tag mb-3">
+                    <span class="tag-label text-white fw-bold" style="letter-spacing: 2px;">GLOBAL IMPACT</span>
+                </div>
+                <h2 class="display-4 fw-bold mb-3 text-white">Our Community by <span
+                        class="text-holographic">Numbers</span></h2>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-3 col-md-6 reveal-fade">
+                    <div class="card premium-stat-card tilt-element">
+                        <div class="stat-icon-premium display-4 mb-3">👥</div>
+                        <div class="stat-number display-5 fw-bold mb-2 counter" data-target="15000">15K+</div>
+                        <p class="mb-0 fw-bold op-8">Active Alumni</p>
+                        <div class="stat-bar-premium mt-3">
+                            <div class="stat-progress-premium" style="width: 95%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.1s;">
+                    <div class="card premium-stat-card tilt-element">
+                        <div class="stat-icon-premium display-4 mb-3">🎓</div>
+                        <div class="stat-number display-5 fw-bold mb-2 counter" data-target="5000">5K+</div>
+                        <p class="mb-0 fw-bold op-8">Current Students</p>
+                        <div class="stat-bar-premium mt-3">
+                            <div class="stat-progress-premium" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.2s;">
+                    <div class="card premium-stat-card tilt-element">
+                        <div class="stat-icon-premium display-4 mb-3">🌍</div>
+                        <div class="stat-number display-5 fw-bold mb-2 counter" data-target="50">50+</div>
+                        <p class="mb-0 fw-bold op-8">Countries</p>
+                        <div class="stat-bar-premium mt-3">
+                            <div class="stat-progress-premium" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.3s;">
+                    <div class="card premium-stat-card tilt-element">
+                        <div class="stat-icon-premium display-4 mb-3">💼</div>
+                        <div class="stat-number display-5 fw-bold mb-2 counter" data-target="1000">1000+</div>
+                        <p class="mb-0 fw-bold op-8">Job Opportunities</p>
+                        <div class="stat-bar-premium mt-3">
+                            <div class="stat-progress-premium" style="width: 98%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section (Premium Liquid) -->
+    <section class="cta-section-premium py-5">
+        <div class="container py-5 text-center reveal-fade">
+            <div class="cta-glow-bg"></div>
+            <h2 class="display-3 fw-bold mb-4 text-white">Ready to Join Our <br><span class="text-holographic">Global
+                    Community?</span></h2>
+            <p class="text-white-50 lead mb-5 mx-auto" style="max-width: 800px;">Start your journey with Alumni Hub
+                today and unlock endpoint professional opportunities with industry giants.</p>
+            <div class="d-flex justify-content-center gap-3">
+                {% if session.get('user_id') %}
+                <a href="/student/dashboard" class="btn btn-premium btn-premium-primary magnetic-button px-5 py-3">
+                    GO TO DASHBOARD <div class="btn-glow"></div>
+                </a>
+                {% else %}
+                <a href="/register" class="btn btn-premium btn-premium-primary magnetic-button px-5 py-3">
+                    GET STARTED NOW <div class="btn-glow"></div>
+                </a>
+                <a href="/login" class="btn btn-premium btn-premium-secondary magnetic-button px-5 py-3">
+                    ALREADY A MEMBER? <div class="btn-glow"></div>
+                </a>
+                {% endif %}
+
+            </div>
+        </div>
+    </section>
+</div> <!-- End .home-wrapper -->
+
+
+<script>
+    // ===== ADVANCED HOME PAGE INTERACTIONS =====
+    document.addEventListener('DOMContentLoaded', function () {
+        // ===== PARALLAX EFFECT ON GUIDE SECTION =====
+        const guideContainer = document.querySelectorAll('.guide-container');
+        window.addEventListener('scroll', () => {
+            guideContainer.forEach(container => {
+                const scrollPosition = window.pageYOffset;
+                const elementOffset = container.getBoundingClientRect().top + scrollPosition;
+                const distance = scrollPosition - elementOffset;
+
+                if (Math.abs(distance) < 500) {
+                    container.style.transform = `translateY(${distance * 0.1}px)`;
+                }
+            });
+        });
+
+        // ===== STAT CARD COUNTER ANIMATION =====
+        const statCards = document.querySelectorAll('.stat-card');
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const statIcon = entry.target.querySelector('.stat-icon');
+                    const statBar = entry.target.querySelector('.stat-bar');
+
+                    if (statNumber) {
+                        const text = statNumber.textContent;
+                        const number = parseInt(text.replace(/[^0-9]/g, ''));
+                        const suffix = text.replace(/[0-9]/g, '');
+
+                        let current = 0;
+                        const increment = number / 60;
+
+                        // Number counter animation
+                        const interval = setInterval(() => {
+                            current += increment;
+                            if (current >= number) {
+                                statNumber.textContent = number + suffix;
+                                clearInterval(interval);
+                            } else {
+                                statNumber.textContent = Math.floor(current) + suffix;
+                            }
+                        }, 30);
+
+                        // Icon bounce animation
+                        if (statIcon) {
+                            statIcon.style.animation = 'iconBounce 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite';
+                        }
+
+                        // Progress bar animation
+                        if (statBar) {
+                            const progressBar = statBar.querySelector('.stat-progress');
+                            if (progressBar) {
+                                progressBar.style.animation = 'progressLoad 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+                            }
+                        }
+                    }
+                    entry.target.classList.add('counted');
+                }
+            });
+        }, observerOptions);
+
+        statCards.forEach(card => observer.observe(card));
+
+        // ===== STAT CARD HOVER 3D PARALLAX WITH GLOW =====
+        statCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = (y - centerY) / 8;
+                const rotateY = (centerX - x) / 8;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.08) translateY(-20px)`;
+
+                // Add glow effect following mouse
+                const glowX = (x / rect.width) * 100;
+                const glowY = (y / rect.height) * 100;
+                card.style.background = `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(255,255,255,0.35) 0%, linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.2) 100%))`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1) translateY(0)';
+                card.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)';
+            });
+        });
+
+        // ===== CTA BUTTON ENHANCED INTERACTION =====
+        const ctaButtons = document.querySelectorAll('.cta-section .btn');
+        ctaButtons.forEach(btn => {
+            btn.addEventListener('mouseenter', function () {
+                this.style.animation = 'scaleUp 0.3s ease-out';
+                this.style.transform = 'scale(1.12) translateY(-5px)';
+                this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(14, 165, 233, 0.6)';
+            });
+
+            btn.addEventListener('mouseleave', function () {
+                this.style.transform = 'scale(1) translateY(0)';
+                this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.2)';
+            });
+
+            btn.addEventListener('click', function (e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.position = 'absolute';
+                ripple.style.backgroundColor = 'rgba(255,255,255,0.6)';
+                ripple.style.borderRadius = '50%';
+                ripple.style.pointerEvents = 'none';
+                ripple.style.animation = 'rippleEffect 0.6s ease-out';
+
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // ===== STAT SECTION GLOW EFFECT ON SCROLL =====
+        const statsSection = document.querySelector('.stats-section');
+        const statHeader = statsSection ? statsSection.querySelector('.section-header') : null;
+
+        if (statsSection) {
+            window.addEventListener('scroll', () => {
+                const rect = statsSection.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+                if (isVisible) {
+                    const scrollPercent = (window.innerHeight - rect.top) / window.innerHeight;
+                    statsSection.style.filter = `brightness(${0.8 + scrollPercent * 0.2})`;
+                }
+            });
+        }
+
+        // ===== FEATURE CARD HOVER PARALLAX =====
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        // ===== MARQUEE PAUSE ON HOVER =====
+        const marquee = document.querySelector('.marquee');
+        if (marquee) {
+            marquee.addEventListener('mouseenter', () => {
+                marquee.style.animationPlayState = 'paused';
+            });
+            marquee.addEventListener('mouseleave', () => {
+                marquee.style.animationPlayState = 'running';
+            });
+        }
+
+        // ===== MAGNETIC BUTTONS & GLOW =====
+        const magneticButtons = document.querySelectorAll('.magnetic-button');
+        magneticButtons.forEach(btn => {
+            const btnGlow = btn.querySelector('.btn-glow');
+
+            btn.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = btn.getBoundingClientRect();
+                const x = e.clientX - left;
+                const y = e.clientY - top;
+
+                if (btnGlow) {
+                    btnGlow.style.left = `${x}px`;
+                    btnGlow.style.top = `${y}px`;
+                }
+
+                const moveX = (x - width / 2) * 0.35;
+                const moveY = (y - height / 2) * 0.35;
+                btn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = `translate(0, 0)`;
+            });
+        });
+
+        // ===== SCROLL REVEAL ANIMATION (Staggered) =====
+        const revealElements = document.querySelectorAll('.feature-card, .guide-point, .stat-card, .reveal-fade, .reveal-text');
+        const revealObserver = new IntersectionObserver(function (entries) {
+            entries.forEach((entry, idx) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('revealed');
+                    }, idx * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(element => revealObserver.observe(element));
+
+        // ===== HOLOGRAPHIC TYPING EFFECT =====
+        const holograms = document.querySelectorAll('.text-holographic');
+        holograms.forEach(title => {
+            const txt = title.innerText;
+            title.innerHTML = '';
+            let i = 0;
+            const type = () => {
+                if (i < txt.length) {
+                    title.innerHTML += txt.charAt(i);
+                    i++;
+                    setTimeout(type, 150);
+                }
+            };
+            setTimeout(type, 800);
+        });
+    });
+
+</script>
+{% endblock %}

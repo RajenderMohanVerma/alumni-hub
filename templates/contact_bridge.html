@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bridge-wrapper pb-5" style="margin-top: 120px;">
+    <!-- Background Accents -->
+    <div class="mesh-background">
+        <div class="mesh-ball ball-1"></div>
+        <div class="mesh-ball ball-2"></div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="glass-card-bridge p-4 p-md-5 text-center" data-aos="zoom-in">
+                    <div class="icon-circle mb-4">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+
+                    <h2 class="fw-bold mb-3">Redirection <span style="color: #25D366;">Notice</span></h2>
+
+                    <div class="info-box mb-4">
+                        <p class="mb-0">You are about to open WhatsApp to message:</p>
+                        <h4 class="fw-bold mt-2" style="color: #128C7E;">{{ target_user['name'] }}</h4>
+                    </div>
+
+                    <div class="privacy-alert mb-5 p-3">
+                        <div class="d-flex align-items-start text-start">
+                            <i class="fas fa-shield-alt mt-1 me-3" style="color: #25D366;"></i>
+                            <div>
+                                <small class="fw-bold d-block mb-1">Privacy Protection Active</small>
+                                <p class="small text-muted mb-0">We keep phone numbers hidden on the Hub to prevent
+                                    spam. By clicking below, you agree to open a 3rd party application (WhatsApp).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <a href="{{ url_for('whatsapp_jump', user_id=target_user['id']) }}"
+                            class="btn btn-whatsapp-premium py-3" onclick="handleRedirect()">
+                            <i class="fab fa-whatsapp me-2"></i> Continue to WhatsApp
+                        </a>
+                        <a href="{{ request.referrer or url_for('home') }}" class="btn btn-outline-modern py-3">
+                            Take me back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bridge-wrapper {
+        position: relative;
+        min-height: 80vh;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .mesh-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: #fdfdfd;
+        overflow: hidden;
+    }
+
+    .mesh-ball {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.15;
+    }
+
+    .ball-1 {
+        width: 450px;
+        height: 450px;
+        background: #25D366;
+        top: -10%;
+        right: -5%;
+    }
+
+    .ball-2 {
+        width: 400px;
+        height: 400px;
+        background: #128C7E;
+        bottom: -5%;
+        left: -5%;
+    }
+
+    .glass-card-bridge {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 40px;
+        box-shadow: 0 40px 80px -20px rgba(37, 211, 102, 0.2);
+        transition: transform 0.4s ease;
+    }
+
+    .icon-circle {
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, rgba(37, 211, 102, 0.1) 0%, rgba(18, 140, 126, 0.1) 100%);
+        color: #25D366;
+        font-size: 2.8rem;
+        border-radius: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        border: 2px solid rgba(37, 211, 102, 0.15);
+        transform: rotate(-5deg);
+    }
+
+    .info-box {
+        padding: 25px;
+        background: rgba(37, 211, 102, 0.03);
+        border-radius: 24px;
+        border: 1px solid rgba(37, 211, 102, 0.08);
+    }
+
+    .privacy-alert {
+        background: rgba(37, 211, 102, 0.05);
+        border-radius: 20px;
+        border: 1px solid rgba(37, 211, 102, 0.1);
+    }
+
+    .btn-whatsapp-premium {
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        color: white !important;
+        border: none;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 15px 35px rgba(37, 211, 102, 0.3), 0 5px 15px rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .btn-whatsapp-premium:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 20px 45px rgba(37, 211, 102, 0.4);
+    }
+
+    .btn-outline-modern {
+        border: 2px solid #e2e8f0;
+        background: white;
+        color: #64748b;
+        border-radius: 20px;
+        font-weight: 700;
+        transition: 0.3s;
+    }
+
+    .btn-outline-modern:hover {
+        background: #f8fafc;
+        border-color: #cbd5e1;
+        color: #334155;
+        transform: translateY(-2px);
+    }
+</style>
+
+<script>
+    function handleRedirect() {
+        // Optional: show a loading state on the button
+        const btn = event.currentTarget;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Opening WhatsApp...';
+        btn.classList.add('disabled');
+
+        // Let the actual href handle the navigation
+    }
+</script>
+{% endblock %}

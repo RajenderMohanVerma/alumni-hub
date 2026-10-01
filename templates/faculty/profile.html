@@ -1,0 +1,663 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Advanced Animation & Utility Libraries -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<div class="profile-redesign-wrapper">
+    <!-- Interactive Background Layer -->
+    <div id="particles-js" class="particles-bg"></div>
+    <div class="glass-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-5 position-relative" style="z-index: 10;">
+
+        <!-- Professional Greeting Banner -->
+        <div class="header-banner mb-5 glass-card-modern p-4" data-aos="fade-down">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div class="greeting-text">
+                    <h5 class="text-white-50 mb-1" id="time-greeting">Welcome to the Expert Portal</h5>
+                    <h2 class="text-white fw-bold mb-0">Professional <span class="text-warning">Identity</span></h2>
+                </div>
+                <div class="faculty-status-indicator glass-pill px-4 py-2">
+                    <span class="status-pulse me-2"></span>
+                    <span class="text-white small fw-bold">Verified Faculty Member</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-5">
+            <!-- Left Column: Identity Card -->
+            <div class="col-lg-4">
+                <div class="sticky-profile-card" data-aos="fade-right">
+                    <div class="profile-card-glass p-0 overflow-hidden shadow-2xl">
+                        <!-- Card Header Background -->
+                        <div class="card-header-bg"></div>
+
+                        <div class="card-body-content text-center px-4 pb-5">
+                            <!-- High-End Profile Image -->
+                            <div class="profile-avatar-container mx-auto">
+                                <div class="avatar-shimmer"></div>
+                                {% if user['profile_pic'] and user['profile_pic'].startswith('/') %}
+                                <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] }}"
+                                    class="avatar-img-premium shadow-2xl">
+                                {% else %}
+                                <div class="avatar-initials-premium shadow-2xl">
+                                    {{ user['name'] | initials }}
+                                </div>
+                                {% endif %}
+                                <div class="status-anchor online"></div>
+                            </div>
+
+                            <h3 class="text-white fw-800 mt-4 mb-1">{{ user['name'] }}</h3>
+                            <p class="text-warning tracking-widest text-uppercase small fw-700 mb-4">{{
+                                profile['designation'] or "Senior Faculty" }}</p>
+
+                            <div class="department-tag glass-pill-warning mx-auto mb-4">
+                                <i class="fas fa-university me-2"></i> {{ profile['department'] }}
+                            </div>
+
+                            <div class="divider-glass mb-4"></div>
+
+                            <!-- Premium Contact Hub -->
+                            <div class="contact-hub-wrapper mt-4">
+                                <p class="text-white-50 small fw-bold mb-3 ms-1"><i
+                                        class="fas fa-shield-halved me-2"></i>Secure Contact Hub</p>
+                                <div class="quick-actions-hub d-grid gap-3">
+                                    <!-- WhatsApp Direct -->
+                                    <a href="{{ url_for('whatsapp_bridge', user_id=user['id']) }}"
+                                        class="action-btn-glass shadow-sm">
+                                        <div class="icon-wrap bg-whatsapp-soft"><i class="fab fa-whatsapp"></i></div>
+                                        <span>WhatsApp Message</span>
+                                    </a>
+
+                                    <!-- Internal Compose -->
+                                    <a href="{{ url_for('compose_email', user_id=user['id']) }}"
+                                        class="action-btn-glass shadow-sm">
+                                        <div class="icon-wrap bg-primary-soft"><i class="fas fa-paper-plane"></i></div>
+                                        <span>Professional Mail</span>
+                                    </a>
+
+                                    <!-- Gmail Direct -->
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ user['email'] }}"
+                                        target="_blank" class="action-btn-glass shadow-sm">
+                                        <div class="icon-wrap bg-google-soft"><i class="fab fa-google"></i></div>
+                                        <span>Google Message</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="mt-5 d-grid gap-2">
+                                {% if current_user.id == user['id'] %}
+                                <a href="{{ url_for('edit_faculty_profile', user_id=current_user.id) }}"
+                                    class="btn btn-premium-gradient py-3">
+                                    <i class="fas fa-pen-nib me-2"></i> Edit Profile
+                                </a>
+                                {% else %}
+                                <button id="connection-btn" class="btn btn-premium-gradient py-3"
+                                    data-receiver-id="{{ user['id'] }}">
+                                    <i class="fas fa-user-plus me-2"></i> Join Network
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Meta Card (Office/Hours) -->
+                    <div class="meta-card-glass mt-4 p-4" data-aos="fade-up" data-aos-delay="200">
+                        <h6 class="text-white-50 text-uppercase tracking-widest small mb-4">Work Information</h6>
+                        <div class="meta-item mb-3">
+                            <i class="fas fa-map-marker-alt text-warning me-3"></i>
+                            <div>
+                                <span class="d-block text-white-50 small">Location</span>
+                                <span class="text-white fw-bold">{{ profile['office_location'] or "Academic Block"
+                                    }}</span>
+                            </div>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-hourglass-half text-warning me-3"></i>
+                            <div>
+                                <span class="d-block text-white-50 small">Consultancy Hours</span>
+                                <span class="text-white fw-bold">{{ profile['office_hours'] or "By Appointment"
+                                    }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Professional Dossier -->
+            <div class="col-lg-8">
+                <!-- Biography / Philosophy -->
+                <div class="glass-section-premium mb-5" data-aos="fade-left">
+                    <div class="section-overlay-icon"><i class="fas fa-feather-alt"></i></div>
+                    <h4 class="text-white fw-bold mb-4 d-flex align-items-center">
+                        <span class="title-underline me-3"></span> Professional Philosophy
+                    </h4>
+                    <p class="text-white opacity-90 fs-5 lh-lg fst-italic">
+                        "{{ profile['bio'] or "Dedicated to fostering academic excellence and innovative thinking
+                        through collaborative research and mentorship." }}"
+                    </p>
+                </div>
+
+                <!-- Expertise & Specialization Grid -->
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="glass-card-modern p-4 h-100 border-glow-blue">
+                            <h5 class="text-white fw-bold mb-4 d-flex align-items-center">
+                                <i class="fas fa-microscope text-primary me-2"></i> Areas of Expertise
+                            </h5>
+                            <div class="spec-cloud d-flex flex-wrap gap-2">
+                                {% if profile['specialization'] %}
+                                {% for spec in profile['specialization'].split(',') %}
+                                <span class="spec-tag-3d">{{ spec.strip() }}</span>
+                                {% endfor %}
+                                {% else %}
+                                <span class="text-white-50">General Academic Excellence</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="glass-card-modern p-4 h-100 border-glow-warning">
+                            <h5 class="text-white fw-bold mb-4 d-flex align-items-center">
+                                <i class="fas fa-award text-warning me-2"></i> Credentials
+                            </h5>
+                            <div class="credential-item mb-3 p-2 rounded-3 bg-white-5">
+                                <span class="text-white-50 small d-block">Employee ID</span>
+                                <span class="text-white fw-bold fs-5">{{ profile['employee_id'] }}</span>
+                            </div>
+                            <div class="credential-item p-2 rounded-3 bg-white-5">
+                                <span class="text-white-50 small d-block">Qualification</span>
+                                <span class="text-white fw-bold fs-5">{{ profile['qualification'] }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience Metrix -->
+                <div class="glass-section-premium" data-aos="fade-up">
+                    <div class="section-overlay-icon"><i class="fas fa-chart-line"></i></div>
+                    <h4 class="text-white fw-bold mb-5 d-flex align-items-center">
+                        <span class="title-underline me-3"></span> Career Longevity
+                    </h4>
+
+                    <div class="experience-viz px-md-4">
+                        <div class="d-flex justify-content-between align-items-end mb-4">
+                            <div class="viz-label">
+                                <h2 class="text-white display-4 fw-800 mb-0">{{ profile['experience_years'] or 0 }}</h2>
+                                <span class="text-warning text-uppercase tracking-widest fw-bold">Years of Research &
+                                    Teaching</span>
+                            </div>
+                            <div class="viz-badge bg-warning p-3 rounded-circle shadow-lg pulse-infinite">
+                                <i class="fas fa-bolt text-dark fs-4"></i>
+                            </div>
+                        </div>
+
+                        <div class="modern-progress-wrapper mb-4">
+                            <div class="modern-progress-track">
+                                {% set exp = (profile['experience_years'] or 0) | int %}
+                                {% set percent = (exp / 25 * 100) if exp < 25 else 100 %} <div
+                                    class="modern-progress-fill" data-percent="{{ percent }}%">
+                                    <div class="fill-shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between text-white-50 small">
+                        <span>Rising Scholar</span>
+                        <span>Industry Veteran</span>
+                        <span>Legendary Academic</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<style>
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --accent-primary: #6366f1;
+        --accent-warning: #f59e0b;
+        --accent-emerald: #10b981;
+    }
+
+    .profile-redesign-wrapper {
+        position: relative;
+        background: #060a16;
+        min-height: 100vh;
+        overflow-x: hidden;
+        padding-top: 100px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* BACKGROUND ANIMATIONS */
+    .particles-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0.4;
+    }
+
+    .glass-orbs {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.2;
+        animation: orbFloat 20s infinite alternate ease-in-out;
+    }
+
+    .orb-1 {
+        width: 500px;
+        height: 500px;
+        background: var(--accent-primary);
+        top: -100px;
+        left: -100px;
+    }
+
+    .orb-2 {
+        width: 400px;
+        height: 400px;
+        background: var(--accent-warning);
+        bottom: -50px;
+        right: -50px;
+        animation-delay: -5s;
+    }
+
+    .orb-3 {
+        width: 300px;
+        height: 300px;
+        background: var(--accent-emerald);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-delay: -10s;
+    }
+
+    @keyframes orbFloat {
+        0% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        100% {
+            transform: translate(50px, -50px) scale(1.2);
+        }
+    }
+
+    /* CARD STYLES */
+    .glass-card-modern {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .profile-card-glass {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(30px);
+        border: 1px solid var(--glass-border);
+        border-radius: 30px;
+        position: relative;
+    }
+
+    .card-header-bg {
+        height: 120px;
+        background: linear-gradient(135deg, var(--accent-primary) 0%, #1e1b4b 100%);
+        border-radius: 30px 30px 0 0;
+        opacity: 0.8;
+    }
+
+    .glass-pill-warning {
+        background: rgba(245, 158, 11, 0.15);
+        color: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        padding: 8px 20px;
+        border-radius: 50px;
+        display: inline-flex;
+        align-items: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+        width: fit-content;
+    }
+
+    /* AVATAR STYLES */
+    .profile-avatar-container {
+        width: 180px;
+        height: 180px;
+        margin-top: -90px;
+        position: relative;
+    }
+
+    .avatar-img-premium,
+    .avatar-initials-premium {
+        width: 100%;
+        height: 100%;
+        border-radius: 25px;
+        border: 6px solid rgba(15, 23, 42, 0.8);
+        object-fit: cover;
+        position: relative;
+        z-index: 2;
+    }
+
+    .avatar-initials-premium {
+        background: var(--accent-warning);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        font-weight: 800;
+        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .avatar-shimmer {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -100%;
+        bottom: -10px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        z-index: 1;
+        animation: shimmer 3s infinite;
+        border-radius: 30px;
+    }
+
+    @keyframes shimmer {
+        100% {
+            left: 100%;
+        }
+    }
+
+    /* ACTION BUTTONS */
+    .btn-premium-gradient {
+        background: linear-gradient(135deg, var(--accent-primary) 0%, #8b5cf6 100%);
+        color: white;
+        border: none;
+        border-radius: 15px;
+        font-weight: 700;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .btn-premium-gradient:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
+        color: white;
+    }
+
+    .action-btn-glass {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 14px 20px;
+        border-radius: 16px;
+        text-decoration: none !important;
+        transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .action-btn-glass span {
+        color: #f8fafc;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .action-btn-glass:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Brand Glows */
+    .action-btn-glass:hover .bg-whatsapp-soft {
+        box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+    }
+
+    .action-btn-glass:hover .bg-primary-soft {
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .action-btn-glass:hover .bg-google-soft {
+        box-shadow: 0 0 20px rgba(234, 67, 53, 0.4);
+    }
+
+    .bg-whatsapp-soft {
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        color: white;
+    }
+
+    .bg-primary-soft {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        color: white;
+    }
+
+    .bg-google-soft {
+        background: linear-gradient(135deg, #EA4335 0%, #c53030 100%);
+        color: white;
+    }
+
+    .icon-wrap {
+        width: 42px;
+        height: 42px;
+        border-radius: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.2rem;
+        transition: 0.3s;
+    }
+
+
+    /* DECORATIONS */
+    .title-underline {
+        width: 40px;
+        height: 6px;
+        background: var(--accent-warning);
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+    }
+
+    .glass-section-premium {
+        background: rgba(15, 23, 42, 0.4);
+        border: 1px solid var(--glass-border);
+        padding: 40px;
+        border-radius: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .section-overlay-icon {
+        position: absolute;
+        top: -30px;
+        right: -20px;
+        font-size: 10rem;
+        opacity: 0.03;
+        color: white;
+        transform: rotate(-15deg);
+    }
+
+    .spec-tag-3d {
+        background: rgba(255, 255, 255, 0.08);
+        color: white;
+        padding: 8px 18px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: 0.3s;
+        cursor: default;
+    }
+
+    .spec-tag-3d:hover {
+        background: white;
+        color: #060a16;
+        transform: scale(1.1) rotate(2deg);
+    }
+
+    /* PROGRESS VIZ */
+    .modern-progress-track {
+        height: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .modern-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        border-radius: 20px;
+        position: relative;
+    }
+
+    .fill-shimmer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        animation: progressShimmer 2s infinite;
+    }
+
+    @keyframes progressShimmer {
+        0% {
+            transform: translateX(-100%);
+        }
+
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+    .pulse-infinite {
+        animation: pulseShadow 2s infinite;
+    }
+
+    @keyframes pulseShadow {
+        0% {
+            box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+        }
+
+        70% {
+            box-shadow: 0 0 0 15px rgba(245, 158, 11, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Init AOS
+        AOS.init({ duration: 1000, once: true });
+
+        // Time-based Greeting
+        const hour = new Date().getHours();
+        const greetingEl = document.getElementById('time-greeting');
+        if (hour < 12) greetingEl.innerText = "Good Morning, Welcome to the Expert Portal";
+        else if (hour < 18) greetingEl.innerText = "Good Afternoon, Welcome to the Expert Portal";
+        else greetingEl.innerText = "Good Evening, Welcome to the Expert Portal";
+
+        // Initialize Data-driven components
+        // 1. Connection Button
+        const connBtn = document.getElementById('connection-btn');
+        if (connBtn) {
+            connBtn.addEventListener('click', () => {
+                const receiverId = connBtn.getAttribute('data-receiver-id');
+                if (receiverId) sendConnectionRequest(receiverId);
+            });
+        }
+
+        // 2. Progress Bars
+        document.querySelectorAll('.modern-progress-fill').forEach(fill => {
+            const pct = fill.getAttribute('data-percent');
+            if (pct) fill.style.width = pct;
+        });
+
+        // 3. Particles
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.2, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } },
+                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } } }
+            },
+            "retina_detect": true
+        });
+    });
+
+    // Connection Request Logic
+    async function sendConnectionRequest(receiverId) {
+        const btn = document.getElementById('connection-btn');
+        const originalContent = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processing...';
+
+        try {
+            const response = await fetch('/api/connection-request/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ receiver_id: parseInt(receiverId) })
+            });
+            const data = await response.json();
+            if (data.success) {
+                btn.className = 'btn btn-secondary py-3 w-100 fw-bold';
+                btn.innerHTML = '<i class="fas fa-check-circle me-2"></i> Request Sent';
+                showFloatingToast('Request sent successfully!', 'success');
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = originalContent;
+                showFloatingToast(data.error || 'Request failed', 'danger');
+            }
+        } catch (e) {
+            btn.disabled = false;
+            btn.innerHTML = originalContent;
+            showFloatingToast('Network error', 'danger');
+        }
+    }
+
+    function showFloatingToast(msg, type) {
+        const toast = document.createElement('div');
+        toast.style.cssText = `position: fixed; bottom: 30px; right: 30px; background: ${type === 'success' ? '#10b981' : '#ef4444'}; color: white; padding: 15px 30px; border-radius: 15px; z-index: 10000; box-shadow: 0 10px 20px rgba(0,0,0,0.3); font-weight: bold; animation: slideIn 0.5s forwards;`;
+        toast.innerHTML = (type === 'success' ? '✓ ' : '✕ ') + msg;
+        document.body.appendChild(toast);
+        setTimeout(() => { toast.style.animation = 'slideOut 0.5s forwards'; setTimeout(() => toast.remove(), 500); }, 3000);
+    }
+</script>
+{% endblock %}

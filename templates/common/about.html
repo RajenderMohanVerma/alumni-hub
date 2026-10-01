@@ -1,0 +1,2022 @@
+{% extends 'base.html' %}
+
+{% block title %}About - Alumni Management System{% endblock %}
+
+{% block content %}
+<!-- Premium Fonts -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+<div class="about-wrapper">
+    <!-- Animated Mesh Background (Vibrant Light) -->
+    <div class="mesh-background">
+        <div class="mesh-ball ball-1" data-speed="0.1"></div>
+        <div class="mesh-ball ball-2" data-speed="0.05"></div>
+        <div class="mesh-ball ball-3" data-speed="0.15"></div>
+        <div class="mesh-ball ball-4" data-speed="0.08"></div>
+    </div>
+
+    <!-- Global Particle Canvas is now in base.html -->
+
+    <!-- Hero Section (Synchronized with Services) -->
+    <section class="about-hero glass-hero position-relative overflow-hidden">
+        <canvas class="network-canvas"></canvas>
+        <div class="hero-particles"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="hero-content text-center">
+                <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade"
+                    style="font-weight: 700; letter-spacing: 1px;">
+                    <i class="fas fa-history me-2"></i> OUR LEGACY
+                </div>
+                <h1 class="display-3 fw-bold mb-3 reveal-text text-white">
+                    About <span class="text-holographic">Alumni Hub</span>
+                </h1>
+                <p class="text-white-50 lead mb-5 reveal-fade"
+                    style="font-size: 1.4rem; max-width: 800px; margin: 0 auto; font-weight: 500;">
+                    Building Bridges Between Past, Present, and Future. <br>
+                    A Legacy of Excellence from Lovely Professional University.
+                </p>
+                <div class="mt-4 reveal-fade">
+                    <button class="btn btn-primary rounded-pill px-5 py-3 magnetic-button fw-bold shadow-lg"
+                        style="letter-spacing: 1.5px; font-size: 1rem; border: none; background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                        EXPLORE OUR JOURNEY <i class="fas fa-arrow-down ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- High-Contrast Marquee Banner -->
+    <div class="about-marquee-banner reveal-fade">
+        <div class="marquee-inner">
+            <span class="stat-item" data-count="15000">✨ <span class="counter">0</span>+ Alumni</span>
+            <span class="stat-item" data-count="50">🌍 <span class="counter">0</span>+ Countries</span>
+            <span class="stat-item" data-count="1000">💼 <span class="counter">0</span>+ Opportunities</span>
+            <span class="stat-item">🚀 Building Futures Together</span>
+            <span class="stat-item" data-count="15000">✨ <span class="counter">0</span>+ Alumni</span>
+            <span class="stat-item" data-count="50">🌍 <span class="counter">0</span>+ Countries</span>
+        </div>
+    </div>
+
+    <div class="container pb-5" style="position: relative; z-index: 5;">
+        <!-- Mission & Vision Section -->
+        <div class="row g-4 mb-5 pt-5">
+            <div class="col-md-6 reveal-fade">
+                <div class="card border-0 glass-card mission-vision-card tilt-element">
+                    <div class="card-body p-5">
+                        <div class="icon-box icon-blue mb-4 burst-icon">
+                            <i class="fas fa-bullseye fa-2x"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3 text-slate-900">Our Mission</h3>
+                        <p class="text-slate-600 fw-medium lead-sm" style="line-height: 1.7;">
+                            Connecting 15,000+ alumni across 50+ countries to foster collaboration, mentorship, and
+                            career growth through our innovative platform.
+                        </p>
+                    </div>
+                    <div class="shimmer-effect"></div>
+                </div>
+            </div>
+            <div class="col-md-6 reveal-fade" style="animation-delay: 0.2s;">
+                <div class="card border-0 glass-card mission-vision-card tilt-element">
+                    <div class="card-body p-5">
+                        <div class="icon-box icon-purple mb-4 burst-icon">
+                            <i class="fas fa-rocket fa-2x"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3 text-slate-900">Our Vision</h3>
+                        <p class="text-slate-600 fw-medium lead-sm" style="line-height: 1.7;">
+                            To become the world's most trusted alumni network where every LPU graduate can thrive,
+                            innovate, and contribute to global excellence.
+                        </p>
+                    </div>
+                    <div class="shimmer-effect"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Values Section -->
+        <div class="values-wrapper mb-5 py-5">
+            <div class="section-tag text-center mb-5 reveal-text">
+                <span class="tag-label">CORE VALUES</span>
+                <h2 class="fw-bold display-5 mt-2 text-white">What <span class="text-holographic">Drives
+                        Us</span>
+                </h2>
+            </div>
+
+            <div class="row g-4">
+                {% set values = [
+                {'icon': '🎯', 'title': 'Excellence', 'desc': 'We strive for excellence in everything we do, from our
+                services to our community support.', 'color': '#6366f1'},
+                {'icon': '🤝', 'title': 'Community', 'desc': 'We foster a strong sense of community where everyone feels
+                valued and supported.', 'color': '#10b981'},
+                {'icon': '💡', 'title': 'Innovation', 'desc': 'We embrace innovation and continuous improvement to serve
+                our community better.', 'color': '#f59e0b'},
+                {'icon': '🌟', 'title': 'Integrity', 'desc': 'We maintain the highest standards of integrity and
+                transparency in all our dealings.', 'color': '#a855f7'}
+                ] %}
+                {% for value in values %}
+                <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: {{ loop.index0 * 0.1 }}s">
+                    <div class="card border-0 glass-card value-card tilt-element p-4 h-100">
+                        <div class="value-icon mb-3 burst-icon" style="color: {{ value.color }};">{{ value.icon }}</div>
+                        <h4 class="fw-bold mb-2 text-slate-800">{{ value.title }}</h4>
+                        <p class="text-slate-600 small mb-0 fw-medium">{{ value.desc }}</p>
+                        <div class="shimmer-effect"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Leadership Team Section - Enhanced Individual Cards -->
+        <div class="team-wrapper mb-5 py-5">
+            <div class="section-tag text-center mb-5 reveal-text">
+                <span class="tag-label">LEADERSHIP</span>
+                <h2 class="fw-bold display-4 mt-2 text-white">Meet Our <span class="text-holographic">Dream Team</span>
+                </h2>
+                <p class="text-slate-300 mt-3 lead text-white">Passionate individuals driving our mission forward</p>
+            </div>
+
+            <div class="container-fluid px-lg-5">
+                <!-- Row 1: Founder & CEO (Full Width Spotlight) -->
+                <div class="row mb-4 justify-content-center reveal-fade" style="animation-delay: 0s;">
+                    <div class="col-lg-8 col-md-10">
+                        {% set founder_image = "rajender.jpeg" %}
+                        <!-- Add image filename here, e.g., 'rajender_verma.jpg' -->
+                        <div class="team-card-spotlight glass-card border-0 position-relative overflow-hidden">
+                            <div class="spotlight-badge">
+                                <i class="fas fa-crown me-2"></i>Founder
+                            </div>
+                            <div class="row g-0 align-items-center">
+                                <div class="col-md-4">
+                                    <div class="team-image-container-spotlight">
+                                        {% if founder_image %}
+                                        <!-- Real Image -->
+                                        <img src="{{ url_for('static', filename='images/team/' + founder_image) }}"
+                                            alt="Rajender Mohan Verma" class="team-member-image w-100 h-100"
+                                            style="object-fit: cover;">
+                                        {% else %}
+                                        <!-- Placeholder -->
+                                        <div class="team-placeholder-image">
+                                            <div class="placeholder-gradient"></div>
+                                            <div class="placeholder-initials">RM</div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="team-image-overlay">
+                                            <div class="overlay-content">
+                                                <i class="fas fa-user-tie fa-4x text-white mb-2"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="p-5">
+                                        <div class="floating-badge mb-3">
+                                            <i class="fas fa-star"></i> Founder & CEO
+                                        </div>
+                                        <h3 class="fw-bold mb-2 text-slate-800">Rajender Mohan Verma</h3>
+                                        <p class="text-slate-600 mb-3">2+ years building successful tech communities and
+                                            leading innovative projects. Passionate about creating meaningful
+                                            connections and driving technological advancement.</p>
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <a href="https://www.linkedin.com/in/rajender-mohan-verma-0b1b8b1b1/"
+                                                class="social-btn-premium" title="LinkedIn">
+                                                <i class="fab fa-linkedin-in"></i>
+                                            </a>
+                                            <a href="https://github.com/RajenderMohanVerma" class="social-btn-premium"
+                                                title="GitHub">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                            <a href="#" class="social-btn-premium" title="Twitter">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                            <div class="ms-auto">
+                                                <span class="badge-experience">2+ Years</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="animated-border"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Shekhar Maurya (Operations Lead) -->
+                <div class="row mb-4 justify-content-center reveal-fade" style="animation-delay: 0.1s;">
+                    <div class="col-lg-8 col-md-10">
+                        {% set shekhar_image = 'shekhar_maurya.jpg' %}
+                        <!-- Add image filename here, e.g., 'shekhar_maurya.jpg' -->
+                        <div class="team-card-spotlight glass-card border-0 position-relative overflow-hidden">
+                            <div class="spotlight-badge" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                                <i class="fas fa-cog me-2"></i>Operations
+                            </div>
+                            <div class="row g-0 align-items-center">
+                                <div class="col-md-4">
+                                    <div class="team-image-container-spotlight">
+                                        {% if shekhar_image %}
+                                        <!-- Real Image -->
+                                        <img src="{{ url_for('static', filename='images/team/' + shekhar_image) }}"
+                                            alt="Shekhar Maurya" class="team-member-image w-100 h-100"
+                                            style="object-fit: cover;">
+                                        {% else %}
+                                        <!-- Placeholder -->
+                                        <div class="team-placeholder-image">
+                                            <div class="placeholder-gradient"
+                                                style="background: linear-gradient(135deg, #3b82f6, #2563eb);"></div>
+                                            <div class="placeholder-initials">SM</div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="team-image-overlay">
+                                            <div class="overlay-content">
+                                                <i class="fas fa-cog fa-4x text-white mb-2"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="p-5">
+                                        <div class="floating-badge mb-3"
+                                            style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                                            <i class="fas fa-briefcase"></i> Head of Operations
+                                        </div>
+                                        <h3 class="fw-bold mb-2 text-slate-800">Shekhar Maurya</h3>
+                                        <p class="text-slate-600 mb-3">Expert in program management and strategic
+                                            planning.
+                                            Streamlining operations and driving efficiency across all initiatives.</p>
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <a href="https://www.linkedin.com/in/rajender-mohan-verma-0b1b8b1b1/"
+                                                class="social-btn-premium" title="LinkedIn">
+                                                <i class="fab fa-linkedin-in"></i>
+                                            </a>
+                                            <a href="https://github.com/RajenderMohanVerma" class="social-btn-premium"
+                                                title="GitHub">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                            <a href="#" class="social-btn-premium" title="Twitter">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                            <div class="ms-auto">
+                                                <span class="badge-experience"
+                                                    style="background: linear-gradient(135deg, #3b82f6, #2563eb);">Operations</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="animated-border"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 3: Rajender Mohan Verma (Technical Lead) -->
+                <div class="row mb-4 justify-content-center reveal-fade" style="animation-delay: 0.2s;">
+                    <div class="col-lg-8 col-md-10">
+                        {% set rajender_tech_image = 'rajender_tech.jpg' %}
+                        <!-- Add image filename here, e.g., 'rajender_tech.jpg' -->
+                        <div class="team-card-spotlight glass-card border-0 position-relative overflow-hidden">
+                            <div class="spotlight-badge" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                                <i class="fas fa-code me-2"></i>Technical
+                            </div>
+                            <div class="row g-0 align-items-center">
+                                <div class="col-md-4">
+                                    <div class="team-image-container-spotlight">
+                                        {% if rajender_tech_image %}
+                                        <!-- Real Image -->
+                                        <img src="{{ url_for('static', filename='images/team/' + rajender_tech_image) }}"
+                                            alt="Rajender Mohan Verma" class="team-member-image w-100 h-100"
+                                            style="object-fit: cover;">
+                                        {% else %}
+                                        <!-- Placeholder -->
+                                        <div class="team-placeholder-image">
+                                            <div class="placeholder-gradient"
+                                                style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);"></div>
+                                            <div class="placeholder-initials">RM</div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="team-image-overlay">
+                                            <div class="overlay-content">
+                                                <i class="fas fa-code fa-4x text-white mb-2"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="p-5">
+                                        <div class="floating-badge mb-3"
+                                            style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                                            <i class="fas fa-laptop-code"></i> Technical Lead
+                                        </div>
+                                        <h3 class="fw-bold mb-2 text-slate-800">Rajender Mohan Verma</h3>
+                                        <p class="text-slate-600 mb-3">Full-stack developer and tech architect.
+                                            Building scalable solutions and mentoring the development team.</p>
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <a href="https://www.linkedin.com/in/rajender-mohan-verma-0b1b8b1b1/"
+                                                class="social-btn-premium" title="LinkedIn">
+                                                <i class="fab fa-linkedin-in"></i>
+                                            </a>
+                                            <a href="https://github.com/RajenderMohanVerma" class="social-btn-premium"
+                                                title="GitHub">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                            <a href="#" class="social-btn-premium" title="Twitter">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                            <div class="ms-auto">
+                                                <span class="badge-experience"
+                                                    style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">Technical</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="animated-border"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 4: Anushka Singh (Community Manager) -->
+                <div class="row mb-4 justify-content-center reveal-fade" style="animation-delay: 0.3s;">
+                    <div class="col-lg-8 col-md-10">
+                        {% set anushka_image = 'anushka_singh.jpg' %}
+                        <!-- Add image filename here, e.g., 'anushka_singh.jpg' -->
+                        <div class="team-card-spotlight glass-card border-0 position-relative overflow-hidden">
+                            <div class="spotlight-badge" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                                <i class="fas fa-users me-2"></i>Community
+                            </div>
+                            <div class="row g-0 align-items-center">
+                                <div class="col-md-4">
+                                    <div class="team-image-container-spotlight">
+                                        {% if anushka_image %}
+                                        <!-- Real Image -->
+                                        <img src="{{ url_for('static', filename='images/team/' + anushka_image) }}"
+                                            alt="Anushka Singh" class="team-member-image w-100 h-100"
+                                            style="object-fit: cover;">
+                                        {% else %}
+                                        <!-- Placeholder -->
+                                        <div class="team-placeholder-image">
+                                            <div class="placeholder-gradient"
+                                                style="background: linear-gradient(135deg, #ec4899, #db2777);"></div>
+                                            <div class="placeholder-initials">AS</div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="team-image-overlay">
+                                            <div class="overlay-content">
+                                                <i class="fas fa-users fa-4x text-white mb-2"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="p-5">
+                                        <div class="floating-badge mb-3"
+                                            style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                                            <i class="fas fa-heart"></i> Community Manager
+                                        </div>
+                                        <h3 class="fw-bold mb-2 text-slate-800">Anushka Singh</h3>
+                                        <p class="text-slate-600 mb-3">Building vibrant communities and fostering
+                                            meaningful connections.
+                                            Passionate about creating inclusive spaces for collaboration.</p>
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <a href="https://www.linkedin.com/in/rajender-mohan-verma-0b1b8b1b1/"
+                                                class="social-btn-premium" title="LinkedIn">
+                                                <i class="fab fa-linkedin-in"></i>
+                                            </a>
+                                            <a href="https://github.com/RajenderMohanVerma" class="social-btn-premium"
+                                                title="GitHub">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                            <a href="#" class="social-btn-premium" title="Twitter">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                            <div class="ms-auto">
+                                                <span class="badge-experience"
+                                                    style="background: linear-gradient(135deg, #ec4899, #db2777);">Community</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="animated-border"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 5: Karuna Singh (Marketing Lead) -->
+                <div class="row mb-4 justify-content-center reveal-fade" style="animation-delay: 0.4s;">
+                    <div class="col-lg-8 col-md-10">
+                        {% set karuna_image = '' %}
+                        <!-- Add image filename here, e.g., 'karuna_singh.jpg' -->
+                        <div class="team-card-spotlight glass-card border-0 position-relative overflow-hidden">
+                            <div class="spotlight-badge" style="background: linear-gradient(135deg, #f97316, #ea580c);">
+                                <i class="fas fa-bullhorn me-2"></i>Marketing
+                            </div>
+                            <div class="row g-0 align-items-center">
+                                <div class="col-md-4">
+                                    <div class="team-image-container-spotlight">
+                                        {% if karuna_image %}
+                                        <!-- Real Image -->
+                                        <img src="{{ url_for('static', filename='images/team/' + karuna_image) }}"
+                                            alt="Karuna Singh" class="team-member-image w-100 h-100"
+                                            style="object-fit: cover;">
+                                        {% else %}
+                                        <!-- Placeholder -->
+                                        <div class="team-placeholder-image">
+                                            <div class="placeholder-gradient"
+                                                style="background: linear-gradient(135deg, #f97316, #ea580c);"></div>
+                                            <div class="placeholder-initials">KS</div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="team-image-overlay">
+                                            <div class="overlay-content">
+                                                <i class="fas fa-bullhorn fa-4x text-white mb-2"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="p-5">
+                                        <div class="floating-badge mb-3"
+                                            style="background: linear-gradient(135deg, #f97316, #ea580c);">
+                                            <i class="fas fa-chart-line"></i> Marketing Lead
+                                        </div>
+                                        <h3 class="fw-bold mb-2 text-slate-800">Karuna Singh</h3>
+                                        <p class="text-slate-600 mb-3">Creative strategist driving brand growth and
+                                            engagement.
+                                            Crafting compelling narratives that resonate with our community.</p>
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <a href="https://www.linkedin.com/in/rajender-mohan-verma-0b1b8b1b1/"
+                                                class="social-btn-premium" title="LinkedIn">
+                                                <i class="fab fa-linkedin-in"></i>
+                                            </a>
+                                            <a href="https://github.com/RajenderMohanVerma" class="social-btn-premium"
+                                                title="GitHub">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                            <a href="#" class="social-btn-premium" title="Twitter">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                            <div class="ms-auto">
+                                                <span class="badge-experience"
+                                                    style="background: linear-gradient(135deg, #f97316, #ea580c);">Marketing</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="animated-border"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 6: Sazida Sahin (Frontend Developer) -->
+                <div class="row mb-4 justify-content-center reveal-fade" style="animation-delay: 0.5s;">
+                    <div class="col-lg-8 col-md-10">
+                        {% set sazida_image = '' %}
+                        <!-- Add image filename here, e.g., 'sazida_sahin.jpg' -->
+                        <div class="team-card-spotlight glass-card border-0 position-relative overflow-hidden">
+                            <div class="spotlight-badge" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">
+                                <i class="fas fa-palette me-2"></i>Frontend
+                            </div>
+                            <div class="row g-0 align-items-center">
+                                <div class="col-md-4">
+                                    <div class="team-image-container-spotlight">
+                                        {% if sazida_image %}
+                                        <!-- Real Image -->
+                                        <img src="{{ url_for('static', filename='images/team/' + sazida_image) }}"
+                                            alt="Sazida Sahin" class="team-member-image w-100 h-100"
+                                            style="object-fit: cover;">
+                                        {% else %}
+                                        <!-- Placeholder -->
+                                        <div class="team-placeholder-image">
+                                            <div class="placeholder-gradient"
+                                                style="background: linear-gradient(135deg, #14b8a6, #0d9488);"></div>
+                                            <div class="placeholder-initials">SS</div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="team-image-overlay">
+                                            <div class="overlay-content">
+                                                <i class="fas fa-palette fa-4x text-white mb-2"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="p-5">
+                                        <div class="floating-badge mb-3"
+                                            style="background: linear-gradient(135deg, #14b8a6, #0d9488);">
+                                            <i class="fas fa-paint-brush"></i> Frontend Developer
+                                        </div>
+                                        <h3 class="fw-bold mb-2 text-slate-800">Sazida Sahin</h3>
+                                        <p class="text-slate-600 mb-3">UI/UX specialist creating beautiful, intuitive
+                                            interfaces.
+                                            Bringing designs to life with modern web technologies.</p>
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <a href="https://www.linkedin.com/in/rajender-mohan-verma-0b1b8b1b1/"
+                                                class="social-btn-premium" title="LinkedIn">
+                                                <i class="fab fa-linkedin-in"></i>
+                                            </a>
+                                            <a href="https://github.com/RajenderMohanVerma" class="social-btn-premium"
+                                                title="GitHub">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                            <a href="#" class="social-btn-premium" title="Twitter">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                            <div class="ms-auto">
+                                                <span class="badge-experience"
+                                                    style="background: linear-gradient(135deg, #14b8a6, #0d9488);">Frontend</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="animated-border"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 7: Harsh Verma (Backend Developer) -->
+                <div class="row mb-4 justify-content-center reveal-fade" style="animation-delay: 0.6s;">
+                    <div class="col-lg-8 col-md-10">
+                        {% set harsh_image = '' %}
+                        <!-- Add image filename here, e.g., 'harsh_verma.jpg' -->
+                        <div class="team-card-spotlight glass-card border-0 position-relative overflow-hidden">
+                            <div class="spotlight-badge" style="background: linear-gradient(135deg, #10b981, #059669);">
+                                <i class="fas fa-server me-2"></i>Backend
+                            </div>
+                            <div class="row g-0 align-items-center">
+                                <div class="col-md-4">
+                                    <div class="team-image-container-spotlight">
+                                        {% if harsh_image %}
+                                        <!-- Real Image -->
+                                        <img src="{{ url_for('static', filename='images/team/' + harsh_image) }}"
+                                            alt="Harsh Verma" class="team-member-image w-100 h-100"
+                                            style="object-fit: cover;">
+                                        {% else %}
+                                        <!-- Placeholder -->
+                                        <div class="team-placeholder-image">
+                                            <div class="placeholder-gradient"
+                                                style="background: linear-gradient(135deg, #10b981, #059669);"></div>
+                                            <div class="placeholder-initials">HV</div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="team-image-overlay">
+                                            <div class="overlay-content">
+                                                <i class="fas fa-server fa-4x text-white mb-2"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="p-5">
+                                        <div class="floating-badge mb-3"
+                                            style="background: linear-gradient(135deg, #10b981, #059669);">
+                                            <i class="fas fa-database"></i> Backend Developer
+                                        </div>
+                                        <h3 class="fw-bold mb-2 text-slate-800">Harsh Verma</h3>
+                                        <p class="text-slate-600 mb-3">Backend architect building robust, scalable
+                                            systems.
+                                            Ensuring reliability and performance at every layer.</p>
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <a href="https://www.linkedin.com/in/rajender-mohan-verma-0b1b8b1b1/"
+                                                class="social-btn-premium" title="LinkedIn">
+                                                <i class="fab fa-linkedin-in"></i>
+                                            </a>
+                                            <a href="https://github.com/RajenderMohanVerma" class="social-btn-premium"
+                                                title="GitHub">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                            <a href="#" class="social-btn-premium" title="Twitter">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                            <div class="ms-auto">
+                                                <span class="badge-experience"
+                                                    style="background: linear-gradient(135deg, #10b981, #059669);">Backend</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="animated-border"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions for Adding Images -->
+            <!--
+            TO ADD TEAM MEMBER IMAGES:
+            1. Save images in: alumni-web/static/images/team/
+            2. Replace placeholder divs with:
+               <img src="{{ url_for('static', filename='images/team/firstname_lastname.jpg') }}" 
+                    alt="Name" class="team-member-image">
+            3. Recommended: 400x400px, JPG/PNG format
+            -->
+        </div>
+
+        <!-- Journey Timeline -->
+        <div class="timeline-wrapper mb-5 py-5">
+            <div class="section-tag text-center mb-5 reveal-text">
+                <span class="tag-label">OUR JOURNEY</span>
+                <h2 class="fw-bold display-5 mt-2 text-holographic">Milestones & <span
+                        class="text-holographic">Achievements</span></h2>
+            </div>
+
+            <div class="modern-timeline">
+                {% set timeline = [
+                {'date': 'September 2026', 'title': 'Project Initiation', 'desc': 'Started building the foundation of
+                Alumni Hub with core team formation'},
+                {'date': 'October 2025', 'title': 'Platform Development', 'desc': 'Built core features, user
+                authentication, and dashboard systems'},
+                {'date': 'November 2026', 'title': 'Beta Launch', 'desc': 'Released platform to first batch of users and
+                gathered valuable feedback'},
+                {'date': 'December 2026', 'title': 'Community Growth', 'desc': 'Onboarded 500+ alumni members and
+                expanded reach'},
+                {'date': 'January 2026', 'title': 'Feature Enhancement', 'desc': 'Launched mentorship program and job
+                opportunities board'},
+                {'date': 'February 2026', 'title': 'Scale & Expansion', 'desc': 'Aiming to reach 2000+ active users across
+                the globe'}
+                ] %}
+                {% for item in timeline %}
+                <div class="timeline-item reveal-fade" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+                    <div class="timeline-dot"></div>
+                    <div class="card border-0 glass-card timeline-card">
+                        <div class="card-body">
+                            <span class="timeline-date">{{ item.date }}</span>
+                            <h5 class="fw-bold mt-2 mb-2 text-slate-800">{{ item.title }}</h5>
+                            <p class="text-slate-600 small mb-0 fw-medium">{{ item.desc }}</p>
+                        </div>
+                        <div class="shimmer-effect"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Final Visibility-Optimized Styles */
+    body {
+        font-family: 'Outfit', sans-serif;
+        background-color: #f8fafc;
+        overflow-x: hidden;
+        color: #1e293b;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        letter-spacing: -0.5px;
+    }
+
+    .about-wrapper {
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+    }
+
+    /* Vibrant Mesh Background */
+    .mesh-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .mesh-ball {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.15;
+        will-change: transform;
+        transition: transform 0.1s ease-out;
+    }
+
+    .ball-1 {
+        width: 600px;
+        height: 600px;
+        background: #6366f1;
+        top: -10%;
+        left: -10%;
+    }
+
+    .ball-2 {
+        width: 500px;
+        height: 500px;
+        background: #a855f7;
+        bottom: 10%;
+        right: -5%;
+    }
+
+    .ball-3 {
+        width: 400px;
+        height: 400px;
+        background: #ec4899;
+        top: 40%;
+        left: 30%;
+    }
+
+    .ball-4 {
+        width: 300px;
+        height: 300px;
+        background: #10b981;
+        bottom: -5%;
+        left: 10%;
+    }
+
+    /* Global Particle Canvas is now in animations.css */
+
+    /* Hero (Synchronized with Services) */
+    .about-hero {
+        padding: 140px 0 120px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-particles {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(99, 102, 241, 0.1) 2px, transparent 2px);
+        background-size: 30px 30px;
+        opacity: 0.5;
+    }
+
+    /* Text Helpers */
+    .text-slate-900 {
+        color: #0f172a !important;
+    }
+
+    .text-slate-800 {
+        color: #1e293b !important;
+    }
+
+    .text-slate-600 {
+        color: #475569 !important;
+    }
+
+    .text-slate-500 {
+        color: #64748b !important;
+    }
+
+    .fw-extrabold {
+        font-weight: 800;
+    }
+
+    .text-holographic {
+        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: holographic-move 8s linear infinite;
+    }
+
+    @keyframes holographic-move {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        100% {
+            background-position: 300% 50%;
+        }
+    }
+
+    /* Enhanced Marquee */
+    .about-marquee-banner {
+        background: #ffffff;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        white-space: nowrap;
+        padding: 30px 0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    }
+
+    .marquee-inner {
+        display: inline-block;
+        animation: marquee-scroll 45s linear infinite;
+    }
+
+    .marquee-inner span {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-right: 100px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    @keyframes marquee-scroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    /* Glass Cards (Lightened) */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.8) !important;
+        border-radius: 40px !important;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.04) !important;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .tilt-element:hover {
+        transform: translateY(-15px) scale(1.02);
+        border-color: #6366f1 !important;
+        box-shadow: 0 50px 100px rgba(99, 102, 241, 0.1) !important;
+    }
+
+    .shimmer-effect {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.6) 50%, transparent 60%);
+        background-size: 200% 200%;
+        background-position: -200% -200%;
+        pointer-events: none;
+        opacity: 0;
+    }
+
+    .glass-card:hover .shimmer-effect {
+        opacity: 1;
+        background-position: 200% 200%;
+        transition: background-position 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .icon-box {
+        width: 85px;
+        height: 85px;
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f5f9;
+        transition: all 0.5s;
+        position: relative;
+    }
+
+    .icon-blue {
+        color: #6366f1;
+    }
+
+    .icon-purple {
+        color: #a855f7;
+    }
+
+    .burst-icon:hover {
+        transform: scale(1.1) rotate(10deg);
+        filter: drop-shadow(0 0 15px currentColor);
+    }
+
+    /* Team */
+    .team-avatar-box {
+        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        font-size: 4.5rem;
+    }
+
+    .team-card:hover .team-avatar-box {
+        transform: rotateY(360deg) scale(1.2);
+    }
+
+    .social-btn {
+        width: 45px;
+        height: 45px;
+        background: #f1f5f9;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #475569;
+        text-decoration: none;
+        transition: all 0.4s;
+        border: 1px solid transparent;
+    }
+
+    .social-btn:hover {
+        background: #6366f1;
+        color: white;
+        transform: rotate(360deg) scale(1.2);
+    }
+
+    /* ===== NEW TEAM CARDS - UNIQUE DESIGNS ===== */
+
+    /* === 1. SPOTLIGHT CARD (Founder) === */
+    .team-card-spotlight {
+        border-radius: 30px !important;
+        overflow: hidden;
+        transition: all 0.5s ease;
+        position: relative;
+    }
+
+    .team-card-spotlight:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 60px rgba(99, 102, 241, 0.2) !important;
+    }
+
+    .spotlight-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        z-index: 10;
+        box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+        animation: badge-float 3s ease-in-out infinite;
+    }
+
+    @keyframes badge-float {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+
+    .team-image-container-spotlight {
+        height: 100%;
+        min-height: 350px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .floating-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        color: white;
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        animation: float-badge 2s ease-in-out infinite;
+    }
+
+    @keyframes float-badge {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-3px);
+        }
+    }
+
+    .badge-experience {
+        background: linear-gradient(135deg, #ec4899, #f43f5e);
+        color: white;
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+    }
+
+    .social-btn-premium {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #475569;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid transparent;
+        position: relative;
+    }
+
+    .social-btn-premium::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 50%;
+    }
+
+    .social-btn-premium i {
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+    }
+
+    .social-btn-premium:hover {
+        transform: translateY(-5px) scale(1.15);
+        border-color: #6366f1;
+        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+    }
+
+    .social-btn-premium:hover::before {
+        opacity: 1;
+    }
+
+    .social-btn-premium:hover i {
+        color: white;
+        transform: rotate(360deg);
+    }
+
+    /* Animated Border */
+    .animated-border {
+        position: absolute;
+        inset: 0;
+        border-radius: 30px;
+        padding: 3px;
+        background: linear-gradient(45deg, #6366f1, #a855f7, #ec4899, #6366f1);
+        background-size: 300% 300%;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        animation: gradient-rotate 3s ease infinite;
+    }
+
+    .team-card-spotlight:hover .animated-border {
+        opacity: 1;
+    }
+
+    @keyframes gradient-rotate {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    /* === 2. FLIP CARDS (Leadership Team) === */
+    .team-card-flip {
+        perspective: 1000px;
+        height: 450px;
+    }
+
+    .card-flip-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform-style: preserve-3d;
+    }
+
+    .team-card-flip:hover .card-flip-inner {
+        transform: rotateY(180deg);
+    }
+
+    .card-flip-front,
+    .card-flip-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 30px !important;
+        overflow: hidden;
+    }
+
+    .card-flip-back {
+        transform: rotateY(180deg);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+    }
+
+    .floating-icon {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6366f1;
+        font-size: 1.2rem;
+        z-index: 10;
+        animation: icon-float 3s ease-in-out infinite;
+    }
+
+    @keyframes icon-float {
+
+        0%,
+        100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+
+        50% {
+            transform: translateY(-8px) rotate(10deg);
+        }
+    }
+
+    .team-image-container-wide {
+        height: 250px;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .flip-indicator {
+        color: #94a3b8;
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        animation: pulse-text 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-text {
+
+        0%,
+        100% {
+            opacity: 0.6;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    .flip-indicator i {
+        animation: rotate-icon 2s linear infinite;
+    }
+
+    @keyframes rotate-icon {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Pulse Ring Effect */
+    .pulse-ring {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        border: 3px solid #6366f1;
+        border-radius: 50%;
+        opacity: 0;
+        animation: pulse-ring-anim 2s ease-out infinite;
+    }
+
+    @keyframes pulse-ring-anim {
+        0% {
+            transform: translateX(-50%) scale(0.8);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateX(-50%) scale(1.5);
+            opacity: 0;
+        }
+    }
+
+    .social-btn-flip {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .social-btn-flip:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+        background: linear-gradient(135deg, #a855f7, #ec4899);
+    }
+
+    /* === 3. COMPACT CARDS (Developers) === */
+    .team-card-compact {
+        border-radius: 25px !important;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        position: relative;
+        height: 100%;
+    }
+
+    .team-card-compact:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15) !important;
+    }
+
+    .compact-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6366f1;
+        font-size: 1rem;
+        z-index: 10;
+        transition: all 0.3s ease;
+    }
+
+    .team-card-compact:hover .compact-badge {
+        transform: rotate(360deg) scale(1.2);
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        color: white;
+    }
+
+    .team-image-container-compact {
+        height: 200px;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .placeholder-initials-small {
+        position: relative;
+        z-index: 2;
+        font-size: 3rem;
+        font-weight: 800;
+        color: white;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        letter-spacing: 0.1em;
+        transition: all 0.5s ease;
+    }
+
+    .team-card-compact:hover .placeholder-initials-small {
+        transform: scale(1.3) rotate(10deg);
+    }
+
+    .social-btn-compact {
+        width: 35px;
+        height: 35px;
+        background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #475569;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 0.85rem;
+    }
+
+    .social-btn-compact:hover {
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        color: white;
+        transform: translateY(-3px) scale(1.1);
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Glow Effect */
+    .glow-effect {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.2), transparent 70%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .team-card-compact:hover .glow-effect {
+        opacity: 1;
+    }
+
+    /* === GRADIENT VARIATIONS === */
+    .gradient-blue {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%) !important;
+    }
+
+    .gradient-purple {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%) !important;
+    }
+
+    .gradient-pink {
+        background: linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%) !important;
+    }
+
+    .gradient-orange {
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%) !important;
+    }
+
+    .gradient-teal {
+        background: linear-gradient(135deg, #14b8a6 0%, #0d9488 50%, #0f766e 100%) !important;
+    }
+
+    .gradient-green {
+        background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%) !important;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 992px) {
+        .team-card-spotlight {
+            margin-bottom: 2rem;
+        }
+
+        .team-image-container-spotlight {
+            min-height: 250px;
+        }
+
+        .team-card-flip {
+            height: 420px;
+        }
+
+        .team-image-container-wide {
+            height: 220px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .team-card-flip {
+            height: 400px;
+        }
+
+        .team-image-container-wide {
+            height: 200px;
+        }
+
+        .team-image-container-compact {
+            height: 180px;
+        }
+
+        .placeholder-initials-small {
+            font-size: 2.5rem;
+        }
+    }
+
+    /* ===== ENHANCED TEAM CARDS WITH IMAGE SUPPORT ===== */
+    .team-card-enhanced {
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Image Container */
+    .team-image-container {
+        width: 100%;
+        height: 280px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Real Team Member Image */
+    .team-member-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .team-card-enhanced:hover .team-member-image {
+        transform: scale(1.1);
+    }
+
+    /* Placeholder Image with Gradient */
+    .team-placeholder-image {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .placeholder-gradient {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        opacity: 0.9;
+        transition: all 0.5s ease;
+    }
+
+    .team-card-enhanced:hover .placeholder-gradient {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    /* Initials Display */
+    .placeholder-initials {
+        position: relative;
+        z-index: 2;
+        font-size: 4rem;
+        font-weight: 800;
+        color: white;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        letter-spacing: 0.1em;
+        transition: all 0.5s ease;
+    }
+
+    .team-card-enhanced:hover .placeholder-initials {
+        transform: scale(1.2) rotate(5deg);
+        text-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Hover Overlay */
+    .team-image-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 0%, rgba(99, 102, 241, 0.95) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .team-card-enhanced:hover .team-image-overlay {
+        opacity: 1;
+    }
+
+    .overlay-content {
+        transform: translateY(20px);
+        transition: transform 0.4s ease;
+    }
+
+    .team-card-enhanced:hover .overlay-content {
+        transform: translateY(0);
+    }
+
+    /* Card Content Area */
+    .team-card-content {
+        background: rgba(255, 255, 255, 0.95);
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Enhanced Social Buttons */
+    .social-btn-enhanced {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #475569;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .social-btn-enhanced::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 50%;
+    }
+
+    .social-btn-enhanced i {
+        position: relative;
+        z-index: 1;
+        transition: transform 0.3s ease;
+    }
+
+    .social-btn-enhanced:hover {
+        transform: translateY(-5px) scale(1.15);
+        border-color: #6366f1;
+        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+    }
+
+    .social-btn-enhanced:hover::before {
+        opacity: 1;
+    }
+
+    .social-btn-enhanced:hover i {
+        color: white;
+        transform: rotate(360deg);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .team-image-container {
+            height: 240px;
+        }
+
+        .placeholder-initials {
+            font-size: 3rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .team-image-container {
+            height: 200px;
+        }
+
+        .placeholder-initials {
+            font-size: 2.5rem;
+        }
+
+        .social-btn-enhanced {
+            width: 35px;
+            height: 35px;
+        }
+    }
+
+    /* Timeline */
+    .modern-timeline {
+        position: relative;
+        padding-left: 50px;
+    }
+
+    .modern-timeline::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 6px;
+        background: linear-gradient(180deg, #6366f1, #a855f7, #ec4899);
+        border-radius: 3px;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 60px;
+        padding-left: 40px;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        left: -54px;
+        top: 32px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #6366f1;
+        border: 4px solid white;
+        box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.1);
+        transition: all 0.4s;
+        z-index: 2;
+    }
+
+    .timeline-item:hover .timeline-dot {
+        transform: scale(1.6);
+        background: #f472b6;
+        box-shadow: 0 0 0 10px rgba(244, 114, 182, 0.2);
+    }
+
+    .timeline-date {
+        font-size: 0.95rem;
+        font-weight: 800;
+        color: #6366f1;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    /* Visibility Helpers */
+    .reveal-text,
+    .reveal-fade {
+        opacity: 0;
+        transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .reveal-text {
+        transform: translateY(30px);
+    }
+
+    .reveal-fade {
+        transform: scale(0.95) translateY(20px);
+    }
+
+    .reveal-immediate {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .revealed {
+        opacity: 1 !important;
+        transform: translate(0, 0) scale(1) !important;
+        visibility: visible !important;
+    }
+
+    .tag-label {
+        font-size: 0.95rem;
+        font-weight: 900;
+        color: #6366f1;
+        letter-spacing: 4px;
+    }
+
+    @media (max-width: 768px) {
+        .display-2 {
+            font-size: 3rem;
+        }
+    }
+
+    /* ========== ADVANCED ENHANCEMENTS ========== */
+
+    /* Floating Particles Around Team Avatars */
+    @keyframes float-particle {
+
+        0%,
+        100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.6;
+        }
+
+        50% {
+            transform: translate(var(--tx), var(--ty)) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .team-card {
+        position: relative;
+    }
+
+    .team-card::before,
+    .team-card::after {
+        content: '';
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .team-card:hover::before {
+        opacity: 1;
+        animation: float-particle 3s ease-in-out infinite;
+        --tx: 20px;
+        --ty: -30px;
+        top: 20%;
+        left: 10%;
+    }
+
+    .team-card:hover::after {
+        opacity: 1;
+        animation: float-particle 3.5s ease-in-out infinite;
+        --tx: -25px;
+        --ty: 25px;
+        bottom: 25%;
+        right: 15%;
+    }
+
+    /* Enhanced Card Flip Effect */
+    .team-card {
+        transform-style: preserve-3d;
+        transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .team-card:hover {
+        transform: translateY(-20px) rotateY(5deg) scale(1.05);
+    }
+
+    /* Ripple Effect on Buttons */
+    .social-btn {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .social-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .social-btn:hover::before {
+        width: 200px;
+        height: 200px;
+    }
+
+    /* Glow Pulse Animation */
+    @keyframes glow-pulse {
+
+        0%,
+        100% {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        50% {
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.6), 0 0 60px rgba(168, 85, 247, 0.4);
+        }
+    }
+
+    .team-card:hover {
+        animation: glow-pulse 2s ease-in-out infinite;
+    }
+
+    /* Value Card Enhanced Hover */
+    .value-card {
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .value-card:hover {
+        transform: translateY(-15px) scale(1.05) rotate(2deg);
+        box-shadow: 0 40px 80px rgba(99, 102, 241, 0.15) !important;
+    }
+
+    .value-icon {
+        font-size: 3rem;
+        transition: all 0.5s ease;
+        display: inline-block;
+    }
+
+    .value-card:hover .value-icon {
+        transform: scale(1.3) rotate(360deg);
+        filter: drop-shadow(0 0 20px currentColor);
+    }
+
+    /* Mission/Vision Card Enhancements */
+    .mission-vision-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .mission-vision-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .mission-vision-card:hover::before {
+        opacity: 1;
+        transform: rotate(180deg);
+    }
+
+    /* Timeline Enhanced Animations */
+    .timeline-card {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+    }
+
+    .timeline-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: linear-gradient(180deg, #6366f1, #a855f7);
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: transform 0.5s ease;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .timeline-card:hover::before {
+        transform: scaleY(1);
+    }
+
+    .timeline-card:hover {
+        transform: translateX(15px) scale(1.02);
+        box-shadow: 0 30px 60px rgba(99, 102, 241, 0.15) !important;
+    }
+
+    /* Magnetic Button Enhanced */
+    .magnetic-button {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .magnetic-button::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.5s, height 0.5s;
+    }
+
+    .magnetic-button:hover::after {
+        width: 300px;
+        height: 300px;
+    }
+
+    .magnetic-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4) !important;
+    }
+
+    /* Sparkle Effect on Hover */
+    @keyframes sparkle {
+
+        0%,
+        100% {
+            opacity: 0;
+            transform: scale(0) rotate(0deg);
+        }
+
+        50% {
+            opacity: 1;
+            transform: scale(1) rotate(180deg);
+        }
+    }
+
+    .team-avatar-box {
+        position: relative;
+    }
+
+    .team-card:hover .team-avatar-box::before,
+    .team-card:hover .team-avatar-box::after {
+        content: '✨';
+        position: absolute;
+        font-size: 1.5rem;
+        animation: sparkle 1.5s ease-in-out infinite;
+    }
+
+    .team-card:hover .team-avatar-box::before {
+        top: -10px;
+        right: -10px;
+        animation-delay: 0s;
+    }
+
+    .team-card:hover .team-avatar-box::after {
+        bottom: -10px;
+        left: -10px;
+        animation-delay: 0.75s;
+    }
+
+    /* Smooth Color Transition */
+    .glass-card {
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+            background-color 0.3s ease,
+            border-color 0.3s ease;
+    }
+
+    /* Enhanced Reveal Animations */
+    @keyframes slide-in-left {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slide-in-right {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .mission-vision-card:nth-child(odd) {
+        animation: slide-in-left 0.8s ease-out;
+    }
+
+    .mission-vision-card:nth-child(even) {
+        animation: slide-in-right 0.8s ease-out;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 2. Typing Effect for Holographic Text
+        const holograms = document.querySelectorAll('.text-holographic');
+        holograms.forEach(title => {
+            const txt = title.innerText; title.innerHTML = ''; let i = 0;
+            const type = () => { if (i < txt.length) { title.innerHTML += txt.charAt(i); i++; setTimeout(type, 150); } };
+            setTimeout(type, 800);
+        });
+
+        // 3. (Removed local immediates)
+
+        // 4. Low-Threshold Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    if (entry.target.classList.contains('marquee-inner')) startCounters();
+                }
+            });
+        }, { threshold: 0.05 }); // Lower threshold for immediate trigger
+
+        document.querySelectorAll('.reveal-text, .reveal-fade, .marquee-inner').forEach(el => observer.observe(el));
+
+        // 5. Live Number Counters
+        let countersStarted = false;
+        const startCounters = () => {
+            if (countersStarted) return;
+            countersStarted = true;
+            document.querySelectorAll('.stat-item[data-count]').forEach(item => {
+                const target = parseInt(item.getAttribute('data-count'));
+                const counterDisplay = item.querySelector('.counter');
+                let current = 0;
+                const duration = 2500;
+                const increment = target / (duration / 16);
+                const update = () => {
+                    current += increment;
+                    if (current < target) {
+                        counterDisplay.innerText = Math.floor(current).toLocaleString();
+                        requestAnimationFrame(update);
+                    } else { counterDisplay.innerText = target.toLocaleString(); }
+                };
+                update();
+            });
+        };
+
+        // 6. Parallax Scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            document.querySelectorAll('.mesh-ball').forEach(ball => {
+                const speed = parseFloat(ball.getAttribute('data-speed'));
+                ball.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // 7. Particle Sparkles (Handled Globally in sparkles.js)
+
+        // 8. Card Tilt & Magnet
+        document.querySelectorAll('.tilt-element').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = el.getBoundingClientRect();
+                const x = (e.clientX - left) / width; const y = (e.clientY - top) / height;
+                el.style.transform = `perspective(1000px) rotateX(${(y - 0.5) * 10}deg) rotateY(${(x - 0.5) * -10}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+            el.addEventListener('mouseleave', () => el.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`);
+        });
+
+        document.querySelectorAll('.magnetic-button').forEach(mag => {
+            mag.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = mag.getBoundingClientRect();
+                mag.style.transform = `translate(${(e.clientX - left - width / 2) * 0.4}px, ${(e.clientY - top - height / 2) * 0.4}px)`;
+            });
+            mag.addEventListener('mouseleave', () => mag.style.transform = `translate(0, 0)`);
+        });
+
+        // 9. Icon Burst on hover
+        document.querySelectorAll('.burst-icon').forEach(icon => {
+            icon.addEventListener('mouseenter', () => {
+                const rect = icon.getBoundingClientRect();
+                const color = window.getComputedStyle(icon).color;
+                for (let i = 0; i < 12; i++) {
+                    if (window.sparkleSystem) {
+                        window.sparkleSystem.createParticle(rect.left + rect.width / 2, rect.top + rect.height / 2, color);
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
