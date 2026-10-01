@@ -3,3 +3,17 @@ Thumbs.db
 .DS_Store
 node_modules/
 .env
+
+# Local SQLite databases (Turso is the configured backend; these are local dev copies)
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# User-uploaded files (avatars, company logos) are runtime data, never source.
+# `**` so nested dirs like company_logos/ are covered too; the negation keeps
+# the directory itself tracked so the upload path survives a fresh clone.
+static/uploads/**
+!static/uploads/.gitkeep
