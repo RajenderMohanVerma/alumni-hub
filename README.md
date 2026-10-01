@@ -754,16 +754,23 @@ python app.py
 turso db import ./data/college_pro.db      # requires WAL journal mode
 ```
 
-**Compatibility shim.** The `libsql` driver returns plain tuples and has no `row_factory`
-support, while this project reads rows as `row['column']` in ~100 places. `db_utils` wraps the
-remote connection so rows behave like `sqlite3.Row`. The shim also corrects two driver quirks:
-`cursor.rowcount` is only accurate on a freshly created cursor, and `fetchone()` after `fetchall()`
-restarts instead of returning `None`.
+**Compatibility shim.** The `libsql` driver differs from stdlib `sqlite3` in four ways that this
+project depends on. All four are corrected in `db_utils`, so no call site changes:
+
+| Difference | Fix in `db_utils.py` |
+| --- | --- |
+| Returns plain tuples, no `row_factory` — `row['col']` would raise `TypeError` everywhere | `Row` class restores `sqlite3.Row` semantics |
+| Raises bare `ValueError` instead of `OperationalError`/`IntegrityError` | `translate_db_error()` maps messages back to the right `sqlite3` exception |
+| `cursor.rowcount` is only accurate on a fresh cursor | A new underlying cursor per `execute()` |
+| `fetchone()` after `fetchall()` restarts instead of returning `None` | Results are buffered per statement |
 
 ```bash
-python scripts/test_turso_adapter.py       # 34 checks: local mode, row conversion,
-                                           # rowcount, fetch semantics, SQL dump
+python scripts/test_turso_connection.py  # live check: connect, tables, write access
+python scripts/test_turso_adapter.py     # 40 checks: local + Turso backend compatibility
 ```
+
+**Switching back to local SQLite:** blank out `TURSO_DATABASE_URL=` in `.env`. An empty value
+falls back to the local file, so development needs no other change.
 
 **Trade-off:** remote mode makes **every query an HTTP round trip**, so pages that run several
 queries get noticeably slower than local SQLite. The admin dashboard and the ML recommendation
@@ -837,6 +844,7 @@ Documented honestly, because a README that claims perfection is less useful than
 | # | Issue | Location | Severity |
 | --- | --- | --- | --- |
 | 1 | ~~Two DB factories resolve to different files~~ — **fixed**, messaging now shares the main factory | `database/messaging_db.py` | Resolved |
+| 1b | ~~Messaging/job-application/temp-user tables were only created by scripts~~ — **fixed**, now part of the boot schema | `app.py` `init_db()` | Resolved |
 | 2 | `url_for('faculty_dashboard')` — the endpoint is actually named `dashboard_faculty`, so a faculty job post 500s | `app.py:4616` | **High** |
 | 3 | A Gmail app password is hard-coded as the fallback, and the seeded admin password is in repo history | `app.py:50`, `app.py:575-577` | **High** |
 | 4 | No automated unit-test suite — the Turso adapter has tests, the app does not | `test_import.py` | **High** |

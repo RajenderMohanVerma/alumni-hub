@@ -64,6 +64,22 @@ scheduler.start()
 
 DB_NAME = app.config['DB_NAME']
 
+
+@app.context_processor
+def inject_dev_quick_login():
+    """
+    Expose dev-only login credentials to templates.
+
+    Returns None unless FLASK_ENV is not 'production', DEV_QUICK_LOGIN is on,
+    and the credentials are present in the environment. See config.dev_quick_login.
+    """
+    from config import dev_quick_login
+    try:
+        return {'dev_quick_login': dev_quick_login()}
+    except Exception:
+        return {'dev_quick_login': None}
+
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 UPLOAD_FOLDER = 'static/uploads'
 COMPANY_LOGOS_FOLDER = 'static/uploads/company_logos'

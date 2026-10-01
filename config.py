@@ -45,6 +45,36 @@ config = {
     'default': DevelopmentConfig
 }
 
+
+def dev_quick_login():
+    """
+    Credentials for the login page "fill for me" button, or None.
+
+    This is a local-development convenience only. It returns a value ONLY when
+    all three conditions hold:
+
+      1. FLASK_ENV is not 'production'
+      2. DEV_QUICK_LOGIN is explicitly turned on
+      3. DEV_ADMIN_EMAIL and DEV_ADMIN_PASSWORD are both set
+
+    Because the credentials come from the environment rather than being written
+    into the template, they never end up in version control, and in production
+    the login page renders without the button at all.
+    """
+    if (os.getenv('FLASK_ENV', 'development').strip().lower() == 'production'):
+        return None
+
+    if os.getenv('DEV_QUICK_LOGIN', '').strip().lower() not in ('1', 'true', 'yes', 'on'):
+        return None
+
+    email = os.getenv('DEV_ADMIN_EMAIL', '').strip()
+    password = os.getenv('DEV_ADMIN_PASSWORD', '')
+
+    if not email or not password:
+        return None
+
+    return {'email': email, 'password': password}
+
 # Course Categories and Degrees
 COURSE_CATEGORIES = {
     'IT': {
