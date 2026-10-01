@@ -59,7 +59,7 @@ Colleges lose touch with their alumni the moment students graduate. Emails go st
 
 **What makes it different:** the platform does not stop at a directory. It ships a **two-phase hybrid recommender** — deterministic rule-based scoring backed by a machine-learned KNN collaborative-filtering model — that suggests who each member should know, and self-heals its own database schema on every boot.
 
-> **Project status:** v5.0 · Feature-complete for the defined scope · Production-hardening in progress
+> **Project status:** v1.0 — *first release* · Core features complete · Production-hardening in progress
 
 ---
 

@@ -1,6 +1,6 @@
 # Tasks — Alumni Hub
 
-> Complete work breakdown, derived from the shipped v5.0 codebase plus the remaining backlog.
+> Complete work breakdown, derived from the shipped v1.0 codebase plus the remaining backlog.
 > Legend: `[x]` shipped · `[~]` partial / placeholder · `[ ]` not started
 
 ---
@@ -9,11 +9,11 @@
 
 | Metric | Value |
 | --- | --- |
-| App version | 5.0 |
-| Status | Feature-complete for the defined scope; production-hardening incomplete |
+| App version | 1.0 (first release) |
+| Status | Core features complete; production-hardening incomplete |
 | Backend LOC (Python) | ~9,400 across 22 modules |
-| Templates | 64 files |
-| Static assets | 13 CSS, 4 JS, 20 images |
+| Templates | 90 files |
+| Static assets | 12 CSS, 4 JS |
 | DB tables | 20 |
 | DB indexes | 26 |
 | Routes in `app.py` | ~100 |

@@ -1,6 +1,6 @@
 # Architecture — Alumni Hub
 
-> Derived from the actual codebase at version 5.0.
+> Derived from the actual codebase at version 1.0.
 > Stack: Flask + Flask-SocketIO + SQLite (raw `sqlite3`) + Jinja2 + Bootstrap 5 + scikit-learn.
 
 ---
@@ -41,7 +41,7 @@ Alumni Hub follows a **layered monolith** style with an emerging service / utili
 │  db_utils.get_db_connection()   primary connection factory   │
 │  utils/db.py  get_db/query_one/query_all/execute_sql         │
 │  database/messaging_db.py       messaging CRUD + context mgr │
-│  SQLite 20 tables, WAL mode, 26 indexes                      │
+│  SQLite 19 tables, WAL mode, 25 named indexes                 │
 └──────────────────────────────────────────────────────────────┘
                               ▲
 ┌──────────────────────────────────────────────────────────────┐
@@ -163,7 +163,7 @@ This means **no external migration tool (Alembic) is required** — a real stren
 
 ### 4.4 Indexing Strategy
 
-26 indexes across `users`, `connection_requests`, `connections`, `student_profile`, `alumni_profile`, `faculty_profile`, `user_activity`, `user_interactions`, `registration_log`, `password_resets`.
+25 named indexes (plus 11 implicit `UNIQUE` indexes) across `users`, `connection_requests`, `connections`, `student_profile`, `alumni_profile`, `faculty_profile`, `user_activity`, `user_interactions`, `registration_log`, `password_resets`.
 
 Hot queries and their index:
 | Query | Index |

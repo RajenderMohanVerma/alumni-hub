@@ -12,7 +12,7 @@
 | **Name** | Alumni Hub |
 | **Institution** | DBIT / JIMS alumni community (Mumbai / Delhi references in copy; footer map points to JIMS Rohini, Delhi) |
 | **Type** | Academic major project, MCA |
-| **Version** | 5.0 |
+| **Version** | 1.0 (first release) |
 | **Primary colour identity** | Navy `#1e3a8a` → Sky `#0ea5e9`, with amber `#f59e0b` accent |
 | **Tagline** | Building Connections, Creating Opportunities |
 | **Live host (in repo metadata)** | `dbitalumni.pythonanywhere.com` |
@@ -190,7 +190,7 @@ Pure skill-set intersection between `users.skills` and `jobs.required_skills`, t
 
 ## 7. Live Database Snapshot
 
-`data/college_pro.db` — 20 tables, 26 indexes.
+`data/college_pro.db` — 19 tables, 25 named indexes (+11 implicit `UNIQUE` indexes).
 
 | Table | Rows |
 | --- | --- |
@@ -323,7 +323,7 @@ Worth saying plainly, because it is genuinely strong work for an academic projec
 3. **Graceful ML degradation** — missing scikit-learn, empty matrix, or fewer than 2 interactions all fall back cleanly. The recommender never breaks the app.
 4. **A complete social lifecycle** — request → mutual → accept/reject → connection → gated chat → read receipts. Nothing is stubbed in that chain.
 5. **Full-stack real-time** — WebSocket rooms, presence, typing indicators, admin monitoring, and a REST mirror over one persistence layer.
-6. **Self-healing schema** — 20 tables and 26 indexes maintained automatically on every boot with zero deploy steps.
+6. **Self-healing schema** — 19 tables and 25 named indexes maintained automatically on every boot with zero deploy steps.
 7. **Coherent visual identity** — tokenised design, layered CSS, motion with intent, responsive down to mobile.
 8. **Sensible query optimisation** — 20+ dashboard round trips collapsed into 2 `GROUP BY` queries, with indexes to match.
 

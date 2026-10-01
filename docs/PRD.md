@@ -2,7 +2,7 @@
 
 > **Project:** Alumni Hub — Alumni Connection Network
 > **Type:** Academic / Major Project (MCA)
-> **Version:** 5.0 · **Status:** Production Ready (per README) · **Last Updated:** June 2026
+> **Version:** 1.0 (first release) · **Status:** Core features complete · **Last Updated:** June 2026
 > **Codebase analysed:** `app.py` (4,875 lines), `routes/`, `services/`, `models/`, `database/`, `utils/`, `templates/`, `static/`, `scripts/`
 
 ---
@@ -215,7 +215,7 @@ Home, About (incl. team section), Services, Events, Contact, FAQ, Privacy Policy
 | ID | Category | Requirement | Evidence |
 | --- | --- | --- | --- |
 | NFR-1 | Performance | Admin dashboard must not use per-row COUNT loops | Single `GROUP BY role` + single `GROUP BY year, role` — `app.py:1634`, `1647` |
-| NFR-2 | Performance | Indexed access paths on hot tables | 26 indexes in DB; 15 declared in `app.py:547` |
+| NFR-2 | Performance | Indexed access paths on hot tables | 25 named indexes in DB (+11 implicit `UNIQUE`) |
 | NFR-3 | Performance | `SELECT *` avoided in existence checks | `SELECT 1 FROM connections` — `app.py:1720` |
 | NFR-4 | Concurrency | SQLite WAL mode + `synchronous=NORMAL`, 20 s busy timeout | `db_utils.py:11-13`, `database/messaging_db.py:17-19` |
 | NFR-5 | Reliability | Every route closes its DB connection via `try/finally` | 62 `get_db_connection()` call sites, all guarded |
@@ -258,7 +258,7 @@ Home, About (incl. team section), Services, Events, Contact, FAQ, Privacy Policy
 
 ## 6. Data Model Summary
 
-20 tables in `data/college_pro.db`.
+19 tables in `data/college_pro.db`.
 
 ### Core
 | Table | Purpose | Key Columns |
@@ -347,7 +347,7 @@ Home, About (incl. team section), Services, Events, Contact, FAQ, Privacy Policy
 
 ---
 
-## 9. Out of Scope (v5.0)
+## 9. Out of Scope (v1.0)
 
 - Post/comment/like feed — code defensively deletes from `posts`/`comments`/`likes` (`app.py:3027-3042`) but **no such tables exist**; feature is not implemented
 - Follower graph — `get_user_statistics()` derives followers/following from accepted connections because there is no separate followers table (`services/admin_service.py:20-42`)
