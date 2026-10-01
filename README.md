@@ -1,125 +1,164 @@
-# 🎓 Alumni Connection Network App
+<div align="center">
 
-A comprehensive, professional Flask-based Alumni Management System with modern dynamic UI, real-time messaging, and Instagram-style connection system. Connect students, alumni, and faculty in one unified platform.
+# 🎓 Alumni Hub
 
----
+### Connecting Generations — Building Connections, Creating Opportunities
 
-## 🚀 Recent & Featured Updates (2026)
+A production-grade **Alumni Connection Network** that reunites a college community — bringing **students, alumni, faculty and administrators** into one platform with Instagram-style connections, real-time messaging, a moderated job board, and a hybrid **Rule-Based + ML Collaborative Filtering** recommendation engine.
 
-### 🏗️ Production-Level Architecture Upgrade (v5.0)
+[![Python](https://img.shields.io/badge/Python-3.7%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.3.2-000000?style=flat-square&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![Flask-SocketIO](https://img.shields.io/badge/Flask--SocketIO-5.3.4-010101?style=flat-square&logo=socketdotio&logoColor=white)](https://flask-socketio.readthedocs.io/)
+[![SQLite](https://img.shields.io/badge/SQLite-WAL%20mode-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/wal.html)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-%3E%3D1.3-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=flat-square&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+[![License](https://img.shields.io/badge/License-MIT-10B981?style=flat-square)](#-license)
 
-Major codebase refactoring and hardening for production readiness:
-
-- **Modular Utilities** (`utils/`): Extracted reusable code into dedicated modules:
-  - `decorators.py` — `@role_required()` decorator for role-based access control
-  - `helpers.py` — Centralized `generate_otp()`, `save_profile_photo()`, `validate_password()`, `sanitize_html()`, and 6 more helper functions
-  - `db.py` — `get_db()` context manager with auto-close/rollback, `query_one()`, `query_all()`, `execute_sql()`
-- **Service Layer** (`services/`): Business logic separated from routes:
-  - `profile_service.py` — `update_user_profile()`, `ensure_faculty_profile()`
-  - `admin_service.py` — Optimized `get_role_counts()` (single GROUP BY), `get_yearly_stats()` (2 queries replace 20+)
-- **26+ Bug Fixes**:
-  - Fixed `User()` constructor with wrong positional args in login & OTP verification
-  - Fixed `false` (Python NameError) → `False` in approve/reject user routes
-  - Fixed 8+ broken template paths (missing `auth/`, `common/` prefixes)
-  - Fixed OTP leaked to browser via flash messages (3 locations) — now server-logged only
-  - Fixed inconsistent password validation (min 6 vs 8) — unified to 8 chars with strength check
-  - Added `faculty` role redirect in OTP verification flow
-- **Security Hardening**:
-  - Role-based access checks added to student & alumni dashboards
-  - Private chat now verifies connection before allowing access
-  - Error messages no longer leak internal details (`str(e)` → safe messages)
-  - Centralized password validation with `validate_password()` (min 8 chars, mixed case, digits)
-- **Performance Optimization**:
-  - Admin dashboard: 20+ COUNT queries replaced with 2 optimized GROUP BY queries
-  - 14 database indexes added for users, connections, profiles, and interactions tables
-  - `SELECT *` replaced with `SELECT 1` in existence checks
-- **25 DB Connection Leak Fixes**: All routes now use `try/finally` with proper `conn.close()`
-  - Fixed: `load_user`, `private_chat`, `alumni_jobs`, `admin_jobs`, `admin_toggle_job`, `admin_delete_job`, `upgrade`, `whatsapp_bridge`, `whatsapp_jump`, `compose_email`, `send_connection_request`, `accept_connection_request`, `reject_connection_request`, `get_connection_status`, `get_pending_connection_requests`
-- **Blueprint Registration**: Moved from `if __name__ == '__main__'` to module level — fixes Gunicorn/production deployment
-- **Logging**: Added structured `logging` module replacing `print()` statements
-
-### 📧 Real-Time Messaging System
-
-- **Public & Private Chat**: WebSocket-based (Flask-SocketIO) for instant updates.
-- **Admin Control**: Global lock/unlock for public messaging with message moderation.
-- **1-to-1 Private Chat**: Secure messaging with typing indicators and read receipts.
-- **WhatsApp Integration**: Direct "💬 WhatsApp" buttons on profiles for seamless external connection.
-
-### 🧠 Hybrid Recommendation System (Rule-Based + ML Collaborative Filtering)
-
-- **Phase 1 — Rule-Based**: Profile matching via branch, skills, domain, passing year proximity, city, and mutual connections.
-- **Phase 2 — ML Collaborative Filtering**: KNN (Cosine Similarity) on a user-interaction matrix built from connections, messages, job applications.
-- **Cold Start Handling**: Users with < 2 interactions automatically fall back to rule-based recommendations.
-- **Hybrid Engine**: ML results are prioritized; remaining slots filled by rule-based — deduplicated and sorted by score.
-- **Performance**: Model trained once at startup (background thread), cached in memory, reused across all requests.
-- **Role-Based Suggestions**: Students see Alumni, Alumni see Students.
-- **One-Click Connect**: Integration with the connection system directly from recommendation cards.
-- **AI Badge**: ML-powered recommendations are visually tagged with an AI badge on dashboard cards.
-
-### 📧 Reliable Communication System
-
-- **Gmail SMTP Integration**: High-reliability email delivery for OTPs and notifications using Gmail App Passwords (`smtp.gmail.com`).
-- **Professional OTP Redesign**: Premium glassmorphic verification page with a 2-minute (120s) countdown bar and automatic backspace/focus handling.
-- **Smart Registration**: Added conflict resolution for existing email records to prevent `UNIQUE constraint` errors.
-
-### 💼 Career Board & Job Ecosystem (v2.0 Overhaul)
-
-- **Comprehensive Recruitment Tracking**: Added 20+ new professional fields including Work Mode, Eligibility (CGPA/Batch), CTC Range, and Selection Stages.
-- **Advanced Admin UI**: Modular 11-section "Add/Edit Job" interface with interactive design and dynamic "Other" field logic.
-- **Enhanced Data Management**: Full support for corporate logos, company websites, and automated recruitment lifecycle status (Open/Closed/Expired).
-- **Jobs Matrix Dashboard**: High-density management interface for Admins with real-time status toggling and advanced filtering.
-- **Recruitment Intel**: Optimized metadata for the Smart Recommendation engine.
-
-### 🎨 UI/UX Excellence
-
-- **Global Responsiveness**: Fully optimized for Laptop, Tablet, and Mobile.
-  - Form split layouts stack vertically on small screens.
-  - Dashboard grids adapt from multi-column to single-column automatically.
-  - Hero sections and font sizes scale gracefully for readability on all devices.
-- **High-Performance Counters**: Stabilized numerical counters with persistent `dataset` guards to prevent re-triggering during scroll-up.
-- **Toast Notifications**: Interactive notification system in `base.html` with a 5-second auto-dismiss timeout.
-- **Premium Aesthetics**: Liquid wave transitions, 3D interactive tilt effects (Tilt.js), and animated mesh backgrounds.
-- **Ambient Visuals**: Floating glow orbs, aurora hero effects, and staggered entrance animations.
+</div>
 
 ---
 
-## 🌟 Core Features
+## 📑 Table of Contents
 
-### ✨ Multi-Role System
+- [Overview](#-overview)
+- [Screenshots](#-screenshots)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Architecture](#-architecture)
+- [Database Schema](#-database-schema)
+- [Recommendation Engine](#-recommendation-engine)
+- [API Reference](#-api-reference)
+- [Real-Time Events](#-real-time-events)
+- [Quick Start](#-quick-start)
+- [Project Structure](#-project-structure)
+- [Security](#-security)
+- [Performance](#-performance)
+- [Deployment](#-deployment)
+- [Testing](#-testing)
+- [Roadmap](#-roadmap)
+- [Known Issues](#-known-issues)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Documentation](#-documentation)
+- [Credits](#-credits)
 
-- **Students**: Explore networking, career opportunities, and mentorship.
-- **Alumni**: Career tracking, event registration, student mentoring, and industry networking.
-- **Faculty**: Academic sharing, guidance, and relationship management.
-- **Admin**: Full user management, real-time analytics, and CSV report harvesting.
+---
 
-### 🔗 Connection Request System
+## 💡 Overview
 
-- **Instagram-Style**: Send, accept, or reject requests with real-time dashboard updates.
-- **Pending Section**: Dedicated area for managing incoming connection requests.
+Colleges lose touch with their alumni the moment students graduate. Emails go stale, opportunities live in private WhatsApp groups, and placement cells run on spreadsheets.
 
-### 🧠 Hybrid Recommendation Engine (Rule-Based + ML)
+**Alumni Hub** solves this with a single platform that serves four distinct audiences:
 
-- **Phase 1 — Rule-Based Scoring**:
-  - Same Branch/Department: **+5 Points**
-  - Skill Overlap: **+5 Points per matching skill**
-  - Same Domain: **+3 Points**
-  - Passing Year Proximity: **+4 Points (≤2 yrs)**, **+2 Points (≤4 yrs)**
-  - Same City: **+2 Points**
-  - Mutual Connections: **+2 Points per mutual**
-- **Phase 2 — ML Collaborative Filtering (KNN)**:
-  - Builds a user × user interaction matrix from real data
-  - Interaction weights: Connection (5), Message (4), Conn Request (3), Job Application (2)
-  - KNN with Cosine Similarity finds the most similar users
-  - Model trained once, cached globally, reused across requests
-- **Cold Start**: Falls back to rule-based when user has < 2 interactions
-- **Smart Filtering**: Excludes self, already connected users, and pending requests.
-- **Top 5 Limit**: Returns top 5 recommendations with score and reason.
+| Role | What they get |
+| --- | --- |
+| 🎓 **Student** | Alumni & faculty directory, mentorship requests, personalised job board, peer networking, AI-matched connection suggestions |
+| 🎮 **Alumni** | Give back — mentor students, post real openings, register for meets, grow their professional network |
+| 👨‍🏫 **Faculty** | Academic guidance, student & alumni directories, post opportunities, share announcements |
+| 🛡️ **Admin** | Full user governance, live analytics, job approval queue, messaging moderation, CSV/DB export, real-time connection monitoring |
 
-### 📊 Admin Control Center
+**What makes it different:** the platform does not stop at a directory. It ships a **two-phase hybrid recommender** — deterministic rule-based scoring backed by a machine-learned KNN collaborative-filtering model — that suggests who each member should know, and self-heals its own database schema on every boot.
 
-- **Registration Tracking**: Automatic logging of all user registrations with role-specific meta-data.
-- **Advanced Moderation**: Global messaging lock system and user account control.
-- **Data Harvesting**: Export role-specific CSV reports with custom timestamps.
+> **Project status:** v5.0 · Feature-complete for the defined scope · Production-hardening in progress
+
+---
+
+## 📸 Screenshots
+
+| View | Route | What it shows |
+| --- | --- | --- |
+| Landing page | `/` | Animated hero, live particle network, statistics, feature grid |
+| Student dashboard | `/student/dashboard` | Profile completeness, personalised jobs, recommendations, stats |
+| Alumni directory | `/alumni` | Filterable alumni grid with connection actions |
+| Recommendation feed | `/recommendations` | Scored suggestion cards with AI/rule source badges |
+| Job board | `/student/jobs` | Skill-matched openings with apply actions |
+| Private chat | `/messaging/private/<user_id>` | Real-time thread with typing indicators and read receipts |
+| Admin dashboard | `/admin/dashboard` | Role counts, 5-year registration chart, quick actions |
+| Connection monitor | `/admin/connection-monitor` | Live WebSocket activity feed with drill-down |
+
+> 📸 **Screenshots are not yet committed.** To publish this README on GitHub, capture the views above
+> into `docs/screenshots/` at 1440 px width and replace this table with the image embeds.
+
+---
+
+## ✨ Features
+
+### 🔐 Authentication & Account Security
+- Email + password login with **role-based dashboard redirection**
+- Registration restricted to Gmail addresses, with a **staged OTP flow** (user is created only after email verification)
+- 6-digit cryptographically-random OTP with a **2-minute expiry** — generation, resend and verification
+- Password recovery via single-use reset OTP (10-minute validity)
+- Change-password flow that verifies the current password first
+- **Centralised password policy** — minimum 8 characters via one shared validator
+- Secure session cookies (`HttpOnly`, `Secure` in production, 1-hour lifetime)
+- **Admin approval gate** — alumni and faculty accounts stay locked until approved
+- Per-user **suspension** with immediate session invalidation
+
+### 👤 Multi-Role Profiles
+- Separate profile schemas per role: student (enrolment no, semester, CGPA, skills, resume) · alumni (company, designation, work location, experience, LinkedIn) · faculty (employee ID, specialisation, qualification, office hours)
+- View, edit and upload a profile photo — restricted to the owner or an admin
+- Automatic default profile creation for faculty members who have none
+- Avatar fallback chain: uploaded photo → initials → generated `ui-avatars` image
+- Live **profile completeness meter** on the student dashboard
+- **Student → Alumni self-upgrade** flow that migrates profile data
+
+### 🤝 Instagram-Style Connection System
+- Send, accept or reject connection requests between **any** two roles
+- **Mutual-request auto-connect** — if both sides requested, they connect instantly
+- 5-minute cooldown before a request can be re-sent
+- Live in-app notifications over WebSocket, plus email for request/accept/reject/mutual
+- Network search with role filtering
+- **Privacy-preserving WhatsApp bridge** — contact buttons route through a server-side redirect so phone numbers are never exposed in page HTML
+
+### 💬 Real-Time Messaging
+- **Public chat room** broadcast to every authenticated user
+- **1-to-1 private chat** gated on an accepted connection
+- Typing indicators, **read receipts**, unread badges and conversation threads
+- **Global admin messaging lock** — instantly hides the entire public feed
+- **Per-user messaging suspension**
+- Admin message moderation with soft delete
+- Message search across public and private scopes
+- Online presence indicators
+- A complete **REST mirror** of every WebSocket operation, so either transport works
+
+### 💼 Career Board
+- Job posting by alumni and faculty (requires admin approval) and by admin (instant publish)
+- **11-section Add/Edit Job form** capturing 40+ professional fields: work mode, employment type, eligibility (branch / batch / minimum CGPA), skills required vs preferred, CTC range, perks, openings, selection process, joining date, deadline, apply method
+- Company logo upload and company website
+- Automated recruitment lifecycle — **Open / Closed / Expired** driven by the deadline
+- **Jobs Matrix** admin view with live status toggles and a pending-approval queue
+- Real-time approval/rejection push to the job poster, with a rejection reason
+- **Skill-based job recommendations** for students
+
+### 🧠 Hybrid Recommendation Engine
+- Deterministic rule-based scoring combined with **KNN collaborative filtering (cosine similarity)**
+- Explicit **cold-start handling** — users with insufficient interaction history fall back to rules
+- Mutual-connection awareness, cross-role matching, and duplicate suppression
+- ML-sourced results are visually tagged with an **AI badge**
+- One-click connect directly from a recommendation card
+
+### 🛡️ Administration & Governance
+- Live dashboard with role counts and a **5-year registration chart** (Chart.js)
+- User management by role, plus a pending-approval queue
+- Registration audit log with role-specific metadata, filtering, search and CSV export
+- Role-specific CSV export and full database download
+- **Real-time connection monitor** with role filters, search and per-user drill-down
+- Messaging control panel
+- WhatsApp broadcast generator
+- Rich composed email with a profile link, WhatsApp bridge and LinkedIn signature
+- Automatic **profile-update reminder** every 2 days via APScheduler
+
+### 🎨 UI/UX
+- Premium design system with tokenised colours, spacing, radii, shadows and motion
+- Glassmorphism surfaces, animated mesh gradients, blob backgrounds and a live particle network
+- 3D tilt cards, typing effects, word-reveal headings, magnetic navbar branding
+- Scroll-triggered entrances and counters (with a re-trigger guard)
+- Smart-scroll navbar, scroll progress bar, and a full-screen mobile menu
+- **Fully responsive** from 360 px mobile to ultrawide desktop
+- Full SEO block: meta description, keywords, Open Graph, Twitter cards, canonical URL, `robots.txt`, `sitemap.xml`
+
+### 📄 Content Pages
+Home · About (with team) · Services · Events · Contact · FAQ · Privacy Policy · Terms & Conditions · Report an Issue · Spotlight · Announcements · Coming Soon · Social links
 
 ---
 
@@ -127,224 +166,240 @@ Major codebase refactoring and hardening for production readiness:
 
 ### Backend
 
-- **Framework**: Flask 2.3.2 + Flask-Login
-- **Real-Time**: Flask-SocketIO (WebSocket)
-- **Database**: SQLite with WAL mode (High concurrency)
-- **ML Engine**: scikit-learn (KNN), NumPy (interaction matrix)
-- **Security**: Werkzeug (Password hashing), Secure Session Management
+| Technology | Version | Purpose |
+| --- | --- | --- |
+| Flask | 2.3.2 | Core web framework |
+| Flask-Login | 0.6.2 | Session & user authentication |
+| Werkzeug | 2.3.6 | Password hashing, secure filenames |
+| Flask-SocketIO | 5.3.4 | Real-time WebSocket transport |
+| python-socketio | 5.9.0 | Socket.IO protocol |
+| python-engineio | 4.7.1 | Engine.IO transport layer |
+| Flask-Mail | latest | SMTP mail delivery |
+| Flask-APScheduler | latest | Background job scheduling |
+| numpy | ≥ 1.24.0 | Interaction matrix |
+| scikit-learn | ≥ 1.3.0 | KNN collaborative filtering |
+| python-dotenv | 1.0.0 | Environment variable loading |
+| email-validator | 2.0.0 | Email format validation |
 
 ### Frontend
 
-- **Design**: Vanilla CSS + Bootstrap 5 (Customized Glassmorphism)
-- **Interactive**: Vanilla JS (Fetch API, Async/Await)
-- **Physics/Motion**: Vanilla Tilt.js (3D Tilt), CSS Keyframes (60fps)
-- **Icons**: FontAwesome 6+
+| Technology | Purpose |
+| --- | --- |
+| Bootstrap 5.3 | Grid, components, responsive utilities |
+| Vanilla CSS (12 layered files) | Custom design system on top of Bootstrap |
+| FontAwesome 6.4 | Iconography |
+| AOS 2.3.1 + animate.css 4.1.1 | Scroll & entrance animations |
+| Chart.js | Admin analytics charts |
+| Socket.IO Client 4.5.4 | Real-time messaging |
+| Vanilla Tilt 1.7.0 | 3D card tilt |
+| Google Fonts | Outfit · Plus Jakarta Sans · JetBrains Mono |
+| Jinja2 | Server-side templating |
+
+### Database
+**SQLite** accessed through the raw `sqlite3` driver — no ORM. WAL journal mode, `synchronous=NORMAL`, 20-second busy timeout, `sqlite3.Row` row factory.
 
 ---
 
-## 📋 Prerequisites
+## 🏗️ Architecture
 
-- Python 3.7+
-- pip
-- Git
-- Redis (Optional for scaling WebSockets)
+A **layered monolith** with a genuine service/utility split.
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  PRESENTATION   Jinja2 templates · Bootstrap 5 · AOS     │
+│                 common · auth · student · alumni ·        │
+│                 faculty · admin · messaging · social      │
+├──────────────────────────────────────────────────────────┤
+│  ROUTING        app.py (~100 routes) + 4 Blueprints      │
+│                 messaging · connection ·                 │
+│                 recommendation · social                   │
+│                 + Socket.IO event handlers                │
+├──────────────────────────────────────────────────────────┤
+│  SERVICE        admin_service · profile_service ·         │
+│                 recommendation_engine (ML) ·              │
+│                 models/recommendation (rules)             │
+├──────────────────────────────────────────────────────────┤
+│  PERSISTENCE    db_utils · utils/db · messaging_db       │
+│                 SQLite · 19 tables · 25 named indexes       │
+├──────────────────────────────────────────────────────────┤
+│  INFRA          config · extensions (Mail) ·             │
+│                 utils/helpers · utils/decorators ·        │
+│                 APScheduler                               │
+└──────────────────────────────────────────────────────────┘
+```
+
+### Design decisions worth knowing
+
+| Decision | Why |
+| --- | --- |
+| Bootstrap registration and DB migration run at **module level**, not in `__main__` | Makes `python app.py`, `gunicorn app:app` and serverless entry points behave identically |
+| Schema is **self-migrating and idempotent** | `CREATE TABLE IF NOT EXISTS` + guarded `ALTER TABLE` — no migration tool or deploy step required |
+| Every route closes its connection in `finally` | Eliminates SQLite lock contention under concurrent WebSocket traffic |
+| The ML model is **cached in memory and trained once** | Recommendation latency becomes a single array lookup instead of a full model fit |
+| The ML engine **degrades to rule-based** rather than failing | A missing `scikit-learn` install or a sparse matrix never breaks the app |
+| Connections stored as a canonical `min/max` pair | The `UNIQUE(user_id_1, user_id_2)` constraint makes duplicate edges structurally impossible |
+| Messages are **soft-deleted**, never hard-deleted | Community archives stay intact while content disappears from the relevant view |
+
+Full detail: **[`docs/Architecture.md`](docs/Architecture.md)**
 
 ---
 
-## 🚀 Quick Start
+## 🗄️ Database Schema
 
-### 1. Clone & Setup
+19 tables and 25 explicitly-named indexes (plus 11 implicit indexes from `UNIQUE` constraints). The schema is created and migrated automatically on every application boot.
 
-```bash
-git clone <repository-url>
-cd "Alumni App/alumni-hub"
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-```
+| Table | Purpose |
+| --- | --- |
+| `users` | Identity, role, credentials, verification/approval/suspension flags, shared profile fields |
+| `student_profile` | Enrolment number, department, degree, semester, CGPA, skills, achievements, resume link |
+| `alumni_profile` | Enrolment number, pass year, company, designation, work location, experience, LinkedIn |
+| `faculty_profile` | Employee ID, specialisation, qualification, office location & hours |
+| `connection_requests` | Directed requests with status and acceptance timestamp |
+| `connections` | Accepted friendships (canonical pair, unique) |
+| `user_interactions` | ML training signals — profile views, job clicks, mentorship requests |
+| `public_messages` | Broadcast chat with hidden/deleted flags |
+| `private_messages` | 1-to-1 chat with read receipts and per-recipient soft delete |
+| `conversations` | Thread index with last-message pointer and unread counts |
+| `messaging_lock` | Single-row global messaging switch |
+| `jobs` | 40+ fields covering the full recruitment lifecycle |
+| `job_applications` | Student → job applications (ML signal, weight 2) |
+| `registration_log` | Registration audit trail with role-specific metadata |
+| `password_resets` | Single-use password recovery OTPs |
+| `user_activity` | Last login and online status for admin monitoring |
+| `alumni_meet_registration` | 23-field alumni meet form |
+| `temp_users` | Staged registrations awaiting OTP verification |
+| `message_search_index` | Reserved for a future full-text search migration |
 
-### 2. Install Dependencies
+### Key indexes
 
-```bash
-pip install -r requirements.txt
-```
-
-> **Note**: This installs `numpy` and `scikit-learn` for the ML recommendation engine.
-
-### 3. Initialize Databases
-
-```bash
-# Initialize main user database
-python app.py  # Initial run creates tables
-# Migrate to Recommendation System schema
-python migrate_db.py
-# Initialize messaging specific tables
-python init_messaging_db.py
-```
-
-### 4. Configuration (.env)
-
-Create a `.env` file in the root directory:
-
-```env
-SECRET_KEY=your_secret_key
-MAIL_USERNAME=alumnihub26@gmail.com
-MAIL_PASSWORD=jxrp_rghf_qcow_xfne
-```
-
-### 5. Run Application
-
-```bash
-python app.py
-```
-
-Visit `http://localhost:5000`
+| Query pattern | Index |
+| --- | --- |
+| Login by email | `idx_users_email` (+ UNIQUE autoindex) |
+| User list by role | `idx_users_role` |
+| Pending requests for a user | `idx_connection_requests_receiver (receiver_id, status)` |
+| Connection lookup, both directions | `idx_connections_user1`, `idx_connections_user2` |
+| Yearly registration grouping | `idx_users_created_at` |
+| ML interaction lookups | `idx_user_interactions_user`, `idx_user_interactions_target` |
 
 ---
 
-## 📝 Default Admin Credentials
+## 🧠 Recommendation Engine
 
-- **EMAIL**: `admindbit195@college.edu`
-- **PASSWORD**: `admindbit195@`
+### Phase 1 — Rule-Based Scoring
 
----
+Deterministic profile-similarity scoring in [`models/recommendation.py`](models/recommendation.py).
 
-- **[RECOMMENDATIONS.md](file:///d:/RajenderMohan_BCA/BCA_Major_Project/alumni-hub/RECOMMENDATIONS.md)**: Detailed technical documentation for the scoring engine and AI roadmap.
+| Signal | Points | Notes |
+| --- | --- | --- |
+| Same branch / department | **+5** | Case-insensitive |
+| Skill overlap | **+5** per matching skill | Comma-separated sets |
+| Same professional domain | **+3** | |
+| Passing year within 2 years | **+4** | |
+| Passing year within 4 years | **+2** | |
+| Same city | **+2** | |
+| Mutual connections | **+2** per mutual | Social-graph proximity |
 
----
+Excluded from results: yourself, already-connected users, and users with a pending request.
+Matching is cross-role — students see alumni, alumni see students.
 
-## 📁 Project Architecture
+### Phase 2 — ML Collaborative Filtering
 
-```
-alumni-hub/
-├── database/            # DB Helpers (messaging_db.py, etc.)
-├── models/              # Core Logic
-│   └── recommendation.py    # Phase 1: Rule-Based Engine + backward-compat wrapper
-├── services/            # Business Logic & ML Services
-│   ├── recommendation_engine.py  # Phase 2: KNN Collaborative Filtering + Hybrid
-│   ├── profile_service.py        # Profile update & faculty profile logic
-│   └── admin_service.py          # Optimized admin dashboard queries
-├── utils/               # Reusable Utilities (NEW in v5.0)
-│   ├── decorators.py    # @role_required() access control decorator
-│   ├── helpers.py       # OTP, file upload, validation, sanitization helpers
-│   └── db.py            # DB context manager, query_one(), query_all()
-├── routes/              # API & Page Routes
-│   └── recommendation_routes.py  # /recommendations/<user_id>, /retrain, /log
-├── scripts/             # DB Migrations & Utilities
-├── static/              # Assets (JS, CSS, Images)
-├── templates/           # Jinja2 Layouts
-├── app.py               # Main Application Entry (SocketIO + DB init)
-├── db_utils.py          # Database connection utility
-├── requirements.txt     # Python dependencies (incl. numpy, scikit-learn)
-└── .env                 # Environment Config
-```
+KNN with cosine similarity in [`services/recommendation_engine.py`](services/recommendation_engine.py).
 
----
+**Interaction weights**
 
-## 🔒 Security Summary
+| Signal | Weight | Direction | Source table |
+| --- | --- | --- | --- |
+| Accepted connection | 5 | Bidirectional | `connections` |
+| Private message | 4 | Sender → Receiver | `private_messages` |
+| Connection request | 3 | Sender → Receiver | `connection_requests` |
+| Job application | 2 | Student → Job poster | `job_applications` |
+| `profile_view` | 1 | User → Target | `user_interactions` |
+| `job_click` | 2 | User → Target | `user_interactions` |
+| `mentorship_request` / `message` | 4 | User → Target | `user_interactions` |
 
-- ✅ **Password Hashing** — Werkzeug salt-based hashing
-- ✅ **Password Strength** — Minimum 8 chars, mixed case, digits required (`validate_password()`)
-- ✅ **Secure Mail** — TLS/SSL Gmail SMTP integration
-- ✅ **XSS Protection** — Automatic Jinja2 escaping + `sanitize_html()`
-- ✅ **Role Access Control** — `@role_required()` decorator + per-route checks
-- ✅ **Connection-Gated Chat** — Private chat requires verified connection
-- ✅ **OTP Security** — OTPs server-logged only, never exposed to browser
-- ✅ **Safe Error Messages** — Internal errors hidden from users
-- ✅ **Duplicate Prevention** — Unique database constraints
-- ✅ **DB Connection Safety** — All routes use `try/finally` with `conn.close()`
+Notes:
+- Only **pending** connection requests contribute (`WHERE status = 'pending'`).
+- `user_interactions` weights are **multiplied by the row count** for that
+  `(user_id, target_user_id, interaction_type)` group — repeat engagement counts more.
+- Each source is queried inside a `try/except`, so a missing table is logged at debug level and
+  skipped rather than failing the whole training run.
+- All signals **accumulate** (`+=`), they do not overwrite.
 
----
+**Model**
 
-## 📊 Performance Statistics
+- `sklearn.neighbors.NearestNeighbors(metric='cosine', algorithm='brute')`
+- L2-normalised interaction vectors
+- `n_neighbors = min(10, n_users − 1)`
+- Cosine distance converted to a 0–100 similarity score
+- Trained **once at startup** in a background daemon thread, cached in a thread-safe module-level cache
+- 5-minute guard prevents redundant retrains
+- Manual retrain via `POST /recommendations/retrain` (admin only)
 
-- **Database Indexes**: 14 indexes on high-traffic columns (users, connections, profiles, interactions)
-- **Optimized Queries**: Admin dashboard uses GROUP BY instead of per-year COUNT loops (20+ → 2 queries)
-- **Concurrency**: SQLite WAL mode enabled for simultaneous messaging
-- **Connection Safety**: All 62 `get_db_connection()` calls wrapped in `try/finally`
-- **Performance**: GPU-accelerated 60fps animations
-- **Load Times**: Optimized asset delivery < 2s
+### Cold Start
 
----
+A user whose interaction vector has fewer than **2 non-zero entries** (`MIN_INTERACTIONS = 2`)
+receives pure rule-based recommendations. As they connect, message and apply, the ML model
+gradually takes over.
 
----
-
-## 🧠 Recommendation System — Full Architecture & Logic
-
-The Alumni Hub features a **two-phase hybrid recommendation engine** combining rule-based scoring with ML collaborative filtering.
-
-### **Phase 1 — Rule-Based Scoring Engine** (`models/recommendation.py`)
-
-Deterministic scoring based on profile similarity:
-
-| Factor             | Points        | Description                     |
-| ------------------ | ------------- | ------------------------------- |
-| Same Branch        | +5            | Department/branch match         |
-| Skill Match        | +5 per skill  | Comma-separated skill overlap   |
-| Passing Year       | +4 / +2       | Within 2 years / within 4 years |
-| Same Domain        | +3            | Shared professional domain      |
-| Same City          | +2            | Geographic proximity            |
-| Mutual Connections | +2 per mutual | Social graph proximity          |
-
-**Key function**: `get_rule_based_recommendations(user_id, limit=5)`
-
-### **Phase 2 — ML Collaborative Filtering** (`services/recommendation_engine.py`)
-
-KNN with Cosine Similarity on a user-interaction matrix.
-
-#### Interaction Matrix Construction (`build_interaction_matrix()`)
-
-Weighted signals from real database tables:
-
-| Interaction Source  | Weight | Direction            | DB Table              |
-| ------------------- | ------ | -------------------- | --------------------- |
-| Accepted Connection | 5      | Bidirectional        | `connections`         |
-| Private Message     | 4      | Sender → Receiver    | `private_messages`    |
-| Connection Request  | 3      | Sender → Receiver    | `connection_requests` |
-| Job Application     | 2      | Student → Job Poster | `job_applications`    |
-| Custom Interactions | 1–4    | User → Target        | `user_interactions`   |
-
-#### Model Training (`train_knn_model()`)
-
-- Uses `sklearn.neighbors.NearestNeighbors` with `metric='cosine'`
-- L2-normalized interaction vectors
-- `n_neighbors = min(10, n_users - 1)`
-- **Trained once at startup** in a background thread
-- Cached in global `_model_cache` — reused across all requests
-- Retrainable via `POST /recommendations/retrain` (admin only)
-
-#### ML Recommendations (`get_ml_recommendations(user_id)`)
-
-- Queries KNN for nearest neighbors
-- Converts cosine distance to similarity score (0–100)
-- Excludes already connected / pending users
-- Cross-role matching: students see alumni, alumni see students
-
-### **Hybrid Strategy** (`hybrid_recommendation(user_id)`)
+### Hybrid Strategy
 
 ```
-1. Try ML recommendations first
-2. If ML returns < 5 results (cold start / sparse data)
-   → Fill remaining slots with rule-based recommendations
-3. Deduplicate by user ID (ML takes priority)
-4. Sort by score descending → return top 5
+hybrid_recommendation(user_id, limit=5):
+
+1. ml_recs = get_ml_recommendations(user_id, limit)      # [] if cold-start or model unavailable
+2. final   = unique(ml_recs)          tagged source='ml'
+3. if len(final) < limit:
+       fetch rule_recs = get_rule_based_recommendations(user_id, limit * 2)
+       append any ID not already present   tagged source='rule'
+       until len(final) == limit
+4. sort final by score descending
+5. return final[:limit]
 ```
 
-### **Cold Start Handling**
+Rule-based candidates are fetched at `limit * 2` so there is headroom to discard IDs that ML
+already returned. ML scores and rule scores share the same `score` field, so the final sort
+mixes both scales — this is a known limitation tracked in [`docs/Tasks.md`](docs/Tasks.md).
 
-Users with fewer than 2 interactions in the matrix automatically receive **pure rule-based** recommendations. As they interact (connect, message, apply to jobs), ML gradually takes over.
+### Interaction Matrix
 
-### **API Endpoints** (`routes/recommendation_routes.py`)
+```sql
+CREATE TABLE IF NOT EXISTS user_interactions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    target_user_id INTEGER NOT NULL,
+    interaction_type TEXT NOT NULL,  -- profile_view | job_click | mentorship_request | message | connection_request
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (target_user_id) REFERENCES users(id)
+);
+```
 
-| Method | Endpoint                     | Auth  | Description                                 |
-| ------ | ---------------------------- | ----- | ------------------------------------------- |
-| GET    | `/recommendations`           | Login | Current user's top 5 (backward compat)      |
-| GET    | `/recommendations/<user_id>` | Login | JSON with recommendations for specific user |
-| POST   | `/recommendations/retrain`   | Admin | Force retrain the KNN model                 |
-| POST   | `/recommendations/log`       | Login | Log a user interaction (profile_view, etc.) |
+---
 
-**Sample JSON Response** (`GET /recommendations/1`):
+## 🔌 API Reference
 
-```json
+### Connection Requests
+
+| Method | Endpoint | Auth | Description |
+| --- | --- | --- | --- |
+| POST | `/api/connection-request/send` | Login | Send a connection request |
+| POST | `/api/connection-request/accept/<sender_id>` | Login | Accept a request → creates the connection |
+| POST | `/api/connection-request/reject/<sender_id>` | Login | Reject a request |
+| GET | `/api/connection-request/status/<user_id>` | Login | `connected` · `pending` · `received` · `none` |
+| GET | `/api/connection-requests/pending` | Login | Incoming pending requests |
+
+### Recommendations
+
+| Method | Endpoint | Auth | Description |
+| --- | --- | --- | --- |
+| GET | `/recommendations` | Login | Current user's top 5 (backward-compatible) |
+| GET | `/recommendations/<user_id>` | Self or Admin | JSON recommendations for a specific user |
+| POST | `/recommendations/retrain` | Admin | Force-retrain the KNN model |
+| POST | `/recommendations/log` | Login | Log an interaction for future training |
+
+```jsonc
+// GET /recommendations/1
 {
   "user_id": 1,
   "count": 5,
@@ -364,52 +419,484 @@ Users with fewer than 2 interactions in the matrix automatically receive **pure 
 }
 ```
 
-### **Dashboard Integration**
+### Messaging
 
-Both student and alumni dashboards call `get_recommended_users(current_user)` which auto-delegates to the hybrid engine. Recommendation cards display:
+| Method | Endpoint | Auth | Description |
+| --- | --- | --- | --- |
+| GET / POST | `/api/messages/public` | Login | List / send broadcast messages |
+| DELETE | `/api/messages/public/<id>` | Admin | Moderate a public message |
+| POST | `/api/messages/private` | Login | Send a private message |
+| GET | `/api/messages/inbox` | Login | Conversations + unread count |
+| GET | `/api/messages/conversation/<user_id>/messages` | Login | Conversation history |
+| POST | `/api/messages/private/<id>/read` | Login | Mark as read |
+| DELETE | `/api/messages/private/<id>` | Login | Soft-delete a message |
+| GET | `/api/messages/search?q=` | Login | Search public and/or private messages |
+| POST | `/api/admin/messaging/lock` · `/unlock` | Admin | Toggle global messaging |
+| GET | `/api/admin/messaging/status` · `/statistics` | Admin | Lock state and platform stats |
+| POST | `/api/admin/messaging/suspend` · `/unsuspend` | Admin | Per-user messaging control |
 
-- Score badge (green for ML, blue for rule-based)
-- **AI badge** on ML-powered recommendations
-- Reason tag (e.g., "3 skill match, Same branch")
-- One-click Connect button
+### Administration
 
-### **Database Table** (`user_interactions`)
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| GET | `/api/download-csv/<role>` | Export users as CSV (student / alumni / faculty / all) |
+| GET | `/api/download-db/<type>` | Download the database file |
+| POST | `/api/delete-user/<id>` | Delete a user and all related data |
+| POST | `/api/approve-user/<id>` · `/api/reject-user/<id>` | Approve or reject a registration |
+| GET | `/api/admin/jobs/pending-count` | Pending job approval count |
+| POST | `/api/admin/jobs/toggle/<id>` | Toggle a job's active state |
 
-```sql
-CREATE TABLE IF NOT EXISTS user_interactions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    target_user_id INTEGER NOT NULL,
-    interaction_type TEXT NOT NULL,  -- profile_view, job_click, mentorship_request, message, connection_request
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (target_user_id) REFERENCES users(id)
-);
+### Directory & Profile
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| GET | `/api/faculty/students` · `/api/faculty/alumni` | Faculty directory data |
+| GET | `/api/alumni/<id>` · `/api/student/<id>` | Profile data for modals |
+| GET | `/admin/connection-monitor/user/<id>` | Full user activity payload |
+
+---
+
+## ⚡ Real-Time Events
+
+**Socket.IO rooms** — `public_chat` (all users) · `user_<id>` (a single user) · `admin_monitor` (admins only)
+
+### Client → Server
+
+| Event | Payload | Notes |
+| --- | --- | --- |
+| `send_public_message` | `{ content }` | Blocked while globally locked |
+| `send_private_message` | `{ receiver_id, content }` | Blocked for suspended users |
+| `mark_message_read` | `{ message_id, sender_id }` | |
+| `mark_conversation_read` | `{ other_user_id }` | |
+| `delete_private_message` | `{ message_id, other_user_id }` | Soft delete |
+| `delete_public_message` | `{ message_id }` | **Admin only** |
+| `lock_messaging` / `unlock_messaging` | `{ reason }` | **Admin only** — also hides/shows all public messages |
+| `typing_public` / `stop_typing_public` | — | |
+| `typing_private` / `stop_typing_private` | `{ receiver_id }` | |
+| `get_online_users` | — | |
+| `refresh_lock_status` | — | |
+| `get_conversation_history` | `{ other_user_id, limit }` | |
+
+### Server → Client
+
+| Event | Trigger |
+| --- | --- |
+| `receive_public_message` | A public message was sent |
+| `receive_private_message` | A private message was sent to you |
+| `message_sent` · `read_success` · `delete_success` | Sender acknowledgement |
+| `message_read` · `conversation_read` | Read receipt |
+| `message_deleted` · `message_deleted_public` · `message_deleted_private` | Deletion |
+| `system_locked` · `system_unlocked` · `lock_success` · `unlock_success` | Admin moderation |
+| `user_typing_public` · `user_typing_private` (and stop variants) | Typing indicator |
+| `user_online` · `user_offline` · `online_users` | Presence |
+| `connection_request_received` | A new request arrived for you |
+| `connection_status_update` | Your request was accepted or rejected |
+| `admin_connection_activity` | Live connection activity feed (admins) |
+| `job_approval_update` | Your job posting was approved or rejected |
+| `conversation_history` · `lock_status_update` · `error` | Utility |
+
+**Where events live**
+
+| Source | Emits |
+| --- | --- |
+| `routes/websocket_routes.py` — 17 `@socketio.on` handlers | All messaging, typing, presence and lock events |
+| `app.py` — REST routes emit directly | `connection_request_received` (`:3886`), `connection_status_update` (`:3945`, `:3997`), `admin_connection_activity` (`:3894`, `:3953`, `:4005`), `job_approval_update` (`:3139`, `:3169`) |
+
+All message content is capped at **5,000 characters**, enforced independently at both the WebSocket
+layer (`routes/websocket_routes.py`) and the REST layer (`routes/messaging_routes.py`).
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.7 or newer
+- pip
+- Git
+- A Gmail account with 2FA enabled — to generate an **App Password** for SMTP (required for OTP delivery)
+
+### 1. Clone & Set Up
+
+```bash
+git clone https://github.com/<username>/alumni-hub.git
+cd alumni-hub
+
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
 ```
 
-### **Future Scope**
+### 2. Install Dependencies
 
-- 🔮 **Deep Learning**: Graph Neural Networks (GNN) for richer social graph embeddings
-- ⚡ **Real-Time Updates**: Incremental model retraining on new interaction events
-- 🎯 **Weighted Ensemble**: `α × ML_score + (1 − α) × rule_score` tunable hybrid
-- 🧪 **A/B Testing**: Framework for comparing algorithm quality
-- 📈 **Matrix Factorization**: SVD / ALS for implicit feedback at scale
-- 🤖 **Contextual Bandits**: Exploration vs exploitation for recommendation diversity
+```bash
+pip install -r requirements.txt
+```
+
+> Installs `numpy` and `scikit-learn` for the ML recommendation engine. The app still runs without them — the recommender simply falls back to rule-based scoring.
+
+### 3. Configure
+
+Create a `.env` file in the project root:
+
+```env
+SECRET_KEY=generate-a-long-random-string
+FLASK_ENV=development
+DB_NAME=data/college_pro.db
+
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USE_TLS=True
+MAIL_USERNAME=your.address@gmail.com
+MAIL_PASSWORD=your-16-char-google-app-password
+
+ADMIN_EMAIL=your.address@gmail.com
+BASE_URL=http://localhost:5000
+```
+
+> 🔐 **Never commit `.env`.** It is already listed in `.gitignore`.
+> Generate `SECRET_KEY` with `python -c "import secrets; print(secrets.token_hex(32))"`.
+>
+> There is **no `.env.example` file** in the repo — the block above is the canonical reference.
+> Every variable has a hard-coded fallback in `config.py` / `app.py`, which is why the app boots
+> without a `.env` at all. Do not rely on those fallbacks.
+
+### 4. Run
+
+```bash
+python app.py
+```
+
+Open **http://127.0.0.1:5000**
+
+> **No migration step is needed.** Tables, indexes and column migrations are created automatically on first boot and re-verified on every subsequent boot.
+
+### 5. (Optional) Database Utilities
+
+```bash
+python scripts/init_db.py                  # Rebuild the base schema from scratch — DESTROYS DATA
+python scripts/init_messaging_db.py        # Create messaging tables + lock row
+python scripts/init_postgres.py            # Provision a PostgreSQL schema (requires DATABASE_URL + psycopg2)
+python scripts/optimize_db.py              # Add performance indexes
+python scripts/check_db.py                 # Inspect the live schema
+python scripts/test_email.py               # Verify SMTP connectivity
+```
+
+### First-Run Admin Account
+
+On the very first boot, `init_db()` seeds a single admin account — but **only** if
+`SELECT COUNT(*) FROM users WHERE role='admin'` returns 0.
+
+> 🔒 **The seeded credential is intentionally not printed in this README.** It is hard-coded at
+> `app.py:575-577` and `scripts/init_db.py:106-114`, and it is already exposed in this repository's
+> history — treat it as **compromised**. Any deployment that uses the seeded account without changing
+> the password is publicly owned.
+>
+> **Before first real deployment:**
+> 1. Read the seed values from `app.py:575-577`
+> 2. Change the admin password in the app, or delete the seeded row and create your own admin
+> 3. Rotate the Gmail app password in `app.py:50` — see [Known Issues](#-known-issues) #3
+> 4. Never deploy with the hard-coded fallbacks still in place
+>
+> This account is protected from deletion by design (`app.py:2981-2984`).
 
 ---
 
-## 💼 Career Board & Job Matching Ecosystem
+## 📁 Project Structure
 
-The platform features a robust Job Board designed to bridge the gap between Alumni professional networks and Student career aspirations.
-
-### **Functional Components**
-
-1.  **Job Posting Hub (Alumni)**: A secure form capturing title, company, description, and required skill tags.
-2.  **Recommendation Grid (Student)**: A personalized view highlighting jobs matching user skills.
-3.  **Job-to-Student Scoring**:
-    - **Skill Match**: Set-intersection analysis on `required_skills` vs `user_skills`.
-    - **Semantic Boost**: AI matching between Student bio and Job description.
+```
+alumni-hub/
+├── app.py                      # Main entry — app init, User model, ~100 routes, scheduler job
+├── config.py                   # Environment-driven configuration + course/department data
+├── extensions.py               # Flask extension instances (Mail)
+├── db_utils.py                 # Primary database connection factory
+├── requirements.txt            # Python dependencies
+├── vercel.json                 # Serverless deployment config
+├── Procfile                    # Gunicorn entry
+│
+├── database/
+│   └── messaging_db.py         # All messaging persistence + moderation + statistics
+│
+├── models/
+│   └── recommendation.py       # Phase 1: rule-based scoring, job matching
+│
+├── services/
+│   ├── recommendation_engine.py  # Phase 2: KNN collaborative filtering + hybrid merge
+│   ├── admin_service.py          # Optimised admin queries, connection monitoring
+│   └── profile_service.py        # Profile write logic
+│
+├── routes/
+│   ├── messaging_routes.py       # REST messaging API
+│   ├── connection_routes.py      # Connection request API
+│   ├── recommendation_routes.py  # Recommendation API
+│   ├── social_routes.py          # Social link pages
+│   └── websocket_routes.py       # Socket.IO event handlers
+│
+├── utils/
+│   ├── helpers.py              # OTP, uploads, phone normalisation, validation, sanitisation
+│   ├── db.py                   # DB context manager + query helpers
+│   └── decorators.py           # @role_required() access control
+│
+├── scripts/                    # DB initialisation, migrations, diagnostics (16 scripts)
+│
+├── static/
+│   ├── css/                    # 12 layered stylesheets + design tokens
+│   ├── js/                     # Animations, particle network, sparkles
+│   ├── images/                 # Assets, team photos
+│   └── uploads/                # User uploads (profile photos, company logos)
+│
+├── templates/                  # 90 Jinja2 templates
+│   ├── base.html               # Master layout — SEO, navbar, footer, scripts
+│   ├── common/                 # Public pages
+│   ├── auth/                   # Login, register, OTP, password flows
+│   ├── student/ · alumni/ · faculty/ · admin/
+│   ├── messaging/              # Public + private chat
+│   ├── social/                 # Social link pages
+│   └── emails/                 # Transactional email templates
+│
+├── data/
+│   └── college_pro.db          # SQLite database
+│
+└── docs/                       # ← Project documentation
+    ├── PRD.md                  # Product requirements
+    ├── Architecture.md         # System architecture
+    ├── Rules.md                # Coding, security & data rules
+    ├── Design.md               # Design system
+    ├── Tasks.md                # Roadmap & task breakdown
+    └── Memory.md               # Project knowledge base
+```
 
 ---
 
-**Status**: ✅ Production Ready | **Version**: 5.0 | **Last Updated**: June 2026
+## 🔒 Security
+
+| Control | Implementation |
+| --- | --- |
+| Password storage | Werkzeug salted hashes — plaintext is never persisted or logged |
+| Password policy | Minimum 8 characters via a single shared validator |
+| OTP generation | `secrets.choice` — cryptographically secure, not `random` |
+| OTP exposure | Never rendered to the browser; server-side logging only |
+| OTP lifetime | 2 minutes (registration) · 10 minutes (password reset) |
+| Reset tokens | Single-use — deleted immediately after verification |
+| XSS prevention | Jinja2 autoescaping + a dedicated `sanitize_html()` helper |
+| SQL injection | Parameterised queries throughout; dynamic `IN (...)` built from placeholders |
+| Session security | `HttpOnly` · `Secure` in production · 1-hour lifetime |
+| Access control | Per-route role checks plus a reusable `@role_required()` decorator |
+| Connection-gated chat | Private chat requires an accepted connection (admins exempt) |
+| File uploads | Extension whitelist · `secure_filename` · 16 MB request cap |
+| Error handling | Internal errors are logged, never returned to the user |
+| Super Admin | Protected from deletion at the service layer |
+
+### Reporting a vulnerability
+
+Open a GitHub issue describing the issue, or contact the maintainers directly. Please do not include exploit payloads targeting live data.
+
+---
+
+## ⚡ Performance
+
+| Metric | Value |
+| --- | --- |
+| Database indexes | 25 named indexes (+11 implicit `UNIQUE` indexes) across users, connections, requests, profiles and interactions |
+| Admin dashboard queries | 2 `GROUP BY` queries replace 20+ `COUNT` queries |
+| Existence checks | `SELECT 1` instead of `SELECT *` |
+| Concurrency | SQLite WAL mode — multiple readers with a single writer |
+| Connection safety | 105 `get_db_connection()` call sites, each wrapped in `try/finally` |
+| ML inference | In-memory cached model — array lookup, not a model fit |
+| Animations | GPU-accelerated transforms, 60 fps target |
+| Asset delivery | Warm page load under 2 s |
+
+---
+
+## 🚀 Deployment
+
+### PythonAnywhere / any WSGI host (recommended)
+
+```
+web: gunicorn app:app
+```
+
+Blueprints, the scheduler and database migrations all run at **module level**, so the app is fully initialised the moment Gunicorn imports it — no separate migration step.
+
+### Vercel
+
+`vercel.json` is included. ⚠️ Read [Known Issues](#-known-issues) first — the PostgreSQL path is not yet wired into the runtime, and the serverless filesystem is ephemeral (uploads and the SQLite file do not persist between cold starts).
+
+### Scaling WebSockets
+
+`SocketIO` currently runs in `threading` async mode with in-process presence tracking, which is single-instance only. For horizontal scaling, add a Redis message queue and move the presence store out of process memory.
+
+---
+
+## 🧪 Testing
+
+The project currently ships a minimal import smoke check:
+
+```bash
+python test_import.py          # verifies the recommendation module imports cleanly
+python scripts/test_recommendations.py   # manual recommendation check
+```
+
+A proper automated test suite is on the roadmap — see [`docs/Tasks.md`](docs/Tasks.md) §9 for the planned coverage matrix (auth flows, authorisation boundaries, connection lifecycle, recommendation cold start, messaging locks, upload rejection, OTP-leak assertions).
+
+---
+
+## 🗺️ Roadmap
+
+**Recommendation intelligence**
+- Weighted ensemble scoring — `α × ML_score + (1 − α) × rule_score`
+- Matrix factorization (SVD / ALS) for implicit feedback at scale
+- Graph Neural Network embeddings on the social graph
+- Incremental retraining on new interaction events
+- A/B testing harness comparing rule-only vs ML-only vs hybrid
+- Semantic job matching between student bio and job description
+- Offline evaluation harness — precision@k, recall@k, NDCG
+
+**Platform**
+- PostgreSQL migration for multi-instance deployment
+- Redis message queue for horizontally scaled WebSockets
+- Object storage for user uploads
+- Full-text search (SQLite FTS5) replacing `LIKE` queries
+- Push notifications and a PWA shell
+- Two-factor authentication and rate limiting
+
+**Product depth**
+- Mentorship request workflow with session slots and feedback
+- Event creation, capacity limits and RSVP
+- Announcement targeting by role, department or batch
+- Social feed (posts / comments / likes)
+- Department and batch-based groups
+- Dark mode
+- Accessibility audit to WCAG 2.1 AA
+
+---
+
+## 🐛 Known Issues
+
+Documented honestly, because a README that claims perfection is less useful than one that tells you where the edges are.
+
+| # | Issue | Location | Severity |
+| --- | --- | --- | --- |
+| 1 | Two DB factories resolve to **different files** — messaging can read/write a different database than the rest of the app | `database/messaging_db.py:10` vs `db_utils.py:9` | **High** |
+| 2 | `url_for('faculty_dashboard')` — the endpoint is actually named `dashboard_faculty`, so a faculty job post 500s | `app.py:4616` | **High** |
+| 3 | A Gmail app password is hard-coded as the fallback, and the seeded admin password is in repo history | `app.py:50`, `app.py:575-577` | **High** |
+| 4 | No automated test suite — only a one-line import smoke check | `test_import.py` | **High** |
+| 5 | The PostgreSQL path is configured but no driver is wired into the runtime | `config.py`, `scripts/init_postgres.py` | Medium |
+| 6 | The ML model trains once at startup and never refreshes automatically | `services/recommendation_engine.py:481-489` | Medium |
+| 7 | `GET /api/messages/private/<conversation_id>` returns a hard-coded placeholder — the endpoint is non-functional | `routes/messaging_routes.py:201-217` | Medium |
+| 8 | Connection-request logic is implemented twice (in `app.py` and in the `connection_bp` blueprint), with divergent parameter names | `app.py:3809` vs `routes/connection_routes.py:11` | Medium |
+| 9 | `pywhatkit` is imported **before** the admin role check, so non-admins trigger a heavy import before rejection | `app.py:3475-3476` | Medium |
+| 10 | Several POST handlers flash `str(e)` to the user, leaking internal detail | `app.py:1050, 1188, 1911, 2092` | Medium |
+| 11 | Some database indexes are created twice by different code paths | `app.py`, `scripts/optimize_db.py` | Low |
+| 12 | `app.py` is 4,875 lines with 99 routes and a 17-event WebSocket handler | `app.py` | Low |
+| 13 | Online presence is stored in process memory, so it is wrong behind multiple workers | `app.py`, `routes/websocket_routes.py:26-79` | Low |
+| 14 | The design-token stylesheet is not loaded globally; tokens are duplicated inline in several templates | `static/css/theme.css` | Low |
+| 15 | `.gitignore` covers `.env` but **not** `*.db` or `static/uploads/` — real accounts and uploads are tracked | `.gitignore` | **High** |
+
+> ⚠️ **Before publishing this repository:** the working tree currently contains live SQLite files
+> (`data/college_pro.db` with real user rows, plus stale copies at the repo root) and user uploads.
+> Strip or untrack them first — see [`docs/Rules.md`](docs/Rules.md) GIT-4.
+>
+> ```gitignore
+> # add these
+> *.db
+> data/*.db
+> static/uploads/profile_pics/
+> static/uploads/logos/
+> ```
+
+Full analysis with code locations: [`docs/Memory.md`](docs/Memory.md) §9 · [`docs/Rules.md`](docs/Rules.md) §14 · P0 fix list in [`docs/Tasks.md`](docs/Tasks.md) §9
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome.
+
+1. **Fork** the repository
+2. **Create a branch** — `git checkout -b feature/your-feature`
+3. **Follow the project rules** in [`docs/Rules.md`](docs/Rules.md) — especially the connection-lifecycle pattern, the parameterised-SQL rule, and the design-token guidance
+4. **Add or update tests** for any behaviour change
+5. **Update the docs** — if you change architecture, scoring, or the schema, update the corresponding file in `docs/`
+6. **Open a pull request** with a clear description of what changed and why
+
+### Commit convention
+
+```
+feat: add job application tracking endpoint
+fix: close db connection in private_chat
+perf: collapse admin dashboard counts into one GROUP BY
+docs: document the hybrid recommendation strategy
+```
+
+### Code of conduct
+
+Be respectful. This is a community project — assume good intent in issues and reviews.
+
+---
+
+## 📄 License
+
+Released under the **MIT License**.
+
+```
+MIT License
+
+Copyright (c) 2026 Alumni Hub
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+## 📚 Documentation
+
+The full documentation set lives in [`docs/`](docs):
+
+| Document | Read it for |
+| --- | --- |
+| [`docs/PRD.md`](docs/PRD.md) | Product requirements, role capabilities, functional + non-functional requirements, success metrics, out-of-scope |
+| [`docs/Architecture.md`](docs/Architecture.md) | Layered design, startup sequence, DB access patterns, frontend layers, email, deployment, refactor path |
+| [`docs/Rules.md`](docs/Rules.md) | Coding, database, security and data-handling rules — plus which ones the code currently violates |
+| [`docs/Design.md`](docs/Design.md) | Design tokens, component patterns, per-page inventory, motion rules, accessibility checklist |
+| [`docs/Tasks.md`](docs/Tasks.md) | Phase-by-phase task breakdown, testing coverage matrix, P0 blockers, effort estimates |
+| [`docs/Memory.md`](docs/Memory.md) | Durable project knowledge: decisions, schema drift, verified bugs, open questions |
+
+**Start here:** PRD → Architecture → Tasks §9 (testing gap) → Known Issues (above).
+
+---
+
+## 👥 Credits
+
+Built with 💙 by the **Alumni Hub team**.
+
+- **Team photography** — [`static/images/team/`](static/images/team)
+
+### Built with
+
+Flask · Flask-SocketIO · Flask-Login · SQLite · scikit-learn · NumPy · Bootstrap 5 · FontAwesome · AOS · Chart.js · Socket.IO · Vanilla Tilt
+
+---
+
+<div align="center">
+
+**Alumni Hub** — Building Connections, Creating Opportunities
+
+[⬆ Back to Top](#-alumni-hub)
+
+</div>
