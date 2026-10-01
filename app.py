@@ -16,7 +16,7 @@ from config import config
 import time
 import base64
 from extensions import mail
-from db_utils import get_db_connection
+from db_utils import get_db_connection, is_turso, dump_to_sql
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from models.recommendation import get_recommended_users, get_recommended_jobs
@@ -355,6 +355,9 @@ def init_db():
                     pass # Column already exists
                 else:
                     print(f"⚠ Warning adding {col_name}: {e}")
+            except sqlite3.DatabaseError as e:
+                # Backend-specific failures must not abort the whole bootstrap.
+                print(f"⚠ Could not add {col_name}: {e}")
 
         # Student Profile Table
         c.execute('''
@@ -637,6 +640,48 @@ def init_db():
             UPDATE jobs SET approval_status = 'approved'
             WHERE approval_status IS NULL OR approval_status = ''
         """)
+
+        # Job applications (student -> job interest). This used to be created
+        # only by scripts/migrate_jobs.py, so a fresh database - including a
+        # Turso one - had no such table and applications failed at runtime.
+        c.execute('''CREATE TABLE IF NOT EXISTS job_applications (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            job_id INTEGER,
+            student_id INTEGER,
+            status TEXT DEFAULT 'applied',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
+            FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE
+        )''')
+
+        # Staged registrations awaiting OTP verification. Previously created
+        # lazily inside the register route, which broke a cold start.
+        # The column list MUST stay identical to the CREATE TABLE in the
+        # register route, otherwise IF NOT EXISTS will never correct it.
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS temp_users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                phone TEXT NOT NULL,
+                role TEXT NOT NULL,
+                otp TEXT NOT NULL,
+                profile_data TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                otp_expires_at TIMESTAMP
+            )
+        ''')
+
+        conn.commit()
+
+        # Messaging tables. These were previously only created by
+        # scripts/init_messaging_db.py, so a fresh or Turso-backed database had
+        # no messaging schema at all. Creating them here keeps the whole schema
+        # self-migrating. Uses the same connection, so one commit covers both.
+        from database.messaging_db import ensure_messaging_schema
+        ensure_messaging_schema(conn)
+
         conn.commit()
 
     except sqlite3.Error as e:
@@ -2928,6 +2973,28 @@ def download_database(db_type):
         # In the future, you can create filtered databases
         db_file = DB_NAME  # alumni_hub.db
 
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+
+        # On Turso there is no local .db file to copy, so build a SQL dump
+        # from the live connection instead.
+        if is_turso():
+            temp_fd, temp_path = tempfile.mkstemp(suffix='.sql')
+            os.close(temp_fd)
+            try:
+                dump_to_sql(temp_path)
+            except Exception as dump_error:
+                if os.path.exists(temp_path):
+                    os.unlink(temp_path)
+                app.logger.error(f'Turso SQL dump failed: {dump_error}')
+                return jsonify({'error': 'Could not export database'}), 500
+
+            return send_file(
+                temp_path,
+                mimetype='application/sql',
+                as_attachment=True,
+                download_name=f'{db_type.upper()}_Database_{timestamp}.sql'
+            )
+
         if not os.path.exists(db_file):
             return jsonify({'error': 'Database file not found'}), 404
 
@@ -2938,14 +3005,11 @@ def download_database(db_type):
         try:
             shutil.copy2(db_file, temp_path)
 
-            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-            filename = f'{db_type.upper()}_Database_{timestamp}.db'
-
             return send_file(
                 temp_path,
                 mimetype='application/x-sqlite3',
                 as_attachment=True,
-                download_name=filename
+                download_name=f'{db_type.upper()}_Database_{timestamp}.db'
             )
         except Exception as copy_error:
             if os.path.exists(temp_path):

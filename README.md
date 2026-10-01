@@ -717,9 +717,65 @@ web: gunicorn app:app
 
 Blueprints, the scheduler and database migrations all run at **module level**, so the app is fully initialised the moment Gunicorn imports it — no separate migration step.
 
+### Turso Cloud (hosted SQLite)
+
+The app can run against **Turso** — a hosted SQLite-compatible database — instead of a local
+`.db` file. This is the cleanest way to deploy, because a serverless filesystem no longer has to
+carry the database.
+
+**How it works.** Every module already calls `db_utils.get_db_connection()` rather than
+`sqlite3.connect()` directly, so the backend is decided in one place. When `TURSO_DATABASE_URL`
+is present the factory returns a remote connection; otherwise it returns the local file exactly as
+before. **Local development needs no configuration and behaves identically.**
+
+```bash
+# 1. Install the driver
+pip install libsql
+
+# 2. Add to .env
+TURSO_DATABASE_URL=https://alumni-hub-<you>.turso.io
+TURSO_AUTH_TOKEN=<token from the Turso dashboard>
+TURSO_ENGINE=libsql          # 'tursodb' for the MVCC engine
+
+# 3. Run — no other change needed
+python app.py
+```
+
+**Which driver:** Turso hosts two incompatible engines, so `TURSO_ENGINE` must match the database.
+
+| `TURSO_ENGINE` | Database | Driver | Concurrent writes |
+| --- | --- | --- | --- |
+| `libsql` (default) | Created in the Turso dashboard | `libsql` | Single writer |
+| `tursodb` | Created with `turso db create --tursodb` | `turso_serverless` | MVCC |
+
+**Migrating existing data** — the CLI is the simplest path:
+
+```bash
+turso db import ./data/college_pro.db      # requires WAL journal mode
+```
+
+**Compatibility shim.** The `libsql` driver returns plain tuples and has no `row_factory`
+support, while this project reads rows as `row['column']` in ~100 places. `db_utils` wraps the
+remote connection so rows behave like `sqlite3.Row`. The shim also corrects two driver quirks:
+`cursor.rowcount` is only accurate on a freshly created cursor, and `fetchone()` after `fetchall()`
+restarts instead of returning `None`.
+
+```bash
+python scripts/test_turso_adapter.py       # 34 checks: local mode, row conversion,
+                                           # rowcount, fetch semantics, SQL dump
+```
+
+**Trade-off:** remote mode makes **every query an HTTP round trip**, so pages that run several
+queries get noticeably slower than local SQLite. The admin dashboard and the ML recommendation
+engine are the heaviest paths. Keep `TURSO_DATABASE_URL` unset while developing.
+
 ### Vercel
 
-`vercel.json` is included. ⚠️ Read [Known Issues](#-known-issues) first — the PostgreSQL path is not yet wired into the runtime, and the serverless filesystem is ephemeral (uploads and the SQLite file do not persist between cold starts).
+`vercel.json` is included. Pair it with Turso so the database survives cold starts.
+
+> ⚠️ Turso solves the database, **not** `static/uploads/`. The serverless filesystem is still
+> ephemeral, so uploaded profile photos and company logos are lost between cold starts. Use object
+> storage (S3, Cloudflare R2) before treating a Vercel deploy as durable.
 
 ### Scaling WebSockets
 
@@ -729,14 +785,18 @@ Blueprints, the scheduler and database migrations all run at **module level**, s
 
 ## 🧪 Testing
 
-The project currently ships a minimal import smoke check:
-
 ```bash
-python test_import.py          # verifies the recommendation module imports cleanly
-python scripts/test_recommendations.py   # manual recommendation check
+python test_import.py                # import smoke check
+python scripts/test_turso_adapter.py # 34 checks — local + Turso backend compatibility
+python scripts/test_recommendations.py  # manual recommendation check
 ```
 
-A proper automated test suite is on the roadmap — see [`docs/Tasks.md`](docs/Tasks.md) §9 for the planned coverage matrix (auth flows, authorisation boundaries, connection lifecycle, recommendation cold start, messaging locks, upload rejection, OTP-leak assertions).
+`scripts/test_turso_adapter.py` covers the backend layer: that local SQLite mode is unchanged,
+that `row['column']` access works over the Turso driver, `rowcount`/`lastrowid` accuracy,
+`fetchone`/`fetchall` semantics, NULL handling, parameterised queries, and that the admin SQL
+dump restores to a byte-equivalent database.
+
+A full unit-test suite for the app itself is still the biggest gap — see [`docs/Tasks.md`](docs/Tasks.md) §9 for the planned coverage matrix (auth flows, authorisation boundaries, connection lifecycle, recommendation cold start, messaging locks, upload rejection, OTP-leak assertions).
 
 ---
 
@@ -776,21 +836,22 @@ Documented honestly, because a README that claims perfection is less useful than
 
 | # | Issue | Location | Severity |
 | --- | --- | --- | --- |
-| 1 | Two DB factories resolve to **different files** — messaging can read/write a different database than the rest of the app | `database/messaging_db.py:10` vs `db_utils.py:9` | **High** |
+| 1 | ~~Two DB factories resolve to different files~~ — **fixed**, messaging now shares the main factory | `database/messaging_db.py` | Resolved |
 | 2 | `url_for('faculty_dashboard')` — the endpoint is actually named `dashboard_faculty`, so a faculty job post 500s | `app.py:4616` | **High** |
 | 3 | A Gmail app password is hard-coded as the fallback, and the seeded admin password is in repo history | `app.py:50`, `app.py:575-577` | **High** |
-| 4 | No automated test suite — only a one-line import smoke check | `test_import.py` | **High** |
-| 5 | The PostgreSQL path is configured but no driver is wired into the runtime | `config.py`, `scripts/init_postgres.py` | Medium |
-| 6 | The ML model trains once at startup and never refreshes automatically | `services/recommendation_engine.py:481-489` | Medium |
-| 7 | `GET /api/messages/private/<conversation_id>` returns a hard-coded placeholder — the endpoint is non-functional | `routes/messaging_routes.py:201-217` | Medium |
+| 4 | No automated unit-test suite — the Turso adapter has tests, the app does not | `test_import.py` | **High** |
+| 5 | `pywhatkit` is imported **before** the admin role check, so non-admins trigger a heavy import before rejection | `app.py:3475-3476` | Medium |
+| 6 | `GET /api/messages/private/<conversation_id>` returns a hard-coded placeholder — the endpoint is non-functional | `routes/messaging_routes.py:201-217` | Medium |
+| 7 | Several POST handlers flash `str(e)` to the user, leaking internal detail | `app.py:1050, 1188, 1911, 2092` | Medium |
 | 8 | Connection-request logic is implemented twice (in `app.py` and in the `connection_bp` blueprint), with divergent parameter names | `app.py:3809` vs `routes/connection_routes.py:11` | Medium |
-| 9 | `pywhatkit` is imported **before** the admin role check, so non-admins trigger a heavy import before rejection | `app.py:3475-3476` | Medium |
-| 10 | Several POST handlers flash `str(e)` to the user, leaking internal detail | `app.py:1050, 1188, 1911, 2092` | Medium |
-| 11 | Some database indexes are created twice by different code paths | `app.py`, `scripts/optimize_db.py` | Low |
-| 12 | `app.py` is 4,875 lines with 99 routes and a 17-event WebSocket handler | `app.py` | Low |
-| 13 | Online presence is stored in process memory, so it is wrong behind multiple workers | `app.py`, `routes/websocket_routes.py:26-79` | Low |
-| 14 | The design-token stylesheet is not loaded globally; tokens are duplicated inline in several templates | `static/css/theme.css` | Low |
-| 15 | `.gitignore` covers `.env` but **not** `*.db` or `static/uploads/` — real accounts and uploads are tracked | `.gitignore` | **High** |
+| 9 | ML and rule scores share one `score` field, so the hybrid sort mixes two different scales | `services/recommendation_engine.py:432` | Medium |
+| 10 | The ML model trains once at startup and never refreshes automatically | `services/recommendation_engine.py:481-489` | Medium |
+| 11 | On Turso, every query is an HTTP round trip — admin dashboard and ML engine get noticeably slower | `db_utils.py` | Medium |
+| 12 | `static/uploads/` is ephemeral on serverless hosts even with Turso | `app.py:68-73` | Medium |
+| 13 | `app.py` is 4,875 lines with 99 routes and a 17-event WebSocket handler | `app.py` | Low |
+| 14 | Online presence is stored in process memory, so it is wrong behind multiple workers | `routes/websocket_routes.py:26-79` | Low |
+| 15 | The design-token stylesheet is not loaded globally; tokens are duplicated inline in several templates | `static/css/theme.css` | Low |
+| 16 | `.gitignore` covers `.env` but **not** `*.db` or `static/uploads/` — real accounts and uploads are tracked | `.gitignore` | **High** |
 
 > ⚠️ **Before publishing this repository:** the working tree currently contains live SQLite files
 > (`data/college_pro.db` with real user rows, plus stale copies at the repo root) and user uploads.

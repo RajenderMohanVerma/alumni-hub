@@ -8,6 +8,15 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev-key-change-in-production')
     DEBUG = False
     DB_NAME = os.getenv('DB_NAME', 'data/college_pro.db')
+
+    # Turso Cloud. When TURSO_DATABASE_URL is set, db_utils.get_db_connection()
+    # returns a remote HTTP connection instead of a local SQLite file, and
+    # DB_NAME is ignored. Leave unset to keep working against the local file.
+    TURSO_DATABASE_URL = os.getenv('TURSO_DATABASE_URL', '')
+    TURSO_AUTH_TOKEN = os.getenv('TURSO_AUTH_TOKEN', '')
+    # 'libsql' for dashboard-created databases, 'tursodb' for the MVCC engine.
+    TURSO_ENGINE = os.getenv('TURSO_ENGINE', 'libsql')
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SESSION_COOKIE_SECURE = True
     SESSION_COOKIE_HTTPONLY = True

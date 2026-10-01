@@ -7,16 +7,20 @@ import sqlite3
 from datetime import datetime
 from contextlib import contextmanager
 
-DB_NAME = 'college_pro.db'
+from db_utils import get_db_connection as _shared_connection
 
 
 @contextmanager
 def get_db_connection():
-    """Get database connection with proper configuration"""
-    conn = sqlite3.connect(DB_NAME, timeout=20.0)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA journal_mode=WAL")
-    conn.execute("PRAGMA synchronous=NORMAL")
+    """
+    Get database connection with proper configuration.
+
+    Delegates to db_utils.get_db_connection() so messaging and the rest of the
+    app resolve to the SAME database. This function used to hard-code
+    'college_pro.db' in the repo root while db_utils used 'data/college_pro.db',
+    which meant messaging could silently read and write a different file.
+    """
+    conn = _shared_connection()
     try:
         yield conn
         conn.commit()
@@ -25,6 +29,111 @@ def get_db_connection():
         raise e
     finally:
         conn.close()
+
+
+def ensure_messaging_schema(conn=None):
+    """
+    Create the messaging tables and the default lock row if they are missing.
+
+    These tables used to live only in scripts/init_messaging_db.py, which meant
+    a fresh database (or a Turso database) had no messaging tables at all and the
+    messaging routes failed at runtime. Creating them here keeps the project's
+    self-migrating promise on every backend.
+
+    Pass an existing connection to reuse the caller's transaction; otherwise one
+    is opened here. Safe to call repeatedly.
+    """
+    import sqlite3
+
+    statements = [
+        '''
+        CREATE TABLE IF NOT EXISTS messaging_lock (
+            id INTEGER PRIMARY KEY,
+            is_locked BOOLEAN DEFAULT 0,
+            locked_by INTEGER,
+            locked_at TIMESTAMP,
+            reason TEXT,
+            FOREIGN KEY(locked_by) REFERENCES users(id)
+        )
+        ''',
+        '''
+        CREATE TABLE IF NOT EXISTS public_messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            sender_id INTEGER NOT NULL,
+            content TEXT NOT NULL,
+            is_hidden BOOLEAN DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            deleted_by INTEGER,
+            FOREIGN KEY(sender_id) REFERENCES users(id),
+            FOREIGN KEY(deleted_by) REFERENCES users(id)
+        )
+        ''',
+        '''
+        CREATE TABLE IF NOT EXISTS private_messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            sender_id INTEGER NOT NULL,
+            receiver_id INTEGER NOT NULL,
+            content TEXT NOT NULL,
+            is_read BOOLEAN DEFAULT 0,
+            read_at TIMESTAMP,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            deleted_by_sender BOOLEAN DEFAULT 0,
+            deleted_by_receiver BOOLEAN DEFAULT 0,
+            FOREIGN KEY(sender_id) REFERENCES users(id),
+            FOREIGN KEY(receiver_id) REFERENCES users(id)
+        )
+        ''',
+        '''
+        CREATE TABLE IF NOT EXISTS conversations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id_1 INTEGER NOT NULL,
+            user_id_2 INTEGER NOT NULL,
+            last_message_id INTEGER,
+            last_message_at TIMESTAMP,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(user_id_1) REFERENCES users(id),
+            FOREIGN KEY(user_id_2) REFERENCES users(id),
+            FOREIGN KEY(last_message_id) REFERENCES private_messages(id),
+            UNIQUE(user_id_1, user_id_2)
+        )
+        ''',
+        '''
+        CREATE TABLE IF NOT EXISTS message_search_index (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            message_id INTEGER NOT NULL,
+            message_type TEXT,
+            content_index TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        ''',
+        # Unlocked by default. INSERT OR IGNORE preserves an admin's lock.
+        '''
+        INSERT OR IGNORE INTO messaging_lock (id, is_locked)
+        VALUES (1, 0)
+        ''',
+    ]
+
+    # The lock row references users(id), so users() must already exist. That is
+    # why this is called from app.py after init_db(), not at import time.
+    owned = conn is None
+    if owned:
+        try:
+            conn = _shared_connection()
+        except Exception as exc:
+            print(f"⚠ Messaging schema skipped (no DB context): {exc}")
+            return
+
+    try:
+        cursor = conn.cursor()
+        for sql in statements:
+            cursor.execute(sql)
+        if owned:
+            conn.commit()
+    finally:
+        if owned:
+            conn.close()
 
 
 # ==================== MESSAGING LOCK FUNCTIONS ====================
