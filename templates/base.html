@@ -161,12 +161,16 @@
                 <div class="brand-logo-container">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
-                <strong class="brand-text-premium brand-animate-rtl">ALUMNI HUB</strong><br>
+                <strong class="brand-text-premium brand-animate-rtl">ALUMNI HUB</strong>
             </a>
 
+            {% if not current_user.is_authenticated %}
+            <a class="nav-mobile-register" href="/register">Register <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            {% endif %}
+
             <!-- Open Button -->
-            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+            <button class="navbar-toggler custom-toggler" type="button"
+                aria-controls="mobileMenuOverlay" aria-expanded="false"
                 aria-label="Toggle navigation" id="navbarToggler">
                 <div class="hamburger-lines">
                     <span class="line line1"></span>
@@ -176,55 +180,47 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
                     {% if not current_user.is_authenticated %}
                     <!-- Public View -->
-                    <!-- Island Navigation (Centered) -->
-                    <ul class="navbar-nav mx-auto d-none d-lg-flex align-items-center gap-1 shadow-sm rounded-pill px-2 py-1 bg-white border"
-                        style="box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important;">
+                    <ul class="navbar-nav public-nav-links">
                         <li class="nav-item">
                             <a class="nav-link nav-pill-link" href="/">
-                                <i class="fas fa-home text-primary bg-primary-subtle rounded-circle p-2"
-                                    style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"></i>
-                                <span class="fw-semibold text-dark d-none d-xl-inline">Home</span>
+                                <i class="fas fa-home"></i> <span>Home</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-pill-link" href="/about">
-                                <span class="fw-semibold text-secondary hover-text-primary transition-all">About</span>
+                                <i class="fas fa-circle-info"></i> <span>About</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-pill-link" href="/services">
-                                <span
-                                    class="fw-semibold text-secondary hover-text-primary transition-all">Services</span>
+                                <i class="fas fa-compass"></i> <span>Services</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-pill-link" href="/events">
-                                <span class="fw-semibold text-secondary hover-text-primary transition-all">Events</span>
+                                <i class="fas fa-calendar-days"></i> <span>Events</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-pill-link" href="/contact">
-                                <span
-                                    class="fw-semibold text-secondary hover-text-primary transition-all">Contact</span>
+                                <i class="fas fa-envelope"></i> <span>Contact</span>
                             </a>
                         </li>
                     </ul>
 
-                    <!-- Right Actions -->
-                    <div class="d-flex align-items-center ms-auto gap-3">
-                        <a class="nav-link fw-bold text-dark px-3" href="/login">
-                            Log In
+                    <div class="nav-auth-actions">
+                        <a class="nav-auth-login" href="/login">
+                            Sign In
                         </a>
-                        <a class="btn btn-premium-gradient btn-glow rounded-pill px-4 py-2 fw-bold text-nowrap"
-                            href="/register" style="box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);">
-                            Get Started <i class="fas fa-arrow-right ms-2"></i>
+                        <a class="nav-auth-register" href="/register">
+                            Register <i class="fas fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     </div>
                     {% else %}
                     <!-- Authenticated View -->
+                    <ul class="navbar-nav role-nav-links ms-auto align-items-center">
                     {% if current_user.role == 'student' %}
                     <li class="nav-item">
                         <a class="nav-link nav-pill-link" href="/student/dashboard">
@@ -564,12 +560,11 @@
                             <span class="user-name d-none d-sm-inline">{{ current_user.name }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-premium" aria-labelledby="navbarDropdown">
-                            <div class="dropdown-header-custom">
+                            <li class="dropdown-header-custom">
                                 <span>Signed in as</span>
                                 <strong>{{ current_user.name }}</strong>
-                            </div>
+                            </li>
                             <li><a class="dropdown-item" href="/profile"><i class="fas fa-user"></i> My Profile</a></li>
-                    </li>
                     {% if current_user.role == 'student' %}
                     <li><a class="dropdown-item" href="/upgrade"><i class="fas fa-crown"></i> Upgrade to Pro</a>
                     </li>
@@ -598,14 +593,14 @@
                 </ul>
                 </li>
                 {% endif %}
-                </ul>
+                    </ul>
             </div>
         </div>
 
         <!-- Mobile Menu Overlay -->
         <div class="mobile-menu-overlay" id="mobileMenuOverlay">
             <!-- Close Button -->
-            <button class="btn position-absolute top-0 end-0 m-4 shadow-lg mobile-close-btn" id="closeMobileMenu">
+            <button class="btn position-absolute top-0 end-0 m-4 shadow-lg mobile-close-btn" id="closeMobileMenu" type="button" aria-label="Close navigation menu">
                 <i class="fas fa-times"></i>
             </button>
 
@@ -734,10 +729,10 @@
                 <div class="mobile-auth-buttons px-4" style="--delay: 0.6s">
                     <a href="/login" class="btn btn-light btn-lg w-100 shadow-sm"
                         style="color: var(--primary); font-weight: 700;">
-                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                        <i class="fas fa-sign-in-alt me-2"></i> Sign In
                     </a>
                     <a href="/register" class="btn btn-premium-gradient btn-lg w-100 shadow-premium">
-                        Register Now <i class="fas fa-arrow-right ms-2"></i>
+                        Register <i class="fas fa-arrow-right ms-2"></i>
                     </a>
                 </div>
                 {% endif %}
@@ -966,6 +961,7 @@
             if (toggler && overlay) {
                 toggler.classList.toggle('active');
                 overlay.classList.toggle('active');
+                toggler.setAttribute('aria-expanded', String(overlay.classList.contains('active')));
                 // Toggle body scroll
                 if (overlay.classList.contains('active')) {
                     document.body.style.overflow = 'hidden';
@@ -986,6 +982,13 @@
                 }
             });
         }
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && overlay && overlay.classList.contains('active')) {
+                toggleMenu();
+                toggler?.focus();
+            }
+        });
 
         // Close menu when a link is clicked
         mobileLinks.forEach(link => {

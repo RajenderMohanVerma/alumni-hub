@@ -424,7 +424,7 @@
 | `scripts/fix_connections_table.py` | Rebuild `connections` to `user_id_1/user_id_2` | Current |
 | `scripts/create_reset_table.py` | Create `password_resets` | Current |
 | `scripts/optimize_db.py` | Add indexes | ⚠️ Creates duplicates |
-| `scripts/rebrand_templates.py` | Bulk template string replacement | Utility |
+| Branding cleanup utility | Removed after the one-off neutral branding pass | Retired |
 | `scripts/check_categories.py` | Inspect job categories | Debug |
 | `scripts/check_db.py` / `scripts/debug_db.py` | DB inspection | Debug |
 | `scripts/test_email.py` | SMTP connectivity test | Utility |
