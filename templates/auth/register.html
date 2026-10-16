@@ -180,18 +180,24 @@
            TOP BAR
            ============================================================ */
         .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 50;
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            z-index: 100;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
-            padding: clamp(0.85rem, 2.5vw, 1.35rem) clamp(1rem, 4vw, 2.5rem);
-            background: rgba(5, 6, 15, 0.72);
-            backdrop-filter: blur(16px) saturate(140%);
-            -webkit-backdrop-filter: blur(16px) saturate(140%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            gap: 1.5rem;
+            width: min(1440px, calc(100% - 3rem));
+            min-height: 68px;
+            padding: 0.65rem 0.85rem 0.65rem 1rem;
+            border: 1px solid rgba(205, 220, 255, 0.13);
+            border-radius: 20px;
+            background: linear-gradient(110deg, rgba(12, 16, 38, 0.88), rgba(18, 23, 49, 0.76));
+            backdrop-filter: blur(22px) saturate(150%);
+            -webkit-backdrop-filter: blur(22px) saturate(150%);
+            box-shadow: 0 14px 38px rgba(0, 0, 0, 0.24), inset 0 1px rgba(255, 255, 255, 0.04);
+            transform: translateX(-50%);
         }
 
         .brand {
@@ -203,6 +209,13 @@
             font-weight: 800;
             font-size: 1.02rem;
             color: var(--text-hi);
+            white-space: nowrap;
+            transition: transform 0.2s var(--ease-out);
+        }
+
+        .brand:hover {
+            color: var(--text-hi);
+            transform: translateY(-1px);
         }
 
         .brand__mark {
@@ -210,9 +223,10 @@
             place-items: center;
             width: 34px;
             height: 34px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--aurora-1), var(--aurora-2));
-            box-shadow: 0 6px 18px rgba(124, 58, 237, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 11px;
+            background: linear-gradient(145deg, #7c3aed, #2563eb 62%, #06b6d4);
+            box-shadow: 0 6px 18px rgba(64, 96, 220, 0.3);
         }
 
         .brand__mark i {
@@ -223,17 +237,22 @@
         .topbar__links {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            justify-content: flex-end;
+            gap: 0.3rem;
         }
 
         .topbar__links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
             text-decoration: none;
             color: var(--text-mid);
             font-size: 0.86rem;
-            font-weight: 500;
-            padding: 0.45rem 0.85rem;
+            font-weight: 600;
+            padding: 0.5rem 0.85rem;
             border-radius: 999px;
-            transition: color 0.25s, background 0.25s;
+            transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s;
         }
 
         .topbar__links a:hover,
@@ -243,6 +262,46 @@
             outline: none;
         }
 
+        .topbar__links a:focus-visible,
+        .brand:focus-visible {
+            outline: 2px solid #67e8f9;
+            outline-offset: 3px;
+        }
+
+        .topbar__links a.nav-cta {
+            margin-left: 0.35rem;
+            padding: 0.58rem 1.05rem;
+            border: 1px solid rgba(167, 190, 255, 0.32);
+            color: #fff;
+            background: linear-gradient(115deg, #6d4bea, #386de0 65%, #168baa);
+            box-shadow: 0 6px 18px rgba(75, 88, 210, 0.27);
+        }
+
+        .topbar__links a.nav-cta:hover,
+        .topbar__links a.nav-cta:focus-visible {
+            color: #fff;
+            background: linear-gradient(115deg, #805ef2, #477bed 65%, #18a0bf);
+            box-shadow: 0 8px 22px rgba(75, 88, 210, 0.38);
+            transform: translateY(-1px);
+        }
+
+        .nav-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            min-height: 38px;
+            padding: 0.45rem 0.7rem;
+            border: 1px solid rgba(186, 211, 255, 0.2);
+            border-radius: 11px;
+            color: var(--text-hi);
+            background: rgba(255, 255, 255, 0.06);
+            font: 600 0.78rem var(--font-body);
+            cursor: pointer;
+        }
+
+        .nav-toggle:focus-visible { outline: 2px solid #67e8f9; outline-offset: 3px; }
+
         /* ============================================================
            LAYOUT
            ============================================================ */
@@ -250,7 +309,7 @@
             width: 100%;
             max-width: 780px;
             margin: 0 auto;
-            padding: clamp(1.25rem, 4vw, 2.75rem) clamp(1rem, 4vw, 1.5rem) 4rem;
+            padding: clamp(6.25rem, 8vw, 7.25rem) clamp(1rem, 4vw, 1.5rem) 4rem;
         }
 
         .reveal {
@@ -888,6 +947,13 @@
             transform: translateY(0);
         }
 
+        .submit:disabled {
+            cursor: wait;
+            opacity: 0.82;
+            animation: none;
+            transform: none;
+        }
+
         @keyframes sheen {
             to {
                 transform: translateX(230%) skewX(-20deg);
@@ -1310,8 +1376,41 @@
         }
 
         @media (max-width: 560px) {
-            .topbar__links a:not(.nav-cta) {
+            .topbar {
+                top: 0.65rem;
+                width: calc(100% - 1.25rem);
+                min-height: 58px;
+                padding: 0.45rem 0.55rem 0.45rem 0.7rem;
+                border-radius: 16px;
+            }
+
+            .topbar__links a.nav-secondary {
                 display: none;
+            }
+
+            .topbar__links a {
+                min-height: 38px;
+                padding: 0.45rem 0.65rem;
+                font-size: 0.78rem;
+            }
+
+            .brand {
+                gap: 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .brand__mark {
+                width: 31px;
+                height: 31px;
+            }
+
+            .topbar__links a.nav-cta {
+                margin-left: 0.1rem;
+                padding-inline: 0.8rem;
+            }
+
+            .shell {
+                padding-top: 5.5rem;
             }
 
             .role-grid {
@@ -1402,6 +1501,280 @@
                 opacity: 0.3;
             }
         }
+
+        @view-transition {
+            navigation: auto;
+        }
+
+        ::view-transition-group(auth-brand-panel),
+        ::view-transition-group(auth-form-panel) {
+            animation-duration: 1050ms;
+            animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        ::view-transition-old(auth-brand-panel),
+        ::view-transition-new(auth-brand-panel),
+        ::view-transition-old(auth-form-panel),
+        ::view-transition-new(auth-form-panel) {
+            height: 100%;
+            object-fit: contain;
+        }
+
+        ::view-transition-old(auth-form-panel) { animation: auth-panel-out 620ms cubic-bezier(0.65, 0, 0.35, 1) both; }
+        ::view-transition-new(auth-form-panel) { animation: auth-panel-in 880ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+        @keyframes auth-panel-in {
+            from { opacity: 0; transform: translateY(14px) scale(0.985); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes auth-panel-out {
+            to { opacity: 0; transform: translateY(-8px) scale(0.99); }
+        }
+
+        .auth-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+            grid-template-areas: "form brand";
+            align-items: start;
+            gap: clamp(2rem, 5vw, 5rem);
+            width: min(1380px, 100%);
+            margin: 6.25rem auto 2rem;
+        }
+
+        .auth-brand-panel {
+            grid-area: brand;
+            view-transition-name: auth-brand-panel;
+            position: sticky;
+            top: 6.5rem;
+            overflow: hidden;
+            padding: clamp(1.5rem, 3vw, 2.5rem);
+            border: 1px solid rgba(186, 211, 255, 0.13);
+            border-radius: 30px;
+            background: linear-gradient(145deg, rgba(20, 24, 55, 0.72), rgba(9, 15, 34, 0.58));
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24), inset 0 1px rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .auth-brand-panel::before {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            top: -150px;
+            right: -100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.3), transparent 70%);
+            pointer-events: none;
+        }
+
+        .auth-brand-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #a5f3fc;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .auth-brand-panel h1 {
+            max-width: 13ch;
+            margin: 1rem 0 0.75rem;
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.1rem);
+            line-height: 1.02;
+            letter-spacing: -0.045em;
+        }
+
+        .auth-brand-panel h1 span {
+            display: block;
+            color: #7dd3fc;
+        }
+
+        .auth-brand-copy {
+            max-width: 38ch;
+            margin: 0;
+            color: var(--text-mid);
+            font-size: 0.91rem;
+            line-height: 1.7;
+        }
+
+        .auth-feature-list {
+            display: grid;
+            gap: 0.7rem;
+            margin: 1.6rem 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .auth-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #e4eafa;
+            font-size: 0.83rem;
+            font-weight: 550;
+        }
+
+        .auth-feature i {
+            display: grid;
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+            place-items: center;
+            border: 1px solid rgba(125, 211, 252, 0.17);
+            border-radius: 11px;
+            color: #67e8f9;
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        .auth-visual {
+            position: relative;
+            display: grid;
+            min-height: 170px;
+            place-items: center;
+            margin-top: 1.8rem;
+            overflow: hidden;
+            border: 1px solid rgba(186, 211, 255, 0.1);
+            border-radius: 20px;
+            background: radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.11), transparent 55%), rgba(4, 9, 24, 0.36);
+        }
+
+        .auth-network {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 145px;
+        }
+
+        .auth-network::before,
+        .auth-network::after {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 70px;
+            border: 1px solid rgba(103, 232, 249, 0.22);
+            border-radius: 50%;
+            transform: rotate(-18deg);
+        }
+
+        .auth-network::after { transform: rotate(18deg); border-color: rgba(167, 139, 250, 0.2); }
+
+        .auth-node {
+            position: absolute;
+            z-index: 1;
+            display: grid;
+            width: 42px;
+            height: 42px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 14px;
+            color: #fff;
+            background: linear-gradient(145deg, rgba(124, 58, 237, 0.88), rgba(6, 182, 212, 0.78));
+            box-shadow: 0 10px 24px rgba(6, 182, 212, 0.16);
+        }
+
+        .auth-node--center { width: 50px; height: 50px; border-radius: 16px; font-size: 1.15rem; }
+        .auth-node--one { transform: translate(-85px, -27px); }
+        .auth-node--two { transform: translate(82px, -27px); background: linear-gradient(145deg, #0f766e, #06b6d4); }
+        .auth-node--three { transform: translate(-58px, 38px); background: linear-gradient(145deg, #a21caf, #7c3aed); }
+        .auth-node--four { transform: translate(58px, 38px); background: linear-gradient(145deg, #b45309, #f43f5e); }
+
+        .auth-form-panel {
+            grid-area: form;
+            view-transition-name: auth-form-panel;
+            width: 100%;
+            max-width: 760px;
+            min-width: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .auth-form-panel .progress-panel { top: 6rem; }
+        .auth-form-panel .hero { text-align: left; }
+
+        @media (max-width: 1000px) {
+            .auth-layout {
+                grid-template-columns: minmax(0, 1fr);
+                grid-template-areas: "brand" "form";
+                gap: 1.25rem;
+                width: min(780px, 100%);
+                margin-top: 6rem;
+            }
+            .auth-brand-panel { position: relative; top: auto; padding: 1.4rem 1.5rem; border-radius: 24px; }
+            .auth-brand-panel h1 { max-width: none; margin: 0.6rem 0 0.4rem; font-size: clamp(1.65rem, 5vw, 2.2rem); }
+            .auth-brand-copy { max-width: 60ch; font-size: 0.84rem; }
+            .auth-feature-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.55rem; margin-top: 1rem; }
+            .auth-feature { align-items: flex-start; gap: 0.45rem; font-size: 0.72rem; }
+            .auth-feature i { width: 30px; height: 30px; flex-basis: 30px; }
+            .auth-visual { min-height: 110px; margin-top: 1rem; }
+            .auth-network { height: 100px; }
+            .auth-network::before, .auth-network::after { width: 160px; height: 55px; }
+            .auth-form-panel { max-width: none; }
+            .auth-form-panel .hero { text-align: center; }
+        }
+
+        @media (max-width: 560px) {
+            .auth-layout { width: 100%; margin-top: 5.25rem; gap: 0.9rem; }
+            .auth-brand-panel { padding: 1.1rem 1rem; border-radius: 20px; }
+            .auth-brand-panel h1 { font-size: 1.55rem; }
+            .auth-brand-copy { font-size: 0.78rem; line-height: 1.5; }
+            .auth-feature-list { gap: 0.4rem; }
+            .auth-feature { flex-direction: column; font-size: 0.66rem; line-height: 1.3; }
+            .auth-feature i { width: 28px; height: 28px; flex-basis: 28px; font-size: 0.75rem; }
+            .auth-visual { min-height: 88px; margin-top: 0.8rem; }
+            .auth-network { height: 80px; }
+            .auth-network::before, .auth-network::after { width: 135px; height: 46px; }
+            .auth-node { width: 32px; height: 32px; border-radius: 11px; font-size: 0.8rem; }
+            .auth-node--center { width: 40px; height: 40px; font-size: 1rem; }
+            .auth-node--one { transform: translate(-62px, -20px); }
+            .auth-node--two { transform: translate(61px, -20px); }
+            .auth-node--three { transform: translate(-43px, 28px); }
+            .auth-node--four { transform: translate(43px, 28px); }
+            .auth-form-panel .panel { padding: 1rem; }
+            .auth-form-panel .progress-panel { top: 4.5rem; }
+        }
+
+        @media (max-width: 560px) {
+            .nav-toggle { display: inline-flex; margin-left: auto; }
+            .topbar__links {
+                position: absolute;
+                top: calc(100% + 0.55rem);
+                right: 0;
+                left: 0;
+                display: none;
+                align-items: stretch;
+                flex-direction: column;
+                gap: 0.25rem;
+                padding: 0.55rem;
+                border: 1px solid rgba(205, 220, 255, 0.14);
+                border-radius: 16px;
+                background: rgba(10, 14, 33, 0.97);
+                box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+                backdrop-filter: blur(20px);
+            }
+            .topbar__links.is-open { display: flex; animation: nav-drop-in 180ms var(--ease-out) both; }
+            .topbar__links a.nav-secondary { display: inline-flex; }
+            .topbar__links a { justify-content: flex-start; border-radius: 10px; }
+            .topbar__links a.nav-cta { justify-content: center; margin: 0.2rem 0 0; }
+            @keyframes nav-drop-in {
+                from { opacity: 0; transform: translateY(-5px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            ::view-transition-group(auth-brand-panel),
+            ::view-transition-group(auth-form-panel),
+            ::view-transition-old(auth-form-panel),
+            ::view-transition-new(auth-form-panel) { animation-duration: 1ms; }
+            .topbar__links.is-open { animation: none; }
+        }
     </style>
 </head>
 
@@ -1424,13 +1797,39 @@
             <span class="brand__mark"><i class="fas fa-graduation-cap"></i></span>
             <span>ALUMNI HUB</span>
         </a>
-        <nav class="topbar__links">
-            <a href="/">Home</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="authNavLinks" aria-label="Open navigation menu">
+            <span>Menu</span><i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+        <nav class="topbar__links" id="authNavLinks" aria-label="Main navigation">
+            <a href="/" class="nav-home">Home</a>
+            <a href="/about" class="nav-secondary">About</a>
+            <a href="/events" class="nav-secondary">Events</a>
+            <a href="/contact" class="nav-secondary">Contact</a>
             <a href="/login" class="nav-cta">Sign In</a>
         </nav>
     </header>
 
-    <main class="shell">
+    <div class="auth-layout auth-layout--register">
+    <aside class="auth-brand-panel reveal reveal--1" aria-labelledby="auth-brand-title">
+        <span class="auth-brand-kicker"><i class="fas fa-network-wired"></i> Alumni Hub Network</span>
+        <h1 id="auth-brand-title">Your experience.<span>Someone's next step.</span></h1>
+        <p class="auth-brand-copy">Join students, alumni and faculty building a stronger college community together.</p>
+        <ul class="auth-feature-list">
+            <li class="auth-feature"><i class="fas fa-people-arrows-left-right" aria-hidden="true"></i><span>Reconnect across graduating batches</span></li>
+            <li class="auth-feature"><i class="fas fa-handshake-angle" aria-hidden="true"></i><span>Share mentorship and career guidance</span></li>
+            <li class="auth-feature"><i class="fas fa-bullhorn" aria-hidden="true"></i><span>Stay close to jobs and campus events</span></li>
+        </ul>
+        <div class="auth-visual" aria-hidden="true">
+            <div class="auth-network">
+                <span class="auth-node auth-node--center"><i class="fas fa-graduation-cap"></i></span>
+                <span class="auth-node auth-node--one"><i class="fas fa-user"></i></span>
+                <span class="auth-node auth-node--two"><i class="fas fa-user-tie"></i></span>
+                <span class="auth-node auth-node--three"><i class="fas fa-book-open"></i></span>
+                <span class="auth-node auth-node--four"><i class="fas fa-briefcase"></i></span>
+            </div>
+        </div>
+    </aside>
+    <main class="shell auth-form-panel">
 
         <!-- Hero -->
         <div class="hero reveal reveal--1">
@@ -1581,7 +1980,7 @@
                             <i class="fas fa-lock field__icon"></i>
                             <input type="password" class="input input--pw" name="password" id="password" required
                                 placeholder="••••••••" autocomplete="new-password">
-                            <button type="button" class="pw-toggle" id="pwToggle1" aria-label="Show password" tabindex="-1">
+                            <button type="button" class="pw-toggle" id="pwToggle1" aria-label="Show password">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -1603,7 +2002,7 @@
                             <i class="fas fa-lock field__icon"></i>
                             <input type="password" class="input input--pw" name="confirm_password" id="confirm_password"
                                 required placeholder="••••••••" autocomplete="new-password">
-                            <button type="button" class="pw-toggle" id="pwToggle2" aria-label="Show password" tabindex="-1">
+                            <button type="button" class="pw-toggle" id="pwToggle2" aria-label="Show password">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -1804,9 +2203,9 @@
                 </label>
 
                 <div style="margin-top:1.5rem;">
-                    <button type="submit" class="submit">
-                        <span class="submit__inner">
-                            Create account <i class="fas fa-arrow-right"></i>
+                    <button type="submit" class="submit" id="registerSubmit">
+                        <span class="submit__inner" aria-live="polite">
+                            Create account <i class="fas fa-arrow-right" aria-hidden="true"></i>
                         </span>
                     </button>
                 </div>
@@ -1818,6 +2217,7 @@
             </section>
         </form>
     </main>
+    </div>
 
     <!-- ============================= DATALISTS ============================= -->
     <datalist id="cityList">
@@ -2060,6 +2460,39 @@
     </datalist>
 
     <script>
+        const authNavToggle = document.querySelector('.nav-toggle');
+        const authNavLinks = document.getElementById('authNavLinks');
+        const setAuthNavOpen = open => {
+            authNavToggle?.setAttribute('aria-expanded', String(open));
+            authNavToggle?.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+            authNavToggle?.querySelector('i')?.classList.toggle('fa-bars', !open);
+            authNavToggle?.querySelector('i')?.classList.toggle('fa-xmark', open);
+            authNavLinks?.classList.toggle('is-open', open);
+        };
+        authNavToggle?.addEventListener('click', () => setAuthNavOpen(authNavToggle.getAttribute('aria-expanded') !== 'true'));
+        authNavLinks?.addEventListener('click', event => {
+            if (event.target.closest('a')) setAuthNavOpen(false);
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && authNavLinks?.classList.contains('is-open')) {
+                setAuthNavOpen(false);
+                authNavToggle?.focus();
+            }
+        });
+
+        document.getElementById('registerForm')?.addEventListener('submit', event => {
+            if (event.defaultPrevented) return;
+            if (!event.currentTarget.reportValidity()) {
+                event.preventDefault();
+                return;
+            }
+            const button = document.getElementById('registerSubmit');
+            if (!button) return;
+            button.disabled = true;
+            button.setAttribute('aria-busy', 'true');
+            button.querySelector('.submit__inner').innerHTML = '<i class="fas fa-circle-notch fa-spin" aria-hidden="true"></i> Creating account…';
+        });
+
         const courseData = {
             'IT': {
                 'UG': ['BCA', 'B.Sc IT', 'B.Sc CS', 'B.Sc Data Science', 'B.Sc Cyber Security', 'B.Sc AI', 'BIT'],

@@ -7,10 +7,10 @@
 
     <!-- SEO Meta Tags -->
     <meta name="description"
-        content="Official ALUMNI HUB - Connect, network, and grow with the Don Bosco Institute of Technology alumni community. Post jobs, find mentors, and stay updated with college events.">
+        content="Official Alumni Hub - Connect, network, and grow with your college community. Post jobs, find mentors, and stay updated with events.">
     <meta name="keywords"
-        content="DBIT Alumni, Don Bosco Institute of Technology, Alumni Network, Mentorship, Job Portal, College Networking, Mumbai Engineering Alumni">
-    <meta name="author" content="DBIT Alumni Association">
+        content="Alumni Network, Mentorship, Job Portal, College Networking, Career Connections">
+    <meta name="author" content="Alumni Hub Community">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ request.url }}">
 
@@ -19,7 +19,7 @@
     <meta property="og:url" content="{{ request.url }}">
     <meta property="og:title" content="ALUMNI HUB - Connect & Grow">
     <meta property="og:description"
-        content="The official platform for DBIT alumni to connect with students and grow professionally.">
+        content="The official platform for alumni to connect with students and grow professionally.">
     <meta property="og:image" content="{{ url_for('static', filename='img/og-image.jpg', _external=True) }}">
 
     <!-- Twitter -->
@@ -27,7 +27,7 @@
     <meta property="twitter:url" content="{{ request.url }}">
     <meta property="twitter:title" content="ALUMNI HUB - Connect & Grow">
     <meta property="twitter:description"
-        content="The official platform for DBIT alumni to connect with students and grow professionally.">
+        content="The official platform for alumni to connect with students and grow professionally.">
     <meta property="twitter:image" content="{{ url_for('static', filename='img/og-image.jpg', _external=True) }}">
 
     <title>{% block title %}ALUMNI HUB{% endblock %}</title>
@@ -488,41 +488,61 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-cogs"></i> System
                         </a>
-                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="systemDropdown">
+                        <ul class="dropdown-menu shadow-premium border-0 nav-system-menu" aria-labelledby="systemDropdown">
+                            <li class="nav-menu-intro">
+                                <span class="nav-menu-intro-icon"><i class="fas fa-sliders-h"></i></span>
+                                <span><strong>System workspace</strong><small>Manage platform operations</small></span>
+                            </li>
+                            <li class="nav-menu-heading">OPERATIONS</li>
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('admin_jobs') }}">
-                                    <i class="fas fa-briefcase me-2 text-primary"></i> Jobs Matrix
+                                <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_jobs') }}">
+                                    <span class="nav-menu-icon icon-blue"><i class="fas fa-briefcase"></i></span>
+                                    <span class="nav-menu-copy"><strong>Jobs Matrix</strong><small>Review and manage listings</small></span>
+                                    <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item position-relative" href="{{ url_for('admin_jobs') }}#pending">
-                                    <i class="fas fa-clipboard-check me-2 text-warning"></i> Job Approvals
-                                    <span class="badge bg-danger ms-1" id="pendingJobsBadge" style="font-size:0.65rem;"></span>
+                                <a class="dropdown-item nav-menu-link position-relative" href="{{ url_for('admin_jobs') }}#pending">
+                                    <span class="nav-menu-icon icon-amber"><i class="fas fa-clipboard-check"></i></span>
+                                    <span class="nav-menu-copy"><strong>Job Approvals</strong><small>Pending review queue</small></span>
+                                    <span class="badge bg-danger nav-menu-badge" id="pendingJobsBadge"></span>
+                                </a>
+                            </li>
+                            <li class="nav-menu-heading">COMMUNITY</li>
+                            <li>
+                                <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_whatsapp_broadcast') }}">
+                                    <span class="nav-menu-icon icon-green"><i class="fa-brands fa-whatsapp"></i></span>
+                                    <span class="nav-menu-copy"><strong>WhatsApp Broadcast</strong><small>Send community updates</small></span>
+                                    <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('admin_whatsapp_broadcast') }}">
-                                    <i class="fab fa-whatsapp me-2 text-success"></i> WhatsApp Broadcast
+                                <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_messaging_control') }}">
+                                    <span class="nav-menu-icon icon-violet"><i class="fas fa-comments"></i></span>
+                                    <span class="nav-menu-copy"><strong>Messaging</strong><small>Control chat availability</small></span>
+                                    <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
+                                </a>
+                            </li>
+                            <li class="nav-menu-heading">INSIGHTS &amp; AUDIT</li>
+                            <li>
+                                <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_connection_monitor') }}">
+                                    <span class="nav-menu-icon icon-cyan"><i class="fas fa-link"></i></span>
+                                    <span class="nav-menu-copy"><strong>Connection Monitor</strong><small>Track network activity</small></span>
+                                    <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('admin_messaging_control') }}">
-                                    <i class="fas fa-comments me-2 text-indigo"></i> Messaging
+                                <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_analytics') }}">
+                                    <span class="nav-menu-icon icon-purple"><i class="fas fa-chart-line"></i></span>
+                                    <span class="nav-menu-copy"><strong>Analytics</strong><small>Explore platform metrics</small></span>
+                                    <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('admin_connection_monitor') }}">
-                                    <i class="fas fa-link me-2 text-info"></i> Connection Monitor
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{{ url_for('admin_analytics') }}">
-                                    <i class="fas fa-chart-line me-2 text-purple"></i> Analytics
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{{ url_for('admin_registrations') }}">
-                                    <i class="fas fa-clipboard-list me-2 text-orange"></i> Registration Logs
+                                <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_registrations') }}">
+                                    <span class="nav-menu-icon icon-orange"><i class="fas fa-clipboard-list"></i></span>
+                                    <span class="nav-menu-copy"><strong>Registration Logs</strong><small>Audit account activity</small></span>
+                                    <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                         </ul>
@@ -782,7 +802,7 @@
                             </h5>
                             <p class="footer-text">
                                 We are the definitive bridge between university excellence and industry leadership.
-                                Connecting DBIT alumni worldwide to build a legacy of shared success.
+                                Connecting alumni worldwide to build a legacy of shared success.
                             </p>
 
                             <div class="social-links-container">

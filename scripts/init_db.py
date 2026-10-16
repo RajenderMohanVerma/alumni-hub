@@ -103,15 +103,15 @@ c.execute('''CREATE TABLE IF NOT EXISTS connections (
 
 # Create admin user with new credentials
 print("Creating admin user...")
-pw = generate_password_hash("admindbit195@")
+pw = generate_password_hash("AlumniHub195@")
 c.execute("INSERT INTO users (name, email, password, role, phone) VALUES (?, ?, ?, ?, ?)",
-          ("Super Admin", "admindbit195@college.edu", pw, "admin", "0000000000"))
+          ("Super Admin", "admin@alumnihub.local", pw, "admin", "0000000000"))
 
 conn.commit()
 print("Database initialized successfully!")
 print("\nAdmin credentials:")
-print("Email: admindbit195@college.edu")
-print("Password: admindbit195@")
+print("Email: admin@alumnihub.local")
+print("Password: configured locally")
 
 # Verify tables
 c.execute("SELECT name FROM sqlite_master WHERE type='table'")

@@ -223,7 +223,7 @@
 | DEP-6 | **Static uploads require a persistent filesystem.** Serverless needs an external object store. | `vercel.json` limitation |
 | DEP-7 | **Do not deploy to Vercel until a real PostgreSQL driver is wired into `get_db_connection()`.** | `vercel.json`, `config.py:31`, `scripts/init_postgres.py` |
 | DEP-8 | **`DEBUG` must be `False` in production.** | `config.py:28` |
-| DEP-9 | **Keep `robots.txt` and `sitemap.xml` in sync with the live domain** when deploying to a new host. | Currently hard-coded to `dbitalumni.pythonanywhere.com` |
+| DEP-9 | **Keep `robots.txt` and `sitemap.xml` in sync with the live domain** when deploying to a new host. | Currently hard-coded to `alumnihub.com` |
 
 ---
 
@@ -248,7 +248,7 @@
 | # | Rule | Violation | Fix |
 | --- | --- | --- | --- |
 | SEC-25 | No hard-coded credentials | `app.py:50` mail password fallback; `README.md` §4 publishes it | Move to `.env`, rotate the app password |
-| SEC-26 | Rotate seeded admin | `admindbit195@college.edu` / `admindbit195@` is public | Force a password change on first admin login |
+| SEC-26 | Rotate seeded admin | Seeded administrator credentials must remain private | Force a password change on first admin login |
 | DB-3 | One DB file | `db_utils` → `data/college_pro.db`; `messaging_db` → `./college_pro.db` | Point both at `current_app.config['DB_NAME']` |
 | DB-14 | No duplicate indexes | `idx_connections_u1/u2` vs `idx_connections_user1/user2`; `idx_connreq_*` vs `idx_connection_requests_*` | Consolidate in `init_db()`, drop the rest |
 | LOG-2 | Don't log OTPs | `app.py:1044`, `1244`, `2396` | Keep for local dev, strip in production |

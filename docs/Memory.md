@@ -10,12 +10,12 @@
 | Field | Value |
 | --- | --- |
 | **Name** | Alumni Hub |
-| **Institution** | DBIT / JIMS alumni community (Mumbai / Delhi references in copy; footer map points to JIMS Rohini, Delhi) |
+| **Institution** | Institution-neutral college alumni community |
 | **Type** | Academic major project, MCA |
 | **Version** | 1.0 (first release) |
 | **Primary colour identity** | Navy `#1e3a8a` → Sky `#0ea5e9`, with amber `#f59e0b` accent |
 | **Tagline** | Building Connections, Creating Opportunities |
-| **Live host (in repo metadata)** | `dbitalumni.pythonanywhere.com` |
+| **Live host (in repo metadata)** | `alumnihub.com` |
 | **Team (from `static/images/team/`)** | `rajender.jpeg`, `rajender_tech.jpg`, `anushka_singh.jpg`, `shekhar_maurya.jpg` |
 
 ---
@@ -275,7 +275,7 @@ ADMIN_EMAIL=<inbox for contact form + issue reports>
 BASE_URL=http://localhost:5000
 ```
 
-**Seeded Super Admin:** `admindbit195@college.edu` / `admindbit195@` — created by `init_db()` only when zero admin rows exist (`app.py:571-577`). Also hard-coded in `scripts/init_db.py:87`. **Rotate before any real deployment.**
+**Seeded Super Admin:** `admin@alumnihub.local` — created by `init_db()` only when zero admin rows exist (`app.py:571-577`). Configure credentials privately and rotate before any real deployment.
 
 **Gmail note:** `MAIL_PASSWORD` must be a Google **App Password** (16 chars, spaces stripped by `app.py:118-121`), not the account password. Two-factor on the Gmail account is mandatory to generate one.
 
@@ -364,7 +364,7 @@ Worth saying plainly, because it is genuinely strong work for an academic projec
 
 ```
 START        python app.py                    → http://127.0.0.1:5000
-ADMIN        admindbit195@college.edu / admindbit195@
+ADMIN        admin@alumnihub.local (set password privately)
 DB           data/college_pro.db   (live)     college_pro.db (root, stale)   data/alumni.db (empty)
 ENTRY        app.py            NOT app.py:__main__ — module level is intentional
 ROUTES       ~100 in app.py  +  4 blueprints

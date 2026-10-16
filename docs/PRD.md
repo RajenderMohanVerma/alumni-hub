@@ -9,7 +9,7 @@
 
 ## 1. Product Overview
 
-Alumni Hub is a web platform that reconnects a college community (built for the DBIT / JIMS alumni community) by bringing **students, alumni, faculty and administrators** into one unified system.
+Alumni Hub is a web platform that reconnects a college community by bringing **students, alumni, faculty and administrators** into one unified system.
 
 The product solves four real problems:
 
@@ -191,7 +191,7 @@ Student ──POST /student/upgrade-to-alumni──► Alumni (role flipped + al
 | FR-D1 | Dashboard with role counts + 5-year registration chart | `app.py:1608`, `services/admin_service.py:190`, `:212` |
 | FR-D2 | View/manage users by role | `app.py:1380 admin_view_users()` |
 | FR-D3 | Pending approval queue | `app.py:1398`, `app.py:4706`, `app.py:4723` |
-| FR-D4 | User deletion with cascade + Super Admin protection | `app.py:2963 delete_user()` (protects `admindbit195@college.edu`) |
+| FR-D4 | User deletion with cascade + Super Admin protection | `app.py:2963 delete_user()` (protects the configured Super Admin account) |
 | FR-D5 | Registration log with role filter + search + CSV export | `app.py:170`, `app.py:2654`, `app.py:2708` |
 | FR-D6 | Role-specific user CSV export | `app.py:2770 download_csv()` |
 | FR-D7 | Full SQLite database download | `app.py:2905 download_database()` |
@@ -392,4 +392,4 @@ Home, About (incl. team section), Services, Events, Contact, FAQ, Privacy Policy
 - **SQLite** limits concurrent writes; WAL mode + 20 s timeout is the mitigation. PostgreSQL is the intended upgrade.
 - **Vercel's serverless filesystem is ephemeral** — the SQLite file and `static/uploads/` will not persist between invocations; `vercel.json` exists but a managed DB is required for real production use.
 - `pywhatkit` drives a real browser for WhatsApp send — requires a desktop session, unsuitable for serverless.
-- Seeded Super Admin: `admindbit195@college.edu` / `admindbit195@` (must be rotated before any real deployment).
+- Seeded Super Admin email: `admin@alumnihub.local`; set a private password and rotate credentials before deployment.

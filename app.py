@@ -591,9 +591,9 @@ def init_db():
 
         # Create Admin if not exists
         if admin_exists == 0:
-            pw = generate_password_hash("admindbit195@")
+            pw = generate_password_hash("AlumniHub195@")
             c.execute("INSERT INTO users (name, email, password, role, phone, is_verified) VALUES (?, ?, ?, ?, ?, ?)",
-                      ("Super Admin", "admindbit195@college.edu", pw, "admin", "0000000000", 1))
+                      ("Super Admin", "admin@alumnihub.local", pw, "admin", "0000000000", 1))
 
         conn.commit()
         print("Database initialized successfully!")
@@ -846,7 +846,7 @@ def contact():
     </div>
     <div style="background: linear-gradient(135deg, #1e3a8a 0%, #0ea5e9 100%); padding: 20px; border-radius: 12px; margin-bottom: 15px; color: white; text-align: center;">
         <p style="margin: 0; font-size: 0.95rem; font-weight: 600;">Contact Information</p>
-        <p style="margin: 10px 0 0 0; font-size: 0.9rem; opacity: 0.95;">📧 alumnihubdbit195@outlook.com | 📞 +91-9876-543-210</p>
+        <p style="margin: 10px 0 0 0; font-size: 0.9rem; opacity: 0.95;">📞 +91-9876-543-210 | Contact us through the Alumni Hub website</p>
     </div>
     <div style="background: #f0f4ff; padding: 15px; border-radius: 8px; text-align: center;">
         <p style="color: #333; margin: 0; line-height: 1.6; font-size: 0.95rem;">
@@ -3059,7 +3059,7 @@ def delete_user(user_id):
             return jsonify({'error': 'User not found'}), 404
 
         # PROTECTION: Prevent deletion of super admin account
-        if user['email'] == 'admindbit195@college.edu':
+        if user['email'] == 'admin@alumnihub.local':
             conn.close()
             return jsonify({'error': 'Cannot delete the Super Admin account. This account is protected.'}), 403
 
@@ -4862,7 +4862,7 @@ def periodic_profile_reminder():
                 name = user['name']
                 email = user['email']
                 
-                subject = "Reminder: Keep Your DBIT Alumni Profile Shine!"
+                subject = "Reminder: Keep Your Alumni Hub Profile Updated!"
                 html_content = f"""
                 <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background-color: #ffffff; border: 1px solid #f0f0f0; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                     <div style="text-align: center; margin-bottom: 25px;">
