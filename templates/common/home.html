@@ -586,58 +586,38 @@
         </div>
     </section>
 
-    <!-- Stats Section (Premium Glass) -->
-    <section class="stats-section py-5">
-        <div class="container py-5">
-            <div class="text-center mb-5 reveal-text">
-                <div class="section-tag mb-3">
-                    <span class="tag-label text-white fw-bold" style="letter-spacing: 2px;">GLOBAL IMPACT</span>
+    <!-- Community snapshot -->
+    <section class="stats-section community-stats-section" aria-labelledby="communityStatsTitle">
+        <div class="container community-stats-container">
+            <div class="community-stats-heading reveal-fade">
+                <div>
+                    <div class="community-stats-kicker"><span></span> THE ALUMNI HUB NETWORK</div>
+                    <h2 id="communityStatsTitle">Our community,<br><em>in numbers.</em></h2>
                 </div>
-                <h2 class="display-4 fw-bold mb-3 text-white">Our Community by <span
-                        class="text-holographic">Numbers</span></h2>
+                <p>A shared network for reconnecting, learning and finding the next opportunity.</p>
             </div>
 
-            <div class="row g-4 justify-content-center">
-                <div class="col-lg-3 col-md-6 reveal-fade">
-                    <div class="card premium-stat-card tilt-element">
-                        <div class="stat-icon-premium display-4 mb-3">👥</div>
-                        <div class="stat-number display-5 fw-bold mb-2 counter" data-target="15000">15K+</div>
-                        <p class="mb-0 fw-bold op-8">Active Alumni</p>
-                        <div class="stat-bar-premium mt-3">
-                            <div class="stat-progress-premium" style="width: 95%;"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.1s;">
-                    <div class="card premium-stat-card tilt-element">
-                        <div class="stat-icon-premium display-4 mb-3">🎓</div>
-                        <div class="stat-number display-5 fw-bold mb-2 counter" data-target="5000">5K+</div>
-                        <p class="mb-0 fw-bold op-8">Current Students</p>
-                        <div class="stat-bar-premium mt-3">
-                            <div class="stat-progress-premium" style="width: 85%;"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.2s;">
-                    <div class="card premium-stat-card tilt-element">
-                        <div class="stat-icon-premium display-4 mb-3">🌍</div>
-                        <div class="stat-number display-5 fw-bold mb-2 counter" data-target="50">50+</div>
-                        <p class="mb-0 fw-bold op-8">Countries</p>
-                        <div class="stat-bar-premium mt-3">
-                            <div class="stat-progress-premium" style="width: 90%;"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.3s;">
-                    <div class="card premium-stat-card tilt-element">
-                        <div class="stat-icon-premium display-4 mb-3">💼</div>
-                        <div class="stat-number display-5 fw-bold mb-2 counter" data-target="1000">1000+</div>
-                        <p class="mb-0 fw-bold op-8">Job Opportunities</p>
-                        <div class="stat-bar-premium mt-3">
-                            <div class="stat-progress-premium" style="width: 98%;"></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="community-metrics-grid">
+                <article class="community-metric-card" aria-label="15 thousand plus active alumni">
+                    <div class="community-metric-icon"><i class="fas fa-user-group" aria-hidden="true"></i></div>
+                    <div class="community-metric-value counter">15K+</div>
+                    <p>Active alumni</p>
+                </article>
+                <article class="community-metric-card" aria-label="5 thousand plus current students">
+                    <div class="community-metric-icon"><i class="fas fa-graduation-cap" aria-hidden="true"></i></div>
+                    <div class="community-metric-value counter">5K+</div>
+                    <p>Current students</p>
+                </article>
+                <article class="community-metric-card" aria-label="Community members in 50 plus countries">
+                    <div class="community-metric-icon"><i class="fas fa-globe" aria-hidden="true"></i></div>
+                    <div class="community-metric-value counter">50+</div>
+                    <p>Countries reached</p>
+                </article>
+                <article class="community-metric-card" aria-label="More than 1000 job opportunities">
+                    <div class="community-metric-icon"><i class="fas fa-briefcase" aria-hidden="true"></i></div>
+                    <div class="community-metric-value counter">1,000+</div>
+                    <p>Job opportunities</p>
+                </article>
             </div>
         </div>
     </section>
@@ -687,84 +667,32 @@
             });
         });
 
-        // ===== STAT CARD COUNTER ANIMATION =====
-        const statCards = document.querySelectorAll('.stat-card');
-        const observerOptions = {
-            threshold: 0.5
-        };
-
-        const observer = new IntersectionObserver(function (entries) {
+        // Animate each metric once when it first enters view.
+        const statCards = document.querySelectorAll('.community-metric-card');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
-                    const statNumber = entry.target.querySelector('.stat-number');
-                    const statIcon = entry.target.querySelector('.stat-icon');
-                    const statBar = entry.target.querySelector('.stat-bar');
-
-                    if (statNumber) {
-                        const text = statNumber.textContent;
-                        const number = parseInt(text.replace(/[^0-9]/g, ''));
-                        const suffix = text.replace(/[0-9]/g, '');
-
-                        let current = 0;
-                        const increment = number / 60;
-
-                        // Number counter animation
-                        const interval = setInterval(() => {
-                            current += increment;
-                            if (current >= number) {
-                                statNumber.textContent = number + suffix;
-                                clearInterval(interval);
-                            } else {
-                                statNumber.textContent = Math.floor(current) + suffix;
-                            }
-                        }, 30);
-
-                        // Icon bounce animation
-                        if (statIcon) {
-                            statIcon.style.animation = 'iconBounce 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite';
-                        }
-
-                        // Progress bar animation
-                        if (statBar) {
-                            const progressBar = statBar.querySelector('.stat-progress');
-                            if (progressBar) {
-                                progressBar.style.animation = 'progressLoad 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-                            }
-                        }
-                    }
-                    entry.target.classList.add('counted');
+                if (!entry.isIntersecting || entry.target.classList.contains('counted')) return;
+                const statNumber = entry.target.querySelector('.community-metric-value');
+                if (statNumber && !prefersReducedMotion) {
+                    const text = statNumber.textContent.trim();
+                    const number = parseInt(text.replace(/[^0-9]/g, ''), 10);
+                    const suffix = text.replace(/[0-9,]/g, '');
+                    let current = 0;
+                    const increment = number / 60;
+                    const formatter = new Intl.NumberFormat('en-US');
+                    const interval = setInterval(() => {
+                        current += increment;
+                        const value = Math.min(Math.floor(current), number);
+                        statNumber.textContent = formatter.format(value) + suffix;
+                        if (current >= number) clearInterval(interval);
+                    }, 30);
                 }
+                entry.target.classList.add('counted');
+                observer.unobserve(entry.target);
             });
-        }, observerOptions);
-
+        }, { threshold: 0.35 });
         statCards.forEach(card => observer.observe(card));
-
-        // ===== STAT CARD HOVER 3D PARALLAX WITH GLOW =====
-        statCards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                const rotateX = (y - centerY) / 8;
-                const rotateY = (centerX - x) / 8;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.08) translateY(-20px)`;
-
-                // Add glow effect following mouse
-                const glowX = (x / rect.width) * 100;
-                const glowY = (y / rect.height) * 100;
-                card.style.background = `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(255,255,255,0.35) 0%, linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.2) 100%))`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1) translateY(0)';
-                card.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)';
-            });
-        });
 
         // ===== CTA BUTTON ENHANCED INTERACTION =====
         const ctaButtons = document.querySelectorAll('.cta-section .btn');
@@ -803,22 +731,6 @@
                 setTimeout(() => ripple.remove(), 600);
             });
         });
-
-        // ===== STAT SECTION GLOW EFFECT ON SCROLL =====
-        const statsSection = document.querySelector('.stats-section');
-        const statHeader = statsSection ? statsSection.querySelector('.section-header') : null;
-
-        if (statsSection) {
-            window.addEventListener('scroll', () => {
-                const rect = statsSection.getBoundingClientRect();
-                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-
-                if (isVisible) {
-                    const scrollPercent = (window.innerHeight - rect.top) / window.innerHeight;
-                    statsSection.style.filter = `brightness(${0.8 + scrollPercent * 0.2})`;
-                }
-            });
-        }
 
         // ===== FEATURE CARD HOVER PARALLAX =====
         const featureCards = document.querySelectorAll('.feature-card');

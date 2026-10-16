@@ -15,6 +15,8 @@ roughly a hundred places. Wrapping here keeps all of that code unchanged.
 
 import os
 import sqlite3
+from collections.abc import Mapping
+from datetime import date, datetime
 
 from flask import current_app
 
@@ -106,6 +108,21 @@ def _rows_from_description(description, raw_rows):
     return [Row(zip(columns, values)) for values in raw_rows]
 
 
+def _adapt_parameter(value):
+    """Convert stdlib SQLite date/time values to libsql-supported text."""
+    if isinstance(value, datetime):
+        return value.isoformat(sep=' ')
+    if isinstance(value, date):
+        return value.isoformat()
+    return value
+
+
+def _adapt_parameters(parameters):
+    if isinstance(parameters, Mapping):
+        return {key: _adapt_parameter(value) for key, value in parameters.items()}
+    return tuple(_adapt_parameter(value) for value in parameters)
+
+
 class TursoCursor:
     """
     Wraps a libsql Cursor and restores sqlite3 semantics.
@@ -138,7 +155,7 @@ class TursoCursor:
             if parameters is None:
                 self._cursor.execute(sql)
             else:
-                self._cursor.execute(sql, parameters)
+                self._cursor.execute(sql, _adapt_parameters(parameters))
         except Exception as exc:
             raise translate_db_error(exc) from exc
 
@@ -151,7 +168,8 @@ class TursoCursor:
     def executemany(self, sql, seq_of_parameters):
         self._cursor = self._connection.cursor()
         try:
-            self._cursor.executemany(sql, seq_of_parameters)
+            adapted_parameters = [_adapt_parameters(parameters) for parameters in seq_of_parameters]
+            self._cursor.executemany(sql, adapted_parameters)
         except Exception as exc:
             raise translate_db_error(exc) from exc
         self._description = self._cursor.description
@@ -254,7 +272,7 @@ class TursoConnection:
         return cursor
 
     def executemany(self, sql, seq_of_parameters):
-        return self._connection.executemany(sql, seq_of_parameters)
+        return self.cursor().executemany(sql, seq_of_parameters)
 
     def executescript(self, sql_script):
         return self._connection.executescript(sql_script)

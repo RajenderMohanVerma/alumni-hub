@@ -1,43 +1,62 @@
+"""Send a safe SMTP configuration test to the configured sender or recipient."""
 
 import os
-from flask import Flask
-from flask_mail import Mail, Message
+import smtplib
+import ssl
+import sys
+from email.message import EmailMessage
+from pathlib import Path
+
 from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(PROJECT_ROOT / '.env')
 
-app = Flask(__name__)
-app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
-app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
-app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
+host = os.getenv('MAIL_SERVER', 'smtp.gmail.com').strip()
+port = int(os.getenv('MAIL_PORT', '587'))
+username = os.getenv('MAIL_USERNAME', '').strip()
+password = ''.join(os.getenv('MAIL_PASSWORD', '').split())
+recipient = os.getenv('MAIL_TEST_RECIPIENT', username).strip()
+use_tls = os.getenv('MAIL_USE_TLS', 'true').strip().lower() in ('1', 'true', 'yes', 'on')
+use_ssl = os.getenv('MAIL_USE_SSL', 'false').strip().lower() in ('1', 'true', 'yes', 'on')
+placeholders = {
+    'paste-your-gmail-address',
+    'paste-your-16-char-app-password',
+    'your.address@gmail.com',
+    'your-16-char-google-app-password',
+}
 
-mail = Mail(app)
+if (not username or not password or not recipient
+        or username.lower() in placeholders
+        or password.lower() in placeholders
+        or username.lower().startswith('paste-your-')
+        or password.lower().startswith('paste-your-')):
+    print('Email is not configured. Set MAIL_USERNAME and MAIL_PASSWORD in .env first.')
+    sys.exit(1)
 
-print(f"Mail Server: {app.config['MAIL_SERVER']}")
-print(f"Mail Port: {app.config['MAIL_PORT']}")
-print(f"Mail Username: {app.config['MAIL_USERNAME']}")
-print(f"Mail Password Set: {'Yes' if app.config['MAIL_PASSWORD'] else 'No'}")
+message = EmailMessage()
+message['Subject'] = 'Alumni Hub SMTP configuration test'
+message['From'] = f'ALUMNI HUB <{username}>'
+message['To'] = recipient
+message.set_content('SMTP configuration is working for Alumni Hub.')
 
-with app.app_context():
-    try:
-        msg = Message(
-            subject='Test Email from Alumni Hub Debugger',
-            recipients=[app.config['MAIL_USERNAME']], # Send to self
-            body='This is a test email to verify SMTP configuration.'
-        )
-        print("Attempting to send email...")
-        mail.send(msg)
-        print("Email sent successfully!")
-    except Exception as e:
-        with open('email_test.log', 'w') as f:
-            f.write(f"Mail Server: {app.config['MAIL_SERVER']}\n")
-            f.write(f"Mail Port: {app.config['MAIL_PORT']}\n")
-            f.write(f"Mail Username: {app.config['MAIL_USERNAME']}\n")
-            f.write(f"Error: {e}\n")
-            import traceback
-            traceback.print_exc(file=f)
-        print(f"Failed to send email. Error: {e}")
+try:
+    if use_ssl:
+        smtp = smtplib.SMTP_SSL(host, port, timeout=15, context=ssl.create_default_context())
+    else:
+        smtp = smtplib.SMTP(host, port, timeout=15)
+
+    with smtp as server:
+        if use_tls and not use_ssl:
+            server.ehlo()
+            server.starttls(context=ssl.create_default_context())
+            server.ehlo()
+        server.login(username, password)
+        server.send_message(message)
+    print('SMTP test email sent successfully.')
+except smtplib.SMTPAuthenticationError:
+    print('SMTP rejected the credentials. Check MAIL_USERNAME and the Gmail App Password.')
+    sys.exit(1)
+except (smtplib.SMTPException, OSError, TimeoutError):
+    print('SMTP delivery failed. Check the SMTP host, port, TLS settings, and network.')
+    sys.exit(1)

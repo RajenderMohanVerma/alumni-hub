@@ -44,12 +44,11 @@ env = os.getenv('FLASK_ENV', 'development')
 app.config.from_object(config[env])
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
 app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
-app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'alumnihub26@gmail.com')
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'jxrp rghf qcow xfne')
-# Set sender name as "Alumni Hub" with email
-app.config['MAIL_DEFAULT_SENDER'] = ('ALUMNI HUB', os.getenv('MAIL_USERNAME', 'alumnihub26@gmail.com'))
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'true').strip().lower() in ('1', 'true', 'yes', 'on')
+app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL', 'false').strip().lower() in ('1', 'true', 'yes', 'on')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', '').strip()
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', '').strip()
+app.config['MAIL_DEFAULT_SENDER'] = ('ALUMNI HUB', app.config['MAIL_USERNAME'])
 
 # Initialize SocketIO for real-time messaging
 socketio = SocketIO(app, cors_allowed_origins="*", ping_timeout=60, ping_interval=25, async_mode='threading')
@@ -118,70 +117,62 @@ def get_initials(name):
     return name[0].upper()
 
 def send_email(to_email, subject, html_content):
-    """
-    Reliable email sending function with proper error handling
-    Returns: (bool success, str message)
-    """
+    """Send an HTML email using the configured SMTP account."""
+    import smtplib
+    import ssl
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+
+    sender_email = app.config.get('MAIL_USERNAME', '').strip()
+    # Gmail displays App Passwords in groups separated by spaces; SMTP expects
+    # the same password without visual separators.
+    sender_password = ''.join(app.config.get('MAIL_PASSWORD', '').split())
+    placeholder_values = {'your.address@gmail.com', 'your-16-char-google-app-password'}
+    if (not sender_email or not sender_password
+            or sender_email.lower().startswith('paste-your-')
+            or sender_password.lower().startswith('paste-your-')
+            or sender_email.lower() in placeholder_values
+            or sender_password.lower() in placeholder_values):
+        return False, 'Email is not configured. Set MAIL_USERNAME and MAIL_PASSWORD in the local .env file.'
+
     try:
-        import smtplib
-        from email.mime.text import MIMEText
-        from email.mime.multipart import MIMEMultipart
-        
-        sender_email = app.config['MAIL_USERNAME']
-        sender_password = app.config['MAIL_PASSWORD']
-        
-        # Remove quotes from password if present
-        if sender_password.startswith('"') and sender_password.endswith('"'):
-            sender_password = sender_password[1:-1]
-        if sender_password.startswith("'") and sender_password.endswith("'"):
-            sender_password = sender_password[1:-1]
-        
-        print(f"\n🔧 Email Debug:")
-        print(f"  From: {sender_email}")
-        print(f"  To: {to_email}")
-        print(f"  Subject: {subject}")
-        print(f"  Server: {app.config['MAIL_SERVER']}:{app.config['MAIL_PORT']}")
-        
-        # Create message
+        server_host = app.config.get('MAIL_SERVER', 'smtp.gmail.com')
+        server_port = int(app.config.get('MAIL_PORT', 587))
+        use_ssl = bool(app.config.get('MAIL_USE_SSL'))
+        use_tls = bool(app.config.get('MAIL_USE_TLS')) and not use_ssl
+
         msg = MIMEMultipart('alternative')
         msg['Subject'] = subject
-        msg['From'] = f'ALUMNI HUB <{app.config["MAIL_USERNAME"]}>'
+        msg['From'] = f'ALUMNI HUB <{sender_email}>'
         msg['To'] = to_email
-        
-        # Attach HTML
         part = MIMEText(html_content, 'html')
         msg.attach(part)
-        
-        # Send via SMTP
-        print(f"  📤 Connecting to SMTP server...")
-        with smtplib.SMTP(app.config['MAIL_SERVER'], app.config['MAIL_PORT'], timeout=10) as server:
-            server.starttls()
-            print(f"  ✓ TLS connection established")
-            
+
+        if use_ssl:
+            smtp = smtplib.SMTP_SSL(
+                server_host, server_port, timeout=15,
+                context=ssl.create_default_context()
+            )
+        else:
+            smtp = smtplib.SMTP(server_host, server_port, timeout=15)
+
+        with smtp as server:
+            if use_tls:
+                server.ehlo()
+                server.starttls(context=ssl.create_default_context())
+                server.ehlo()
             server.login(sender_email, sender_password)
-            print(f"  ✓ Authentication successful")
-            
             server.send_message(msg)
-            print(f"  ✓ Email sent successfully to {to_email}\n")
-            
         return True, "Email sent successfully"
-        
-    except smtplib.SMTPAuthenticationError as e:
-        error_msg = f"Email authentication failed. Please check MAIL_USERNAME and MAIL_PASSWORD in .env file. Error: {str(e)}"
-        print(f"  ❌ {error_msg}\n")
-        return False, error_msg
-        
-    except smtplib.SMTPException as e:
-        error_msg = f"SMTP error while sending email: {str(e)}"
-        print(f"  ❌ {error_msg}\n")
-        return False, error_msg
-        
-    except Exception as e:
-        error_msg = f"Error sending email: {str(e)}"
-        print(f"  ❌ {error_msg}\n")
-        import traceback
-        traceback.print_exc()
-        return False, error_msg
+    except smtplib.SMTPAuthenticationError:
+        logger.warning('SMTP rejected the configured mail credentials')
+        return False, 'Email authentication failed. Check the Gmail address and App Password in .env.'
+    except (smtplib.SMTPException, OSError, TimeoutError):
+        logger.exception('SMTP delivery failed')
+        return False, 'Could not connect to the email service. Check SMTP settings and network access.'
+    except Exception:
+        logger.exception('Unexpected error while sending email')
+        return False, 'Email delivery failed due to an unexpected server error.'
 
 def log_registration(conn, user_id, name, email, phone, role, enrollment_no=None,
                     employee_id=None, department=None, degree=None, pass_year=None,
@@ -1101,10 +1092,24 @@ def register():
                 flash(f'✓ Verification code sent to {email}. Please check your email and enter the OTP.', 'success')
                 return redirect(url_for('verify_otp', email=email))
             else:
-                # Still redirect even if email fails (for testing)
-                logger.warning(f'Email failed for {email}: {email_message}. OTP: {otp}')
-                flash('⚠ Verification code could not be emailed. Please contact admin or try again.', 'warning')
-                return redirect(url_for('verify_otp', email=email))
+                # Do not leave a pending account whose verification code was
+                # never delivered; the user can retry after SMTP is configured.
+                conn.execute('DELETE FROM temp_users WHERE email = ?', (email,))
+                conn.commit()
+                logger.warning('Registration verification email was not sent: %s', email_message)
+                if 'not configured' in email_message.lower():
+                    flash(
+                        'Email is not configured. Add your Gmail address and Google App Password to '
+                        'MAIL_USERNAME and MAIL_PASSWORD in .env, restart the app, then register again.',
+                        'danger'
+                    )
+                else:
+                    flash(
+                        'We could not send your verification email. Check the Gmail App Password and SMTP settings, '
+                        'then register again.',
+                        'danger'
+                    )
+                return render_template('auth/register.html', role=role, form_data=request.form)
 
         except Exception as e:
             print(f"Registration error: {e}")
@@ -1302,8 +1307,15 @@ def resend_otp():
             if email_sent:
                 flash('✓ Verification code resent successfully!', 'success')
             else:
-                logger.warning(f'Resend email failed for {email}: {msg_text}. OTP: {new_otp}')
-                flash('⚠ Could not send OTP email. Please contact admin or try again.', 'warning')
+                conn.execute('DELETE FROM temp_users WHERE email = ?', (email,))
+                conn.commit()
+                logger.warning('Resend verification email was not sent: %s', msg_text)
+                flash(
+                    'Email is not configured or SMTP delivery failed. Add/check MAIL_USERNAME and MAIL_PASSWORD '
+                    'in .env, restart the app, then register again.',
+                    'danger'
+                )
+                return redirect(url_for('register', role=temp_user['role']))
             
             return render_template('auth/verify_otp.html', email=email)
         else:

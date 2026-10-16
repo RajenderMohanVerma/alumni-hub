@@ -15,6 +15,7 @@ import os
 import sqlite3
 import sys
 import tempfile
+from datetime import date, datetime
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -155,6 +156,12 @@ tconn.commit()
 print("\n7. TURSO SHIM — parameterised queries")
 cur.execute("SELECT name FROM t WHERE name = ?", ("Neha",))
 check("? placeholders bind correctly", cur.fetchone()["name"] == "Neha")
+timestamp = datetime(2026, 10, 16, 18, 23, 26, 191919)
+cur.execute("SELECT ? AS expires_at", (timestamp,))
+expiry_value = cur.fetchone()["expires_at"]
+check("datetime parameters bind as ISO text", expiry_value == timestamp.isoformat(sep=" "), expiry_value)
+cur.execute("SELECT ? AS created_on", (date(2026, 10, 16),))
+check("date parameters bind as ISO text", cur.fetchone()["created_on"] == "2026-10-16")
 cur.execute("SELECT COUNT(*) AS cnt FROM t")
 check("aggregate alias accessible", isinstance(cur.fetchone()["cnt"], int))
 
