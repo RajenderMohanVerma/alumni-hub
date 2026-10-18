@@ -223,7 +223,7 @@
 <style>
     :root {
         --glass-bg: rgba(255, 255, 255, 0.03);
-        --glass-border: rgba(255, 255, 255, 0.1);
+        --glass-border: #e1e7ed;
         --accent-primary: #6366f1;
         --accent-warning: #f59e0b;
         --accent-emerald: #10b981;
@@ -231,12 +231,12 @@
 
     .profile-redesign-wrapper {
         position: relative;
-        background: var(--bg-primary, #060a16);
+        background: #f8fafc;
         min-height: 100vh;
         overflow-x: hidden;
         padding-top: 100px;
         font-family: 'Plus Jakarta Sans', sans-serif;
-        color: var(--text-primary, #ffffff);
+        color: #0f172a;
     }
 
     /* Light Theme Compatibility */
@@ -424,7 +424,7 @@
 
     .avatar-initials-premium {
         background: var(--accent-warning);
-        color: white;
+        color: #0f172a;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -454,7 +454,7 @@
     /* ACTION BUTTONS */
     .btn-premium-gradient {
         background: linear-gradient(135deg, var(--accent-primary) 0%, #8b5cf6 100%);
-        color: white;
+        color: #0f172a;
         border: none;
         border-radius: 15px;
         font-weight: 700;
@@ -464,7 +464,7 @@
     .btn-premium-gradient:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
-        color: white;
+        color: #0f172a;
     }
 
     .action-btn-glass {
@@ -511,17 +511,17 @@
 
     .bg-whatsapp-soft {
         background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-        color: white;
+        color: #0f172a;
     }
 
     .bg-primary-soft {
         background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-        color: white;
+        color: #0f172a;
     }
 
     .bg-google-soft {
         background: linear-gradient(135deg, #EA4335 0%, #c53030 100%);
-        color: white;
+        color: #0f172a;
     }
 
     .icon-wrap {
@@ -561,13 +561,13 @@
         right: -20px;
         font-size: 10rem;
         opacity: 0.03;
-        color: white;
+        color: #0f172a;
         transform: rotate(-15deg);
     }
 
     .spec-tag-3d {
         background: rgba(255, 255, 255, 0.08);
-        color: white;
+        color: #0f172a;
         padding: 8px 18px;
         border-radius: 10px;
         font-size: 0.9rem;
@@ -716,7 +716,7 @@
 
     function showFloatingToast(msg, type) {
         const toast = document.createElement('div');
-        toast.style.cssText = `position: fixed; bottom: 30px; right: 30px; background: ${type === 'success' ? '#10b981' : '#ef4444'}; color: white; padding: 15px 30px; border-radius: 15px; z-index: 10000; box-shadow: 0 10px 20px rgba(0,0,0,0.3); font-weight: bold; animation: slideIn 0.5s forwards;`;
+        toast.style.cssText = `position: fixed; bottom: 30px; right: 30px; background: ${type === 'success' ? '#10b981' : '#ef4444'}; color: #0f172a; padding: 15px 30px; border-radius: 15px; z-index: 10000; box-shadow: 0 10px 20px rgba(0,0,0,0.3); font-weight: bold; animation: slideIn 0.5s forwards;`;
         toast.innerHTML = (type === 'success' ? '✓ ' : '✕ ') + msg;
         document.body.appendChild(toast);
         setTimeout(() => { toast.style.animation = 'slideOut 0.5s forwards'; setTimeout(() => toast.remove(), 500); }, 3000);

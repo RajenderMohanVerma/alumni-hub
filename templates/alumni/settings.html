@@ -21,10 +21,7 @@
         <div class="col-lg-3">
             <div class="home-card p-3 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
                 <div class="nav flex-column nav-pills gap-1" id="v-pills-tab" role="tablist">
-                    <button class="nav-link active text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-theme-tab" data-bs-toggle="pill" data-bs-target="#v-pills-theme" type="button" role="tab">
-                        <i class="fas fa-palette me-2"></i> Appearance &amp; Theme
-                    </button>
-                    <button class="nav-link text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab">
+                    <button class="nav-link active text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab">
                         <i class="fas fa-user-circle me-2"></i> Profile Info
                     </button>
                     <button class="nav-link text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-account-tab" data-bs-toggle="pill" data-bs-target="#v-pills-account" type="button" role="tab">
@@ -45,45 +42,8 @@
             <div class="home-card p-4 p-md-5 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
                 <div class="tab-content" id="v-pills-tabContent">
 
-                    <!-- Appearance & Theme Settings -->
-                    <div class="tab-pane fade show active" id="v-pills-theme" role="tabpanel">
-                        <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
-                            <div class="icon-chip" style="width: 44px; height: 44px; background: var(--accent-purple-subtle); color: var(--accent-purple); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
-                                <i class="fas fa-moon"></i>
-                            </div>
-                            <div>
-                                <h4 class="fw-bold mb-0" style="color: var(--text-primary);">Theme &amp; Visual Modes</h4>
-                                <p class="text-muted small mb-0">Select your preferred viewing mode with real-time preview</p>
-                            </div>
-                        </div>
-
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-4">
-                                <div class="p-4 rounded-3 text-center transition-all" id="lightThemeCard" style="background: #ffffff; border: 2px solid var(--border-color); cursor: pointer; color: #0f172a;" onclick="setAppTheme('light')">
-                                    <i class="fas fa-sun fa-2x mb-3 text-warning"></i>
-                                    <h6 class="fw-bold mb-1">Light Mode</h6>
-                                    <small class="text-muted">Crisp &amp; clean daylight view</small>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="p-4 rounded-3 text-center transition-all" id="darkThemeCard" style="background: #121927; border: 2px solid var(--border-color); cursor: pointer; color: #f8fafc;" onclick="setAppTheme('dark')">
-                                    <i class="fas fa-moon fa-2x mb-3 text-info"></i>
-                                    <h6 class="fw-bold mb-1">Dark Mode</h6>
-                                    <small class="text-muted">Gentle on eyes, high contrast</small>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="p-4 rounded-3 text-center transition-all" id="autoThemeCard" style="background: var(--bg-subtle); border: 2px solid var(--border-color); cursor: pointer; color: var(--text-primary);" onclick="setAppTheme('auto')">
-                                    <i class="fas fa-desktop fa-2x mb-3 text-primary"></i>
-                                    <h6 class="fw-bold mb-1">System Match</h6>
-                                    <small class="text-muted">Auto syncs with your OS</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Profile Settings -->
-                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel">
+                    <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel">
                         <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
                             <div class="icon-chip" style="width: 44px; height: 44px; background: var(--accent-blue-subtle); color: var(--accent-blue); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
                                 <i class="fas fa-user-gear"></i>
@@ -229,16 +189,5 @@
     </div>
 </div>
 
-<script>
-function setAppTheme(mode) {
-    if (mode === 'auto') {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-        localStorage.setItem('alumni_hub_theme', 'auto');
-    } else {
-        document.documentElement.setAttribute('data-theme', mode);
-        localStorage.setItem('alumni_hub_theme', mode);
-    }
-}
-</script>
+
 {% endblock %}

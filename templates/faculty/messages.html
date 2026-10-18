@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}Faculty Messages & Advisory - Alumni Hub{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="margin-top: 80px; min-height: 85vh;">
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+        <div>
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Faculty Advisory &amp; Communications</span>
+            </div>
+            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Faculty Messaging Hub</h1>
+            <p class="text-muted small mb-0">Direct dialogue with mentored students, alumni industry collaborators, and department colleagues</p>
+        </div>
+        <div class="mt-3 mt-md-0 d-flex gap-2">
+            <button type="button" class="btn btn-primary rounded-pill px-3 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('Compose new broadcast or direct message');">
+                <i class="fas fa-pen-to-square me-1"></i> New Advisory Message
+            </button>
+        </div>
+    </div>
+
+    <div class="row g-4" style="min-height: 720px;">
+        <!-- Conversations Sidebar -->
+        <div class="col-lg-4 col-xl-4">
+            <div class="home-card p-3 h-100 shadow-sm d-flex flex-column" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <!-- Search bar -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent" style="border-color: var(--border-color); color: var(--text-muted);"><i class="fas fa-search"></i></span>
+                        <input type="text" id="facultyChatSearch" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Search students, alumni, staff...">
+                    </div>
+                </div>
+
+                <!-- Role Filter Tabs -->
+                <div class="d-flex gap-1 mb-3 p-1 rounded-pill" style="background: var(--bg-primary); border: 1px solid var(--border-color);">
+                    <button type="button" class="btn btn-sm flex-fill rounded-pill py-1 px-2 fw-semibold active-tab-btn" style="font-size: 0.78rem; background: var(--bg-surface); color: var(--accent-blue); border: 1px solid var(--border-color);" onclick="filterThreads('all', this)">All</button>
+                    <button type="button" class="btn btn-sm flex-fill rounded-pill py-1 px-2 fw-semibold text-muted" style="font-size: 0.78rem;" onclick="filterThreads('student', this)">Students</button>
+                    <button type="button" class="btn btn-sm flex-fill rounded-pill py-1 px-2 fw-semibold text-muted" style="font-size: 0.78rem;" onclick="filterThreads('alumni', this)">Alumni</button>
+                    <button type="button" class="btn btn-sm flex-fill rounded-pill py-1 px-2 fw-semibold text-muted" style="font-size: 0.78rem;" onclick="filterThreads('colleague', this)">Faculty</button>
+                </div>
+
+                <!-- Chat Threads List -->
+                <div class="conversation-list flex-grow-1 overflow-auto pe-1" id="facultyThreadList" style="max-height: 580px;">
+                    <!-- Thread 1: Student (Active) -->
+                    <div class="chat-thread-item p-3 mb-2 rounded-3 transition-all active-thread" data-role="student" style="cursor: pointer; background: var(--accent-blue-subtle); border: 1px solid var(--accent-blue);" onclick="selectThread(this, 'Rajender Verma', 'Student &bull; MCA 4th Sem', 'RV', 'Respected Professor, we have completed the database schema and endpoints for the Alumni Portal. Could you please review if we should add indexes on foreign keys?')">
+                        <div class="d-flex align-items-center">
+                            <div class="position-relative me-3">
+                                <div class="avatar-circle d-grid place-items-center fw-bold shadow-sm" style="width: 44px; height: 44px; border-radius: 50%; background: var(--bg-surface); color: var(--accent-blue); border: 2px solid var(--accent-blue); font-size: 0.95rem;">
+                                    RV
+                                </div>
+                                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-2 border-white rounded-circle"></span>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h6 class="mb-0 fw-bold text-truncate" style="color: var(--text-primary); font-size: 0.95rem;">Rajender Verma</h6>
+                                    <small class="text-muted" style="font-size: 0.75rem;">10m</small>
+                                </div>
+                                <p class="text-muted small mb-0 text-truncate" style="font-size: 0.8rem;">Respected Professor, we have completed...</p>
+                            </div>
+                            <span class="badge rounded-pill ms-2" style="background: var(--accent-blue); color: #fff; font-size: 0.72rem;">1</span>
+                        </div>
+                    </div>
+
+                    <!-- Thread 2: Alumni -->
+                    <div class="chat-thread-item p-3 mb-2 rounded-3 transition-all" data-role="alumni" style="cursor: pointer; background: var(--bg-surface); border: 1px solid var(--border-color);" onclick="selectThread(this, 'Anjali Gupta', 'Alumni &bull; VP of Tech @ InnovateHQ', 'AG', 'Delighted to confirm the interactive workshop date for final-year students next week!')">
+                        <div class="d-flex align-items-center">
+                            <div class="position-relative me-3">
+                                <div class="avatar-circle d-grid place-items-center fw-bold shadow-sm" style="width: 44px; height: 44px; border-radius: 50%; background: var(--bg-surface); color: var(--text-primary); border: 2px solid var(--border-color); font-size: 0.95rem;">
+                                    AG
+                                </div>
+                                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-2 border-white rounded-circle"></span>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h6 class="mb-0 fw-bold text-truncate" style="color: var(--text-primary); font-size: 0.95rem;">Anjali Gupta</h6>
+                                    <small class="text-muted" style="font-size: 0.75rem;">2h</small>
+                                </div>
+                                <p class="text-muted small mb-0 text-truncate" style="font-size: 0.8rem;">Delighted to confirm the workshop date...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Thread 3: Colleague -->
+                    <div class="chat-thread-item p-3 mb-2 rounded-3 transition-all" data-role="colleague" style="cursor: pointer; background: var(--bg-surface); border: 1px solid var(--border-color);" onclick="selectThread(this, 'Dr. Sunil Kapoor', 'HOD &bull; Computer Applications', 'SK', 'Agenda for the upcoming curriculum modernization board has been circulated.')">
+                        <div class="d-flex align-items-center">
+                            <div class="position-relative me-3">
+                                <div class="avatar-circle d-grid place-items-center fw-bold shadow-sm" style="width: 44px; height: 44px; border-radius: 50%; background: var(--bg-surface); color: var(--text-primary); border: 2px solid var(--border-color); font-size: 0.95rem;">
+                                    SK
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h6 class="mb-0 fw-bold text-truncate" style="color: var(--text-primary); font-size: 0.95rem;">Dr. Sunil Kapoor</h6>
+                                    <small class="text-muted" style="font-size: 0.75rem;">1d</small>
+                                </div>
+                                <p class="text-muted small mb-0 text-truncate" style="font-size: 0.8rem;">Agenda for curriculum modernization...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Thread 4: Student -->
+                    <div class="chat-thread-item p-3 mb-2 rounded-3 transition-all" data-role="student" style="cursor: pointer; background: var(--bg-surface); border: 1px solid var(--border-color);" onclick="selectThread(this, 'Vikram Singh', 'Student &bull; MCA 2nd Sem', 'VS', 'Thank you for the guidance on Advanced Data Structures assignment.')">
+                        <div class="d-flex align-items-center">
+                            <div class="position-relative me-3">
+                                <div class="avatar-circle d-grid place-items-center fw-bold shadow-sm" style="width: 44px; height: 44px; border-radius: 50%; background: var(--bg-surface); color: var(--text-primary); border: 2px solid var(--border-color); font-size: 0.95rem;">
+                                    VS
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h6 class="mb-0 fw-bold text-truncate" style="color: var(--text-primary); font-size: 0.95rem;">Vikram Singh</h6>
+                                    <small class="text-muted" style="font-size: 0.75rem;">2d</small>
+                                </div>
+                                <p class="text-muted small mb-0 text-truncate" style="font-size: 0.8rem;">Thank you for the guidance on assignment...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Main Window -->
+        <div class="col-lg-8 col-xl-8">
+            <div class="home-card p-0 h-100 shadow-sm d-flex flex-column" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px; overflow: hidden;">
+                <!-- Header -->
+                <div class="p-3 px-4 d-flex justify-content-between align-items-center border-bottom" style="border-color: var(--border-color) !important; background: var(--bg-surface);">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="position-relative">
+                            <div id="activeAvatar" class="avatar-circle d-grid place-items-center fw-bold" style="width: 46px; height: 46px; border-radius: 50%; background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 1.1rem;">
+                                RV
+                            </div>
+                            <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-2 border-white rounded-circle"></span>
+                        </div>
+                        <div>
+                            <h5 id="activeName" class="mb-0 fw-bold" style="color: var(--text-primary);">Rajender Verma</h5>
+                            <small id="activeRole" class="text-muted"><i class="fas fa-graduation-cap me-1"></i> Student &bull; MCA 4th Sem &bull; <span class="text-success fw-semibold">Online</span></small>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" style="border-color: var(--border-color); color: var(--text-secondary);" onclick="alert('Viewing academic profile and project submission records');">
+                            <i class="fas fa-id-card me-1"></i> Academic Record
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Messages Feed -->
+                <div class="flex-grow-1 p-4 overflow-auto" id="chatFeed" style="background: var(--bg-primary); max-height: 480px; min-height: 400px;">
+                    <!-- Incoming Bubble -->
+                    <div class="d-flex mb-3 align-items-end gap-2">
+                        <div class="avatar-circle d-grid place-items-center fw-bold small" style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-color);">
+                            RV
+                        </div>
+                        <div style="max-width: 70%;">
+                            <div class="p-3 rounded-4 shadow-sm" style="background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-color); border-bottom-left-radius: 4px !important;">
+                                <p class="mb-0 small" style="line-height: 1.5;">Respected Professor, we have completed the database schema and endpoints for the Alumni Portal. Could you please review if we should add indexes on foreign keys?</p>
+                            </div>
+                            <small class="text-muted ms-2" style="font-size: 0.72rem;">10:15 AM</small>
+                        </div>
+                    </div>
+
+                    <!-- Outgoing Bubble -->
+                    <div class="d-flex mb-3 align-items-end justify-content-end gap-2">
+                        <div style="max-width: 70%;">
+                            <div class="p-3 rounded-4 shadow-sm" style="background: var(--accent-blue); color: #ffffff; border-bottom-right-radius: 4px !important;">
+                                <p class="mb-0 small" style="line-height: 1.5;">Hello Rajender! Excellent progress. Yes, definitely add indexes on all foreign key columns such as <code>user_id</code> and <code>role</code> to keep query latency low during searches.</p>
+                            </div>
+                            <div class="text-end">
+                                <small class="text-muted me-2" style="font-size: 0.72rem;">10:20 AM &bull; <i class="fas fa-check-double text-primary"></i></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Incoming Bubble 2 -->
+                    <div class="d-flex mb-3 align-items-end gap-2">
+                        <div class="avatar-circle d-grid place-items-center fw-bold small" style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-color);">
+                            RV
+                        </div>
+                        <div style="max-width: 70%;">
+                            <div class="p-3 rounded-4 shadow-sm" style="background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-color); border-bottom-left-radius: 4px !important;">
+                                <p class="mb-0 small" style="line-height: 1.5;">Thank you for the guidance, Professor! We implemented the indexes and all test suites have passed with 100% success.</p>
+                            </div>
+                            <small class="text-muted ms-2" style="font-size: 0.72rem;">10:25 AM</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Field & Actions -->
+                <div class="p-3 border-top" style="border-color: var(--border-color) !important; background: var(--bg-surface);">
+                    <form id="facultyMessageForm" onsubmit="sendFacultyMessage(event);">
+                        <div class="input-group">
+                            <button type="button" class="btn btn-outline-secondary" style="border-color: var(--border-color); color: var(--text-muted);" title="Attach document or reference assignment" onclick="alert('Document upload modal');">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <input type="text" id="facultyMsgInput" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Type academic feedback or advisory response..." autocomplete="off">
+                            <button type="submit" class="btn btn-primary px-4 fw-semibold" style="background: var(--accent-blue); border: none;">
+                                <i class="fas fa-paper-plane me-1"></i> Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function selectThread(element, name, role, initial, msg) {
+    document.querySelectorAll('.chat-thread-item').forEach(item => {
+        item.style.background = 'var(--bg-surface)';
+        item.style.borderColor = 'var(--border-color)';
+    });
+    element.style.background = 'var(--accent-blue-subtle)';
+    element.style.borderColor = 'var(--accent-blue)';
+
+    document.getElementById('activeName').innerText = name;
+    document.getElementById('activeRole').innerHTML = '<i class="fas fa-user-circle me-1"></i> ' + role + ' &bull; <span class="text-success fw-semibold">Online</span>';
+    document.getElementById('activeAvatar').innerText = initial;
+}
+
+function filterThreads(role, btn) {
+    document.querySelectorAll('.active-tab-btn').forEach(b => {
+        b.classList.remove('active-tab-btn');
+        b.style.background = 'transparent';
+        b.style.color = 'var(--text-muted)';
+        b.style.border = 'none';
+    });
+    btn.classList.add('active-tab-btn');
+    btn.style.background = 'var(--bg-surface)';
+    btn.style.color = 'var(--accent-blue)';
+    btn.style.border = '1px solid var(--border-color)';
+
+    const threads = document.querySelectorAll('.chat-thread-item');
+    threads.forEach(t => {
+        if (role === 'all' || t.getAttribute('data-role') === role) {
+            t.style.display = 'block';
+        } else {
+            t.style.display = 'none';
+        }
+    });
+}
+
+function sendFacultyMessage(e) {
+    e.preventDefault();
+    const input = document.getElementById('facultyMsgInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    const feed = document.getElementById('chatFeed');
+    const outBubble = document.createElement('div');
+    outBubble.className = 'd-flex mb-3 align-items-end justify-content-end gap-2';
+    outBubble.innerHTML = `
+        <div style="max-width: 70%;">
+            <div class="p-3 rounded-4 shadow-sm" style="background: var(--accent-blue); color: #ffffff; border-bottom-right-radius: 4px !important;">
+                <p class="mb-0 small" style="line-height: 1.5;">${escapeHtml(msg)}</p>
+            </div>
+            <div class="text-end">
+                <small class="text-muted me-2" style="font-size: 0.72rem;">Just now &bull; <i class="fas fa-check text-primary"></i></small>
+            </div>
+        </div>
+    `;
+    feed.appendChild(outBubble);
+    feed.scrollTop = feed.scrollHeight;
+    input.value = '';
+}
+
+function escapeHtml(text) {
+    const map = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'};
+    return text.replace(/[&<>"']/g, m => map[m]);
+}
+</script>
+{% endblock %}

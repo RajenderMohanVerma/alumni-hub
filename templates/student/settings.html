@@ -61,10 +61,6 @@
                             data-bs-target="#v-pills-privacy" type="button" role="tab">
                             <i class="fas fa-eye-slash me-2"></i> Privacy
                         </button>
-                        <button class="nav-link text-start" id="v-pills-appearance-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-appearance" type="button" role="tab">
-                            <i class="fas fa-palette me-2"></i> Appearance
-                        </button>
                     </div>
                 </div>
             </div>
@@ -272,39 +268,7 @@
                             </form>
                         </div>
 
-                        <!-- Appearance Settings -->
-                        <div class="tab-pane fade" id="v-pills-appearance" role="tabpanel">
-                            <h4 class="fw-bold mb-4 section-title"
-                                style="background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-                                <i class="fas fa-palette me-2"></i> Appearance
-                            </h4>
-                            <div class="mb-4">
-                                <label class="form-label fw-bold">Theme</label>
-                                <div class="theme-selector">
-                                    <div class="theme-option active" data-theme="light">
-                                        <div class="theme-preview light-theme">
-                                            <i class="fas fa-sun"></i>
-                                        </div>
-                                        <span>Light</span>
-                                    </div>
-                                    <div class="theme-option" data-theme="dark">
-                                        <div class="theme-preview dark-theme">
-                                            <i class="fas fa-moon"></i>
-                                        </div>
-                                        <span>Dark</span>
-                                    </div>
-                                    <div class="theme-option" data-theme="auto">
-                                        <div class="theme-preview auto-theme">
-                                            <i class="fas fa-adjust"></i>
-                                        </div>
-                                        <span>Auto</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="alert alert-success">
-                                <i class="fas fa-check-circle me-2"></i> Theme preferences saved automatically
-                            </div>
-                        </div>
+
 
                     </div>
                 </div>
@@ -724,37 +688,7 @@
             });
         }
 
-                // Theme Selector (Synchronized with Global Theme)
-        const currentSavedTheme = localStorage.getItem('alumni_hub_theme') || 'light';
-        document.querySelectorAll('.theme-option').forEach(opt => {
-            if (opt.dataset.theme === currentSavedTheme) {
-                opt.classList.add('active');
-            } else {
-                opt.classList.remove('active');
-            }
-        });
 
-        document.querySelectorAll('.theme-option').forEach(option => {
-            option.addEventListener('click', function () {
-                document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
-                this.classList.add('active');
-
-                const chosen = this.dataset.theme;
-                let active = chosen;
-                if (chosen === 'auto') {
-                    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    active = systemDark ? 'dark' : 'light';
-                }
-                document.documentElement.setAttribute('data-theme', active);
-                if (active === 'dark') {
-                    document.documentElement.classList.add('dark-mode');
-                } else {
-                    document.documentElement.classList.remove('dark-mode');
-                }
-                localStorage.setItem('alumni_hub_theme', active);
-                showToast(Theme changed to , 'success');
-            });
-        });
 
         // Form Submissions
         const forms = ['profileForm', 'securityForm', 'notificationForm', 'privacyForm'];
