@@ -1,40 +1,104 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mb-5" style="margin-top: 120px;">
-    <div class="row">
-        <div class="col-lg-8">
-            <h2 class="mb-4"><i class="fas fa-bell"></i> Notifications</h2>
+<div class="container py-5" style="margin-top: 80px; min-height: 80vh;">
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+        <div>
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
+                <i class="fas fa-bell"></i>
+                <span>Alumni Updates</span>
+            </div>
+            <h2 class="h3 fw-bold mb-1" style="color: var(--text-primary);">Notifications & Community Alerts</h2>
+            <p class="text-muted small mb-0">Stay connected with campus announcements, student mentorship requests, and batch updates</p>
+        </div>
+        <div class="mt-3 mt-md-0 d-flex gap-2">
+            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="location.reload();" style="border-color: var(--border-color); color: var(--text-secondary);">
+                <i class="fas fa-rotate me-1"></i> Refresh
+            </button>
+            <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm" style="background: var(--accent-blue); border: none;">
+                <i class="fas fa-check-double me-1"></i> Mark All Read
+            </button>
+        </div>
+    </div>
 
-            <div class="card shadow-lg border-0" style="border-radius: 15px;">
-                <div class="card-body p-5">
-                    <div class="alert alert-info text-center py-5">
-                        <i class="fas fa-bell-slash" style="font-size: 3rem; opacity: 0.5;"></i>
-                        <p class="mt-3 mb-0">No new notifications. Stay connected!</p>
+    <div class="row g-4">
+        <!-- Main Notifications Feed -->
+        <div class="col-lg-8">
+            <div class="home-card p-4 p-md-5 mb-4 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="text-center py-5">
+                    <div class="icon-chip mx-auto mb-3" style="width: 72px; height: 72px; background: var(--accent-blue-subtle); color: var(--accent-blue); border-radius: 20px; display: grid; place-items: center; font-size: 2rem;">
+                        <i class="fas fa-bell-slash"></i>
                     </div>
+                    <h5 class="fw-bold mb-2" style="color: var(--text-primary);">All Caught Up!</h5>
+                    <p class="text-muted mb-4" style="max-width: 420px; margin: 0 auto; font-size: 0.95rem;">
+                        No pending alerts right now. Whenever students request mentorship or batchmates reach out, your alerts will show up here.
+                    </p>
+                    <a href="{{ url_for('list_jobs') }}" class="btn btn-primary rounded-pill px-4" style="background: var(--accent-blue); border: none;">
+                        <i class="fas fa-plus-circle me-2"></i> Post a Job Opening
+                    </a>
                 </div>
             </div>
         </div>
 
+        <!-- Notification Preferences Sidebar -->
         <div class="col-lg-4">
-            <div class="card shadow-lg border-0" style="border-radius: 15px;">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Notification Settings</h5>
-                </div>
-                <div class="card-body">
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input" type="checkbox" id="emailNotif" checked>
-                        <label class="form-check-label" for="emailNotif">Email Notifications</label>
+            <div class="home-card p-4 shadow-sm mb-4" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
+                    <div class="icon-chip" style="width: 40px; height: 40px; background: var(--accent-green-subtle); color: var(--accent-green); border-radius: 12px; display: grid; place-items: center;">
+                        <i class="fas fa-sliders-h"></i>
                     </div>
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input" type="checkbox" id="eventNotif" checked>
-                        <label class="form-check-label" for="eventNotif">Event Updates</label>
-                    </div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="messageNotif">
-                        <label class="form-check-label" for="messageNotif">Messages</label>
+                    <div>
+                        <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Preferences</h6>
+                        <small class="text-muted">Manage communication</small>
                     </div>
                 </div>
+
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
+                        <div>
+                            <div class="fw-semibold small" style="color: var(--text-primary);">Mentorship Inquiries</div>
+                            <small class="text-muted" style="font-size: 0.75rem;">Student guidance pings</small>
+                        </div>
+                        <div class="form-check form-switch mb-0">
+                            <input class="form-check-input" type="checkbox" id="emailNotif" checked style="cursor: pointer;">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
+                        <div>
+                            <div class="fw-semibold small" style="color: var(--text-primary);">Alumni Reunion &amp; Events</div>
+                            <small class="text-muted" style="font-size: 0.75rem;">Annual meets &amp; mixers</small>
+                        </div>
+                        <div class="form-check form-switch mb-0">
+                            <input class="form-check-input" type="checkbox" id="eventNotif" checked style="cursor: pointer;">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
+                        <div>
+                            <div class="fw-semibold small" style="color: var(--text-primary);">Direct Messages</div>
+                            <small class="text-muted" style="font-size: 0.75rem;">Peer to peer conversations</small>
+                        </div>
+                        <div class="form-check form-switch mb-0">
+                            <input class="form-check-input" type="checkbox" id="messageNotif" checked style="cursor: pointer;">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
+                        <div>
+                            <div class="fw-semibold small" style="color: var(--text-primary);">Candidate Applications</div>
+                            <small class="text-muted" style="font-size: 0.75rem;">Applicants for your posted jobs</small>
+                        </div>
+                        <div class="form-check form-switch mb-0">
+                            <input class="form-check-input" type="checkbox" id="jobNotif" checked style="cursor: pointer;">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline-primary btn-sm w-100 rounded-pill mt-4" style="border-color: var(--accent-blue); color: var(--accent-blue);" onclick="alert('Alumni notification preferences updated!');">
+                    <i class="fas fa-save me-1"></i> Save Preferences
+                </button>
             </div>
         </div>
     </div>

@@ -724,14 +724,35 @@
             });
         }
 
-        // Theme Selector
+                // Theme Selector (Synchronized with Global Theme)
+        const currentSavedTheme = localStorage.getItem('alumni_hub_theme') || 'light';
+        document.querySelectorAll('.theme-option').forEach(opt => {
+            if (opt.dataset.theme === currentSavedTheme) {
+                opt.classList.add('active');
+            } else {
+                opt.classList.remove('active');
+            }
+        });
+
         document.querySelectorAll('.theme-option').forEach(option => {
             option.addEventListener('click', function () {
                 document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
                 this.classList.add('active');
 
-                const theme = this.dataset.theme;
-                showToast(`Theme changed to ${theme}`, 'success');
+                const chosen = this.dataset.theme;
+                let active = chosen;
+                if (chosen === 'auto') {
+                    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    active = systemDark ? 'dark' : 'light';
+                }
+                document.documentElement.setAttribute('data-theme', active);
+                if (active === 'dark') {
+                    document.documentElement.classList.add('dark-mode');
+                } else {
+                    document.documentElement.classList.remove('dark-mode');
+                }
+                localStorage.setItem('alumni_hub_theme', active);
+                showToast(Theme changed to , 'success');
             });
         });
 

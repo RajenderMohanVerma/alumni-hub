@@ -1,279 +1,264 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mb-5" style="margin-top: 120px;">
+<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
+    <!-- Page Header -->
+    <div class="text-center max-w-700 mx-auto mb-5 pb-2">
+        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.85rem; font-weight: 600;">
+            <i class="fas fa-handshake"></i>
+            <span>Annual Reunion Meet</span>
+        </div>
+        <h1 class="display-5 fw-bold mb-3" style="color: var(--text-primary);">Alumni Meet Registration Form</h1>
+        <p class="lead text-muted" style="max-width: 650px; margin: 0 auto; font-size: 1.1rem;">
+            We warmly invite all our graduates to reconnect, mentor current students, and celebrate community achievements.
+        </p>
+    </div>
+
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">Alumni Meet Registration Form</h3>
-                </div>
-                <div class="card-body p-4">
-                    <p class="text-muted mb-4">
-                        We warmly invite all our alumni to register for the upcoming Alumni Meet (January). Please fill
-                        in the following details to help us update our records and plan the event smoothly.
-                    </p>
-
-                    <form method="POST" id="alumniMeetForm">
-                        <!-- Personal Details Section -->
-                        <h5 class="mt-4 mb-3"><strong>Personal Details</strong></h5>
-
-                        <div class="mb-3">
-                            <label for="full_name" class="form-label">Full Name <span
-                                    class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="full_name" name="full_name" required>
+        <div class="col-lg-9">
+            <div class="home-card p-4 p-md-5 shadow-sm accent-blue" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <form method="POST" id="alumniMeetForm">
+                    <!-- Personal Details Section -->
+                    <div class="p-4 rounded-4 mb-4" style="background: var(--bg-subtle); border: 1px solid var(--border-color);">
+                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                            <i class="fas fa-user" style="color: var(--accent-blue);"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Personal Details</h6>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="gender" class="form-label">Gender <span class="text-danger">*</span></label>
-                                <select class="form-select" id="gender" name="gender" required>
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label small fw-semibold text-muted mb-1">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ current_user.name }}">
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="gender" class="form-label small fw-semibold text-muted mb-1">Gender <span class="text-danger">*</span></label>
+                                <select class="form-select" id="gender" name="gender" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                                     <option value="">Select Gender</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="dob" class="form-label">Date of Birth <span
-                                        class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="dob" name="dob" required>
+                            <div class="col-md-6">
+                                <label for="dob" class="form-label small fw-semibold text-muted mb-1">Date of Birth <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="dob" name="dob" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="contact_no" class="form-label">Contact No. <span
-                                        class="text-danger">*</span></label>
-                                <input type="tel" class="form-control" id="contact_no" name="contact_no" required>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="contact_no" class="form-label small fw-semibold text-muted mb-1">Contact No. <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" id="contact_no" name="contact_no" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ current_user.phone or '' }}">
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email Id <span
-                                        class="text-danger">*</span></label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ current_user.email }}" required>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label small fw-semibold text-muted mb-1">Email ID <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ current_user.email }}" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="current_address" class="form-label">Current Address <span
-                                    class="text-danger">*</span></label>
-                            <textarea class="form-control" id="current_address" name="current_address" rows="2"
-                                required></textarea>
+                        <div class="mb-0">
+                            <label for="current_address" class="form-label small fw-semibold text-muted mb-1">Current Residential Address <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="current_address" name="current_address" rows="2" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Academic Details Section -->
+                    <div class="p-4 rounded-4 mb-4" style="background: var(--bg-subtle); border: 1px solid var(--border-color);">
+                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                            <i class="fas fa-graduation-cap" style="color: var(--accent-purple);"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Academic Information (College Records)</h6>
                         </div>
 
-                        <!-- Academic Details Section -->
-                        <h5 class="mt-4 mb-3"><strong>Academic Details (College Details)</strong></h5>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="enrollment_no" class="form-label">Enrollment No. <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="enrollment_no" name="enrollment_no"
-                                    required>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="enrollment_no" class="form-label small fw-semibold text-muted mb-1">Enrollment No. <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="enrollment_no" name="enrollment_no" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="course" class="form-label">Course <span class="text-danger">*</span></label>
-                                <select class="form-select" id="course" name="course" required>
+                            <div class="col-md-6">
+                                <label for="course" class="form-label small fw-semibold text-muted mb-1">Course <span class="text-danger">*</span></label>
+                                <select class="form-select" id="course" name="course" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                                     <option value="">Select Course</option>
                                     <option value="BCA (BTTS)">BCA (BTTS)</option>
+                                    <option value="MCA">MCA</option>
                                     <option value="BBA">BBA</option>
                                     <option value="B.Com">B.Com</option>
-                                    <option value="BCA">BCA</option>
+                                    <option value="B.Tech CS">B.Tech CS</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="passing_year" class="form-label">Year of Passing <span
-                                    class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="passing_year" name="passing_year" min="2000"
-                                max="2030" required>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="passing_year" class="form-label small fw-semibold text-muted mb-1">Year of Passing <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="passing_year" name="passing_year" min="2000" max="2030" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="current_status" class="form-label small fw-semibold text-muted mb-1">Current Status <span class="text-danger">*</span></label>
+                                <select class="form-select" id="current_status" name="current_status" required onchange="toggleSections()" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                    <option value="">Select Status</option>
+                                    <option value="Employed">Employed</option>
+                                    <option value="Self-Employed">Self-Employed / Founder</option>
+                                    <option value="Higher Studies">Higher Studies</option>
+                                    <option value="Preparing for Competitive Exams">Preparing for Competitive Exams</option>
+                                    <option value="Not Working Currently">Not Working Currently</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Details Section (Conditional) -->
+                    <div id="professionalSection" class="p-4 rounded-4 mb-4" style="background: var(--bg-subtle); border: 1px solid var(--border-color); display: none;">
+                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                            <i class="fas fa-briefcase" style="color: var(--accent-green);"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Professional Experience</h6>
                         </div>
 
                         <div class="mb-3">
-                            <label for="current_status" class="form-label">Current Status <span
-                                    class="text-danger">*</span></label>
-                            <select class="form-select" id="current_status" name="current_status" required
-                                onchange="toggleSections()">
-                                <option value="">Select Status</option>
-                                <option value="Employed">Employed</option>
-                                <option value="Self-Employed">Self-Employed</option>
-                                <option value="Higher Studies">Higher Studies</option>
-                                <option value="Preparing for Competitive Exams">Preparing for Competitive Exams</option>
-                                <option value="Not Working Currently">Not Working Currently</option>
-                            </select>
+                            <label for="company_name" class="form-label small fw-semibold text-muted mb-1">Company / Organization</label>
+                            <input type="text" class="form-control" id="company_name" name="company_name" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                         </div>
 
-                        <!-- Professional Details Section -->
-                        <div id="professionalSection" style="display:none;">
-                            <h5 class="mt-4 mb-3"><strong>Professional Details</strong></h5>
-
-                            <div class="mb-3">
-                                <label for="company_name" class="form-label">Company Name</label>
-                                <input type="text" class="form-control" id="company_name" name="company_name">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="designation" class="form-label small fw-semibold text-muted mb-1">Designation</label>
+                                <input type="text" class="form-control" id="designation" name="designation" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="designation" class="form-label">Designation</label>
-                                    <input type="text" class="form-control" id="designation" name="designation">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="work_location" class="form-label">Work Location</label>
-                                    <input type="text" class="form-control" id="work_location" name="work_location">
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="experience_years" class="form-label">Experience (in Years)</label>
-                                <input type="number" class="form-control" id="experience_years" name="experience_years"
-                                    min="0">
+                            <div class="col-md-6">
+                                <label for="work_location" class="form-label small fw-semibold text-muted mb-1">Work Location (City)</label>
+                                <input type="text" class="form-control" id="work_location" name="work_location" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                             </div>
                         </div>
 
-                        <!-- Higher Studies Section -->
-                        <div id="higherStudiesSection" style="display:none;">
-                            <h5 class="mt-4 mb-3"><strong>Higher Studies Details</strong></h5>
-
-                            <div class="mb-3">
-                                <label for="university_name" class="form-label">Name of University/College</label>
-                                <input type="text" class="form-control" id="university_name" name="university_name">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="higher_study_course" class="form-label">Course</label>
-                                <input type="text" class="form-control" id="higher_study_course"
-                                    name="higher_study_course">
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="higher_study_country" class="form-label">Country</label>
-                                    <input type="text" class="form-control" id="higher_study_country"
-                                        name="higher_study_country">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="higher_study_state" class="form-label">State</label>
-                                    <input type="text" class="form-control" id="higher_study_state"
-                                        name="higher_study_state">
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="enrollment_year" class="form-label">Year of Enrollment</label>
-                                <input type="number" class="form-control" id="enrollment_year" name="enrollment_year"
-                                    min="2000" max="2030">
-                            </div>
+                        <div class="mb-0">
+                            <label for="experience_years" class="form-label small fw-semibold text-muted mb-1">Total Experience (in Years)</label>
+                            <input type="number" class="form-control" id="experience_years" name="experience_years" min="0" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                         </div>
+                    </div>
 
-                        <!-- Alumni Contributions Section -->
-                        <h5 class="mt-4 mb-3"><strong>Alumni Contributions</strong></h5>
+                    <!-- Higher Studies Section (Conditional) -->
+                    <div id="higherStudiesSection" class="p-4 rounded-4 mb-4" style="background: var(--bg-subtle); border: 1px solid var(--border-color); display: none;">
+                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                            <i class="fas fa-university" style="color: var(--accent-purple);"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Higher Studies Information</h6>
+                        </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Would you like to contribute to college activities? <span
-                                    class="text-danger">*</span></label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="contribute_to_college"
-                                    id="contribute_yes" value="Yes" onchange="toggleContributions()">
-                                <label class="form-check-label" for="contribute_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="contribute_to_college"
-                                    id="contribute_no" value="No" checked onchange="toggleContributions()">
-                                <label class="form-check-label" for="contribute_no">No</label>
-                            </div>
+                            <label for="university_name" class="form-label small fw-semibold text-muted mb-1">University / Institute Name</label>
+                            <input type="text" class="form-control" id="university_name" name="university_name" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                         </div>
-
-                        <div id="contributionAreasSection" style="display:none;">
-                            <label class="form-label">How would you like to contribute? (Check all that apply)</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="contribution_areas"
-                                    value="Guest Lectures" id="guest_lectures">
-                                <label class="form-check-label" for="guest_lectures">Guest Lectures</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="contribution_areas"
-                                    value="Career Guidance" id="career_guidance">
-                                <label class="form-check-label" for="career_guidance">Career Guidance</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="contribution_areas"
-                                    value="Student Mentorship" id="student_mentorship">
-                                <label class="form-check-label" for="student_mentorship">Student Mentorship</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="contribution_areas"
-                                    value="Internship Opportunities" id="internship_opportunities">
-                                <label class="form-check-label" for="internship_opportunities">Internship
-                                    Opportunities</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="contribution_areas"
-                                    value="Placement Referrals" id="placement_referrals">
-                                <label class="form-check-label" for="placement_referrals">Placement Referrals</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="contribution_areas"
-                                    value="Event Participation" id="event_participation">
-                                <label class="form-check-label" for="event_participation">Event Participation</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="contribution_areas" value="Other"
-                                    id="other">
-                                <label class="form-check-label" for="other">Other</label>
-                            </div>
-                        </div>
-
-                        <!-- Event Confirmation Section -->
-                        <h5 class="mt-4 mb-3"><strong>Event Confirmation</strong></h5>
 
                         <div class="mb-3">
-                            <label class="form-label">Are you attending the Alumni Meet? <span
-                                    class="text-danger">*</span></label>
+                            <label for="higher_study_course" class="form-label small fw-semibold text-muted mb-1">Degree / Course</label>
+                            <input type="text" class="form-control" id="higher_study_course" name="higher_study_course" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="higher_study_country" class="form-label small fw-semibold text-muted mb-1">Country</label>
+                                <input type="text" class="form-control" id="higher_study_country" name="higher_study_country" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="higher_study_state" class="form-label small fw-semibold text-muted mb-1">State / City</label>
+                                <input type="text" class="form-control" id="higher_study_state" name="higher_study_state" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alumni Contributions -->
+                    <div class="p-4 rounded-4 mb-4" style="background: var(--bg-subtle); border: 1px solid var(--border-color);">
+                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                            <i class="fas fa-hands-helping" style="color: var(--accent-amber);"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Giving Back to College Activities</h6>
+                        </div>
+
+                        <label class="form-label small fw-semibold text-muted mb-2">Would you like to contribute to college activities? <span class="text-danger">*</span></label>
+                        <div class="d-flex gap-4 mb-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="attending_meet" id="attending_yes"
-                                    value="Yes" required>
-                                <label class="form-check-label" for="attending_yes">Yes</label>
+                                <input class="form-check-input" type="radio" name="contribute_to_college" id="contribute_yes" value="Yes" onchange="toggleContributions()">
+                                <label class="form-check-label" for="contribute_yes" style="color: var(--text-primary);">Yes, I'd love to</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="attending_meet" id="attending_no"
-                                    value="No" required>
-                                <label class="form-check-label" for="attending_no">No</label>
+                                <input class="form-check-input" type="radio" name="contribute_to_college" id="contribute_no" value="No" checked onchange="toggleContributions()">
+                                <label class="form-check-label" for="contribute_no" style="color: var(--text-primary);">Not right now</label>
                             </div>
                         </div>
 
-                        <div class="alert alert-info mt-3">
-                            <small>By submitting the form, you consent to the use of your details strictly for alumni
-                                communication and event planning. We are planning to organize the Alumni Meet in
-                                January.</small>
+                        <div id="contributionAreasSection" class="p-3 rounded-3" style="display: none; background: var(--bg-surface); border: 1px dashed var(--border-color);">
+                            <label class="form-label small fw-semibold text-muted mb-2">Select Contribution Areas:</label>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="contribution_areas" value="Guest Lectures" id="guest_lectures">
+                                        <label class="form-check-label small" for="guest_lectures" style="color: var(--text-primary);">Guest Lectures &amp; Webinars</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="contribution_areas" value="Career Guidance" id="career_guidance">
+                                        <label class="form-check-label small" for="career_guidance" style="color: var(--text-primary);">Career Guidance</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="contribution_areas" value="Student Mentorship" id="student_mentorship">
+                                        <label class="form-check-label small" for="student_mentorship" style="color: var(--text-primary);">Student Mentorship</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="contribution_areas" value="Placement Referrals" id="placement_referrals">
+                                        <label class="form-check-label small" for="placement_referrals" style="color: var(--text-primary);">Placement Referrals</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="d-grid gap-2 mt-4">
-                            <button type="submit" class="btn btn-primary btn-lg">Submit Registration</button>
-                            <a href="{{ url_for('dashboard_alumni') }}" class="btn btn-secondary">Cancel</a>
+                    <!-- Event Confirmation -->
+                    <div class="p-4 rounded-4 mb-4" style="background: var(--accent-green-subtle); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <label class="form-label fw-bold mb-2" style="color: var(--accent-green);">Are you attending the Annual Alumni Meet? <span class="text-danger">*</span></label>
+                        <div class="d-flex gap-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="attending_meet" id="attending_yes" value="Yes" required checked>
+                                <label class="form-check-label fw-semibold" for="attending_yes" style="color: var(--text-primary);">Yes, I will attend in-person</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="attending_meet" id="attending_no" value="No" required>
+                                <label class="form-check-label fw-semibold" for="attending_no" style="color: var(--text-primary);">No, I cannot attend this time</label>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex flex-column flex-sm-row gap-3 pt-2">
+                        <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 shadow-sm flex-grow-1" style="background: var(--accent-blue); border: none;">
+                            <i class="fas fa-check-circle me-1"></i> Submit Registration
+                        </button>
+                        <a href="{{ url_for('dashboard_alumni') }}" class="btn btn-outline-secondary rounded-pill px-4 py-2" style="border-color: var(--border-color); color: var(--text-secondary);">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    function toggleSections() {
-        const status = document.getElementById('current_status').value;
-        document.getElementById('professionalSection').style.display =
-            (status === 'Employed' || status === 'Self-Employed') ? 'block' : 'none';
-        document.getElementById('higherStudiesSection').style.display =
-            status === 'Higher Studies' ? 'block' : 'none';
-    }
+function toggleSections() {
+    const status = document.getElementById('current_status').value;
+    document.getElementById('professionalSection').style.display =
+        (status === 'Employed' || status === 'Self-Employed') ? 'block' : 'none';
+    document.getElementById('higherStudiesSection').style.display =
+        status === 'Higher Studies' ? 'block' : 'none';
+}
 
-    function toggleContributions() {
-        const contribute = document.getElementById('contribute_yes').checked;
-        document.getElementById('contributionAreasSection').style.display =
-            contribute ? 'block' : 'none';
-    }
+function toggleContributions() {
+    const contribute = document.getElementById('contribute_yes').checked;
+    document.getElementById('contributionAreasSection').style.display =
+        contribute ? 'block' : 'none';
+}
 </script>
 {% endblock %}

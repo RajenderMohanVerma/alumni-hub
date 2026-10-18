@@ -194,15 +194,15 @@
     <div class="container mb-5">
         <div class="row g-4">
             <div class="col-lg-8">
-                <div class="glass-card p-4 h-100" style="background: rgba(255, 255, 255, 0.8);">
-                    <h4 class="fw-bold mb-3 text-dark"><i class="fas fa-chart-pie me-2 text-primary"></i>Alumni
+                <div class="glass-card p-4 h-100" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                    <h4 class="fw-bold mb-3 text-theme-primary"><i class="fas fa-chart-pie me-2 text-primary"></i>Alumni
                         Distribution</h4>
                     <canvas id="alumniChart" style="max-height: 300px;"></canvas>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="glass-card p-4 h-100" style="background: rgba(255, 255, 255, 0.8);">
-                    <h4 class="fw-bold mb-3 text-dark"><i class="fas fa-building me-2 text-success"></i>Top Recruiters
+                <div class="glass-card p-4 h-100" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                    <h4 class="fw-bold mb-3 text-theme-primary"><i class="fas fa-building me-2 text-success"></i>Top Recruiters
                     </h4>
                     <canvas id="companyChart" style="max-height: 300px;"></canvas>
                 </div>
@@ -227,7 +227,7 @@
             {% for rec in recommendations %}
             <div class="col-lg-2 col-md-4 col-6">
                 <div class="recommendation-card p-3 text-center h-100 shadow-sm border position-relative"
-                    style="border-radius: 20px; background: white; transition: all 0.3s ease;">
+                    style="border-radius: 18px; background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-color); transition: all 0.3s ease;">
                     <div class="position-absolute top-0 end-0 m-2">
                         <span class="badge rounded-pill {{ 'bg-success' if rec.source == 'ml' else 'bg-soft-primary text-primary' }} px-2 py-1"
                             style="font-size: 0.7rem;" title="{{ rec.reason|default('Profile match') }}">
@@ -236,7 +236,7 @@
                     </div>
                     {% if rec.source == 'ml' %}
                     <div class="position-absolute top-0 start-0 m-2">
-                        <span class="badge rounded-pill bg-warning text-dark px-2 py-1" style="font-size: 0.6rem;" title="ML-powered recommendation">
+                        <span class="badge rounded-pill bg-warning text-theme-primary px-2 py-1" style="font-size: 0.6rem;" title="ML-powered recommendation">
                             <i class="fas fa-robot"></i> AI
                         </span>
                     </div>
@@ -251,7 +251,7 @@
                     <div class="skills-preview-tiny mb-3">
                         {% if rec.skills %}
                         {% for skill in rec.skills.split(',')[:2] %}
-                        <span class="badge bg-light text-dark border-0 rounded-pill mb-1" style="font-size: 0.65rem;">{{
+                        <span class="badge bg-light text-theme-primary border-0 rounded-pill mb-1" style="font-size: 0.65rem;">{{
                             skill.strip() }}</span>
                         {% endfor %}
                         {% else %}
@@ -268,7 +268,7 @@
             {% else %}
             <div class="col-12">
                 <div class="glass-card p-5 text-center"
-                    style="background: rgba(255,255,255,0.5); border: 2px dashed #e0e7ff;">
+                    style="background: var(--bg-surface); border: 2px dashed var(--border-color); border-radius: 18px;">
                     <i class="fas fa-users-slash display-4 text-muted mb-3"></i>
                     <h5 class="text-muted">No recommendations available right now</h5>
                     <p class="text-muted mb-0">Try updating your profile with skills and interests!</p>
@@ -281,7 +281,7 @@
     <!-- Category Navigation Tabs -->
     <div class="category-tabs mb-5" style="animation: slideUp 0.6s ease;">
         <ul class="nav nav-pills nav-fill gradient-pills p-2 shadow-sm"
-            style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 18px; border: 1px solid #e0e7ff;">
+            style="background: var(--bg-surface); border-radius: 18px; border: 1px solid var(--border-color);">
             <li class="nav-item">
                 <button class="nav-link category-btn active" data-category="alumni" onclick="switchCategory('alumni')">
                     <i class="fas fa-graduation-cap me-2"></i> Alumni Network
@@ -343,7 +343,7 @@
     <!-- Filter & Search Section -->
     <div class="card border-0 shadow-lg mb-5 reveal-fade"
         style="border-radius: 30px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2);">
-        <div class="filter-section p-4 p-md-5" style="background: rgba(255,255,255,0.3); backdrop-filter: blur(20px);">
+        <div class="filter-section p-4 p-md-5" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
             <div class="row g-4 align-items-end">
                 <div class="col-lg-6">
                     <label class="form-label fw-bold mb-2"><i class="fas fa-search me-2 text-primary"></i> Global
@@ -390,7 +390,7 @@
                                 class="card-avatar">
                         </div>
                         <div class="card-body-content text-center pt-2">
-                            <h5 class="fw-bold mb-1 text-dark">{{ alum['name'] }}</h5>
+                            <h5 class="fw-bold mb-1 text-theme-primary">{{ alum['name'] }}</h5>
                             <div class="badge bg-soft-primary text-primary mb-3 px-3 py-2 rounded-pill small">
                                 <i class="fas fa-graduation-cap me-1"></i> Batch {{ alum['pass_year'] }}
                             </div>
@@ -429,7 +429,7 @@
                                 class="card-avatar">
                         </div>
                         <div class="card-body-content text-center pt-2">
-                            <h5 class="fw-bold mb-1 text-dark">{{ s['name'] }}</h5>
+                            <h5 class="fw-bold mb-1 text-theme-primary">{{ s['name'] }}</h5>
                             <div class="badge bg-soft-info text-info mb-3 px-3 py-2 rounded-pill small">
                                 <i class="fas fa-university me-1"></i> {{ s['department'] }}
                             </div>
@@ -476,7 +476,7 @@
                                 class="card-avatar">
                         </div>
                         <div class="card-body-content text-center pt-2">
-                            <h5 class="fw-bold mb-1 text-dark">{{ f['name'] }}</h5>
+                            <h5 class="fw-bold mb-1 text-theme-primary">{{ f['name'] }}</h5>
                             <div class="badge bg-soft-danger text-danger mb-3 px-3 py-2 rounded-pill small">
                                 <i class="fas fa-award me-1"></i> {{ f['department'] }}
                             </div>
@@ -532,7 +532,7 @@
         </div>
         <div class="col-lg-6">
             <div class="glass-card p-5 border-start-primary-thick h-100"
-                style="background: white; border: 1px solid #e2e8f0; border-radius: 30px; border-left: 8px solid #667eea;">
+                style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px; border-left: 6px solid var(--accent-blue);">
                 <h3 class="fw-bold mb-4 font-heading"><i class="fas fa-handshake-angle text-primary me-2"></i>Why
                     Mentorship?</h3>
                 <ul class="list-unstyled space-y-4">
@@ -565,8 +565,8 @@
     <!-- Action Buttons -->
     <!-- Action Buttons -->
     <div class="action-buttons-container mt-5 mb-5 pb-5">
-        <div class="glass-card p-4 mx-auto" style="max-width: 900px; background: rgba(255, 255, 255, 0.6);">
-            <h4 class="text-center mb-4 fw-bold text-dark">Quick Actions</h4>
+        <div class="glass-card p-4 mx-auto" style="max-width: 900px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+            <h4 class="text-center mb-4 fw-bold text-theme-primary">Quick Actions</h4>
             <div class="d-flex flex-wrap justify-content-center gap-3">
                 <a href="{{ url_for('edit_student_profile', user_id=current_user.id) }}"
                     class="btn btn-primary btn-lg action-btn-enhanced">
@@ -724,7 +724,7 @@
     /* Global Typography & Mesh */
     body {
         font-family: 'Outfit', sans-serif;
-        background-color: #f8fafc;
+        background-color: var(--bg-primary) !important; color: var(--text-primary) !important;
         overflow-x: hidden;
     }
 
@@ -751,7 +751,7 @@
         height: 100%;
         z-index: -1;
         overflow: hidden;
-        background: #f8fafc;
+        background: var(--bg-primary);
         pointer-events: none;
     }
 

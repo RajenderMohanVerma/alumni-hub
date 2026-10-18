@@ -1,102 +1,116 @@
 {% extends "base.html" %}
 
-{% block title %}Faculty Announcements - Alumni Hub{% endblock %}
+{% block title %}Faculty Notice Board - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="padding-top: 100px !important;">
-    <div class="d-flex justify-content-between align-items-center mb-5 animate__animated animate__fadeInDown">
+<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
         <div>
-            <h1 class="fw-bold gradient-text display-5 mb-2">Notice Board</h1>
-            <p class="lead text-muted">Manage department updates and official communications.</p>
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
+                <i class="fas fa-bullhorn"></i>
+                <span>Department Broadcasts</span>
+            </div>
+            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Faculty Notice Board &amp; Circulars</h1>
+            <p class="text-muted small mb-0">Publish academic circulars, seminar invitations, and project guidelines for students &amp; alumni</p>
         </div>
-        <button class="btn btn-premium-gradient btn-lg shadow-premium rounded-pill px-4">
-            <i class="fas fa-plus-circle me-2"></i> Create Announcement
-        </button>
+        <div class="mt-3 mt-md-0 d-flex gap-2">
+            <button class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('Create announcement modal');">
+                <i class="fas fa-plus-circle me-1"></i> New Announcement
+            </button>
+        </div>
     </div>
 
-    <!-- Filters & Search -->
-    <div class="glass-card p-3 mb-5 animate__animated animate__fadeIn">
+    <!-- Search & Filter Bar Container -->
+    <div class="home-card p-4 mb-4 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
         <div class="row g-3 align-items-center">
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="input-group">
-                    <span class="input-group-text bg-transparent border-end-0"><i
-                            class="fas fa-search text-muted"></i></span>
-                    <input type="text" class="form-control border-start-0 ps-0" placeholder="Search notices...">
+                    <span class="input-group-text bg-transparent" style="border-color: var(--border-color); color: var(--text-muted);"><i class="fas fa-search"></i></span>
+                    <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Search circulars by keyword...">
                 </div>
             </div>
-            <div class="col-md-8">
-                <div class="d-flex gap-2 justify-content-md-end">
-                    <button class="btn btn-light rounded-pill px-3 active">All</button>
-                    <button class="btn btn-light rounded-pill px-3">Important</button>
-                    <button class="btn btn-light rounded-pill px-3">Department</button>
-                    <button class="btn btn-light rounded-pill px-3">Events</button>
+            <div class="col-md-7">
+                <div class="d-flex gap-2 flex-wrap justify-content-md-end">
+                    <button class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm" style="background: var(--accent-blue); border: none;">All Notices</button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" style="border-color: var(--border-color); color: var(--text-secondary);">Important</button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" style="border-color: var(--border-color); color: var(--text-secondary);">Projects</button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" style="border-color: var(--border-color); color: var(--text-secondary);">Guest Lectures</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Announcements List -->
-    <div class="row g-4">
+    <!-- Announcements Feed -->
+    <div class="d-flex flex-column gap-3">
         <!-- Notice 1 -->
-        <div class="col-12 animate__animated animate__fadeInUp" style="--delay: 0.1s">
-            <div class="glass-card p-4 border-start border-5 border-danger position-relative overflow-hidden">
-                <div class="cta-glow opacity-25"
-                    style="background: radial-gradient(circle, rgba(220, 53, 69, 0.1) 0%, transparent 70%);"></div>
-                <div class="d-flex justify-content-between align-items-start position-relative">
-                    <div>
-                        <span class="badge bg-danger mb-2">Important</span>
-                        <h4 class="fw-bold mb-2">Final Year Project Submission Deadline Extended</h4>
-                        <p class="text-muted mb-3">
-                            The deadline for final year project submission has been extended by one week.
-                            Please ensure all documentation is uploaded to the portal by March 15th.
-                        </p>
-                        <div class="d-flex align-items-center text-muted small">
-                            <i class="far fa-user-circle me-2 text-danger"></i> Dean's Office •
-                            <i class="far fa-clock ms-2 me-2"></i> 2 hours ago •
-                            <i class="fas fa-eye ms-2 me-2"></i> 245 Views
-                        </div>
+        <div class="home-card p-4 shadow-sm accent-amber" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+            <div class="d-flex justify-content-between align-items-start gap-3">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="badge rounded-pill px-3 py-1" style="background: var(--accent-danger); color: #fff; font-size: 0.75rem;">
+                            <i class="fas fa-exclamation-triangle me-1"></i> Academic Deadline
+                        </span>
+                        <span class="text-muted small"><i class="far fa-clock me-1"></i> 2 hours ago</span>
                     </div>
-                    <div class="dropdown">
-                        <button class="btn btn-link text-muted" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <ul class="dropdown-menu shadow-premium border-0">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i> Edit</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-share-alt me-2"></i> Share</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash-alt me-2"></i>
-                                    Delete</a></li>
-                        </ul>
+
+                    <h4 class="h5 fw-bold mb-2" style="color: var(--text-primary);">Final Year Project Synopsis &amp; Architecture Submission</h4>
+                    <p class="text-muted small mb-3" style="line-height: 1.6;">
+                        All 4th-semester MCA and final-year BCA student teams are requested to upload their project architecture diagrams and tech stack documentation before Friday 5:00 PM. Late submissions will affect internal review marks.
+                    </p>
+
+                    <div class="d-flex align-items-center text-muted small flex-wrap gap-3" style="font-size: 0.8rem;">
+                        <span><i class="fas fa-user-tie me-1 text-primary"></i> Dr. Sunil Kapoor (HOD CS)</span>
+                        <span><i class="fas fa-eye me-1"></i> 245 Views</span>
+                        <span><i class="fas fa-paperclip me-1"></i> 1 PDF Attachment</span>
                     </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary rounded-circle" style="border-color: var(--border-color); color: var(--text-muted); width: 36px; height: 36px;" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="background: var(--bg-surface); border-color: var(--border-color);">
+                        <li><a class="dropdown-item small" href="#" style="color: var(--text-primary);"><i class="fas fa-edit me-2"></i> Edit Notice</a></li>
+                        <li><a class="dropdown-item small" href="#" style="color: var(--text-primary);"><i class="fas fa-share-alt me-2"></i> Share Link</a></li>
+                        <li><hr class="dropdown-divider" style="border-color: var(--border-color);"></li>
+                        <li><a class="dropdown-item small text-danger" href="#"><i class="fas fa-trash-alt me-2"></i> Delete</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <!-- Notice 2 -->
-        <div class="col-12 animate__animated animate__fadeInUp" style="--delay: 0.2s">
-            <div class="glass-card p-4 border-start border-5 border-info">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <span class="badge bg-info text-dark mb-2">Event</span>
-                        <h4 class="fw-bold mb-2">Guest Lecture: Cloud Computing Trends</h4>
-                        <p class="text-muted mb-3">
-                            Join us for an insightful session with industry experts on the latest trends in Cloud
-                            Computing.
-                            Attendance is mandatory for 3rd year students.
-                        </p>
-                        <div class="d-flex align-items-center text-muted small">
-                            <i class="far fa-user-circle me-2 text-info"></i> Prof. Sharma •
-                            <i class="far fa-clock ms-2 me-2"></i> Yesterday •
-                            <i class="fas fa-eye ms-2 me-2"></i> 180 Views
-                        </div>
+        <div class="home-card p-4 shadow-sm accent-blue" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+            <div class="d-flex justify-content-between align-items-start gap-3">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="badge rounded-pill px-3 py-1" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.75rem; font-weight: 600;">
+                            <i class="fas fa-chalkboard-teacher me-1"></i> Alumni Masterclass
+                        </span>
+                        <span class="text-muted small"><i class="far fa-clock me-1"></i> Yesterday</span>
                     </div>
-                    <div class="dropdown">
-                        <button class="btn btn-link text-muted" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
+
+                    <h4 class="h5 fw-bold mb-2" style="color: var(--text-primary);">Industry Seminar: Cloud Native Scaling &amp; Kubernetes</h4>
+                    <p class="text-muted small mb-3" style="line-height: 1.6;">
+                        Distinguished alumnus Rahul Sharma (Senior Software Engineer @ Google) will deliver a hands-on technical session in the campus seminar hall. Pre-registration is open for all interested students.
+                    </p>
+
+                    <div class="d-flex align-items-center text-muted small flex-wrap gap-3" style="font-size: 0.8rem;">
+                        <span><i class="fas fa-user-tie me-1 text-primary"></i> Prof. Vikas Rawat (Faculty Coordinator)</span>
+                        <span><i class="fas fa-eye me-1"></i> 180 Views</span>
+                        <span><i class="fas fa-location-dot me-1"></i> Main Seminar Hall</span>
                     </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary rounded-circle" style="border-color: var(--border-color); color: var(--text-muted); width: 36px; height: 36px;" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="background: var(--bg-surface); border-color: var(--border-color);">
+                        <li><a class="dropdown-item small" href="#" style="color: var(--text-primary);"><i class="fas fa-edit me-2"></i> Edit Notice</a></li>
+                        <li><a class="dropdown-item small" href="#" style="color: var(--text-primary);"><i class="fas fa-share-alt me-2"></i> Share Link</a></li>
+                    </ul>
                 </div>
             </div>
         </div>

@@ -3,105 +3,81 @@
 {% block title %}Faculty Notifications - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="padding-top: 100px !important;">
+<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="d-flex justify-content-between align-items-center mb-4 animate__animated animate__fadeInDown">
-                <h1 class="fw-bold gradient-text mb-0">Notifications</h1>
-                <button class="btn btn-light rounded-pill btn-sm">Mark all as read</button>
+        <div class="col-lg-9">
+            <!-- Page Header -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                <div>
+                    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
+                        <i class="fas fa-bell"></i>
+                        <span>Faculty Activity Center</span>
+                    </div>
+                    <h1 class="h3 fw-bold mb-1" style="color: var(--text-primary);">Notifications &amp; Department Inquiries</h1>
+                    <p class="text-muted small mb-0">Stay updated on student project questions, alumni mentorship requests, and upcoming events</p>
+                </div>
+                <div class="mt-3 mt-md-0 d-flex gap-2">
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="location.reload();" style="border-color: var(--border-color); color: var(--text-secondary);">
+                        <i class="fas fa-rotate me-1"></i> Refresh
+                    </button>
+                    <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('All marked as read');">
+                        <i class="fas fa-check-double me-1"></i> Mark All Read
+                    </button>
+                </div>
             </div>
 
-            <div class="glass-card p-0 overflow-hidden animate__animated animate__fadeInUp">
+            <!-- Notifications Card Container -->
+            <div class="home-card p-0 shadow-sm overflow-hidden mb-4 accent-blue" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
                 <div class="list-group list-group-flush border-0">
                     <!-- Notification 1 -->
-                    <div class="list-group-item bg-transparent p-4 border-bottom unread-notification">
-                        <div class="d-flex align-items-center">
-                            <div class="notif-icon bg-primary-soft text-primary me-4">
-                                <i class="fas fa-handshake"></i>
+                    <div class="list-group-item p-4 border-bottom d-flex align-items-center gap-3" style="background: var(--accent-blue-subtle); border-color: var(--border-color) !important;">
+                        <div class="icon-chip flex-shrink-0" style="width: 46px; height: 46px; background: var(--accent-blue); color: #fff; border-radius: 12px; display: grid; place-items: center; font-size: 1.15rem;">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="flex-grow-1 min-w-0">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h6 class="mb-0 fw-bold" style="color: var(--text-primary);">New Connection Request</h6>
+                                <span class="badge rounded-pill" style="background: var(--accent-blue); color: #fff; font-size: 0.68rem;">New</span>
                             </div>
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1 fw-bold">New Connection Request</h6>
-                                <p class="text-muted small mb-0">Alumni <strong>Rahul Mehta</strong> wants to connect
-                                    with you.</p>
-                                <small class="text-muted mt-2 d-block">10 minutes ago</small>
-                            </div>
-                            <div class="unread-dot"></div>
+                            <p class="text-muted small mb-1">Alumnus <strong>Rahul Mehta (Batch 2019)</strong> sent you a connection request regarding curriculum advisory.</p>
+                            <small class="text-muted" style="font-size: 0.75rem;"><i class="far fa-clock me-1"></i> 10 minutes ago</small>
                         </div>
                     </div>
 
                     <!-- Notification 2 -->
-                    <div class="list-group-item bg-transparent p-4 border-bottom">
-                        <div class="d-flex align-items-center">
-                            <div class="notif-icon bg-success-soft text-success me-4">
-                                <i class="fas fa-comment-alt"></i>
+                    <div class="list-group-item p-4 border-bottom d-flex align-items-center gap-3" style="background: var(--bg-surface); border-color: var(--border-color) !important;">
+                        <div class="icon-chip flex-shrink-0" style="width: 46px; height: 46px; background: var(--accent-green-subtle); color: var(--accent-green); border-radius: 12px; display: grid; place-items: center; font-size: 1.15rem;">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <div class="flex-grow-1 min-w-0">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h6 class="mb-0 fw-bold" style="color: var(--text-primary);">Student Project Query</h6>
+                                <small class="text-muted" style="font-size: 0.75rem;"><i class="far fa-clock me-1"></i> 2 hours ago</small>
                             </div>
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1 fw-bold">New Message</h6>
-                                <p class="text-muted small mb-0">You received a new message regarding the <strong>Alumni
-                                        Meet</strong>.</p>
-                                <small class="text-muted mt-2 d-block">2 hours ago</small>
-                            </div>
+                            <p class="text-muted small mb-0">Rajender Verma submitted their minor project architecture diagram for review.</p>
                         </div>
                     </div>
 
                     <!-- Notification 3 -->
-                    <div class="list-group-item bg-transparent p-4 border-bottom">
-                        <div class="d-flex align-items-center">
-                            <div class="notif-icon bg-danger-soft text-danger me-4">
-                                <i class="fas fa-calendar-check"></i>
+                    <div class="list-group-item p-4 border-bottom d-flex align-items-center gap-3" style="background: var(--bg-surface); border-color: var(--border-color) !important;">
+                        <div class="icon-chip flex-shrink-0" style="width: 46px; height: 46px; background: var(--accent-amber-subtle); color: var(--accent-amber); border-radius: 12px; display: grid; place-items: center; font-size: 1.15rem;">
+                            <i class="fas fa-calendar-star"></i>
+                        </div>
+                        <div class="flex-grow-1 min-w-0">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h6 class="mb-0 fw-bold" style="color: var(--text-primary);">Faculty Council Meeting</h6>
+                                <small class="text-muted" style="font-size: 0.75rem;"><i class="far fa-clock me-1"></i> Yesterday</small>
                             </div>
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1 fw-bold">Event Reminder</h6>
-                                <p class="text-muted small mb-0">The <strong>Cultural Fest '26</strong> starts tomorrow
-                                    at 9:00 AM.</p>
-                                <small class="text-muted mt-2 d-block">5 hours ago</small>
-                            </div>
+                            <p class="text-muted small mb-0">Departmental review meeting scheduled for tomorrow at 11:00 AM in Conference Room 2.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="text-center p-4 bg-light bg-opacity-10">
-                    <button class="btn btn-link text-decoration-none text-muted">View older notifications</button>
+                <div class="text-center p-3" style="background: var(--bg-subtle);">
+                    <small class="text-muted">Showing all current notifications</small>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .notif-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        flex-shrink: 0;
-    }
-
-    .unread-notification {
-        background: rgba(13, 110, 253, 0.05) !important;
-    }
-
-    .unread-dot {
-        width: 10px;
-        height: 10px;
-        background: #0d6efd;
-        border-radius: 50%;
-        margin-left: 15px;
-    }
-
-    .bg-primary-soft {
-        background: #e7f1ff;
-    }
-
-    .bg-success-soft {
-        background: #eafbea;
-    }
-
-    .bg-danger-soft {
-        background: #ffeef0;
-    }
-</style>
 {% endblock %}

@@ -1,545 +1,166 @@
 {% extends "base.html" %}
 
+{% block title %}Career Board - Alumni Hub{% endblock %}
+
 {% block content %}
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap');
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    :root {
-        --primary-indigo: #6366f1;
-        --primary-purple: #a855f7;
-        --dark-bg: #030712;
-        --glass-bg: rgba(17, 24, 39, 0.7);
-        --glass-border: rgba(255, 255, 255, 0.08);
-        --text-slate: #94a3b8;
-    }
+<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+        <div>
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
+                <i class="fas fa-briefcase"></i>
+                <span>Alumni Career Opportunities</span>
+            </div>
+            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Career Board &amp; Openings</h1>
+            <p class="text-muted small mb-0">Browse roles shared by alumni or share career openings at your organization</p>
+        </div>
+        <div class="mt-3 mt-md-0 d-flex gap-2">
+            <a href="{{ url_for('post_job') }}" class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;">
+                <i class="fas fa-plus-circle me-1"></i> Post a Job Opening
+            </a>
+        </div>
+    </div>
 
-    body {
-        background: var(--dark-bg);
-        font-family: 'Outfit', sans-serif;
-        color: white;
-        overflow-x: hidden;
-    }
+    <!-- Search & Filter Bar Container -->
+    <div class="home-card p-4 mb-4 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+        <div class="row g-3 align-items-center">
+            <div class="col-lg-6">
+                <label class="form-label small fw-semibold text-muted mb-1">Search Roles</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent" style="border-color: var(--border-color); color: var(--text-muted);">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" id="jobSearchInput" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Search by job title, company name, or technology...">
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <label class="form-label small fw-semibold text-muted mb-1">Employment Type</label>
+                <select id="jobTypeFilter" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                    <option value="">All Employment Types</option>
+                    <option value="Full-Time">Full-Time</option>
+                    <option value="Internship">Internship</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Remote">Remote</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-lg-3 d-flex gap-2 align-items-end pt-md-4">
+                <button id="applyFilterBtn" class="btn btn-primary w-100 rounded-pill py-2 shadow-sm" style="background: var(--accent-blue); border: none;">
+                    <i class="fas fa-filter me-1"></i> Filter
+                </button>
+                <button id="resetFilterBtn" class="btn btn-outline-secondary rounded-pill py-2 px-3" style="border-color: var(--border-color); color: var(--text-secondary);">
+                    <i class="fas fa-rotate"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
-    /* Animated Mesh Background */
-    .mesh-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background-color: var(--dark-bg);
-        background-image:
-            radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0, transparent 50%),
-            radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0, transparent 50%),
-            radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.1) 0, transparent 50%);
-        filter: blur(100px);
-        animation: meshMove 20s ease-in-out infinite alternate;
-    }
-
-    @keyframes meshMove {
-        0% {
-            transform: scale(1);
-        }
-
-        100% {
-            transform: scale(1.2) translate(50px, 50px);
-        }
-    }
-
-    .jobs-dashboard-wrapper {
-        padding: 120px 0 100px;
-        min-height: 100vh;
-    }
-
-    /* Header Design */
-    .hero-title {
-        font-weight: 800;
-        font-size: 4rem;
-        letter-spacing: -2px;
-        margin-bottom: 1rem;
-    }
-
-    .text-reveal {
-        display: inline-block;
-        overflow: hidden;
-        white-space: nowrap;
-        animation: reveal 1s cubic-bezier(0.77, 0, 0.175, 1);
-    }
-
-    @keyframes reveal {
-        0% {
-            width: 0;
-        }
-
-        100% {
-            width: 100%;
-        }
-    }
-
-    .gradient-text {
-        background: linear-gradient(135deg, var(--primary-indigo), var(--primary-purple));
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    /* Job Card UX 2.0 */
-    .job-card-mega {
-        background: var(--glass-bg);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--glass-border);
-        border-radius: 32px;
-        padding: 2.5rem;
-        height: 100%;
-        transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .job-card-mega:hover {
-        transform: translateY(-12px) scale(1.02);
-        border-color: rgba(99, 102, 241, 0.4);
-        box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8),
-            0 0 20px rgba(99, 102, 241, 0.2);
-    }
-
-    .job-card-mega::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent);
-        opacity: 0;
-        transition: 0.5s;
-    }
-
-    .job-card-mega:hover::before {
-        opacity: 1;
-    }
-
-    /* Enforced Large Branding */
-    .branding-sphere {
-        width: 120px;
-        height: 120px;
-        background: white;
-        border-radius: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 3rem;
-        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-        padding: 15px;
-        transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border: 2px solid transparent;
-    }
-
-    .job-card-mega:hover .branding-sphere {
-        transform: rotate(-10deg) scale(1.15);
-        border-color: var(--primary-indigo);
-    }
-
-    .branding-sphere img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-
-    .branding-initial {
-        font-size: 3rem;
-        font-weight: 800;
-        color: var(--primary-indigo);
-    }
-
-    /* Badges & Tags */
-    .node-badge {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: var(--text-slate);
-        padding: 6px 16px;
-        border-radius: 12px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        transition: 0.3s;
-    }
-
-    .job-card-mega:hover .node-badge {
-        background: rgba(99, 102, 241, 0.1);
-        color: white;
-        border-color: rgba(99, 102, 241, 0.3);
-    }
-
-    .c-badge {
-        color: #10b981;
-        border-color: rgba(16, 185, 129, 0.2);
-        background: rgba(16, 185, 129, 0.05);
-    }
-
-    /* Metadata Viz */
-    .meta-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-        margin: 2rem 0;
-    }
-
-    .meta-item {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .meta-label {
-        font-size: 0.65rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--text-slate);
-        font-weight: 700;
-        white-space: nowrap;
-    }
-
-    .meta-value {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #f8fafc;
-    }
-
-    /* Apply Button Luxe */
-    .btn-luxe {
-        background: linear-gradient(135deg, var(--primary-indigo), var(--primary-purple));
-        border: none;
-        color: white;
-        padding: 1rem 2rem;
-        border-radius: 18px;
-        font-weight: 800;
-        transition: 0.4s;
-        text-decoration: none;
-        text-align: center;
-        display: block;
-        width: 100%;
-        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
-    }
-
-    .btn-luxe:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
-        color: white;
-    }
-
-    /* List Item Row UX */
-    .job-list-premium {
-        background: rgba(30, 41, 59, 0.4);
-        backdrop-filter: blur(12px);
-        border: 1px solid var(--glass-border);
-        border-radius: 24px;
-        padding: 1.5rem 2.5rem;
-        margin-bottom: 1.5rem;
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex;
-        align-items: center;
-        gap: 2.5rem;
-        position: relative;
-    }
-
-    .job-list-premium:hover {
-        background: rgba(30, 41, 59, 0.6);
-        border-color: rgba(99, 102, 241, 0.3);
-        transform: translateX(10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .list-branding {
-        width: 80px;
-        height: 80px;
-        background: white;
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-        overflow: hidden;
-    }
-
-    .list-branding img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-
-    .list-title {
-        font-weight: 700;
-        font-size: 1.1rem;
-        margin-bottom: 0.25rem;
-    }
-
-    .recommended-glow {
-        position: absolute;
-        top: -50px;
-        right: -50px;
-        width: 150px;
-        height: 150px;
-        background: radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent);
-        z-index: 0;
-    }
-
-    /* Post Button FAB */
-    .post-trigger {
-        position: fixed;
-        bottom: 40px;
-        right: 40px;
-        background: linear-gradient(135deg, var(--primary-indigo), var(--primary-purple));
-        color: white;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
-        transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        z-index: 1000;
-        text-decoration: none;
-    }
-
-    .post-trigger:hover {
-        transform: rotate(90deg) scale(1.1);
-        color: white;
-        box-shadow: 0 15px 35px rgba(99, 102, 241, 0.6);
-    }
-
-    @media (max-width: 768px) {
-        .hero-title {
-            font-size: 2.5rem;
-        }
-
-        .job-list-premium {
-            flex-direction: column;
-            text-align: center;
-            gap: 1rem;
-            padding: 2rem;
-        }
-
-        .list-branding {
-            margin: 0 auto;
-        }
-
-        .post-trigger {
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-        }
-    }
-</style>
-
-<div class="mesh-bg"></div>
-
-<div class="jobs-dashboard-wrapper">
-    <div class="container">
-        <!-- Modern Header -->
-        <div class="header-section mb-5 text-center" data-aos="fade-down">
-            <h1 class="hero-title">
-                <span class="text-reveal">Alumni</span> <span class="gradient-text">Matrix</span>
-            </h1>
-            <p class="text-slate fs-5">Exclusive career and internship opportunities from alumni and recruiters.</p>
+    <!-- Job Listings Feed -->
+    <div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold mb-0" style="color: var(--text-primary); font-size: 1.25rem;">
+                <i class="fas fa-building-user text-primary me-2"></i> All Active Openings
+            </h4>
+            <span class="text-muted small">Total: <strong>{{ (jobs or [])|length }}</strong> opportunities</span>
         </div>
 
-        {% if recommended %}
-        <!-- Recommended Nodes -->
-        <section class="recommended-jobs mb-5">
-            <div class="section-title d-flex align-items-center mb-5">
-                <div class="p-3 me-3"
-                    style="background: rgba(99, 102, 241, 0.15); border-radius: 20px; border: 1px solid var(--primary-indigo);">
-                    <i class="fas fa-sparkles text-indigo-400"></i>
-                </div>
-                <h2 class="fw-800 mb-0">Recommended Intersections</h2>
-            </div>
-
-            <div class="row g-4">
-                {% for job in recommended %}
-                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="{{ loop.index * 150 }}">
-                    <div class="job-card-mega">
-                        <div class="recommended-glow"></div>
-
-                        <div class="branding-sphere">
+        {% if jobs and jobs|length > 0 %}
+        <div class="d-flex flex-column gap-3" id="jobListings">
+            {% for job in jobs %}
+            <div class="home-card p-4 shadow-sm job-row-item" data-title="{{ (job.title or '')|lower }}" data-company="{{ (job.company or '')|lower }}" data-type="{{ (job.employment_type or '')|lower }}" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="job-company-avatar d-grid place-items-center fw-bold shadow-sm" style="width: 54px; height: 54px; min-width: 54px; border-radius: 14px; background: var(--bg-subtle); color: var(--accent-blue); border: 1px solid var(--border-color); font-size: 1.3rem;">
                             {% if job.company_logo %}
-                            <img src="{{ job.company_logo }}" alt="{{ job.company }}">
+                            <img src="{{ job.company_logo }}" alt="{{ job.company }}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 14px;">
                             {% else %}
-                            <span class="branding-initial">{{ job.company[0] }}</span>
+                            {{ (job.company or 'C')[0] }}
                             {% endif %}
                         </div>
 
-                        <div class="job-identity mb-4">
-                            <h4 class="fw-800 text-white mb-1">{{ job.title }}</h4>
-                            <p class="gradient-text fw-700 small mb-0">{{ job.company_name or job.company }}</p>
-                        </div>
-
-                        <div class="badge-cluster d-flex flex-wrap gap-2 mb-4">
-                            <span class="node-badge"><i class="fas fa-microchip"></i> {{ job.work_mode or job.job_type
-                                or 'Onsite' }}</span>
-                            <span class="node-badge c-badge"><i class="fas fa-briefcase"></i> {{ job.employment_type or
-                                job.category or 'Professional' }}</span>
-                        </div>
-
-                        <div class="meta-grid">
-                            <div class="meta-item">
-                                <span class="meta-label">Coordinates</span>
-                                <span class="meta-value">{{ job.location or 'Global' }}</span>
-                            </div>
-                            <div class="meta-item">
-                                <span class="meta-label">Rewards</span>
-                                <span class="meta-value">{{ job.salary or 'Confidential' }}</span>
-                            </div>
-                            <div class="meta-item">
-                                <span class="meta-label">Status</span>
-                                <span class="meta-value">{{ job.eligible_branch or 'Open Matrix' }}</span>
-                            </div>
-                            <div class="meta-item">
-                                <span class="meta-label">Sync Window</span>
-                                <span class="meta-value text-rose-400">{{ job.deadline or 'ASAP' }}</span>
-                            </div>
-                        </div>
-
-                        <div class="mt-auto pt-4 border-top border-secondary-subtle">
-                            {% if job.apply_link %}
-                            <a href="{{ job.apply_link if '://' in job.apply_link else 'mailto:' + job.apply_link }}"
-                                target="_blank" class="btn-luxe">
-                                Start Application <i class="fas fa-chevron-right ms-2" style="font-size: 0.8rem;"></i>
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-        {% endif %}
-
-        <!-- All Nodes -->
-        <section class="all-jobs pt-5">
-            <div class="section-title mb-5">
-                <h3 class="fw-800 text-white">Universal Matrix</h3>
-                <div class="h-1 bg-primary-subtle w-25 mt-2 rounded-pill"></div>
-            </div>
-
-            <div class="row g-3">
-                {% for job in jobs %}
-                <div class="col-12" data-aos="fade-left" data-aos-delay="{{ loop.index * 50 }}">
-                    <div class="job-list-premium">
-                        <div class="list-branding">
-                            {% if job.company_logo %}
-                            <img src="{{ job.company_logo }}" alt="{{ job.company }}">
-                            {% else %}
-                            <span class="fw-bold text-indigo-500 fs-4">{{ job.company[0] }}</span>
-                            {% endif %}
-                        </div>
-
-                        <div class="flex-grow-1">
-                            <div class="list-title text-white">{{ job.title }}</div>
-                            <div class="d-flex align-items-center flex-wrap gap-4 mt-2">
-                                <span class="fw-700 text-indigo-400 small">{{ job.company }}</span>
-                                <span class="text-slate extra-small"><i class="fas fa-map-pin me-2"></i>{{ job.location
-                                    or 'Remote' }}</span>
-                                <span class="text-emerald-400 extra-small fw-bold"><i class="fas fa-coins me-2"></i>{{
-                                    job.salary or 'Confidential' }}</span>
-                                <span class="node-badge extra-small border-0 p-0" style="background:transparent;"><i
-                                        class="fas fa-clock me-2"></i>{{ (job.created_at[:10] if job.created_at else
-                                    'Active') }}</span>
-                            </div>
-                        </div>
-
-                        <div class="d-none d-lg-flex flex-column text-end">
-                            <span class="text-slate extra-small fw-bold mb-1">POSTED BY</span>
-                            <span class="fw-800 text-indigo-300 small">{{ job.posted_by_name or 'Alumnus' }}</span>
-                        </div>
-
-                        <div class="actions ms-lg-4">
-                            {% if job.apply_link %}
-                            <a href="{{ job.apply_link if '://' in job.apply_link else 'mailto:' + job.apply_link }}"
-                                target="_blank"
-                                class="btn btn-outline-light rounded-pill px-5 fw-800 shadow-sm">Apply</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                {% else %}
-                <div class="col-12 text-center py-5" data-aos="zoom-in">
-                    <div class="mb-4">
-                        <i class="fas fa-satellite fa-4x text-slate" style="opacity: 0.3;"></i>
-                    </div>
-                    <h4 class="text-slate fw-600">No active career nodes detected in the matrix.</h4>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-
-        <!-- ===== PREVIOUS / EXPIRED JOBS ===== -->
-        {% if previous_jobs %}
-        <section class="mt-5 pt-2">
-            <div class="d-flex align-items-center gap-3 mb-4">
-                <div style="width:4px;height:32px;border-radius:999px;background:linear-gradient(#f59e0b,#d97706);"></div>
-                <h3 class="fw-800 mb-0" style="color:#92400e;">Previous Opportunities</h3>
-                <span class="badge rounded-pill" style="background:rgba(245,158,11,.15);color:#b45309;font-size:.75rem;font-weight:800;border:1px solid rgba(245,158,11,.3);padding:.3rem .7rem;">
-                    {{ previous_jobs|length }} expired
-                </span>
-            </div>
-            <p class="text-muted small mb-4">These job listings have passed their application deadline. You can still view details for reference.</p>
-            <div class="row g-4">
-                {% for job in previous_jobs %}
-                <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                    <div class="card h-100 border-0 shadow-sm" style="border-radius:1.1rem;opacity:0.82;border-left:4px solid #d97706 !important;">
-                        <div class="card-body p-4">
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                {% if job.company_logo %}
-                                <img src="{{ job.company_logo }}" alt="Logo" class="rounded-circle" style="width:42px;height:42px;object-fit:cover;">
-                                {% else %}
-                                <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white" style="width:42px;height:42px;background:linear-gradient(135deg,#d97706,#b45309);font-size:.9rem;">
-                                    {{ (job.company or 'J')[0] }}
-                                </div>
-                                {% endif %}
-                                <div>
-                                    <div class="fw-800" style="color:#0f172a;">{{ job.title }}</div>
-                                    <div class="text-muted small">{{ job.company }}</div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-wrap gap-2 mb-3">
-                                <span class="badge rounded-pill bg-warning-subtle text-warning" style="font-size:.72rem;">
-                                    <i class="fas fa-calendar-times me-1"></i>Closed {{ job.deadline }}
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                                <h5 class="mb-0 fw-bold" style="color: var(--text-primary);">{{ job.title }}</h5>
+                                <span class="badge rounded-pill px-2 py-1" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.75rem; font-weight: 600;">
+                                    {{ job.employment_type or 'Full-Time' }}
                                 </span>
-                                {% if job.location %}<span class="badge rounded-pill bg-light text-muted" style="font-size:.72rem;"><i class="fas fa-map-marker-alt me-1"></i>{{ job.location }}</span>{% endif %}
                             </div>
-                            {% if job.description %}
-                            <p class="text-muted small mb-0" style="overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">{{ job.description }}</p>
-                            {% endif %}
+                            <div class="d-flex gap-3 text-muted small flex-wrap" style="font-size: 0.85rem;">
+                                <span><i class="fas fa-building me-1 text-primary"></i><strong>{{ job.company }}</strong></span>
+                                <span><i class="fas fa-location-dot me-1"></i>{{ job.location or 'Remote' }}</span>
+                                <span><i class="fas fa-money-bill-wave me-1"></i>{{ job.salary or 'Competitive' }}</span>
+                                {% if job.deadline %}
+                                <span><i class="fas fa-clock me-1 text-danger"></i>Closes: {{ job.deadline }}</span>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
+
+                    <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                        <a href="{{ job.apply_link if '://' in (job.apply_link or '') else 'mailto:' + (job.apply_link or '') }}"
+                            target="_blank" class="btn btn-primary btn-sm rounded-pill px-4 py-2 shadow-sm" style="background: var(--accent-blue); border: none;">
+                            <span>Apply</span>
+                            <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                        </a>
+                    </div>
                 </div>
-                {% endfor %}
             </div>
-        </section>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="home-card text-center py-5 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+            <div class="icon-chip mx-auto mb-3" style="width: 64px; height: 64px; background: var(--accent-blue-subtle); color: var(--accent-blue); border-radius: 18px; display: grid; place-items: center; font-size: 1.75rem;">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <h4 class="fw-bold mb-2" style="color: var(--text-primary);">No Active Openings Found</h4>
+            <p class="text-muted mb-4" style="max-width: 420px; margin: 0 auto;">Be the first alumnus to post an opportunity from your team or company!</p>
+            <a href="{{ url_for('post_job') }}" class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;">
+                <i class="fas fa-plus-circle me-1"></i> Post an Opening
+            </a>
+        </div>
         {% endif %}
     </div>
 </div>
 
-<a href="{{ url_for('post_job') }}" class="post-trigger" title="Post New Job">
-    <i class="fas fa-plus"></i>
-</a>
-
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const revealElements = document.querySelectorAll('.text-reveal');
-        revealElements.forEach((el, index) => {
-            el.style.animationDelay = `${index * 0.2}s`;
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('jobSearchInput');
+    const typeFilter = document.getElementById('jobTypeFilter');
+    const applyBtn = document.getElementById('applyFilterBtn');
+    const resetBtn = document.getElementById('resetFilterBtn');
+    const jobRows = document.querySelectorAll('.job-row-item');
+
+    function filterJobs() {
+        const query = (searchInput.value || '').toLowerCase().trim();
+        const selectedType = (typeFilter.value || '').toLowerCase();
+
+        jobRows.forEach(row => {
+            const title = row.getAttribute('data-title') || '';
+            const company = row.getAttribute('data-company') || '';
+            const type = row.getAttribute('data-type') || '';
+
+            const matchesQuery = !query || title.includes(query) || company.includes(query);
+            const matchesType = !selectedType || type.includes(selectedType);
+
+            if (matchesQuery && matchesType) {
+                row.style.display = 'block';
+            } else {
+                row.style.display = 'none';
+            }
         });
-    });
+    }
+
+    if (searchInput) searchInput.addEventListener('input', filterJobs);
+    if (typeFilter) typeFilter.addEventListener('change', filterJobs);
+    if (applyBtn) applyBtn.addEventListener('click', filterJobs);
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function () {
+            searchInput.value = '';
+            typeFilter.value = '';
+            filterJobs();
+        });
+    }
+});
 </script>
 {% endblock %}

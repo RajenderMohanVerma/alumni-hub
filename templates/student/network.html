@@ -3,135 +3,156 @@
 {% block title %}Student Network - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="margin-top: 80px;">
+<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
     <!-- Page Header -->
-    <div class="row mb-5" data-aos="fade-up">
-        <div class="col-12">
-            <div class="glass-card p-5 text-center">
-                <h1 class="display-4 fw-bold mb-3">
-                    <i class="fas fa-network-wired me-3"
-                        style="background: linear-gradient(135deg, #6366f1, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"></i>
-                    <span
-                        style="background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: gradient-shift 3s ease infinite; background-size: 200% auto;">Student
-                        Network</span>
-                </h1>
-                <p class="lead text-muted">Connect with alumni, seniors, and fellow students to expand your network</p>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+        <div>
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
+                <i class="fas fa-network-wired"></i>
+                <span>Campus & Alumni Directory</span>
+            </div>
+            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Student & Alumni Network</h1>
+            <p class="text-muted small mb-0">Discover verified graduates, departmental peers, and professors to build your professional circle</p>
+        </div>
+        <div class="mt-3 mt-md-0 d-flex gap-2">
+            <a href="{{ url_for('messages') }}" class="btn btn-outline-primary btn-sm rounded-pill px-3" style="border-color: var(--accent-blue); color: var(--accent-blue);">
+                <i class="fas fa-comment-dots me-1"></i> Messages
+            </a>
+        </div>
+    </div>
+
+    <!-- Search & Filters Container -->
+    <div class="home-card p-4 mb-4 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label small fw-semibold text-muted mb-1">Search Directory</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent" style="border-color: var(--border-color); color: var(--text-muted);">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Search by name, role, or skill...">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-semibold text-muted mb-1">User Type</label>
+                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                    <option selected>All Roles</option>
+                    <option>Alumni</option>
+                    <option>Students</option>
+                    <option>Faculty</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-semibold text-muted mb-1">Department</label>
+                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                    <option selected>All Branches</option>
+                    <option>Computer Applications (MCA/BCA)</option>
+                    <option>Computer Science</option>
+                    <option>Information Tech</option>
+                    <option>Electronics</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-semibold text-muted mb-1">Location</label>
+                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                    <option selected>All Cities</option>
+                    <option>Delhi NCR</option>
+                    <option>Bengaluru</option>
+                    <option>Mumbai</option>
+                    <option>Pune</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button class="btn btn-primary w-100 rounded-pill py-2 shadow-sm" style="background: var(--accent-blue); border: none;">
+                    <i class="fas fa-filter me-1"></i> Filter
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Search and Filters -->
-    <div class="row mb-4" data-aos="fade-up" data-aos-delay="100">
-        <div class="col-12">
-            <div class="glass-card p-4">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0">
-                                <i class="fas fa-search text-muted"></i>
-                            </span>
-                            <input type="text" class="form-control border-start-0"
-                                placeholder="Search by name, company, or skills...">
+    <!-- Network Quick Stats (Realistic, < 1000) -->
+    <div class="row g-3 mb-5">
+        <div class="col-6 col-md-3">
+            <div class="home-card p-3 p-md-4 text-center shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-blue-subtle); color: var(--accent-blue); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">480+</h3>
+                <p class="text-muted small mb-0">Verified Alumni</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="home-card p-3 p-md-4 text-center shadow-sm accent-green" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-green-subtle); color: var(--accent-green); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">320+</h3>
+                <p class="text-muted small mb-0">Active Students</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="home-card p-3 p-md-4 text-center shadow-sm accent-amber" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-amber-subtle); color: var(--accent-amber); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">{{ connections_count|default(18) }}</h3>
+                <p class="text-muted small mb-0">Your Connections</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="home-card p-3 p-md-4 text-center shadow-sm accent-purple" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-purple-subtle); color: var(--accent-purple); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">45+</h3>
+                <p class="text-muted small mb-0">Faculty Mentors</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- People Directory Cards Grid -->
+    <div class="row g-4">
+        {% set sample_people = [
+            {'name': 'Aarav Sharma', 'role': 'Alumni', 'sub': 'Software Engineer @ TCS', 'batch': 'Batch of 2021', 'loc': 'Delhi NCR', 'initial': 'AS', 'accent': 'accent-blue'},
+            {'name': 'Riya Mehta', 'role': 'Student', 'sub': 'MCA Final Year', 'batch': 'Batch of 2025', 'loc': 'Bengaluru', 'initial': 'RM', 'accent': 'accent-green'},
+            {'name': 'Dr. Sunil Kapoor', 'role': 'Faculty', 'sub': 'Associate Professor & HOD', 'batch': 'Dept. of CS', 'loc': 'Campus', 'initial': 'SK', 'accent': 'accent-purple'},
+            {'name': 'Pooja Verma', 'role': 'Alumni', 'sub': 'Product Designer @ Zomato', 'batch': 'Batch of 2020', 'loc': 'Gurugram', 'initial': 'PV', 'accent': 'accent-amber'},
+            {'name': 'Karan Gupta', 'role': 'Student', 'sub': 'BCA 4th Semester', 'batch': 'Batch of 2026', 'loc': 'Noida', 'initial': 'KG', 'accent': 'accent-blue'},
+            {'name': 'Manish Joshi', 'role': 'Alumni', 'sub': 'Cloud Architect @ Wipro', 'batch': 'Batch of 2019', 'loc': 'Hyderabad', 'initial': 'MJ', 'accent': 'accent-green'},
+            {'name': 'Neha Saxena', 'role': 'Alumni', 'sub': 'Data Analyst @ Swiggy', 'batch': 'Batch of 2022', 'loc': 'Bengaluru', 'initial': 'NS', 'accent': 'accent-purple'},
+            {'name': 'Vikas Rawat', 'role': 'Faculty', 'sub': 'Assistant Professor', 'batch': 'Dept. of IT', 'loc': 'Campus', 'initial': 'VR', 'accent': 'accent-amber'}
+        ] %}
+
+        {% for person in sample_people %}
+        <div class="col-md-6 col-lg-3">
+            <div class="home-card p-4 text-center h-100 shadow-sm d-flex flex-column justify-content-between {{ person.accent }}" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div>
+                    <div class="mb-3 position-relative d-inline-block">
+                        <div class="avatar-circle mx-auto d-grid place-items-center shadow-sm"
+                            style="width: 72px; height: 72px; border-radius: 50%; background: var(--bg-subtle); color: var(--text-primary); border: 2px solid var(--border-color); font-size: 1.3rem; font-weight: 700;">
+                            {{ person.initial }}
                         </div>
+                        <span class="position-absolute bottom-0 end-0 badge rounded-pill" style="font-size: 0.65rem; background: var(--accent-blue); color: #fff;">
+                            {{ person.role }}
+                        </span>
                     </div>
-                    <div class="col-md-2">
-                        <select class="form-select">
-                            <option selected>User Type</option>
-                            <option>Alumni</option>
-                            <option>Students</option>
-                            <option>Faculty</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="form-select">
-                            <option selected>Department</option>
-                            <option>Computer Science</option>
-                            <option>Engineering</option>
-                            <option>Business</option>
-                            <option>Arts</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="form-select">
-                            <option selected>Location</option>
-                            <option>New Delhi</option>
-                            <option>Mumbai</option>
-                            <option>Bangalore</option>
-                            <option>International</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-primary w-100">
-                            <i class="fas fa-filter me-2"></i> Apply
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Network Stats -->
-    <div class="row mb-4" data-aos="fade-up" data-aos-delay="200">
-        <div class="col-md-3 mb-3">
-            <div class="glass-card p-4 text-center">
-                <i class="fas fa-user-graduate fa-2x text-primary mb-3"></i>
-                <h3 class="fw-bold mb-0">15,234</h3>
-                <p class="text-muted mb-0">Total Alumni</p>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="glass-card p-4 text-center">
-                <i class="fas fa-users fa-2x text-success mb-3"></i>
-                <h3 class="fw-bold mb-0">3,456</h3>
-                <p class="text-muted mb-0">Current Students</p>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="glass-card p-4 text-center">
-                <i class="fas fa-user-friends fa-2x text-warning mb-3"></i>
-                <h3 class="fw-bold mb-0">{{ connections_count|default(0) }}</h3>
-                <p class="text-muted mb-0">Your Connections</p>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="glass-card p-4 text-center">
-                <i class="fas fa-chalkboard-teacher fa-2x text-info mb-3"></i>
-                <h3 class="fw-bold mb-0">234</h3>
-                <p class="text-muted mb-0">Faculty Members</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- People Grid -->
-    <div class="row" data-aos="fade-up" data-aos-delay="300">
-        {% for i in range(1, 9) %}
-        <div class="col-md-6 col-lg-3 mb-4">
-            <div class="glass-card p-4 text-center h-100 hover-lift">
-                <div class="mb-3">
-                    <div class="avatar-circle mx-auto"
-                        style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-size: 2rem; font-weight: bold;">
-                        {{ ['A', 'R', 'S', 'P', 'K', 'M', 'N', 'V'][i-1] }}
-                    </div>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-primary); font-size: 1.05rem;">{{ person.name }}</h5>
+                    <p class="small mb-1 fw-semibold" style="color: var(--accent-blue);">{{ person.sub }}</p>
+                    <p class="text-muted small mb-2" style="font-size: 0.8rem;">
+                        <i class="fas fa-graduation-cap me-1"></i> {{ person.batch }}
+                    </p>
+                    <p class="small text-muted mb-3" style="font-size: 0.8rem;">
+                        <i class="fas fa-location-dot me-1"></i> {{ person.loc }}
+                    </p>
                 </div>
-                <h5 class="fw-bold mb-1">{{ ['Alumni', 'Student', 'Faculty'][i % 3] }} {{ i }}</h5>
-                <p class="text-muted small mb-2">
-                    {% if i % 3 == 0 %}Class of 202{{ i % 5 }}{% elif i % 3 == 1 %}{{ ['BCA', 'MCA', 'B.Tech'][i % 3] }}
-                    - Semester {{ i % 8 + 1 }}{% else %}{{ ['Professor', 'Assistant Professor', 'Lecturer'][i % 3] }}{%
-                    endif %}
-                </p>
-                <p class="text-primary small mb-3">
-                    <i class="fas fa-building me-1"></i> {{ ['Tech Company', 'University', 'Department'][i % 3] }} {{ i
-                    }}
-                </p>
-                <p class="small text-muted mb-3">
-                    <i class="fas fa-map-marker-alt me-1"></i> {{ ['New Delhi', 'Mumbai', 'Bangalore', 'Pune'][i % 4] }}
-                </p>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-sm btn-primary">
-                        <i class="fas fa-user-plus me-2"></i> Connect
+
+                <div class="d-grid gap-2 pt-2">
+                    <button class="btn btn-sm btn-primary rounded-pill py-2 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('Connection request sent to {{ person.name }}!');">
+                        <i class="fas fa-user-plus me-1"></i> Connect
                     </button>
-                    <button class="btn btn-sm btn-outline-primary">
-                        <i class="fas fa-eye me-2"></i> View Profile
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill py-2" style="border-color: var(--border-color); color: var(--text-secondary);" onclick="alert('Profile details modal coming soon!');">
+                        <i class="fas fa-eye me-1"></i> View Profile
                     </button>
                 </div>
             </div>
@@ -140,35 +161,24 @@
     </div>
 
     <!-- Pagination -->
-    <div class="row mt-4" data-aos="fade-up">
-        <div class="col-12">
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+    <div class="d-flex justify-content-center mt-5">
+        <ul class="pagination shadow-sm rounded-pill overflow-hidden" style="border: 1px solid var(--border-color);">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-muted); border-color: var(--border-color);">Previous</a>
+            </li>
+            <li class="page-item active">
+                <a class="page-link" href="#" style="background: var(--accent-blue); border-color: var(--accent-blue); color: #fff;">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-color);">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-color);">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-color);">Next</a>
+            </li>
+        </ul>
     </div>
 </div>
-
-<style>
-    .hover-lift {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .hover-lift:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    }
-</style>
 {% endblock %}

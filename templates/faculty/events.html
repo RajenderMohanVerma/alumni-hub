@@ -1,89 +1,129 @@
 {% extends "base.html" %}
 
-{% block title %}Faculty Events - Alumni Hub{% endblock %}
+{% block title %}Faculty Events &amp; Workshops - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="padding-top: 100px !important;">
-    <div class="d-flex justify-content-between align-items-center mb-5 animate__animated animate__fadeInDown">
+<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
         <div>
-            <h1 class="fw-bold gradient-text display-5 mb-2">Events & Workshops</h1>
-            <p class="lead text-muted">Academic gatherings, seminars, and alumni reunions.</p>
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-purple-subtle); color: var(--accent-purple); font-size: 0.82rem; font-weight: 600;">
+                <i class="fas fa-calendar-check"></i>
+                <span>Academic Calendar &amp; Workshops</span>
+            </div>
+            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Departmental Events &amp; Seminars</h1>
+            <p class="text-muted small mb-0">Oversee academic conferences, alumni guest lectures, and student symposiums</p>
         </div>
-        <button class="btn btn-premium-gradient btn-lg shadow-premium rounded-pill px-4">
-            <i class="fas fa-calendar-plus me-2"></i> Organize Event
-        </button>
+        <div class="mt-3 mt-md-0 d-flex gap-2">
+            <button class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('Schedule event modal');">
+                <i class="fas fa-calendar-plus me-1"></i> Organize New Event
+            </button>
+        </div>
     </div>
 
-    <!-- Monthly Calendar Highlights -->
+    <!-- Monthly Highlights & Events Grid -->
     <div class="row g-4 mb-5">
-        <div class="col-lg-4 animate__animated animate__fadeInLeft">
-            <div class="glass-card p-4 h-100 holographic-border">
-                <h5 class="fw-bold mb-4"><i class="fas fa-calendar-alt text-primary me-2"></i> This Month</h5>
-                <div class="event-timeline">
-                    <div class="timeline-item mb-4 d-flex">
-                        <div class="date-circle bg-primary text-white me-3">27</div>
+        <!-- Monthly Timeline Column -->
+        <div class="col-lg-4">
+            <div class="home-card p-4 h-100 shadow-sm accent-purple" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="d-flex align-items-center gap-2 mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                    <div class="icon-chip" style="width: 38px; height: 38px; background: var(--accent-purple-subtle); color: var(--accent-purple); border-radius: 10px; display: grid; place-items: center;">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h5 class="fw-bold mb-0" style="color: var(--text-primary);">This Month's Schedule</h5>
+                </div>
+
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center p-3 rounded-3" style="background: var(--bg-subtle);">
+                        <div class="date-circle me-3 fw-bold shadow-sm" style="width: 44px; height: 44px; border-radius: 12px; background: var(--accent-blue-subtle); color: var(--accent-blue); display: grid; place-items: center; font-size: 1.1rem;">
+                            15
+                        </div>
                         <div>
-                            <h6 class="fw-bold mb-0 text-danger">Itrang'26</h6>
-                            <small class="text-muted">Cultural Fest • Main Campus</small>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">AI &amp; Cloud Symposium</h6>
+                            <small class="text-muted"><i class="fas fa-video me-1"></i> MS Teams &bull; 2:00 PM</small>
                         </div>
                     </div>
-                    <div class="timeline-item mb-4 d-flex">
-                        <div class="date-circle bg-info text-dark me-3">15</div>
+
+                    <div class="d-flex align-items-center p-3 rounded-3" style="background: var(--bg-subtle);">
+                        <div class="date-circle me-3 fw-bold shadow-sm" style="width: 44px; height: 44px; border-radius: 12px; background: var(--accent-green-subtle); color: var(--accent-green); display: grid; place-items: center; font-size: 1.1rem;">
+                            22
+                        </div>
                         <div>
-                            <h6 class="fw-bold mb-0">AI Webinar</h6>
-                            <small class="text-muted">Tech Talk • MS Teams</small>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Alumni Mock Interviews</h6>
+                            <small class="text-muted"><i class="fas fa-location-dot me-1"></i> Seminar Hall &bull; 10:00 AM</small>
                         </div>
                     </div>
-                    <div class="timeline-item d-flex">
-                        <div class="date-circle bg-warning text-dark me-3">22</div>
+
+                    <div class="d-flex align-items-center p-3 rounded-3" style="background: var(--bg-subtle);">
+                        <div class="date-circle me-3 fw-bold shadow-sm" style="width: 44px; height: 44px; border-radius: 12px; background: var(--accent-amber-subtle); color: var(--accent-amber); display: grid; place-items: center; font-size: 1.1rem;">
+                            27
+                        </div>
                         <div>
-                            <h6 class="fw-bold mb-0">Resume Workshop</h6>
-                            <small class="text-muted">Skill Building • Auditorium</small>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Annual Cultural Fest</h6>
+                            <small class="text-muted"><i class="fas fa-landmark me-1"></i> Main Campus Ground</small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-8 animate__animated animate__fadeInRight">
+        <!-- Featured Events Grid -->
+        <div class="col-lg-8">
             <div class="row g-4">
-                <!-- Featured Event -->
+                <!-- Featured Event 1 -->
                 <div class="col-md-6">
-                    <div class="glass-card event-card h-100 p-0 overflow-hidden">
-                        <div class="event-img"
-                            style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                            <div class="p-4 text-white">
-                                <span class="badge bg-danger mb-2 pulse-badge">Happening Now</span>
-                                <h4 class="fw-bold mb-0">Itrang'26</h4>
+                    <div class="home-card p-4 h-100 shadow-sm d-flex flex-column justify-content-between accent-blue" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge rounded-pill px-3 py-1" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.78rem; font-weight: 600;">
+                                    Technical Workshop
+                                </span>
+                                <small class="text-muted"><i class="fas fa-calendar me-1"></i> Oct 24, 2026</small>
                             </div>
+
+                            <h4 class="h5 fw-bold mb-2" style="color: var(--text-primary);">Full-Stack System Architecture</h4>
+                            <p class="text-muted small mb-3" style="line-height: 1.6;">
+                                An interactive practical workshop led by corporate alumni on microservices containerization and CI/CD automation pipelines.
+                            </p>
                         </div>
-                        <div class="p-4">
-                            <p class="text-muted small mb-3">The annual cultural extravaganza of our community. Join the
-                                celebration of talent and creativity.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-muted small"><i class="fas fa-users me-1"></i> 1000+ Students</span>
-                                <button class="btn btn-primary btn-sm rounded-pill">View Details</button>
+
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center pt-3 border-top mb-3" style="border-color: var(--border-color) !important; font-size: 0.82rem;">
+                                <span class="text-muted"><i class="fas fa-users me-1 text-primary"></i> 450+ Registered</span>
+                                <span class="text-success fw-semibold"><i class="fas fa-circle me-1" style="font-size: 0.5rem;"></i> Confirmed</span>
                             </div>
+                            <button class="btn btn-outline-primary btn-sm rounded-pill w-100 py-2" style="border-color: var(--accent-blue); color: var(--accent-blue);" onclick="alert('Event management view');">
+                                View Event Details
+                            </button>
                         </div>
                     </div>
                 </div>
-                <!-- Upcoming Event -->
+
+                <!-- Featured Event 2 -->
                 <div class="col-md-6">
-                    <div class="glass-card event-card h-100 p-0 overflow-hidden">
-                        <div class="event-img"
-                            style="height: 200px; background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);">
-                            <div class="p-4 text-white">
-                                <span class="badge bg-success mb-2">Upcoming</span>
-                                <h4 class="fw-bold mb-0">Annual Alumni Meet</h4>
+                    <div class="home-card p-4 h-100 shadow-sm d-flex flex-column justify-content-between accent-green" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge rounded-pill px-3 py-1" style="background: var(--accent-green-subtle); color: var(--accent-green); font-size: 0.78rem; font-weight: 600;">
+                                    Campus Reunion
+                                </span>
+                                <small class="text-muted"><i class="fas fa-calendar me-1"></i> Jan 12, 2027</small>
                             </div>
+
+                            <h4 class="h5 fw-bold mb-2" style="color: var(--text-primary);">Annual Alumni Grand Meetup</h4>
+                            <p class="text-muted small mb-3" style="line-height: 1.6;">
+                                Celebrating silver jubilee and decade milestone batches. Includes panel discussions, department awards, and networking dinner.
+                            </p>
                         </div>
-                        <div class="p-4">
-                            <p class="text-muted small mb-3">Reconnect with your former students and fellow faculty
-                                members at this grand reunion.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-muted small"><i class="fas fa-users me-1"></i> 500+ RSVP</span>
-                                <button class="btn btn-outline-primary btn-sm rounded-pill">Manage RSVPs</button>
+
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center pt-3 border-top mb-3" style="border-color: var(--border-color) !important; font-size: 0.82rem;">
+                                <span class="text-muted"><i class="fas fa-users me-1 text-success"></i> 280+ RSVPs</span>
+                                <span class="badge" style="background: var(--accent-green); color: #fff;">Open for RSVP</span>
                             </div>
+                            <button class="btn btn-primary btn-sm rounded-pill w-100 py-2 shadow-sm" style="background: var(--accent-green); border: none;" onclick="alert('Manage RSVP list modal');">
+                                Manage RSVPs
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -91,25 +131,4 @@
         </div>
     </div>
 </div>
-
-<style>
-    .date-circle {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        flex-shrink: 0;
-    }
-
-    .event-card {
-        transition: transform 0.3s ease;
-    }
-
-    .event-card:hover {
-        transform: translateY(-5px);
-    }
-</style>
 {% endblock %}

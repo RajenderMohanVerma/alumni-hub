@@ -186,11 +186,64 @@
 
     .profile-redesign-wrapper {
         position: relative;
-        background: #060a16;
+        background: var(--bg-primary, #060a16);
         min-height: 100vh;
         overflow-x: hidden;
         padding-top: 100px;
         font-family: 'Plus Jakarta Sans', sans-serif;
+        color: var(--text-primary, #ffffff);
+    }
+
+    /* Light Theme Compatibility */
+    [data-theme="light"] .profile-redesign-wrapper {
+        background: var(--bg-primary, #f8fafc) !important;
+        color: var(--text-primary, #0f172a) !important;
+    }
+    [data-theme="light"] .glass-card-form {
+        background: #ffffff !important;
+        border: 1px solid var(--border-color, #e2e8f0) !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+        color: #0f172a !important;
+    }
+    [data-theme="light"] .form-label-glass,
+    [data-theme="light"] .section-title.text-white,
+    [data-theme="light"] h1.text-white,
+    [data-theme="light"] h4.text-white,
+    [data-theme="light"] .form-control {
+        color: #0f172a !important;
+    }
+    [data-theme="light"] .form-group-glass .form-control {
+        background: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #0f172a !important;
+    }
+    [data-theme="light"] .form-group-glass .form-control:focus {
+        background: #ffffff !important;
+        border-color: #6366f1 !important;
+    }
+    [data-theme="light"] .text-white-50 {
+        color: #64748b !important;
+    }
+    [data-theme="light"] .particles-bg {
+        opacity: 0.1 !important;
+    }
+    [data-theme="light"] .orb {
+        opacity: 0.08 !important;
+    }
+    [data-theme="light"] .tag-input-glass {
+        background: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+    }
+    [data-theme="light"] .tag-input-field {
+        color: #0f172a !important;
+    }
+    [data-theme="light"] .tag-input-field::placeholder {
+        color: #94a3b8 !important;
+    }
+    [data-theme="light"] .glass-pill-primary {
+        background: rgba(99, 102, 241, 0.1) !important;
+        color: #4338ca !important;
+        border: 1px solid rgba(99, 102, 241, 0.25) !important;
     }
 
     /* Backgrounds */

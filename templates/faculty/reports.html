@@ -4,17 +4,21 @@
 
 {% block content %}
 <div class="container py-5" style="padding-top: 100px !important;">
-    <div class="d-flex justify-content-between align-items-center mb-5 animate__animated animate__fadeInDown">
+    <div class="d-flex justify-content-between align-items-center mb-5 animate__animated animate__fadeInDown flex-wrap gap-3">
         <div>
-            <h1 class="fw-bold gradient-text display-5 mb-2">Academic Reports</h1>
-            <p class="lead text-muted">Insights and analytics for department engagement.</p>
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2"
+                style="background: rgba(13, 110, 253, 0.1); color: var(--accent-blue, #0d6efd); font-size: 0.85rem; font-weight: 600;">
+                <i class="fas fa-chart-pie"></i> Academic Analytics
+            </div>
+            <h1 class="fw-bold display-6 mb-1" style="color: var(--text-primary, #0f172a);">Academic Reports</h1>
+            <p class="mb-0" style="color: var(--text-secondary, #64748b);">Insights and real-time department engagement metrics.</p>
         </div>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-primary rounded-pill px-4">
+            <button class="btn btn-outline-secondary rounded-pill px-4" style="border-color: var(--border-color, #e2e8f0); color: var(--text-primary, #0f172a);">
                 <i class="fas fa-download me-2"></i> Export PDF
             </button>
-            <button class="btn btn-premium-gradient rounded-pill px-4 shadow-premium">
-                <i class="fas fa-plus-circle me-2"></i> Generate New Report
+            <button class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: linear-gradient(135deg, #0d6efd, #0b5ed7); border: none;">
+                <i class="fas fa-plus-circle me-2"></i> Generate Report
             </button>
         </div>
     </div>
@@ -22,39 +26,39 @@
     <!-- Stats Overview -->
     <div class="row g-4 mb-5">
         <div class="col-md-3 animate__animated animate__fadeInUp" style="--delay: 0.1s">
-            <div class="glass-card p-4 text-center border-bottom border-primary border-4">
-                <div class="icon-box bg-light-primary text-primary mb-3 mx-auto">
-                    <i class="fas fa-user-graduate fa-2x"></i>
+            <div class="home-card card-accent-blue p-4 text-center h-100">
+                <div class="squircle-icon bg-blue-subtle text-primary mb-3 mx-auto">
+                    <i class="fas fa-user-graduate fa-lg"></i>
                 </div>
-                <h3 class="fw-bold mb-1">1,240</h3>
-                <p class="text-muted small mb-0">Active Students</p>
+                <h3 class="fw-bold mb-1" style="color: var(--text-primary, #0f172a);">480</h3>
+                <p class="small mb-0" style="color: var(--text-secondary, #64748b);">Active Students</p>
             </div>
         </div>
         <div class="col-md-3 animate__animated animate__fadeInUp" style="--delay: 0.2s">
-            <div class="glass-card p-4 text-center border-bottom border-success border-4">
-                <div class="icon-box bg-light-success text-success mb-3 mx-auto">
-                    <i class="fas fa-handshake fa-2x"></i>
+            <div class="home-card card-accent-green p-4 text-center h-100">
+                <div class="squircle-icon bg-green-subtle text-success mb-3 mx-auto">
+                    <i class="fas fa-handshake fa-lg"></i>
                 </div>
-                <h3 class="fw-bold mb-1">45</h3>
-                <p class="text-muted small mb-0">New Connections</p>
+                <h3 class="fw-bold mb-1" style="color: var(--text-primary, #0f172a);">45</h3>
+                <p class="small mb-0" style="color: var(--text-secondary, #64748b);">New Connections</p>
             </div>
         </div>
         <div class="col-md-3 animate__animated animate__fadeInUp" style="--delay: 0.3s">
-            <div class="glass-card p-4 text-center border-bottom border-warning border-4">
-                <div class="icon-box bg-light-warning text-warning mb-3 mx-auto">
-                    <i class="fas fa-bullhorn fa-2x"></i>
+            <div class="home-card card-accent-amber p-4 text-center h-100">
+                <div class="squircle-icon bg-amber-subtle text-warning mb-3 mx-auto">
+                    <i class="fas fa-bullhorn fa-lg"></i>
                 </div>
-                <h3 class="fw-bold mb-1">12</h3>
-                <p class="text-muted small mb-0">Announcements</p>
+                <h3 class="fw-bold mb-1" style="color: var(--text-primary, #0f172a);">12</h3>
+                <p class="small mb-0" style="color: var(--text-secondary, #64748b);">Announcements</p>
             </div>
         </div>
         <div class="col-md-3 animate__animated animate__fadeInUp" style="--delay: 0.4s">
-            <div class="glass-card p-4 text-center border-bottom border-info border-4">
-                <div class="icon-box bg-light-info text-info mb-3 mx-auto">
-                    <i class="fas fa-calendar-check fa-2x"></i>
+            <div class="home-card card-accent-purple p-4 text-center h-100">
+                <div class="squircle-icon bg-purple-subtle text-info mb-3 mx-auto">
+                    <i class="fas fa-calendar-check fa-lg"></i>
                 </div>
-                <h3 class="fw-bold mb-1">8</h3>
-                <p class="text-muted small mb-0">Recent Events</p>
+                <h3 class="fw-bold mb-1" style="color: var(--text-primary, #0f172a);">8</h3>
+                <p class="small mb-0" style="color: var(--text-secondary, #64748b);">Recent Events</p>
             </div>
         </div>
     </div>
@@ -62,53 +66,54 @@
     <!-- Detailed Reports Section -->
     <div class="row g-4">
         <div class="col-lg-8 animate__animated animate__fadeInLeft">
-            <div class="glass-card p-4 h-100">
-                <h4 class="fw-bold mb-4">Department Engagement Trends</h4>
-                <div class="chart-placeholder bg-light rounded-4 d-flex align-items-center justify-content-center"
-                    style="height: 350px; background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);">
-                    <div class="text-center text-muted">
-                        <i class="fas fa-chart-line fa-4x mb-3 opacity-25"></i>
-                        <p>Engagement Visualization Loading...</p>
+            <div class="home-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0" style="color: var(--text-primary, #0f172a);">Department Engagement Trends</h5>
+                    <span class="badge rounded-pill px-3 py-2" style="background: var(--bg-subtle, #f1f5f9); color: var(--text-secondary, #64748b); border: 1px solid var(--border-color, #e2e8f0);">Current Semester</span>
+                </div>
+                <div class="rounded-4 d-flex align-items-center justify-content-center p-5 text-center"
+                    style="min-height: 320px; background: var(--bg-subtle, #f8fafc); border: 1px dashed var(--border-color, #cbd5e1);">
+                    <div style="color: var(--text-secondary, #64748b);">
+                        <i class="fas fa-chart-line fa-3x mb-3 opacity-50 text-primary"></i>
+                        <h6 class="fw-bold mb-1" style="color: var(--text-primary, #0f172a);">Interactive Engagement Chart</h6>
+                        <p class="small mb-0" style="color: var(--text-secondary, #64748b);">Student and alumni interactions are trending +28% higher than last month.</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 animate__animated animate__fadeInRight">
-            <div class="glass-card p-4 h-100">
-                <h4 class="fw-bold mb-4">Quick actions</h4>
-                <div class="list-group list-group-flush border-0">
-                    <a href="#" class="list-group-item list-group-item-action bg-transparent border-0 px-0 mb-3">
-                        <div class="d-flex align-items-center">
-                            <div class="icon-circle bg-primary-soft text-primary me-3">
-                                <i class="fas fa-file-csv"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 fw-bold">Student Progress Report</h6>
-                                <small class="text-muted">Last generated 2 days ago</small>
-                            </div>
+            <div class="home-card p-4 h-100">
+                <h5 class="fw-bold mb-4" style="color: var(--text-primary, #0f172a);">Quick Actions</h5>
+                <div class="d-flex flex-column gap-3">
+                    <a href="#" class="p-3 rounded-3 text-decoration-none d-flex align-items-center transition-all action-report-card">
+                        <div class="squircle-icon bg-blue-subtle text-primary me-3 flex-shrink-0">
+                            <i class="fas fa-file-csv"></i>
                         </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 fw-bold" style="color: var(--text-primary, #0f172a);">Student Progress Report</h6>
+                            <small style="color: var(--text-secondary, #64748b);">Last generated 2 days ago</small>
+                        </div>
+                        <i class="fas fa-chevron-right small text-muted"></i>
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action bg-transparent border-0 px-0 mb-3">
-                        <div class="d-flex align-items-center">
-                            <div class="icon-circle bg-success-soft text-success me-3">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 fw-bold">Alumni Interaction Log</h6>
-                                <small class="text-muted">Real-time tracking of connections</small>
-                            </div>
+                    <a href="#" class="p-3 rounded-3 text-decoration-none d-flex align-items-center transition-all action-report-card">
+                        <div class="squircle-icon bg-green-subtle text-success me-3 flex-shrink-0">
+                            <i class="fas fa-users"></i>
                         </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 fw-bold" style="color: var(--text-primary, #0f172a);">Alumni Interaction Log</h6>
+                            <small style="color: var(--text-secondary, #64748b);">Real-time tracking of connections</small>
+                        </div>
+                        <i class="fas fa-chevron-right small text-muted"></i>
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action bg-transparent border-0 px-0">
-                        <div class="d-flex align-items-center">
-                            <div class="icon-circle bg-warning-soft text-warning me-3">
-                                <i class="fas fa-calendar-alt"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 fw-bold">Event Attendance Analysis</h6>
-                                <small class="text-muted">Detailed list of participants</small>
-                            </div>
+                    <a href="#" class="p-3 rounded-3 text-decoration-none d-flex align-items-center transition-all action-report-card">
+                        <div class="squircle-icon bg-amber-subtle text-warning me-3 flex-shrink-0">
+                            <i class="fas fa-calendar-alt"></i>
                         </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 fw-bold" style="color: var(--text-primary, #0f172a);">Event Attendance Analysis</h6>
+                            <small style="color: var(--text-secondary, #64748b);">Detailed list of participants</small>
+                        </div>
+                        <i class="fas fa-chevron-right small text-muted"></i>
                     </a>
                 </div>
             </div>
@@ -117,51 +122,30 @@
 </div>
 
 <style>
-    .icon-box {
-        width: 60px;
-        height: 60px;
-        border-radius: 15px;
+    .squircle-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 1.15rem;
     }
 
-    .bg-light-primary {
-        background: rgba(13, 110, 253, 0.1);
-    }
+    .bg-blue-subtle { background: rgba(13, 110, 253, 0.12); }
+    .bg-green-subtle { background: rgba(25, 135, 84, 0.12); }
+    .bg-amber-subtle { background: rgba(245, 158, 11, 0.12); }
+    .bg-purple-subtle { background: rgba(139, 92, 246, 0.12); }
 
-    .bg-light-success {
-        background: rgba(25, 135, 84, 0.1);
+    .action-report-card {
+        background: var(--bg-subtle, #f8fafc);
+        border: 1px solid var(--border-color, #e2e8f0);
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
-
-    .bg-light-warning {
-        background: rgba(255, 193, 7, 0.1);
-    }
-
-    .bg-light-info {
-        background: rgba(13, 202, 240, 0.1);
-    }
-
-    .icon-circle {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-    }
-
-    .bg-primary-soft {
-        background: #e7f1ff;
-    }
-
-    .bg-success-soft {
-        background: #eafbea;
-    }
-
-    .bg-warning-soft {
-        background: #fff9e6;
+    .action-report-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--accent-blue, #0d6efd);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
 </style>
 {% endblock %}

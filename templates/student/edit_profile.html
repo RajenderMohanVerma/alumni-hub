@@ -216,7 +216,7 @@
     /* Global Styles & Mesh */
     body {
         font-family: 'Outfit', sans-serif;
-        background-color: #f8fafc;
+        background-color: var(--bg-primary) !important; color: var(--text-primary) !important;
         overflow-x: hidden;
     }
 
@@ -243,7 +243,7 @@
         height: 100%;
         z-index: -1;
         overflow: hidden;
-        background: #f8fafc;
+        background: var(--bg-primary);
         pointer-events: none;
     }
 
@@ -382,7 +382,7 @@
 
     /* Glass Cards */
     .glass-card {
-        background: rgba(255, 255, 255, 0.96);
+        background: var(--bg-surface) !important; color: var(--text-primary) !important; border-color: var(--border-color) !important;
         backdrop-filter: blur(25px);
         -webkit-backdrop-filter: blur(25px);
         border: 1px solid rgba(255, 255, 255, 0.6) !important;
@@ -449,7 +449,7 @@
     .premium-form-section .section-title {
         font-size: 1.15rem;
         font-weight: 800;
-        color: #0f172a;
+        color: var(--text-primary);
         display: flex;
         align-items: center;
         gap: 12px;
@@ -493,7 +493,9 @@
         border-radius: 16px;
         font-weight: 600;
         color: #1e293b;
-        background: #fff;
+        background: var(--input-bg);
+        color: var(--input-text);
+        border-color: var(--border-color);
         transition: all 0.3s ease;
     }
 
@@ -527,7 +529,7 @@
         padding: 1.1rem 1rem;
         font-size: 0.9rem;
         font-weight: 700;
-        color: #475569;
+        color: var(--text-muted);
         pointer-events: none;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         opacity: 1;
@@ -543,7 +545,7 @@
         color: #1e1b4b;
         font-weight: 800;
         opacity: 1;
-        background: rgba(255, 255, 255, 0.9);
+        background: var(--bg-surface); color: var(--text-primary);
         padding: 0.2rem 0.8rem;
         border-radius: 8px;
         left: 10px;

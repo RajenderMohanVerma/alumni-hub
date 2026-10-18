@@ -3,30 +3,42 @@
 {% block title %}Alumni Spotlight - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="margin-top: 100px;">
-    <div class="text-center mb-5 animate__animated animate__fadeInDown">
-        <h1 class="fw-bold gradient-text display-5">Alumni Spotlight</h1>
-        <p class="lead text-muted">Celebrating the achievements and inspiring stories of our diverse alumni community.
+<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
+    <!-- Page Header -->
+    <div class="text-center max-w-700 mx-auto mb-5 pb-2">
+        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="background: var(--accent-amber-subtle); color: var(--accent-amber); font-size: 0.85rem; font-weight: 600;">
+            <i class="fas fa-award"></i>
+            <span>Success Stories</span>
+        </div>
+        <h1 class="display-5 fw-bold mb-3" style="color: var(--text-primary);">Alumni Spotlight &amp; Achievements</h1>
+        <p class="lead text-muted" style="max-width: 650px; margin: 0 auto; font-size: 1.1rem;">
+            Celebrating extraordinary journeys, startup milestones, and leadership triumphs from our global alumni community.
         </p>
     </div>
 
-    <!-- Featured Spotlight -->
-    <div class="glass-card p-0 overflow-hidden mb-5 animate__animated animate__fadeInUp">
-        <div class="row g-0">
+    <!-- Featured Spotlight Container -->
+    <div class="home-card p-0 overflow-hidden mb-5 shadow-sm accent-blue" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+        <div class="row g-0 align-items-center">
             <div class="col-lg-6">
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                    alt="Featured Alumni" class="img-fluid h-100 object-fit-cover" style="min-height: 400px;">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80"
+                    alt="Featured Alumni" class="img-fluid w-100 object-fit-cover" style="min-height: 380px; max-height: 440px;">
             </div>
-            <div class="col-lg-6 p-5 d-flex flex-column justify-content-center">
-                <span class="text-primary fw-bold text-uppercase mb-2">Featured Story</span>
-                <h2 class="fw-bold mb-3">From campus to Silicon Valley</h2>
-                <h5 class="text-muted mb-4">Anjali Gupta, Class of 2015</h5>
-                <p class="text-muted mb-4">
-                    Anjali shares her journey of building a successful AI startup that was recently acquired by a major
-                    tech giant. She discusses the challenges of entrepreneurship and the importance of resilience.
+            <div class="col-lg-6 p-4 p-md-5 d-flex flex-column justify-content-center">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="badge rounded-pill px-3 py-1" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.8rem; font-weight: 600;">
+                        <i class="fas fa-star me-1"></i> Featured Innovator
+                    </span>
+                    <small class="text-muted"><i class="fas fa-graduation-cap me-1"></i> Class of 2015</small>
+                </div>
+                <h2 class="h3 fw-bold mb-2" style="color: var(--text-primary);">From Campus Lab to Silicon Valley Exit</h2>
+                <h6 class="fw-semibold mb-3" style="color: var(--accent-blue);">Anjali Gupta &bull; Co-founder &amp; CEO, NeuralScale</h6>
+                <p class="text-muted mb-4" style="line-height: 1.6; font-size: 0.95rem;">
+                    Anjali shares how her final-year engineering project evolved into an enterprise AI automation company, recently acquired by a Fortune 500 tech leader. Learn about perseverance, fundraising, and the power of campus networking.
                 </p>
                 <div>
-                    <button class="btn btn-premium-gradient px-4">Read Full Story</button>
+                    <button class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('Full feature story modal');">
+                        <i class="fas fa-book-open me-2"></i> Read Full Interview
+                    </button>
                 </div>
             </div>
         </div>
@@ -35,46 +47,70 @@
     <!-- Spotlight Grid -->
     <div class="row g-4">
         <!-- Card 1 -->
-        <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" style="--delay: 0.2s">
-            <div class="glass-card h-100 p-0 overflow-hidden hover-card">
-                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                    class="card-img-top" alt="Alumni" style="height: 250px; object-fit: cover;">
-                <div class="p-4">
-                    <h5 class="fw-bold mb-1">Vikram Singh</h5>
-                    <p class="text-muted small mb-3">CEO, GreenTech Solutions • Batch 2012</p>
-                    <p class="card-text text-muted">Leading the charge in sustainable energy solutions across India.</p>
-                    <a href="#" class="text-primary fw-bold text-decoration-none">Read More <i
-                            class="fas fa-arrow-right ms-1"></i></a>
+        <div class="col-md-6 col-lg-4">
+            <div class="home-card p-0 h-100 shadow-sm d-flex flex-column justify-content-between overflow-hidden accent-green" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80"
+                        class="w-100" alt="Vikram Singh" style="height: 220px; object-fit: cover;">
+                    <div class="p-4">
+                        <span class="badge rounded-pill px-2 py-1 mb-2" style="background: var(--accent-green-subtle); color: var(--accent-green); font-size: 0.75rem;">Clean Tech</span>
+                        <h5 class="fw-bold mb-1" style="color: var(--text-primary);">Vikram Singh</h5>
+                        <p class="small mb-2 fw-semibold" style="color: var(--accent-green);">CEO, GreenGrid Systems &bull; Batch 2012</p>
+                        <p class="text-muted small mb-0" style="line-height: 1.5;">
+                            Pioneering solar grid optimization across 14 states with proprietary IoT hardware and intelligent demand forecast algorithms.
+                        </p>
+                    </div>
+                </div>
+                <div class="p-4 pt-0">
+                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill w-100 py-2" style="border-color: var(--border-color); color: var(--accent-green);" onclick="alert('Story details coming soon');">
+                        Read Story <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
         <!-- Card 2 -->
-        <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" style="--delay: 0.3s">
-            <div class="glass-card h-100 p-0 overflow-hidden hover-card">
-                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                    class="card-img-top" alt="Alumni" style="height: 250px; object-fit: cover;">
-                <div class="p-4">
-                    <h5 class="fw-bold mb-1">Sarah Khan</h5>
-                    <p class="text-muted small mb-3">Director of Research, BioGen • Batch 2014</p>
-                    <p class="card-text text-muted">Breakthrough research in renewable bioinformatics.</p>
-                    <a href="#" class="text-primary fw-bold text-decoration-none">Read More <i
-                            class="fas fa-arrow-right ms-1"></i></a>
+        <div class="col-md-6 col-lg-4">
+            <div class="home-card p-0 h-100 shadow-sm d-flex flex-column justify-content-between overflow-hidden accent-purple" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80"
+                        class="w-100" alt="Sarah Khan" style="height: 220px; object-fit: cover;">
+                    <div class="p-4">
+                        <span class="badge rounded-pill px-2 py-1 mb-2" style="background: var(--accent-purple-subtle); color: var(--accent-purple); font-size: 0.75rem;">Healthcare AI</span>
+                        <h5 class="fw-bold mb-1" style="color: var(--text-primary);">Sarah Khan</h5>
+                        <p class="small mb-2 fw-semibold" style="color: var(--accent-purple);">Lead Research Scientist, BioGen &bull; Batch 2014</p>
+                        <p class="text-muted small mb-0" style="line-height: 1.5;">
+                            Leading breakthroughs in computational oncology and protein folding models, published in top tier international bio-engineering journals.
+                        </p>
+                    </div>
+                </div>
+                <div class="p-4 pt-0">
+                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill w-100 py-2" style="border-color: var(--border-color); color: var(--accent-purple);" onclick="alert('Story details coming soon');">
+                        Read Story <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
         <!-- Card 3 -->
-        <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" style="--delay: 0.4s">
-            <div class="glass-card h-100 p-0 overflow-hidden hover-card">
-                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                    class="card-img-top" alt="Alumni" style="height: 250px; object-fit: cover;">
-                <div class="p-4">
-                    <h5 class="fw-bold mb-1">David Chen</h5>
-                    <p class="text-muted small mb-3">Founder, EdLearn • Batch 2018</p>
-                    <p class="card-text text-muted">Revolutionizing education access in rural communities.</p>
-                    <a href="#" class="text-primary fw-bold text-decoration-none">Read More <i
-                            class="fas fa-arrow-right ms-1"></i></a>
+        <div class="col-md-6 col-lg-4">
+            <div class="home-card p-0 h-100 shadow-sm d-flex flex-column justify-content-between overflow-hidden accent-amber" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80"
+                        class="w-100" alt="David Chen" style="height: 220px; object-fit: cover;">
+                    <div class="p-4">
+                        <span class="badge rounded-pill px-2 py-1 mb-2" style="background: var(--accent-amber-subtle); color: var(--accent-amber); font-size: 0.75rem;">EdTech Social</span>
+                        <h5 class="fw-bold mb-1" style="color: var(--text-primary);">David Chen</h5>
+                        <p class="small mb-2 fw-semibold" style="color: var(--accent-amber);">Founder, OpenClassrooms &bull; Batch 2018</p>
+                        <p class="text-muted small mb-0" style="line-height: 1.5;">
+                            Democratizing high-quality coding education and mentor office hours for thousands of aspiring developers in tier-2 and tier-3 towns.
+                        </p>
+                    </div>
+                </div>
+                <div class="p-4 pt-0">
+                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill w-100 py-2" style="border-color: var(--border-color); color: var(--accent-amber);" onclick="alert('Story details coming soon');">
+                        Read Story <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>

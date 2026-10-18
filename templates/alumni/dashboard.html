@@ -79,7 +79,7 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="stat-card" style="animation: slideUp 0.6s ease; --card-accent: #667eea;">
+                    <div class="stat-card home-card" style="animation: slideUp 0.6s ease; --card-accent: #667eea;">
                         <div class="stat-trend"><i class="fas fa-link"></i> Linked</div>
                         <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                             <i class="fas fa-network-wired"></i>
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="stat-card" style="animation: slideUp 0.7s ease; --card-accent: #f59e0b;">
+                    <div class="stat-card home-card" style="animation: slideUp 0.7s ease; --card-accent: #f59e0b;">
                         <div class="stat-trend bg-warning text-dark"><i class="fas fa-bell"></i> Action Required</div>
                         <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
                             <i class="fas fa-user-plus"></i>
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="stat-card" style="animation: slideUp 0.8s ease; --card-accent: #10b981;">
+                    <div class="stat-card home-card" style="animation: slideUp 0.8s ease; --card-accent: #10b981;">
                         <div class="stat-trend"><i class="fas fa-check-circle"></i> Milestone</div>
                         <div class="stat-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
                             <i class="fas fa-hands-helping"></i>
@@ -131,7 +131,7 @@
                             <i class="fas fa-user-clock text-white" style="font-size:1.2rem;"></i>
                         </div>
                         <div>
-                            <h4 class="fw-bold mb-0" style="color:#1e293b;">Connection Requests</h4>
+                            <h4 class="fw-bold mb-0" style="color:var(--text-primary);">Connection Requests</h4>
                             <span class="text-muted small">{{ pending_count }} pending • Respond to grow your network</span>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                 <!-- Request Cards -->
                 <div class="mb-4" id="connectionRequestsList">
                     {% for req in pending_requests %}
-                    <div class="conn-request-card mb-3" id="req-{{ req['sender_id'] }}" style="background:white;border:1px solid #e2e8f0;border-radius:20px;padding:18px 22px;box-shadow:0 2px 12px rgba(0,0,0,0.04);transition:all 0.3s ease;">
+                    <div class="conn-request-card mb-3" id="req-{{ req['sender_id'] }}" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:18px;padding:18px 22px;box-shadow:var(--card-shadow);transition:all 0.3s ease;">
                         <div class="d-flex align-items-center gap-3">
                             <!-- Avatar -->
                             <div class="position-relative flex-shrink-0">
@@ -157,7 +157,7 @@
                             </div>
                             <!-- Info -->
                             <div class="flex-grow-1 min-width-0">
-                                <h6 class="mb-1 fw-bold text-truncate" style="color:#1e293b;">{{ req['name'] }}</h6>
+                                <h6 class="mb-1 fw-bold text-truncate" style="color:var(--text-primary);">{{ req['name'] }}</h6>
                                 <div class="d-flex align-items-center gap-2 flex-wrap">
                                     <span class="badge rounded-pill" style="background:rgba(99,102,241,0.1);color:#6366f1;font-size:0.7rem;padding:3px 10px;">
                                         <i class="fas fa-user-graduate me-1"></i>{{ req['role'] | capitalize }}
@@ -213,11 +213,11 @@
             <!-- Quick Actions Sidebar -->
             <div class="col-lg-4">
                 <div class="glass-card p-4 h-100"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 24px;">
+                    style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
                     <h4 class="fw-bold mb-4"><i class="fas fa-rocket text-primary me-2"></i> Quick Actions</h4>
                     <div class="d-grid gap-3">
                         <a href="{{ url_for('edit_alumni_profile', user_id=current_user.id) }}"
-                            class="btn btn-light-primary text-start p-3 rounded-4 transition-all hover-lift">
+                            class="btn btn text-start p-3 rounded-4 transition-all hover-lift" style="background: var(--bg-subtle); color: var(--text-primary); border: 1px solid var(--border-color);">
                             <div class="d-flex align-items-center">
                                 <div class="icon-box-md bg-soft-primary text-primary me-3"><i
                                         class="fas fa-user-edit"></i></div>
@@ -228,7 +228,7 @@
                             </div>
                         </a>
                         <a href="{{ url_for('alumni_meet_register') }}"
-                            class="btn btn-light-warning text-start p-3 rounded-4 transition-all hover-lift">
+                            class="btn btn text-start p-3 rounded-4 transition-all hover-lift" style="background: var(--bg-subtle); color: var(--text-primary); border: 1px solid var(--border-color);">
                             <div class="d-flex align-items-center">
                                 <div class="icon-box-md bg-soft-warning text-warning me-3"><i
                                         class="fas fa-calendar-star"></i></div>
@@ -452,7 +452,7 @@
     /* Stats System */
     .stats-container {
         padding: 40px 0;
-        background: #f8fafc;
+        background: var(--bg-primary);
         margin: 40px 0;
         border-radius: 40px;
     }

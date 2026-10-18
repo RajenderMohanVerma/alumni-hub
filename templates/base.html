@@ -2,6 +2,20 @@
 <html lang="en">
 
 <head>
+    <!-- Instant Theme Initializer (Prevents FOUC) -->
+    <script>
+        (function () {
+            const storedTheme = localStorage.getItem('alumni_hub_theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const activeTheme = storedTheme ? storedTheme : (systemPrefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', activeTheme);
+            if (activeTheme === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+            } else {
+                document.documentElement.classList.remove('dark-mode');
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -58,6 +72,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/social_pages.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ui-enhancements.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme-system.css') }}">
 
 
     <style>
@@ -155,7 +170,7 @@
     </div>
 
     <!-- ===== NAVBAR ===== -->
-    <nav class="navbar navbar-expand-lg navbar-floating fixed-top smart-scroll-nav nav-dark-mode" id="mainNavbar">
+    <nav class="navbar navbar-expand-lg navbar-floating fixed-top smart-scroll-nav" id="mainNavbar">
         <div class="container-fluid navbar-container">
             <a class="navbar-brand brand-premium" href="/">
                 <div class="brand-logo-container">
@@ -210,13 +225,17 @@
                         </li>
                     </ul>
 
-                    <div class="nav-auth-actions">
+                    <div class="nav-auth-actions d-flex align-items-center">
                         <a class="nav-auth-login" href="/login">
                             Sign In
                         </a>
                         <a class="nav-auth-register" href="/register">
                             Register <i class="fas fa-arrow-right" aria-hidden="true"></i>
                         </a>
+                        <button class="theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle dark or light theme" title="Switch Theme">
+                            <i class="fas fa-moon theme-icon-moon" aria-hidden="true"></i>
+                            <i class="fas fa-sun theme-icon-sun" aria-hidden="true"></i>
+                        </button>
                     </div>
                     {% else %}
                     <!-- Authenticated View -->
@@ -546,6 +565,12 @@
                     {% endif %}
 
                     <!-- User Profile Dropdown -->
+                    <li class="nav-item d-flex align-items-center px-1">
+                        <button class="theme-toggle-btn" id="themeToggleBtnAuth" type="button" aria-label="Toggle dark or light theme" title="Switch Theme">
+                            <i class="fas fa-moon theme-icon-moon" aria-hidden="true"></i>
+                            <i class="fas fa-sun theme-icon-sun" aria-hidden="true"></i>
+                        </button>
+                    </li>
                     <li class="nav-item dropdown px-2 user-dropdown">
                         <a class="nav-link user-pill dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -649,6 +674,13 @@
                 <hr class="w-100 border-white opacity-25" style="max-width: 80%;">
                 {% endif %}
 
+                <div class="mobile-theme-row d-flex align-items-center justify-content-between w-100 px-4 py-2 mb-3" style="border-bottom: 1px solid var(--border-color);">
+                    <span class="fw-bold" style="font-size: 0.95rem;"><i class="fas fa-circle-half-stroke me-2 text-primary"></i> Theme Mode</span>
+                    <button class="theme-toggle-btn" id="mobileThemeToggleBtn" type="button" aria-label="Toggle dark or light theme">
+                        <i class="fas fa-moon theme-icon-moon" aria-hidden="true"></i>
+                        <i class="fas fa-sun theme-icon-sun" aria-hidden="true"></i>
+                    </button>
+                </div>
                 <div class="mobile-links-container">
                     <a href="/" class="mobile-nav-link" style="--delay: 0.2s"><i class="fas fa-home me-2"></i> Home</a>
                     <a href="/about" class="mobile-nav-link" style="--delay: 0.25s"><i
@@ -776,12 +808,14 @@
         <!-- Footer Marquee -->
         <div class="footer-marquee">
             <div class="marquee-inner">
-                <span>⭐ Join 15000+ Alumni</span>
-                <span>🌍 Connect Globally</span>
-                <span>💼 Career Opportunities</span>
-                <span>📚 Learning Resources</span>
-                <span>🤝 Networking Events</span>
-                <span>⭐ Join 15000+ Alumni</span>
+                <span>⭐ 480+ Active Alumni</span>
+                <span>🌍 25+ Countries Reached</span>
+                <span>💼 160+ Career Opportunities</span>
+                <span>📚 Verified Mentorship</span>
+                <span>🤝 Professional Network</span>
+                <span>⭐ 480+ Active Alumni</span>
+                <span>🌍 25+ Countries Reached</span>
+                <span>💼 160+ Career Opportunities</span>
             </div>
         </div>
 
@@ -912,6 +946,33 @@
             duration: 800,
             once: true,
             offset: 50
+        });
+
+        
+        // ===== THEME TOGGLE (DARK / LIGHT MODE) =====
+        function toggleThemeMode() {
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
+            const nextTheme = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', nextTheme);
+            if (nextTheme === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+            } else {
+                document.documentElement.classList.remove('dark-mode');
+            }
+            localStorage.setItem('alumni_hub_theme', nextTheme);
+            window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: nextTheme } }));
+        }
+
+        const themeBtns = [
+            document.getElementById('themeToggleBtn'),
+            document.getElementById('themeToggleBtnAuth'),
+            document.getElementById('mobileThemeToggleBtn')
+        ];
+
+        themeBtns.forEach(btn => {
+            if (btn) {
+                btn.addEventListener('click', toggleThemeMode);
+            }
         });
 
         // 1. ACTIVE LINK HIGHLIGHTING

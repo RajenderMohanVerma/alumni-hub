@@ -1,575 +1,205 @@
 {% extends 'base.html' %}
+{% block title %}Post a Job - Alumni Hub{% endblock %}
+
 {% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap');
-
-    :root {
-        --primary-indigo: #6366f1;
-        --primary-purple: #a855f7;
-        --dark-bg: #030712;
-        --glass-bg: rgba(17, 24, 39, 0.75);
-        --glass-border: rgba(255, 255, 255, 0.08);
-        --text-slate: #94a3b8;
-        --cyber-blue: #00f2ff;
-    }
-
-    body {
-        background: var(--dark-bg);
-        font-family: 'Outfit', sans-serif;
-        color: white;
-        overflow-x: hidden;
-    }
-
-    /* Animated Mesh Background (Unified with Jobs Page) */
-    .mesh-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background-color: var(--dark-bg);
-        background-image:
-            radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0, transparent 50%),
-            radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0, transparent 50%),
-            radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.1) 0, transparent 50%);
-        filter: blur(100px);
-        animation: meshMove 20s ease-in-out infinite alternate;
-    }
-
-    @keyframes meshMove {
-        0% {
-            transform: scale(1);
-        }
-
-        100% {
-            transform: scale(1.2) translate(50px, 50px);
-        }
-    }
-
-    .premium-form-wrapper {
-        padding: 120px 0 100px;
-        min-height: 100vh;
-    }
-
-    .glass-header {
-        text-align: center;
-        margin-bottom: 4rem;
-    }
-
-    .hero-title {
-        font-weight: 800;
-        font-size: 3.5rem;
-        letter-spacing: -2px;
-        margin-bottom: 0.5rem;
-    }
-
-    .gradient-text {
-        background: linear-gradient(135deg, var(--primary-indigo), var(--primary-purple));
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    /* Layout: Form on Left, Preview on Right */
-    .form-container-grid {
-        display: grid;
-        grid-template-columns: 1fr 450px;
-        gap: 3rem;
-        align-items: start;
-    }
-
-    @media (max-width: 1200px) {
-        .form-container-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .preview-pane {
-            position: sticky;
-            top: 100px;
-            z-index: 10;
-        }
-    }
-
-    /* Form Styling */
-    .glass-form-card {
-        background: var(--glass-bg);
-        backdrop-filter: blur(25px);
-        border: 1px solid var(--glass-border);
-        border-radius: 32px;
-        padding: 3.5rem;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
-
-    .form-section-title {
-        font-weight: 800;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color: var(--primary-indigo);
-        margin-bottom: 2rem;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .form-section-title::after {
-        content: '';
-        height: 1px;
-        flex: 1;
-        background: rgba(99, 102, 241, 0.2);
-    }
-
-    .input-group-premium {
-        margin-bottom: 1.5rem;
-    }
-
-    .label-premium {
-        display: block;
-        font-weight: 700;
-        font-size: 0.85rem;
-        margin-bottom: 0.75rem;
-        color: #94a3b8;
-    }
-
-    .control-premium {
-        width: 100%;
-        padding: 14px 20px;
-        border-radius: 16px;
-        border: 2px solid rgba(255, 255, 255, 0.05);
-        background: rgba(15, 23, 42, 0.5);
-        color: white;
-        font-weight: 500;
-        transition: 0.3s;
-    }
-
-    .control-premium:focus {
-        border-color: var(--primary-indigo);
-        background: rgba(15, 23, 42, 0.8);
-        outline: none;
-        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    }
-
-    .control-premium::placeholder {
-        color: rgba(148, 163, 184, 0.4);
-    }
-
-    /* Select Overwrite */
-    select.control-premium {
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 20px center;
-        background-size: 18px;
-    }
-
-    /* Live Preview Pane */
-    .preview-pane {
-        position: sticky;
-        top: 120px;
-    }
-
-    .preview-label {
-        font-weight: 800;
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color: var(--cyber-blue);
-        margin-bottom: 1.5rem;
-        display: block;
-        text-align: center;
-    }
-
-    /* Job Card Mega (Copied from Jobs Page styles) */
-    .job-card-preview {
-        background: var(--glass-bg);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--glass-border);
-        border-radius: 32px;
-        padding: 2.5rem;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        border-color: rgba(99, 102, 241, 0.3);
-        box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6);
-    }
-
-    .branding-sphere {
-        width: 100px;
-        height: 100px;
-        background: white;
-        border-radius: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 2.5rem;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-        padding: 12px;
-        border: 1px solid #e2e8f0;
-    }
-
-    .branding-sphere img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-
-    .branding-initial {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: var(--primary-indigo);
-    }
-
-    .node-badge {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: var(--text-slate);
-        padding: 6px 14px;
-        border-radius: 10px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .meta-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        margin: 1.5rem 0;
-    }
-
-    .meta-label {
-        font-size: 0.6rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--text-slate);
-        font-weight: 700;
-    }
-
-    .meta-value {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #f8fafc;
-    }
-
-    .btn-luxe {
-        background: linear-gradient(135deg, var(--primary-indigo), var(--primary-purple));
-        color: white;
-        padding: 1rem;
-        border-radius: 16px;
-        font-weight: 800;
-        display: block;
-        width: 100%;
-        text-align: center;
-        text-decoration: none;
-    }
-
-    /* Logo Upload UX */
-    .logo-upload-box {
-        border: 2px dashed #334155;
-        border-radius: 20px;
-        padding: 1.5rem;
-        text-align: center;
-        cursor: pointer;
-        transition: 0.3s;
-        background: rgba(15, 23, 42, 0.3);
-        margin-bottom: 2rem;
-    }
-
-    .logo-upload-box:hover {
-        border-color: var(--primary-indigo);
-        background: rgba(99, 102, 241, 0.02);
-    }
-
-    .btn-deploy {
-        background: linear-gradient(135deg, var(--primary-indigo), var(--primary-purple));
-        border: none;
-        color: white;
-        padding: 1.2rem;
-        border-radius: 18px;
-        font-weight: 800;
-        width: 100%;
-        font-size: 1.1rem;
-        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
-        transition: 0.4s;
-    }
-
-    .btn-deploy:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 15px 35px rgba(99, 102, 241, 0.5);
-    }
-</style>
-
-<div class="mesh-bg"></div>
-
-<div class="premium-form-wrapper">
-    <div class="container">
-        <div class="glass-header" data-aos="fade-down">
-            <h1 class="hero-title">Post a <span class="gradient-text">New Job</span></h1>
-            <p class="text-slate fs-5">Broadcast exclusive professional intersections to the student matrix.</p>
+<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+        <div>
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-green-subtle); color: var(--accent-green); font-size: 0.82rem; font-weight: 600;">
+                <i class="fas fa-plus-circle"></i>
+                <span>Recruiter &amp; Alumni Portal</span>
+            </div>
+            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Post a Job or Internship</h1>
+            <p class="text-muted small mb-0">Share career opportunities directly with verified college students and graduating seniors</p>
         </div>
+        <div class="mt-3 mt-md-0 d-flex gap-2">
+            <a href="{{ url_for('list_jobs') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3" style="border-color: var(--border-color); color: var(--text-secondary);">
+                <i class="fas fa-arrow-left me-1"></i> Back to Jobs
+            </a>
+        </div>
+    </div>
 
-        <div class="form-container-grid">
-            <!-- Form Section -->
-            <div class="glass-form-card" data-aos="fade-right">
+    <div class="row g-4 align-items-start">
+        <!-- Job Form Column -->
+        <div class="col-lg-7">
+            <div class="home-card p-4 p-md-5 shadow-sm accent-blue" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
                 <form method="POST" enctype="multipart/form-data" id="jobPostForm">
-                    <!-- Core Identity -->
-                    <div class="form-section-title">Identity & Role</div>
-                    <div class="row g-3">
-                        <div class="col-md-7">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Position Title</label>
-                                <input type="text" name="title" id="in_title" class="control-premium"
-                                    placeholder="e.g. Senior Backend Engineer" required>
-                            </div>
+                    <!-- Position & Company -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                            <i class="fas fa-briefcase" style="color: var(--accent-blue);"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Role &amp; Company Overview</h6>
                         </div>
-                        <div class="col-md-5">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Company Name</label>
-                                <input type="text" name="company" id="in_company" class="control-premium"
-                                    placeholder="e.g. Google India" required>
+
+                        <div class="row g-3">
+                            <div class="col-md-7">
+                                <label class="form-label small fw-semibold text-muted mb-1">Job Title <span class="text-danger">*</span></label>
+                                <input type="text" name="title" id="in_title" class="form-control" placeholder="e.g. Associate Software Engineer" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Industry Domain</label>
-                                <select name="category" id="in_category" class="control-premium">
-                                    <option value="Technology">Technology & Software</option>
-                                    <option value="Finance">Finance & Fintech</option>
-                                    <option value="Design">UI/UX & Creative</option>
-                                    <option value="Marketing">Marketing & Research</option>
-                                    <option value="Management">Management & Sales</option>
-                                    <option value="Other">Other Domains</option>
+                            <div class="col-md-5">
+                                <label class="form-label small fw-semibold text-muted mb-1">Company Name <span class="text-danger">*</span></label>
+                                <input type="text" name="company" id="in_company" class="form-control" placeholder="e.g. Google India" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted mb-1">Industry Domain</label>
+                                <select name="category" id="in_category" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                    <option value="Technology">Technology &amp; Software</option>
+                                    <option value="Finance">Finance &amp; Banking</option>
+                                    <option value="Design">Product &amp; UI/UX Design</option>
+                                    <option value="Marketing">Growth &amp; Marketing</option>
+                                    <option value="Other">Other</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Employment Type</label>
-                                <select name="employment_type" id="in_type" class="control-premium">
-                                    <option value="Full-time">Full-time Role</option>
-                                    <option value="Internship">Internship (Paid)</option>
-                                    <option value="Contract">Contractual</option>
-                                    <option value="Part-time">Part-time</option>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted mb-1">Employment Type</label>
+                                <select name="employment_type" id="in_type" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" onchange="updatePreview()">
+                                    <option value="Full-Time">Full-Time</option>
+                                    <option value="Internship">Internship</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Part-time">Part-Time</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Environment & Eligibility -->
-                    <div class="form-section-title mt-4">Environment & Scope</div>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Work Mode</label>
-                                <select name="work_mode" id="in_mode" class="control-premium">
-                                    <option value="Remote">Remote Sync</option>
-                                    <option value="Onsite">Onsite Presence</option>
-                                    <option value="Hybrid">Hybrid Model</option>
+                    <!-- Work Environment & Location -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                            <i class="fas fa-location-dot" style="color: var(--accent-green);"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Work Mode &amp; Eligibility</h6>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted mb-1">Work Mode</label>
+                                <select name="work_mode" id="in_mode" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                    <option value="Remote">Remote</option>
+                                    <option value="Onsite">On-Site (Office)</option>
+                                    <option value="Hybrid">Hybrid</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Eligible Nucleus (Branch)</label>
-                                <input type="text" name="eligible_branch" id="in_branch" class="control-premium"
-                                    placeholder="e.g. IT, CS, Mech">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted mb-1">Eligible Branch / Degree</label>
+                                <input type="text" name="eligible_branch" id="in_branch" class="form-control" placeholder="e.g. BCA, MCA, B.Tech" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Experience Bracket</label>
-                                <select name="experience_required" id="in_exp" class="control-premium">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted mb-1">Experience Required</label>
+                                <select name="experience_required" id="in_exp" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                                     <option value="Freshers">Entry Level (Freshers)</option>
-                                    <option value="0-1 Years">0-1 Years Experience</option>
-                                    <option value="1-3 Years">1-3 Years Experience</option>
-                                    <option value="3-5 Years">3-5 Years Experience</option>
+                                    <option value="0-1 Years">0-1 Years</option>
+                                    <option value="1-3 Years">1-3 Years</option>
+                                    <option value="3+ Years">3+ Years</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Coordinates (Location)</label>
-                                <input type="text" name="location" id="in_location" class="control-premium"
-                                    placeholder="e.g. Bangalore / Remote">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted mb-1">Job Location / City</label>
+                                <input type="text" name="location" id="in_location" class="form-control" placeholder="e.g. Bengaluru / Remote" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Rewards & Logistics -->
-                    <div class="form-section-title mt-4">Rewards & Logistics</div>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Compensation (Annual/Stipend)</label>
-                                <input type="text" name="salary" id="in_salary" class="control-premium"
-                                    placeholder="e.g. 15-18 LPA">
-                            </div>
+                    <!-- Compensation & Apply Link -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                            <i class="fas fa-money-bill-wave" style="color: var(--accent-amber);"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Compensation &amp; Application Details</h6>
                         </div>
-                        <div class="col-md-6">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Sync Deadline</label>
-                                <input type="date" name="deadline" id="in_deadline" class="control-premium">
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted mb-1">Annual CTC / Stipend</label>
+                                <input type="text" name="salary" id="in_salary" class="form-control" placeholder="e.g. ₹6-8 LPA or ₹25k/month" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Application Vector (URL or Email)</label>
-                                <input type="text" name="apply_link" id="in_link" class="control-premium"
-                                    placeholder="https://careers.company.com/id">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted mb-1">Application Deadline</label>
+                                <input type="date" name="deadline" id="in_deadline" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold text-muted mb-1">Application URL or HR Email <span class="text-danger">*</span></label>
+                                <input type="text" name="apply_link" id="in_link" class="form-control" placeholder="https://careers.company.com/apply or jobs@company.com" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Skills & Manifesto -->
-                    <div class="form-section-title mt-4">Technical Manifesto</div>
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Skill Matrix (Comma separated)</label>
-                                <input type="text" name="skills" id="in_skills" class="control-premium"
-                                    placeholder="e.g. React, Node.js, AWS">
-                            </div>
+                    <!-- Skills & Description -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                            <i class="fas fa-list-check" style="color: var(--accent-purple);"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Requirements &amp; Description</h6>
                         </div>
-                        <div class="col-12">
-                            <div class="input-group-premium">
-                                <label class="label-premium">Role Manifesto (Description)</label>
-                                <textarea name="description" class="control-premium" rows="5"
-                                    placeholder="Define the impact and responsibilities..."></textarea>
-                            </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted mb-1">Key Skills (Comma separated)</label>
+                            <input type="text" name="skills" id="in_skills" class="form-control" placeholder="e.g. Python, SQL, REST APIs, Git" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted mb-1">Job Description &amp; Responsibilities</label>
+                            <textarea name="description" class="form-control" rows="4" placeholder="Briefly describe the candidate's responsibilities..." style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);"></textarea>
                         </div>
                     </div>
 
-                    <!-- Asset Upload -->
-                    <div class="form-section-title mt-4">Visual Branding</div>
-                    <div class="logo-upload-box" onclick="document.getElementById('logoInput').click()">
-                        <i class="fas fa-image fa-2x mb-2 text-indigo-400"></i>
-                        <div class="fw-bold">Company Logo Asset</div>
-                        <div class="small text-slate">Drop file or click to browse</div>
-                        <input type="file" name="company_logo" id="logoInput" hidden accept="image/*">
-                    </div>
-
-                    <button type="submit" class="btn-deploy">
-                        <i class="fas fa-satellite-dish me-2"></i> Deploy to Network
+                    <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 w-100 shadow-sm" style="background: var(--accent-blue); border: none; font-size: 1.05rem;">
+                        <i class="fas fa-paper-plane me-2"></i> Publish Job Opportunity
                     </button>
                 </form>
             </div>
+        </div>
 
-            <!-- Preview Pane -->
-            <div class="preview-pane" data-aos="fade-left">
-                <span class="preview-label">Real-time Matrix Preview</span>
+        <!-- Live Preview Card Column -->
+        <div class="col-lg-5 sticky-top" style="top: 100px;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="fas fa-eye text-primary"></i>
+                <span class="small fw-bold text-muted text-uppercase" style="letter-spacing: 0.05em;">Live Card Preview</span>
+            </div>
 
-                <div class="job-card-preview">
-                    <!-- Glow effect -->
-                    <div
-                        style="position: absolute; top: 0; right: 0; width: 100%; height: 100%; background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent); pointer-events: none;">
+            <div class="home-card p-4 shadow-sm accent-blue" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="d-flex align-items-start gap-3 mb-3">
+                    <div class="avatar-circle d-grid place-items-center fw-bold shadow-sm" style="width: 54px; height: 54px; border-radius: 14px; background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 1.3rem;" id="prev_logo">
+                        C
                     </div>
-
-                    <div class="branding-sphere">
-                        <span class="branding-initial" id="pv_initial">?</span>
-                        <img id="pv_logo" style="display: none;">
-                    </div>
-
-                    <div class="job-identity mb-4">
-                        <h4 class="fw-800 text-white mb-1" id="pv_title">Job Title Position</h4>
-                        <p class="gradient-text fw-700 small mb-0" id="pv_company">Corporate Entity Name</p>
-                    </div>
-
-                    <div class="badge-cluster d-flex flex-wrap gap-2 mb-4">
-                        <span class="node-badge"><i class="fas fa-microchip"></i> <span
-                                id="pv_mode">Remote</span></span>
-                        <span class="node-badge c-badge"><i class="fas fa-briefcase"></i> <span
-                                id="pv_category">Tech</span></span>
-                    </div>
-
-                    <div class="meta-grid">
-                        <div class="meta-item">
-                            <span class="meta-label">Coordinates</span>
-                            <span class="meta-value" id="pv_location">Global / Remote</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Rewards</span>
-                            <span class="meta-value" id="pv_salary">Confidential</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Matrix Nucleus</span>
-                            <span class="meta-value" id="pv_branch">All Branches</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Sync Deadline</span>
-                            <span class="meta-value" id="pv_deadline" style="color: #fb7185;">ASAP</span>
-                        </div>
-                    </div>
-
-                    <div class="mt-auto pt-4 border-top border-secondary-subtle">
-                        <div class="btn-luxe">
-                            Start Application <i class="fas fa-chevron-right ms-2" style="font-size: 0.8rem;"></i>
-                        </div>
+                    <div>
+                        <span class="badge rounded-pill px-2 py-1 mb-1" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.75rem;" id="prev_type">Full-Time</span>
+                        <h5 class="fw-bold mb-0" style="color: var(--text-primary);" id="prev_title">Associate Software Engineer</h5>
+                        <p class="small text-muted mb-0" id="prev_company">Google India</p>
                     </div>
                 </div>
 
-                <div class="alert alert-info border-0 mt-4 rounded-4 small"
-                    style="background: rgba(59, 130, 246, 0.1); color: #60a5fa;">
-                    <i class="fas fa-info-circle me-2"></i> This preview represents how your post will appear in the
-                    <strong>Alumni Matrix</strong>.
+                <div class="p-3 rounded-3 mb-3" style="background: var(--bg-subtle);">
+                    <div class="d-flex justify-content-between small text-muted mb-1">
+                        <span><i class="fas fa-location-dot me-1"></i> Location:</span>
+                        <strong style="color: var(--text-primary);" id="prev_loc">Bengaluru / Remote</strong>
+                    </div>
+                    <div class="d-flex justify-content-between small text-muted">
+                        <span><i class="fas fa-money-bill-wave me-1"></i> Salary:</span>
+                        <strong style="color: var(--accent-green);" id="prev_sal">Competitive</strong>
+                    </div>
                 </div>
+
+                <button class="btn btn-primary w-100 rounded-pill py-2" disabled style="background: var(--accent-blue); opacity: 0.9;">
+                    Apply for Role <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                </button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('jobPostForm');
+function updatePreview() {
+    const title = document.getElementById('in_title').value || 'Associate Software Engineer';
+    const company = document.getElementById('in_company').value || 'Company Name';
+    const type = document.getElementById('in_type').value || 'Full-Time';
+    const loc = document.getElementById('in_location').value || 'Bengaluru / Remote';
+    const sal = document.getElementById('in_salary').value || 'Competitive';
 
-        // Live Preview Logic
-        const updatePreview = () => {
-            const title = document.getElementById('in_title').value || 'Job Title Position';
-            const company = document.getElementById('in_company').value || 'Corporate Entity Name';
-            const category = document.getElementById('in_category').value;
-            const mode = document.getElementById('in_mode').value;
-            const branch = document.getElementById('in_branch').value || 'All Branches';
-            const location = document.getElementById('in_location').value || 'Global / Remote';
-            const salary = document.getElementById('in_salary').value || 'Confidential';
-            const deadline = document.getElementById('in_deadline').value || 'ASAP';
-
-            document.getElementById('pv_title').innerText = title;
-            document.getElementById('pv_company').innerText = company;
-            document.getElementById('pv_category').innerText = category;
-            document.getElementById('pv_mode').innerText = mode;
-            document.getElementById('pv_branch').innerText = branch;
-            document.getElementById('pv_location').innerText = location;
-            document.getElementById('pv_salary').innerText = salary;
-            document.getElementById('pv_deadline').innerText = deadline;
-            document.getElementById('pv_initial').innerText = company.charAt(0).toUpperCase();
-        };
-
-        // Listen for all inputs
-        form.querySelectorAll('input, select, textarea').forEach(el => {
-            el.addEventListener('input', updatePreview);
-        });
-
-        // Logo Upload Preview
-        document.getElementById('logoInput').addEventListener('change', function () {
-            if (this.files && this.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const pvLogo = document.getElementById('pv_logo');
-                    const pvInitial = document.getElementById('pv_initial');
-                    pvLogo.src = e.target.result;
-                    pvLogo.style.display = 'block';
-                    pvInitial.style.display = 'none';
-                };
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-    });
+    document.getElementById('prev_title').innerText = title;
+    document.getElementById('prev_company').innerText = company;
+    document.getElementById('prev_type').innerText = type;
+    document.getElementById('prev_loc').innerText = loc;
+    document.getElementById('prev_sal').innerText = sal;
+    document.getElementById('prev_logo').innerText = (company.trim()[0] || 'C').toUpperCase();
+}
 </script>
-
 {% endblock %}

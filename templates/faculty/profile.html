@@ -231,11 +231,73 @@
 
     .profile-redesign-wrapper {
         position: relative;
-        background: #060a16;
+        background: var(--bg-primary, #060a16);
         min-height: 100vh;
         overflow-x: hidden;
         padding-top: 100px;
         font-family: 'Plus Jakarta Sans', sans-serif;
+        color: var(--text-primary, #ffffff);
+    }
+
+    /* Light Theme Compatibility */
+    [data-theme="light"] .profile-redesign-wrapper {
+        background: var(--bg-primary, #f8fafc) !important;
+        color: var(--text-primary, #0f172a) !important;
+    }
+    [data-theme="light"] .glass-card-modern,
+    [data-theme="light"] .profile-card-glass,
+    [data-theme="light"] .meta-card-glass,
+    [data-theme="light"] .glass-section-premium {
+        background: #ffffff !important;
+        border: 1px solid var(--border-color, #e2e8f0) !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+        color: #0f172a !important;
+    }
+    [data-theme="light"] .glass-card-modern .text-white,
+    [data-theme="light"] .profile-card-glass .text-white,
+    [data-theme="light"] .meta-card-glass .text-white,
+    [data-theme="light"] .glass-section-premium .text-white,
+    [data-theme="light"] .header-banner .text-white {
+        color: #0f172a !important;
+    }
+    [data-theme="light"] .text-white-50 {
+        color: #64748b !important;
+    }
+    [data-theme="light"] .action-btn-glass {
+        background: #f1f5f9 !important;
+        border: 1px solid #e2e8f0 !important;
+        color: #0f172a !important;
+    }
+    [data-theme="light"] .spec-tag-3d {
+        background: #eef2ff !important;
+        color: #4338ca !important;
+        border: 1px solid #c7d2fe !important;
+    }
+    [data-theme="light"] .bg-white-5 {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+    [data-theme="light"] .particles-bg {
+        opacity: 0.1 !important;
+    }
+    [data-theme="light"] .orb {
+        opacity: 0.08 !important;
+    }
+    [data-theme="light"] .header-banner {
+        background: #ffffff !important;
+        border: 1px solid var(--border-color, #e2e8f0) !important;
+    }
+    [data-theme="light"] .faculty-status-indicator {
+        background: rgba(13, 110, 253, 0.08) !important;
+        border: 1px solid rgba(13, 110, 253, 0.2) !important;
+    }
+    [data-theme="light"] .faculty-status-indicator .text-white {
+        color: #0d6efd !important;
+    }
+    [data-theme="light"] .glass-pill-warning {
+        background: rgba(245, 158, 11, 0.1) !important;
+        color: #b45309 !important;
+        border: 1px solid rgba(245, 158, 11, 0.25) !important;
     }
 
     /* BACKGROUND ANIMATIONS */

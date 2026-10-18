@@ -1,130 +1,156 @@
 {% extends "base.html" %}
 
-{% block title %}Network - Alumni Hub{% endblock %}
+{% block title %}Alumni Network - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="margin-top: 100px;">
+<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
     <!-- Page Header -->
-    <div class="row mb-5" data-aos="fade-up">
-        <div class="col-12">
-            <div class="glass-card p-5 text-center">
-                <h1 class="display-4 fw-bold mb-3">
-                    <i class="fas fa-network-wired text-primary"></i> Alumni Network
-                </h1>
-                <p class="lead text-muted">Connect with fellow alumni, expand your professional network, and build
-                    meaningful relationships</p>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+        <div>
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
+                <i class="fas fa-network-wired"></i>
+                <span>Global Alumni Circle</span>
+            </div>
+            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Alumni Directory &amp; Connections</h1>
+            <p class="text-muted small mb-0">Connect with fellow graduates across batches, companies, and international chapters</p>
+        </div>
+        <div class="mt-3 mt-md-0 d-flex gap-2">
+            <a href="{{ url_for('messages') }}" class="btn btn-outline-primary btn-sm rounded-pill px-3" style="border-color: var(--accent-blue); color: var(--accent-blue);">
+                <i class="fas fa-comment-dots me-1"></i> Messages
+            </a>
+        </div>
+    </div>
+
+    <!-- Search & Filters Container -->
+    <div class="home-card p-4 mb-4 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label small fw-semibold text-muted mb-1">Search Directory</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent" style="border-color: var(--border-color); color: var(--text-muted);">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Search by name, company, or domain...">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-semibold text-muted mb-1">Graduation Year</label>
+                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                    <option selected>All Batches</option>
+                    <option>2024</option>
+                    <option>2023</option>
+                    <option>2022</option>
+                    <option>2020 &amp; Earlier</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-semibold text-muted mb-1">Department</label>
+                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                    <option selected>All Branches</option>
+                    <option>Computer Science / MCA</option>
+                    <option>Information Tech</option>
+                    <option>Electronics</option>
+                    <option>Management</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-semibold text-muted mb-1">City / Region</label>
+                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                    <option selected>All Locations</option>
+                    <option>Delhi NCR</option>
+                    <option>Bengaluru</option>
+                    <option>Mumbai</option>
+                    <option>Hyderabad</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button class="btn btn-primary w-100 rounded-pill py-2 shadow-sm" style="background: var(--accent-blue); border: none;">
+                    <i class="fas fa-filter me-1"></i> Filter
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Search and Filters -->
-    <div class="row mb-4" data-aos="fade-up" data-aos-delay="100">
-        <div class="col-12">
-            <div class="glass-card p-4">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0">
-                                <i class="fas fa-search text-muted"></i>
-                            </span>
-                            <input type="text" class="form-control border-start-0"
-                                placeholder="Search by name, company, or skills...">
+    <!-- Realistic Stats Grid (< 1000) -->
+    <div class="row g-3 mb-5">
+        <div class="col-6 col-md-3">
+            <div class="home-card p-3 p-md-4 text-center shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-blue-subtle); color: var(--accent-blue); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">480+</h3>
+                <p class="text-muted small mb-0">Total Alumni</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="home-card p-3 p-md-4 text-center shadow-sm accent-green" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-green-subtle); color: var(--accent-green); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">210</h3>
+                <p class="text-muted small mb-0">Your Connections</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="home-card p-3 p-md-4 text-center shadow-sm accent-amber" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-amber-subtle); color: var(--accent-amber); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">180+</h3>
+                <p class="text-muted small mb-0">Partner Companies</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="home-card p-3 p-md-4 text-center shadow-sm accent-purple" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-purple-subtle); color: var(--accent-purple); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                    <i class="fas fa-city"></i>
+                </div>
+                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">32</h3>
+                <p class="text-muted small mb-0">Regional Hubs</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alumni Members Cards Grid -->
+    <div class="row g-4">
+        {% set alumni_members = [
+            {'name': 'Vikram Singh', 'role': 'Founder & CEO', 'company': 'GreenGrid Tech', 'batch': 'Batch of 2012', 'loc': 'Bengaluru', 'initial': 'VS', 'accent': 'accent-blue'},
+            {'name': 'Sarah Khan', 'role': 'Lead Researcher', 'company': 'BioGen Pharma', 'batch': 'Batch of 2014', 'loc': 'Hyderabad', 'initial': 'SK', 'accent': 'accent-purple'},
+            {'name': 'David Chen', 'role': 'Product Architect', 'company': 'EdLearn Cloud', 'batch': 'Batch of 2018', 'loc': 'Pune', 'initial': 'DC', 'accent': 'accent-amber'},
+            {'name': 'Ananya Mishra', 'role': 'Staff Engineer', 'company': 'Microsoft India', 'batch': 'Batch of 2017', 'loc': 'Bengaluru', 'initial': 'AM', 'accent': 'accent-green'},
+            {'name': 'Rohit Malhotra', 'role': 'VP of Engineering', 'company': 'FinPay Global', 'batch': 'Batch of 2015', 'loc': 'Mumbai', 'initial': 'RM', 'accent': 'accent-blue'},
+            {'name': 'Tanvi Sethi', 'role': 'Data Platform Lead', 'company': 'Amazon AWS', 'batch': 'Batch of 2019', 'loc': 'Gurugram', 'initial': 'TS', 'accent': 'accent-purple'},
+            {'name': 'Harshvardhan Rao', 'role': 'DevOps Manager', 'company': 'Cognizant', 'batch': 'Batch of 2016', 'loc': 'Noida', 'initial': 'HR', 'accent': 'accent-green'},
+            {'name': 'Kavita Iyer', 'role': 'Cybersecurity Lead', 'company': 'Infosys Security', 'batch': 'Batch of 2018', 'loc': 'Bengaluru', 'initial': 'KI', 'accent': 'accent-amber'}
+        ] %}
+
+        {% for member in alumni_members %}
+        <div class="col-md-6 col-lg-3">
+            <div class="home-card p-4 text-center h-100 shadow-sm d-flex flex-column justify-content-between {{ member.accent }}" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+                <div>
+                    <div class="mb-3 position-relative d-inline-block">
+                        <div class="avatar-circle mx-auto d-grid place-items-center shadow-sm"
+                            style="width: 72px; height: 72px; border-radius: 50%; background: var(--bg-subtle); color: var(--text-primary); border: 2px solid var(--border-color); font-size: 1.3rem; font-weight: 700;">
+                            {{ member.initial }}
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <select class="form-select">
-                            <option selected>Graduation Year</option>
-                            <option>2024</option>
-                            <option>2023</option>
-                            <option>2022</option>
-                            <option>2021</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="form-select">
-                            <option selected>Department</option>
-                            <option>Computer Science</option>
-                            <option>Engineering</option>
-                            <option>Business</option>
-                            <option>Arts</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="form-select">
-                            <option selected>Location</option>
-                            <option>New Delhi</option>
-                            <option>Mumbai</option>
-                            <option>Bangalore</option>
-                            <option>International</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-primary w-100">
-                            <i class="fas fa-filter me-2"></i> Apply Filters
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Network Stats -->
-    <div class="row mb-4" data-aos="fade-up" data-aos-delay="200">
-        <div class="col-md-3 mb-3">
-            <div class="glass-card p-4 text-center">
-                <i class="fas fa-users fa-2x text-primary mb-3"></i>
-                <h3 class="fw-bold mb-0">15,234</h3>
-                <p class="text-muted mb-0">Total Alumni</p>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="glass-card p-4 text-center">
-                <i class="fas fa-user-friends fa-2x text-success mb-3"></i>
-                <h3 class="fw-bold mb-0">342</h3>
-                <p class="text-muted mb-0">Your Connections</p>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="glass-card p-4 text-center">
-                <i class="fas fa-building fa-2x text-warning mb-3"></i>
-                <h3 class="fw-bold mb-0">1,200+</h3>
-                <p class="text-muted mb-0">Companies</p>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="glass-card p-4 text-center">
-                <i class="fas fa-globe fa-2x text-info mb-3"></i>
-                <h3 class="fw-bold mb-0">45+</h3>
-                <p class="text-muted mb-0">Countries</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Alumni Grid -->
-    <div class="row" data-aos="fade-up" data-aos-delay="300">
-        {% for i in range(1, 9) %}
-        <div class="col-md-6 col-lg-3 mb-4">
-            <div class="glass-card p-4 text-center h-100 hover-lift">
-                <div class="mb-3">
-                    <div class="avatar-circle mx-auto"
-                        style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-size: 2rem; font-weight: bold;">
-                        {{ ['A', 'R', 'S', 'P', 'K', 'M', 'N', 'V'][i-1] }}
-                    </div>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-primary); font-size: 1.05rem;">{{ member.name }}</h5>
+                    <p class="small mb-1 fw-semibold" style="color: var(--accent-blue);">{{ member.role }}</p>
+                    <p class="text-muted small mb-2" style="font-size: 0.8rem;">
+                        <i class="fas fa-building me-1"></i> {{ member.company }} &bull; {{ member.batch }}
+                    </p>
+                    <p class="small text-muted mb-3" style="font-size: 0.8rem;">
+                        <i class="fas fa-location-dot me-1"></i> {{ member.loc }}
+                    </p>
                 </div>
-                <h5 class="fw-bold mb-1">Alumni Name {{ i }}</h5>
-                <p class="text-muted small mb-2">Class of 202{{ i % 5 }}</p>
-                <p class="text-primary small mb-3">
-                    <i class="fas fa-building me-1"></i> Tech Company {{ i }}
-                </p>
-                <p class="small text-muted mb-3">
-                    <i class="fas fa-map-marker-alt me-1"></i> {{ ['New Delhi', 'Mumbai', 'Bangalore', 'Pune'][i % 4] }}
-                </p>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-sm btn-primary">
-                        <i class="fas fa-user-plus me-2"></i> Connect
+
+                <div class="d-grid gap-2 pt-2">
+                    <button class="btn btn-sm btn-primary rounded-pill py-2 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('Connection request sent to {{ member.name }}!');">
+                        <i class="fas fa-user-plus me-1"></i> Connect
                     </button>
-                    <button class="btn btn-sm btn-outline-primary">
-                        <i class="fas fa-eye me-2"></i> View Profile
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill py-2" style="border-color: var(--border-color); color: var(--text-secondary);" onclick="alert('Profile details modal coming soon!');">
+                        <i class="fas fa-eye me-1"></i> View Profile
                     </button>
                 </div>
             </div>
@@ -133,35 +159,24 @@
     </div>
 
     <!-- Pagination -->
-    <div class="row mt-4" data-aos="fade-up">
-        <div class="col-12">
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+    <div class="d-flex justify-content-center mt-5">
+        <ul class="pagination shadow-sm rounded-pill overflow-hidden" style="border: 1px solid var(--border-color);">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-muted); border-color: var(--border-color);">Previous</a>
+            </li>
+            <li class="page-item active">
+                <a class="page-link" href="#" style="background: var(--accent-blue); border-color: var(--accent-blue); color: #fff;">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-color);">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-color);">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-color);">Next</a>
+            </li>
+        </ul>
     </div>
 </div>
-
-<style>
-    .hover-lift {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .hover-lift:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    }
-</style>
 {% endblock %}

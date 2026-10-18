@@ -193,11 +193,108 @@
     .back-btn:hover {
         color: var(--primary-indigo);
     }
+
+    /* --- Modern Home-Card Container & Dark Theme Support --- */
+    .glass-card, .matrix-card, .admin-card, .stat-card-premium, .job-card-master, .directory-module {
+        position: relative !important;
+        border-radius: 18px !important;
+        overflow: hidden !important;
+        transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+    }
+    .glass-card::before, .matrix-card::before, .stat-card-premium::before, .job-card-master::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 3px !important;
+        background: linear-gradient(90deg, #6366f1, #a855f7) !important;
+        opacity: 0.9 !important;
+    }
+    .glass-card:hover, .matrix-card:hover, .stat-card-premium:hover, .job-card-master:hover {
+        transform: translateY(-4px) !important;
+    }
+
+    [data-theme="dark"] {
+        --terminal-bg: #0b0f19;
+        --dark-navy: #f8fafc;
+        --dark-slate: #f8fafc;
+        --soft-slate: #1e293b;
+        --glass-white: #1e293b;
+        --glass-bg: rgba(30, 41, 59, 0.85);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-main: #f8fafc;
+        --text-dim: #94a3b8;
+    }
+    [data-theme="dark"] body {
+        background: #0b0f19 !important;
+        color: #f8fafc !important;
+    }
+    [data-theme="dark"] .premium-bg {
+        background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%) !important;
+    }
+    [data-theme="dark"] .glass-card,
+    [data-theme="dark"] .matrix-card,
+    [data-theme="dark"] .directory-module,
+    [data-theme="dark"] .stat-card-premium,
+    [data-theme="dark"] .job-card-master,
+    [data-theme="dark"] .filter-bar-floating,
+    [data-theme="dark"] .form-container,
+    [data-theme="dark"] .card-custom {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+    }
+    [data-theme="dark"] .matrix-value,
+    [data-theme="dark"] .matrix-title,
+    [data-theme="dark"] .directory-title,
+    [data-theme="dark"] .job-card-master h3,
+    [data-theme="dark"] .job-card-master h4,
+    [data-theme="dark"] .job-card-master h5,
+    [data-theme="dark"] .stat-value,
+    [data-theme="dark"] .text-slate-900 {
+        color: #f8fafc !important;
+    }
+    [data-theme="dark"] .text-dim,
+    [data-theme="dark"] .text-slate-500 {
+        color: #94a3b8 !important;
+    }
+    [data-theme="dark"] .command-bar {
+        background: rgba(15, 23, 42, 0.6) !important;
+    }
+    [data-theme="dark"] .command-input,
+    [data-theme="dark"] .form-control,
+    [data-theme="dark"] .form-select {
+        background: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    [data-theme="dark"] .table {
+        color: #f8fafc !important;
+    }
+    [data-theme="dark"] .table tr {
+        border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    [data-theme="dark"] .table th {
+        background: #0f172a !important;
+        color: #94a3b8 !important;
+    }
+    [data-theme="dark"] .table td {
+        color: #f8fafc !important;
+    }
+    [data-theme="dark"] .bg-slate-100 {
+        background-color: #1e293b !important;
+    }
+    [data-theme="dark"] .border-slate-200 {
+        border-color: #334155 !important;
+    }
+
 </style>
 
 <div class="premium-form-container">
     <a href="{{ url_for('admin_jobs') }}" class="back-btn">
-        <i class="fas fa-chevron-left"></i> Return to Matrix
+        <i class="fas fa-chevron-left"></i> Back to Jobs Dashboard
     </a>
 
     <div class="form-hero">

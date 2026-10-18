@@ -404,7 +404,7 @@
     /* Global Styles */
     .edit-profile-premium {
         min-height: 100vh;
-        background: #0a0e27;
+        background: var(--bg-primary); color: var(--text-primary);
         position: relative;
         overflow-x: hidden;
         font-family: 'Inter', sans-serif;
@@ -508,7 +508,7 @@
 
     .shape {
         position: absolute;
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--bg-surface); color: var(--text-primary);
         border-radius: 50%;
         animation: float-shape 20s infinite ease-in-out;
     }
@@ -599,7 +599,7 @@
 
     .header-badge i {
         font-size: 3rem;
-        color: white;
+        color: var(--text-primary);
         z-index: 1;
         position: relative;
     }
@@ -635,16 +635,16 @@
     }
 
     .header-subtitle {
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--text-muted);
         font-size: 1.1rem;
         font-weight: 400;
     }
 
     /* Premium Cards */
     .premium-card {
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--bg-surface); color: var(--text-primary);
         backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--border-color);
         border-radius: 24px;
         overflow: hidden;
         position: relative;
@@ -660,7 +660,7 @@
 
     .card-header-premium {
         padding: 1.5rem 2rem;
-        background: rgba(255, 255, 255, 0.03);
+        background: var(--bg-subtle);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         display: flex;
         align-items: center;
@@ -675,13 +675,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: var(--text-primary);
         font-size: 1.3rem;
         box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
     }
 
     .card-title-premium {
-        color: white;
+        color: var(--text-primary);
         font-weight: 700;
         font-size: 1.2rem;
         margin: 0;
@@ -760,7 +760,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--text-secondary);
     }
 
     .icon-stack {
@@ -923,7 +923,7 @@
 
     .overlay-content {
         text-align: center;
-        color: white;
+        color: var(--text-primary);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -957,7 +957,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: var(--text-primary);
         z-index: 15;
         opacity: 0;
         transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -981,7 +981,7 @@
         border: none;
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
-        color: white;
+        color: var(--text-primary);
         cursor: pointer;
         transition: all 0.3s ease;
         display: flex;
@@ -1004,8 +1004,8 @@
     }
 
     .upload-info-panel {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--bg-subtle);
+        border: 1px solid var(--border-color);
         border-radius: 16px;
         padding: 1.5rem;
         display: flex;
@@ -1016,7 +1016,7 @@
     .info-header {
         display: flex;
         align-items: center;
-        color: white;
+        color: var(--text-primary);
         padding-bottom: 1rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -1036,16 +1036,16 @@
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--text-secondary);
         font-size: 0.9rem;
         padding: 0.5rem;
-        background: rgba(255, 255, 255, 0.02);
+        background: var(--bg-subtle);
         border-radius: 8px;
         transition: all 0.3s ease;
     }
 
     .info-item:hover {
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--bg-surface); color: var(--text-primary);
         transform: translateX(5px);
     }
 
@@ -1063,7 +1063,7 @@
         background: rgba(102, 126, 234, 0.05);
         cursor: pointer;
         transition: all 0.3s ease;
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--text-muted);
     }
 
     .drag-drop-zone:hover {
@@ -1117,14 +1117,14 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: var(--text-primary);
         z-index: 10;
     }
 
     .upload-info {
         flex: 1;
         text-align: center;
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--text-secondary);
     }
 
     .upload-info i {
@@ -1139,7 +1139,7 @@
 
     .form-label-premium {
         display: block;
-        color: rgba(255, 255, 255, 0.9);
+        color: var(--text-primary);
         font-weight: 600;
         font-size: 0.95rem;
         margin-bottom: 0.75rem;
@@ -1148,10 +1148,10 @@
     .form-input-premium {
         width: 100%;
         padding: 1rem 1.25rem;
-        background: rgba(255, 255, 255, 0.05);
-        border: 2px solid rgba(255, 255, 255, 0.1);
+        background: var(--bg-surface); color: var(--text-primary);
+        border: 1px solid var(--border-color);
         border-radius: 12px;
-        color: white;
+        color: var(--text-primary);
         font-size: 1rem;
         transition: all 0.3s ease;
         position: relative;
@@ -1163,7 +1163,7 @@
 
     .form-input-premium:focus {
         outline: none;
-        background: rgba(255, 255, 255, 0.08);
+        background: var(--bg-surface); color: var(--text-primary);
         border-color: #667eea;
         box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
     }
@@ -1213,7 +1213,7 @@
 
     .btn-primary-premium {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        color: var(--text-primary);
         box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
     }
 
@@ -1224,7 +1224,7 @@
 
     .btn-secondary-premium {
         background: rgba(255, 255, 255, 0.1);
-        color: white;
+        color: var(--text-primary);
         border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
@@ -1269,7 +1269,7 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        color: white;
+        color: var(--text-primary);
         font-weight: 700;
         font-size: 1.1rem;
         position: relative;
@@ -1298,9 +1298,9 @@
     }
 
     .preview-card-premium {
-        background: rgba(255, 255, 255, 0.08);
+        background: var(--bg-surface); color: var(--text-primary);
         backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 1px solid var(--border-color);
         border-radius: 24px;
         overflow: hidden;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -1357,7 +1357,7 @@
     }
 
     .preview-name {
-        color: white;
+        color: var(--text-primary);
         font-weight: 800;
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
@@ -1382,9 +1382,9 @@
         align-items: center;
         gap: 0.75rem;
         padding: 0.75rem 1rem;
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--bg-surface); color: var(--text-primary);
         border-radius: 10px;
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--text-secondary);
         font-size: 0.9rem;
     }
 
@@ -1395,13 +1395,13 @@
 
     .preview-bio {
         padding: 1.25rem;
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--bg-surface); color: var(--text-primary);
         border-radius: 12px;
         margin-bottom: 1.5rem;
     }
 
     .preview-bio p {
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--text-muted);
         font-size: 0.9rem;
         line-height: 1.6;
         margin: 0;
@@ -1412,7 +1412,7 @@
         width: 100%;
         padding: 1rem;
         background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
+        color: var(--text-primary);
         border: none;
         border-radius: 12px;
         font-weight: 700;
@@ -1431,15 +1431,15 @@
 
     /* Quick Tips */
     .quick-tips {
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--bg-surface); color: var(--text-primary);
         backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--border-color);
         border-radius: 16px;
         padding: 1.5rem;
     }
 
     .tips-title {
-        color: white;
+        color: var(--text-primary);
         font-weight: 700;
         margin-bottom: 1rem;
     }
@@ -1451,7 +1451,7 @@
     }
 
     .tips-list li {
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--text-muted);
         padding: 0.5rem 0;
         font-size: 0.9rem;
     }

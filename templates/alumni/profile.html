@@ -83,7 +83,7 @@
                             </div>
                         </div>
 
-                        <h2 class="fw-bold text-slate-900 mb-1">{{ user['name'] }}</h2>
+                        <h2 class="fw-bold text-theme-primary mb-1">{{ user['name'] }}</h2>
                         <div class="professional-tag mb-4">Professional Alumni</div>
 
                         <!-- Stats Row -->
@@ -111,7 +111,7 @@
                                         class="fas fa-building text-white"></i></div>
                                 <div class="text-start">
                                     <small class="text-muted d-block line-height-1">Company</small>
-                                    <span class="fw-bold text-slate-800">{{ profile['company_name'] }}</span>
+                                    <span class="fw-bold text-theme-primary">{{ profile['company_name'] }}</span>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center p-3 bg-emerald-50 rounded-4">
@@ -119,7 +119,7 @@
                                         class="fas fa-briefcase text-white"></i></div>
                                 <div class="text-start">
                                     <small class="text-muted d-block line-height-1">Role</small>
-                                    <span class="fw-bold text-slate-800">{{ profile['designation'] }}</span>
+                                    <span class="fw-bold text-theme-primary">{{ profile['designation'] }}</span>
                                 </div>
                             </div>
                         </div>
@@ -173,7 +173,7 @@
                         <div class="header-section mb-4">
                             <span class="badge bg-indigo-100 text-indigo-800 px-3 py-1 mb-2 rounded-pill fw-bold">ABOUT
                                 ME</span>
-                            <h3 class="fw-bold text-slate-900 d-flex align-items-center">
+                            <h3 class="fw-bold text-theme-primary d-flex align-items-center">
                                 Professional Journey <i class="fas fa-bolt ms-3 text-warning"></i>
                             </h3>
                         </div>
@@ -226,9 +226,9 @@
                 <!-- Achievements Showcase -->
                 {% if profile['achievements'] %}
                 <div
-                    class="section-reveal section-achievements p-5 rounded-6 shadow-2xl bg-white border border-slate-100">
+                    class="section-reveal section-achievements p-5 rounded-6 shadow-2xl border">
                     <div class="d-flex align-items-center justify-content-between mb-5">
-                        <h3 class="fw-bold text-slate-900 mb-0">Notable Milestones</h3>
+                        <h3 class="fw-bold text-theme-primary mb-0">Notable Milestones</h3>
                         <div class="milestone-counter">
                             <i class="fas fa-trophy text-warning"></i>
                         </div>
@@ -242,7 +242,7 @@
                                         <div class="badge-ring"><i class="fas fa-medal"></i></div>
                                     </div>
                                     <div class="col">
-                                        <h5 class="fw-bold mb-0 text-slate-800">{{ achievement.strip() }}</h5>
+                                        <h5 class="fw-bold mb-0 text-theme-primary">{{ achievement.strip() }}</h5>
                                         <small class="text-muted">Verified Community Milestone</small>
                                     </div>
                                 </div>
@@ -266,11 +266,11 @@
         --indigo-primary: #4f46e5;
         --emerald-primary: #10b981;
         --slate-900: #0f172a;
-        --glass-bg: rgba(255, 255, 255, 0.85);
+        --glass-bg: var(--bg-surface);
     }
 
     .profile-extreme-wrapper {
-        background: #f8fafc;
+        background: var(--bg-primary); color: var(--text-primary);
         font-family: 'Poppins', sans-serif;
     }
 
@@ -372,7 +372,7 @@
         width: 220px;
         height: 220px;
         border-radius: 50%;
-        border: 10px solid white;
+        border: 6px solid var(--border-color);
         position: relative;
         transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
@@ -401,9 +401,9 @@
 
     /* Interactive Info Cards */
     .interactive-info-card {
-        background: white;
+        background: var(--bg-surface); color: var(--text-primary);
         transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border: 1px solid rgba(0, 0, 0, 0.03);
+        border: 1px solid var(--border-color); border-radius: 18px;
     }
 
     .interactive-info-card:hover {
@@ -476,7 +476,7 @@
 
     /* Achievement Ext */
     .achievement-row {
-        background: #f8fafc;
+        background: var(--bg-primary); color: var(--text-primary);
         border-left: 6px solid #f59e0b;
     }
 
