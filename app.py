@@ -48,6 +48,7 @@ app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'true').strip().lower() i
 app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL', 'false').strip().lower() in ('1', 'true', 'yes', 'on')
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', '').strip()
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', '').strip()
+app.config['ADMIN_EMAIL'] = os.getenv('ADMIN_EMAIL', 'alumnihub26@gmail.com').strip()
 app.config['MAIL_DEFAULT_SENDER'] = ('ALUMNI HUB', app.config['MAIL_USERNAME'])
 
 # Initialize SocketIO for real-time messaging
@@ -1243,6 +1244,30 @@ def verify_otp():
                         else:
                             return redirect(url_for('home'))
                     else:
+                        # Notify admin about new pending registration
+                        try:
+                            admin_email = app.config.get('ADMIN_EMAIL', 'alumnihub26@gmail.com')
+                            admin_notify_html = f'''
+                            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f8fafc; border-radius: 10px;">
+                                <div style="background: #1e3a8a; color: white; padding: 15px 20px; border-radius: 8px 8px 0 0;">
+                                    <h2 style="margin: 0; font-size: 1.25rem;">New {temp_user['role'].title()} Registration Pending Approval</h2>
+                                </div>
+                                <div style="background: white; padding: 20px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;">
+                                    <p>A new <strong>{temp_user['role'].title()}</strong> has registered on Alumni Hub and is waiting for your approval:</p>
+                                    <ul>
+                                        <li><strong>Name:</strong> {temp_user['name']}</li>
+                                        <li><strong>Email:</strong> {temp_user['email']}</li>
+                                        <li><strong>Phone:</strong> {temp_user['phone']}</li>
+                                        <li><strong>Role:</strong> {temp_user['role'].title()}</li>
+                                    </ul>
+                                    <p>Please log in to the <a href="{url_for('admin_approve_requests', _external=True)}">Admin Dashboard</a> to review and approve this account.</p>
+                                </div>
+                            </div>
+                            '''
+                            send_email(admin_email, f"⏳ Pending Approval: New {temp_user['role'].title()} Registration ({temp_user['name']})", admin_notify_html)
+                        except Exception as admin_err:
+                            logger.warning(f"Could not send admin registration alert: {admin_err}")
+
                         flash('✓ Email verified! Your account is pending admin approval. Please wait.', 'info')
                         return redirect(url_for('login'))
                         
@@ -4701,6 +4726,31 @@ def post_job():
         ))
         conn.commit()
         conn.close()
+
+        # Send alert email to admin about new job posting
+        try:
+            admin_email = app.config.get('ADMIN_EMAIL', 'alumnihub26@gmail.com')
+            job_notify_html = f'''
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f8fafc; border-radius: 10px;">
+                <div style="background: #1e3a8a; color: white; padding: 15px 20px; border-radius: 8px 8px 0 0;">
+                    <h2 style="margin: 0; font-size: 1.25rem;">💼 New Job Posted Pending Approval</h2>
+                </div>
+                <div style="background: white; padding: 20px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;">
+                    <p>A new job has been submitted for admin approval by <strong>{current_user.name}</strong> ({current_user.role.title()}):</p>
+                    <ul>
+                        <li><strong>Title:</strong> {title}</li>
+                        <li><strong>Company:</strong> {company}</li>
+                        <li><strong>Location:</strong> {location} ({work_mode})</li>
+                        <li><strong>Employment Type:</strong> {employment_type}</li>
+                        <li><strong>Posted By:</strong> {current_user.name} ({current_user.email})</li>
+                    </ul>
+                    <p>Please log in to the <a href="{url_for('admin_jobs', _external=True)}">Admin Jobs Section</a> to review and approve it.</p>
+                </div>
+            </div>
+            '''
+            send_email(admin_email, f"💼 New Job Pending Approval: {title} at {company}", job_notify_html)
+        except Exception as job_err:
+            logger.warning(f"Could not send admin job alert: {job_err}")
         
         flash('Job submitted for admin approval! It will be visible to students once approved.', 'success')
         if current_user.role == 'alumni':

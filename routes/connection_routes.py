@@ -102,7 +102,7 @@ def send_connection_request():
                     subject=subject,
                     recipients=[receiver['email']],
                     html=html_body,
-                    sender=("ALUMNI HUB", current_app.config['MAIL_DEFAULT_SENDER'])
+                    sender=current_app.config.get('MAIL_DEFAULT_SENDER')
                 )
                 try:
                     mail.send(msg)
@@ -183,7 +183,7 @@ def accept_connection_request(request_id):
                 subject=subject,
                 recipients=[sender['email']],
                 html=html_body,
-                sender=("ALUMNI HUB", current_app.config['MAIL_DEFAULT_SENDER'])
+                sender=current_app.config.get('MAIL_DEFAULT_SENDER')
             )
             try:
                 mail.send(msg)
