@@ -30,18 +30,40 @@ class ScrollAnimator {
     }
 
     animateCounter(element) {
-        const target = parseInt(element.getAttribute('data-target'));
-        const duration = 2000;
-        const increment = target / (duration / 16);
+        if (element.dataset.counted === 'true') return;
+        
+        let targetAttr = element.getAttribute('data-target');
+        let target = parseInt(targetAttr, 10);
+        let suffix = element.getAttribute('data-suffix') || '';
+
+        // If data-target is missing or invalid, extract number and suffix from textContent
+        if (isNaN(target)) {
+            const raw = element.textContent.trim();
+            const numericOnly = raw.replace(/[^0-9]/g, '');
+            target = parseInt(numericOnly, 10);
+            if (!suffix) {
+                suffix = raw.replace(/[0-9,\s]/g, '') || '';
+            }
+        }
+
+        // If still invalid, do not mutate text to prevent 'NaN'
+        if (isNaN(target) || target <= 0) {
+            return;
+        }
+
+        element.dataset.counted = 'true';
+        const duration = 1600;
+        const steps = duration / 16;
+        const increment = Math.max(1, target / steps);
         let current = 0;
 
         const updateCounter = () => {
             current += increment;
             if (current < target) {
-                element.textContent = Math.floor(current);
+                element.textContent = Math.floor(current).toLocaleString() + suffix;
                 requestAnimationFrame(updateCounter);
             } else {
-                element.textContent = target;
+                element.textContent = target.toLocaleString() + suffix;
             }
         };
 
