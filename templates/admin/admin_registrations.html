@@ -224,8 +224,8 @@
 
 <div class="reg-container">
     <div class="matrix-header animate__animated animate__fadeInDown">
-        <h1 class="matrix-title">Registration Ecosystem</h1>
-        <p class="text-center text-dim fs-5 mb-5">Growth Telemetry • Cohort Management • Synchronization Matrix</p>
+        <h1 class="matrix-title">Member Registrations</h1>
+        <p class="text-center text-dim fs-5 mb-5">View, search, and manage platform member registrations</p>
     </div>
 
     <!-- Stats Matrix -->
@@ -233,22 +233,22 @@
         <div class="stat-orb animate__animated animate__zoomIn">
             <div class="stat-icon orb-indigo"><i class="fas fa-user-graduate"></i></div>
             <div class="stat-count">{{ stats.students }}</div>
-            <div class="text-dim small fw-bold">STUDENT_SEGMENT</div>
+            <div class="text-dim small fw-bold">TOTAL STUDENTS</div>
         </div>
         <div class="stat-orb animate__animated animate__zoomIn" style="animation-delay: 0.1s;">
             <div class="stat-icon orb-emerald"><i class="fas fa-award"></i></div>
             <div class="stat-count">{{ stats.alumni }}</div>
-            <div class="text-dim small fw-bold">LEGACY_NODES</div>
+            <div class="text-dim small fw-bold">TOTAL ALUMNI</div>
         </div>
         <div class="stat-orb animate__animated animate__zoomIn" style="animation-delay: 0.2s;">
             <div class="stat-icon orb-amber"><i class="fas fa-chalkboard-teacher"></i></div>
             <div class="stat-count">{{ stats.faculty }}</div>
-            <div class="text-dim small fw-bold">MENTOR_NETWORK</div>
+            <div class="text-dim small fw-bold">TOTAL FACULTY</div>
         </div>
         <div class="stat-orb animate__animated animate__zoomIn" style="animation-delay: 0.3s;">
             <div class="stat-icon orb-indigo"><i class="fas fa-globe"></i></div>
             <div class="stat-count">{{ stats.total }}</div>
-            <div class="text-dim small fw-bold">AGGREGATE_MATRIX</div>
+            <div class="text-dim small fw-bold">TOTAL REGISTRATIONS</div>
         </div>
     </div>
 
@@ -256,7 +256,7 @@
     <div class="glass-card mb-4 animate__animated animate__fadeInUp">
         <form method="GET" action="{{ url_for('admin_registrations') }}" class="filter-dock">
             <select name="role_filter" class="dock-input" onchange="this.form.submit()">
-                <option value="">ALL_COHORTS</option>
+                <option value="">All Roles</option>
                 <option value="student" {% if current_filter=='student' %}selected{% endif %}>STUDENTS</option>
                 <option value="alumni" {% if current_filter=='alumni' %}selected{% endif %}>ALUMNI</option>
                 <option value="faculty" {% if current_filter=='faculty' %}selected{% endif %}>FACULTY</option>
@@ -264,15 +264,15 @@
             <div class="flex-grow-1 position-relative">
                 <i class="fas fa-search position-absolute top-50 translate-middle-y ms-3 text-primary"></i>
                 <input type="text" name="search" class="dock-input ps-5 w-100"
-                    placeholder="Scan node by name or hyper-reference..." value="{{ search_query or '' }}">
+                    placeholder="Search by name, email, or department..." value="{{ search_query or '' }}">
             </div>
             <button type="submit" class="btn btn-primary px-4 py-2 border-0"
                 style="background: var(--accent-primary); border-radius: 12px;">
-                <i class="fas fa-filter me-2"></i> APPLY_FILTER
+                <i class="fas fa-filter me-2"></i> Filter
             </button>
             <button type="button" onclick="exportData()" class="btn btn-outline-light px-4 py-2"
                 style="border-radius: 12px;">
-                <i class="fas fa-file-csv me-2"></i> MATRIX_EXPORT
+                <i class="fas fa-file-csv me-2"></i> Export CSV
             </button>
         </form>
     </div>
@@ -284,12 +284,12 @@
             <table class="premium-table">
                 <thead>
                     <tr>
-                        <th>Identifier</th>
-                        <th>Identity</th>
-                        <th>Classification</th>
-                        <th>Sector/Department</th>
-                        <th>Temporal Log</th>
-                        <th>Access</th>
+                        <th>User ID</th>
+                        <th>Name & Email</th>
+                        <th>Role</th>
+                        <th>Department</th>
+                        <th>Registration Date</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -342,7 +342,7 @@
         setTimeout(() => {
             window.location.href = '/admin/export/registrations';
             setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-file-csv me-2"></i> MATRIX_EXPORT';
+                btn.innerHTML = '<i class="fas fa-file-csv me-2"></i> Export CSV';
                 btn.disabled = false;
             }, 2000);
         }, 800);

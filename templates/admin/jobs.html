@@ -502,13 +502,13 @@
             <table class="job-table-premium">
                 <thead>
                     <tr>
-                        <th>Node Identity</th>
-                        <th>Classification</th>
-                        <th>Protocol & Mode</th>
-                        <th>Rewards & Area</th>
+                        <th>Job Title & Company</th>
+                        <th>Category</th>
+                        <th>Employment & Mode</th>
+                        <th>Salary & Location</th>
                         <th>Eligibility</th>
-                        <th>Operations</th>
-                        <th>Control</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="jobTableBody">
@@ -561,14 +561,14 @@
                         <td>
                             <div class="action-btn-group">
                                 <a href="{{ url_for('admin_edit_job', job_id=job.id) }}" class="action-circle btn-edit"
-                                    title="Modify Parameters">
-                                    <i class="fas fa-sliders-h"></i>
+                                    title="Edit Job">
+                                    <i class="fas fa-edit"></i>
                                 </a>
                                 <form action="{{ url_for('admin_delete_job', job_id=job.id) }}" method="POST"
-                                    onsubmit="return confirm('DANGER: Permanently delete this career node?');"
+                                    onsubmit="return confirm('Are you sure you want to permanently delete this job posting?');"
                                     style="display: inline;">
-                                    <button type="submit" class="action-circle btn-delete" title="Terminate Node">
-                                        <i class="fas fa-microchip"></i>
+                                    <button type="submit" class="action-circle btn-delete" title="Delete Job">
+                                        <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
                             </div>
@@ -634,7 +634,7 @@
                 console.log(`Job ${jobId} ${statusText}`);
             } else {
                 checkbox.checked = !checkbox.checked;
-                alert('Matrix Error: Failed to update node status.');
+                alert('Error: Failed to update job status.');
             }
         } catch (error) {
             checkbox.checked = !checkbox.checked;

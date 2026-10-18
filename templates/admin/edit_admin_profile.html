@@ -234,8 +234,8 @@
 
 <div class="profile-wrapper">
     <div class="header-section animate__animated animate__fadeInDown">
-        <h1 class="matrix-title">Admin Identity</h1>
-        <p class="text-center text-dim fs-5 mb-5">Security Clearanced Profile • System Sovereign Control</p>
+        <h1 class="matrix-title">Edit Administrator Profile</h1>
+        <p class="text-center text-dim fs-5 mb-5">Manage and update your administrative profile details</p>
     </div>
 
     <form method="POST" enctype="multipart/form-data" class="animate__animated animate__fadeInUp">
@@ -259,43 +259,42 @@
                 <div class="mb-5">
                     <span class="status-badge"
                         style="background: rgba(16, 185, 129, 0.1); color: var(--accent-emerald); padding: 8px 16px; border-radius: 50px; font-weight: 800; font-size: 0.7rem; letter-spacing: 1px;">
-                        <i class="fas fa-shield-check me-1"></i> VERIFIED_SOVEREIGN
+                        <i class="fas fa-shield-check me-1"></i> VERIFIED ADMINISTRATOR
                     </span>
                 </div>
             </div>
 
             <div class="form-matrix">
                 <div class="input-group-premium">
-                    <label class="form-label-premium">FULL_IDENTITY_NAME</label>
+                    <label class="form-label-premium">Full Name</label>
                     <input type="text" class="form-control-premium" name="name" value="{{ user['name'] }}" required>
                 </div>
 
                 <div class="input-group-premium">
-                    <label class="form-label-premium">SECURE_CHANNEL_EMAIL</label>
+                    <label class="form-label-premium">Email Address</label>
                     <input type="email" class="form-control-premium" name="email" value="{{ user['email'] }}" required>
                 </div>
 
                 <div class="input-group-premium">
-                    <label class="form-label-premium">COMMS_LINK_PHONE</label>
+                    <label class="form-label-premium">Phone Number</label>
                     <input type="tel" class="form-control-premium" name="phone" value="{{ user['phone'] }}" required>
                 </div>
             </div>
 
             <div class="security-notice">
-                <i class="fas fa-fingerprint fa-2x text-rose"></i>
+                <i class="fas fa-shield-alt fa-2x text-rose"></i>
                 <div>
-                    <h6 class="fw-bold text-white mb-1">AUDIT_LOG_ACTIVE</h6>
-                    <p class="text-dim small mb-0">Identity modifications are encrypted and logged for security
-                        compliance.</p>
+                    <h6 class="fw-bold text-white mb-1">Account Security</h6>
+                    <p class="text-dim small mb-0">Your profile updates are saved securely to the system database.</p>
                 </div>
             </div>
 
             <div class="d-grid gap-3">
-                <button type="submit" class="btn-save">ENCRYPT_AND_SAVE_CHANGES</button>
+                <button type="submit" class="btn-save">Save Changes</button>
                 <div class="d-flex gap-3">
-                    <a href="{{ url_for('admin_profile', user_id=user['id']) }}" class="btn-glass">ABORT</a>
+                    <a href="{{ url_for('admin_profile', user_id=user['id']) }}" class="btn-glass">Cancel</a>
                     <a href="{{ url_for('change_password') }}" class="btn-glass"
-                        style="color: var(--accent-primary);">SECURITY_CONFIG</a>
+                        style="color: var(--accent-primary);">Change Password</a>
                 </div>
             </div>
         </div>

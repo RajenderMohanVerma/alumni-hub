@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
 
@@ -268,14 +271,14 @@
 </div>
 
 <div class="profile-wrapper">
-    <h1 class="matrix-title">Administrative Identity Matrix</h1>
+    <h1 class="matrix-title">Administrator Profile</h1>
 
     <div class="row g-4">
         <!-- Sidebar Identity -->
         <div class="col-lg-4">
             <div class="glass-card animate__animated animate__fadeInLeft">
                 <div class="section-header">
-                    <i class="fas fa-fingerprint"></i> CORE_ID_ENCRYPTION
+                    <i class="fas fa-user-shield"></i> ACCOUNT OVERVIEW
                 </div>
 
                 <div class="avatar-matrix">
@@ -290,27 +293,27 @@
 
                 <div class="text-center mb-5">
                     <h2 class="fw-bold mb-1">{{ user['name'] }}</h2>
-                    <div class="font-monospace small text-primary fw-bold">@{{ user['username'] }}</div>
+                    <div class="font-monospace small text-primary fw-bold">@{{ user['email'].split('@')[0] if user['email'] else 'admin' }}</div>
                     <div class="badge bg-danger-subtle text-danger px-3 py-1 rounded-pill mt-3 small fw-bold">
-                        <i class="fas fa-crown me-1"></i> MASTER_SOVEREIGN
+                        <i class="fas fa-crown me-1"></i> SUPER ADMIN
                     </div>
                 </div>
 
                 <div class="data-row">
-                    <div class="data-label">SYSTEM_RANK</div>
+                    <div class="data-label">SYSTEM ROLE</div>
                     <div class="data-value">Super Administrator</div>
                 </div>
                 <div class="data-row">
-                    <div class="data-label">SECURITY_ACCESS</div>
-                    <div class="data-value text-success">LEVEL_ALPHA_OVERSIGHT</div>
+                    <div class="data-label">ACCESS LEVEL</div>
+                    <div class="data-value text-success">Full Admin Access</div>
                 </div>
 
                 <div class="mt-4">
                     <a href="{{ url_for('edit_admin_profile', user_id=user['id']) }}" class="btn-transmit">
-                        <i class="fas fa-id-badge me-2"></i>RECONFIGURE_IDENTITY
+                        <i class="fas fa-user-edit me-2"></i>Edit Profile
                     </a>
                     <a href="{{ url_for('change_password') }}" class="btn-transmit btn-secondary-terminal">
-                        <i class="fas fa-key me-2"></i>ROTATE_CREDENTIALS
+                        <i class="fas fa-key me-2"></i>Change Password
                     </a>
                 </div>
             </div>
@@ -320,68 +323,67 @@
         <div class="col-lg-8">
             <div class="glass-card animate__animated animate__fadeInRight">
                 <div class="section-header">
-                    <i class="fas fa-id-card-clip"></i> IDENTITY_BLUEPRINT
+                    <i class="fas fa-id-card"></i> PERSONAL INFORMATION
                 </div>
 
                 <div class="row g-3">
                     <div class="col-md-6">
                         <div class="data-row">
-                            <div class="data-label">FULL_NOMENCLATURE</div>
+                            <div class="data-label">FULL NAME</div>
                             <div class="data-value">{{ user['name'] }}</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="data-row">
-                            <div class="data-label">SYSTEM_USERNAME</div>
-                            <div class="data-value">{{ user['username'] }}</div>
+                            <div class="data-label">USERNAME</div>
+                            <div class="data-value">{{ user['email'].split('@')[0] if user['email'] else 'admin' }}</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="data-row">
-                            <div class="data-label">PRIMARY_ENDPOINT</div>
+                            <div class="data-label">EMAIL ADDRESS</div>
                             <div class="data-value text-truncate">{{ user['email'] }}</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="data-row">
-                            <div class="data-label">CONTACT_SECURE_LINK</div>
-                            <div class="data-value">{{ user['phone'] if user['phone'] else 'UNSPECIFIED' }}</div>
+                            <div class="data-label">PHONE NUMBER</div>
+                            <div class="data-value">{{ user['phone'] if user['phone'] else 'Not Provided' }}</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="section-header mt-5">
-                    <i class="fas fa-microchip"></i> EXECUTIVE_OPERATIONS_MATRIX
+                    <i class="fas fa-th-large"></i> QUICK ACTIONS
                 </div>
 
                 <div class="action-matrix">
                     <a href="{{ url_for('admin_view_users', role='all') }}" class="action-tile">
-                        <div class="tile-icon"><i class="fas fa-users-viewfinder"></i></div>
+                        <div class="tile-icon"><i class="fas fa-users"></i></div>
                         <div>
-                            <div class="tile-title">ENTITY_MANAGEMENT</div>
-                            <div class="tile-desc">Oversee user classifications.</div>
+                            <div class="tile-title">User Directory</div>
+                            <div class="tile-desc">View and manage all registered members.</div>
                         </div>
                     </a>
                     <a href="{{ url_for('admin_analytics') }}" class="action-tile">
-                        <div class="tile-icon"><i class="fas fa-chart-network"></i></div>
+                        <div class="tile-icon"><i class="fas fa-chart-line"></i></div>
                         <div>
-                            <div class="tile-title">SYSTEM_TELEMETRY</div>
-                            <div class="tile-desc">Access deep-core analytics.</div>
+                            <div class="tile-title">System Analytics</div>
+                            <div class="tile-desc">View platform performance & statistics.</div>
                         </div>
                     </a>
-                    <a href="{{ url_for('reports_dashboard') if 'reports_dashboard' in url_for.__globals__ else '#' }}"
-                        class="action-tile">
-                        <div class="tile-icon"><i class="fas fa-file-shield"></i></div>
+                    <a href="{{ url_for('reports') }}" class="action-tile">
+                        <div class="tile-icon"><i class="fas fa-file-alt"></i></div>
                         <div>
-                            <div class="tile-title">INTELLIGENCE_REPORTS</div>
-                            <div class="tile-desc">Secure data audits.</div>
+                            <div class="tile-title">System Reports</div>
+                            <div class="tile-desc">Access activity logs and audit reports.</div>
                         </div>
                     </a>
                     <a href="{{ url_for('dashboard_admin') }}" class="action-tile">
-                        <div class="tile-icon"><i class="fas fa-server"></i></div>
+                        <div class="tile-icon"><i class="fas fa-tachometer-alt"></i></div>
                         <div>
-                            <div class="tile-title">NODE_MONITORING</div>
-                            <div class="tile-desc">Direct master control access.</div>
+                            <div class="tile-title">Admin Dashboard</div>
+                            <div class="tile-desc">Go to the main administrative dashboard.</div>
                         </div>
                     </a>
                 </div>

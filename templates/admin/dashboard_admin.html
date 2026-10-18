@@ -586,25 +586,24 @@
             <div class="col-lg-7">
                 <div class="hero-badge">
                     <i class="fas fa-circle text-accent-success"></i>
-                    <span>ALUMNI HUB CORE • v2.0 ADMIN ENGINE</span>
+                    <span>ALUMNI HUB • ADMIN PORTAL</span>
                 </div>
                 <h1 class="hero-title">Welcome Back, <br><span id="typingName"></span></h1>
-                <p class="text-dim mt-3 fs-5">Digital Command Center. Monitoring <span class="text-white fw-bold">{{
-                        (s_count + a_count + f_count) }}</span> encrypted nodes across the network.</p>
+                <p class="text-dim mt-3 fs-5">Administrator Dashboard. Managing registered members across the platform.</p>
                 <div class="mt-4 d-flex gap-3">
                     <a href="{{ url_for('admin_messaging_control') }}" class="btn btn-primary btn-lg px-4"
                         style="border-radius: 12px;">
-                        <i class="fas fa-satellite-dish me-2"></i> Signal Center
+                        <i class="fas fa-bullhorn me-2"></i> Messaging Control
                     </a>
                     <button class="btn btn-outline-light btn-lg px-4"
                         style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);">
-                        <i class="fas fa-fingerprint me-2"></i> Auth Audit
+                        <i class="fas fa-chart-line me-2"></i> View Analytics
                     </button>
                 </div>
             </div>
             <div class="col-lg-5 text-end d-none d-lg-block">
                 <div class="glass-card p-4 d-inline-block text-start" style="background: rgba(0,0,0,0.3);">
-                    <div class="matrix-label mb-2">System Temporal Status</div>
+                    <div class="matrix-label mb-2">Current System Time</div>
                     <div class="clock-widget" id="dynamicClock">00:00:00</div>
                     <div class="text-dim mt-2 fw-bold" id="dynamicDate">FEBRUARY 12, 2026</div>
                 </div>
@@ -665,23 +664,23 @@
     <div class="action-deck animate__animated animate__fadeInUp">
         <div class="deck-item btn-action-nav" data-url="/admin/messaging-control">
             <i class="fas fa-broadcast-tower"></i>
-            <div class="fw-bold">Omni Alert</div>
-            <div class="small text-dim">Broadcast Global Data</div>
+            <div class="fw-bold">Broadcasts</div>
+            <div class="small text-dim">Messaging & Announcements</div>
         </div>
         <div class="deck-item btn-action-nav" data-url="/admin/events">
             <i class="fas fa-calendar-plus"></i>
-            <div class="fw-bold">Nexus Event</div>
-            <div class="small text-dim">Sync New Meetup</div>
+            <div class="fw-bold">Events</div>
+            <div class="small text-dim">Create & Manage Events</div>
         </div>
         <div class="deck-item btn-action-nav" data-url="/admin/registrations">
             <i class="fas fa-users-cog"></i>
-            <div class="fw-bold">User Matrix</div>
-            <div class="small text-dim">Node Configuration</div>
+            <div class="fw-bold">User Approvals</div>
+            <div class="small text-dim">Manage Registrations</div>
         </div>
         <div class="deck-item btn-action-nav" data-url="/admin/jobs">
             <i class="fas fa-briefcase"></i>
-            <div class="fw-bold">Job Matrix</div>
-            <div class="small text-dim">Career Node Sync</div>
+            <div class="fw-bold">Jobs Board</div>
+            <div class="small text-dim">Approve & Review Jobs</div>
         </div>
         <div class="deck-item btn-action-nav" data-url="/admin/connection-monitor">
             <i class="fas fa-link"></i>
@@ -690,8 +689,8 @@
         </div>
         <div class="deck-item btn-action-nav" data-url="/admin/analytics">
             <i class="fas fa-atom"></i>
-            <div class="fw-bold">Terminal Mode</div>
-            <div class="small text-dim">Maintenance Override</div>
+            <div class="fw-bold">Analytics</div>
+            <div class="small text-dim">Platform Growth & Stats</div>
         </div>
     </div>
 
@@ -702,8 +701,7 @@
             <div class="glass-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h4 class="fw-bold mb-0 text-white"><i class="fas fa-project-diagram me-2 text-primary"></i>
-                        Neural
-                        Expansion Growth</h4>
+                        User Growth Overview</h4>
                     <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3">Live Feed
                     </div>
                 </div>
@@ -719,8 +717,7 @@
         </div>
         <div class="col-lg-4">
             <div class="glass-card p-4 h-100">
-                <h4 class="fw-bold mb-4 text-white"><i class="fas fa-chart-pie me-2 text-warning"></i> Identity
-                    Ratio
+                <h4 class="fw-bold mb-4 text-white"><i class="fas fa-chart-pie me-2 text-warning"></i> User Distribution by Role
                 </h4>
                 <div style="height: 350px;">
                     <canvas id="userChart"></canvas>
@@ -733,19 +730,18 @@
     <div class="directory-module animate__animated animate__fadeIn">
         <div class="directory-header d-flex justify-content-between align-items-center flex-wrap gap-4">
             <div>
-                <h3 class="directory-title mb-1"><i class="fas fa-id-card-alt me-2 text-primary"></i> Sovereignty
-                    Matrix
+                <h3 class="directory-title mb-1"><i class="fas fa-id-card-alt me-2 text-primary"></i> User Directory
                 </h3>
-                <p class="text-dim mb-0 fw-bold small">NODE_DIRECTORY // ENCRYPTED_USER_SCAN</p>
+                <p class="text-dim mb-0 fw-bold small">Manage and view registered community members</p>
             </div>
 
             <div class="command-bar">
                 <div class="command-input-wrapper">
                     <i class="fas fa-search command-icon"></i>
-                    <input type="text" id="userSearch" class="command-input" placeholder="Scan node identities...">
+                    <input type="text" id="userSearch" class="command-input" placeholder="Search by name, email, department...">
                 </div>
                 <select id="roleFilter" class="command-select">
-                    <option value="all">ALL_NODES</option>
+                    <option value="all">All Roles</option>
                     <option value="student">STUDENTS</option>
                     <option value="alumni">ALUMNI</option>
                     <option value="faculty">FACULTY</option>
@@ -757,11 +753,11 @@
             <table class="premium-table" id="usersTable">
                 <thead>
                     <tr>
-                        <th>Identity Profile</th>
-                        <th>Classification</th>
-                        <th>Nexus Dept</th>
-                        <th>Sync Status</th>
-                        <th>Operation</th>
+                        <th>User Profile</th>
+                        <th>Role</th>
+                        <th>Department & Batch</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody class="node-matrix-body">
@@ -807,14 +803,14 @@
                             {% endif %}
                         </td>
                         <td>
-                            <div class="fw-bold fs-7">{{ user['department'] or 'NULL_NODE' }}</div>
+                            <div class="fw-bold fs-7">{{ user['department'] or 'Not specified' }}</div>
                             <div class="text-dim extra-small">
                                 {% if user['role'] == 'student' and user['batch_info'] %}
                                 SEM_{{ user['batch_info'] }}
                                 {% elif user['role'] == 'alumni' and user['batch_info'] %}
                                 BATCH_{{ user['batch_info'] }}
                                 {% else %}
-                                PRO_LEVEL
+                                Faculty / Staff
                                 {% endif %}
                             </div>
                         </td>
@@ -833,7 +829,7 @@
                                 </div>
                                 {% else %}
                                 <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% else %}{{ url_for('faculty_profile', user_id=user['id']) }}{% endif %}"
-                                    class="action-btn view-btn" title="Inspect Node">
+                                    class="action-btn view-btn" title="View Profile">
                                     <i class="fas fa-crosshairs"></i>
                                 </a>
                                 <button class="action-btn delete-btn btn-delete-user"
@@ -855,10 +851,9 @@
     <div class="export-module mb-5 animate__animated animate__fadeInUp">
         <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-4">
             <div>
-                <h3 class="directory-title mb-1"><i class="fas fa-server me-2 text-warning"></i> Data Extraction
-                    Console
+                <h3 class="directory-title mb-1"><i class="fas fa-server me-2 text-warning"></i> Data Export Center
                 </h3>
-                <p class="text-dim mb-0 fw-bold small">SECURE_EXPORT_SYNC // ENCRYPTED_SNAPSHOTS</p>
+                <p class="text-dim mb-0 fw-bold small">Download and backup platform data in CSV or Database format</p>
             </div>
 
             <div class="d-flex gap-2">
@@ -872,12 +867,12 @@
                     <li class="nav-item">
                         <button class="nav-link active px-4 py-2 border-0 fw-800" data-bs-toggle="pill"
                             data-bs-target="#csvExports"
-                            style="border-radius: 10px; font-size: 0.75rem;">REPORTS_MD</button>
+                            style="border-radius: 10px; font-size: 0.75rem;">CSV Exports</button>
                     </li>
                     <li class="nav-item">
                         <button class="nav-link px-4 py-2 border-0 fw-800" data-bs-toggle="pill"
                             data-bs-target="#dbExports"
-                            style="border-radius: 10px; font-size: 0.75rem;">STORAGE_DB</button>
+                            style="border-radius: 10px; font-size: 0.75rem;">Database Backup</button>
                     </li>
                 </ul>
             </div>
@@ -894,7 +889,7 @@
                                     style="width:40px; height:40px; font-size: 1rem;"><i
                                         class="fas fa-user-graduate"></i></div>
                                 <div>
-                                    <h5 class="fw-800 mb-0">Student_Registry</h5>
+                                    <h5 class="fw-800 mb-0">Student Records</h5>
                                     <span class="meta-tag">Format: CSV</span>
                                 </div>
                             </div>
@@ -903,7 +898,7 @@
                                     metrics,
                                     identity verification tokens, and registration metadata.</p>
                                 <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-dim extra-small fw-bold">READY_TO_EXTRACT</span>
+                                    <span class="text-dim extra-small fw-bold">Ready for Download</span>
                                     <span class="text-dim extra-small fw-bold">100%</span>
                                 </div>
                                 <div class="extraction-progress">
@@ -913,7 +908,7 @@
                             <div class="export-card-footer">
                                 <button class="btn btn-primary w-100 fw-800 py-2"
                                     onclick="downloadData('student', 'csv')"
-                                    style="border-radius: 10px; font-size: 0.8rem;">INITIATE_SYNC</button>
+                                    style="border-radius: 10px; font-size: 0.8rem;">Download CSV</button>
                             </div>
                         </div>
                     </div>
@@ -924,7 +919,7 @@
                                     style="width:40px; height:40px; font-size: 1rem;"><i class="fas fa-user-tie"></i>
                                 </div>
                                 <div>
-                                    <h5 class="fw-800 mb-0">Alumni_Directory</h5>
+                                    <h5 class="fw-800 mb-0">Alumni Records</h5>
                                     <span class="meta-tag">Format: CSV</span>
                                 </div>
                             </div>
@@ -932,7 +927,7 @@
                                 <p class="text-dim small mb-4">Professional nexus directory. Career advancement
                                     metadata, contact validation, and professional node links.</p>
                                 <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-dim extra-small fw-bold">READY_TO_EXTRACT</span>
+                                    <span class="text-dim extra-small fw-bold">Ready for Download</span>
                                     <span class="text-dim extra-small fw-bold">100%</span>
                                 </div>
                                 <div class="extraction-progress">
@@ -942,7 +937,7 @@
                             <div class="export-card-footer">
                                 <button class="btn btn-warning w-100 fw-800 py-2 text-white"
                                     onclick="downloadData('alumni', 'csv')"
-                                    style="border-radius: 10px; font-size: 0.8rem;">INITIATE_SYNC</button>
+                                    style="border-radius: 10px; font-size: 0.8rem;">Download CSV</button>
                             </div>
                         </div>
                     </div>
@@ -953,7 +948,7 @@
                                     style="width:40px; height:40px; font-size: 1rem;"><i
                                         class="fas fa-users-viewfinder"></i></div>
                                 <div>
-                                    <h5 class="fw-800 mb-0">Master_Archive</h5>
+                                    <h5 class="fw-800 mb-0">All Members Records</h5>
                                     <span class="meta-tag">Format: CSV</span>
                                 </div>
                             </div>
@@ -962,7 +957,7 @@
                                     all
                                     identified entities across the university network.</p>
                                 <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-dim extra-small fw-bold">READY_TO_EXTRACT</span>
+                                    <span class="text-dim extra-small fw-bold">Ready for Download</span>
                                     <span class="text-dim extra-small fw-bold">100%</span>
                                 </div>
                                 <div class="extraction-progress">
@@ -971,7 +966,7 @@
                             </div>
                             <div class="export-card-footer">
                                 <button class="btn btn-success w-100 fw-800 py-2" onclick="downloadData('all', 'csv')"
-                                    style="border-radius: 10px; font-size: 0.8rem;">INITIATE_SYNC</button>
+                                    style="border-radius: 10px; font-size: 0.8rem;">Download CSV</button>
                             </div>
                         </div>
                     </div>
@@ -988,7 +983,7 @@
                                     style="width:40px; height:40px; font-size: 1rem;"><i class="fas fa-database"></i>
                                 </div>
                                 <div>
-                                    <h5 class="fw-800 mb-0">Network_Core_DB</h5>
+                                    <h5 class="fw-800 mb-0">Primary Database (college_pro.db)</h5>
                                     <span class="meta-tag">Format: SQLITE (.db)</span>
                                 </div>
                                 <div class="ms-auto"><span class="badge bg-danger pulse-dot-static"
@@ -998,7 +993,7 @@
                                 <p class="text-dim small mb-4">Master relational database snapshot (college_pro.db).
                                     Contains all encrypted tables, relations, and system logs.</p>
                                 <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-dim extra-small fw-bold">BUFFERING_SNAPSHOT</span>
+                                    <span class="text-dim extra-small fw-bold">Backup Ready</span>
                                     <span class="text-dim extra-small fw-bold">94%</span>
                                 </div>
                                 <div class="extraction-progress">
@@ -1008,7 +1003,7 @@
                             <div class="export-card-footer">
                                 <button class="btn btn-info text-white w-100 fw-800 py-2"
                                     onclick="downloadData('college_pro', 'db')"
-                                    style="border-radius: 10px; font-size: 0.8rem;">SECURE_DOWNLOAD</button>
+                                    style="border-radius: 10px; font-size: 0.8rem;">Download Database</button>
                             </div>
                         </div>
                     </div>
@@ -1019,7 +1014,7 @@
                                     style="width:40px; height:40px; font-size: 1rem;"><i
                                         class="fas fa-shield-halved"></i></div>
                                 <div>
-                                    <h5 class="fw-800 mb-2">Alumni_Nexus_Storage</h5>
+                                    <h5 class="fw-800 mb-2">Secondary Database (alumni.db)</h5>
                                     <span class="meta-tag">Format: SQLITE (.db)</span>
                                 </div>
                                 <div class="ms-auto"><span class="badge bg-warning text-dark"
@@ -1039,7 +1034,7 @@
                             </div>
                             <div class="export-card-footer">
                                 <button class="btn btn-dark w-100 fw-800 py-2" onclick="downloadData('alumni', 'db')"
-                                    style="border-radius: 10px; font-size: 0.8rem;">SECURE_DOWNLOAD</button>
+                                    style="border-radius: 10px; font-size: 0.8rem;">Download Database</button>
                             </div>
                         </div>
                     </div>

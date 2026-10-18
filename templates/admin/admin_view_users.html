@@ -474,11 +474,11 @@
     <div class="d-flex justify-content-between align-items-center">
         <div>
             <h2 style="font-weight: 800; color: #6366f1; margin: 0;">ALUMNI HUB</h2>
-            <p style="margin: 0; font-size: 0.8rem; font-weight: 600; color: #555;">INTEL_EXPORT // SYSTEM_NODE_REPORT
+            <p style="margin: 0; font-size: 0.8rem; font-weight: 600; color: #555;">Alumni Hub User Report
             </p>
         </div>
         <div class="text-end">
-            <p style="margin: 0; font-size: 0.75rem; color: #777;">CLASSIFICATION: SECURE_INTERNAL</p>
+            <p style="margin: 0; font-size: 0.75rem; color: #777;">Confidential • For Administrative Use</p>
             <p style="margin: 0; font-size: 0.75rem; color: #777;">GENERATED: {{ now.strftime('%Y-%m-%d %H:%M:%S') if
                 now else '2026-02-12' }}</p>
         </div>
@@ -488,15 +488,15 @@
 <div class="user-container">
     <!-- Header Matrix -->
     <div class="matrix-header animate__animated animate__fadeInDown">
-        <h1 class="matrix-title">Member Directorate</h1>
-        <p class="text-dim fs-5">Identity Lifecycle Management • Sector Analysis • Node Synchronization</p>
+        <h1 class="matrix-title">User Directory</h1>
+        <p class="text-dim fs-5">Manage Users • View Profiles • Role Based Filtering</p>
     </div>
 
     <!-- Role Selection -->
     <div class="role-navbar animate__animated animate__fadeIn">
         <a href="{{ url_for('admin_view_users', role='all') }}"
             class="role-nav-link {% if role == 'all' %}active{% endif %}">
-            <i class="fas fa-layer-group"></i> Collective
+            <i class="fas fa-layer-group"></i> All Users
         </a>
         <a href="{{ url_for('admin_view_users', role='student') }}"
             class="role-nav-link {% if role == 'student' %}active{% endif %}">
@@ -504,11 +504,11 @@
         </a>
         <a href="{{ url_for('admin_view_users', role='alumni') }}"
             class="role-nav-link {% if role == 'alumni' %}active{% endif %}">
-            <i class="fas fa-award"></i> Legacy
+            <i class="fas fa-user-tie"></i> Alumni
         </a>
         <a href="{{ url_for('admin_view_users', role='faculty') }}"
             class="role-nav-link {% if role == 'faculty' %}active{% endif %}">
-            <i class="fas fa-chalkboard-teacher"></i> Mentors
+            <i class="fas fa-chalkboard-teacher"></i> Faculty
         </a>
         <a href="{{ url_for('admin_approve_requests') }}" class="role-nav-link">
             <i class="fas fa-clock"></i> Pending Requests
@@ -520,15 +520,15 @@
         <div class="dock-input-wrapper">
             <i class="fas fa-fingerprint dock-icon"></i>
             <input type="text" id="userSearch" class="dock-input"
-                placeholder="Initiate node scan by identity or classification segment...">
+                placeholder="Search users by name, email or role...">
         </div>
         <button class="glass-card px-4 py-3 btn btn-outline-light border-0" style="border-radius: 20px;"
             onclick="location.reload()">
-            <i class="fas fa-sync-alt me-2"></i> RESYNC
+            <i class="fas fa-sync-alt me-2"></i> Refresh
         </button>
         <button class="glass-card px-4 py-3 btn btn-primary border-0"
             style="border-radius: 20px; background: var(--accent-primary);" onclick="window.print()">
-            <i class="fas fa-file-signature me-2"></i> INTEL EXPORT
+            <i class="fas fa-file-signature me-2"></i> Print / Export PDF
         </button>
     </div>
 
@@ -539,10 +539,10 @@
             <table class="premium-table" id="usersTable">
                 <thead>
                     <tr>
-                        <th>Identity Matrix</th>
+                        <th>User</th>
                         <th>Classification</th>
-                        <th>Lifecycle Start</th>
-                        <th>Operational Status</th>
+                        <th>Joined Date</th>
+                        <th>Account Status</th>
                         <th class="text-end">Command</th>
                     </tr>
                 </thead>
@@ -584,9 +584,9 @@
                             <span
                                 class="status-badge {% if user['is_approved'] == 0 %}status-pending{% else %}status-verified{% endif %}">
                                 {% if user['is_approved'] == 0 %}
-                                <i class="fas fa-spinner fa-spin"></i> PENDING_AUTH
+                                <i class="fas fa-spinner fa-spin"></i> Pending Approval
                                 {% else %}
-                                <i class="fas fa-shield-check"></i> ACTIVE_NODE
+                                <i class="fas fa-shield-check"></i> Active
                                 {% endif %}
                             </span>
                         </td>
@@ -600,12 +600,12 @@
                                 </a>
                                 {% endif %}
                                 <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% else %}{{ url_for('faculty_profile', user_id=user['id']) }}{% endif %}"
-                                    class="action-circle text-primary" title="Inspect Node">
+                                    class="action-circle text-primary" title="View Profile">
                                     <i class="fas fa-fingerprint"></i>
                                 </a>
                                 {% if user['email'] != 'admin@alumnihub.local' %}
                                 <button class="action-circle action-redact text-danger btn-purge"
-                                    data-id="{{ user['id'] }}" data-name="{{ user['name'] }}" title="Purge Node">
+                                    data-id="{{ user['id'] }}" data-name="{{ user['name'] }}" title="Delete User">
                                     <i class="fas fa-user-slash"></i>
                                 </button>
                                 {% endif %}
@@ -627,18 +627,18 @@
 </div>
 
 <script>
-    // --- Secure Purge Protocol ---
+    // --- Delete User Handler ---
     function confirmPurge(id, name) {
-        if (confirm(`🚨 PROTOCOL OVERRIDE REQUIRED 🚨\n\nAre you sure you want to PERMANENTLY PURGE this identity node?\n\nNAME: ${name}\nID: ${id}\n\nThis action cannot be reversed.`)) {
+        if (confirm(`🚨 CONFIRM ACTION 🚨\n\nAre you sure you want to permanently delete this user account?\n\nNAME: ${name}\nID: ${id}\n\nThis action cannot be reversed.`)) {
             document.body.style.cursor = 'wait';
             fetch(`/api/delete-user/${id}`, { method: 'POST' })
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        alert('✅ Node successfully purged from system.');
+                        alert('✅ User account deleted successfully.');
                         location.reload();
                     } else {
-                        alert('❌ Purge failed: ' + data.error);
+                        alert('❌ Delete failed: ' + data.error);
                     }
                 })
                 .catch(err => alert('❌ Critical System Error: ' + err.message))
