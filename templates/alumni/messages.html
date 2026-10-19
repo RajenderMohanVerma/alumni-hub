@@ -3,6 +3,24 @@
 {% block title %}Messages - Alumni Hub{% endblock %}
 
 {% block content %}
+<style>
+.chat-thread-item {
+    cursor: pointer;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+.chat-thread-item:hover {
+    background: var(--bg-surface);
+    border-color: var(--border-hover);
+    transform: translateX(3px);
+}
+.chat-thread-item.active-thread {
+    background: var(--accent-blue-subtle) !important;
+    border-color: var(--accent-blue) !important;
+}
+</style>
+
 <div class="container py-4" style="margin-top: 80px; min-height: 85vh;">
     <!-- Page Header -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
@@ -15,7 +33,7 @@
             <p class="text-muted small mb-0">Connect directly with students seeking mentorship and collaborate with fellow alumni</p>
         </div>
         <div class="mt-3 mt-md-0 d-flex gap-2">
-            <button class="btn btn-primary rounded-pill px-3 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('Compose new conversation modal');">
+            <button type="button" class="btn btn-primary rounded-pill px-3 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="promptNewChat();">
                 <i class="fas fa-pen-to-square me-1"></i> New Message
             </button>
         </div>
@@ -29,12 +47,12 @@
                 <div class="mb-3">
                     <div class="input-group">
                         <span class="input-group-text bg-transparent" style="border-color: var(--border-color); color: var(--text-muted);"><i class="fas fa-search"></i></span>
-                        <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Search chats...">
+                        <input type="text" id="chatSearchInput" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Search chats by name or role..." oninput="filterChatThreads(this.value);">
                     </div>
                 </div>
 
                 <!-- Chat Threads List -->
-                <div class="conversation-list flex-grow-1 overflow-auto pe-1" style="max-height: 600px;">
+                <div class="conversation-list flex-grow-1 overflow-auto pe-1" id="threadsList" style="max-height: 600px;">
                     {% set threads = [
                         {'name': 'Rajender Verma', 'role': 'Student &bull; MCA 4th Sem', 'msg': 'Sir, could you review our final project architecture?', 'time': '12m', 'unread': 1, 'online': true, 'initial': 'RV', 'active': true},
                         {'name': 'Dr. Sunil Kapoor', 'role': 'HOD Computer Science', 'msg': 'Thank you for agreeing to speak at the upcoming seminar!', 'time': '3h', 'unread': 0, 'online': false, 'initial': 'SK', 'active': false},
@@ -43,7 +61,10 @@
                     ] %}
 
                     {% for item in threads %}
-                    <div class="chat-thread-item p-3 mb-2 rounded-3 transition-all" style="cursor: pointer; background: {% if item.active %}var(--accent-blue-subtle){% else %}var(--bg-subtle){% endif %}; border: 1px solid {% if item.active %}var(--accent-blue){% else %}var(--border-color){% endif %};">
+                    <div class="chat-thread-item p-3 mb-2 rounded-3 transition-all {% if item.active %}active-thread{% endif %}"
+                         data-name="{{ item.name }}"
+                         data-role="{{ item.role }}"
+                         onclick="selectThread(this, '{{ item.name }}', '{{ item.role }}', '{{ item.initial }}', '{{ item.online }}');">
                         <div class="d-flex align-items-center">
                             <div class="position-relative me-3">
                                 <div class="avatar-circle d-grid place-items-center fw-bold shadow-sm" style="width: 44px; height: 44px; border-radius: 50%; background: var(--bg-surface); color: var(--text-primary); border: 2px solid var(--border-color); font-size: 0.95rem;">
@@ -58,7 +79,7 @@
                                     <h6 class="mb-0 fw-bold text-truncate" style="color: var(--text-primary); font-size: 0.95rem;">{{ item.name }}</h6>
                                     <small class="text-muted" style="font-size: 0.75rem;">{{ item.time }}</small>
                                 </div>
-                                <p class="text-muted small mb-0 text-truncate" style="font-size: 0.8rem;">{{ item.msg }}</p>
+                                <p class="text-muted small mb-0 text-truncate thread-last-msg" style="font-size: 0.8rem;">{{ item.msg }}</p>
                             </div>
                             {% if item.unread > 0 %}
                             <span class="badge rounded-pill ms-2" style="background: var(--accent-blue); color: #fff; font-size: 0.72rem;">{{ item.unread }}</span>
@@ -77,28 +98,28 @@
                 <div class="p-3 px-4 d-flex justify-content-between align-items-center border-bottom" style="border-color: var(--border-color) !important; background: var(--bg-surface);">
                     <div class="d-flex align-items-center gap-3">
                         <div class="position-relative">
-                            <div class="avatar-circle d-grid place-items-center fw-bold" style="width: 46px; height: 46px; border-radius: 50%; background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 1.1rem;">
+                            <div id="activeAvatar" class="avatar-circle d-grid place-items-center fw-bold" style="width: 46px; height: 46px; border-radius: 50%; background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 1.1rem;">
                                 RV
                             </div>
-                            <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-2 border-white rounded-circle"></span>
+                            <span id="activeOnlineDot" class="position-absolute bottom-0 end-0 p-1 bg-success border border-2 border-white rounded-circle"></span>
                         </div>
                         <div>
-                            <h5 class="mb-0 fw-bold" style="color: var(--text-primary);">Rajender Verma</h5>
-                            <small class="text-muted"><i class="fas fa-graduation-cap me-1"></i> Student &bull; MCA 4th Semester &bull; <span class="text-success fw-semibold">Online</span></small>
+                            <h5 id="activeName" class="mb-0 fw-bold" style="color: var(--text-primary);">Rajender Verma</h5>
+                            <small id="activeRole" class="text-muted"><i class="fas fa-graduation-cap me-1"></i> Student &bull; MCA 4th Semester &bull; <span class="text-success fw-semibold">Online</span></small>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
-                        <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" style="border-color: var(--border-color); color: var(--text-secondary);" onclick="alert('Student academic details modal');">
+                        <a href="{{ url_for('alumni_network') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3" style="border-color: var(--border-color); color: var(--text-secondary);">
                             <i class="fas fa-id-card me-1"></i> View Profile
-                        </button>
+                        </a>
                     </div>
                 </div>
 
                 <!-- Messages Feed -->
-                <div class="flex-grow-1 p-4 overflow-auto" style="background: var(--bg-primary); max-height: 480px; min-height: 400px;">
+                <div id="chatFeed" class="flex-grow-1 p-4 overflow-auto" style="background: var(--bg-primary); max-height: 480px; min-height: 400px;">
                     <!-- Incoming Bubble -->
                     <div class="d-flex mb-3 align-items-end gap-2">
-                        <div class="avatar-circle d-grid place-items-center fw-bold small" style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-color);">
+                        <div class="avatar-circle d-grid place-items-center fw-bold small feed-bubble-avatar" style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-color);">
                             RV
                         </div>
                         <div style="max-width: 70%;">
@@ -123,7 +144,7 @@
 
                     <!-- Incoming Bubble -->
                     <div class="d-flex mb-3 align-items-end gap-2">
-                        <div class="avatar-circle d-grid place-items-center fw-bold small" style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-color);">
+                        <div class="avatar-circle d-grid place-items-center fw-bold small feed-bubble-avatar" style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-color);">
                             RV
                         </div>
                         <div style="max-width: 70%;">
@@ -137,18 +158,98 @@
 
                 <!-- Input Footer -->
                 <div class="p-3 border-top" style="border-color: var(--border-color) !important; background: var(--bg-surface);">
-                    <div class="input-group">
-                        <button class="btn btn-outline-secondary" type="button" style="border-color: var(--border-color); color: var(--text-muted);" title="Attach Document">
-                            <i class="fas fa-paperclip"></i>
-                        </button>
-                        <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Type a message to Rajender...">
-                        <button class="btn btn-primary px-4 shadow-sm" type="button" style="background: var(--accent-blue); border: none;">
-                            <i class="fas fa-paper-plane me-1"></i> Send
-                        </button>
-                    </div>
+                    <form id="alumniMessageForm" onsubmit="sendAlumniMessage(event);">
+                        <div class="input-group">
+                            <button class="btn btn-outline-secondary" type="button" style="border-color: var(--border-color); color: var(--text-muted);" title="Attach Document" onclick="alert('Document upload modal');">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <input type="text" id="alumniMsgInput" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Type a message..." autocomplete="off">
+                            <button class="btn btn-primary px-4 shadow-sm" type="submit" style="background: var(--accent-blue); border: none;">
+                                <i class="fas fa-paper-plane me-1"></i> Send
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+function selectThread(element, name, role, initial, isOnline) {
+    document.querySelectorAll('.chat-thread-item').forEach(item => {
+        item.classList.remove('active-thread');
+    });
+    element.classList.add('active-thread');
+
+    document.getElementById('activeName').textContent = name;
+    document.getElementById('activeRole').innerHTML = '<i class="fas fa-graduation-cap me-1"></i> ' + role + (isOnline === 'True' || isOnline === 'true' ? ' &bull; <span class="text-success fw-semibold">Online</span>' : ' &bull; <span class="text-muted">Offline</span>');
+    document.getElementById('activeAvatar').textContent = initial;
+
+    const dot = document.getElementById('activeOnlineDot');
+    if (dot) {
+        dot.style.display = (isOnline === 'True' || isOnline === 'true') ? 'block' : 'none';
+    }
+
+    document.querySelectorAll('.feed-bubble-avatar').forEach(el => {
+        el.textContent = initial;
+    });
+}
+
+function filterChatThreads(query) {
+    const q = query.trim().toLowerCase();
+    const threads = document.querySelectorAll('.chat-thread-item');
+    threads.forEach(thread => {
+        const name = (thread.getAttribute('data-name') || '').toLowerCase();
+        const role = (thread.getAttribute('data-role') || '').toLowerCase();
+        if (!q || name.includes(q) || role.includes(q)) {
+            thread.style.display = 'block';
+        } else {
+            thread.style.display = 'none';
+        }
+    });
+}
+
+function sendAlumniMessage(e) {
+    e.preventDefault();
+    const input = document.getElementById('alumniMsgInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    const feed = document.getElementById('chatFeed');
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    const outBubble = document.createElement('div');
+    outBubble.className = 'd-flex mb-3 align-items-end justify-content-end gap-2';
+    outBubble.innerHTML = `
+        <div style="max-width: 70%;">
+            <div class="p-3 rounded-4 shadow-sm" style="background: var(--accent-blue); color: #ffffff; border-bottom-right-radius: 4px !important;">
+                <p class="mb-0 small" style="line-height: 1.5;">${escapeHtml(msg)}</p>
+            </div>
+            <div class="text-end">
+                <small class="text-muted me-2" style="font-size: 0.72rem;">${timeStr} &bull; <i class="fas fa-check text-primary"></i></small>
+            </div>
+        </div>
+    `;
+    feed.appendChild(outBubble);
+    feed.scrollTop = feed.scrollHeight;
+
+    const activeThread = document.querySelector('.chat-thread-item.active-thread .thread-last-msg');
+    if (activeThread) {
+        activeThread.textContent = msg;
+    }
+
+    input.value = '';
+}
+
+function promptNewChat() {
+    window.location.href = "{{ url_for('alumni_network') }}";
+}
+
+function escapeHtml(text) {
+    const map = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'};
+    return text.replace(/[&<>"']/g, m => map[m]);
+}
+</script>
 {% endblock %}
