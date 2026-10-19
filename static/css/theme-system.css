@@ -133,12 +133,20 @@ body.dark-mode {
 /* --------------------------------------------------------------------------
    2. Global Typography & Core Resets
    -------------------------------------------------------------------------- */
+html, body {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    position: relative;
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
     background-color: var(--bg-primary) !important;
     color: var(--text-primary) !important;
     font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
     transition: background-color 0.25s ease, color 0.25s ease;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+    width: 100% !important;
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -747,4 +755,178 @@ a:hover {
     opacity: 1 !important;
     visibility: visible !important;
     display: inherit;
+}
+
+/* ==========================================================================
+   7. COMPLETE MOBILE RESPONSIVENESS & FLUID LAYOUT SYSTEM
+   Tested across 320px - 768px viewports (iPhone, Android, Tablets)
+   ========================================================================== */
+
+/* Guaranteed Mobile Visibility for Drawer and Overlay */
+.mobile-menu-overlay.active .mobile-nav-link,
+.mobile-menu-overlay.active .mobile-profile-card,
+.mobile-menu-overlay.active .mobile-auth-buttons,
+.mobile-menu-overlay.active .mobile-logout-section {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+}
+
+.mobile-menu-overlay .mobile-nav-link {
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--text-primary) !important;
+    padding: 0.85rem 1.15rem;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.mobile-menu-overlay .mobile-nav-link i {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--accent-blue-subtle);
+    color: var(--accent-blue);
+    display: grid;
+    place-items: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.mobile-menu-overlay .mobile-nav-link:hover,
+.mobile-menu-overlay .mobile-nav-link:active {
+    background: var(--accent-blue-subtle) !important;
+    border-color: var(--accent-blue) !important;
+    color: var(--accent-blue) !important;
+    transform: translateX(3px);
+}
+
+/* Responsive Containers & Grids */
+@media (max-width: 991.98px) {
+    .container,
+    .container-fluid {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    /* Fixed height rows become fluid */
+    .chat-layout-row {
+        min-height: auto !important;
+    }
+
+    .conversation-list {
+        max-height: 240px !important;
+    }
+
+    #chatFeed {
+        max-height: 420px !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* Fluid Mobile Typography */
+    .display-1 { font-size: clamp(2rem, 7.5vw, 2.75rem) !important; line-height: 1.15 !important; }
+    .display-2 { font-size: clamp(1.85rem, 7vw, 2.4rem) !important; line-height: 1.18 !important; }
+    .display-3 { font-size: clamp(1.65rem, 6.2vw, 2.15rem) !important; line-height: 1.2 !important; }
+    .display-4 { font-size: clamp(1.45rem, 5.5vw, 1.95rem) !important; line-height: 1.25 !important; }
+    h1, .h1 { font-size: clamp(1.4rem, 5vw, 1.85rem) !important; }
+    h2, .h2 { font-size: clamp(1.22rem, 4.4vw, 1.55rem) !important; }
+    h3, .h3 { font-size: clamp(1.08rem, 3.8vw, 1.35rem) !important; }
+
+    /* Mobile Cards and Spacing */
+    .card,
+    .home-card,
+    .stat-card,
+    .dashboard-card {
+        padding: 1.15rem 0.95rem !important;
+        border-radius: 14px !important;
+        margin-bottom: 1rem !important;
+        max-width: 100% !important;
+    }
+
+    .row {
+        margin-left: -6px !important;
+        margin-right: -6px !important;
+    }
+
+    .row > * {
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+        max-width: 100% !important;
+    }
+
+    /* Form elements on mobile: prevent iOS zoom */
+    .form-control,
+    .form-select,
+    .input-group input,
+    .input-group select {
+        font-size: 16px !important;
+        min-height: 44px;
+        border-radius: 10px !important;
+    }
+
+    /* Buttons responsive stack */
+    .btn-group {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .btn-group .btn {
+        flex: 1 1 auto;
+    }
+
+    /* Modals fit mobile screen nicely */
+    .modal-dialog {
+        margin: 0.65rem !important;
+        max-width: calc(100% - 1.3rem) !important;
+    }
+}
+
+/* Universal Table Horizontal Scrolling Wrapper */
+.table-responsive,
+.table-responsive-wrapper,
+.table-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+    table.table,
+    table.premium-table,
+    table.job-table-premium {
+        min-width: 560px;
+    }
+}
+
+/* Mobile Hero Banner Adjustments */
+@media (max-width: 575.98px) {
+    .hero-premium,
+    .glass-hero {
+        padding: 95px 12px 40px !important;
+        min-height: auto !important;
+    }
+
+    .hero-premium .d-flex.justify-content-center.gap-3 {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        width: 100% !important;
+        max-width: 320px !important;
+        margin: 0 auto !important;
+    }
+
+    .btn-premium {
+        width: 100% !important;
+        padding: 0.75rem 1.25rem !important;
+        font-size: 0.88rem !important;
+    }
 }
