@@ -806,7 +806,51 @@ a:hover {
     transform: translateX(3px);
 }
 
-/* Responsive Containers & Grids */
+/* ==========================================================================
+   7. COMPREHENSIVE RESPONSIVE SYSTEM (All Categories & Breakpoints)
+   Tested across 320px - 768px viewports (iPhone, Android, Tablets)
+   ========================================================================== */
+
+/* 7.1 UNIVERSAL OVERFLOW & BACKGROUND MESH PROTECTION */
+.mesh-gradient,
+.mesh-background,
+.hero-bg,
+.animated-bg,
+.background-shapes,
+.premium-bg,
+.dashboard-wrapper,
+.home-wrapper,
+.main-wrapper,
+.dashboard-container,
+.admin-container,
+.user-container {
+    max-width: 100vw !important;
+    overflow-x: clip !important;
+}
+
+@media (max-width: 768px) {
+    /* Prevent massive background orbs from pushing horizontal scroll */
+    .mesh-ball,
+    .blob,
+    .blob-shape,
+    .blob-1,
+    .blob-2,
+    .blob-3,
+    .orb-1,
+    .orb-2,
+    .animated-bg-lines {
+        max-width: 85vw !important;
+        max-height: 85vw !important;
+        pointer-events: none !important;
+    }
+
+    /* Fixed top padding for pages without hero banners */
+    .main-wrapper > div:first-child:not(.hero-premium):not(.glass-hero):not(.home-wrapper):not(.hero-section):not(.hero-wrap):not(.dashboard-wrapper) {
+        padding-top: 20px;
+    }
+}
+
+/* 7.2 RESPONSIVE CONTAINERS, GRIDS & FLUID TYPOGRAPHY */
 @media (max-width: 991.98px) {
     .container,
     .container-fluid {
@@ -838,11 +882,14 @@ a:hover {
     h2, .h2 { font-size: clamp(1.22rem, 4.4vw, 1.55rem) !important; }
     h3, .h3 { font-size: clamp(1.08rem, 3.8vw, 1.35rem) !important; }
 
-    /* Mobile Cards and Spacing */
+    /* Universal Cards and Spacing */
     .card,
     .home-card,
     .stat-card,
-    .dashboard-card {
+    .dashboard-card,
+    .glass-card,
+    .terminal-card,
+    .matrix-card {
         padding: 1.15rem 0.95rem !important;
         border-radius: 14px !important;
         margin-bottom: 1rem !important;
@@ -860,7 +907,7 @@ a:hover {
         max-width: 100% !important;
     }
 
-    /* Form elements on mobile: prevent iOS zoom */
+    /* Form elements on mobile: prevent iOS zoom & ensure touch comfort */
     .form-control,
     .form-select,
     .input-group input,
@@ -886,33 +933,98 @@ a:hover {
         margin: 0.65rem !important;
         max-width: calc(100% - 1.3rem) !important;
     }
-}
 
-/* Universal Table Horizontal Scrolling Wrapper */
-.table-responsive,
-.table-responsive-wrapper,
-.table-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    margin-bottom: 1rem;
-    border-radius: 12px;
-}
-
-@media (max-width: 768px) {
-    table.table,
-    table.premium-table,
-    table.job-table-premium {
-        min-width: 560px;
+    /* Canvas and Charts fluid scaling */
+    canvas {
+        max-width: 100% !important;
+        height: auto !important;
     }
 }
 
-/* Mobile Hero Banner Adjustments */
-@media (max-width: 575.98px) {
+/* 7.3 HEADER & FOOTER MOBILE PERFECTION */
+@media (max-width: 991.98px) {
+    .navbar-floating {
+        padding: 0.5rem 0.5rem !important;
+    }
+    .navbar-floating .navbar-container {
+        padding: 0.5rem 0.85rem !important;
+        border-radius: 16px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    .brand-logo-container {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 1.15rem !important;
+        border-radius: 10px !important;
+    }
+    .brand-text-premium {
+        font-size: 1.05rem !important;
+    }
+    .custom-toggler {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 10px !important;
+        padding: 4px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .brand-text-premium {
+        font-size: 0.92rem !important;
+    }
+    .brand-logo-container {
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 1rem !important;
+    }
+    .nav-mobile-register {
+        display: none !important;
+    }
+}
+
+/* Footer Mobile Enhancements */
+@media (max-width: 767.98px) {
+    .footer-content {
+        padding: 35px 0 20px !important;
+    }
+    .footer-section {
+        margin-bottom: 1.75rem !important;
+    }
+    .footer-section .map-container {
+        height: 140px !important;
+    }
+    .social-links-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.5rem !important;
+    }
+    .social-icon-btn {
+        padding: 0.45rem 0.65rem !important;
+        font-size: 0.8rem !important;
+        justify-content: center !important;
+    }
+    .footer-bottom {
+        padding: 1rem 0 !important;
+        text-align: center !important;
+    }
+    .footer-bottom .row > div {
+        text-align: center !important;
+    }
+    .footer-marquee {
+        padding: 0.65rem 0 !important;
+    }
+    .footer-marquee span {
+        font-size: 0.8rem !important;
+        gap: 0.35rem !important;
+    }
+}
+
+/* 7.4 COMMON & PUBLIC PAGES (Home, About, Services, Events, Contact, FAQ, Legal) */
+@media (max-width: 768px) {
     .hero-premium,
     .glass-hero {
-        padding: 95px 12px 40px !important;
+        padding: 95px 14px 40px !important;
         min-height: auto !important;
     }
 
@@ -928,5 +1040,175 @@ a:hover {
         width: 100% !important;
         padding: 0.75rem 1.25rem !important;
         font-size: 0.88rem !important;
+    }
+
+    .accordion-button {
+        font-size: 0.94rem !important;
+        padding: 0.85rem 1rem !important;
+    }
+
+    .contact-card,
+    .form-card {
+        padding: 1.25rem 1rem !important;
+    }
+}
+
+/* 7.5 STUDENT & ALUMNI PORTALS (Dashboards, Network, Mentorship, Jobs, Profile) */
+@media (max-width: 768px) {
+    .dashboard-wrapper,
+    .dashboard-container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        overflow-x: hidden !important;
+    }
+
+    .hero-section,
+    .dashboard-hero {
+        padding: 95px 14px 35px !important;
+    }
+
+    .hero-content h1,
+    .hero-title {
+        font-size: clamp(1.45rem, 5.8vw, 2.1rem) !important;
+    }
+
+    .hero-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.65rem !important;
+        width: 100% !important;
+        max-width: 320px !important;
+    }
+
+    .hero-actions .btn {
+        width: 100% !important;
+        margin-left: 0 !important;
+        font-size: 0.92rem !important;
+        padding: 0.65rem 1.25rem !important;
+    }
+
+    .stats-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.65rem !important;
+    }
+
+    /* Filter & Category Pills Horizontal Scroll */
+    .filter-pills,
+    .category-chips,
+    .nav-tabs,
+    .nav-pills {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px !important;
+    }
+
+    .filter-pills .btn,
+    .category-chips .chip,
+    .nav-pills .nav-link {
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* 7.6 FACULTY PORTAL (Hero, Directory, Messages, Announcements) */
+@media (max-width: 768px) {
+    .hero-wrap {
+        padding-top: 80px !important;
+        padding-bottom: 30px !important;
+    }
+
+    .hero-wrap .hero-title {
+        font-size: clamp(1.4rem, 5.5vw, 1.95rem) !important;
+    }
+
+    .hero-wrap .d-flex.flex-wrap.gap-3 {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        width: 100% !important;
+        max-width: 320px !important;
+    }
+
+    .hero-wrap .btn-glass-light,
+    .hero-wrap .btn-outline-light {
+        width: 100% !important;
+    }
+}
+
+/* 7.7 ADMIN CONTROL CENTER (Terminal, Analytics, Stats, User Management, Tables) */
+@media (max-width: 991.98px) {
+    .admin-container,
+    .user-container,
+    .analytics-container,
+    .stats-container,
+    .monitor-container {
+        padding: 90px 14px 2.5rem !important;
+        max-width: 100% !important;
+    }
+
+    .hero-terminal {
+        padding: 1.5rem 1rem !important;
+        border-radius: 18px !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .hero-title,
+    .matrix-title {
+        font-size: clamp(1.6rem, 6.5vw, 2.2rem) !important;
+        letter-spacing: -0.5px !important;
+        line-height: 1.2 !important;
+    }
+
+    .matrix-header {
+        margin-bottom: 2rem !important;
+    }
+
+    .matrix-controls,
+    .table-controls,
+    .filter-controls {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.75rem !important;
+    }
+
+    .matrix-controls input,
+    .table-controls input,
+    .matrix-controls select,
+    .table-controls select {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Universal Table Horizontal Scrolling Wrapper */
+.table-responsive,
+.table-responsive-wrapper,
+.table-wrapper,
+.card-body:has(table),
+.glass-card:has(table) {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+    table.table,
+    table.premium-table,
+    table.job-table-premium,
+    table.cm-table,
+    #usersTable,
+    #pendingJobTable {
+        min-width: 560px !important;
     }
 }
