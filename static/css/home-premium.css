@@ -443,33 +443,114 @@
     line-height: 1.4;
 }
 
-/* Marquee Section */
+/* ==========================================================================
+   PREMIUM MARQUEE COMPONENT (Ultra-Legible, Light & Modern)
+   ========================================================================== */
 .marquee-section {
-    background: #ffffff;
-    border-top: 1px solid #e2e8f0;
-    border-bottom: 1px solid #e2e8f0;
-    padding: 1rem 0;
-    overflow: hidden;
+    background: #ffffff !important;
+    border-top: 1px solid #e2e8f0 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 0.95rem 0 !important;
+    overflow: hidden !important;
+    position: relative !important;
+    box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.02), 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+}
+
+.marquee-section::before,
+.marquee-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.marquee-section::before {
+    left: 0;
+    background: linear-gradient(90deg, #ffffff 15%, rgba(255, 255, 255, 0) 100%);
+}
+
+.marquee-section::after {
+    right: 0;
+    background: linear-gradient(-90deg, #ffffff 15%, rgba(255, 255, 255, 0) 100%);
 }
 
 .marquee-container {
     display: flex;
     width: 100%;
+    overflow: hidden;
 }
 
 .marquee {
     display: flex;
-    gap: 3rem;
+    gap: 1.5rem;
     white-space: nowrap;
-    animation: marquee-scroll 25s linear infinite;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #475569;
+    animation: marquee-scroll 24s linear infinite;
+    align-items: center;
+    width: max-content;
+}
+
+.marquee:hover {
+    animation-play-state: paused;
+}
+
+.marquee span,
+.marquee .marquee-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    font-size: 0.94rem !important;
+    font-weight: 600 !important;
+    color: #0f172a !important; /* Deep crisp slate text - 100% visible! */
+    text-shadow: none !important;
+    background: #f1f5f9 !important; /* Subtle pill background */
+    border: 1px solid #cbd5e1 !important;
+    padding: 0.45rem 1.15rem !important;
+    border-radius: 50px !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+    transition: all 0.2s ease !important;
+    flex-shrink: 0 !important;
+    letter-spacing: 0.2px;
+}
+
+.marquee span:hover,
+.marquee .marquee-item:hover {
+    background: #edf4f7 !important;
+    border-color: #0284c7 !important;
+    color: #0284c7 !important;
+    transform: translateY(-1px);
+}
+
+.marquee span strong,
+.marquee .marquee-item strong {
+    color: #0284c7 !important; /* Vibrant Accent Blue */
+    font-weight: 800 !important;
 }
 
 @keyframes marquee-scroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+    .marquee-section {
+        padding: 0.75rem 0 !important;
+    }
+    .marquee {
+        gap: 1rem;
+        animation-duration: 20s;
+    }
+    .marquee span,
+    .marquee .marquee-item {
+        font-size: 0.84rem !important;
+        padding: 0.35rem 0.85rem !important;
+    }
+    .marquee-section::before,
+    .marquee-section::after {
+        width: 35px;
+    }
 }
 
 /* Reveal states - Guaranteed Visible */
