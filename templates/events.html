@@ -3,11 +3,400 @@
 {% block title %}Upcoming Events - Alumni Hub{% endblock %}
 
 {% block content %}
-<!-- Premium Fonts -->
+<!-- Premium Typography & Base Styles -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}">
 
-<div class="home-wrapper">
+<style>
+    /* ========================================================
+       UPCOMING EVENTS PAGE - MODERN DESIGN SYSTEM
+       ======================================================== */
+    .events-wrapper {
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* Stat Cards */
+    .event-stat-card {
+        background: #ffffff;
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        border-radius: 20px;
+        padding: 24px 20px;
+        transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+    }
+    .event-stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 38px -8px rgba(2, 132, 199, 0.16);
+        border-color: rgba(2, 132, 199, 0.35);
+    }
+    .event-stat-card .stat-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #0284c7, #38bdf8);
+    }
+    .event-stat-card.accent-green .stat-bar { background: linear-gradient(90deg, #059669, #34d399); }
+    .event-stat-card.accent-amber .stat-bar { background: linear-gradient(90deg, #d97706, #fbbf24); }
+    .event-stat-card.accent-purple .stat-bar { background: linear-gradient(90deg, #7c3aed, #c084fc); }
+
+    .event-stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 1.25rem;
+        background: #f0f9ff;
+        color: #0284c7;
+        margin: 0 auto 12px auto;
+        transition: transform 0.3s ease;
+    }
+    .event-stat-card:hover .event-stat-icon {
+        transform: scale(1.1) rotate(6deg);
+    }
+    .event-stat-card.accent-green .event-stat-icon { background: #ecfdf5; color: #059669; }
+    .event-stat-card.accent-amber .event-stat-icon { background: #fffbeb; color: #d97706; }
+    .event-stat-card.accent-purple .event-stat-icon { background: #f5f3ff; color: #7c3aed; }
+
+    /* ========================================================
+       REFINED FILTER & SEARCH BAR (High Contrast & Visible)
+       ======================================================== */
+    .events-filter-container {
+        background: #ffffff;
+        border: 1px solid rgba(226, 232, 240, 0.95);
+        border-radius: 24px;
+        padding: 18px 24px;
+        box-shadow: 0 14px 35px -10px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(2, 132, 199, 0.05);
+        position: relative;
+    }
+
+    /* Filter Search Input */
+    .event-search-wrapper {
+        position: relative;
+        min-width: 250px;
+    }
+    .event-search-input {
+        width: 100%;
+        padding: 10px 18px 10px 42px;
+        border-radius: 50px;
+        border: 1.5px solid #e2e8f0;
+        background: #f8fafc;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #1e293b;
+        transition: all 0.25s ease;
+        outline: none;
+    }
+    .event-search-input:focus {
+        border-color: #0284c7;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+    }
+    .event-search-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 0.92rem;
+        pointer-events: none;
+    }
+
+    /* Filter Category Pills */
+    .event-filter-pill {
+        border: 1.5px solid #e2e8f0;
+        background: #f8fafc;
+        color: #334155;
+        border-radius: 50px;
+        padding: 8px 18px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+    }
+
+    .event-filter-pill:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+        color: #0284c7;
+        transform: translateY(-2px);
+    }
+
+    .event-filter-pill .pill-badge {
+        background: #e2e8f0;
+        color: #475569;
+        font-size: 0.74rem;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: 50px;
+        transition: all 0.25s ease;
+    }
+
+    /* Active State (Bold, High Contrast, 100% Readable) */
+    .event-filter-pill.active {
+        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%) !important;
+        color: #ffffff !important;
+        border-color: transparent !important;
+        box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35) !important;
+        transform: translateY(-2px);
+    }
+
+    .event-filter-pill.active .pill-badge {
+        background: rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+    }
+
+    .event-filter-pill.active i {
+        color: #ffffff !important;
+    }
+
+    /* ========================================================
+       EVENT CARDS SYSTEM (Elevated, Interactive & Responsive)
+       ======================================================== */
+    .event-card-item {
+        transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), opacity 0.35s ease;
+    }
+
+    .event-card {
+        background: #ffffff;
+        border-radius: 22px;
+        border: 1px solid rgba(226, 232, 240, 0.95);
+        box-shadow: 0 10px 30px -8px rgba(15, 23, 42, 0.07);
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-column;
+        justify-content: space-between;
+        position: relative;
+        transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    .event-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 22px 48px -10px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(2, 132, 199, 0.15);
+        border-color: rgba(2, 132, 199, 0.3);
+    }
+
+    /* Card Banner Header */
+    .event-card-banner {
+        position: relative;
+        height: 195px;
+        overflow: hidden;
+    }
+
+    .event-card-banner-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .event-card:hover .event-card-banner-img {
+        transform: scale(1.06);
+    }
+
+    .event-card-banner-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.7) 100%);
+    }
+
+    /* Floating Date Badge */
+    .event-date-badge {
+        position: absolute;
+        bottom: 14px;
+        left: 16px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 12px;
+        padding: 6px 12px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        z-index: 2;
+    }
+
+    .event-date-badge .date-num {
+        display: block;
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 800;
+        line-height: 1;
+        color: #0f172a;
+    }
+
+    .event-date-badge .date-month {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: #0284c7;
+        letter-spacing: 0.5px;
+    }
+
+    /* Floating Status Badge (Top-Right) */
+    .event-status-badge {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        border-radius: 50px;
+        padding: 5px 12px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+        z-index: 2;
+        color: #ffffff;
+    }
+
+    /* Beacon Pulse Dot */
+    .status-dot-pulse {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: currentColor;
+        animation: pulseBeacon 1.8s infinite;
+    }
+
+    @keyframes pulseBeacon {
+        0% { transform: scale(0.9); opacity: 0.8; }
+        50% { transform: scale(1.3); opacity: 1; }
+        100% { transform: scale(0.9); opacity: 0.8; }
+    }
+
+    /* Card Body */
+    .event-card-body {
+        padding: 22px 22px 18px 22px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .event-category-chip {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        border-radius: 50px;
+        padding: 4px 10px;
+    }
+
+    .event-card-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        letter-spacing: -0.3px;
+        margin-bottom: 8px;
+        transition: color 0.2s ease;
+    }
+
+    .event-card:hover .event-card-title {
+        color: #0284c7;
+    }
+
+    .event-card-desc {
+        font-size: 0.9rem;
+        line-height: 1.55;
+        color: #475569;
+        margin-bottom: 16px;
+    }
+
+    /* Meta Details Pill */
+    .event-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 16px;
+        font-size: 0.84rem;
+        color: #64748b;
+    }
+
+    .event-meta-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    /* Card Footer & Action */
+    .event-card-footer {
+        padding: 16px 22px;
+        background: #fafafa;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .event-location-text {
+        font-size: 0.84rem;
+        color: #64748b;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .btn-event-cta {
+        border-radius: 50px;
+        font-size: 0.84rem;
+        font-weight: 600;
+        padding: 7px 18px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.25s ease;
+    }
+
+    .btn-event-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(2, 132, 199, 0.28);
+    }
+
+    /* Empty state */
+    .empty-events-state {
+        background: #ffffff;
+        border: 2px dashed #cbd5e1;
+        border-radius: 24px;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 767.98px) {
+        .events-filter-container {
+            padding: 16px;
+            border-radius: 18px;
+        }
+        .event-filter-scroll {
+            overflow-x: auto;
+            padding-bottom: 6px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .event-filter-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .event-card-banner {
+            height: 170px;
+        }
+    }
+</style>
+
+<div class="home-wrapper events-wrapper">
     <!-- Animated Mesh Background -->
     <div class="mesh-background">
         <div class="mesh-ball ball-1"></div>
@@ -16,20 +405,20 @@
         <div class="mesh-ball ball-4"></div>
     </div>
 
-    <!-- Hero Section (Matching Home Page) -->
+    <!-- Hero Section (Consistent Home/About Aesthetics) -->
     <section class="hero-premium glass-hero position-relative overflow-hidden">
         <canvas class="network-canvas"></canvas>
         <div class="hero-particles"></div>
         <div class="container" style="position: relative; z-index: 2;">
             <div class="hero-content text-center mx-auto">
                 <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade hero-network-badge">
-                    <i class="fas fa-calendar-star me-2"></i> CONNECT & GROW
+                    <i class="fas fa-calendar-star me-2"></i> CONNECT &amp; GROW
                 </div>
                 <h1 class="hero-title fw-bold mb-3 reveal-text text-white">
-                    Upcoming <span class="text-holographic">Events</span>
+                    Upcoming <span class="text-holographic">Events &amp; Summits</span>
                 </h1>
                 <p class="hero-subtitle text-white-50 lead mb-4 reveal-fade mx-auto">
-                    Join our webinars, industry masterclasses, alumni reunions, and hackathons to stay connected with our community.
+                    Join interactive masterclasses, tech webinars, grand alumni reunions, and competitive hackathons to accelerate your career and expand your network.
                 </p>
                 <div class="hero-cta-buttons d-flex justify-content-center gap-3 flex-wrap reveal-fade">
                     <a href="#events-catalogue" class="btn btn-premium btn-premium-primary magnetic-button">
@@ -52,290 +441,493 @@
                 <span>🏆 Alumni Hackathon 2026</span>
                 <span>💼 Spring Career Fair 2026</span>
                 <span>🤝 Annual Alumni Meet</span>
+                <span>🤖 AI in 2026 Leadership Webinar</span>
                 <span>🎉 Itrang'26 Cultural Fest Live</span>
                 <span>🏆 Alumni Hackathon 2026</span>
+                <span>💼 Spring Career Fair 2026</span>
             </div>
         </div>
     </section>
 
     <div class="container py-5" id="events-catalogue">
-        <!-- Stats Counter Row (Home-Card Containers) -->
-        <div class="row g-4 mb-5 pt-3">
-            <div class="col-md-3 col-6 reveal-fade">
-                <div class="home-card accent-blue text-center p-4">
-                    <div class="home-card-icon mx-auto"><i class="fas fa-calendar-check"></i></div>
-                    <h3 class="fw-bold mb-1" style="font-size: 2rem; color: #172a42; font-family: 'Outfit';">
+        <!-- ========================================================
+             QUICK STATS METRICS ROW (Clean Glassmorphic Cards)
+             ======================================================== -->
+        <div class="row g-3 g-md-4 mb-5 pt-3">
+            <div class="col-6 col-lg-3 reveal-fade">
+                <div class="event-stat-card">
+                    <div class="stat-bar"></div>
+                    <div class="event-stat-icon"><i class="fas fa-calendar-check"></i></div>
+                    <h3 class="fw-bold mb-1 text-center" style="font-size: 2rem; color: #0f172a; font-family: 'Outfit';">
                         <span class="counter" data-target="25">0</span>+
                     </h3>
-                    <p class="home-card-text text-muted mb-0">Events This Year</p>
+                    <p class="text-muted text-center mb-0 small fw-semibold">Events This Year</p>
                 </div>
             </div>
-            <div class="col-md-3 col-6 reveal-fade" style="animation-delay: 0.1s;">
-                <div class="home-card accent-green text-center p-4">
-                    <div class="home-card-icon mx-auto" style="color: #059669; background: #ecfdf5;"><i class="fas fa-users"></i></div>
-                    <h3 class="fw-bold mb-1" style="font-size: 2rem; color: #172a42; font-family: 'Outfit';">
+            <div class="col-6 col-lg-3 reveal-fade" style="animation-delay: 0.1s;">
+                <div class="event-stat-card accent-green">
+                    <div class="stat-bar"></div>
+                    <div class="event-stat-icon"><i class="fas fa-users"></i></div>
+                    <h3 class="fw-bold mb-1 text-center" style="font-size: 2rem; color: #0f172a; font-family: 'Outfit';">
                         <span class="counter" data-target="650">0</span>+
                     </h3>
-                    <p class="home-card-text text-muted mb-0">Active Participants</p>
+                    <p class="text-muted text-center mb-0 small fw-semibold">Active Participants</p>
                 </div>
             </div>
-            <div class="col-md-3 col-6 reveal-fade" style="animation-delay: 0.2s;">
-                <div class="home-card accent-amber text-center p-4">
-                    <div class="home-card-icon mx-auto" style="color: #d97706; background: #fffbeb;"><i class="fas fa-clock"></i></div>
-                    <h3 class="fw-bold mb-1" style="font-size: 2rem; color: #172a42; font-family: 'Outfit';">
+            <div class="col-6 col-lg-3 reveal-fade" style="animation-delay: 0.2s;">
+                <div class="event-stat-card accent-amber">
+                    <div class="stat-bar"></div>
+                    <div class="event-stat-icon"><i class="fas fa-clock"></i></div>
+                    <h3 class="fw-bold mb-1 text-center" style="font-size: 2rem; color: #0f172a; font-family: 'Outfit';">
                         <span class="counter" data-target="7">0</span>
                     </h3>
-                    <p class="home-card-text text-muted mb-0">Upcoming This Month</p>
+                    <p class="text-muted text-center mb-0 small fw-semibold">Upcoming This Month</p>
                 </div>
             </div>
-            <div class="col-md-3 col-6 reveal-fade" style="animation-delay: 0.3s;">
-                <div class="home-card accent-purple text-center p-4">
-                    <div class="home-card-icon mx-auto" style="color: #7c3aed; background: #f5f3ff;"><i class="fas fa-star"></i></div>
-                    <h3 class="fw-bold mb-1" style="font-size: 2rem; color: #172a42; font-family: 'Outfit';">
+            <div class="col-6 col-lg-3 reveal-fade" style="animation-delay: 0.3s;">
+                <div class="event-stat-card accent-purple">
+                    <div class="stat-bar"></div>
+                    <div class="event-stat-icon"><i class="fas fa-star"></i></div>
+                    <h3 class="fw-bold mb-1 text-center" style="font-size: 2rem; color: #0f172a; font-family: 'Outfit';">
                         <span class="counter" data-target="98">0</span>%
                     </h3>
-                    <p class="home-card-text text-muted mb-0">Satisfaction Rate</p>
+                    <p class="text-muted text-center mb-0 small fw-semibold">Satisfaction Rate</p>
                 </div>
             </div>
         </div>
 
-        <!-- Filter Bar (Clean Container System) -->
+        <!-- ========================================================
+             REDESIGNED FILTER & SEARCH BAR (High Contrast & Responsive)
+             ======================================================== -->
         <div class="row justify-content-center mb-5 reveal-fade">
-            <div class="col-lg-10">
-                <div class="home-card p-3">
-                    <div class="d-flex flex-wrap justify-content-center gap-2">
-                        <button class="btn btn-sm btn-premium-primary rounded-pill px-4 filter-btn active" data-filter="all">
-                            <i class="fas fa-th-large me-2"></i> All Events
-                        </button>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-4 filter-btn" data-filter="webinar">
-                            <i class="fas fa-video me-2"></i> Webinars
-                        </button>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-4 filter-btn" data-filter="workshop">
-                            <i class="fas fa-chalkboard-teacher me-2"></i> Workshops
-                        </button>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-4 filter-btn" data-filter="social">
-                            <i class="fas fa-users me-2"></i> Social & Reunions
-                        </button>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-4 filter-btn" data-filter="networking">
-                            <i class="fas fa-handshake me-2"></i> Career & Networking
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <div class="col-12">
+                <div class="events-filter-container">
+                    <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center justify-content-between gap-3">
+                        <!-- Search Bar -->
+                        <div class="event-search-wrapper">
+                            <i class="fas fa-search event-search-icon"></i>
+                            <input type="text" id="eventSearchInput" class="event-search-input" placeholder="Search events by title, keyword, or venue...">
+                        </div>
 
-        <!-- Events Grid (Home-Card Containers) -->
-        <div class="row g-4 events-grid">
-            <!-- Event 1 - Itrang'26 (Cultural Fest) -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="social">
-                <div class="home-card accent-blue h-100 p-0 overflow-hidden d-flex flex-column">
-                    <div class="position-relative" style="height: 200px; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%), url('/static/images/itrang.jpeg'); background-size: cover; background-position: center;">
-                        <span class="position-absolute top-0 end-0 m-3 badge bg-danger rounded-pill px-3 py-2 shadow-sm">
-                            <i class="fas fa-circle blink me-1"></i> Happening Now
-                        </span>
-                        <div class="position-absolute bottom-0 start-0 m-3 bg-white text-dark p-2 rounded-3 text-center shadow-sm" style="min-width: 60px;">
-                            <span class="d-block fw-bold h5 mb-0" style="color: #0284c7;">27-28</span>
-                            <small class="fw-bold text-uppercase" style="font-size: 0.75rem;">FEB</small>
-                        </div>
-                    </div>
-                    <div class="p-4 flex-grow-1 d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="step-badge" style="color: #dc2626; background: #fee2e2;">CULTURAL FEST</span>
-                            <span class="text-muted small"><i class="fas fa-users me-1"></i> 1000+ seats</span>
-                        </div>
-                        <h4 class="home-card-title mb-2">Itrang'26</h4>
-                        <p class="text-muted small mb-2"><i class="far fa-clock text-danger me-2"></i> 9:00 AM Onwards (2 Days)</p>
-                        <p class="home-card-text mb-4 flex-grow-1">
-                            Annual campus cultural extravaganza featuring dance, battle of bands, fashion shows, and star performances.
-                        </p>
-                        <div class="d-flex align-items-center justify-content-between pt-3 border-top mt-auto">
-                            <span class="text-muted small"><i class="fas fa-map-marker-alt text-danger me-1"></i> Main Campus</span>
-                            <a href="https://itrangadmin.vercel.app/" target="_blank" class="btn btn-sm btn-premium btn-premium-primary">
-                                Join Itrang <i class="fas fa-external-link-alt ms-1"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Event 2 - AI in 2026 (Webinar) -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="webinar" style="animation-delay: 0.1s;">
-                <div class="home-card accent-green h-100 p-0 overflow-hidden d-flex flex-column">
-                    <div class="position-relative" style="height: 200px; background: linear-gradient(135deg, #059669 0%, #047857 100%);">
-                        <span class="position-absolute top-0 end-0 m-3 badge bg-success rounded-pill px-3 py-2 shadow-sm">
-                            <i class="fas fa-check-circle me-1"></i> Open for RSVP
-                        </span>
-                        <div class="position-absolute bottom-0 start-0 m-3 bg-white text-dark p-2 rounded-3 text-center shadow-sm" style="min-width: 60px;">
-                            <span class="d-block fw-bold h5 mb-0" style="color: #059669;">15</span>
-                            <small class="fw-bold text-uppercase" style="font-size: 0.75rem;">MAR</small>
-                        </div>
-                    </div>
-                    <div class="p-4 flex-grow-1 d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="step-badge" style="color: #059669; background: #ecfdf5;">WEBINAR</span>
-                            <span class="text-muted small"><i class="fas fa-users me-1"></i> 250 seats</span>
-                        </div>
-                        <h4 class="home-card-title mb-2">AI in 2026: The Future of Tech</h4>
-                        <p class="text-muted small mb-2"><i class="far fa-clock text-success me-2"></i> 10:00 AM - 12:00 PM</p>
-                        <p class="home-card-text mb-4 flex-grow-1">
-                            Join alumni software engineering leaders from top tech firms discussing LLMs, agents, and cloud architectures.
-                        </p>
-                        <div class="d-flex align-items-center justify-content-between pt-3 border-top mt-auto">
-                            <span class="text-muted small"><i class="fas fa-video text-success me-1"></i> Zoom Online</span>
-                            <a href="{{ url_for('register') }}" class="btn btn-sm btn-premium btn-premium-primary">
-                                Register Free <i class="fas fa-arrow-right ms-1"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Event 3 - Resume Building Masterclass (Workshop) -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="workshop" style="animation-delay: 0.2s;">
-                <div class="home-card accent-amber h-100 p-0 overflow-hidden d-flex flex-column">
-                    <div class="position-relative" style="height: 200px; background: linear-gradient(135deg, #d97706 0%, #b45309 100%);">
-                        <span class="position-absolute top-0 end-0 m-3 badge bg-warning text-dark rounded-pill px-3 py-2 shadow-sm">
-                            <i class="fas fa-fire me-1"></i> High Demand
-                        </span>
-                        <div class="position-absolute bottom-0 start-0 m-3 bg-white text-dark p-2 rounded-3 text-center shadow-sm" style="min-width: 60px;">
-                            <span class="d-block fw-bold h5 mb-0" style="color: #d97706;">22</span>
-                            <small class="fw-bold text-uppercase" style="font-size: 0.75rem;">MAR</small>
-                        </div>
-                    </div>
-                    <div class="p-4 flex-grow-1 d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="step-badge" style="color: #d97706; background: #fffbeb;">WORKSHOP</span>
-                            <span class="text-muted small"><i class="fas fa-users me-1"></i> 100 seats</span>
-                        </div>
-                        <h4 class="home-card-title mb-2">Resume Building Masterclass</h4>
-                        <p class="text-muted small mb-2"><i class="far fa-clock text-warning me-2"></i> 02:00 PM - 04:00 PM</p>
-                        <p class="home-card-text mb-4 flex-grow-1">
-                            Learn ATS optimization secrets, live resume critiques, and interview storytelling directly from senior HR alumni.
-                        </p>
-                        <div class="d-flex align-items-center justify-content-between pt-3 border-top mt-auto">
-                            <span class="text-muted small"><i class="fas fa-map-marker-alt text-warning me-1"></i> Auditorium</span>
-                            <a href="{{ url_for('register') }}" class="btn btn-sm btn-premium btn-premium-primary">
-                                Reserve Seat <i class="fas fa-arrow-right ms-1"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Event 4 - Annual Alumni Meet 2026 (Social) -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="social" style="animation-delay: 0.3s;">
-                <div class="home-card accent-purple h-100 p-0 overflow-hidden d-flex flex-column">
-                    <div class="position-relative" style="height: 200px; background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);">
-                        <span class="position-absolute top-0 end-0 m-3 badge bg-light text-purple rounded-pill px-3 py-2 shadow-sm" style="color: #7c3aed;">
-                            <i class="fas fa-star me-1"></i> Grand Reunion
-                        </span>
-                        <div class="position-absolute bottom-0 start-0 m-3 bg-white text-dark p-2 rounded-3 text-center shadow-sm" style="min-width: 60px;">
-                            <span class="d-block fw-bold h5 mb-0" style="color: #7c3aed;">10</span>
-                            <small class="fw-bold text-uppercase" style="font-size: 0.75rem;">APR</small>
-                        </div>
-                    </div>
-                    <div class="p-4 flex-grow-1 d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="step-badge" style="color: #7c3aed; background: #f5f3ff;">REUNION</span>
-                            <span class="text-muted small"><i class="fas fa-users me-1"></i> 500+ seats</span>
-                        </div>
-                        <h4 class="home-card-title mb-2">Annual Alumni Meet 2026</h4>
-                        <p class="text-muted small mb-2"><i class="far fa-clock text-purple me-2" style="color: #7c3aed;"></i> 06:00 PM Onwards</p>
-                        <p class="home-card-text mb-4 flex-grow-1">
-                            Reconnect with classmates, professors, and mentors. Includes campus dinner, networking lounge, and awards ceremony.
-                        </p>
-                        <div class="d-flex align-items-center justify-content-between pt-3 border-top mt-auto">
-                            <span class="text-muted small"><i class="fas fa-map-marker-alt text-purple me-1" style="color: #7c3aed;"></i> Campus Lawns</span>
-                            <a href="{{ url_for('register') }}" class="btn btn-sm btn-premium btn-premium-primary">
-                                Get Tickets <i class="fas fa-arrow-right ms-1"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Event 5 - Spring Career Fair 2026 (Networking) -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="networking" style="animation-delay: 0.4s;">
-                <div class="home-card accent-blue h-100 p-0 overflow-hidden d-flex flex-column">
-                    <div class="position-relative" style="height: 200px; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
-                        <span class="position-absolute top-0 end-0 m-3 badge bg-primary rounded-pill px-3 py-2 shadow-sm">
-                            <i class="fas fa-briefcase me-1"></i> Hiring Fair
-                        </span>
-                        <div class="position-absolute bottom-0 start-0 m-3 bg-white text-dark p-2 rounded-3 text-center shadow-sm" style="min-width: 60px;">
-                            <span class="d-block fw-bold h5 mb-0" style="color: #0284c7;">25</span>
-                            <small class="fw-bold text-uppercase" style="font-size: 0.75rem;">APR</small>
-                        </div>
-                    </div>
-                    <div class="p-4 flex-grow-1 d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="step-badge" style="color: #0284c7; background: #edf4f7;">CAREER FAIR</span>
-                            <span class="text-muted small"><i class="fas fa-users me-1"></i> 50+ Companies</span>
-                        </div>
-                        <h4 class="home-card-title mb-2">Spring Career Fair 2026</h4>
-                        <p class="text-muted small mb-2"><i class="far fa-clock text-primary me-2"></i> 10:00 AM - 05:00 PM</p>
-                        <p class="home-card-text mb-4 flex-grow-1">
-                            Meet recruiting managers from top MNCs, tech startups, and financial firms. Exclusive on-spot interview sessions.
-                        </p>
-                        <div class="d-flex align-items-center justify-content-between pt-3 border-top mt-auto">
-                            <span class="text-muted small"><i class="fas fa-building text-primary me-1"></i> Placement Complex</span>
-                            <a href="{{ url_for('register') }}" class="btn btn-sm btn-premium btn-premium-primary">
-                                Register Now <i class="fas fa-arrow-right ms-1"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Event 6 - Alumni Hackathon 2026 (Workshop / Competition) -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="workshop" style="animation-delay: 0.5s;">
-                <div class="home-card accent-green h-100 p-0 overflow-hidden d-flex flex-column">
-                    <div class="position-relative" style="height: 200px; background: linear-gradient(135deg, #059669 0%, #047857 100%);">
-                        <span class="position-absolute top-0 end-0 m-3 badge bg-success rounded-pill px-3 py-2 shadow-sm">
-                            <i class="fas fa-trophy me-1"></i> ₹5 Lakhs Prizes
-                        </span>
-                        <div class="position-absolute bottom-0 start-0 m-3 bg-white text-dark p-2 rounded-3 text-center shadow-sm" style="min-width: 60px;">
-                            <span class="d-block fw-bold h5 mb-0" style="color: #059669;">05</span>
-                            <small class="fw-bold text-uppercase" style="font-size: 0.75rem;">MAY</small>
-                        </div>
-                    </div>
-                    <div class="p-4 flex-grow-1 d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="step-badge" style="color: #059669; background: #ecfdf5;">HACKATHON</span>
-                            <span class="text-muted small"><i class="fas fa-users me-1"></i> 200 Hackers</span>
-                        </div>
-                        <h4 class="home-card-title mb-2">Alumni Hackathon 2026</h4>
-                        <p class="text-muted small mb-2"><i class="far fa-clock text-success me-2"></i> 48 Hours Non-Stop</p>
-                        <p class="home-card-text mb-4 flex-grow-1">
-                            Team up with students and alumni mentors to build innovative AI, Web3, and EdTech solutions in a 48-hour sprint.
-                        </p>
-                        <div class="d-flex align-items-center justify-content-between pt-3 border-top mt-auto">
-                            <span class="text-muted small"><i class="fas fa-laptop-code text-success me-1"></i> Hybrid (Online + Campus)</span>
-                            <a href="{{ url_for('register') }}" class="btn btn-sm btn-premium btn-premium-primary">
-                                Apply with Team <i class="fas fa-arrow-right ms-1"></i>
-                            </a>
+                        <!-- Filter Chips Scrollable on Mobile -->
+                        <div class="event-filter-scroll d-flex align-items-center gap-2 flex-wrap flex-lg-nowrap">
+                            <button class="event-filter-pill active" data-filter="all">
+                                <i class="fas fa-th-large" style="color: #0284c7;"></i>
+                                <span>All Events</span>
+                                <span class="pill-badge" id="count-all">6</span>
+                            </button>
+                            <button class="event-filter-pill" data-filter="webinar">
+                                <i class="fas fa-video" style="color: #059669;"></i>
+                                <span>Webinars</span>
+                                <span class="pill-badge" id="count-webinar">1</span>
+                            </button>
+                            <button class="event-filter-pill" data-filter="workshop">
+                                <i class="fas fa-chalkboard-teacher" style="color: #d97706;"></i>
+                                <span>Workshops</span>
+                                <span class="pill-badge" id="count-workshop">2</span>
+                            </button>
+                            <button class="event-filter-pill" data-filter="social">
+                                <i class="fas fa-users" style="color: #7c3aed;"></i>
+                                <span>Campus &amp; Social</span>
+                                <span class="pill-badge" id="count-social">2</span>
+                            </button>
+                            <button class="event-filter-pill" data-filter="networking">
+                                <i class="fas fa-handshake" style="color: #0284c7;"></i>
+                                <span>Career &amp; Jobs</span>
+                                <span class="pill-badge" id="count-networking">1</span>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- CTA Section -->
+        <!-- ========================================================
+             EVENTS CATALOGUE GRID (6 High-Impact Event Cards)
+             ======================================================== -->
+        <div class="row g-4 events-grid" id="eventsGrid">
+            <!-- Event 1: Itrang'26 (Cultural Fest) -->
+            <div class="col-md-6 col-lg-4 event-card-item" data-category="social" data-title="itrang cultural fest live battle bands">
+                <div class="event-card">
+                    <div>
+                        <div class="event-card-banner">
+                            <img src="{{ url_for('static', filename='images/itrang.jpeg') }}" alt="Itrang'26" class="event-card-banner-img">
+                            <div class="event-card-banner-overlay"></div>
+                            <span class="event-status-badge" style="background: linear-gradient(135deg, #e11d48, #be123c);">
+                                <span class="status-dot-pulse"></span> Happening Now
+                            </span>
+                            <div class="event-date-badge">
+                                <span class="date-num" style="color: #e11d48;">27-28</span>
+                                <span class="date-month" style="color: #e11d48;">FEB</span>
+                            </div>
+                        </div>
+
+                        <div class="event-card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category-chip" style="background: #ffe4e6; color: #e11d48;">
+                                    <i class="fas fa-sparkles me-1"></i> Cultural Fest
+                                </span>
+                                <span class="small fw-semibold text-muted">
+                                    <i class="fas fa-users text-danger me-1"></i> 1,000+ Seats
+                                </span>
+                            </div>
+                            <h4 class="event-card-title">Itrang'26 Campus Extravaganza</h4>
+                            <div class="event-meta-row">
+                                <span class="event-meta-item"><i class="far fa-clock text-danger"></i> 9:00 AM Onwards (2 Days)</span>
+                            </div>
+                            <p class="event-card-desc">
+                                Annual campus cultural mega-event featuring dance battles, music bands, fashion runway, comedy nights, and celebrity guest performances.
+                            </p>
+                            <div class="d-flex flex-wrap gap-1 mt-auto">
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Live Stage</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Music &amp; Drama</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Food Carnival</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="event-location-text">
+                            <i class="fas fa-map-marker-alt text-danger"></i> Main University Grounds
+                        </span>
+                        <a href="https://itrangadmin.vercel.app/" target="_blank" class="btn btn-sm btn-danger btn-event-cta shadow-sm">
+                            Join Itrang <i class="fas fa-external-link-alt ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 2: AI in 2026 (Webinar) -->
+            <div class="col-md-6 col-lg-4 event-card-item" data-category="webinar" data-title="ai 2026 future tech webinar llms agents">
+                <div class="event-card">
+                    <div>
+                        <div class="event-card-banner" style="background: linear-gradient(135deg, #059669 0%, #064e3b 100%);">
+                            <div class="position-absolute inset-0 d-flex align-items-center justify-content-center text-white-50" style="font-size: 5rem; opacity: 0.15;">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="event-card-banner-overlay"></div>
+                            <span class="event-status-badge" style="background: linear-gradient(135deg, #059669, #047857);">
+                                <span class="status-dot-pulse"></span> Open for RSVP
+                            </span>
+                            <div class="event-date-badge">
+                                <span class="date-num" style="color: #059669;">15</span>
+                                <span class="date-month" style="color: #059669;">MAR</span>
+                            </div>
+                        </div>
+
+                        <div class="event-card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category-chip" style="background: #dcfce7; color: #047857;">
+                                    <i class="fas fa-video me-1"></i> Tech Webinar
+                                </span>
+                                <span class="small fw-semibold text-muted">
+                                    <i class="fas fa-users text-success me-1"></i> 250 Seats
+                                </span>
+                            </div>
+                            <h4 class="event-card-title">AI in 2026: The Future of Tech</h4>
+                            <div class="event-meta-row">
+                                <span class="event-meta-item"><i class="far fa-clock text-success"></i> 10:00 AM - 12:00 PM</span>
+                            </div>
+                            <p class="event-card-desc">
+                                Join distinguished alumni engineering leaders from Google, Amazon, and top AI startups discussing LLMs, autonomous agents, and production architectures.
+                            </p>
+                            <div class="d-flex flex-wrap gap-1 mt-auto">
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">LLMs &amp; RAG</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Live Q&amp;A</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Certificate</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="event-location-text">
+                            <i class="fas fa-video text-success"></i> Zoom Live Online
+                        </span>
+                        <a href="{{ url_for('register') }}" class="btn btn-sm btn-success btn-event-cta shadow-sm">
+                            Register Free <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 3: Resume Building Masterclass (Workshop) -->
+            <div class="col-md-6 col-lg-4 event-card-item" data-category="workshop" data-title="resume building masterclass ats hr interview">
+                <div class="event-card">
+                    <div>
+                        <div class="event-card-banner" style="background: linear-gradient(135deg, #d97706 0%, #78350f 100%);">
+                            <div class="position-absolute inset-0 d-flex align-items-center justify-content-center text-white-50" style="font-size: 5rem; opacity: 0.15;">
+                                <i class="fas fa-file-signature"></i>
+                            </div>
+                            <div class="event-card-banner-overlay"></div>
+                            <span class="event-status-badge" style="background: linear-gradient(135deg, #d97706, #b45309);">
+                                <span class="status-dot-pulse"></span> High Demand
+                            </span>
+                            <div class="event-date-badge">
+                                <span class="date-num" style="color: #d97706;">22</span>
+                                <span class="date-month" style="color: #d97706;">MAR</span>
+                            </div>
+                        </div>
+
+                        <div class="event-card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category-chip" style="background: #fef3c7; color: #b45309;">
+                                    <i class="fas fa-chalkboard-teacher me-1"></i> Workshop
+                                </span>
+                                <span class="small fw-semibold text-muted">
+                                    <i class="fas fa-users text-warning me-1"></i> 100 Seats
+                                </span>
+                            </div>
+                            <h4 class="event-card-title">Resume Building Masterclass</h4>
+                            <div class="event-meta-row">
+                                <span class="event-meta-item"><i class="far fa-clock text-warning"></i> 02:00 PM - 04:00 PM</span>
+                            </div>
+                            <p class="event-card-desc">
+                                Master ATS formatting algorithms, receive live resume critiques from senior alumni hiring leads, and learn high-impact storytelling for elite tech job interviews.
+                            </p>
+                            <div class="d-flex flex-wrap gap-1 mt-auto">
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">ATS Optimization</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">1:1 Feedback</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Templates</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="event-location-text">
+                            <i class="fas fa-map-marker-alt text-warning"></i> University Auditorium
+                        </span>
+                        <a href="{{ url_for('register') }}" class="btn btn-sm btn-warning text-dark fw-bold btn-event-cta shadow-sm">
+                            Reserve Seat <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 4: Annual Alumni Meet 2026 (Social) -->
+            <div class="col-md-6 col-lg-4 event-card-item" data-category="social" data-title="annual alumni meet 2026 grand reunion dinner awards">
+                <div class="event-card">
+                    <div>
+                        <div class="event-card-banner" style="background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);">
+                            <div class="position-absolute inset-0 d-flex align-items-center justify-content-center text-white-50" style="font-size: 5rem; opacity: 0.15;">
+                                <i class="fas fa-glass-cheers"></i>
+                            </div>
+                            <div class="event-card-banner-overlay"></div>
+                            <span class="event-status-badge" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">
+                                <span class="status-dot-pulse"></span> Grand Reunion
+                            </span>
+                            <div class="event-date-badge">
+                                <span class="date-num" style="color: #7c3aed;">10</span>
+                                <span class="date-month" style="color: #7c3aed;">APR</span>
+                            </div>
+                        </div>
+
+                        <div class="event-card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category-chip" style="background: #f3e8ff; color: #6d28d9;">
+                                    <i class="fas fa-university me-1"></i> Grand Reunion
+                                </span>
+                                <span class="small fw-semibold text-muted">
+                                    <i class="fas fa-users text-purple me-1"></i> 500+ Seats
+                                </span>
+                            </div>
+                            <h4 class="event-card-title">Annual Alumni Meet 2026</h4>
+                            <div class="event-meta-row">
+                                <span class="event-meta-item"><i class="far fa-clock text-purple" style="color: #7c3aed;"></i> 06:00 PM Onwards</span>
+                            </div>
+                            <p class="event-card-desc">
+                                Reconnect with former classmates, faculty professors, and industry peers. Features commemorative banquet dinner, networking cocktail lounge, and distinguished alumni awards.
+                            </p>
+                            <div class="d-flex flex-wrap gap-1 mt-auto">
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Networking Lounge</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Gala Dinner</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Awards Ceremony</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="event-location-text">
+                            <i class="fas fa-map-marker-alt text-purple" style="color: #7c3aed;"></i> Grand Campus Lawns
+                        </span>
+                        <a href="{{ url_for('register') }}" class="btn btn-sm btn-primary btn-event-cta shadow-sm" style="background: #7c3aed; border-color: #7c3aed;">
+                            Get Tickets <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 5: Spring Career Fair 2026 (Networking) -->
+            <div class="col-md-6 col-lg-4 event-card-item" data-category="networking" data-title="spring career fair 2026 hiring jobs interview recruitment">
+                <div class="event-card">
+                    <div>
+                        <div class="event-card-banner" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
+                            <div class="position-absolute inset-0 d-flex align-items-center justify-content-center text-white-50" style="font-size: 5rem; opacity: 0.15;">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <div class="event-card-banner-overlay"></div>
+                            <span class="event-status-badge" style="background: linear-gradient(135deg, #0284c7, #1d4ed8);">
+                                <span class="status-dot-pulse"></span> Hiring Fair
+                            </span>
+                            <div class="event-date-badge">
+                                <span class="date-num" style="color: #0284c7;">25</span>
+                                <span class="date-month" style="color: #0284c7;">APR</span>
+                            </div>
+                        </div>
+
+                        <div class="event-card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category-chip" style="background: #e0f2fe; color: #0369a1;">
+                                    <i class="fas fa-briefcase me-1"></i> Career Fair
+                                </span>
+                                <span class="small fw-semibold text-muted">
+                                    <i class="fas fa-building text-primary me-1"></i> 50+ MNCs
+                                </span>
+                            </div>
+                            <h4 class="event-card-title">Spring Career Fair 2026</h4>
+                            <div class="event-meta-row">
+                                <span class="event-meta-item"><i class="far fa-clock text-primary"></i> 10:00 AM - 05:00 PM</span>
+                            </div>
+                            <p class="event-card-desc">
+                                Connect directly with hiring directors from Microsoft, Deloitte, TCS, and high-growth unicorn startups. Bring your resume for on-spot technical interviews.
+                            </p>
+                            <div class="d-flex flex-wrap gap-1 mt-auto">
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">On-Spot Interviews</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Full-Time &amp; Intern</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Fast-Track</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="event-location-text">
+                            <i class="fas fa-building text-primary"></i> Placement Complex
+                        </span>
+                        <a href="{{ url_for('register') }}" class="btn btn-sm btn-primary btn-event-cta shadow-sm">
+                            Register Now <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 6: Alumni Hackathon 2026 (Workshop / Competition) -->
+            <div class="col-md-6 col-lg-4 event-card-item" data-category="workshop" data-title="alumni hackathon 2026 coding prizes team innovation">
+                <div class="event-card">
+                    <div>
+                        <div class="event-card-banner" style="background: linear-gradient(135deg, #059669 0%, #064e3b 100%);">
+                            <div class="position-absolute inset-0 d-flex align-items-center justify-content-center text-white-50" style="font-size: 5rem; opacity: 0.15;">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <div class="event-card-banner-overlay"></div>
+                            <span class="event-status-badge" style="background: linear-gradient(135deg, #059669, #047857);">
+                                <span class="status-dot-pulse"></span> ₹5 Lakhs Prizes
+                            </span>
+                            <div class="event-date-badge">
+                                <span class="date-num" style="color: #059669;">05</span>
+                                <span class="date-month" style="color: #059669;">MAY</span>
+                            </div>
+                        </div>
+
+                        <div class="event-card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category-chip" style="background: #dcfce7; color: #047857;">
+                                    <i class="fas fa-trophy me-1"></i> Hackathon
+                                </span>
+                                <span class="small fw-semibold text-muted">
+                                    <i class="fas fa-code text-success me-1"></i> 200 Hackers
+                                </span>
+                            </div>
+                            <h4 class="event-card-title">Alumni Hackathon 2026</h4>
+                            <div class="event-meta-row">
+                                <span class="event-meta-item"><i class="far fa-clock text-success"></i> 48 Hours Non-Stop</span>
+                            </div>
+                            <p class="event-card-desc">
+                                Collaborate with students and alumni mentors to build innovative software in Generative AI, Web3, and HealthTech. Direct VC seed grants for winning teams.
+                            </p>
+                            <div class="d-flex flex-wrap gap-1 mt-auto">
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">₹5L Prize Pool</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Mentorship</span>
+                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">VC Funding</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="event-location-text">
+                            <i class="fas fa-laptop-code text-success"></i> Hybrid (Online + Campus)
+                        </span>
+                        <a href="{{ url_for('register') }}" class="btn btn-sm btn-success btn-event-cta shadow-sm">
+                            Apply with Team <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================
+             EMPTY STATE (Shown when no search/filter matches)
+             ======================================================== -->
+        <div id="noEventsState" class="empty-events-state my-5 d-none">
+            <div class="mx-auto mb-3" style="width: 70px; height: 70px; border-radius: 50%; background: #f0f9ff; color: #0284c7; display: grid; place-items: center; font-size: 2rem;">
+                <i class="fas fa-calendar-times"></i>
+            </div>
+            <h3 class="fw-bold mb-2" style="font-family: 'Outfit'; color: #0f172a;">No Matching Events Found</h3>
+            <p class="text-muted mx-auto mb-4" style="max-width: 450px;">
+                We couldn't find any events matching your selected filter or search query. Try searching for different keywords or reset your filters.
+            </p>
+            <button id="resetFiltersBtn" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
+                <i class="fas fa-redo me-2"></i> Reset All Filters
+            </button>
+        </div>
+
+        <!-- ========================================================
+             PROPOSE AN EVENT CARD
+             ======================================================== -->
+        <div class="row justify-content-center my-5 pt-3">
+            <div class="col-lg-10 reveal-fade">
+                <div class="home-card p-4 p-md-5 position-relative overflow-hidden" style="background: radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.05) 0%, #ffffff 80%); border: 1.5px solid rgba(2, 132, 199, 0.25);">
+                    <div class="row align-items-center g-4">
+                        <div class="col-md-8 text-center text-md-start">
+                            <span class="badge px-3 py-1 mb-2 text-white fw-bold d-inline-flex align-items-center gap-1"
+                                style="background: linear-gradient(135deg, #0284c7, #2563eb); border-radius: 50px; font-size: 0.78rem;">
+                                <i class="fas fa-lightbulb"></i> COMMUNITY CALL FOR SPEAKERS
+                            </span>
+                            <h3 class="fw-bold mb-2" style="font-family: 'Outfit', sans-serif; font-size: 1.65rem; color: #0f172a;">
+                                Want to Host a Workshop or Tech Talk?
+                            </h3>
+                            <p class="text-muted mb-0" style="font-size: 0.95rem; line-height: 1.6;">
+                                Alumni with industry experience are invited to share their knowledge, mentor students, or organize department-specific reunions. We provide the streaming platform, venue, and campus audience.
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-center text-md-end">
+                            <a href="{{ url_for('contact') }}" class="btn btn-premium btn-premium-primary magnetic-button px-4 py-3">
+                                Propose an Event <i class="fas fa-arrow-right ms-2"></i>
+                                <div class="btn-glow"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================
+             BOTTOM NOTIFICATION CTA CARD
+             ======================================================== -->
         <div class="row justify-content-center my-5">
             <div class="col-lg-8 text-center reveal-fade">
                 <div class="home-card accent-blue p-5 text-center">
                     <h2 class="display-6 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
-                        Don't Miss Any Event
+                        Never Miss an Important Milestone
                     </h2>
                     <p class="mx-auto mb-4" style="color: #64748b; max-width: 580px; font-size: 1.05rem;">
-                        Receive instant notifications about new workshops, webinars, and reunion dates tailored to your department.
+                        Receive instant notifications about new technical workshops, verified alumni career summits, and department reunion dates tailored directly to your graduation batch.
                     </p>
-                    <div class="d-flex justify-content-center gap-3">
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
                         <a href="{{ url_for('register') }}" class="btn btn-premium btn-premium-primary magnetic-button">
                             Join Alumni Hub <i class="fas fa-arrow-right ms-2"></i>
                             <div class="btn-glow"></div>
                         </a>
                         <a href="{{ url_for('contact') }}" class="btn btn-premium btn-premium-outline">
-                            <i class="fas fa-question-circle me-2"></i> Propose an Event
+                            <i class="fas fa-envelope me-2"></i> Contact Organizers
                         </a>
                     </div>
                 </div>
@@ -344,9 +936,12 @@
     </div>
 </div>
 
+<!-- ========================================================
+     INTERACTIVE JAVASCRIPT: INSTANT SEARCH & FILTER ENGINE
+     ======================================================== -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Counter Animation
+        // 1. Animated Stats Counter
         const counters = document.querySelectorAll('.counter');
         counters.forEach(counter => {
             const target = +counter.getAttribute('data-target');
@@ -365,30 +960,74 @@
             update();
         });
 
-        // Filter functionality
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const eventItems = document.querySelectorAll('.event-item');
+        // 2. Filter & Realtime Search Logic
+        const searchInput = document.getElementById('eventSearchInput');
+        const filterPills = document.querySelectorAll('.event-filter-pill');
+        const eventItems = document.querySelectorAll('.event-card-item');
+        const noEventsState = document.getElementById('noEventsState');
+        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => {
-                    b.classList.remove('btn-premium-primary');
-                    b.classList.add('btn-outline-secondary');
-                });
-                btn.classList.remove('btn-outline-secondary');
-                btn.classList.add('btn-premium-primary');
+        let activeCategory = 'all';
 
-                const filter = btn.getAttribute('data-filter');
-                eventItems.forEach(item => {
-                    const category = item.getAttribute('data-category');
-                    if (filter === 'all' || category === filter) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
+        function applyFilter() {
+            const searchQuery = (searchInput ? searchInput.value.toLowerCase().trim() : '');
+            let visibleCount = 0;
+
+            eventItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                const title = (item.getAttribute('data-title') || '').toLowerCase();
+                const cardText = item.textContent.toLowerCase();
+
+                const categoryMatch = (activeCategory === 'all' || category === activeCategory);
+                const searchMatch = !searchQuery || title.includes(searchQuery) || cardText.includes(searchQuery);
+
+                if (categoryMatch && searchMatch) {
+                    item.classList.remove('d-none');
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(15px)';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, 50);
+                    visibleCount++;
+                } else {
+                    item.classList.add('d-none');
+                }
+            });
+
+            if (visibleCount === 0) {
+                noEventsState.classList.remove('d-none');
+            } else {
+                noEventsState.classList.add('d-none');
+            }
+        }
+
+        // Category Pill Click Event
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                filterPills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                activeCategory = pill.getAttribute('data-filter');
+                applyFilter();
             });
         });
+
+        // Search Input Keyup Event
+        if (searchInput) {
+            searchInput.addEventListener('input', applyFilter);
+        }
+
+        // Reset Filter Button
+        if (resetFiltersBtn) {
+            resetFiltersBtn.addEventListener('click', () => {
+                if (searchInput) searchInput.value = '';
+                filterPills.forEach(p => p.classList.remove('active'));
+                const allPill = document.querySelector('.event-filter-pill[data-filter="all"]');
+                if (allPill) allPill.classList.add('active');
+                activeCategory = 'all';
+                applyFilter();
+            });
+        }
     });
 </script>
 {% endblock %}
