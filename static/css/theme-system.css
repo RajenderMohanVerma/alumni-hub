@@ -1147,10 +1147,21 @@ a:hover {
     .admin-container,
     .user-container,
     .analytics-container,
+    .analytics-wrapper,
     .stats-container,
-    .monitor-container {
-        padding: 90px 14px 2.5rem !important;
+    .monitor-container,
+    .admin-jobs-wrapper,
+    .mod-wrapper,
+    .event-wrapper,
+    .reg-container,
+    .directory-module {
+        padding: 85px 14px 2.5rem !important;
         max-width: 100% !important;
+    }
+
+    .connection-monitor-page {
+        padding-top: 5.5rem !important;
+        padding-bottom: 2rem !important;
     }
 
     .hero-terminal {
@@ -1172,7 +1183,10 @@ a:hover {
 
     .matrix-controls,
     .table-controls,
-    .filter-controls {
+    .filter-controls,
+    .search-dock,
+    .filter-bar,
+    .command-bar {
         flex-direction: column !important;
         align-items: stretch !important;
         gap: 0.75rem !important;
@@ -1181,9 +1195,119 @@ a:hover {
     .matrix-controls input,
     .table-controls input,
     .matrix-controls select,
-    .table-controls select {
+    .table-controls select,
+    .dock-input-wrapper,
+    .search-input-wrapper,
+    .command-input-wrapper,
+    .dock-input,
+    .premium-input,
+    .command-input {
         width: 100% !important;
         max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .search-dock .btn,
+    .filter-bar .btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* Admin Action Deck */
+    .action-deck {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+        margin-bottom: 2rem !important;
+    }
+
+    .deck-item {
+        padding: 16px 10px !important;
+        border-radius: 16px !important;
+    }
+
+    .deck-item i {
+        font-size: 1.4rem !important;
+        margin-bottom: 6px !important;
+    }
+
+    .deck-item .fw-bold {
+        font-size: 0.85rem !important;
+    }
+
+    .deck-item .small {
+        display: none !important;
+    }
+
+    /* Role Navbar Swipeable Pills */
+    .role-navbar {
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        flex-wrap: nowrap !important;
+        justify-content: flex-start !important;
+        padding: 6px !important;
+        gap: 8px !important;
+        margin: 1.5rem 0 2rem !important;
+        scrollbar-width: none;
+    }
+
+    .role-navbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .role-nav-link {
+        white-space: nowrap !important;
+        padding: 8px 14px !important;
+        font-size: 0.82rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Connection Monitor Grid */
+    .cm-kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.6rem !important;
+    }
+
+    .cm-kpi {
+        padding: 0.65rem 0.75rem !important;
+    }
+
+    .cm-kpi-value {
+        font-size: 1.15rem !important;
+    }
+
+    .cm-hero {
+        padding: 1.1rem 1rem !important;
+        border-radius: 1rem !important;
+    }
+
+    /* Glass Cards & Containers Padding on Mobile */
+    .glass-card.p-5,
+    .glass-card.p-4,
+    .container-glass {
+        padding: 1.25rem 1rem !important;
+        border-radius: 18px !important;
+    }
+
+    /* Stats Grid */
+    .stats-grid,
+    .stats-matrix {
+        grid-template-columns: 1fr !important;
+        gap: 0.85rem !important;
+    }
+
+    .stat-card-premium {
+        padding: 1.25rem !important;
+        border-radius: 18px !important;
+    }
+
+    /* Interactive touch response */
+    .deck-item:active,
+    .role-nav-link:active,
+    .matrix-card:active,
+    .btn-action-nav:active {
+        transform: scale(0.97) !important;
     }
 }
 
