@@ -3,8 +3,8 @@
 {% block content %}
 <div class="dashboard-wrapper">
     <!-- Hero Section -->
-    <div class="hero-section glass-hero"
-        style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 120px 0; position: relative; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.1);">
+    <div class="hero-section glass-hero alumni-hero-section"
+        style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); position: relative; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.1);">
         <!-- Animated Background Blobs -->
         <div class="hero-bg">
             <div class="blob blob-1" style="background: rgba(102, 126, 234, 0.2);"></div>
@@ -28,14 +28,14 @@
                             Inspire the next generation. Connect with students and fellow alumni to share your success.
                         </p>
 
-                        <div class="hero-actions mb-4" style="animation: fadeInUp 0.8s ease 0.4s both;">
+                        <div class="hero-actions mb-4 d-flex flex-wrap gap-2" style="animation: fadeInUp 0.8s ease 0.4s both;">
                             <a href="{{ url_for('post_job') }}"
                                 class="btn btn-lg rounded-pill px-4 text-white shadow-lg"
                                 style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); border: none;">
                                 <i class="fas fa-plus-circle me-2"></i> Post a Job
                             </a>
                             <a href="{{ url_for('alumni_network') }}"
-                                class="btn btn-lg rounded-pill px-4 text-white ms-2"
+                                class="btn btn-lg rounded-pill px-4 text-white"
                                 style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
                                 <i class="fas fa-users me-2"></i> My Network
                             </a>
@@ -43,7 +43,7 @@
 
                         <!-- Profile Completeness -->
                         <div class="profile-completeness-wrapper glass-card p-3 d-inline-block"
-                            style="min-width: 320px;">
+                            style="width: 100%; max-width: 420px;">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="text-white small fw-bold">Alumni Profile Strength</span>
                                 <span class="text-white small fw-bold" id="completenessPercent">0%</span>
@@ -144,40 +144,42 @@
                 <div class="mb-4" id="connectionRequestsList">
                     {% for req in pending_requests %}
                     <div class="conn-request-card mb-3" id="req-{{ req['sender_id'] }}" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:18px;padding:18px 22px;box-shadow:var(--card-shadow);transition:all 0.3s ease;">
-                        <div class="d-flex align-items-center gap-3">
-                            <!-- Avatar -->
-                            <div class="position-relative flex-shrink-0">
-                                <img src="{{ req['profile_pic'] or 'https://ui-avatars.com/api/?name=' + req['name'] + '&background=6366f1&color=fff&size=80' }}"
-                                    class="rounded-circle"
-                                    style="width:60px;height:60px;object-fit:cover;border:3px solid #e0e7ff;box-shadow:0 4px 12px rgba(99,102,241,0.2);">
-                                <span class="position-absolute bottom-0 end-0 d-flex align-items-center justify-content-center"
-                                    style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);border:2px solid white;">
-                                    <i class="fas fa-graduation-cap text-white" style="font-size:7px;"></i>
-                                </span>
-                            </div>
-                            <!-- Info -->
-                            <div class="flex-grow-1 min-width-0">
-                                <h6 class="mb-1 fw-bold text-truncate" style="color:var(--text-primary);">{{ req['name'] }}</h6>
-                                <div class="d-flex align-items-center gap-2 flex-wrap">
-                                    <span class="badge rounded-pill" style="background:rgba(99,102,241,0.1);color:#6366f1;font-size:0.7rem;padding:3px 10px;">
-                                        <i class="fas fa-user-graduate me-1"></i>{{ req['role'] | capitalize }}
+                        <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <!-- Avatar -->
+                                <div class="position-relative flex-shrink-0">
+                                    <img src="{{ req['profile_pic'] or 'https://ui-avatars.com/api/?name=' + req['name'] + '&background=6366f1&color=fff&size=80' }}"
+                                        class="rounded-circle"
+                                        style="width:60px;height:60px;object-fit:cover;border:3px solid #e0e7ff;box-shadow:0 4px 12px rgba(99,102,241,0.2);">
+                                    <span class="position-absolute bottom-0 end-0 d-flex align-items-center justify-content-center"
+                                        style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);border:2px solid white;">
+                                        <i class="fas fa-graduation-cap text-white" style="font-size:7px;"></i>
                                     </span>
-                                    {% if req['created_at'] %}
-                                    <span class="text-muted" style="font-size:0.72rem;">
-                                        <i class="far fa-clock me-1"></i>{{ req['created_at'][:10] if req['created_at'] else '' }}
-                                    </span>
-                                    {% endif %}
+                                </div>
+                                <!-- Info -->
+                                <div class="flex-grow-1 min-width-0">
+                                    <h6 class="mb-1 fw-bold text-truncate" style="color:var(--text-primary);">{{ req['name'] }}</h6>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                        <span class="badge rounded-pill" style="background:rgba(99,102,241,0.1);color:#6366f1;font-size:0.7rem;padding:3px 10px;">
+                                            <i class="fas fa-user-graduate me-1"></i>{{ req['role'] | capitalize }}
+                                        </span>
+                                        {% if req['created_at'] %}
+                                        <span class="text-muted" style="font-size:0.72rem;">
+                                            <i class="far fa-clock me-1"></i>{{ req['created_at'][:10] if req['created_at'] else '' }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                             <!-- Action Buttons -->
-                            <div class="d-flex gap-2 flex-shrink-0">
-                                <button class="btn fw-bold px-4 py-2 rounded-pill"
+                            <div class="d-flex gap-2 w-100 w-sm-auto justify-content-end">
+                                <button class="btn fw-bold px-4 py-2 rounded-pill flex-grow-1 flex-sm-grow-0"
                                     style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;border:none;font-size:0.85rem;box-shadow:0 4px 12px rgba(99,102,241,0.35);transition:all 0.2s;"
                                     data-sender-id="{{ req['sender_id'] }}"
                                     onclick="handleConnection(this, 'accept')">
                                     <i class="fas fa-check me-1"></i> Accept
                                 </button>
-                                <button class="btn fw-bold px-3 py-2 rounded-pill"
+                                <button class="btn fw-bold px-3 py-2 rounded-pill flex-grow-1 flex-sm-grow-0"
                                     style="background:rgba(239,68,68,0.08);color:#ef4444;border:1.5px solid rgba(239,68,68,0.25);font-size:0.85rem;transition:all 0.2s;"
                                     data-sender-id="{{ req['sender_id'] }}"
                                     onclick="handleConnection(this, 'reject')">
@@ -191,7 +193,7 @@
                 {% endif %}
 
                 <!-- Mentorship Section -->
-                <div class="mentorship-promo p-5 text-white shadow-lg mb-4"
+                <div class="mentorship-promo p-4 p-md-5 text-white shadow-lg mb-4"
                     style="background: linear-gradient(135deg, #4338ca 0%, #312e81 100%); border-radius: 30px; position: relative; overflow: hidden;">
                     <div class="row align-items-center">
                         <div class="col-md-8">
