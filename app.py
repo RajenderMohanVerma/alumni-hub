@@ -1,5 +1,9 @@
 
 
+import warnings
+warnings.filterwarnings('ignore', category=UserWarning, module='requests')
+warnings.filterwarnings('ignore', message=r".*doesn't match a supported version!.*")
+
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session, send_from_directory
 from flask_socketio import SocketIO
 import random
@@ -60,7 +64,8 @@ mail.init_app(app)
 # Initialize Scheduler
 scheduler = APScheduler()
 scheduler.init_app(app)
-scheduler.start()
+if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+    scheduler.start()
 
 DB_NAME = app.config['DB_NAME']
 
@@ -5003,20 +5008,19 @@ try:
 except Exception as e:
     logger.warning(f"Blueprint registration error: {e}")
 
-# Initialize ML Recommendation Engine
-try:
-    from services.recommendation_engine import init_recommendation_engine
-    init_recommendation_engine(app=app)
-except Exception as e:
-    logger.warning(f"ML recommendation engine init skipped: {e}")
-
-
-# Ensure DB migrations always run (works with both `python app.py` and gunicorn)
-with app.app_context():
+# Initialize ML Recommendation Engine & DB migrations (only in main worker or non-debug)
+if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
     try:
-        init_db()
-    except Exception as _init_err:
-        logger.warning(f"init_db warning: {_init_err}")
+        from services.recommendation_engine import init_recommendation_engine
+        init_recommendation_engine(app=app)
+    except Exception as e:
+        logger.warning(f"ML recommendation engine init skipped: {e}")
+
+    with app.app_context():
+        try:
+            init_db()
+        except Exception as _init_err:
+            logger.warning(f"init_db warning: {_init_err}")
 
 if __name__ == '__main__':
     pass  # init_db already called above
