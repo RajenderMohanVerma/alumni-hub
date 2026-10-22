@@ -115,6 +115,333 @@
         border: 3px solid #ffffff;
         font-size: 0.95rem;
     }
+
+    /* =======================================================
+       INTERACTIVE ANIMATED TIMELINE ROADMAP
+       ======================================================= */
+    .roadmap-timeline-wrapper {
+        position: relative;
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 30px 15px;
+    }
+
+    /* Central Glowing Flowing Line */
+    .roadmap-timeline-track {
+        position: absolute;
+        left: 50%;
+        top: 25px;
+        bottom: 25px;
+        width: 4px;
+        transform: translateX(-50%);
+        background: linear-gradient(180deg, 
+            #0284c7 0%, 
+            #10b981 25%, 
+            #f59e0b 50%, 
+            #8b5cf6 75%, 
+            #06b6d4 100%
+        );
+        border-radius: 99px;
+        box-shadow: 0 0 16px rgba(2, 132, 199, 0.4);
+        z-index: 1;
+    }
+
+    /* Laser Particle Traveling Down the Spine */
+    .roadmap-timeline-laser {
+        position: absolute;
+        left: 50%;
+        width: 10px;
+        height: 70px;
+        transform: translateX(-50%);
+        background: linear-gradient(180deg, transparent, #ffffff, #38bdf8, transparent);
+        border-radius: 99px;
+        filter: drop-shadow(0 0 10px #38bdf8);
+        z-index: 2;
+        animation: timelineLaser 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes timelineLaser {
+        0% { top: 0%; opacity: 0; }
+        15% { opacity: 1; }
+        85% { opacity: 1; }
+        100% { top: 96%; opacity: 0; }
+    }
+
+    /* Timeline Row Item */
+    .roadmap-timeline-item {
+        position: relative;
+        display: flex;
+        width: 100%;
+        margin-bottom: 45px;
+        z-index: 3;
+    }
+
+    .roadmap-timeline-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .roadmap-timeline-item.item-left {
+        justify-content: flex-start;
+    }
+
+    .roadmap-timeline-item.item-right {
+        justify-content: flex-end;
+    }
+
+    /* Glowing Center Node Badge */
+    .roadmap-node-badge {
+        position: absolute;
+        left: 50%;
+        top: 28px;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 3px solid #0284c7;
+        box-shadow: 0 0 0 5px rgba(2, 132, 199, 0.15), 0 8px 22px rgba(2, 132, 199, 0.22);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: 0.92rem;
+        color: #0284c7;
+        z-index: 4;
+        transition: all 0.35s cubic-bezier(0.2, 0, 0, 1);
+        cursor: pointer;
+    }
+
+    .roadmap-timeline-item:hover .roadmap-node-badge {
+        transform: translate(-50%, -50%) scale(1.18);
+        box-shadow: 0 0 0 8px rgba(2, 132, 199, 0.28), 0 12px 30px rgba(2, 132, 199, 0.38);
+        color: #ffffff;
+        background: #0284c7;
+    }
+
+    /* Node Color Specific Variants */
+    .roadmap-timeline-item.accent-green .roadmap-node-badge { border-color: #10b981; color: #10b981; box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.15), 0 8px 22px rgba(16, 185, 129, 0.22); }
+    .roadmap-timeline-item.accent-green:hover .roadmap-node-badge { background: #10b981; color: #fff; box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.28), 0 12px 30px rgba(16, 185, 129, 0.38); }
+
+    .roadmap-timeline-item.accent-amber .roadmap-node-badge { border-color: #f59e0b; color: #f59e0b; box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.15), 0 8px 22px rgba(245, 158, 11, 0.22); }
+    .roadmap-timeline-item.accent-amber:hover .roadmap-node-badge { background: #f59e0b; color: #fff; box-shadow: 0 0 0 8px rgba(245, 158, 11, 0.28), 0 12px 30px rgba(245, 158, 11, 0.38); }
+
+    .roadmap-timeline-item.accent-purple .roadmap-node-badge { border-color: #8b5cf6; color: #8b5cf6; box-shadow: 0 0 0 5px rgba(139, 92, 246, 0.15), 0 8px 22px rgba(139, 92, 246, 0.22); }
+    .roadmap-timeline-item.accent-purple:hover .roadmap-node-badge { background: #8b5cf6; color: #fff; box-shadow: 0 0 0 8px rgba(139, 92, 246, 0.28), 0 12px 30px rgba(139, 92, 246, 0.38); }
+
+    .roadmap-timeline-item.accent-cyan .roadmap-node-badge { border-color: #06b6d4; color: #06b6d4; box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.15), 0 8px 22px rgba(6, 182, 212, 0.22); }
+    .roadmap-timeline-item.accent-cyan:hover .roadmap-node-badge { background: #06b6d4; color: #fff; box-shadow: 0 0 0 8px rgba(6, 182, 212, 0.28), 0 12px 30px rgba(6, 182, 212, 0.38); }
+
+    /* Pulse wave around current node */
+    .roadmap-node-badge::before {
+        content: '';
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        border: 2px solid currentColor;
+        opacity: 0;
+        animation: rippleBeacon 3s cubic-bezier(0.2, 0, 0.4, 1) infinite;
+    }
+
+    @keyframes rippleBeacon {
+        0% { transform: scale(0.9); opacity: 0.8; }
+        60% { transform: scale(1.5); opacity: 0; }
+        100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    /* Roadmap Card Container */
+    .roadmap-card {
+        width: calc(50% - 46px);
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 24px 26px;
+        border: 1px solid rgba(226, 232, 240, 0.95);
+        box-shadow: 0 10px 28px -5px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+        position: relative;
+        transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        overflow: hidden;
+    }
+
+    /* Ambient Hover Accent Glow */
+    .roadmap-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 42px -10px rgba(2, 132, 199, 0.2), 0 0 0 1px rgba(2, 132, 199, 0.25);
+        border-color: rgba(2, 132, 199, 0.4);
+    }
+
+    .roadmap-timeline-item.accent-green .roadmap-card:hover {
+        box-shadow: 0 20px 42px -10px rgba(16, 185, 129, 0.2), 0 0 0 1px rgba(16, 185, 129, 0.25);
+        border-color: rgba(16, 185, 129, 0.4);
+    }
+    .roadmap-timeline-item.accent-amber .roadmap-card:hover {
+        box-shadow: 0 20px 42px -10px rgba(245, 158, 11, 0.2), 0 0 0 1px rgba(245, 158, 11, 0.25);
+        border-color: rgba(245, 158, 11, 0.4);
+    }
+    .roadmap-timeline-item.accent-purple .roadmap-card:hover {
+        box-shadow: 0 20px 42px -10px rgba(139, 92, 246, 0.2), 0 0 0 1px rgba(139, 92, 246, 0.25);
+        border-color: rgba(139, 92, 246, 0.4);
+    }
+    .roadmap-timeline-item.accent-cyan .roadmap-card:hover {
+        box-shadow: 0 20px 42px -10px rgba(6, 182, 212, 0.2), 0 0 0 1px rgba(6, 182, 212, 0.25);
+        border-color: rgba(6, 182, 212, 0.4);
+    }
+
+    /* Top Accent Line on Card */
+    .roadmap-card-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #0284c7, #38bdf8);
+        transition: height 0.3s ease;
+    }
+    .roadmap-card:hover .roadmap-card-bar {
+        height: 5px;
+    }
+    .roadmap-timeline-item.accent-green .roadmap-card-bar { background: linear-gradient(90deg, #059669, #34d399); }
+    .roadmap-timeline-item.accent-amber .roadmap-card-bar { background: linear-gradient(90deg, #d97706, #fbbf24); }
+    .roadmap-timeline-item.accent-purple .roadmap-card-bar { background: linear-gradient(90deg, #7c3aed, #c084fc); }
+    .roadmap-timeline-item.accent-cyan .roadmap-card-bar { background: linear-gradient(90deg, #0891b2, #22d3ee); }
+
+    /* Animated Icon Box in Card */
+    .roadmap-icon-box {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 1.25rem;
+        background: #edf4f7;
+        color: #0284c7;
+        transition: transform 0.35s ease, background 0.35s ease, color 0.35s ease;
+    }
+
+    .roadmap-card:hover .roadmap-icon-box {
+        transform: rotate(8deg) scale(1.12);
+        background: #0284c7;
+        color: #ffffff;
+    }
+
+    .roadmap-timeline-item.accent-green .roadmap-icon-box { background: #ecfdf5; color: #059669; }
+    .roadmap-timeline-item.accent-green .roadmap-card:hover .roadmap-icon-box { background: #059669; color: #fff; }
+
+    .roadmap-timeline-item.accent-amber .roadmap-icon-box { background: #fffbeb; color: #d97706; }
+    .roadmap-timeline-item.accent-amber .roadmap-card:hover .roadmap-icon-box { background: #d97706; color: #fff; }
+
+    .roadmap-timeline-item.accent-purple .roadmap-icon-box { background: #f5f3ff; color: #7c3aed; }
+    .roadmap-timeline-item.accent-purple .roadmap-card:hover .roadmap-icon-box { background: #7c3aed; color: #fff; }
+
+    .roadmap-timeline-item.accent-cyan .roadmap-icon-box { background: #ecfeff; color: #0891b2; }
+    .roadmap-timeline-item.accent-cyan .roadmap-card:hover .roadmap-icon-box { background: #0891b2; color: #fff; }
+
+    /* Shimmer Sweep Effect across Card */
+    .roadmap-card::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            60deg,
+            transparent 0%,
+            transparent 45%,
+            rgba(255, 255, 255, 0.65) 50%,
+            transparent 55%,
+            transparent 100%
+        );
+        transform: rotate(25deg) translateY(-100%);
+        transition: transform 0.8s ease;
+        pointer-events: none;
+    }
+
+    .roadmap-card:hover::after {
+        transform: rotate(25deg) translateY(100%);
+    }
+
+    /* Live Beacon Dot */
+    .beacon-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #10b981;
+        box-shadow: 0 0 0 rgba(16, 185, 129, 0.7);
+        animation: beaconGlow 1.8s infinite;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+
+    @keyframes beaconGlow {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Small Directional Connector Arrow from card to center node */
+    .roadmap-card-arrow {
+        position: absolute;
+        top: 24px;
+        width: 14px;
+        height: 14px;
+        background: #ffffff;
+        border-top: 1px solid rgba(226, 232, 240, 0.95);
+        border-right: 1px solid rgba(226, 232, 240, 0.95);
+        transform: rotate(45deg);
+        z-index: 2;
+        transition: border-color 0.35s ease;
+    }
+    .roadmap-timeline-item.item-left .roadmap-card-arrow {
+        right: -8px;
+    }
+    .roadmap-timeline-item.item-right .roadmap-card-arrow {
+        left: -8px;
+        transform: rotate(-135deg);
+    }
+    .roadmap-card:hover .roadmap-card-arrow {
+        border-color: rgba(2, 132, 199, 0.4);
+    }
+    .roadmap-timeline-item.accent-green .roadmap-card:hover .roadmap-card-arrow { border-color: rgba(16, 185, 129, 0.4); }
+    .roadmap-timeline-item.accent-amber .roadmap-card:hover .roadmap-card-arrow { border-color: rgba(245, 158, 11, 0.4); }
+    .roadmap-timeline-item.accent-purple .roadmap-card:hover .roadmap-card-arrow { border-color: rgba(139, 92, 246, 0.4); }
+    .roadmap-timeline-item.accent-cyan .roadmap-card:hover .roadmap-card-arrow { border-color: rgba(6, 182, 212, 0.4); }
+
+    /* Responsive adjustments for Tablets & Phones (< 992px) */
+    @media (max-width: 991.98px) {
+        .roadmap-timeline-track {
+            left: 26px;
+            transform: none;
+        }
+        .roadmap-timeline-laser {
+            left: 26px;
+            transform: none;
+        }
+        .roadmap-node-badge {
+            left: 26px;
+            width: 44px;
+            height: 44px;
+            font-size: 0.85rem;
+            transform: translate(-50%, -50%);
+        }
+        .roadmap-timeline-item:hover .roadmap-node-badge {
+            transform: translate(-50%, -50%) scale(1.12);
+        }
+        .roadmap-timeline-item.item-left,
+        .roadmap-timeline-item.item-right {
+            justify-content: flex-start;
+            padding-left: 64px;
+        }
+        .roadmap-card {
+            width: 100%;
+            padding: 20px;
+        }
+        .roadmap-card-arrow {
+            left: -8px !important;
+            right: auto !important;
+            transform: rotate(-135deg) !important;
+        }
+    }
 </style>
 
 <div class="home-wrapper">
@@ -636,54 +963,187 @@
             </div>
         </div>
 
-        <!-- Milestones & Journey Section (Clean Timeline in Home-Card Containers) -->
-        <div class="journey-section py-4 my-5" id="timeline">
+        <!-- Milestones & Journey Section (Interactive Animated Roadmap) -->
+        <div class="journey-section py-5 my-5" id="timeline">
             <div class="text-center mb-5 reveal-fade">
                 <div class="community-stats-kicker justify-content-center mb-2"><span></span> OUR JOURNEY</div>
-                <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">Milestones
-                    & Achievements</h2>
+                <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
+                    Milestones &amp; <span class="text-holographic" style="-webkit-text-fill-color: #0284c7; color: #0284c7;">Achievements</span>
+                </h2>
                 <p class="mx-auto" style="color: #64748b; max-width: 650px; font-size: 1rem; line-height: 1.6;">
-                    The evolution of Alumni Hub from a student initiative into a campus-wide network.
+                    The evolution of Alumni Hub from a student initiative into an all-in-one campus-wide network.
                 </p>
             </div>
 
-            <div class="row g-4 justify-content-center">
-                {% set timeline = [
-                {'date': 'June 2026', 'title': 'Project Initiation', 'desc': 'Conceived the architecture of Alumni Hub
-                with core university team formation and requirements mapping.', 'icon': 'fas fa-flag', 'accent':
-                'accent-blue'},
-                {'date': 'July 2026', 'title': 'Platform Development', 'desc': 'Developed responsive UI modules, secure
-                authentication, role-based dashboards, and SQL relational schema.', 'icon': 'fas fa-code', 'accent':
-                'accent-green'},
-                {'date': 'August 2026', 'title': 'Beta Launch', 'desc': 'Released the platform to early student test
-                groups, gathering high-value telemetry and feature requests.', 'icon': 'fas fa-rocket', 'accent':
-                'accent-amber'},
-                {'date': 'September 2026', 'title': 'Mentorship & Jobs Board', 'desc': 'Integrated 1:1 real-time mentor
-                connections, verified alumni job portal, and campus event registries.', 'icon': 'fas fa-briefcase',
-                'accent': 'accent-purple'},
-                {'date': 'October 2026', 'title': 'Global Expansion', 'desc': 'Serving 15,000+ alumni and students
-                globally with seamless cross-device performance and high security.', 'icon': 'fas fa-globe', 'accent':
-                'accent-blue'}
-                ] %}
-                {% for item in timeline %}
-                <div class="col-lg-8 col-md-10 reveal-fade" style="animation-delay: {{ loop.index0 * 0.08 }}s;">
-                    <div class="home-card {{ item.accent }} p-4">
-                        <div class="d-flex align-items-start gap-3">
-                            <div class="home-card-icon flex-shrink-0" style="margin-bottom: 0;">
-                                <i class="{{ item.icon }}"></i>
+            <div class="roadmap-timeline-wrapper">
+                <!-- Flowing Animated Central Track & Laser Particle -->
+                <div class="roadmap-timeline-track"></div>
+                <div class="roadmap-timeline-laser"></div>
+
+                <!-- 1. June 2026 (Left) -->
+                <div class="roadmap-timeline-item item-left accent-blue reveal-fade" style="animation-delay: 0.08s;">
+                    <div class="roadmap-node-badge" title="Phase 01">01</div>
+                    <div class="roadmap-card">
+                        <div class="roadmap-card-bar"></div>
+                        <div class="roadmap-card-arrow"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <span class="badge bg-light text-primary border border-primary-subtle rounded-pill px-3 py-1 small fw-bold">
+                                <span class="beacon-dot"></span> PHASE 01 • INITIATION
+                            </span>
+                            <span class="step-badge fw-bold" style="font-size: 0.85rem; color: #0284c7; background: #e0f2fe; padding: 4px 12px; border-radius: 50px;">
+                                <i class="far fa-calendar-alt me-1"></i> June 2026
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-start gap-3 mb-3">
+                            <div class="roadmap-icon-box flex-shrink-0">
+                                <i class="fas fa-flag"></i>
                             </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <h5 class="home-card-title mb-0" style="font-size: 1.15rem;">{{ item.title }}</h5>
-                                    <span class="step-badge" style="font-size: 0.85rem;">{{ item.date }}</span>
-                                </div>
-                                <p class="home-card-text mt-2" style="font-size: 0.92rem; line-height: 1.6;">{{
-                                    item.desc }}</p>
+                            <div>
+                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">Project Initiation</h4>
+                                <p class="home-card-text mb-0" style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
+                                    Conceived the system architecture of Alumni Hub with core university team formation, stakeholder requirements mapping, and user journey discovery.
+                                </p>
                             </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-1 pt-2 border-top border-light-subtle">
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-drafting-compass text-primary me-1"></i> System Architecture</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-users text-success me-1"></i> Core Team Setup</span>
+                            <span class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Completed</span>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
+
+                <!-- 2. July 2026 (Right) -->
+                <div class="roadmap-timeline-item item-right accent-green reveal-fade" style="animation-delay: 0.16s;">
+                    <div class="roadmap-node-badge" title="Phase 02">02</div>
+                    <div class="roadmap-card">
+                        <div class="roadmap-card-bar"></div>
+                        <div class="roadmap-card-arrow"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <span class="badge bg-light text-success border border-success-subtle rounded-pill px-3 py-1 small fw-bold">
+                                <span class="beacon-dot" style="background-color: #059669;"></span> PHASE 02 • CORE ENGINE
+                            </span>
+                            <span class="step-badge fw-bold" style="font-size: 0.85rem; color: #059669; background: #dcfce7; padding: 4px 12px; border-radius: 50px;">
+                                <i class="far fa-calendar-alt me-1"></i> July 2026
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-start gap-3 mb-3">
+                            <div class="roadmap-icon-box flex-shrink-0">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div>
+                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">Platform Development</h4>
+                                <p class="home-card-text mb-0" style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
+                                    Engineered responsive UI modules, secure JWT authentication, multi-role dashboards (Student, Alumni, Faculty, Admin), and relational schemas.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-1 pt-2 border-top border-light-subtle">
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-laptop-code text-success me-1"></i> Multi-Role UI</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-shield-alt text-primary me-1"></i> RBAC Security</span>
+                            <span class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Completed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. August 2026 (Left) -->
+                <div class="roadmap-timeline-item item-left accent-amber reveal-fade" style="animation-delay: 0.24s;">
+                    <div class="roadmap-node-badge" title="Phase 03">03</div>
+                    <div class="roadmap-card">
+                        <div class="roadmap-card-bar"></div>
+                        <div class="roadmap-card-arrow"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <span class="badge bg-light text-warning border border-warning-subtle rounded-pill px-3 py-1 small fw-bold">
+                                <span class="beacon-dot" style="background-color: #d97706;"></span> PHASE 03 • BETA RELEASE
+                            </span>
+                            <span class="step-badge fw-bold" style="font-size: 0.85rem; color: #d97706; background: #fef3c7; padding: 4px 12px; border-radius: 50px;">
+                                <i class="far fa-calendar-alt me-1"></i> August 2026
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-start gap-3 mb-3">
+                            <div class="roadmap-icon-box flex-shrink-0">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div>
+                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">Beta Launch &amp; Telemetry</h4>
+                                <p class="home-card-text mb-0" style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
+                                    Rolled out the platform to early student test groups, gathering high-value telemetry, feedback loops, and optimizing socket response time under high traffic.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-1 pt-2 border-top border-light-subtle">
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-vial text-warning me-1"></i> Early Beta Cohort</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-bolt text-danger me-1"></i> Socket Tuning</span>
+                            <span class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Completed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. September 2026 (Right) -->
+                <div class="roadmap-timeline-item item-right accent-purple reveal-fade" style="animation-delay: 0.32s;">
+                    <div class="roadmap-node-badge" title="Phase 04">04</div>
+                    <div class="roadmap-card">
+                        <div class="roadmap-card-bar"></div>
+                        <div class="roadmap-card-arrow"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <span class="badge bg-light text-purple border border-purple-subtle rounded-pill px-3 py-1 small fw-bold">
+                                <span class="beacon-dot" style="background-color: #7c3aed;"></span> PHASE 04 • COMMUNITY SCALE
+                            </span>
+                            <span class="step-badge fw-bold" style="font-size: 0.85rem; color: #7c3aed; background: #f3e8ff; padding: 4px 12px; border-radius: 50px;">
+                                <i class="far fa-calendar-alt me-1"></i> September 2026
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-start gap-3 mb-3">
+                            <div class="roadmap-icon-box flex-shrink-0">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <div>
+                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">Mentorship &amp; Jobs Ecosystem</h4>
+                                <p class="home-card-text mb-0" style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
+                                    Integrated 1:1 real-time mentor connections, verified alumni job portal, interactive campus event registries, and direct instant messaging channels.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-1 pt-2 border-top border-light-subtle">
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-user-tie text-purple me-1"></i> 1:1 Mentorship</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-briefcase text-primary me-1"></i> Job Referrals</span>
+                            <span class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Completed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. October 2026 (Left - Finale) -->
+                <div class="roadmap-timeline-item item-left accent-cyan reveal-fade" style="animation-delay: 0.4s;">
+                    <div class="roadmap-node-badge" title="Phase 05">05</div>
+                    <div class="roadmap-card">
+                        <div class="roadmap-card-bar"></div>
+                        <div class="roadmap-card-arrow"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <span class="badge bg-light text-info border border-info-subtle rounded-pill px-3 py-1 small fw-bold">
+                                <span class="beacon-dot" style="background-color: #0891b2;"></span> PHASE 05 • GLOBAL IMPACT
+                            </span>
+                            <span class="step-badge fw-bold" style="font-size: 0.85rem; color: #0891b2; background: #cffafe; padding: 4px 12px; border-radius: 50px;">
+                                <i class="far fa-calendar-alt me-1"></i> October 2026
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-start gap-3 mb-3">
+                            <div class="roadmap-icon-box flex-shrink-0">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div>
+                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">Global Network Expansion</h4>
+                                <p class="home-card-text mb-0" style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
+                                    Serving 15,000+ alumni and students globally across 50+ countries with seamless cross-device performance, zero downtime, and trusted university connections.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-1 pt-2 border-top border-light-subtle">
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-users text-info me-1"></i> 15,000+ Active</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-globe-americas text-primary me-1"></i> 50+ Countries</span>
+                            <span class="badge bg-white text-dark border rounded-pill small ms-auto text-primary fw-bold"><i class="fas fa-circle text-success me-1"></i> Active Now</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
