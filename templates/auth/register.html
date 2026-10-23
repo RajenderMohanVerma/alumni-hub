@@ -9,7 +9,7 @@
 
 <style>
     /* ========================================================
-       REGISTER PAGE - MODERN DESIGN SYSTEM (Matching Home & Services)
+       REGISTER PAGE - MODERN 2-COLUMN DESIGN SYSTEM WITH ANIMATED SHOWCASE
        ======================================================== */
     :root {
         --srv-blue: #0284c7;
@@ -33,7 +33,7 @@
         height: 650px;
         border-radius: 50%;
         background: radial-gradient(circle, rgba(2, 132, 199, 0.12) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 70%);
-        top: 20%;
+        top: 25%;
         left: 50%;
         transform: translate(-50%, -50%);
         pointer-events: none;
@@ -74,17 +74,198 @@
         position: relative;
         z-index: 2;
         width: 100%;
-        max-width: 900px;
+        max-width: 1240px;
         margin: 0 auto;
     }
 
-    /* VIP Multi-Section Card */
+    /* Sticky Left Showcase Card */
+    .register-left-showcase {
+        background: linear-gradient(150deg, #0b1329 0%, #172554 50%, #0f172a 100%);
+        border-radius: 28px;
+        padding: 40px 34px;
+        color: #ffffff;
+        position: sticky;
+        top: 90px;
+        border: 2px solid rgba(56, 189, 248, 0.25);
+        box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.2);
+        overflow: hidden;
+    }
+    .register-left-showcase::before {
+        content: "";
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(circle, rgba(2, 132, 199, 0.35), transparent 70%);
+        top: -100px;
+        right: -100px;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: pulseOrb 8s infinite alternate ease-in-out;
+    }
+    .register-left-showcase::after {
+        content: "";
+        position: absolute;
+        width: 260px;
+        height: 260px;
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.3), transparent 70%);
+        bottom: -90px;
+        left: -70px;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: pulseOrb 10s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulseOrb {
+        0% { transform: scale(1) translate(0, 0); opacity: 0.3; }
+        100% { transform: scale(1.15) translate(20px, 15px); opacity: 0.6; }
+    }
+
+    /* Animated Interactive Radar Stage */
+    .auth-anim-stage {
+        position: relative;
+        height: 160px;
+        margin: 18px 0 22px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .auth-radar-ring {
+        position: absolute;
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        border: 1.5px dashed rgba(56, 189, 248, 0.35);
+        animation: spinRadar 25s linear infinite;
+    }
+    .auth-radar-ring-2 {
+        position: absolute;
+        width: 190px;
+        height: 190px;
+        border-radius: 50%;
+        border: 1px solid rgba(124, 58, 237, 0.25);
+        animation: spinRadarReverse 35s linear infinite;
+    }
+
+    @keyframes spinRadar {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    @keyframes spinRadarReverse {
+        from { transform: rotate(360deg); }
+        to { transform: rotate(0deg); }
+    }
+
+    .auth-central-node {
+        width: 62px;
+        height: 62px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #0284c7, #2563eb);
+        color: #ffffff;
+        display: grid;
+        place-items: center;
+        font-size: 1.6rem;
+        box-shadow: 0 0 35px rgba(2, 132, 199, 0.6);
+        z-index: 3;
+        position: relative;
+        animation: pulseCenterNode 3s infinite ease-in-out;
+    }
+
+    @keyframes pulseCenterNode {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(2, 132, 199, 0.5); }
+        50% { transform: scale(1.08); box-shadow: 0 0 40px rgba(56, 189, 248, 0.85); }
+    }
+
+    /* Orbiting Badges */
+    .orbit-badge {
+        position: absolute;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        color: #e2e8f0;
+        padding: 5px 12px;
+        border-radius: 50px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        z-index: 4;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+    .orbit-badge-1 { top: 8px; left: 16px; animation: floatItem1 5s infinite ease-in-out; }
+    .orbit-badge-2 { bottom: 10px; left: 20px; animation: floatItem2 6s infinite ease-in-out; }
+    .orbit-badge-3 { top: 12px; right: 16px; animation: floatItem3 5.5s infinite ease-in-out; }
+    .orbit-badge-4 { bottom: 8px; right: 14px; animation: floatItem4 6.5s infinite ease-in-out; }
+
+    @keyframes floatItem1 {
+        0%, 100% { transform: translateY(0px) rotate(-1deg); }
+        50% { transform: translateY(-7px) rotate(1deg); }
+    }
+    @keyframes floatItem2 {
+        0%, 100% { transform: translateY(0px) rotate(1deg); }
+        50% { transform: translateY(-6px) rotate(-1deg); }
+    }
+    @keyframes floatItem3 {
+        0%, 100% { transform: translateY(0px) rotate(2deg); }
+        50% { transform: translateY(-7px) rotate(-1deg); }
+    }
+    @keyframes floatItem4 {
+        0%, 100% { transform: translateY(0px) rotate(-2deg); }
+        50% { transform: translateY(-8px) rotate(1deg); }
+    }
+
+    .live-pulse-dot {
+        width: 8px;
+        height: 8px;
+        background: #10b981;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 0 rgba(16, 185, 129, 0.6);
+        animation: livePulse 2s infinite;
+    }
+    @keyframes livePulse {
+        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .auth-feature-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 12px;
+        padding: 8px 12px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        transition: all 0.25s ease;
+    }
+    .auth-feature-row:hover {
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(56, 189, 248, 0.35);
+        transform: translateX(4px);
+    }
+    .auth-feature-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: rgba(2, 132, 199, 0.25);
+        color: #38bdf8;
+        display: grid;
+        place-items: center;
+        font-size: 0.95rem;
+        flex-shrink: 0;
+        border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    /* Right Form Panels */
     .register-panel {
         background: #ffffff;
         border: 2px solid rgba(2, 132, 199, 0.18);
         border-radius: 28px;
-        padding: 32px 30px;
-        margin-bottom: 24px;
+        padding: 30px 28px;
+        margin-bottom: 22px;
         position: relative;
         overflow: hidden;
         box-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.08);
@@ -104,17 +285,16 @@
         background: linear-gradient(90deg, #0284c7 0%, #4f46e5 50%, #7c3aed 100%);
     }
 
-    /* Section Number & Header */
     .section-badge-num {
-        width: 38px;
-        height: 38px;
+        width: 36px;
+        height: 36px;
         border-radius: 12px;
         background: linear-gradient(135deg, #0284c7, #1d4ed8);
         color: #ffffff;
         display: grid;
         place-items: center;
         font-weight: 800;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         flex-shrink: 0;
         box-shadow: 0 6px 14px rgba(2, 132, 199, 0.3);
     }
@@ -122,8 +302,8 @@
     /* Role Selection Cards */
     .role-selection-card {
         border: 2px solid #e2e8f0;
-        border-radius: 20px;
-        padding: 20px 16px;
+        border-radius: 18px;
+        padding: 16px 14px;
         text-align: center;
         background: #f8fafc;
         cursor: pointer;
@@ -139,25 +319,25 @@
     .role-selection-card:hover {
         background: #ffffff;
         border-color: #38bdf8;
-        transform: translateY(-4px);
-        box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.15);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px -5px rgba(2, 132, 199, 0.15);
     }
     .role-card-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: 16px;
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
         background: #e0f2fe;
         color: #0284c7;
         display: grid;
         place-items: center;
-        font-size: 1.4rem;
-        margin-bottom: 12px;
+        font-size: 1.3rem;
+        margin-bottom: 10px;
         transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
     }
     .role-input:checked + .role-selection-card {
         border-color: #0284c7;
         background: #ffffff;
-        box-shadow: 0 12px 30px -5px rgba(2, 132, 199, 0.25);
+        box-shadow: 0 10px 26px -5px rgba(2, 132, 199, 0.25);
     }
     .role-input:checked + .role-selection-card .role-card-icon {
         background: #0284c7;
@@ -166,16 +346,16 @@
     }
     .role-check-mark {
         position: absolute;
-        top: 12px;
-        right: 12px;
-        width: 22px;
-        height: 22px;
+        top: 10px;
+        right: 10px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
         background: #0284c7;
         color: #ffffff;
         display: none;
         place-items: center;
-        font-size: 0.72rem;
+        font-size: 0.68rem;
     }
     .role-input:checked + .role-selection-card .role-check-mark {
         display: grid;
@@ -259,24 +439,24 @@
         transition: background 0.25s ease;
     }
 
-    /* Sticky Progress Header Bar */
+    /* Progress Header Bar */
     .register-progress-bar {
         background: #ffffff;
         border: 1.5px solid rgba(2, 132, 199, 0.2);
-        border-radius: 20px;
-        padding: 14px 20px;
-        margin-bottom: 24px;
+        border-radius: 18px;
+        padding: 12px 18px;
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+        box-shadow: 0 8px 20px -5px rgba(15, 23, 42, 0.05);
     }
     .progress-track {
         flex: 1;
         height: 8px;
         background: #e2e8f0;
         border-radius: 50px;
-        margin: 0 16px;
+        margin: 0 14px;
         overflow: hidden;
     }
     .progress-fill {
@@ -292,7 +472,7 @@
         background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
         color: #ffffff;
         border: none;
-        padding: 16px 28px;
+        padding: 15px 26px;
         border-radius: 50px;
         font-weight: 700;
         font-size: 1.05rem;
@@ -312,13 +492,15 @@
         color: #ffffff;
     }
 
+    @media (max-width: 991px) {
+        .register-left-showcase {
+            display: none;
+        }
+    }
     @media (max-width: 768px) {
         .register-panel {
             padding: 22px 18px;
             border-radius: 22px;
-        }
-        .hero-title {
-            font-size: 2.25rem !important;
         }
     }
     @media (max-width: 480px) {
@@ -341,7 +523,7 @@
             <span class="badge rounded-pill bg-white text-primary px-3 py-2 mb-2 shadow-sm border fw-bold">
                 <i class="fas fa-sparkles text-warning me-1"></i> JOIN THE OFFICIAL ALUMNI COMMUNITY
             </span>
-            <h1 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: clamp(2rem, 5vw, 2.8rem); color: #0f172a;">
+            <h1 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: clamp(2rem, 5vw, 2.7rem); color: #0f172a;">
                 Create Your <span class="text-holographic">Account</span>
             </h1>
             <p class="text-muted small mx-auto" style="max-width: 540px;">
@@ -349,396 +531,481 @@
             </p>
         </div>
 
-        <!-- Progress Tracker Bar -->
-        <div class="register-progress-bar">
-            <div class="d-flex align-items-center gap-2">
-                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-1 fw-bold small">
-                    <i class="fas fa-tasks me-1"></i> Progress
-                </span>
+        <div class="row g-4 align-items-start">
+
+            <!-- Left Showcase Card (Matching Login Page with Live Animations) -->
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="register-left-showcase">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="badge rounded-pill bg-primary bg-opacity-25 text-info px-3 py-1 fw-bold small">
+                            <i class="fas fa-network-wired me-1"></i> NETWORK ECOSYSTEM
+                        </div>
+                        <span class="badge rounded-pill bg-dark bg-opacity-50 text-white-50 border border-secondary border-opacity-25 px-2 py-1 small">
+                            <span class="live-pulse-dot me-1"></span> 15,000+ Enrolled
+                        </span>
+                    </div>
+
+                    <h2 class="fw-bold mb-2" style="font-family: 'Outfit'; font-size: 1.75rem; line-height: 1.25;">
+                        Your Experience.<br><span style="color: #38bdf8;">Someone's Next Step.</span>
+                    </h2>
+                    <p class="text-white-50 small mb-2" style="line-height: 1.6;">
+                        Join students, alumni, and faculty building an empowered community across batches and disciplines.
+                    </p>
+
+                    <!-- Animated Interactive Radar Stage -->
+                    <div class="auth-anim-stage">
+                        <div class="auth-radar-ring"></div>
+                        <div class="auth-radar-ring-2"></div>
+                        
+                        <div class="auth-central-node">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+
+                        <!-- Orbiting Badges -->
+                        <div class="orbit-badge orbit-badge-1">
+                            <i class="fas fa-user-graduate text-info"></i> Batch Mates
+                        </div>
+                        <div class="orbit-badge orbit-badge-2">
+                            <i class="fas fa-hands-helping text-success"></i> Mentorship
+                        </div>
+                        <div class="orbit-badge orbit-badge-3">
+                            <i class="fas fa-briefcase text-warning"></i> Campus Drives
+                        </div>
+                        <div class="orbit-badge orbit-badge-4">
+                            <i class="fas fa-calendar-alt text-danger"></i> Annual Meet
+                        </div>
+                    </div>
+
+                    <!-- Highlights -->
+                    <div class="auth-feature-row">
+                        <div class="auth-feature-icon"><i class="fas fa-users"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-white small">Cross-Batch Networking</h6>
+                            <small class="text-white-50">Connect with seniors across tech & business</small>
+                        </div>
+                    </div>
+
+                    <div class="auth-feature-row">
+                        <div class="auth-feature-icon"><i class="fas fa-handshake-angle"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-white small">Direct Mentorship & Guidance</h6>
+                            <small class="text-white-50">Mock interviews and resume reviews</small>
+                        </div>
+                    </div>
+
+                    <div class="auth-feature-row">
+                        <div class="auth-feature-icon"><i class="fas fa-building"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-white small">Exclusive Referral Portal</h6>
+                            <small class="text-white-50">Direct job postings from verified alumni</small>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-top border-secondary border-opacity-25 mt-3 d-flex align-items-center justify-content-between">
+                        <small class="text-white-50"><i class="fas fa-shield-alt text-success me-1"></i> JIMS Official Alumni Registry</small>
+                        <small class="text-white-50">Est. 1993</small>
+                    </div>
+                </div>
             </div>
-            <div class="progress-track">
-                <div class="progress-fill" id="form-progress"></div>
+
+            <!-- Right Registration Form Column -->
+            <div class="col-lg-7">
+
+                <!-- Progress Tracker Bar -->
+                <div class="register-progress-bar">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-1 fw-bold small">
+                            <i class="fas fa-tasks me-1"></i> Progress
+                        </span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="form-progress"></div>
+                    </div>
+                    <span class="badge bg-light text-dark border rounded-pill px-3 py-1 fw-bold" id="completion-badge">
+                        0% Complete
+                    </span>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' or category == 'danger' else ('warning' if category == 'warning' else 'success') }} rounded-4 mb-4 shadow-sm border-0 d-flex align-items-center gap-2">
+                    <i class="fas fa-{{ 'exclamation-circle' if category == 'danger' or category == 'error' else ('info-circle' if category == 'warning' else 'check-circle') }}"></i>
+                    <span>{{ message }}</span>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <!-- Registration Form -->
+                <form method="POST" action="{{ url_for('register') }}" id="registerForm" onsubmit="return validateRegisterForm()" novalidate>
+
+                    <!-- 1. Role Selection -->
+                    <div class="register-panel">
+                        <div class="register-accent-bar"></div>
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="section-badge-num">01</div>
+                            <div>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Choose Your Affiliation</h4>
+                                <small class="text-muted">Select the profile that matches your status with the institution</small>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="w-100 position-relative mb-0 h-100">
+                                    <input type="radio" name="role" value="student" class="role-input d-none" id="roleStudent"
+                                           {% if role=='student' or not role %}checked{% endif %} onchange="updateFormFields()">
+                                    <div class="role-selection-card">
+                                        <span class="role-check-mark"><i class="fas fa-check"></i></span>
+                                        <div class="role-card-icon"><i class="fas fa-graduation-cap"></i></div>
+                                        <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.05rem;">Student</h5>
+                                        <small class="text-muted">Currently enrolled</small>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="w-100 position-relative mb-0 h-100">
+                                    <input type="radio" name="role" value="alumni" class="role-input d-none" id="roleAlumni"
+                                           {% if role=='alumni' %}checked{% endif %} onchange="updateFormFields()">
+                                    <div class="role-selection-card">
+                                        <span class="role-check-mark"><i class="fas fa-check"></i></span>
+                                        <div class="role-card-icon"><i class="fas fa-user-tie"></i></div>
+                                        <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.05rem;">Alumni</h5>
+                                        <small class="text-muted">Graduated batch</small>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="w-100 position-relative mb-0 h-100">
+                                    <input type="radio" name="role" value="faculty" class="role-input d-none" id="roleFaculty"
+                                           {% if role=='faculty' %}checked{% endif %} onchange="updateFormFields()">
+                                    <div class="role-selection-card">
+                                        <span class="role-check-mark"><i class="fas fa-chalkboard-teacher"></i></span>
+                                        <div class="role-card-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                                        <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.05rem;">Faculty</h5>
+                                        <small class="text-muted">Teaching staff</small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Personal Information -->
+                    <div class="register-panel">
+                        <div class="register-accent-bar"></div>
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="section-badge-num">02</div>
+                            <div>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Personal & Contact Details</h4>
+                                <small class="text-muted">How fellow community members and administrators can reach you</small>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="name">
+                                    Full Name <span class="text-danger">*</span>
+                                </label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-user"></i></span>
+                                    <input type="text" class="reg-control" name="name" id="name" required placeholder="e.g. Rahul Sharma"
+                                           value="{{ form_data.get('name', '') if form_data else '' }}" autocomplete="name">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="email">
+                                    Gmail Address <span class="text-danger">*</span>
+                                </label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="reg-control" name="email" id="email" required placeholder="yourname@gmail.com"
+                                           value="{{ form_data.get('email', '') if form_data else '' }}" autocomplete="email">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold text-dark small mb-1" for="phone">
+                                    Phone Number <span class="text-danger">*</span>
+                                </label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-phone"></i></span>
+                                    <input type="tel" class="reg-control" name="phone" id="phone" required placeholder="+91 98765 43210"
+                                           value="{{ form_data.get('phone', '') if form_data else '' }}" autocomplete="tel">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold text-dark small mb-1" for="city">
+                                    City <span class="text-danger">*</span>
+                                </label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-city"></i></span>
+                                    <input type="text" class="reg-control" name="city" id="city" required placeholder="e.g. Delhi" list="cityList"
+                                           value="{{ form_data.get('city', '') if form_data else '' }}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold text-dark small mb-1" for="state">
+                                    State <span class="text-danger">*</span>
+                                </label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-map-marked-alt"></i></span>
+                                    <input type="text" class="reg-control" name="state" id="state" required placeholder="e.g. Delhi" list="stateList"
+                                           value="{{ form_data.get('state', '') if form_data else '' }}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="password">
+                                    Password <span class="text-danger">*</span>
+                                </label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-lock"></i></span>
+                                    <input type="password" class="reg-control" name="password" id="password" required
+                                           placeholder="Min 8 characters" autocomplete="new-password">
+                                    <button type="button" class="reg-pw-toggle" id="pwToggle1" aria-label="Toggle password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="strength-wrapper" id="strength">
+                                    <div class="strength-bars-grid">
+                                        <div class="strength-bar-unit" id="sb1"></div>
+                                        <div class="strength-bar-unit" id="sb2"></div>
+                                        <div class="strength-bar-unit" id="sb3"></div>
+                                        <div class="strength-bar-unit" id="sb4"></div>
+                                    </div>
+                                    <small class="text-muted d-block" id="strength-label" style="font-size: 0.76rem;">
+                                        Use 8+ characters with mixed case, numbers & symbols
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="confirm_password">
+                                    Confirm Password <span class="text-danger">*</span>
+                                </label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-lock"></i></span>
+                                    <input type="password" class="reg-control" name="confirm_password" id="confirm_password" required
+                                           placeholder="Re-type password" autocomplete="new-password">
+                                    <button type="button" class="reg-pw-toggle" id="pwToggle2" aria-label="Toggle password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <small id="match-label" class="d-none fw-bold" style="font-size: 0.78rem;"></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Dynamic Section: Student Academic Details -->
+                    <div class="register-panel role-block" id="studentFields">
+                        <div class="register-accent-bar" style="background: linear-gradient(90deg, #0284c7, #38bdf8);"></div>
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="section-badge-num" style="background: linear-gradient(135deg, #0284c7, #38bdf8);">03</div>
+                            <div>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Student Academic Details</h4>
+                                <small class="text-muted">Used to match you with alumni mentors in your branch</small>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold text-dark small mb-1" for="enrollment_no">Enrollment Number</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-hashtag"></i></span>
+                                    <input type="text" class="reg-control" name="enrollment_no" id="enrollment_no" placeholder="e.g. 0123456789">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold text-dark small mb-1" for="stu_department">Department / Stream</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-university"></i></span>
+                                    <input type="text" class="reg-control" name="stu_department" id="stu_department" placeholder="e.g. IT"
+                                           list="categoryList" oninput="updateCourseDropdown()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold text-dark small mb-1" for="stu_level">Degree Level</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-signal"></i></span>
+                                    <input type="text" class="reg-control" name="stu_level" id="stu_level" placeholder="UG / PG"
+                                           list="levelList" oninput="updateCourseDropdown()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="stu_degree">Course / Degree</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-graduation-cap"></i></span>
+                                    <input type="text" class="reg-control" name="stu_degree" id="stu_degree" placeholder="e.g. BCA" list="courseList">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="stu_semester">Current Semester</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-layer-group"></i></span>
+                                    <input type="text" class="reg-control" name="stu_semester" id="stu_semester" placeholder="e.g. 4th Semester" list="semesterList">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Dynamic Section: Alumni Details -->
+                    <div class="register-panel role-block" id="alumniFields">
+                        <div class="register-accent-bar" style="background: linear-gradient(90deg, #10b981, #34d399);"></div>
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="section-badge-num" style="background: linear-gradient(135deg, #059669, #10b981);">03</div>
+                            <div>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Alumni Academic & Professional Details</h4>
+                                <small class="text-muted">Makes you discoverable to students seeking referrals and guidance</small>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="alum_enrollment_no">Enrollment Number</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-hashtag"></i></span>
+                                    <input type="text" class="reg-control" name="alum_enrollment_no" id="alum_enrollment_no" placeholder="e.g. 0123456789">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="pass_year">Passing Year</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-calendar-check"></i></span>
+                                    <input type="text" class="reg-control" name="pass_year" id="pass_year" placeholder="e.g. 2024" list="yearList">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold text-dark small mb-1" for="alum_department">Department / Stream</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-university"></i></span>
+                                    <input type="text" class="reg-control" name="alum_department" id="alum_department" placeholder="e.g. IT"
+                                           list="categoryList" oninput="updateAlumniCourseDropdown()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold text-dark small mb-1" for="alum_level">Degree Level</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-signal"></i></span>
+                                    <input type="text" class="reg-control" name="alum_level" id="alum_level" placeholder="UG / PG"
+                                           list="levelList" oninput="updateAlumniCourseDropdown()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold text-dark small mb-1" for="alum_degree">Course / Degree</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-graduation-cap"></i></span>
+                                    <input type="text" class="reg-control" name="alum_degree" id="alum_degree" placeholder="e.g. MCA" list="alumniCourseList">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="company_name">Current Company / Organization</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-building"></i></span>
+                                    <input type="text" class="reg-control" name="company_name" id="company_name" placeholder="e.g. Microsoft / TCS / Startup" list="companyList">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="alumni_designation">Current Designation / Role</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-briefcase"></i></span>
+                                    <input type="text" class="reg-control" name="designation" id="alumni_designation" placeholder="e.g. Software Engineer" list="designationList">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Dynamic Section: Faculty Details -->
+                    <div class="register-panel role-block" id="facultyFields">
+                        <div class="register-accent-bar" style="background: linear-gradient(90deg, #f59e0b, #ef4444);"></div>
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="section-badge-num" style="background: linear-gradient(135deg, #d97706, #ef4444);">03</div>
+                            <div>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Faculty Information</h4>
+                                <small class="text-muted">Connect with campus departments and supervise alumni engagements</small>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="fac_employee_id">Employee ID</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-id-badge"></i></span>
+                                    <input type="text" class="reg-control" name="fac_employee_id" id="fac_employee_id" placeholder="e.g. EMP-2041">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="fac_department">Department</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-university"></i></span>
+                                    <input type="text" class="reg-control" name="fac_department" id="fac_department" placeholder="e.g. Information Technology" list="deptList">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="fac_designation">Designation</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-briefcase"></i></span>
+                                    <input type="text" class="reg-control" name="fac_designation" id="fac_designation" placeholder="e.g. Associate Professor" list="designationList">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-dark small mb-1" for="fac_qualification">Highest Qualification</label>
+                                <div class="reg-input-group">
+                                    <span class="reg-input-icon"><i class="fas fa-scroll"></i></span>
+                                    <input type="text" class="reg-control" name="fac_qualification" id="fac_qualification" placeholder="e.g. PhD / M.Tech">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Agreement & Submission Panel -->
+                    <div class="register-panel">
+                        <div class="register-accent-bar"></div>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="terms" required>
+                            <label class="form-check-label text-muted small" for="terms">
+                                I agree to the <a href="{{ url_for('terms_conditions') }}" target="_blank" class="text-primary fw-bold text-decoration-none">Terms & Conditions</a> and <a href="{{ url_for('privacy_policy') }}" target="_blank" class="text-primary fw-bold text-decoration-none">Privacy Policy</a> of Alumni Hub.
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn-reg-submit" id="registerSubmit">
+                            <span>Create My Free Account</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+
+                        <div class="text-center mt-4">
+                            <span class="text-muted small">Already registered?</span>
+                            <a href="/login" class="text-primary fw-bold small ms-1 text-decoration-none">
+                                Sign in to account <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </form>
+
             </div>
-            <span class="badge bg-light text-dark border rounded-pill px-3 py-1 fw-bold" id="completion-badge">
-                0% Complete
-            </span>
+
         </div>
 
-        <!-- Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert alert-{{ 'danger' if category == 'error' or category == 'danger' else ('warning' if category == 'warning' else 'success') }} rounded-4 mb-4 shadow-sm border-0 d-flex align-items-center gap-2">
-            <i class="fas fa-{{ 'exclamation-circle' if category == 'danger' or category == 'error' else ('info-circle' if category == 'warning' else 'check-circle') }}"></i>
-            <span>{{ message }}</span>
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-
-        <!-- Registration Form -->
-        <form method="POST" action="{{ url_for('register') }}" id="registerForm" onsubmit="return validateRegisterForm()" novalidate>
-
-            <!-- 1. Role Selection -->
-            <div class="register-panel">
-                <div class="register-accent-bar"></div>
-                <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="section-badge-num">01</div>
-                    <div>
-                        <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Choose Your Affiliation</h4>
-                        <small class="text-muted">Select the profile that matches your status with the institution</small>
-                    </div>
-                </div>
-
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="w-100 position-relative mb-0 h-100">
-                            <input type="radio" name="role" value="student" class="role-input d-none" id="roleStudent"
-                                   {% if role=='student' or not role %}checked{% endif %} onchange="updateFormFields()">
-                            <div class="role-selection-card">
-                                <span class="role-check-mark"><i class="fas fa-check"></i></span>
-                                <div class="role-card-icon"><i class="fas fa-graduation-cap"></i></div>
-                                <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.1rem;">Student</h5>
-                                <small class="text-muted">Currently enrolled in college</small>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="w-100 position-relative mb-0 h-100">
-                            <input type="radio" name="role" value="alumni" class="role-input d-none" id="roleAlumni"
-                                   {% if role=='alumni' %}checked{% endif %} onchange="updateFormFields()">
-                            <div class="role-selection-card">
-                                <span class="role-check-mark"><i class="fas fa-check"></i></span>
-                                <div class="role-card-icon"><i class="fas fa-user-tie"></i></div>
-                                <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.1rem;">Alumni</h5>
-                                <small class="text-muted">Graduated batch member</small>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="w-100 position-relative mb-0 h-100">
-                            <input type="radio" name="role" value="faculty" class="role-input d-none" id="roleFaculty"
-                                   {% if role=='faculty' %}checked{% endif %} onchange="updateFormFields()">
-                            <div class="role-selection-card">
-                                <span class="role-check-mark"><i class="fas fa-check"></i></span>
-                                <div class="role-card-icon"><i class="fas fa-chalkboard-teacher"></i></div>
-                                <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.1rem;">Faculty</h5>
-                                <small class="text-muted">Teaching or academic staff</small>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 2. Personal Information -->
-            <div class="register-panel">
-                <div class="register-accent-bar"></div>
-                <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="section-badge-num">02</div>
-                    <div>
-                        <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Personal & Contact Details</h4>
-                        <small class="text-muted">How fellow community members and administrators can reach you</small>
-                    </div>
-                </div>
-
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="name">
-                            Full Name <span class="text-danger">*</span>
-                        </label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-user"></i></span>
-                            <input type="text" class="reg-control" name="name" id="name" required placeholder="e.g. Rahul Sharma"
-                                   value="{{ form_data.get('name', '') if form_data else '' }}" autocomplete="name">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="email">
-                            Gmail Address <span class="text-danger">*</span>
-                        </label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-envelope"></i></span>
-                            <input type="email" class="reg-control" name="email" id="email" required placeholder="yourname@gmail.com"
-                                   value="{{ form_data.get('email', '') if form_data else '' }}" autocomplete="email">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-dark small mb-1" for="phone">
-                            Phone Number <span class="text-danger">*</span>
-                        </label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-phone"></i></span>
-                            <input type="tel" class="reg-control" name="phone" id="phone" required placeholder="+91 98765 43210"
-                                   value="{{ form_data.get('phone', '') if form_data else '' }}" autocomplete="tel">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-dark small mb-1" for="city">
-                            City <span class="text-danger">*</span>
-                        </label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-city"></i></span>
-                            <input type="text" class="reg-control" name="city" id="city" required placeholder="e.g. Delhi" list="cityList"
-                                   value="{{ form_data.get('city', '') if form_data else '' }}">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-dark small mb-1" for="state">
-                            State <span class="text-danger">*</span>
-                        </label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-map-marked-alt"></i></span>
-                            <input type="text" class="reg-control" name="state" id="state" required placeholder="e.g. Delhi" list="stateList"
-                                   value="{{ form_data.get('state', '') if form_data else '' }}">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="password">
-                            Password <span class="text-danger">*</span>
-                        </label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-lock"></i></span>
-                            <input type="password" class="reg-control" name="password" id="password" required
-                                   placeholder="Min 8 characters" autocomplete="new-password">
-                            <button type="button" class="reg-pw-toggle" id="pwToggle1" aria-label="Toggle password">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="strength-wrapper" id="strength">
-                            <div class="strength-bars-grid">
-                                <div class="strength-bar-unit" id="sb1"></div>
-                                <div class="strength-bar-unit" id="sb2"></div>
-                                <div class="strength-bar-unit" id="sb3"></div>
-                                <div class="strength-bar-unit" id="sb4"></div>
-                            </div>
-                            <small class="text-muted d-block" id="strength-label" style="font-size: 0.76rem;">
-                                Use 8+ characters with mixed case, numbers & symbols
-                            </small>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="confirm_password">
-                            Confirm Password <span class="text-danger">*</span>
-                        </label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-lock"></i></span>
-                            <input type="password" class="reg-control" name="confirm_password" id="confirm_password" required
-                                   placeholder="Re-type password" autocomplete="new-password">
-                            <button type="button" class="reg-pw-toggle" id="pwToggle2" aria-label="Toggle password">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <small id="match-label" class="d-none fw-bold" style="font-size: 0.78rem;"></small>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. Dynamic Section: Student Academic Details -->
-            <div class="register-panel role-block" id="studentFields">
-                <div class="register-accent-bar" style="background: linear-gradient(90deg, #0284c7, #38bdf8);"></div>
-                <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="section-badge-num" style="background: linear-gradient(135deg, #0284c7, #38bdf8);">03</div>
-                    <div>
-                        <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Student Academic Details</h4>
-                        <small class="text-muted">Used to match you with alumni mentors in your branch</small>
-                    </div>
-                </div>
-
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-dark small mb-1" for="enrollment_no">Enrollment Number</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-hashtag"></i></span>
-                            <input type="text" class="reg-control" name="enrollment_no" id="enrollment_no" placeholder="e.g. 0123456789">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-dark small mb-1" for="stu_department">Department / Stream</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-university"></i></span>
-                            <input type="text" class="reg-control" name="stu_department" id="stu_department" placeholder="e.g. IT"
-                                   list="categoryList" oninput="updateCourseDropdown()">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-dark small mb-1" for="stu_level">Degree Level</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-signal"></i></span>
-                            <input type="text" class="reg-control" name="stu_level" id="stu_level" placeholder="UG / PG"
-                                   list="levelList" oninput="updateCourseDropdown()">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="stu_degree">Course / Degree</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-graduation-cap"></i></span>
-                            <input type="text" class="reg-control" name="stu_degree" id="stu_degree" placeholder="e.g. BCA" list="courseList">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="stu_semester">Current Semester</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-layer-group"></i></span>
-                            <input type="text" class="reg-control" name="stu_semester" id="stu_semester" placeholder="e.g. 4th Semester" list="semesterList">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. Dynamic Section: Alumni Details -->
-            <div class="register-panel role-block" id="alumniFields">
-                <div class="register-accent-bar" style="background: linear-gradient(90deg, #10b981, #34d399);"></div>
-                <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="section-badge-num" style="background: linear-gradient(135deg, #059669, #10b981);">03</div>
-                    <div>
-                        <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Alumni Academic & Professional Details</h4>
-                        <small class="text-muted">Makes you discoverable to students seeking referrals and guidance</small>
-                    </div>
-                </div>
-
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="alum_enrollment_no">Enrollment Number</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-hashtag"></i></span>
-                            <input type="text" class="reg-control" name="alum_enrollment_no" id="alum_enrollment_no" placeholder="e.g. 0123456789">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="pass_year">Passing Year</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-calendar-check"></i></span>
-                            <input type="text" class="reg-control" name="pass_year" id="pass_year" placeholder="e.g. 2024" list="yearList">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-dark small mb-1" for="alum_department">Department / Stream</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-university"></i></span>
-                            <input type="text" class="reg-control" name="alum_department" id="alum_department" placeholder="e.g. IT"
-                                   list="categoryList" oninput="updateAlumniCourseDropdown()">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-dark small mb-1" for="alum_level">Degree Level</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-signal"></i></span>
-                            <input type="text" class="reg-control" name="alum_level" id="alum_level" placeholder="UG / PG"
-                                   list="levelList" oninput="updateAlumniCourseDropdown()">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-dark small mb-1" for="alum_degree">Course / Degree</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-graduation-cap"></i></span>
-                            <input type="text" class="reg-control" name="alum_degree" id="alum_degree" placeholder="e.g. MCA" list="alumniCourseList">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="company_name">Current Company / Organization</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-building"></i></span>
-                            <input type="text" class="reg-control" name="company_name" id="company_name" placeholder="e.g. Microsoft / TCS / Startup" list="companyList">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="alumni_designation">Current Designation / Role</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-briefcase"></i></span>
-                            <input type="text" class="reg-control" name="designation" id="alumni_designation" placeholder="e.g. Software Engineer" list="designationList">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5. Dynamic Section: Faculty Details -->
-            <div class="register-panel role-block" id="facultyFields">
-                <div class="register-accent-bar" style="background: linear-gradient(90deg, #f59e0b, #ef4444);"></div>
-                <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="section-badge-num" style="background: linear-gradient(135deg, #d97706, #ef4444);">03</div>
-                    <div>
-                        <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Faculty Information</h4>
-                        <small class="text-muted">Connect with campus departments and supervise alumni engagements</small>
-                    </div>
-                </div>
-
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="fac_employee_id">Employee ID</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-id-badge"></i></span>
-                            <input type="text" class="reg-control" name="fac_employee_id" id="fac_employee_id" placeholder="e.g. EMP-2041">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="fac_department">Department</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-university"></i></span>
-                            <input type="text" class="reg-control" name="fac_department" id="fac_department" placeholder="e.g. Information Technology" list="deptList">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="fac_designation">Designation</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-briefcase"></i></span>
-                            <input type="text" class="reg-control" name="fac_designation" id="fac_designation" placeholder="e.g. Associate Professor" list="designationList">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-dark small mb-1" for="fac_qualification">Highest Qualification</label>
-                        <div class="reg-input-group">
-                            <span class="reg-input-icon"><i class="fas fa-scroll"></i></span>
-                            <input type="text" class="reg-control" name="fac_qualification" id="fac_qualification" placeholder="e.g. PhD / M.Tech">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 6. Agreement & Submission Panel -->
-            <div class="register-panel">
-                <div class="register-accent-bar"></div>
-                <div class="form-check mb-4">
-                    <input class="form-check-input" type="checkbox" id="terms" required>
-                    <label class="form-check-label text-muted small" for="terms">
-                        I agree to the <a href="{{ url_for('terms_conditions') }}" target="_blank" class="text-primary fw-bold text-decoration-none">Terms & Conditions</a> and <a href="{{ url_for('privacy_policy') }}" target="_blank" class="text-primary fw-bold text-decoration-none">Privacy Policy</a> of Alumni Hub.
-                    </label>
-                </div>
-
-                <button type="submit" class="btn-reg-submit" id="registerSubmit">
-                    <span>Create My Free Account</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-
-                <div class="text-center mt-4">
-                    <span class="text-muted small">Already registered?</span>
-                    <a href="/login" class="text-primary fw-bold small ms-1 text-decoration-none">
-                        Sign in to account <i class="fas fa-arrow-right ms-1"></i>
-                    </a>
-                </div>
-            </div>
-
-        </form>
     </div>
 </div>
 
