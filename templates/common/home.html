@@ -1,10 +1,264 @@
 {% extends "base.html" %}
+
+{% block title %}Alumni Hub — Connect, Mentor & Elevate{% endblock %}
+
 {% block content %}
-<!-- Premium Fonts -->
-<link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}?v=2.2">
+<!-- Premium Fonts & CSS -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}?v=3.0">
+
+<style>
+    /* ========================================================
+       HOME PAGE ELEVATED VIP DESIGN SYSTEM
+       ======================================================== */
+    /* VIP Feature Cards (Consistent with About & Services) */
+    .home-vip-card {
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.18);
+        border-radius: 26px !important;
+        box-shadow: 0 16px 38px -10px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(2, 132, 199, 0.05);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    .home-vip-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 28px 56px -12px rgba(2, 132, 199, 0.22), 0 0 0 2px rgba(2, 132, 199, 0.35);
+        border-color: rgba(2, 132, 199, 0.45);
+    }
+
+    .home-vip-card.accent-purple { border-color: rgba(139, 92, 246, 0.2); }
+    .home-vip-card.accent-purple:hover {
+        box-shadow: 0 28px 56px -12px rgba(139, 92, 246, 0.22), 0 0 0 2px rgba(139, 92, 246, 0.35);
+        border-color: rgba(139, 92, 246, 0.45);
+    }
+
+    .home-vip-card.accent-green { border-color: rgba(16, 185, 129, 0.2); }
+    .home-vip-card.accent-green:hover {
+        box-shadow: 0 28px 56px -12px rgba(16, 185, 129, 0.22), 0 0 0 2px rgba(16, 185, 129, 0.35);
+        border-color: rgba(16, 185, 129, 0.45);
+    }
+
+    .home-vip-card.accent-amber { border-color: rgba(245, 158, 11, 0.2); }
+    .home-vip-card.accent-amber:hover {
+        box-shadow: 0 28px 56px -12px rgba(245, 158, 11, 0.22), 0 0 0 2px rgba(245, 158, 11, 0.35);
+        border-color: rgba(245, 158, 11, 0.45);
+    }
+
+    /* Top Accent Neon Bar */
+    .home-accent-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #0284c7 0%, #38bdf8 100%);
+        transition: height 0.3s ease;
+    }
+    .home-vip-card:hover .home-accent-bar { height: 6px; }
+    .home-vip-card.accent-purple .home-accent-bar { background: linear-gradient(90deg, #7c3aed 0%, #c084fc 100%); }
+    .home-vip-card.accent-green .home-accent-bar { background: linear-gradient(90deg, #059669 0%, #34d399 100%); }
+    .home-vip-card.accent-amber .home-accent-bar { background: linear-gradient(90deg, #d97706 0%, #fbbf24 100%); }
+
+    /* Animated Icon Box */
+    .home-icon-box {
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        font-size: 1.4rem;
+        background: #edf4f7;
+        color: #0284c7;
+        transition: all 0.35s cubic-bezier(0.2, 0, 0, 1);
+        flex-shrink: 0;
+    }
+    .home-vip-card:hover .home-icon-box {
+        transform: rotate(8deg) scale(1.1);
+        background: #0284c7;
+        color: #ffffff;
+        box-shadow: 0 10px 24px rgba(2, 132, 199, 0.35);
+    }
+    .home-vip-card.accent-purple .home-icon-box { background: #f5f3ff; color: #7c3aed; }
+    .home-vip-card.accent-purple:hover .home-icon-box { background: #7c3aed; color: #fff; box-shadow: 0 10px 24px rgba(124, 58, 237, 0.35); }
+
+    .home-vip-card.accent-green .home-icon-box { background: #ecfdf5; color: #059669; }
+    .home-vip-card.accent-green:hover .home-icon-box { background: #059669; color: #fff; box-shadow: 0 10px 24px rgba(5, 150, 105, 0.35); }
+
+    .home-vip-card.accent-amber .home-icon-box { background: #fffbeb; color: #d97706; }
+    .home-vip-card.accent-amber:hover .home-icon-box { background: #d97706; color: #fff; box-shadow: 0 10px 24px rgba(217, 119, 6, 0.35); }
+
+    /* Process Timeline Roadmap */
+    .home-roadmap-track {
+        position: relative;
+        padding: 20px 0;
+    }
+    .home-roadmap-track::before {
+        content: '';
+        position: absolute;
+        top: 48px;
+        left: 5%;
+        right: 5%;
+        height: 4px;
+        background: linear-gradient(90deg, #0284c7 0%, #10b981 50%, #8b5cf6 100%);
+        border-radius: 99px;
+        z-index: 1;
+    }
+    .roadmap-step-item {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+    }
+    .roadmap-step-badge {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 3px solid #0284c7;
+        box-shadow: 0 0 0 6px rgba(2, 132, 199, 0.15), 0 10px 24px rgba(2, 132, 199, 0.25);
+        display: grid;
+        place-items: center;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: 1.15rem;
+        color: #0284c7;
+        margin: 0 auto 1.5rem;
+        transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+    }
+    .roadmap-step-item:hover .roadmap-step-badge {
+        transform: scale(1.15);
+        background: #0284c7;
+        color: #ffffff;
+    }
+
+    /* Testimonial Spotlight Card */
+    .alumni-spotlight-card {
+        background: #ffffff;
+        border: 1.5px solid rgba(226, 232, 240, 0.9);
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: 0 14px 35px -8px rgba(15, 23, 42, 0.06);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .alumni-spotlight-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 22px 48px -10px rgba(2, 132, 199, 0.18);
+        border-color: rgba(2, 132, 199, 0.3);
+    }
+
+    /* High-contrast CTA Buttons for Light Backgrounds */
+    .btn-cta-dark {
+        background: #0f172a !important;
+        color: #ffffff !important;
+        border: 1px solid #1e293b !important;
+        border-radius: 99px !important;
+        font-weight: 700 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.25) !important;
+        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+        text-decoration: none !important;
+    }
+    .btn-cta-dark:hover {
+        background: #1e293b !important;
+        color: #38bdf8 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.35) !important;
+    }
+
+    .btn-cta-primary {
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 99px !important;
+        font-weight: 700 !important;
+        box-shadow: 0 8px 24px -4px rgba(2, 132, 199, 0.45) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+        text-decoration: none !important;
+    }
+    .btn-cta-primary:hover {
+        background: #0369a1 !important;
+        color: #ffffff !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 12px 28px -4px rgba(2, 132, 199, 0.55) !important;
+    }
+
+    .btn-cta-outline {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 99px !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+        text-decoration: none !important;
+    }
+    .btn-cta-outline:hover {
+        background: #f8fafc !important;
+        border-color: #0284c7 !important;
+        color: #0284c7 !important;
+        transform: translateY(-2px) !important;
+    }
+
+    .service-cta-card {
+        border-radius: 32px;
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.22);
+        box-shadow: 0 24px 50px -12px rgba(15, 23, 42, 0.08);
+    }
+
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 991px) {
+        .home-roadmap-track::before { display: none; }
+        .roadmap-step-item {
+            margin-bottom: 2rem;
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+        }
+        .roadmap-step-badge {
+            margin: 0;
+            flex-shrink: 0;
+            width: 52px;
+            height: 52px;
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .home-vip-card {
+            border-radius: 20px !important;
+            padding: 1.5rem !important;
+        }
+        .hero-title {
+            font-size: 2.3rem !important;
+        }
+        .service-cta-card {
+            border-radius: 22px;
+            padding: 1.75rem 1.25rem !important;
+        }
+    }
+</style>
 
 <div class="home-wrapper">
     <!-- Animated Mesh Background -->
@@ -15,33 +269,54 @@
         <div class="mesh-ball ball-4"></div>
     </div>
 
-
-        <!-- Hero Section (Premium Responsive & Animated Upgrade) -->
+    <!-- Hero Section (Consistent Glassmorphism & Liquid Particles) -->
     <section class="hero-premium glass-hero position-relative overflow-hidden">
         <canvas class="network-canvas"></canvas>
         <div class="hero-particles"></div>
         <div class="container hero-container" style="position: relative; z-index: 2;">
             <div class="hero-content text-center mx-auto">
                 <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade hero-network-badge">
-                    <i class="fas fa-network-wired me-2"></i> THE ALUMNI NETWORK
+                    <i class="fas fa-network-wired me-2 text-primary"></i> OFFICIAL ALUMNI NETWORK
                 </div>
                 <h1 class="hero-title fw-bold mb-3 reveal-text text-white">
                     Welcome to <span class="text-holographic">Alumni Hub</span>
                 </h1>
-                <p class="hero-subtitle text-white-50 lead mb-4 reveal-fade mx-auto">
-                    Connect, Network, and Grow with the Alumni Community. Join hundreds of successful alumni and students worldwide.
+                <p class="hero-subtitle text-white-50 lead mb-4 reveal-fade mx-auto" style="max-width: 750px;">
+                    Connect, mentor, and accelerate your career trajectory. The premier university ecosystem linking 15,000+ ambitious students and distinguished graduates worldwide.
                 </p>
+
+                <!-- Hero Key Stat Pills -->
+                <div class="d-flex justify-content-center flex-wrap gap-2 mb-4 reveal-fade">
+                    <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 px-3 py-2 rounded-pill small">
+                        <i class="fas fa-user-graduate me-1 text-info"></i> 15k+ Verified Alumni
+                    </span>
+                    <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 px-3 py-2 rounded-pill small">
+                        <i class="fas fa-building me-1 text-success"></i> 500+ Partner Companies
+                    </span>
+                    <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 px-3 py-2 rounded-pill small">
+                        <i class="fas fa-bolt me-1 text-warning"></i> 98% Referral Rate
+                    </span>
+                    <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 px-3 py-2 rounded-pill small">
+                        <i class="fas fa-globe me-1 text-primary"></i> 50+ Global Chapters
+                    </span>
+                </div>
+
                 <div class="hero-cta-buttons d-flex justify-content-center gap-3 flex-wrap reveal-fade">
                     {% if session.get('user_id') %}
-                    <a href="/student/dashboard" class="btn btn-premium btn-premium-primary magnetic-button">
-                        <i class="fas fa-gauge me-1"></i> Go to Dashboard <div class="btn-glow"></div>
+                    <a href="{{ url_for('dashboard_student') }}" class="btn btn-premium btn-premium-primary magnetic-button px-4 py-3">
+                        <i class="fas fa-gauge me-2"></i> Go to Dashboard
+                        <div class="btn-glow"></div>
+                    </a>
+                    <a href="{{ url_for('network') }}" class="btn btn-premium btn-premium-secondary magnetic-button px-4 py-3">
+                        <i class="fas fa-users me-2"></i> Browse Alumni Network
                     </a>
                     {% else %}
-                    <a href="/login" class="btn btn-premium btn-premium-primary magnetic-button">
-                        <i class="fas fa-right-to-bracket me-1"></i> Login Now <div class="btn-glow"></div>
+                    <a href="{{ url_for('register') }}" class="btn btn-premium btn-premium-primary magnetic-button px-4 py-3">
+                        <i class="fas fa-user-plus me-2"></i> Join Free Today
+                        <div class="btn-glow"></div>
                     </a>
-                    <a href="/register" class="btn btn-premium btn-premium-secondary magnetic-button">
-                        <i class="fas fa-user-plus me-1"></i> Create Account <div class="btn-glow"></div>
+                    <a href="{{ url_for('login') }}" class="btn btn-premium btn-premium-secondary magnetic-button px-4 py-3">
+                        <i class="fas fa-sign-in-alt me-2"></i> Member Login
                     </a>
                     {% endif %}
                 </div>
@@ -53,299 +328,373 @@
     <section class="marquee-section" aria-label="Community Highlights">
         <div class="marquee-container">
             <div class="marquee">
-                <span class="marquee-item">⭐ <strong>480+</strong> Alumni Network</span>
-                <span class="marquee-item">🌍 <strong>25+</strong> Countries Reached</span>
-                <span class="marquee-item">💼 <strong>160+</strong> Job Opportunities</span>
-                <span class="marquee-item">🏆 <strong>Top</strong> Companies Hiring</span>
-                <span class="marquee-item">📚 <strong>Active</strong> Mentorship Programs</span>
-                <span class="marquee-item" aria-hidden="true">⭐ <strong>480+</strong> Alumni Network</span>
-                <span class="marquee-item" aria-hidden="true">🌍 <strong>25+</strong> Countries Reached</span>
-                <span class="marquee-item" aria-hidden="true">💼 <strong>160+</strong> Job Opportunities</span>
-                <span class="marquee-item" aria-hidden="true">🏆 <strong>Top</strong> Companies Hiring</span>
-                <span class="marquee-item" aria-hidden="true">📚 <strong>Active</strong> Mentorship Programs</span>
+                <span class="marquee-item">⭐ <strong>15,000+</strong> Alumni Network</span>
+                <span class="marquee-item">🌍 <strong>50+</strong> Global Cities</span>
+                <span class="marquee-item">💼 <strong>500+</strong> Job Referrals</span>
+                <span class="marquee-item">🏆 <strong>Tier-1</strong> Companies Hiring</span>
+                <span class="marquee-item">📚 <strong>1-on-1</strong> Verified Mentorship</span>
+                <span class="marquee-item" aria-hidden="true">⭐ <strong>15,000+</strong> Alumni Network</span>
+                <span class="marquee-item" aria-hidden="true">🌍 <strong>50+</strong> Global Cities</span>
+                <span class="marquee-item" aria-hidden="true">💼 <strong>500+</strong> Job Referrals</span>
+                <span class="marquee-item" aria-hidden="true">🏆 <strong>Tier-1</strong> Companies Hiring</span>
+                <span class="marquee-item" aria-hidden="true">📚 <strong>1-on-1</strong> Verified Mentorship</span>
             </div>
         </div>
     </section>
 
-    <!-- Features Section (Unified Container Grid) -->
-    <section class="features-section py-5">
-        <div class="container pb-4">
-            <div class="text-center mb-5 reveal-fade">
-                <div class="community-stats-kicker justify-content-center mb-2"><span></span> THE BENEFITS</div>
-                <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">Why Join Alumni Hub?</h2>
-                <p class="mx-auto" style="color: #64748b; max-width: 650px; font-size: 1rem; line-height: 1.6;">Discover the professional and personal advantages of being part of our thriving community.</p>
+    <div class="container py-5">
+        <!-- Unified Value Pillars Grid (Matching About & Services VIP Cards) -->
+        <div class="text-center mb-5 reveal-fade">
+            <div class="community-stats-kicker justify-content-center mb-2"><span></span> THE ALUMNI ADVANTAGE</div>
+            <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">Why Join Alumni Hub?</h2>
+            <p class="mx-auto text-muted" style="max-width: 650px; font-size: 1rem; line-height: 1.6;">
+                Discover the professional and personal advantages of being part of our university's thriving global community.
+            </p>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <!-- 1. Professional Network -->
+            <div class="col-lg-3 col-md-6 reveal-fade">
+                <div class="home-vip-card accent-blue p-4">
+                    <div class="home-accent-bar"></div>
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="home-icon-box"><i class="fas fa-handshake"></i></div>
+                            <span class="badge rounded-pill bg-light text-primary border px-3 py-1 small fw-bold">🤝 Network</span>
+                        </div>
+                        <h4 class="home-card-title mb-2" style="font-size: 1.25rem;">Verified Connections</h4>
+                        <p class="home-card-text text-muted small mb-3" style="line-height: 1.6;">
+                            Connect directly with university-verified alumni working across MAANG, Fortune 500, and emerging tech startups.
+                        </p>
+                        <div class="py-2 border-top border-light-subtle">
+                            <span class="d-block text-muted small mb-1"><i class="fas fa-check-circle text-primary me-2"></i> Department Batch Search</span>
+                            <span class="d-block text-muted small"><i class="fas fa-check-circle text-primary me-2"></i> Direct Messaging &amp; Inquiries</span>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-top border-light-subtle">
+                        <a href="{{ url_for('network') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-2 w-100 fw-bold">
+                            Explore Directory <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="row g-4 justify-content-center">
+            <!-- 2. Career Growth & Jobs -->
+            <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.1s;">
+                <div class="home-vip-card accent-green p-4">
+                    <div class="home-accent-bar"></div>
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="home-icon-box"><i class="fas fa-briefcase"></i></div>
+                            <span class="badge rounded-pill bg-light text-success border px-3 py-1 small fw-bold">💼 Careers</span>
+                        </div>
+                        <h4 class="home-card-title mb-2" style="font-size: 1.25rem;">Direct Job Referrals</h4>
+                        <p class="home-card-text text-muted small mb-3" style="line-height: 1.6;">
+                            Access exclusive job postings, internal referrals, and internships posted directly by alumni hiring teams.
+                        </p>
+                        <div class="py-2 border-top border-light-subtle">
+                            <span class="d-block text-muted small mb-1"><i class="fas fa-check-circle text-success me-2"></i> Pre-Screened Referrals</span>
+                            <span class="d-block text-muted small"><i class="fas fa-check-circle text-success me-2"></i> Fast-Track HR Applications</span>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-top border-light-subtle">
+                        <a href="{{ url_for('list_jobs') }}" class="btn btn-sm btn-outline-success rounded-pill px-3 py-2 w-100 fw-bold">
+                            Browse Open Jobs <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Learning & Mentorship -->
+            <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.2s;">
+                <div class="home-vip-card accent-amber p-4">
+                    <div class="home-accent-bar"></div>
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="home-icon-box"><i class="fas fa-chalkboard-teacher"></i></div>
+                            <span class="badge rounded-pill bg-light text-warning border px-3 py-1 small fw-bold">🎓 Mentorship</span>
+                        </div>
+                        <h4 class="home-card-title mb-2" style="font-size: 1.25rem;">1-on-1 Mentorship</h4>
+                        <p class="home-card-text text-muted small mb-3" style="line-height: 1.6;">
+                            Learn from personalized 1-on-1 resume critiques, mock technical interviews, and real-world domain masterclasses.
+                        </p>
+                        <div class="py-2 border-top border-light-subtle">
+                            <span class="d-block text-muted small mb-1"><i class="fas fa-check-circle text-warning me-2"></i> Mock Coding &amp; HR Rounds</span>
+                            <span class="d-block text-muted small"><i class="fas fa-check-circle text-warning me-2"></i> Career Roadmap Guidance</span>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-top border-light-subtle">
+                        <a href="{{ url_for('services') }}" class="btn btn-sm btn-outline-warning text-dark rounded-pill px-3 py-2 w-100 fw-bold">
+                            View Offerings <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Global Events & Meetups -->
+            <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.3s;">
+                <div class="home-vip-card accent-purple p-4">
+                    <div class="home-accent-bar"></div>
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="home-icon-box"><i class="fas fa-globe-americas"></i></div>
+                            <span class="badge rounded-pill bg-light text-purple border px-3 py-1 small fw-bold" style="color: #7c3aed;">🌐 Global</span>
+                        </div>
+                        <h4 class="home-card-title mb-2" style="font-size: 1.25rem;">Events &amp; Reunions</h4>
+                        <p class="home-card-text text-muted small mb-3" style="line-height: 1.6;">
+                            Participate in tech webinars, campus cultural extravaganzas, and city chapter meetups across India and abroad.
+                        </p>
+                        <div class="py-2 border-top border-light-subtle">
+                            <span class="d-block text-muted small mb-1"><i class="fas fa-check-circle text-purple me-2" style="color: #7c3aed;"></i> Annual Mega Reunions</span>
+                            <span class="d-block text-muted small"><i class="fas fa-check-circle text-purple me-2" style="color: #7c3aed;"></i> Tech Summits &amp; Webinars</span>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-top border-light-subtle">
+                        <a href="{{ url_for('events') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-2 w-100 fw-bold">
+                            Upcoming Events <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================
+             INTERACTIVE 4-STEP ECOSYSTEM LIFECYCLE ROADMAP
+             ======================================================== -->
+        <div class="my-5 py-4">
+            <div class="text-center mb-5 reveal-fade">
+                <div class="community-stats-kicker justify-content-center mb-2"><span></span> THE LIFECYCLE</div>
+                <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
+                    How It Accelerates <span style="color: #0284c7;">Your Career</span>
+                </h2>
+                <p class="mx-auto text-muted" style="max-width: 650px; font-size: 1rem; line-height: 1.6;">
+                    From enrollment to senior corporate leadership, Alumni Hub powers every step of your journey.
+                </p>
+            </div>
+
+            <div class="home-roadmap-track">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-3 col-md-6 roadmap-step-item reveal-fade">
+                        <div class="roadmap-step-badge">01</div>
+                        <div>
+                            <h4 class="fw-bold mb-2" style="font-size: 1.15rem; color: #172a42;">Verify &amp; Connect</h4>
+                            <p class="text-muted small mb-0" style="line-height: 1.6;">
+                                Create your profile using verified university credentials and get instant access to the global network.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 roadmap-step-item reveal-fade" style="animation-delay: 0.1s;">
+                        <div class="roadmap-step-badge" style="border-color: #10b981; color: #10b981; box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.15);">02</div>
+                        <div>
+                            <h4 class="fw-bold mb-2" style="font-size: 1.15rem; color: #172a42;">Smart Mentorship</h4>
+                            <p class="text-muted small mb-0" style="line-height: 1.6;">
+                                Filter alumni by company and specialization to schedule 1:1 mentorship and mock technical interviews.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 roadmap-step-item reveal-fade" style="animation-delay: 0.2s;">
+                        <div class="roadmap-step-badge" style="border-color: #f59e0b; color: #f59e0b; box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.15);">03</div>
+                        <div>
+                            <h4 class="fw-bold mb-2" style="font-size: 1.15rem; color: #172a42;">Career Referrals</h4>
+                            <p class="text-muted small mb-0" style="line-height: 1.6;">
+                                Apply to exclusive internal referrals and corporate opportunities shared directly by alumni hiring teams.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 roadmap-step-item reveal-fade" style="animation-delay: 0.3s;">
+                        <div class="roadmap-step-badge" style="border-color: #8b5cf6; color: #8b5cf6; box-shadow: 0 0 0 6px rgba(139, 92, 246, 0.15);">04</div>
+                        <div>
+                            <h4 class="fw-bold mb-2" style="font-size: 1.15rem; color: #172a42;">Give Back &amp; Lead</h4>
+                            <p class="text-muted small mb-0" style="line-height: 1.6;">
+                                Return as an experienced mentor, post jobs, and participate in regional chapter meetups.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================
+             COMMUNITY NUMBERS / IMPACT GRID
+             ======================================================== -->
+        <div class="my-5 py-4">
+            <div class="text-center mb-5 reveal-fade">
+                <div class="community-stats-kicker justify-content-center mb-2"><span></span> COMMUNITY SCALE</div>
+                <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
+                    Our Global Network, <span style="color: #0284c7;">in Numbers</span>
+                </h2>
+                <p class="mx-auto text-muted" style="max-width: 650px; font-size: 1rem; line-height: 1.6;">
+                    Real-time metrics tracking the momentum and impact of our alumni ecosystem.
+                </p>
+            </div>
+
+            <div class="row g-4">
                 <div class="col-lg-3 col-md-6 reveal-fade">
-                    <div class="home-card accent-blue h-100">
-                        <div class="home-card-icon"><i class="fas fa-handshake"></i></div>
-                        <h4 class="home-card-title">Professional Network</h4>
-                        <p class="home-card-text">Connect with verified alumni across various industries and build meaningful relationships.</p>
+                    <div class="community-metric-card p-4 text-center">
+                        <div class="community-metric-icon mx-auto"><i class="fas fa-user-group"></i></div>
+                        <div class="community-metric-value" data-target="15000" data-suffix="+">15,000+</div>
+                        <p class="mb-0 fw-bold text-dark mt-2">Active Alumni</p>
+                        <small class="text-muted">Across 20+ graduating batches</small>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.1s;">
-                    <div class="home-card accent-green h-100">
-                        <div class="home-card-icon"><i class="fas fa-briefcase"></i></div>
-                        <h4 class="home-card-title">Career Growth</h4>
-                        <p class="home-card-text">Access exclusive job postings, internships, and career advancement opportunities.</p>
+                    <div class="community-metric-card p-4 text-center">
+                        <div class="community-metric-icon mx-auto" style="color: #10b981; background: #ecfdf5;"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="community-metric-value" data-target="850" data-suffix="+">850+</div>
+                        <p class="mb-0 fw-bold text-dark mt-2">Current Students</p>
+                        <small class="text-muted">Actively mentored each month</small>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.2s;">
-                    <div class="home-card accent-amber h-100">
-                        <div class="home-card-icon"><i class="fas fa-book-open"></i></div>
-                        <h4 class="home-card-title">Learning Hub</h4>
-                        <p class="home-card-text">Learn from webinars, interactive workshops, and mentorship programs led by leaders.</p>
+                    <div class="community-metric-card p-4 text-center">
+                        <div class="community-metric-icon mx-auto" style="color: #f59e0b; background: #fffbeb;"><i class="fas fa-globe"></i></div>
+                        <div class="community-metric-value" data-target="50" data-suffix="+">50+</div>
+                        <p class="mb-0 fw-bold text-dark mt-2">Global Chapters</p>
+                        <small class="text-muted">Reaching 25+ countries</small>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.3s;">
-                    <div class="home-card accent-purple h-100">
-                        <div class="home-card-icon"><i class="fas fa-trophy"></i></div>
-                        <h4 class="home-card-title">Global Success</h4>
-                        <p class="home-card-text">Get inspired by real stories of members who have achieved remarkable success worldwide.</p>
+                    <div class="community-metric-card p-4 text-center">
+                        <div class="community-metric-icon mx-auto" style="color: #8b5cf6; background: #f5f3ff;"><i class="fas fa-briefcase"></i></div>
+                        <div class="community-metric-value" data-target="500" data-suffix="+">500+</div>
+                        <p class="mb-0 fw-bold text-dark mt-2">Job Referrals</p>
+                        <small class="text-muted">Direct alumni placements</small>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Alumni Guide Section -->
-    <section class="guide-section-premium py-5" id="alumni-guide">
-        <div class="container py-4">
-            <div class="row align-items-center g-4 g-lg-5">
-                <div class="col-lg-7 reveal-fade">
-                    <div class="community-stats-kicker mb-2"><span></span> FOR ALUMNI</div>
-                    <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">Empower the Next Generation</h2>
-                    <p class="mb-4" style="color: #64748b; font-size: 1rem; line-height: 1.6;">Share your expertise, mentor students, and help build a legacy of success within our community.</p>
-
-                    <div class="guide-steps row g-3 g-md-4">
-                        <div class="col-sm-6 reveal-fade">
-                            <div class="home-card accent-blue h-100">
-                                <div class="guide-step-header">
-                                    <div class="home-card-icon"><i class="fas fa-id-card"></i></div>
-                                    <span class="step-badge">01</span>
-                                </div>
-                                <h5 class="home-card-title">Dynamic Profile</h5>
-                                <p class="home-card-text">Showcase your career journey, milestones, and skills to the entire network.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.1s;">
-                            <div class="home-card accent-green h-100">
-                                <div class="guide-step-header">
-                                    <div class="home-card-icon"><i class="fas fa-share-nodes"></i></div>
-                                    <span class="step-badge">02</span>
-                                </div>
-                                <h5 class="home-card-title">Share Opportunities</h5>
-                                <p class="home-card-text">Post job referrals, internships, and guide students toward the right industry path.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.2s;">
-                            <div class="home-card accent-amber h-100">
-                                <div class="guide-step-header">
-                                    <div class="home-card-icon"><i class="fas fa-comments"></i></div>
-                                    <span class="step-badge">03</span>
-                                </div>
-                                <h5 class="home-card-title">Mentor Hub</h5>
-                                <p class="home-card-text">Provide direct 1-on-1 insights to students seeking professional guidance.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.3s;">
-                            <div class="home-card accent-purple h-100">
-                                <div class="guide-step-header">
-                                    <div class="home-card-icon"><i class="fas fa-globe"></i></div>
-                                    <span class="step-badge">04</span>
-                                </div>
-                                <h5 class="home-card-title">Global Impact</h5>
-                                <p class="home-card-text">Collaborate with fellow alumni worldwide for professional and community growth.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {% if not session.get('user_id') %}
-                    <div class="mt-4 reveal-fade">
-                        <a href="/register" class="btn btn-premium btn-premium-primary">
-                            <i class="fas fa-user-plus me-1"></i> Join as Alumni
-                        </a>
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="col-lg-5 reveal-fade text-center">
-                    <div class="highlight-showcase-card accent-blue mx-auto" style="max-width: 380px;">
-                        <div class="showcase-icon-wrapper">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <h3 class="home-card-title mb-2">Industry Leaders</h3>
-                        <p class="home-card-text mb-4">Dedicated alumni driving impactful mentorship and fostering excellence.</p>
-                        <div class="showcase-pill-stat">
-                            <i class="fas fa-certificate text-primary me-2"></i> Verified Alumni Community
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Student Guide Section -->
-    <section class="guide-section-premium py-5" style="background: #ffffff; border-top: 1px solid #eef2f6; border-bottom: 1px solid #eef2f6;">
-        <div class="container py-4">
-            <div class="row align-items-center g-4 g-lg-5 flex-lg-row-reverse">
-                <div class="col-lg-7 reveal-fade">
-                    <div class="community-stats-kicker mb-2"><span></span> FOR STUDENTS</div>
-                    <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">Design Your Future Path</h2>
-                    <p class="mb-4" style="color: #64748b; font-size: 1rem; line-height: 1.6;">Connect with industry veterans, find mentors, and unlock exclusive career opportunities shared by alumni.</p>
-
-                    <div class="guide-steps row g-3 g-md-4">
-                        <div class="col-sm-6 reveal-fade">
-                            <div class="home-card accent-green h-100">
-                                <div class="guide-step-header">
-                                    <div class="home-card-icon"><i class="fas fa-compass"></i></div>
-                                    <span class="step-badge">01</span>
-                                </div>
-                                <h5 class="home-card-title">Career Guidance</h5>
-                                <p class="home-card-text">Learn from real-world career stories and prepare for top industry roles.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.1s;">
-                            <div class="home-card accent-blue h-100">
-                                <div class="guide-step-header">
-                                    <div class="home-card-icon"><i class="fas fa-user-graduate"></i></div>
-                                    <span class="step-badge">02</span>
-                                </div>
-                                <h5 class="home-card-title">Direct Mentorship</h5>
-                                <p class="home-card-text">Connect with mentors who can accelerate your career preparation and goals.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.2s;">
-                            <div class="home-card accent-amber h-100">
-                                <div class="guide-step-header">
-                                    <div class="home-card-icon"><i class="fas fa-briefcase"></i></div>
-                                    <span class="step-badge">03</span>
-                                </div>
-                                <h5 class="home-card-title">Exclusive Jobs</h5>
-                                <p class="home-card-text">Apply for high-tier internships and job openings shared directly by alumni.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 reveal-fade" style="animation-delay: 0.3s;">
-                            <div class="home-card accent-purple h-100">
-                                <div class="guide-step-header">
-                                    <div class="home-card-icon"><i class="fas fa-laptop-code"></i></div>
-                                    <span class="step-badge">04</span>
-                                </div>
-                                <h5 class="home-card-title">Skill Mastery</h5>
-                                <p class="home-card-text">Participate in webinars, code reviews, and industry workshops.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {% if not session.get('user_id') %}
-                    <div class="mt-4 reveal-fade">
-                        <a href="/register" class="btn btn-premium btn-premium-primary">
-                            <i class="fas fa-arrow-right me-1"></i> Start Your Journey
-                        </a>
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="col-lg-5 reveal-fade text-center">
-                    <div class="highlight-showcase-card accent-green mx-auto" style="max-width: 380px;">
-                        <div class="showcase-icon-wrapper">
-                            <i class="fas fa-user-graduate"></i>
-                        </div>
-                        <h3 class="home-card-title mb-2">Future Leaders</h3>
-                        <p class="home-card-text mb-4">Bridging ambition with guidance through real-time alumni networking.</p>
-                        <div class="showcase-pill-stat">
-                            <i class="fas fa-rocket text-success me-2"></i> Accelerate Your Future
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Community snapshot -->
-    <section class="stats-section community-stats-section" aria-labelledby="communityStatsTitle">
-        <div class="container community-stats-container">
-            <div class="community-stats-heading reveal-fade">
-                <div>
-                    <div class="community-stats-kicker"><span></span> THE ALUMNI HUB NETWORK</div>
-                    <h2 id="communityStatsTitle">Our community,<br><em>in numbers.</em></h2>
-                </div>
-                <p>A shared network for reconnecting, learning and finding the next opportunity.</p>
-            </div>
-
-            <div class="community-metrics-grid">
-                <article class="community-metric-card" aria-label="480 plus active alumni">
-                    <div class="community-metric-icon"><i class="fas fa-user-group" aria-hidden="true"></i></div>
-                    <div class="community-metric-value" data-target="480" data-suffix="+">480+</div>
-                    <p>Active alumni</p>
-                </article>
-                <article class="community-metric-card" aria-label="850 plus current students">
-                    <div class="community-metric-icon"><i class="fas fa-graduation-cap" aria-hidden="true"></i></div>
-                    <div class="community-metric-value" data-target="850" data-suffix="+">850+</div>
-                    <p>Current students</p>
-                </article>
-                <article class="community-metric-card" aria-label="25 plus countries reached">
-                    <div class="community-metric-icon"><i class="fas fa-globe" aria-hidden="true"></i></div>
-                    <div class="community-metric-value" data-target="25" data-suffix="+">25+</div>
-                    <p>Countries reached</p>
-                </article>
-                <article class="community-metric-card" aria-label="160 plus job opportunities">
-                    <div class="community-metric-icon"><i class="fas fa-briefcase" aria-hidden="true"></i></div>
-                    <div class="community-metric-value" data-target="160" data-suffix="+">160+</div>
-                    <p>Job opportunities</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section-wrapper py-5">
-        <div class="container py-2">
-            <div class="home-card cta-card-box text-center reveal-fade mx-auto" style="max-width: 900px;">
-                <div class="community-stats-kicker justify-content-center mb-2"><span></span> JOIN THE NETWORK</div>
-                <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">Ready to Join Our Community?</h2>
-                <p class="mx-auto mb-4" style="color: #64748b; max-width: 650px; font-size: 1.05rem; line-height: 1.6;">
-                    Start your journey with Alumni Hub today and unlock exceptional professional opportunities with our global network.
+        <!-- ========================================================
+             ALUMNI VOICES & SUCCESS SPOTLIGHTS
+             ======================================================== -->
+        <div class="my-5 py-4">
+            <div class="text-center mb-5 reveal-fade">
+                <div class="community-stats-kicker justify-content-center mb-2"><span></span> SUCCESS STORIES</div>
+                <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
+                    Voices of <span style="color: #0284c7;">Excellence</span>
+                </h2>
+                <p class="mx-auto text-muted" style="max-width: 650px; font-size: 1rem; line-height: 1.6;">
+                    Hear how our graduates leveraged the Alumni Hub network to achieve breakthrough milestones.
                 </p>
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    {% if session.get('user_id') %}
-                    <a href="/student/dashboard" class="btn btn-premium btn-premium-primary">
-                        <i class="fas fa-gauge me-1"></i> Go to Dashboard
-                    </a>
-                    {% else %}
-                    <a href="/register" class="btn btn-premium btn-premium-primary">
-                        <i class="fas fa-user-plus me-1"></i> Get Started Now
-                    </a>
-                    <a href="/login" class="btn btn-premium btn-premium-outline">
-                        <i class="fas fa-right-to-bracket me-1"></i> Already a Member?
-                    </a>
-                    {% endif %}
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 reveal-fade">
+                    <div class="alumni-spotlight-card">
+                        <div>
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <img src="https://ui-avatars.com/api/?name=Priya+Sharma&background=0284c7&color=fff&size=54" class="rounded-circle shadow-sm" alt="Priya">
+                                <div>
+                                    <h5 class="mb-0 fw-bold text-dark" style="font-size: 1.05rem;">Priya Sharma</h5>
+                                    <small class="text-muted">Software Engineer @ Microsoft (MCA '21)</small>
+                                </div>
+                            </div>
+                            <p class="text-muted small" style="line-height: 1.65;">
+                                "The 1-on-1 mock interviews with senior alumni gave me the exact confidence and technical depth needed to crack my Microsoft coding rounds."
+                            </p>
+                        </div>
+                        <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                            <span class="badge bg-light text-primary border rounded-pill px-3 py-1 small">⭐ 1:1 Mentee</span>
+                            <span class="text-muted small"><i class="fas fa-map-marker-alt me-1"></i> Bengaluru</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 reveal-fade" style="animation-delay: 0.1s;">
+                    <div class="alumni-spotlight-card">
+                        <div>
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <img src="https://ui-avatars.com/api/?name=Aman+Verma&background=059669&color=fff&size=54" class="rounded-circle shadow-sm" alt="Aman">
+                                <div>
+                                    <h5 class="mb-0 fw-bold text-dark" style="font-size: 1.05rem;">Aman Verma</h5>
+                                    <small class="text-muted">Cloud Architect @ Amazon (BCA '19)</small>
+                                </div>
+                            </div>
+                            <p class="text-muted small" style="line-height: 1.65;">
+                                "As an alumnus, posting openings on Alumni Hub allowed our team to hire three phenomenal engineers directly from our college campus without recruiting delays."
+                            </p>
+                        </div>
+                        <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                            <span class="badge bg-light text-success border rounded-pill px-3 py-1 small">💼 Active Recruiter</span>
+                            <span class="text-muted small"><i class="fas fa-map-marker-alt me-1"></i> Hyderabad</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 reveal-fade" style="animation-delay: 0.2s;">
+                    <div class="alumni-spotlight-card">
+                        <div>
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <img src="https://ui-avatars.com/api/?name=Rhea+Gupta&background=7c3aed&color=fff&size=54" class="rounded-circle shadow-sm" alt="Rhea">
+                                <div>
+                                    <h5 class="mb-0 fw-bold text-dark" style="font-size: 1.05rem;">Rhea Gupta</h5>
+                                    <small class="text-muted">Founder @ EduTech Labs (MCA '18)</small>
+                                </div>
+                            </div>
+                            <p class="text-muted small" style="line-height: 1.65;">
+                                "Through the Alumni Hub Executive Council, we connected with early angel backers from our network and hired our founding team."
+                            </p>
+                        </div>
+                        <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                            <span class="badge bg-light text-purple border rounded-pill px-3 py-1 small" style="color: #7c3aed;">🚀 Founder &amp; Mentor</span>
+                            <span class="text-muted small"><i class="fas fa-map-marker-alt me-1"></i> Delhi NCR</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-</div> <!-- End .home-wrapper -->
 
+        <!-- ========================================================
+             FINAL HIGH-CONVERTING CTA BANNER (High-Contrast Buttons)
+             ======================================================== -->
+        <div class="row justify-content-center my-5">
+            <div class="col-lg-10 text-center reveal-fade">
+                <div class="service-cta-card p-4 p-md-5 text-center position-relative overflow-hidden">
+                    <div class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-1 mb-3 fw-bold small">
+                        <i class="fas fa-rocket me-1"></i> START YOUR JOURNEY
+                    </div>
+                    <h2 class="display-6 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
+                        Ready to Join Our Thriving Community?
+                    </h2>
+                    <p class="mx-auto mb-4 text-muted" style="max-width: 620px; font-size: 1.05rem; line-height: 1.6;">
+                        Join 15,000+ members who are building the future of our prestigious university alumni network.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        {% if not session.get('user_id') %}
+                        <a href="{{ url_for('register') }}" class="btn btn-cta-primary px-4 py-3">
+                            <i class="fas fa-user-plus me-1"></i> Get Started Free
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-cta-dark px-4 py-3">
+                            <i class="fas fa-sign-in-alt me-1 text-info"></i> Member Login
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('dashboard_student') }}" class="btn btn-cta-primary px-4 py-3">
+                            <i class="fas fa-gauge me-1"></i> Go to Dashboard
+                        </a>
+                        <a href="{{ url_for('network') }}" class="btn btn-cta-dark px-4 py-3">
+                            <i class="fas fa-users me-1 text-info"></i> Browse Alumni
+                        </a>
+                        {% endif %}
+                        <a href="{{ url_for('contact') }}" class="btn btn-cta-outline px-4 py-3">
+                            <i class="fas fa-headset me-1 text-primary"></i> Talk to Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <script>
-    // ===== ADVANCED HOME PAGE INTERACTIONS =====
     document.addEventListener('DOMContentLoaded', function () {
-        // ===== PARALLAX EFFECT ON GUIDE SECTION =====
-        const guideContainer = document.querySelectorAll('.guide-container');
-        window.addEventListener('scroll', () => {
-            guideContainer.forEach(container => {
-                const scrollPosition = window.pageYOffset;
-                const elementOffset = container.getBoundingClientRect().top + scrollPosition;
-                const distance = scrollPosition - elementOffset;
-
-                if (Math.abs(distance) < 500) {
-                    container.style.transform = `translateY(${distance * 0.1}px)`;
-                }
-            });
-        });
-
-        // Animate each metric once when it first enters view (Safe & NaN-proof)
+        // Safe animated metric counter logic
         const statCards = document.querySelectorAll('.community-metric-card');
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (!entry.isIntersecting || entry.target.classList.contains('counted')) return;
@@ -361,7 +710,7 @@
                     }
                     
                     let current = 0;
-                    const steps = 40;
+                    const steps = 30;
                     const increment = Math.max(1, target / steps);
                     const formatter = new Intl.NumberFormat('en-US');
                     
@@ -378,120 +727,29 @@
                 observer.unobserve(entry.target);
             });
         }, { threshold: 0.25 });
+        
         statCards.forEach(card => observer.observe(card));
 
-        // ===== CTA BUTTON ENHANCED INTERACTION =====
-        const ctaButtons = document.querySelectorAll('.cta-section .btn');
-        ctaButtons.forEach(btn => {
-            btn.addEventListener('mouseenter', function () {
-                this.style.animation = 'scaleUp 0.3s ease-out';
-                this.style.transform = 'scale(1.12) translateY(-5px)';
-                this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(14, 165, 233, 0.6)';
-            });
-
-            btn.addEventListener('mouseleave', function () {
-                this.style.transform = 'scale(1) translateY(0)';
-                this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.2)';
-            });
-
-            btn.addEventListener('click', function (e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.style.position = 'absolute';
-                ripple.style.backgroundColor = 'rgba(255,255,255,0.6)';
-                ripple.style.borderRadius = '50%';
-                ripple.style.pointerEvents = 'none';
-                ripple.style.animation = 'rippleEffect 0.6s ease-out';
-
-                this.style.position = 'relative';
-                this.style.overflow = 'hidden';
-                this.appendChild(ripple);
-
-                setTimeout(() => ripple.remove(), 600);
-            });
-        });
-
-        // ===== FEATURE CARD HOVER PARALLAX =====
-        const featureCards = document.querySelectorAll('.feature-card');
-        featureCards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-            });
-        });
-
-        // ===== MARQUEE PAUSE ON HOVER =====
-        const marquee = document.querySelector('.marquee');
-        if (marquee) {
-            marquee.addEventListener('mouseenter', () => {
-                marquee.style.animationPlayState = 'paused';
-            });
-            marquee.addEventListener('mouseleave', () => {
-                marquee.style.animationPlayState = 'running';
-            });
-        }
-
-        // ===== MAGNETIC BUTTONS & GLOW =====
+        // Magnetic button micro-interactions
         const magneticButtons = document.querySelectorAll('.magnetic-button');
         magneticButtons.forEach(btn => {
             const btnGlow = btn.querySelector('.btn-glow');
-
             btn.addEventListener('mousemove', (e) => {
                 const { left, top, width, height } = btn.getBoundingClientRect();
                 const x = e.clientX - left;
                 const y = e.clientY - top;
-
                 if (btnGlow) {
                     btnGlow.style.left = `${x}px`;
                     btnGlow.style.top = `${y}px`;
                 }
-
-                const moveX = (x - width / 2) * 0.35;
-                const moveY = (y - height / 2) * 0.35;
+                const moveX = (x - width / 2) * 0.3;
+                const moveY = (y - height / 2) * 0.3;
                 btn.style.transform = `translate(${moveX}px, ${moveY}px)`;
             });
-
             btn.addEventListener('mouseleave', () => {
                 btn.style.transform = `translate(0, 0)`;
             });
         });
-
-        // ===== SCROLL REVEAL ANIMATION (Staggered) =====
-        const revealElements = document.querySelectorAll('.feature-card, .guide-point, .stat-card, .reveal-fade, .reveal-text');
-        const revealObserver = new IntersectionObserver(function (entries) {
-            entries.forEach((entry, idx) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('revealed');
-                    }, idx * 100);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        revealElements.forEach(element => revealObserver.observe(element));
-
-        
     });
-
 </script>
 {% endblock %}

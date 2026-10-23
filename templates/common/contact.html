@@ -3,11 +3,310 @@
 {% block title %}Contact Us - Alumni Hub{% endblock %}
 
 {% block content %}
-<!-- Premium Fonts -->
+<!-- Premium Fonts & CSS -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}">
 
-<div class="home-wrapper">
+<style>
+    /* ========================================================
+       CONTACT PAGE - MODERN DESIGN SYSTEM & VIP CARDS
+       ======================================================== */
+    :root {
+        --contact-blue: #0284c7;
+        --contact-green: #10b981;
+        --contact-amber: #f59e0b;
+        --contact-purple: #8b5cf6;
+    }
+
+    .contact-wrapper {
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* VIP Contact Cards */
+    .contact-vip-card {
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.16);
+        border-radius: 24px;
+        padding: 26px 22px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        box-shadow: 0 12px 32px -10px rgba(15, 23, 42, 0.06);
+    }
+    .contact-vip-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 48px -10px rgba(2, 132, 199, 0.2);
+        border-color: rgba(2, 132, 199, 0.4);
+    }
+
+    /* Color Variants */
+    .contact-vip-card.accent-green { border-color: rgba(16, 185, 129, 0.2); }
+    .contact-vip-card.accent-green:hover {
+        box-shadow: 0 24px 48px -10px rgba(16, 185, 129, 0.2);
+        border-color: rgba(16, 185, 129, 0.45);
+    }
+
+    .contact-vip-card.accent-amber { border-color: rgba(245, 158, 11, 0.2); }
+    .contact-vip-card.accent-amber:hover {
+        box-shadow: 0 24px 48px -10px rgba(245, 158, 11, 0.2);
+        border-color: rgba(245, 158, 11, 0.45);
+    }
+
+    .contact-vip-card.accent-purple { border-color: rgba(139, 92, 246, 0.2); }
+    .contact-vip-card.accent-purple:hover {
+        box-shadow: 0 24px 48px -10px rgba(139, 92, 246, 0.2);
+        border-color: rgba(139, 92, 246, 0.45);
+    }
+
+    /* Neon Top Bar */
+    .contact-accent-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #0284c7, #38bdf8);
+        transition: height 0.3s ease;
+    }
+    .contact-vip-card:hover .contact-accent-bar { height: 6px; }
+    .contact-vip-card.accent-green .contact-accent-bar { background: linear-gradient(90deg, #059669, #34d399); }
+    .contact-vip-card.accent-amber .contact-accent-bar { background: linear-gradient(90deg, #d97706, #fbbf24); }
+    .contact-vip-card.accent-purple .contact-accent-bar { background: linear-gradient(90deg, #7c3aed, #c084fc); }
+
+    /* Rotating Icon Box */
+    .contact-icon-box {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        font-size: 1.35rem;
+        background: #f0f9ff;
+        color: #0284c7;
+        margin-bottom: 16px;
+        transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), background-color 0.3s ease, color 0.3s ease;
+    }
+    .contact-vip-card:hover .contact-icon-box {
+        transform: rotate(8deg) scale(1.1);
+        background: #0284c7;
+        color: #ffffff;
+    }
+    .contact-vip-card.accent-green .contact-icon-box { background: #ecfdf5; color: #059669; }
+    .contact-vip-card.accent-green:hover .contact-icon-box { background: #059669; color: #ffffff; }
+
+    .contact-vip-card.accent-amber .contact-icon-box { background: #fffbeb; color: #d97706; }
+    .contact-vip-card.accent-amber:hover .contact-icon-box { background: #d97706; color: #ffffff; }
+
+    .contact-vip-card.accent-purple .contact-icon-box { background: #f5f3ff; color: #7c3aed; }
+    .contact-vip-card.accent-purple:hover .contact-icon-box { background: #7c3aed; color: #ffffff; }
+
+    /* Interactive Topic Selector Pills */
+    .topic-pill {
+        border: 1.5px solid #e2e8f0;
+        background: #f8fafc;
+        color: #334155;
+        border-radius: 50px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+        user-select: none;
+    }
+    .topic-pill:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+        color: #0284c7;
+        transform: translateY(-2px);
+    }
+    .topic-pill.active {
+        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%) !important;
+        color: #ffffff !important;
+        border-color: transparent !important;
+        box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35) !important;
+    }
+
+    /* Input Groups */
+    .contact-input-group {
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1.5px solid #e2e8f0;
+        background: #ffffff;
+        transition: all 0.25s ease;
+    }
+    .contact-input-group:focus-within {
+        border-color: #0284c7;
+        box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+    }
+    .contact-input-group .form-control,
+    .contact-input-group .form-select {
+        border: none;
+        padding: 0.75rem 1rem;
+        font-size: 0.94rem;
+        background: transparent;
+        font-weight: 500;
+        color: #0f172a;
+    }
+    .contact-input-group .form-control:focus,
+    .contact-input-group .form-select:focus {
+        box-shadow: none;
+        background: transparent;
+    }
+    .contact-input-group .input-group-text {
+        border: none;
+        background: #f8fafc;
+        color: #0284c7;
+        font-size: 0.95rem;
+        padding-left: 1.1rem;
+        padding-right: 0.75rem;
+    }
+
+    #contactMessageInput {
+        border-radius: 14px;
+        border: 1.5px solid #e2e8f0;
+        padding: 0.85rem 1rem;
+        font-size: 0.95rem;
+        transition: all 0.25s ease;
+        background: #ffffff;
+        font-weight: 500;
+        color: #0f172a;
+    }
+    #contactMessageInput:focus {
+        border-color: #0284c7;
+        box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+        outline: none;
+    }
+
+    /* Department Mini Cards */
+    .dept-card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 14px 16px;
+        transition: all 0.25s ease;
+    }
+    .dept-card:hover {
+        background: #ffffff;
+        border-color: rgba(2, 132, 199, 0.4);
+        box-shadow: 0 8px 20px -4px rgba(2, 132, 199, 0.12);
+        transform: translateY(-2px);
+    }
+
+    /* High Contrast CTA Buttons */
+    .btn-cta-primary {
+        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        box-shadow: 0 10px 24px rgba(2, 132, 199, 0.35) !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    .btn-cta-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(2, 132, 199, 0.45) !important;
+        color: #ffffff !important;
+    }
+
+    .btn-cta-dark {
+        background: #0f172a !important;
+        color: #ffffff !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2) !important;
+    }
+    .btn-cta-dark:hover {
+        background: #1e293b !important;
+        color: #38bdf8 !important;
+        border-color: #38bdf8 !important;
+        transform: translateY(-2px);
+    }
+
+    .btn-cta-outline {
+        background: transparent !important;
+        color: #0f172a !important;
+        border: 2px solid #cbd5e1 !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    .btn-cta-outline:hover {
+        background: #f1f5f9 !important;
+        border-color: #0284c7 !important;
+        color: #0284c7 !important;
+        transform: translateY(-2px);
+    }
+
+    /* Bottom CTA Card */
+    .service-cta-card {
+        background: radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.08) 0%, rgba(248, 250, 252, 0.95) 75%), #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.22);
+        border-radius: 32px;
+        box-shadow: 0 25px 60px -15px rgba(2, 132, 199, 0.18);
+    }
+
+    /* FAQ Modernized */
+    .accordion-button:not(.collapsed) {
+        background-color: #f0f9ff !important;
+        color: #0284c7 !important;
+        box-shadow: none !important;
+    }
+    .accordion-button:focus {
+        box-shadow: none !important;
+        border-color: rgba(2, 132, 199, 0.3) !important;
+    }
+
+    @media (max-width: 768px) {
+        .contact-vip-card {
+            padding: 20px 18px;
+            border-radius: 20px;
+        }
+        .hero-title {
+            font-size: 2.25rem !important;
+        }
+        .topic-pill {
+            font-size: 0.8rem;
+            padding: 6px 12px;
+        }
+    }
+    @media (max-width: 480px) {
+        .contact-input-group .form-control,
+        .contact-input-group .form-select {
+            font-size: 0.88rem;
+            padding: 0.65rem 0.75rem;
+        }
+        .btn-cta-primary, .btn-cta-dark, .btn-cta-outline {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="contact-wrapper home-wrapper">
     <!-- Animated Mesh Background -->
     <div class="mesh-background">
         <div class="mesh-ball ball-1"></div>
@@ -16,35 +315,35 @@
         <div class="mesh-ball ball-4"></div>
     </div>
 
-    <!-- Hero Section (Matching Home Page) -->
+    <!-- Hero Section -->
     <section class="hero-premium glass-hero position-relative overflow-hidden">
         <canvas class="network-canvas"></canvas>
         <div class="hero-particles"></div>
         <div class="container" style="position: relative; z-index: 2;">
             <div class="hero-content text-center mx-auto">
                 <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade hero-network-badge">
-                    <i class="fas fa-headset me-2"></i> WE'RE HERE TO HELP
+                    <i class="fas fa-headset me-2"></i> WE'RE HERE TO HELP • 24/7 SUPPORT DESK
                 </div>
                 <h1 class="hero-title fw-bold mb-3 reveal-text text-white">
                     Get in <span class="text-holographic">Touch</span>
                 </h1>
                 <p class="hero-subtitle text-white-50 lead mb-4 reveal-fade mx-auto">
-                    Have questions, partnership inquiries, or need support? Our team is dedicated to supporting every student, alumni, and faculty member.
+                    Have questions about alumni registration, mentorship connections, job postings, or campus reunions? Our team is dedicated to supporting students, alumni, and faculty.
                 </p>
                 <div class="hero-cta-buttons d-flex justify-content-center gap-3 flex-wrap reveal-fade">
                     <a href="#contact-form-section" class="btn btn-premium btn-premium-primary magnetic-button">
-                        Send Message <i class="fas fa-arrow-down ms-1"></i>
+                        <i class="fas fa-paper-plane me-1"></i> Send Instant Message
                         <div class="btn-glow"></div>
                     </a>
                     <a href="#quick-info" class="btn btn-premium btn-premium-secondary magnetic-button">
-                        <i class="fas fa-map-marker-alt me-1"></i> Campus Location
+                        <i class="fas fa-map-marker-alt me-1"></i> Campus & Directory
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Marquee Banner (Matching Home Page) -->
+    <!-- Marquee Banner -->
     <section class="marquee-section">
         <div class="marquee-container">
             <div class="marquee">
@@ -52,6 +351,8 @@
                 <span>⏱️ Response within 24 Hours</span>
                 <span>✉️ alumni@jimsindia.org</span>
                 <span>📞 +91 11 45184000</span>
+                <span>🎓 15,000+ Alumni Network</span>
+                <span>💼 Placement & Mentorship Desk</span>
                 <span>📍 JIMS Rohini Sector-5 Campus</span>
                 <span>⏱️ Response within 24 Hours</span>
             </div>
@@ -59,53 +360,84 @@
     </section>
 
     <div class="container py-5" id="quick-info">
-        <!-- Quick Info Cards (Standard Home Container System) -->
+        <!-- 4 VIP Quick Contact Cards -->
         <div class="row g-4 mb-5 pt-3">
-            <!-- Campus -->
+            <!-- Campus Location -->
             <div class="col-lg-3 col-md-6 reveal-fade">
-                <div class="home-card accent-blue h-100 text-center p-4">
-                    <div class="home-card-icon mx-auto"><i class="fas fa-map-marker-alt"></i></div>
-                    <h4 class="home-card-title">Our Campus</h4>
-                    <p class="home-card-text">
-                        3, Institutional Area, Sector 5, Rohini<br>Delhi, 110085
-                    </p>
-                    <span class="badge bg-light text-primary border rounded-pill mt-3 px-3 py-1">Sector 5, Rohini</span>
+                <div class="contact-vip-card">
+                    <div class="contact-accent-bar"></div>
+                    <div>
+                        <div class="contact-icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                        <h4 class="fw-bold mb-2" style="font-family: 'Outfit'; color: #0f172a; font-size: 1.25rem;">Our Campus</h4>
+                        <p class="text-muted small mb-3" style="line-height: 1.6;">
+                            3, Institutional Area, Sector 5, Rohini, Delhi, 110085 (Near Rithala Metro)
+                        </p>
+                    </div>
+                    <div>
+                        <a href="https://maps.google.com/?q=Jagan+Institute+of+Management+Studies+Rohini" target="_blank" class="badge bg-light text-primary border rounded-pill px-3 py-2 text-decoration-none d-inline-flex align-items-center gap-1">
+                            <i class="fas fa-location-arrow"></i> View on Google Maps
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Phone -->
+            <!-- Phone Helpline -->
             <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.1s;">
-                <div class="home-card accent-green h-100 text-center p-4">
-                    <div class="home-card-icon mx-auto"><i class="fas fa-phone-alt"></i></div>
-                    <h4 class="home-card-title">Call Us</h4>
-                    <p class="home-card-text">
-                        +91 11 45184000<br>+91 11 45184100
-                    </p>
-                    <span class="badge bg-light text-success border rounded-pill mt-3 px-3 py-1">Mon - Sat (9am - 5pm)</span>
+                <div class="contact-vip-card accent-green">
+                    <div class="contact-accent-bar"></div>
+                    <div>
+                        <div class="contact-icon-box"><i class="fas fa-phone-alt"></i></div>
+                        <h4 class="fw-bold mb-2" style="font-family: 'Outfit'; color: #0f172a; font-size: 1.25rem;">Helpline & Desk</h4>
+                        <p class="text-muted small mb-3" style="line-height: 1.6;">
+                            Main: +91 11 45184000<br>
+                            Alumni Desk: +91 11 45184100
+                        </p>
+                    </div>
+                    <div>
+                        <a href="tel:+911145184000" class="badge bg-light text-success border rounded-pill px-3 py-2 text-decoration-none d-inline-flex align-items-center gap-1">
+                            <i class="fas fa-phone"></i> Call Direct Now
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Email -->
+            <!-- Email Support -->
             <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.2s;">
-                <div class="home-card accent-amber h-100 text-center p-4">
-                    <div class="home-card-icon mx-auto"><i class="fas fa-envelope"></i></div>
-                    <h4 class="home-card-title">Email Us</h4>
-                    <p class="home-card-text">
-                        info@jimsindia.org<br>alumni@jimsindia.org
-                    </p>
-                    <span class="badge bg-light text-warning border rounded-pill mt-3 px-3 py-1">24hr Response Time</span>
+                <div class="contact-vip-card accent-amber">
+                    <div class="contact-accent-bar"></div>
+                    <div>
+                        <div class="contact-icon-box"><i class="fas fa-envelope-open-text"></i></div>
+                        <h4 class="fw-bold mb-2" style="font-family: 'Outfit'; color: #0f172a; font-size: 1.25rem;">Email Inquiries</h4>
+                        <p class="text-muted small mb-3" style="line-height: 1.6;">
+                            alumni@jimsindia.org<br>
+                            placements@jimsindia.org
+                        </p>
+                    </div>
+                    <div>
+                        <a href="mailto:alumni@jimsindia.org" class="badge bg-light text-warning-emphasis border rounded-pill px-3 py-2 text-decoration-none d-inline-flex align-items-center gap-1">
+                            <i class="fas fa-paper-plane"></i> Quick Email
+                        </a>
+                    </div>
                 </div>
             </div>
 
             <!-- Office Hours -->
             <div class="col-lg-3 col-md-6 reveal-fade" style="animation-delay: 0.3s;">
-                <div class="home-card accent-purple h-100 text-center p-4">
-                    <div class="home-card-icon mx-auto"><i class="fas fa-clock"></i></div>
-                    <h4 class="home-card-title">Office Hours</h4>
-                    <p class="home-card-text">
-                        Monday – Friday: 9am – 5pm<br>Saturday: 9am – 2pm
-                    </p>
-                    <span class="badge bg-light text-purple border rounded-pill mt-3 px-3 py-1" style="color: #7c3aed;">Sunday Closed</span>
+                <div class="contact-vip-card accent-purple">
+                    <div class="contact-accent-bar"></div>
+                    <div>
+                        <div class="contact-icon-box"><i class="fas fa-clock"></i></div>
+                        <h4 class="fw-bold mb-2" style="font-family: 'Outfit'; color: #0f172a; font-size: 1.25rem;">Office Hours</h4>
+                        <p class="text-muted small mb-3" style="line-height: 1.6;">
+                            Monday – Friday: 9am – 5pm<br>
+                            Saturday: 9am – 2pm (Sun Closed)
+                        </p>
+                    </div>
+                    <div>
+                        <span class="badge bg-light text-purple border rounded-pill px-3 py-2 d-inline-flex align-items-center gap-1" style="color: #7c3aed;">
+                            <i class="fas fa-check-circle"></i> Active Support
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,14 +446,39 @@
         <div class="row g-4 my-4" id="contact-form-section">
             <!-- Contact Form Card -->
             <div class="col-lg-7 reveal-fade">
-                <div class="home-card accent-blue p-4 p-md-5 h-100">
+                <div class="contact-vip-card p-4 p-md-5 h-100">
+                    <div class="contact-accent-bar"></div>
                     <div class="d-flex align-items-center gap-3 mb-4">
-                        <div class="home-card-icon" style="width: 48px; height: 48px; font-size: 1.25rem;">
+                        <div class="contact-icon-box m-0" style="width: 50px; height: 50px; font-size: 1.3rem;">
                             <i class="fas fa-paper-plane"></i>
                         </div>
                         <div>
-                            <span class="step-badge">SEND INQUIRY</span>
-                            <h3 class="home-card-title mb-0 mt-1" style="font-size: 1.5rem;">Send Us a Message</h3>
+                            <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-1 fw-bold small">SEND DIRECT INQUIRY</span>
+                            <h3 class="fw-bold mb-0 mt-1" style="font-family: 'Outfit'; color: #0f172a; font-size: 1.6rem;">Send Us a Message</h3>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Topic Selector Pills -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark small mb-2 d-flex align-items-center gap-1">
+                            <i class="fas fa-bolt text-warning"></i> Quick Inquiry Topics (Click to Auto-fill Subject):
+                        </label>
+                        <div class="d-flex flex-wrap gap-2" id="topicPillsContainer">
+                            <span class="topic-pill" data-topic="Mentorship & Guidance Request">
+                                <i class="fas fa-user-graduate"></i> Mentorship Guidance
+                            </span>
+                            <span class="topic-pill" data-topic="Alumni Directory Verification">
+                                <i class="fas fa-id-card"></i> Account Verification
+                            </span>
+                            <span class="topic-pill" data-topic="Hiring / Job Posting Opportunity">
+                                <i class="fas fa-briefcase"></i> Job Posting
+                            </span>
+                            <span class="topic-pill" data-topic="Host Workshop / Speaker Session">
+                                <i class="fas fa-chalkboard-teacher"></i> Speaker / Event
+                            </span>
+                            <span class="topic-pill" data-topic="General Portal Feedback">
+                                <i class="fas fa-comments"></i> General Feedback
+                            </span>
                         </div>
                     </div>
 
@@ -130,8 +487,8 @@
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-dark small">Your Full Name <span class="text-danger">*</span></label>
                                 <div class="input-group contact-input-group">
-                                    <span class="input-group-text bg-white border-end-0 text-primary"><i class="fas fa-user"></i></span>
-                                    <input type="text" name="name" class="form-control border-start-0" placeholder="e.g. Rahul Sharma" required
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" name="name" class="form-control" placeholder="e.g. Rahul Sharma" required
                                            value="{{ current_user.name if current_user.is_authenticated else '' }}" autocomplete="name">
                                 </div>
                             </div>
@@ -139,8 +496,8 @@
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-dark small">Email Address <span class="text-danger">*</span></label>
                                 <div class="input-group contact-input-group">
-                                    <span class="input-group-text bg-white border-end-0 text-primary"><i class="fas fa-envelope"></i></span>
-                                    <input type="email" name="email" class="form-control border-start-0" placeholder="e.g. rahul@example.com" required
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" name="email" class="form-control" placeholder="e.g. rahul@example.com" required
                                            value="{{ current_user.email if current_user.is_authenticated else '' }}" autocomplete="email">
                                 </div>
                             </div>
@@ -148,13 +505,13 @@
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-dark small">Role / Affiliation</label>
                                 <div class="input-group contact-input-group">
-                                    <span class="input-group-text bg-white border-end-0 text-primary"><i class="fas fa-id-badge"></i></span>
-                                    <select name="role_type" class="form-select border-start-0">
-                                        <option value="student">🎓 Student</option>
-                                        <option value="alumni">💼 Alumni</option>
-                                        <option value="faculty">🏛️ Faculty Member</option>
-                                        <option value="employer">🏢 Recruiter / Employer</option>
-                                        <option value="other">💬 Other Inquiry</option>
+                                    <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
+                                    <select name="role_type" class="form-select">
+                                        <option value="Student">🎓 Current Student</option>
+                                        <option value="Alumni">💼 Verified Alumni</option>
+                                        <option value="Faculty">🏛️ Faculty Member</option>
+                                        <option value="Employer / Recruiter">🏢 Recruiter / Corporate Partner</option>
+                                        <option value="Other Inquiry">💬 Other Community Member</option>
                                     </select>
                                 </div>
                             </div>
@@ -162,8 +519,8 @@
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-dark small">Subject <span class="text-danger">*</span></label>
                                 <div class="input-group contact-input-group">
-                                    <span class="input-group-text bg-white border-end-0 text-primary"><i class="fas fa-tag"></i></span>
-                                    <input type="text" name="subject" class="form-control border-start-0" placeholder="e.g. Mentorship Inquiry" required>
+                                    <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                                    <input type="text" name="subject" id="contactSubjectInput" class="form-control" placeholder="e.g. Mentorship Inquiry" required>
                                 </div>
                             </div>
 
@@ -172,18 +529,15 @@
                                     <label class="form-label fw-bold text-dark small mb-0">Your Message <span class="text-danger">*</span></label>
                                     <span class="badge bg-light text-muted border rounded-pill px-2 py-1 small" id="charCounterBadge" style="font-size: 0.75rem;">0 / 1000</span>
                                 </div>
-                                <textarea name="message" id="contactMessageInput" class="form-control" rows="5" maxlength="1000" placeholder="Describe how our alumni community team can help you..." required></textarea>
+                                <textarea name="message" id="contactMessageInput" class="form-control" rows="5" maxlength="1000" placeholder="Describe your inquiry, event proposal, or query in detail so our team can assist you swiftly..." required></textarea>
                             </div>
 
                             <div class="col-12 mt-3">
-                                <button type="submit" class="btn btn-premium btn-premium-primary magnetic-button w-100 py-3 shadow-sm" id="contactSubmitBtn">
-                                    <span class="btn-text d-inline-flex align-items-center justify-content-center">
-                                        <i class="fas fa-paper-plane me-2"></i> Submit Inquiry
-                                    </span>
-                                    <div class="btn-glow"></div>
+                                <button type="submit" class="btn btn-cta-primary w-100 py-3 shadow-sm" id="contactSubmitBtn">
+                                    <i class="fas fa-paper-plane me-2"></i> Submit Inquiry Now
                                 </button>
                                 <div class="text-center mt-2">
-                                    <small class="text-muted"><i class="fas fa-lock me-1 text-success"></i> Your contact information is never shared with third parties.</small>
+                                    <small class="text-muted"><i class="fas fa-lock me-1 text-success"></i> Your information is safe and securely processed by the Alumni Hub administration.</small>
                                 </div>
                             </div>
                         </div>
@@ -191,42 +545,61 @@
                 </div>
             </div>
 
-            <!-- Interactive Campus Map & Direct Contact Card -->
+            <!-- Campus Map & Key Department Directory Card -->
             <div class="col-lg-5 reveal-fade" style="animation-delay: 0.15s;">
-                <div class="home-card accent-purple p-4 p-md-5 h-100 d-flex flex-column">
-                    <div class="d-flex align-items-center gap-3 mb-4">
-                        <div class="home-card-icon" style="width: 48px; height: 48px; font-size: 1.25rem; color: #7c3aed; background: #f5f3ff;">
+                <div class="contact-vip-card accent-purple p-4 p-md-5 h-100 d-flex flex-column">
+                    <div class="contact-accent-bar"></div>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="contact-icon-box m-0" style="width: 50px; height: 50px; font-size: 1.3rem;">
                             <i class="fas fa-university"></i>
                         </div>
                         <div>
-                            <span class="step-badge" style="color: #7c3aed; background: #f5f3ff;">CAMPUS MAP</span>
-                            <h3 class="home-card-title mb-0 mt-1" style="font-size: 1.5rem;">Visit JIMS Rohini</h3>
+                            <span class="badge rounded-pill bg-purple bg-opacity-10 text-purple px-3 py-1 fw-bold small" style="color: #7c3aed; background: #f5f3ff;">CAMPUS & DIRECT DESKS</span>
+                            <h3 class="fw-bold mb-0 mt-1" style="font-family: 'Outfit'; color: #0f172a; font-size: 1.6rem;">Visit JIMS Rohini</h3>
                         </div>
                     </div>
 
-                    <p class="home-card-text mb-3" style="font-size: 0.95rem; line-height: 1.6;">
-                        Our campus is situated in Institutional Area, Sector 5, Rohini, easily accessible via Rithala Metro Station (Red Line).
+                    <p class="text-muted small mb-3" style="line-height: 1.6;">
+                        Institutional Area, Sector 5, Rohini. Easily accessible via Rithala Metro Station (Red Line) and outer ring road.
                     </p>
 
                     <!-- Google Map Embed -->
-                    <div class="rounded-4 overflow-hidden border mb-4 flex-grow-1" style="min-height: 250px;">
+                    <div class="rounded-4 overflow-hidden border mb-3 flex-grow-1 shadow-sm" style="min-height: 200px;">
                         <iframe 
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3499.7891391740924!2d77.10648831508215!3d28.71092898238711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d06f8c7b8e19b%3A0x6b8c9d4b6c8a7e0!2sJagan%20Institute%20of%20Management%20Studies%20(JIMS)!5e0!3m2!1sen!2sin!4v1650000000000!5m2!1sen!2sin" 
                             width="100%" 
                             height="100%" 
-                            style="border:0; min-height: 250px;" 
+                            style="border:0; min-height: 200px;" 
                             allowfullscreen="" 
                             loading="lazy" 
                             referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>
 
+                    <!-- Direct Department Directory Cards -->
+                    <div class="d-flex flex-column gap-2 mb-3">
+                        <div class="dept-card d-flex align-items-center justify-content-between">
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark small"><i class="fas fa-graduation-cap text-primary me-2"></i> Alumni Relations Cell</h6>
+                                <small class="text-muted">alumni@jimsindia.org • Ext: 204</small>
+                            </div>
+                            <a href="mailto:alumni@jimsindia.org" class="btn btn-sm btn-outline-primary rounded-pill px-3">Email</a>
+                        </div>
+                        <div class="dept-card d-flex align-items-center justify-content-between">
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark small"><i class="fas fa-briefcase text-success me-2"></i> Placement & Training Desk</h6>
+                                <small class="text-muted">placements@jimsindia.org • Ext: 310</small>
+                            </div>
+                            <a href="mailto:placements@jimsindia.org" class="btn btn-sm btn-outline-success rounded-pill px-3">Connect</a>
+                        </div>
+                    </div>
+
                     <div class="d-flex gap-2">
-                        <a href="https://maps.google.com/?q=Jagan+Institute+of+Management+Studies+Rohini" target="_blank" class="btn btn-premium btn-premium-outline flex-fill text-center">
-                            <i class="fas fa-directions me-2"></i> Get Directions
+                        <a href="https://maps.google.com/?q=Jagan+Institute+of+Management+Studies+Rohini" target="_blank" class="btn btn-cta-outline flex-fill text-center py-2">
+                            <i class="fas fa-directions me-1"></i> Directions
                         </a>
-                        <a href="tel:+911145184000" class="btn btn-premium btn-premium-primary flex-fill text-center">
-                            <i class="fas fa-phone-alt me-2"></i> Call Reception
+                        <a href="tel:+911145184000" class="btn btn-cta-dark flex-fill text-center py-2">
+                            <i class="fas fa-phone-alt me-1 text-info"></i> Reception
                         </a>
                     </div>
                 </div>
@@ -236,56 +609,75 @@
         <!-- Frequently Asked Questions -->
         <div class="faq-section py-4 my-5">
             <div class="text-center mb-5 reveal-fade">
-                <div class="community-stats-kicker justify-content-center mb-2"><span></span> FAQ</div>
+                <div class="community-stats-kicker justify-content-center mb-2"><span></span> FAQ & SUPPORT</div>
                 <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">Frequently Asked Questions</h2>
-                <p class="mx-auto" style="color: #64748b; max-width: 650px; font-size: 1rem; line-height: 1.6;">
-                    Quick answers to common questions about accounts, mentorship, and event participation.
+                <p class="mx-auto text-muted" style="max-width: 650px; font-size: 1.05rem; line-height: 1.6;">
+                    Quick answers regarding membership verification, mentor connections, career opportunities, and campus reunion bookings.
                 </p>
             </div>
 
             <div class="row g-4 justify-content-center">
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <div class="accordion border-0" id="contactFaqAccordion">
-                        <div class="home-card accent-blue p-0 mb-3 overflow-hidden">
+                        <!-- FAQ 1 -->
+                        <div class="contact-vip-card p-0 mb-3 overflow-hidden border">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" style="background: transparent; color: #172a42; font-size: 1.05rem;">
-                                        How long does alumni account verification take?
+                                    <button class="accordion-button fw-bold collapsed py-3 px-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" style="font-family: 'Outfit'; font-size: 1.05rem;">
+                                        <i class="fas fa-user-check text-primary me-3"></i> How long does alumni account verification take?
                                     </button>
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#contactFaqAccordion">
-                                    <div class="accordion-body text-muted pt-0" style="font-size: 0.95rem; line-height: 1.7;">
-                                        Alumni accounts are verified against university records within 24 to 48 hours. Once verified, you will receive full access to mentor requests, exclusive job postings, and alumni directory features.
+                                    <div class="accordion-body text-muted pt-2 pb-4 px-4" style="font-size: 0.95rem; line-height: 1.7;">
+                                        Alumni accounts are verified against university records within 24 to 48 hours. Once verified, you will receive full access to mentor requests, exclusive job postings, batch directory features, and official college event passes.
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="home-card accent-green p-0 mb-3 overflow-hidden">
+                        <!-- FAQ 2 -->
+                        <div class="contact-vip-card accent-green p-0 mb-3 overflow-hidden border">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" style="background: transparent; color: #172a42; font-size: 1.05rem;">
-                                        Can current students reach out directly to any alumni mentor?
+                                    <button class="accordion-button fw-bold collapsed py-3 px-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" style="font-family: 'Outfit'; font-size: 1.05rem;">
+                                        <i class="fas fa-comments text-success me-3"></i> Can current students reach out directly to any alumni mentor?
                                     </button>
                                 </h2>
                                 <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#contactFaqAccordion">
-                                    <div class="accordion-body text-muted pt-0" style="font-size: 0.95rem; line-height: 1.7;">
-                                        Yes! Students can browse the Alumni Directory, filter by specialization or company, and send mentorship connection requests or direct inquiries via the integrated messaging system.
+                                    <div class="accordion-body text-muted pt-2 pb-4 px-4" style="font-size: 0.95rem; line-height: 1.7;">
+                                        Yes! Students can browse the Alumni Directory, filter by specialization, domain, or company (e.g. Google, Amazon, Deloitte), and send direct mentorship connection requests or schedule 1-on-1 guidance sessions.
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="home-card accent-amber p-0 mb-3 overflow-hidden">
+                        <!-- FAQ 3 -->
+                        <div class="contact-vip-card accent-amber p-0 mb-3 overflow-hidden border">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header" id="headingThree">
-                                    <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" style="background: transparent; color: #172a42; font-size: 1.05rem;">
-                                        How can companies post jobs on the Alumni Portal?
+                                    <button class="accordion-button fw-bold collapsed py-3 px-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" style="font-family: 'Outfit'; font-size: 1.05rem;">
+                                        <i class="fas fa-briefcase text-warning me-3"></i> How can alumni and corporate partners post job openings?
                                     </button>
                                 </h2>
                                 <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#contactFaqAccordion">
-                                    <div class="accordion-body text-muted pt-0" style="font-size: 0.95rem; line-height: 1.7;">
-                                        Verified alumni and corporate partners can post opportunities through the Career Portal dashboard. All postings are reviewed by the placement cell for student and alumni applicants.
+                                    <div class="accordion-body text-muted pt-2 pb-4 px-4" style="font-size: 0.95rem; line-height: 1.7;">
+                                        Verified alumni and registered recruiters can post job openings and internships directly through their dashboard. The placement cell coordinates candidate screening and student applications seamlessly.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 4 -->
+                        <div class="contact-vip-card accent-purple p-0 mb-3 overflow-hidden border">
+                            <div class="accordion-item border-0">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button fw-bold collapsed py-3 px-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" style="font-family: 'Outfit'; font-size: 1.05rem;">
+                                        <i class="fas fa-calendar-alt text-purple me-3"></i> Can alumni propose guest lectures or tech workshops?
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#contactFaqAccordion">
+                                    <div class="accordion-body text-muted pt-2 pb-4 px-4" style="font-size: 0.95rem; line-height: 1.7;">
+                                        Absolutely! We encourage alumni to host masterclasses, code walkthroughs, or leadership talks. Select "Speaker / Event" on this contact form or reach out directly to the Alumni Relations Cell to book a slot.
                                     </div>
                                 </div>
                             </div>
@@ -294,75 +686,67 @@
                 </div>
             </div>
         </div>
+
+        <!-- ========================================================
+             BOTTOM COMMUNITY CTA BANNER (High Contrast)
+             ======================================================== -->
+        <div class="row justify-content-center my-5">
+            <div class="col-lg-10 text-center reveal-fade">
+                <div class="service-cta-card p-4 p-md-5 text-center position-relative overflow-hidden">
+                    <div class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-1 mb-3 fw-bold small">
+                        <i class="fas fa-shield-alt me-1"></i> 24/7 SUPPORT & COMMUNITY
+                    </div>
+                    <h2 class="display-6 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
+                        Ready to Connect With Your Network?
+                    </h2>
+                    <p class="mx-auto mb-4 text-muted" style="max-width: 620px; font-size: 1.05rem; line-height: 1.6;">
+                        Join thousands of verified alumni and motivated students advancing their careers, sharing referrals, and giving back to the community.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        {% if not session.get('user_id') %}
+                        <a href="{{ url_for('register') }}" class="btn btn-cta-primary px-4 py-3">
+                            <i class="fas fa-user-plus me-1"></i> Register Free Today
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-cta-dark px-4 py-3">
+                            <i class="fas fa-sign-in-alt me-1 text-info"></i> Member Login
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('network') }}" class="btn btn-cta-primary px-4 py-3">
+                            <i class="fas fa-users me-1"></i> Explore Network
+                        </a>
+                        <a href="{{ url_for('list_jobs') }}" class="btn btn-cta-dark px-4 py-3">
+                            <i class="fas fa-briefcase me-1 text-info"></i> Explore Jobs
+                        </a>
+                        {% endif %}
+                        <a href="{{ url_for('events') }}" class="btn btn-cta-outline px-4 py-3">
+                            <i class="fas fa-calendar-alt me-1 text-primary"></i> Browse Events
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<style>
-/* Contact Page Specific Enhancements */
-.contact-input-group {
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid #e2e8f0;
-    transition: all 0.25s ease;
-    background: #ffffff;
-}
-.contact-input-group:focus-within {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-}
-.contact-input-group .form-control,
-.contact-input-group .form-select {
-    border: none;
-    padding: 0.75rem 1rem;
-    font-size: 0.95rem;
-}
-.contact-input-group .form-control:focus,
-.contact-input-group .form-select:focus {
-    box-shadow: none;
-}
-.contact-input-group .input-group-text {
-    border: none;
-    padding-left: 1rem;
-    padding-right: 0.5rem;
-}
-#contactMessageInput {
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    padding: 0.85rem 1rem;
-    font-size: 0.95rem;
-    transition: all 0.25s ease;
-}
-#contactMessageInput:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-}
-
-@media (max-width: 768px) {
-    .home-card.accent-blue,
-    .home-card.accent-purple {
-        padding: 1.5rem !important;
-        border-radius: 20px !important;
-    }
-    .hero-title {
-        font-size: 2.25rem !important;
-    }
-}
-@media (max-width: 480px) {
-    .home-card.accent-blue,
-    .home-card.accent-purple {
-        padding: 1.25rem !important;
-    }
-    .contact-input-group .form-control,
-    .contact-input-group .form-select {
-        font-size: 0.9rem;
-        padding: 0.65rem 0.75rem;
-    }
-}
-</style>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Character counter for contact message
+    // 1. Topic Pills Selector -> Auto-populate Subject Input
+    const pills = document.querySelectorAll('.topic-pill');
+    const subjectInput = document.getElementById('contactSubjectInput');
+    
+    pills.forEach(pill => {
+        pill.addEventListener('click', function() {
+            pills.forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+            const topic = this.getAttribute('data-topic');
+            if (subjectInput) {
+                subjectInput.value = topic;
+                subjectInput.focus();
+            }
+        });
+    });
+
+    // 2. Live Character Counter for Message
     const msgInput = document.getElementById('contactMessageInput');
     const charBadge = document.getElementById('charCounterBadge');
     if (msgInput && charBadge) {
@@ -379,7 +763,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Submit button loading animation
+    // 3. Submit Button Loading State
     const contactForm = document.getElementById('contactForm');
     const submitBtn = document.getElementById('contactSubmitBtn');
     if (contactForm && submitBtn) {
@@ -390,8 +774,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                     <span>Sending your inquiry...</span>
                 `;
-                // Allow the form to submit naturally
-                this.submit();
             }
         });
     }

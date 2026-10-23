@@ -405,6 +405,77 @@
             height: 170px;
         }
     }
+
+    /* High-contrast CTA Buttons for Light Backgrounds */
+    .btn-cta-dark {
+        background: #0f172a !important;
+        color: #ffffff !important;
+        border: 1px solid #1e293b !important;
+        border-radius: 99px !important;
+        font-weight: 700 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.25) !important;
+        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+        text-decoration: none !important;
+    }
+    .btn-cta-dark:hover {
+        background: #1e293b !important;
+        color: #38bdf8 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.35) !important;
+    }
+
+    .btn-cta-primary {
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 99px !important;
+        font-weight: 700 !important;
+        box-shadow: 0 8px 24px -4px rgba(2, 132, 199, 0.45) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+        text-decoration: none !important;
+    }
+    .btn-cta-primary:hover {
+        background: #0369a1 !important;
+        color: #ffffff !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 12px 28px -4px rgba(2, 132, 199, 0.55) !important;
+    }
+
+    .btn-cta-outline {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 99px !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+        text-decoration: none !important;
+    }
+    .btn-cta-outline:hover {
+        background: #f8fafc !important;
+        border-color: #0284c7 !important;
+        color: #0284c7 !important;
+        transform: translateY(-2px) !important;
+    }
+
+    .service-cta-card {
+        border-radius: 32px;
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.22);
+        box-shadow: 0 24px 50px -12px rgba(15, 23, 42, 0.08);
+    }
 </style>
 
 <div class="home-wrapper events-wrapper">
@@ -924,21 +995,35 @@
              BOTTOM NOTIFICATION CTA CARD
              ======================================================== -->
         <div class="row justify-content-center my-5">
-            <div class="col-lg-8 text-center reveal-fade">
-                <div class="home-card accent-blue p-5 text-center">
+            <div class="col-lg-10 text-center reveal-fade">
+                <div class="service-cta-card p-4 p-md-5 text-center position-relative overflow-hidden">
+                    <div class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-1 mb-3 fw-bold small">
+                        <i class="fas fa-calendar-check me-1"></i> EVENT NOTIFICATIONS
+                    </div>
                     <h2 class="display-6 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
                         Never Miss an Important Milestone
                     </h2>
-                    <p class="mx-auto mb-4" style="color: #64748b; max-width: 580px; font-size: 1.05rem;">
+                    <p class="mx-auto mb-4 text-muted" style="max-width: 620px; font-size: 1.05rem; line-height: 1.6;">
                         Receive instant notifications about new technical workshops, verified alumni career summits, and department reunion dates tailored directly to your graduation batch.
                     </p>
                     <div class="d-flex justify-content-center gap-3 flex-wrap">
-                        <a href="{{ url_for('register') }}" class="btn btn-premium btn-premium-primary magnetic-button">
-                            Join Alumni Hub <i class="fas fa-arrow-right ms-2"></i>
-                            <div class="btn-glow"></div>
+                        {% if not session.get('user_id') %}
+                        <a href="{{ url_for('register') }}" class="btn btn-cta-primary px-4 py-3">
+                            <i class="fas fa-user-plus me-1"></i> Join Alumni Hub Free
                         </a>
-                        <a href="{{ url_for('contact') }}" class="btn btn-premium btn-premium-outline">
-                            <i class="fas fa-envelope me-2"></i> Contact Organizers
+                        <a href="{{ url_for('login') }}" class="btn btn-cta-dark px-4 py-3">
+                            <i class="fas fa-sign-in-alt me-1 text-info"></i> Member Login
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('network') }}" class="btn btn-cta-primary px-4 py-3">
+                            <i class="fas fa-users me-1"></i> Explore Network
+                        </a>
+                        <a href="{{ url_for('list_jobs') }}" class="btn btn-cta-dark px-4 py-3">
+                            <i class="fas fa-briefcase me-1 text-info"></i> Explore Jobs
+                        </a>
+                        {% endif %}
+                        <a href="{{ url_for('contact') }}" class="btn btn-cta-outline px-4 py-3">
+                            <i class="fas fa-envelope me-1 text-primary"></i> Contact Organizers
                         </a>
                     </div>
                 </div>
