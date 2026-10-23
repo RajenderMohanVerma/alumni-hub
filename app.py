@@ -4255,6 +4255,11 @@ def report_issue():
     
     return render_template('common/report_issue.html')
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('common/404.html'), 404
+
+
 
 @app.route('/contact/whatsapp/<int:user_id>')
 @login_required

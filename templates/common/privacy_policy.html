@@ -3,166 +3,609 @@
 {% block title %}Privacy Policy - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <!-- Header -->
-            <div class="text-center mb-4 mb-md-5" data-aos="fade-down">
-                <h1 class="fw-bold text-primary mb-2" style="font-size: clamp(1.8rem, 5vw, 2.8rem); font-family: 'Outfit', sans-serif;">
-                    <i class="fas fa-shield-alt me-2"></i>Privacy Policy
+<!-- Premium Fonts & CSS -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}">
+
+<style>
+    /* ========================================================
+       PRIVACY POLICY - MODERN DESIGN SYSTEM
+       ======================================================== */
+    :root {
+        --srv-blue: #0284c7;
+        --srv-green: #10b981;
+        --srv-amber: #f59e0b;
+        --srv-purple: #8b5cf6;
+    }
+
+    .policy-wrapper {
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* VIP Policy Card */
+    .policy-vip-card {
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.16);
+        border-radius: 26px;
+        padding: 32px 28px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 24px;
+        box-shadow: 0 14px 35px -10px rgba(15, 23, 42, 0.06);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .policy-vip-card:hover {
+        border-color: rgba(2, 132, 199, 0.35);
+        box-shadow: 0 20px 45px -12px rgba(2, 132, 199, 0.15);
+    }
+
+    .policy-accent-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #0284c7, #38bdf8);
+    }
+
+    .policy-vip-card.accent-green .policy-accent-bar {
+        background: linear-gradient(90deg, #059669, #34d399);
+    }
+
+    .policy-vip-card.accent-amber .policy-accent-bar {
+        background: linear-gradient(90deg, #d97706, #fbbf24);
+    }
+
+    .policy-vip-card.accent-purple .policy-accent-bar {
+        background: linear-gradient(90deg, #7c3aed, #c084fc);
+    }
+
+    /* Policy Nav Pills */
+    .policy-nav-pill {
+        border: 1.5px solid #e2e8f0;
+        background: #f8fafc;
+        color: #334155;
+        border-radius: 50px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.25s ease;
+        user-select: none;
+    }
+
+    .policy-nav-pill:hover,
+    .policy-nav-pill.active {
+        background: #0284c7;
+        color: #ffffff;
+        border-color: #0284c7;
+        box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
+        transform: translateY(-2px);
+    }
+
+    /* Highlight Banner */
+    .privacy-highlight-box {
+        background: linear-gradient(135deg, rgba(2, 132, 199, 0.06) 0%, rgba(16, 185, 129, 0.06) 100%);
+        border: 1.5px solid rgba(2, 132, 199, 0.2);
+        border-radius: 20px;
+        padding: 20px 24px;
+        margin-bottom: 2rem;
+    }
+
+    /* Feature Item Grid */
+    .policy-item-box {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 18px 20px;
+        height: 100%;
+        transition: all 0.25s ease;
+    }
+
+    .policy-item-box:hover {
+        background: #ffffff;
+        border-color: rgba(2, 132, 199, 0.35);
+        box-shadow: 0 8px 20px -5px rgba(2, 132, 199, 0.12);
+        transform: translateY(-2px);
+    }
+
+    /* High Contrast CTA Buttons */
+    .btn-cta-primary {
+        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        box-shadow: 0 10px 24px rgba(2, 132, 199, 0.35) !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-cta-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(2, 132, 199, 0.45) !important;
+        color: #ffffff !important;
+    }
+
+    .btn-cta-dark {
+        background: #0f172a !important;
+        color: #ffffff !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2) !important;
+    }
+
+    .btn-cta-dark:hover {
+        background: #1e293b !important;
+        color: #38bdf8 !important;
+        border-color: #38bdf8 !important;
+        transform: translateY(-2px);
+    }
+
+    .btn-cta-outline {
+        background: transparent !important;
+        color: #0f172a !important;
+        border: 2px solid #cbd5e1 !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-cta-outline:hover {
+        background: #f1f5f9 !important;
+        border-color: #0284c7 !important;
+        color: #0284c7 !important;
+        transform: translateY(-2px);
+    }
+
+    .service-cta-card {
+        background: radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.08) 0%, rgba(248, 250, 252, 0.95) 75%), #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.22);
+        border-radius: 32px;
+        box-shadow: 0 25px 60px -15px rgba(2, 132, 199, 0.18);
+    }
+
+    @media (max-width: 768px) {
+        .policy-vip-card {
+            padding: 24px 18px;
+            border-radius: 20px;
+        }
+
+        .hero-title {
+            font-size: 2.25rem !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .policy-nav-pill {
+            font-size: 0.78rem;
+            padding: 6px 12px;
+        }
+
+        .btn-cta-primary,
+        .btn-cta-dark,
+        .btn-cta-outline {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="policy-wrapper home-wrapper">
+    <!-- Animated Mesh Background -->
+    <div class="mesh-background">
+        <div class="mesh-ball ball-1"></div>
+        <div class="mesh-ball ball-2"></div>
+        <div class="mesh-ball ball-3"></div>
+        <div class="mesh-ball ball-4"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-premium glass-hero position-relative overflow-hidden">
+        <canvas class="network-canvas"></canvas>
+        <div class="hero-particles"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="hero-content text-center mx-auto">
+                <div
+                    class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade hero-network-badge">
+                    <i class="fas fa-shield-alt me-2"></i> DATA PROTECTION & INTEGRITY
+                </div>
+                <h1 class="hero-title fw-bold mb-3 reveal-text text-white">
+                    Privacy <span class="text-holographic">Policy</span>
                 </h1>
-                <p class="lead text-muted" style="font-size: 1rem;">Last Updated: February 8, 2026</p>
-            </div>
-
-            <!-- Content Card -->
-            <div class="card shadow-sm border-0 rounded-4" data-aos="fade-up">
-                <div class="card-body p-3 p-md-5">
-
-                    <!-- Introduction -->
-                    <section class="mb-5">
-                        <h2 class="h3 text-primary mb-3"><i class="fas fa-info-circle me-2"></i>Introduction</h2>
-                        <p>Welcome to Alumni Hub. We are committed to protecting your personal information and your
-                            right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard
-                            your information when you use our platform.</p>
-                    </section>
-
-                    <!-- Information We Collect -->
-                    <section class="mb-5">
-                        <h2 class="h3 text-primary mb-3"><i class="fas fa-database me-2"></i>Information We Collect</h2>
-
-                        <h4 class="h5 mt-4 mb-3">Personal Information</h4>
-                        <ul class="list-unstyled ms-3">
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Name and contact information
-                                (email, phone number)</li>
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Educational details
-                                (enrollment number, department, degree, graduation year)</li>
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Professional information
-                                (company, designation, experience)</li>
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Profile picture and bio</li>
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Social media links (LinkedIn,
-                                GitHub, etc.)</li>
-                        </ul>
-
-                        <h4 class="h5 mt-4 mb-3">Usage Information</h4>
-                        <ul class="list-unstyled ms-3">
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Log data (IP address, browser
-                                type, pages visited)</li>
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Connection requests and
-                                networking activity</li>
-                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Messages and communications
-                                within the platform</li>
-                        </ul>
-                    </section>
-
-                    <!-- How We Use Your Information -->
-                    <section class="mb-5">
-                        <h2 class="h3 text-primary mb-3"><i class="fas fa-cogs me-2"></i>How We Use Your Information
-                        </h2>
-                        <div class="alert alert-info">
-                            <i class="fas fa-lightbulb me-2"></i>We use your information to provide, maintain, and
-                            improve our services.
-                        </div>
-                        <ul class="list-unstyled ms-3">
-                            <li class="mb-2"><i class="fas fa-arrow-right text-primary me-2"></i>To create and manage
-                                your account</li>
-                            <li class="mb-2"><i class="fas fa-arrow-right text-primary me-2"></i>To facilitate
-                                networking and connections between alumni</li>
-                            <li class="mb-2"><i class="fas fa-arrow-right text-primary me-2"></i>To send notifications
-                                about connection requests and platform updates</li>
-                            <li class="mb-2"><i class="fas fa-arrow-right text-primary me-2"></i>To improve user
-                                experience and platform functionality</li>
-                            <li class="mb-2"><i class="fas fa-arrow-right text-primary me-2"></i>To respond to your
-                                inquiries and provide customer support</li>
-                        </ul>
-                    </section>
-
-                    <!-- Information Sharing -->
-                    <section class="mb-5">
-                        <h2 class="h3 text-primary mb-3"><i class="fas fa-share-alt me-2"></i>Information Sharing</h2>
-                        <div class="alert alert-warning">
-                            <i class="fas fa-exclamation-triangle me-2"></i><strong>We do not sell your personal
-                                information.</strong>
-                        </div>
-                        <p>We may share your information in the following situations:</p>
-                        <ul class="list-unstyled ms-3">
-                            <li class="mb-2"><i class="fas fa-users text-info me-2"></i><strong>With Other
-                                    Users:</strong> Your profile information is visible to other registered alumni and
-                                students</li>
-                            <li class="mb-2"><i class="fas fa-gavel text-info me-2"></i><strong>Legal
-                                    Requirements:</strong> When required by law or to protect our rights</li>
-                            <li class="mb-2"><i class="fas fa-handshake text-info me-2"></i><strong>Service
-                                    Providers:</strong> With trusted third-party service providers who assist in
-                                operating our platform</li>
-                        </ul>
-                    </section>
-
-                    <!-- Data Security -->
-                    <section class="mb-5">
-                        <h2 class="h3 text-primary mb-3"><i class="fas fa-lock me-2"></i>Data Security</h2>
-                        <p>We implement appropriate technical and organizational security measures to protect your
-                            personal information, including:</p>
-                        <div class="row g-3 mt-3">
-                            <div class="col-md-6">
-                                <div class="card bg-light border-0 h-100">
-                                    <div class="card-body">
-                                        <i class="fas fa-key fa-2x text-primary mb-3"></i>
-                                        <h5>Encryption</h5>
-                                        <p class="small mb-0">All passwords are encrypted using industry-standard
-                                            hashing algorithms</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card bg-light border-0 h-100">
-                                    <div class="card-body">
-                                        <i class="fas fa-server fa-2x text-primary mb-3"></i>
-                                        <h5>Secure Storage</h5>
-                                        <p class="small mb-0">Data is stored on secure servers with regular backups</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- Your Rights -->
-                    <section class="mb-5">
-                        <h2 class="h3 text-primary mb-3"><i class="fas fa-user-shield me-2"></i>Your Rights</h2>
-                        <p>You have the right to:</p>
-                        <div class="list-group">
-                            <div class="list-group-item"><i class="fas fa-eye text-success me-2"></i>Access your
-                                personal information</div>
-                            <div class="list-group-item"><i class="fas fa-edit text-warning me-2"></i>Update or correct
-                                your information</div>
-                            <div class="list-group-item"><i class="fas fa-trash text-danger me-2"></i>Request deletion
-                                of your account</div>
-                            <div class="list-group-item"><i class="fas fa-ban text-info me-2"></i>Opt-out of marketing
-                                communications</div>
-                        </div>
-                    </section>
-
-                    <!-- Contact -->
-                    <section class="mb-4">
-                        <h2 class="h3 text-primary mb-3"><i class="fas fa-envelope me-2"></i>Contact Us</h2>
-                        <p>If you have questions about this Privacy Policy, please contact us:</p>
-                        <div class="card bg-primary text-white">
-                            <div class="card-body">
-                                <p class="mb-2"><i class="fas fa-envelope me-2"></i>Email: alumnihub26@gmail.com
-                                </p>
-                                <p class="mb-0"><i class="fas fa-phone me-2"></i>Phone: +91-7348-619-567</p>
-                            </div>
-                        </div>
-                    </section>
-
+                <p class="hero-subtitle text-white-50 lead mb-4 reveal-fade mx-auto">
+                    We are dedicated to safeguarding your personal information, career details, and institutional
+                    records with enterprise-grade encryption and complete transparency.
+                </p>
+                <div class="d-flex justify-content-center gap-2 flex-wrap reveal-fade">
+                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill fw-bold">
+                        <i class="fas fa-history text-primary me-1"></i> Effective: February 2026
+                    </span>
+                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill fw-bold">
+                        <i class="fas fa-check-circle text-success me-1"></i> Zero Third-Party Sale Guarantee
+                    </span>
+                    <button onclick="window.print()"
+                        class="badge bg-primary text-white border-0 px-3 py-2 rounded-pill fw-bold"
+                        style="cursor: pointer;">
+                        <i class="fas fa-print me-1"></i> Print / Save PDF
+                    </button>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Back Button -->
-            <div class="text-center mt-4" data-aos="fade-up">
-                <a href="{{ url_for('home') }}" class="btn btn-outline-primary btn-lg">
-                    <i class="fas fa-arrow-left me-2"></i>Back to Home
-                </a>
+    <!-- Quick Navigation Bar -->
+    <section class="py-3 bg-white border-bottom shadow-sm sticky-top" style="z-index: 10;">
+        <div class="container">
+            <div class="d-flex align-items-center gap-2 overflow-auto py-1" style="white-space: nowrap;">
+                <span class="fw-bold text-dark small me-2"><i class="fas fa-compass text-primary"></i> Jump to:</span>
+                <a href="#intro" class="policy-nav-pill">Overview</a>
+                <a href="#collection" class="policy-nav-pill">Information Collected</a>
+                <a href="#usage" class="policy-nav-pill">How We Use Data</a>
+                <a href="#sharing" class="policy-nav-pill">Data Sharing Policy</a>
+                <a href="#security" class="policy-nav-pill">Security Architecture</a>
+                <a href="#rights" class="policy-nav-pill">Your Rights</a>
+                <a href="#contact" class="policy-nav-pill">Privacy Contact</a>
             </div>
+        </div>
+    </section>
 
+    <!-- Policy Content Container -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+
+                <!-- Plain English Summary Box -->
+                <div class="privacy-highlight-box mb-4">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="badge rounded-circle bg-primary text-white p-3 fs-5">
+                            <i class="fas fa-info"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark mb-1" style="font-family: 'Outfit';">Quick Summary</h5>
+                            <p class="text-muted small mb-0" style="line-height: 1.6;">
+                                Alumni Hub is designed for academic and professional networking. We collect your basic
+                                academic records and profile info to verify your degree and facilitate mentorship.
+                                <strong>We will never sell your personal data or phone number to commercial
+                                    advertisers.</strong> You can request account deletion or data export anytime.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 1: Overview --
+                <div class="policy-vip-card" id="intro">
+                    <div class="policy-accent-bar"></div>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: #e0f2fe; color: #0284c7; display: grid; place-items: center; font-size: 1.25rem;">
+                            <i class="fas fa-shield-virus"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-1 fw-bold small">SECTION 1</span>
+                            <h3 class="fw-bold mb-0 mt-1" style="font-family: 'Outfit'; color: #0f172a; font-size: 1.5rem;">Introduction & Scope</h3>
+                        </div>
+                    </div>
+                    <p class="text-muted" style="line-height: 1.7; font-size: 0.98rem;">
+                        Welcome to Alumni Hub. This policy describes how we collect, store, process, and protect your personal data when you access our web application, alumni directory, mentorship modules, job portals, and campus reunion services. By registering an account or browsing our services, you acknowledge the terms described herein.
+                    </p>
+                </div>
+
+                <!-- Section 2: Information Collected -->
+                <div class="policy-vip-card accent-green" id="collection">
+                    <div class="policy-accent-bar"></div>
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <div
+                            style="width: 44px; height: 44px; border-radius: 12px; background: #ecfdf5; color: #059669; display: grid; place-items: center; font-size: 1.25rem;">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div>
+                            <span
+                                class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 fw-bold small">SECTION
+                                2</span>
+                            <h3 class="fw-bold mb-0 mt-1"
+                                style="font-family: 'Outfit'; color: #0f172a; font-size: 1.5rem;">Information We Collect
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="policy-item-box">
+                                <h5 class="fw-bold text-dark small mb-2"><i
+                                        class="fas fa-id-card text-success me-2"></i> Identity & Academic Data</h5>
+                                <ul class="text-muted small ps-3 mb-0" style="line-height: 1.7;">
+                                    <li>Full Name, Registered Email Address, Contact Number</li>
+                                    <li>Enrollment Number, Batch Year, Degree, Department</li>
+                                    <li>Current Company, Designation, Industry Domain</li>
+                                    <li>LinkedIn, GitHub, or Portfolio URLs</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="policy-item-box">
+                                <h5 class="fw-bold text-dark small mb-2"><i
+                                        class="fas fa-network-wired text-primary me-2"></i> Platform Activity & Logs
+                                </h5>
+                                <ul class="text-muted small ps-3 mb-0" style="line-height: 1.7;">
+                                    <li>Connection requests sent & received</li>
+                                    <li>Direct internal messaging metadata (encrypted)</li>
+                                    <li>Event registration RSVPs & ticket check-ins</li>
+                                    <li>Session authentication tokens & IP audit logs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Data Usage -->
+                <div class="policy-vip-card accent-amber" id="usage">
+                    <div class="policy-accent-bar"></div>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div
+                            style="width: 44px; height: 44px; border-radius: 12px; background: #fffbeb; color: #d97706; display: grid; place-items: center; font-size: 1.25rem;">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div>
+                            <span
+                                class="badge bg-warning bg-opacity-10 text-warning-emphasis rounded-pill px-3 py-1 fw-bold small">SECTION
+                                3</span>
+                            <h3 class="fw-bold mb-0 mt-1"
+                                style="font-family: 'Outfit'; color: #0f172a; font-size: 1.5rem;">How We Use Your
+                                Information</h3>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.7; font-size: 0.98rem;">
+                        We process your information exclusively for academic, community networking, and institutional
+                        advancement:
+                    </p>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="policy-item-box text-center">
+                                <i class="fas fa-user-check text-warning fs-3 mb-2"></i>
+                                <h6 class="fw-bold text-dark small">Batch Verification</h6>
+                                <p class="text-muted small mb-0">Cross-verifying your alumni identity against university
+                                    records.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="policy-item-box text-center">
+                                <i class="fas fa-briefcase text-primary fs-3 mb-2"></i>
+                                <h6 class="fw-bold text-dark small">Placement & Referrals</h6>
+                                <p class="text-muted small mb-0">Connecting students with verified alumni hiring for
+                                    internships & jobs.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="policy-item-box text-center">
+                                <i class="fas fa-bell text-success fs-3 mb-2"></i>
+                                <h6 class="fw-bold text-dark small">Important Updates</h6>
+                                <p class="text-muted small mb-0">Notifying you about annual reunions, webinars, and
+                                    urgent announcements.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Data Sharing Policy -->
+                <div class="policy-vip-card accent-purple" id="sharing">
+                    <div class="policy-accent-bar"></div>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div
+                            style="width: 44px; height: 44px; border-radius: 12px; background: #f5f3ff; color: #7c3aed; display: grid; place-items: center; font-size: 1.25rem;">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-purple bg-opacity-10 text-purple rounded-pill px-3 py-1 fw-bold small"
+                                style="color: #7c3aed; background: #f5f3ff;">SECTION 4</span>
+                            <h3 class="fw-bold mb-0 mt-1"
+                                style="font-family: 'Outfit'; color: #0f172a; font-size: 1.5rem;">Information Sharing &
+                                Zero-Sale Guarantee</h3>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning border-warning-subtle d-flex align-items-center gap-2 mb-3">
+                        <i class="fas fa-ban fs-5 text-warning"></i>
+                        <span class="small fw-bold">Strict Policy: We do not sell, rent, or lease your personal
+                            information to third-party ad brokers or marketing agencies.</span>
+                    </div>
+                    <p class="text-muted small mb-0" style="line-height: 1.7;">
+                        Your profile is visible only to verified alumni, current students, and faculty administrators of
+                        the institution. We share data only when required by applicable law, accredited university
+                        audits, or essential cloud infrastructure providers (e.g. secure email dispatching and database
+                        hosting).
+                    </p>
+                </div>
+
+                <!-- Section 5: Security Architecture -->
+                <div class="policy-vip-card" id="security">
+                    <div class="policy-accent-bar"></div>
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <div
+                            style="width: 44px; height: 44px; border-radius: 12px; background: #e0f2fe; color: #0284c7; display: grid; place-items: center; font-size: 1.25rem;">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div>
+                            <span
+                                class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-1 fw-bold small">SECTION
+                                5</span>
+                            <h3 class="fw-bold mb-0 mt-1"
+                                style="font-family: 'Outfit'; color: #0f172a; font-size: 1.5rem;">Security Architecture
+                                & Safeguards</h3>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="policy-item-box">
+                                <h6 class="fw-bold text-dark"><i class="fas fa-key text-primary me-2"></i> Strong
+                                    Password Hashing</h6>
+                                <p class="text-muted small mb-0">Passwords are salted and hashed using modern
+                                    bcrypt/PBKDF2 algorithms. Plain text passwords are never stored anywhere in our
+                                    database.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="policy-item-box">
+                                <h6 class="fw-bold text-dark"><i class="fas fa-shield-alt text-success me-2"></i> TLS
+                                    1.3 Transmission</h6>
+                                <p class="text-muted small mb-0">All network traffic between your browser and our
+                                    servers is encrypted using Secure Sockets Layer / Transport Layer Security (TLS).
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="policy-item-box">
+                                <h6 class="fw-bold text-dark"><i class="fas fa-hourglass-half text-warning me-2"></i>
+                                    Single-Use Ephemeral OTPs</h6>
+                                <p class="text-muted small mb-0">Verification and password reset codes expire strictly
+                                    in 10 minutes and are purged from database records upon single use.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="policy-item-box">
+                                <h6 class="fw-bold text-dark"><i class="fas fa-user-secret text-info me-2"></i>
+                                    Role-Based Access Control</h6>
+                                <p class="text-muted small mb-0">Strict permission boundaries ensure students, alumni,
+                                    and administrators can only access authorized endpoints.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 6: Your Rights -->
+                <div class="policy-vip-card accent-green" id="rights">
+                    <div class="policy-accent-bar"></div>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div
+                            style="width: 44px; height: 44px; border-radius: 12px; background: #ecfdf5; color: #059669; display: grid; place-items: center; font-size: 1.25rem;">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div>
+                            <span
+                                class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 fw-bold small">SECTION
+                                6</span>
+                            <h3 class="fw-bold mb-0 mt-1"
+                                style="font-family: 'Outfit'; color: #0f172a; font-size: 1.5rem;">Your Privacy Rights &
+                                Controls</h3>
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-3" style="line-height: 1.7;">
+                        You maintain sovereign control over your personal data on Alumni Hub:
+                    </p>
+                    <div class="d-flex flex-column gap-2">
+                        <div class="p-3 rounded-3 bg-light d-flex align-items-center justify-content-between">
+                            <div>
+                                <strong class="small text-dark">Profile Visibility Control:</strong>
+                                <p class="text-muted small mb-0">Choose whether your email or contact phone is public to
+                                    members or kept private.</p>
+                            </div>
+                            <span class="badge bg-success text-white rounded-pill">Active</span>
+                        </div>
+                        <div class="p-3 rounded-3 bg-light d-flex align-items-center justify-content-between">
+                            <div>
+                                <strong class="small text-dark">Data Correction & Rectification:</strong>
+                                <p class="text-muted small mb-0">Edit your profile, company, skills, and portfolio links
+                                    at any time from your settings.</p>
+                            </div>
+                            <span class="badge bg-primary text-white rounded-pill">Self-Service</span>
+                        </div>
+                        <div class="p-3 rounded-3 bg-light d-flex align-items-center justify-content-between">
+                            <div>
+                                <strong class="small text-dark">Account Deletion & Erasure:</strong>
+                                <p class="text-muted small mb-0">Submit a deletion request to completely purge your
+                                    account and records from our server.</p>
+                            </div>
+                            <span class="badge bg-secondary text-white rounded-pill">On Request</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 7: Privacy Contact -->
+                <div class="policy-vip-card accent-purple" id="contact">
+                    <div class="policy-accent-bar"></div>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div
+                            style="width: 44px; height: 44px; border-radius: 12px; background: #f5f3ff; color: #7c3aed; display: grid; place-items: center; font-size: 1.25rem;">
+                            <i class="fas fa-envelope-open-text"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-purple bg-opacity-10 text-purple rounded-pill px-3 py-1 fw-bold small"
+                                style="color: #7c3aed; background: #f5f3ff;">SECTION 7</span>
+                            <h3 class="fw-bold mb-0 mt-1"
+                                style="font-family: 'Outfit'; color: #0f172a; font-size: 1.5rem;">Data Protection
+                                Officer & Inquiries</h3>
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-4" style="line-height: 1.7;">
+                        If you have inquiries, complaints, or compliance questions regarding this policy, reach out to
+                        our institutional privacy desk:
+                    </p>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-4 border">
+                                <h6 class="fw-bold small text-dark mb-1"><i
+                                        class="fas fa-envelope text-primary me-2"></i> Official Email</h6>
+                                <p class="text-muted small mb-2">alumnihub26@gmail.com</p>
+                                <a href="mailto:alumnihub26@gmail.com"
+                                    class="btn btn-sm btn-outline-primary rounded-pill px-3">Send Inquiries</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-4 border">
+                                <h6 class="fw-bold small text-dark mb-1"><i
+                                        class="fas fa-university text-purple me-2"></i> Campus Relations Desk</h6>
+                                <p class="text-muted small mb-2">Sector 5, Rohini, Delhi, 110085</p>
+                                <a href="{{ url_for('contact') }}"
+                                    class="btn btn-sm btn-outline-dark rounded-pill px-3">Contact Desk</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom CTA Card -->
+                <div class="service-cta-card p-4 p-md-5 text-center mt-5">
+                    <div class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-1 mb-3 fw-bold small">
+                        <i class="fas fa-user-shield me-1"></i> TRUSTED ALUMNI NETWORK
+                    </div>
+                    <h2 class="display-6 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
+                        Your Security is Our Foremost Priority
+                    </h2>
+                    <p class="mx-auto mb-4 text-muted" style="max-width: 620px; font-size: 1.05rem; line-height: 1.6;">
+                        Connect, mentor, and grow your career with complete peace of mind knowing your academic identity
+                        is protected.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a href="{{ url_for('terms_conditions') }}" class="btn btn-cta-dark px-4 py-3">
+                            <i class="fas fa-file-contract me-1 text-info"></i> View Terms of Service
+                        </a>
+                        <a href="{{ url_for('contact') }}" class="btn btn-cta-outline px-4 py-3">
+                            <i class="fas fa-headset me-1 text-primary"></i> Contact Privacy Desk
+                        </a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

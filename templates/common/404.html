@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %}404 - Page Not Found | Alumni Hub{% endblock %}
+
+{% block content %}
+<!-- Premium Fonts & CSS -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}">
+
+<style>
+    /* ========================================================
+       404 ERROR PAGE - ULTRA MODERN DESIGN SYSTEM
+       ======================================================== */
+    :root {
+        --srv-blue: #0284c7;
+        --srv-indigo: #4f46e5;
+        --srv-purple: #7c3aed;
+    }
+
+    .error-page-wrapper {
+        min-height: calc(100vh - 120px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 4rem 1.25rem;
+        background-color: #f8fafc;
+        overflow: hidden;
+    }
+
+    /* Ambient Background Glow */
+    .error-bg-glow {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(2, 132, 199, 0.12) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .error-ambient-ball {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.18;
+        pointer-events: none;
+        animation: floatOrb 18s infinite alternate ease-in-out;
+    }
+    .error-ball-1 {
+        width: 400px;
+        height: 400px;
+        background: #0284c7;
+        top: -100px;
+        left: -100px;
+    }
+    .error-ball-2 {
+        width: 360px;
+        height: 360px;
+        background: #7c3aed;
+        bottom: -80px;
+        right: -80px;
+        animation-delay: -6s;
+    }
+
+    @keyframes floatOrb {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(60px, 40px) scale(1.08); }
+    }
+
+    /* Central 404 Card */
+    .error-card-container {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 780px;
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.18);
+        border-radius: 32px;
+        box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12);
+        padding: 4rem 3rem;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    /* Top Accent Line */
+    .error-card-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #0284c7 0%, #4f46e5 50%, #7c3aed 100%);
+    }
+
+    /* Giant 404 Typography */
+    .error-number {
+        font-family: 'Outfit', sans-serif;
+        font-size: clamp(5rem, 15vw, 8.5rem);
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -4px;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, #0284c7 0%, #4f46e5 50%, #7c3aed 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        filter: drop-shadow(0 10px 20px rgba(2, 132, 199, 0.2));
+    }
+
+    .error-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: clamp(1.6rem, 4vw, 2.2rem);
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 0.75rem;
+    }
+
+    .error-subtitle {
+        color: #64748b;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        max-width: 580px;
+        margin: 0 auto 2.5rem auto;
+    }
+
+    /* Quick Action Mini Cards */
+    .error-nav-card {
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 18px;
+        padding: 18px 16px;
+        text-decoration: none;
+        color: #0f172a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.25s ease;
+        height: 100%;
+    }
+    .error-nav-card:hover {
+        background: #ffffff;
+        border-color: rgba(2, 132, 199, 0.4);
+        box-shadow: 0 10px 24px -5px rgba(2, 132, 199, 0.15);
+        transform: translateY(-4px);
+        color: #0284c7;
+    }
+    .error-nav-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 1.25rem;
+        background: #e0f2fe;
+        color: #0284c7;
+        transition: transform 0.25s ease;
+    }
+    .error-nav-card:hover .error-nav-icon {
+        transform: scale(1.1) rotate(6deg);
+        background: #0284c7;
+        color: #ffffff;
+    }
+
+    /* High Contrast CTA Buttons */
+    .btn-cta-primary {
+        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        box-shadow: 0 10px 24px rgba(2, 132, 199, 0.35) !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    .btn-cta-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(2, 132, 199, 0.45) !important;
+        color: #ffffff !important;
+    }
+
+    .btn-cta-dark {
+        background: #0f172a !important;
+        color: #ffffff !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2) !important;
+    }
+    .btn-cta-dark:hover {
+        background: #1e293b !important;
+        color: #38bdf8 !important;
+        border-color: #38bdf8 !important;
+        transform: translateY(-2px);
+    }
+
+    .btn-cta-outline {
+        background: transparent !important;
+        color: #0f172a !important;
+        border: 2px solid #cbd5e1 !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    .btn-cta-outline:hover {
+        background: #f1f5f9 !important;
+        border-color: #0284c7 !important;
+        color: #0284c7 !important;
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .error-card-container {
+            padding: 2.5rem 1.5rem;
+            border-radius: 24px;
+        }
+    }
+    @media (max-width: 480px) {
+        .btn-cta-primary, .btn-cta-dark, .btn-cta-outline {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="error-page-wrapper">
+    <!-- Ambient Glow & Orbs -->
+    <div class="error-bg-glow"></div>
+    <div class="error-ambient-ball error-ball-1"></div>
+    <div class="error-ambient-ball error-ball-2"></div>
+
+    <div class="error-card-container">
+        <!-- Floating 404 -->
+        <div>
+            <div class="error-number">404</div>
+        </div>
+
+        <div class="badge rounded-pill bg-danger bg-opacity-10 text-danger px-3 py-1 mb-3 fw-bold small">
+            <i class="fas fa-compass me-1"></i> PAGE NOT FOUND
+        </div>
+
+        <h1 class="error-title">Lost in Cyberspace?</h1>
+        <p class="error-subtitle">
+            The page or destination you are looking for might have been removed, had its name changed, or is temporarily unavailable. Let's get you back on track!
+        </p>
+
+        <!-- Quick 4-Way Navigational Gateway -->
+        <div class="row g-3 mb-4 justify-content-center">
+            <div class="col-6 col-md-3">
+                <a href="{{ url_for('home') }}" class="error-nav-card">
+                    <div class="error-nav-icon"><i class="fas fa-home"></i></div>
+                    <span class="fw-bold small">Home Page</span>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ url_for('network') }}" class="error-nav-card">
+                    <div class="error-nav-icon"><i class="fas fa-users"></i></div>
+                    <span class="fw-bold small">Alumni Directory</span>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ url_for('list_jobs') }}" class="error-nav-card">
+                    <div class="error-nav-icon"><i class="fas fa-briefcase"></i></div>
+                    <span class="fw-bold small">Jobs & Careers</span>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ url_for('events') }}" class="error-nav-card">
+                    <div class="error-nav-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <span class="fw-bold small">Events & Meets</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('home') }}" class="btn btn-cta-primary px-4 py-3">
+                <i class="fas fa-arrow-left me-1"></i> Return to Safety (Home)
+            </a>
+            <a href="{{ url_for('report_issue') }}" class="btn btn-cta-dark px-4 py-3">
+                <i class="fas fa-bug me-1 text-danger"></i> Report Broken Link
+            </a>
+            <a href="{{ url_for('contact') }}" class="btn btn-cta-outline px-4 py-3">
+                <i class="fas fa-headset me-1 text-primary"></i> Contact Support
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
