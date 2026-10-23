@@ -1,2873 +1,1088 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description"
-        content="Create your Alumni Hub account — connect with alumni and faculty, find opportunities and grow your career.">
-    <meta name="theme-color" content="#0a0a1a">
-    <title>Create Account — Alumni Hub</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        /* ============================================================
-           AURORA — design tokens (shared with login)
-           ============================================================ */
-        :root {
-            --ink-900: #05060f;
-            --ink-800: #0a0c1c;
-
-            --aurora-1: #7c3aed;
-            --aurora-2: #06b6d4;
-            --aurora-3: #f43f5e;
-            --aurora-4: #10b981;
-            --amber: #f59e0b;
-
-            --text-hi: #f4f5ff;
-            --text-mid: #a5a9c9;
-            --text-low: #6f7396;
-
-            --field-bg: rgba(255, 255, 255, 0.04);
-            --field-border: rgba(255, 255, 255, 0.09);
-            --field-border-hover: rgba(255, 255, 255, 0.16);
-            --panel-bg: linear-gradient(160deg, rgba(24, 26, 52, 0.72), rgba(12, 14, 32, 0.8));
-
-            --radius-sm: 12px;
-            --radius-md: 18px;
-            --radius-lg: 26px;
-            --radius-xl: 32px;
-
-            --font-display: 'Outfit', sans-serif;
-            --font-body: 'Plus Jakarta Sans', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-
-            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
-        html {
-            -webkit-text-size-adjust: 100%;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            min-height: 100dvh;
-            font-family: var(--font-body);
-            color: var(--text-hi);
-            background: var(--ink-900);
-            overflow-x: hidden;
-            position: relative;
-            isolation: isolate;
-        }
-
-        /* ============================================================
-           AURORA BACKDROP
-           ============================================================ */
-        .aurora {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            overflow: hidden;
-            background:
-                radial-gradient(120% 80% at 50% -10%, #1a1040 0%, transparent 60%),
-                var(--ink-900);
-        }
-
-        .aurora__blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5;
-            will-change: transform;
-        }
-
-        .aurora__blob--1 {
-            width: 60vmax;
-            height: 60vmax;
-            top: -22vmax;
-            left: -18vmax;
-            background: radial-gradient(circle at 30% 30%, var(--aurora-1), transparent 70%);
-            animation: drift-1 26s ease-in-out infinite;
-        }
-
-        .aurora__blob--2 {
-            width: 52vmax;
-            height: 52vmax;
-            bottom: -20vmax;
-            right: -14vmax;
-            background: radial-gradient(circle at 60% 40%, var(--aurora-2), transparent 70%);
-            animation: drift-2 32s ease-in-out infinite;
-        }
-
-        .aurora__blob--3 {
-            width: 44vmax;
-            height: 44vmax;
-            top: 30%;
-            left: 58%;
-            background: radial-gradient(circle at 50% 50%, var(--aurora-3), transparent 70%);
-            opacity: 0.28;
-            animation: drift-3 38s ease-in-out infinite;
-        }
-
-        @keyframes drift-1 {
-
-            0%,
-            100% {
-                transform: translate3d(0, 0, 0) scale(1);
-            }
-
-            33% {
-                transform: translate3d(8vw, 6vh, 0) scale(1.12);
-            }
-
-            66% {
-                transform: translate3d(-5vw, 10vh, 0) scale(0.94);
-            }
-        }
-
-        @keyframes drift-2 {
-
-            0%,
-            100% {
-                transform: translate3d(0, 0, 0) scale(1);
-            }
-
-            40% {
-                transform: translate3d(-10vw, -8vh, 0) scale(1.15);
-            }
-
-            70% {
-                transform: translate3d(4vw, -4vh, 0) scale(0.9);
-            }
-        }
-
-        @keyframes drift-3 {
-
-            0%,
-            100% {
-                transform: translate3d(-50%, -50%, 0) scale(1);
-            }
-
-            50% {
-                transform: translate3d(-58%, -62%, 0) scale(1.2);
-            }
-        }
-
-        .grain {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.22;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-        }
-
-        /* ============================================================
-           TOP BAR
-           ============================================================ */
-        .topbar {
-            position: fixed;
-            top: 1rem;
-            left: 50%;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1.5rem;
-            width: min(1440px, calc(100% - 3rem));
-            min-height: 68px;
-            padding: 0.65rem 0.85rem 0.65rem 1rem;
-            border: 1px solid rgba(205, 220, 255, 0.13);
-            border-radius: 20px;
-            background: linear-gradient(110deg, rgba(12, 16, 38, 0.88), rgba(18, 23, 49, 0.76));
-            backdrop-filter: blur(22px) saturate(150%);
-            -webkit-backdrop-filter: blur(22px) saturate(150%);
-            box-shadow: 0 14px 38px rgba(0, 0, 0, 0.24), inset 0 1px rgba(255, 255, 255, 0.04);
-            transform: translateX(-50%);
-        }
-
-        .brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.65rem;
-            text-decoration: none;
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 1.35rem;
-            color: var(--text-hi);
-            white-space: nowrap;
-            transition: transform 0.2s var(--ease-out);
-        }
-
-        .brand:hover {
-            color: var(--text-hi);
-            transform: translateY(-1px);
-        }
-
-        .brand__mark {
-            display: grid;
-            place-items: center;
-            width: 42px;
-            height: 42px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 11px;
-            background: linear-gradient(145deg, #7c3aed, #2563eb 62%, #06b6d4);
-            box-shadow: 0 6px 18px rgba(64, 96, 220, 0.3);
-        }
-
-        .brand__mark i {
-            font-size: 0.95rem;
-            color: #fff;
-        }
-
-        .topbar__links {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 0.3rem;
-        }
-
-        .topbar__links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 40px;
-            text-decoration: none;
-            color: var(--text-mid);
-            font-size: 0.86rem;
-            font-weight: 600;
-            padding: 0.5rem 0.85rem;
-            border-radius: 999px;
-            transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s;
-        }
-
-        .topbar__links a:hover,
-        .topbar__links a:focus-visible {
-            color: var(--text-hi);
-            background: rgba(255, 255, 255, 0.07);
-            outline: none;
-        }
-
-        .topbar__links a:focus-visible,
-        .brand:focus-visible {
-            outline: 2px solid #67e8f9;
-            outline-offset: 3px;
-        }
-
-        .topbar__links a.nav-cta {
-            margin-left: 0.35rem;
-            padding: 0.58rem 1.05rem;
-            border: 1px solid rgba(167, 190, 255, 0.32);
-            color: #fff;
-            background: linear-gradient(115deg, #6d4bea, #386de0 65%, #168baa);
-            box-shadow: 0 6px 18px rgba(75, 88, 210, 0.27);
-        }
-
-        .topbar__links a.nav-cta:hover,
-        .topbar__links a.nav-cta:focus-visible {
-            color: #fff;
-            background: linear-gradient(115deg, #805ef2, #477bed 65%, #18a0bf);
-            box-shadow: 0 8px 22px rgba(75, 88, 210, 0.38);
-            transform: translateY(-1px);
-        }
-
-        .nav-toggle {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            width: 44px;
-            height: 44px;
-            padding: 0;
-            border: 1px solid rgba(186, 211, 255, 0.2);
-            border-radius: 11px;
-            color: var(--text-hi);
-            background: rgba(255, 255, 255, 0.06);
-            font: 600 0.78rem var(--font-body);
-            cursor: pointer;
-        }
-
-        .nav-toggle:focus-visible { outline: 2px solid #67e8f9; outline-offset: 3px; }
-
-        .auth-topbar-cta {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 0.45rem;
-            min-height: 40px;
-            padding: 0.55rem 0.75rem;
-            border: 1px solid rgba(191, 219, 254, 0.42);
-            border-radius: 12px;
-            color: #fff;
-            background: linear-gradient(115deg, #6d4bea, #386de0 62%, #168baa);
-            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.24);
-            font-size: 0.82rem;
-            font-weight: 700;
-            line-height: 1;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        /* ============================================================
-           LAYOUT
-           ============================================================ */
-        .shell {
-            width: 100%;
-            max-width: 780px;
-            margin: 0 auto;
-            padding: clamp(6.25rem, 8vw, 7.25rem) clamp(1rem, 4vw, 1.5rem) 4rem;
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(22px);
-            animation: reveal-up 0.75s var(--ease-out) forwards;
-        }
-
-        .reveal--1 {
-            animation-delay: 0.05s;
-        }
-
-        .reveal--2 {
-            animation-delay: 0.12s;
-        }
-
-        .reveal--3 {
-            animation-delay: 0.2s;
-        }
-
-        .reveal--4 {
-            animation-delay: 0.28s;
-        }
-
-        @keyframes reveal-up {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ============================================================
-           HERO
-           ============================================================ */
-        .hero {
-            text-align: center;
-            margin-bottom: 1.75rem;
-        }
-
-        .hero__eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--aurora-2);
-            background: rgba(6, 182, 212, 0.1);
-            border: 1px solid rgba(6, 182, 212, 0.24);
-            padding: 0.3rem 0.75rem;
-            border-radius: 999px;
-            margin-bottom: 0.9rem;
-        }
-
-        .hero__title {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 7vw, 2.85rem);
-            font-weight: 800;
-            line-height: 1.08;
-            margin: 0 0 0.5rem;
-            letter-spacing: -0.025em;
-        }
-
-        .hero__title span {
-            background: linear-gradient(110deg, var(--aurora-2), var(--aurora-1) 45%, var(--aurora-3));
-            background-size: 220% 100%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-pan 7s ease infinite;
-        }
-
-        .hero__sub {
-            color: var(--text-mid);
-            font-size: 0.92rem;
-            margin: 0;
-        }
-
-        @keyframes gradient-pan {
-
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
-        /* ============================================================
-           PROGRESS PANEL — sticky, ring + bar
-           ============================================================ */
-        .progress-panel {
-            position: sticky;
-            top: 68px;
-            z-index: 40;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.9rem 1.1rem;
-            margin-bottom: 1.5rem;
-            border-radius: var(--radius-lg);
-            background: var(--panel-bg);
-            backdrop-filter: blur(20px) saturate(140%);
-            -webkit-backdrop-filter: blur(20px) saturate(140%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 14px 34px -18px rgba(0, 0, 0, 0.9);
-        }
-
-        .ring {
-            position: relative;
-            width: 54px;
-            height: 54px;
-            flex-shrink: 0;
-        }
-
-        .ring svg {
-            transform: rotate(-90deg);
-            width: 100%;
-            height: 100%;
-        }
-
-        .ring__track {
-            fill: none;
-            stroke: rgba(255, 255, 255, 0.09);
-            stroke-width: 6;
-        }
-
-        .ring__fill {
-            fill: none;
-            stroke: url(#ringGradient);
-            stroke-width: 6;
-            stroke-linecap: round;
-            stroke-dasharray: 151;
-            stroke-dashoffset: 151;
-            transition: stroke-dashoffset 0.6s var(--ease-out);
-        }
-
-        .ring__label {
-            position: absolute;
-            inset: 0;
-            display: grid;
-            place-items: center;
-            font-size: 0.72rem;
-            font-weight: 700;
-            font-family: var(--font-mono);
-            color: var(--text-hi);
-        }
-
-        .progress-panel__meta {
-            min-width: 0;
-            flex: 1;
-        }
-
-        .progress-panel__title {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 0.95rem;
-            margin: 0 0 0.45rem;
-        }
-
-        .bar {
-            height: 6px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.08);
-            overflow: hidden;
-        }
-
-        .bar__fill {
-            height: 100%;
-            width: 0%;
-            border-radius: 999px;
-            background: linear-gradient(90deg, var(--aurora-2), var(--aurora-1));
-            transition: width 0.6s var(--ease-out);
-        }
-
-        .completion-badge {
-            flex-shrink: 0;
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--aurora-2);
-            background: rgba(6, 182, 212, 0.1);
-            border: 1px solid rgba(6, 182, 212, 0.22);
-            padding: 0.3rem 0.6rem;
-            border-radius: 8px;
-        }
-
-        /* ============================================================
-           FLASH
-           ============================================================ */
-        .flash {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.65rem;
-            padding: 0.85rem 1rem;
-            border-radius: var(--radius-sm);
-            font-size: 0.85rem;
-            line-height: 1.45;
-            margin-bottom: 1.25rem;
-            border: 1px solid transparent;
-            animation: reveal-up 0.5s var(--ease-out) both;
-        }
-
-        .flash--success {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.3);
-            color: #6ee7b7;
-        }
-
-        .flash--danger {
-            background: rgba(244, 63, 94, 0.1);
-            border-color: rgba(244, 63, 94, 0.3);
-            color: #fda4af;
-        }
-
-        .flash--warning {
-            background: rgba(245, 158, 11, 0.1);
-            border-color: rgba(245, 158, 11, 0.3);
-            color: #fcd34d;
-        }
-
-        .flash--info {
-            background: rgba(6, 182, 212, 0.1);
-            border-color: rgba(6, 182, 212, 0.3);
-            color: #67e8f9;
-        }
-
-        /* ============================================================
-           PANEL — section container
-           ============================================================ */
-        .panel {
-            position: relative;
-            background: var(--panel-bg);
-            backdrop-filter: blur(20px) saturate(140%);
-            -webkit-backdrop-filter: blur(20px) saturate(140%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: var(--radius-xl);
-            padding: clamp(1.25rem, 4vw, 1.9rem);
-            margin-bottom: 1.25rem;
-            overflow: hidden;
-        }
-
-        .panel__head {
-            display: flex;
-            align-items: center;
-            gap: 0.85rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .panel__num {
-            display: grid;
-            place-items: center;
-            width: 34px;
-            height: 34px;
-            flex-shrink: 0;
-            border-radius: 11px;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #fff;
-            background: linear-gradient(135deg, var(--aurora-1), var(--aurora-2));
-            box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
-        }
-
-        .panel__title {
-            font-family: var(--font-display);
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin: 0;
-            letter-spacing: -0.01em;
-        }
-
-        .panel__hint {
-            display: block;
-            font-size: 0.78rem;
-            font-weight: 400;
-            color: var(--text-low);
-            margin-top: 0.1rem;
-        }
-
-        /* ============================================================
-           ROLE CARDS
-           ============================================================ */
-        .role-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.85rem;
-        }
-
-        .role-card {
-            position: relative;
-            display: block;
-            cursor: pointer;
-            text-align: center;
-            padding: 1.35rem 0.9rem;
-            border-radius: var(--radius-lg);
-            background: rgba(255, 255, 255, 0.03);
-            border: 1.5px solid rgba(255, 255, 255, 0.08);
-            transition: transform 0.3s var(--ease-spring), border-color 0.3s, background 0.3s, box-shadow 0.3s;
-            overflow: hidden;
-        }
-
-        .role-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.22), transparent 65%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .role-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 255, 255, 0.16);
-        }
-
-        .role-input:checked+.role-card {
-            border-color: var(--aurora-1);
-            background: rgba(124, 58, 237, 0.09);
-            box-shadow: 0 12px 30px -14px rgba(124, 58, 237, 0.75);
-        }
-
-        .role-input:checked+.role-card::before {
-            opacity: 1;
-        }
-
-        .role-input:focus-visible+.role-card {
-            outline: 2px solid var(--aurora-2);
-            outline-offset: 3px;
-        }
-
-        .role-card__icon {
-            position: relative;
-            display: grid;
-            place-items: center;
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 0.7rem;
-            border-radius: 14px;
-            font-size: 1.1rem;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.07);
-            transition: transform 0.3s var(--ease-spring), background 0.3s;
-        }
-
-        .role-input:checked+.role-card .role-card__icon {
-            transform: scale(1.08) rotate(-6deg);
-        }
-
-        .role-card[data-role="student"] .role-card__icon {
-            background: linear-gradient(135deg, #6366f1, #06b6d4);
-        }
-
-        .role-card[data-role="alumni"] .role-card__icon {
-            background: linear-gradient(135deg, #10b981, #06b6d4);
-        }
-
-        .role-card[data-role="faculty"] .role-card__icon {
-            background: linear-gradient(135deg, #f59e0b, #f43f5e);
-        }
-
-        .role-card__name {
-            position: relative;
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 0.98rem;
-            display: block;
-        }
-
-        .role-card__desc {
-            position: relative;
-            display: block;
-            font-size: 0.72rem;
-            color: var(--text-low);
-            margin-top: 0.2rem;
-            line-height: 1.35;
-        }
-
-        /* ============================================================
-           FIELDS
-           ============================================================ */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        .field {
-            margin-bottom: 0.15rem;
-        }
-
-        .field__label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-low);
-            margin-bottom: 0.45rem;
-        }
-
-        .field__wrap {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .field__icon {
-            position: absolute;
-            left: 0.95rem;
-            font-size: 0.82rem;
-            color: var(--text-low);
-            pointer-events: none;
-            transition: color 0.25s;
-        }
-
-        .input {
-            width: 100%;
-            font-family: var(--font-body);
-            font-size: 0.92rem;
-            color: var(--text-hi);
-            background: var(--field-bg);
-            border: 1.5px solid var(--field-border);
-            border-radius: var(--radius-sm);
-            padding: 0.8rem 0.95rem 0.8rem 2.7rem;
-            transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        .input::placeholder {
-            color: var(--text-low);
-            opacity: 0.65;
-        }
-
-        .input:hover {
-            border-color: var(--field-border-hover);
-        }
-
-        .input:focus {
-            outline: none;
-            border-color: var(--aurora-2);
-            background: rgba(6, 182, 212, 0.05);
-            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.14);
-        }
-
-        .field__wrap:focus-within .field__icon {
-            color: var(--aurora-2);
-        }
-
-        /* Make the native datalist arrow invisible but keep suggestions */
-        .input::-webkit-calendar-picker-indicator {
-            opacity: 0.35;
-            cursor: pointer;
-            filter: invert(1);
-        }
-
-        .input--pw {
-            padding-right: 3.1rem;
-        }
-
-        .pw-toggle {
-            position: absolute;
-            right: 0.55rem;
-            display: grid;
-            place-items: center;
-            width: 32px;
-            height: 32px;
-            border: none;
-            border-radius: 9px;
-            background: transparent;
-            color: var(--text-low);
-            cursor: pointer;
-            font-size: 0.82rem;
-            transition: color 0.2s, background 0.2s;
-        }
-
-        .pw-toggle:hover {
-            color: var(--text-hi);
-            background: rgba(255, 255, 255, 0.07);
-        }
-
-        /* ============================================================
-           PASSWORD STRENGTH
-           ============================================================ */
-        .strength {
-            margin-top: 0.6rem;
-        }
-
-        .strength__bars {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.3rem;
-            margin-bottom: 0.35rem;
-        }
-
-        .strength__bar {
-            height: 4px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.08);
-            transition: background 0.35s;
-        }
-
-        .strength__label {
-            font-size: 0.72rem;
-            color: var(--text-low);
-            font-family: var(--font-mono);
-        }
-
-        .strength.is-1 .strength__bar:nth-child(1) {
-            background: #ef4444;
-        }
-
-        .strength.is-2 .strength__bar:nth-child(-n+2) {
-            background: #f59e0b;
-        }
-
-        .strength.is-3 .strength__bar:nth-child(-n+3) {
-            background: #06b6d4;
-        }
-
-        .strength.is-4 .strength__bar {
-            background: #10b981;
-        }
-
-        /* ============================================================
-           TERMS
-           ============================================================ */
-        .terms {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.85rem;
-            padding: 1rem;
-            border-radius: var(--radius-md);
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            cursor: pointer;
-            transition: border-color 0.25s, background 0.25s;
-        }
-
-        .terms:hover {
-            border-color: rgba(255, 255, 255, 0.16);
-        }
-
-        .terms__box {
-            position: relative;
-            flex-shrink: 0;
-            width: 22px;
-            height: 22px;
-            margin-top: 1px;
-        }
-
-        .terms__box input {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .terms__box i {
-            position: absolute;
-            inset: 0;
-            display: grid;
-            place-items: center;
-            border-radius: 7px;
-            border: 1.5px solid var(--field-border-hover);
-            background: rgba(255, 255, 255, 0.04);
-            font-size: 0.7rem;
-            color: transparent;
-            transition: all 0.25s var(--ease-spring);
-        }
-
-        .terms__box input:checked+i {
-            background: linear-gradient(135deg, var(--aurora-1), var(--aurora-2));
-            border-color: transparent;
-            color: #fff;
-        }
-
-        .terms__box input:focus-visible+i {
-            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2);
-        }
-
-        .terms__text {
-            font-size: 0.84rem;
-            color: var(--text-mid);
-            line-height: 1.5;
-        }
-
-        /* ============================================================
-           SUBMIT
-           ============================================================ */
-        .submit {
-            position: relative;
-            width: 100%;
-            border: none;
-            cursor: pointer;
-            overflow: hidden;
-            font-family: var(--font-display);
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-            padding: 1.05rem 1.5rem;
-            border-radius: var(--radius-md);
-            background: linear-gradient(110deg, var(--aurora-1), var(--aurora-2) 50%, var(--aurora-1));
-            background-size: 220% 100%;
-            box-shadow: 0 14px 34px -12px rgba(124, 58, 237, 0.7);
-            transition: transform 0.25s var(--ease-out), box-shadow 0.25s;
-            animation: gradient-pan 6s ease infinite;
-        }
-
-        .submit::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-            transform: translateX(-230%) skewX(-20deg);
-        }
-
-        .submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 44px -14px rgba(124, 58, 237, 0.85);
-        }
-
-        .submit:hover::after {
-            animation: sheen 0.85s var(--ease-out);
-        }
-
-        .submit:active {
-            transform: translateY(0);
-        }
-
-        .submit:disabled {
-            cursor: wait;
-            opacity: 0.82;
-            animation: none;
-            transform: none;
-        }
-
-        @keyframes sheen {
-            to {
-                transform: translateX(230%) skewX(-20deg);
-            }
-        }
-
-        .submit__inner {
-            position: relative;
-            z-index: 1;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .card__foot {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.88rem;
-            color: var(--text-mid);
-        }
-
-        .link {
-            color: var(--aurora-2);
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .link:hover {
-            color: #67e8f9;
-            text-decoration: underline;
-        }
-
-        /* ============================================================
-           ROLE-SPECIFIC BLOCKS
-           ============================================================ */
-        .role-block {
-            display: none;
-        }
-
-        .role-block.is-active {
-            display: block;
-            animation: block-in 0.5s var(--ease-out);
-        }
-
-        @keyframes block-in {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ============================================================
-           ANIMATED MESH
-           ============================================================ */
-        .aurora__mesh {
-            position: absolute;
-            inset: -30%;
-            background: conic-gradient(from 0deg at 50% 50%,
-                    rgba(124, 58, 237, 0.22),
-                    rgba(6, 182, 212, 0.18),
-                    rgba(16, 185, 129, 0.14),
-                    rgba(244, 63, 94, 0.16),
-                    rgba(124, 58, 237, 0.22));
-            filter: blur(70px);
-            opacity: 0.4;
-            mix-blend-mode: screen;
-            animation: mesh-spin 70s linear infinite;
-            will-change: transform;
-        }
-
-        @keyframes mesh-spin {
-            to {
-                transform: rotate(1turn);
-            }
-        }
-
-        /* ============================================================
-           FLOATING MOTES
-           ============================================================ */
-        .motes {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .motes i {
-            position: absolute;
-            left: var(--mote-left, 50%);
-            bottom: -14vh;
-            width: var(--mote-size, 4px);
-            height: var(--mote-size, 4px);
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.95), transparent 70%);
-            opacity: 0;
-            animation: mote-rise var(--mote-dur, 24s) linear var(--mote-delay, 0s) infinite;
-        }
-
-        .motes i:nth-child(3n) {
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.95), transparent 70%);
-        }
-
-        .motes i:nth-child(3n+1) {
-            background: radial-gradient(circle, rgba(167, 139, 250, 0.95), transparent 70%);
-        }
-
-        .motes i:nth-child(1) {
-            --mote-size: 3px;
-            --mote-left: 6%;
-            --mote-dur: 27s;
-            --mote-delay: 0s;
-            --mote-sway: 18px;
-            --mote-peak: 0.42;
-        }
-
-        .motes i:nth-child(2) {
-            --mote-size: 5px;
-            --mote-left: 14%;
-            --mote-dur: 32s;
-            --mote-delay: 4s;
-            --mote-sway: -14px;
-            --mote-peak: 0.32;
-        }
-
-        .motes i:nth-child(3) {
-            --mote-size: 2px;
-            --mote-left: 22%;
-            --mote-dur: 23s;
-            --mote-delay: 8s;
-            --mote-sway: 22px;
-            --mote-peak: 0.5;
-        }
-
-        .motes i:nth-child(4) {
-            --mote-size: 4px;
-            --mote-left: 30%;
-            --mote-dur: 29s;
-            --mote-delay: 2s;
-            --mote-sway: -20px;
-            --mote-peak: 0.38;
-        }
-
-        .motes i:nth-child(5) {
-            --mote-size: 3px;
-            --mote-left: 38%;
-            --mote-dur: 35s;
-            --mote-delay: 11s;
-            --mote-sway: 16px;
-            --mote-peak: 0.46;
-        }
-
-        .motes i:nth-child(6) {
-            --mote-size: 6px;
-            --mote-left: 46%;
-            --mote-dur: 26s;
-            --mote-delay: 6s;
-            --mote-sway: -24px;
-            --mote-peak: 0.26;
-        }
-
-        .motes i:nth-child(7) {
-            --mote-size: 2px;
-            --mote-left: 54%;
-            --mote-dur: 30s;
-            --mote-delay: 13s;
-            --mote-sway: 20px;
-            --mote-peak: 0.55;
-        }
-
-        .motes i:nth-child(8) {
-            --mote-size: 4px;
-            --mote-left: 62%;
-            --mote-dur: 24s;
-            --mote-delay: 3s;
-            --mote-sway: -16px;
-            --mote-peak: 0.36;
-        }
-
-        .motes i:nth-child(9) {
-            --mote-size: 3px;
-            --mote-left: 70%;
-            --mote-dur: 33s;
-            --mote-delay: 9.5s;
-            --mote-sway: 24px;
-            --mote-peak: 0.44;
-        }
-
-        .motes i:nth-child(10) {
-            --mote-size: 5px;
-            --mote-left: 78%;
-            --mote-dur: 28s;
-            --mote-delay: 16s;
-            --mote-sway: -18px;
-            --mote-peak: 0.3;
-        }
-
-        .motes i:nth-child(11) {
-            --mote-size: 2px;
-            --mote-left: 85%;
-            --mote-dur: 22s;
-            --mote-delay: 7s;
-            --mote-sway: 12px;
-            --mote-peak: 0.48;
-        }
-
-        .motes i:nth-child(12) {
-            --mote-size: 3px;
-            --mote-left: 91%;
-            --mote-dur: 31s;
-            --mote-delay: 19s;
-            --mote-sway: -26px;
-            --mote-peak: 0.38;
-        }
-
-        .motes i:nth-child(13) {
-            --mote-size: 3px;
-            --mote-left: 20%;
-            --mote-dur: 25s;
-            --mote-delay: 21s;
-            --mote-sway: 20px;
-            --mote-peak: 0.34;
-        }
-
-        .motes i:nth-child(14) {
-            --mote-size: 4px;
-            --mote-left: 74%;
-            --mote-dur: 29s;
-            --mote-delay: 24s;
-            --mote-sway: -14px;
-            --mote-peak: 0.4;
-        }
-
-        @keyframes mote-rise {
-            0% {
-                transform: translate3d(0, 0, 0) scale(0.6);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: var(--mote-peak, 0.45);
-            }
-
-            50% {
-                transform: translate3d(var(--mote-sway, 14px), -58vh, 0) scale(1);
-            }
-
-            90% {
-                opacity: var(--mote-peak, 0.45);
-            }
-
-            100% {
-                transform: translate3d(0, -116vh, 0) scale(0.7);
-                opacity: 0;
-            }
-        }
-
-        /* ============================================================
-           POINTER SPOTLIGHT
-           ============================================================ */
-        .spotlight {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-            background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 25%),
-                    rgba(124, 58, 237, 0.18), transparent 65%);
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-
-        .motion-ok .spotlight {
-            opacity: 1;
-        }
-
-        /* ============================================================
-           PANEL — cursor spotlight + lift
-           ============================================================ */
-        .panel {
-            transition: border-color 0.3s, box-shadow 0.35s var(--ease-out), transform 0.35s var(--ease-out);
-        }
-
-        .motion-ok .panel::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.35s ease;
-            background: radial-gradient(300px circle at var(--px, 50%) var(--py, 50%),
-                    rgba(6, 182, 212, 0.1), transparent 62%);
-        }
-
-        .motion-ok .panel:hover {
-            transform: translateY(-3px);
-            border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 22px 48px -26px rgba(124, 58, 237, 0.55);
-        }
-
-        .motion-ok .panel:hover::after {
-            opacity: 1;
-        }
-
-        /* Role blocks ease in as the user picks a role */
-        .motion-ok .role-block {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .motion-ok .role-block.is-active {
-            opacity: 1;
-            transform: none;
-        }
-
-        /* ============================================================
-           PROGRESS BAR — shimmer on the filled portion
-           ============================================================ */
-        .bar__fill {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .bar__fill::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
-            animation: bar-shimmer 2.6s ease-in-out infinite;
-        }
-
-        @keyframes bar-shimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        /* Selected role icon keeps a gentle pulse */
-        .role-input:checked+.role-card .role-card__icon {
-            animation: icon-pulse 2.4s ease-in-out infinite;
-        }
-
-        @keyframes icon-pulse {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.35);
-            }
-
-            50% {
-                box-shadow: 0 0 0 9px rgba(124, 58, 237, 0);
-            }
-        }
-
-        /* Field icon reacts to focus */
-        .field__wrap:focus-within .field__icon {
-            animation: icon-pop 0.45s var(--ease-spring);
-        }
-
-        @keyframes icon-pop {
-
-            0% {
-                transform: scale(1);
-            }
-
-            45% {
-                transform: scale(1.3);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        /* Animated underline for links */
-        .link {
-            background-image: linear-gradient(90deg, var(--aurora-2), var(--aurora-1));
-            background-repeat: no-repeat;
-            background-position: 0 100%;
-            background-size: 0% 1.5px;
-            transition: background-size 0.32s var(--ease-out), color 0.2s;
-        }
-
-        .link:hover,
-        .link:focus-visible {
-            background-size: 100% 1.5px;
-        }
-
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
-        @media (max-width: 720px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .progress-panel {
-                top: 62px;
-                padding: 0.8rem 0.9rem;
-                gap: 0.8rem;
-            }
-
-            .ring {
-                width: 46px;
-                height: 46px;
-            }
-
-            .ring__label {
-                font-size: 0.65rem;
-            }
-        }
-
-        @media (max-width: 560px) {
-            .topbar {
-                top: 0.65rem;
-                width: calc(100% - 1.25rem);
-                min-height: 58px;
-                padding: 0.45rem 0.55rem 0.45rem 0.7rem;
-                border-radius: 16px;
-            }
-
-            .topbar__links a.nav-secondary {
-                display: none;
-            }
-
-            .topbar__links a {
-                min-height: 38px;
-                padding: 0.45rem 0.65rem;
-                font-size: 0.78rem;
-            }
-
-            .brand {
-                gap: 0.5rem;
-                font-size: 1rem;
-            }
-
-            .brand__mark {
-                width: 36px;
-                height: 36px;
-            }
-
-            .topbar__links a.nav-cta {
-                margin-left: 0.1rem;
-                padding-inline: 0.8rem;
-            }
-
-            .shell {
-                padding-top: 5.5rem;
-            }
-
-            .role-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .role-card {
-                display: flex;
-                align-items: center;
-                gap: 0.9rem;
-                text-align: left;
-                padding: 0.9rem 1rem;
-            }
-
-            .role-card__icon {
-                margin: 0;
-                width: 42px;
-                height: 42px;
-            }
-
-            .completion-badge {
-                display: none;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .input {
-                padding: 0.75rem 0.8rem 0.75rem 2.45rem;
-                font-size: 0.88rem;
-            }
-        }
-
-        /* ============================================================
-           ACCESSIBILITY
-           ============================================================ */
-        @media (prefers-reduced-motion: reduce) {
-
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.001ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.001ms !important;
-            }
-
-            .reveal {
-                opacity: 1;
-                transform: none;
-            }
-
-            /* Ambient layers are pure decoration — drop them entirely */
-            .motes,
-            .aurora__mesh,
-            .spotlight {
-                display: none !important;
-            }
-
-            .motion-ok .panel,
-            .motion-ok .role-block {
-                opacity: 1 !important;
-                transform: none !important;
-            }
-
-            .bar__fill::after,
-            .role-card__icon {
-                animation: none !important;
-            }
-
-            .link {
-                background-size: 0% 1.5px !important;
-            }
-        }
-
-        /* Touch devices: no cursor spotlight, fewer motes */
-        @media (hover: none) {
-            .spotlight {
-                display: none;
-            }
-        }
-
-        @media (max-width: 720px) {
-
-            .motes i:nth-child(n+11) {
-                display: none;
-            }
-
-            .aurora__mesh {
-                opacity: 0.3;
-            }
-        }
-
-        @view-transition {
-            navigation: auto;
-        }
-
-        ::view-transition-group(auth-brand-panel),
-        ::view-transition-group(auth-form-panel) {
-            animation-duration: 1050ms;
-            animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
-        }
-
-        ::view-transition-old(auth-brand-panel),
-        ::view-transition-new(auth-brand-panel),
-        ::view-transition-old(auth-form-panel),
-        ::view-transition-new(auth-form-panel) {
-            height: 100%;
-            object-fit: contain;
-        }
-
-        ::view-transition-old(auth-form-panel) { animation: auth-panel-out 620ms cubic-bezier(0.65, 0, 0.35, 1) both; }
-        ::view-transition-new(auth-form-panel) { animation: auth-panel-in 880ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-
-        @keyframes auth-panel-in {
-            from { opacity: 0; transform: translateY(14px) scale(0.985); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        @keyframes auth-panel-out {
-            to { opacity: 0; transform: translateY(-8px) scale(0.99); }
-        }
-
-        .auth-layout {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-            grid-template-areas: "form brand";
-            align-items: start;
-            gap: clamp(2rem, 5vw, 5rem);
-            width: min(1380px, 100%);
-            margin: 6.25rem auto 2rem;
-        }
-
-        .auth-brand-panel {
-            grid-area: brand;
-            view-transition-name: auth-brand-panel;
-            position: sticky;
-            top: 6.5rem;
-            overflow: hidden;
-            padding: clamp(1.5rem, 3vw, 2.5rem);
-            border: 1px solid rgba(186, 211, 255, 0.13);
-            border-radius: 30px;
-            background: linear-gradient(145deg, rgba(20, 24, 55, 0.72), rgba(9, 15, 34, 0.58));
-            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24), inset 0 1px rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-        }
-
-        .auth-brand-panel::before {
-            content: "";
-            position: absolute;
-            width: 260px;
-            height: 260px;
-            top: -150px;
-            right: -100px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.3), transparent 70%);
-            pointer-events: none;
-        }
-
-        .auth-brand-kicker {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #a5f3fc;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-        }
-
-        .auth-brand-panel h1 {
-            max-width: 13ch;
-            margin: 1rem 0 0.75rem;
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 4vw, 3.1rem);
-            line-height: 1.02;
-            letter-spacing: -0.045em;
-        }
-
-        .auth-brand-panel h1 span {
-            display: block;
-            color: #7dd3fc;
-        }
-
-        .auth-brand-copy {
-            max-width: 38ch;
-            margin: 0;
-            color: var(--text-mid);
-            font-size: 0.91rem;
-            line-height: 1.7;
-        }
-
-        .auth-feature-list {
-            display: grid;
-            gap: 0.7rem;
-            margin: 1.6rem 0 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .auth-feature {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: #e4eafa;
-            font-size: 0.83rem;
-            font-weight: 550;
-        }
-
-        .auth-feature i {
-            display: grid;
-            width: 34px;
-            height: 34px;
-            flex: 0 0 34px;
-            place-items: center;
-            border: 1px solid rgba(125, 211, 252, 0.17);
-            border-radius: 11px;
-            color: #67e8f9;
-            background: rgba(6, 182, 212, 0.1);
-        }
-
-        .auth-visual {
-            position: relative;
-            display: grid;
-            min-height: 170px;
-            place-items: center;
-            margin-top: 1.8rem;
-            overflow: hidden;
-            border: 1px solid rgba(186, 211, 255, 0.1);
-            border-radius: 20px;
-            background: radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.11), transparent 55%), rgba(4, 9, 24, 0.36);
-        }
-
-        .auth-network {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 145px;
-        }
-
-        .auth-network::before,
-        .auth-network::after {
-            content: "";
-            position: absolute;
-            width: 190px;
-            height: 70px;
-            border: 1px solid rgba(103, 232, 249, 0.22);
-            border-radius: 50%;
-            transform: rotate(-18deg);
-        }
-
-        .auth-network::after { transform: rotate(18deg); border-color: rgba(167, 139, 250, 0.2); }
-
-        .auth-node {
-            position: absolute;
-            z-index: 1;
-            display: grid;
-            width: 42px;
-            height: 42px;
-            place-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 14px;
-            color: #fff;
-            background: linear-gradient(145deg, rgba(124, 58, 237, 0.88), rgba(6, 182, 212, 0.78));
-            box-shadow: 0 10px 24px rgba(6, 182, 212, 0.16);
-        }
-
-        .auth-node--center { width: 50px; height: 50px; border-radius: 16px; font-size: 1.15rem; }
-        .auth-node--one { transform: translate(-85px, -27px); }
-        .auth-node--two { transform: translate(82px, -27px); background: linear-gradient(145deg, #0f766e, #06b6d4); }
-        .auth-node--three { transform: translate(-58px, 38px); background: linear-gradient(145deg, #a21caf, #7c3aed); }
-        .auth-node--four { transform: translate(58px, 38px); background: linear-gradient(145deg, #b45309, #f43f5e); }
-
-        .auth-form-panel {
-            grid-area: form;
-            view-transition-name: auth-form-panel;
-            width: 100%;
-            max-width: 760px;
-            min-width: 0;
-            padding: 0;
-            margin: 0;
-        }
-
-        .auth-form-panel .progress-panel { top: 6rem; }
-        .auth-form-panel .hero { text-align: left; }
-
-        @media (max-width: 1000px) {
-            .auth-layout {
-                grid-template-columns: minmax(0, 1fr);
-                grid-template-areas: "brand" "form";
-                gap: 1.25rem;
-                width: min(780px, 100%);
-                margin-top: 6rem;
-            }
-            .auth-brand-panel { position: relative; top: auto; padding: 1.4rem 1.5rem; border-radius: 24px; }
-            .auth-brand-panel h1 { max-width: none; margin: 0.6rem 0 0.4rem; font-size: clamp(1.65rem, 5vw, 2.2rem); }
-            .auth-brand-copy { max-width: 60ch; font-size: 0.84rem; }
-            .auth-feature-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.55rem; margin-top: 1rem; }
-            .auth-feature { align-items: flex-start; gap: 0.45rem; font-size: 0.72rem; }
-            .auth-feature i { width: 30px; height: 30px; flex-basis: 30px; }
-            .auth-visual { min-height: 110px; margin-top: 1rem; }
-            .auth-network { height: 100px; }
-            .auth-network::before, .auth-network::after { width: 160px; height: 55px; }
-            .auth-form-panel { max-width: none; }
-            .auth-form-panel .hero { text-align: center; }
-        }
-
-        @media (max-width: 560px) {
-            .auth-layout { width: 100%; margin-top: 5.25rem; gap: 0.9rem; }
-            .auth-brand-panel { padding: 1.1rem 1rem; border-radius: 20px; }
-            .auth-brand-panel h1 { font-size: 1.55rem; }
-            .auth-brand-copy { font-size: 0.78rem; line-height: 1.5; }
-            .auth-feature-list { gap: 0.4rem; }
-            .auth-feature { flex-direction: column; font-size: 0.66rem; line-height: 1.3; }
-            .auth-feature i { width: 28px; height: 28px; flex-basis: 28px; font-size: 0.75rem; }
-            .auth-visual { min-height: 88px; margin-top: 0.8rem; }
-            .auth-network { height: 80px; }
-            .auth-network::before, .auth-network::after { width: 135px; height: 46px; }
-            .auth-node { width: 32px; height: 32px; border-radius: 11px; font-size: 0.8rem; }
-            .auth-node--center { width: 40px; height: 40px; font-size: 1rem; }
-            .auth-node--one { transform: translate(-62px, -20px); }
-            .auth-node--two { transform: translate(61px, -20px); }
-            .auth-node--three { transform: translate(-43px, 28px); }
-            .auth-node--four { transform: translate(43px, 28px); }
-            .auth-form-panel .panel { padding: 1rem; }
-            .auth-form-panel .progress-panel { top: 4.5rem; }
-        }
-
-        @media (max-width: 560px) {
-            .nav-toggle { display: inline-flex; margin-left: auto; }
-            .topbar__links {
-                position: absolute;
-                top: calc(100% + 0.55rem);
-                right: 0;
-                left: 0;
-                display: none;
-                align-items: stretch;
-                flex-direction: column;
-                gap: 0.25rem;
-                padding: 0.55rem;
-                border: 1px solid rgba(205, 220, 255, 0.14);
-                border-radius: 16px;
-                background: rgba(10, 14, 33, 0.97);
-                box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
-                backdrop-filter: blur(20px);
-            }
-            .topbar__links.is-open { display: flex; animation: nav-drop-in 180ms var(--ease-out) both; }
-            .topbar__links a.nav-secondary { display: inline-flex; }
-            .topbar__links a { justify-content: flex-start; border-radius: 10px; }
-            .topbar__links a.nav-cta { justify-content: center; margin: 0.2rem 0 0; }
-            @keyframes nav-drop-in {
-                from { opacity: 0; transform: translateY(-5px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            ::view-transition-group(auth-brand-panel),
-            ::view-transition-group(auth-form-panel),
-            ::view-transition-old(auth-form-panel),
-            ::view-transition-new(auth-form-panel) { animation-duration: 1ms; }
-            .topbar__links.is-open { animation: none; }
-        }
-
-        @media (max-width: 767px) {
-            .topbar {
-                top: 0.65rem;
-                width: calc(100% - 1.25rem);
-                min-height: 58px;
-                gap: 0.55rem;
-                padding: 0.45rem 0.55rem 0.45rem 0.7rem;
-                border-radius: 16px;
-            }
-            .brand { gap: 0.5rem; margin-right: auto; font-size: 1rem; }
-            .brand__mark { width: 36px; height: 36px; }
-            .nav-toggle { display: inline-flex; flex: 0 0 40px; width: 40px; height: 40px; }
-            .auth-topbar-cta { display: inline-flex; }
-            .topbar__links {
-                position: absolute;
-                top: calc(100% + 0.55rem);
-                right: 0;
-                left: 0;
-                display: none;
-                align-items: stretch;
-                flex-direction: column;
-                gap: 0.25rem;
-                padding: 0.55rem;
-                border: 1px solid rgba(205, 220, 255, 0.14);
-                border-radius: 16px;
-                background: rgba(10, 14, 33, 0.97);
-                box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
-                backdrop-filter: blur(20px);
-            }
-            .topbar__links.is-open { display: flex; animation: nav-drop-in 180ms var(--ease-out) both; }
-            .topbar__links a.nav-secondary { display: inline-flex; }
-            .topbar__links a { justify-content: flex-start; border-radius: 10px; }
-            .topbar__links a.nav-cta { display: none; }
-        }
-
-        @media (max-width: 360px) {
-            .topbar { gap: 0.35rem; padding-inline: 0.5rem; }
-            .brand { font-size: 0.9rem; gap: 0.35rem; }
-            .brand__mark { width: 32px; height: 32px; }
-            .auth-topbar-cta { min-height: 36px; padding-inline: 0.55rem; font-size: 0.74rem; }
-            .nav-toggle { flex-basis: 36px; width: 36px; height: 36px; }
-        }
-    </style>
-</head>
-
-<body>
-    <div class="aurora" aria-hidden="true">
-        <div class="aurora__mesh"></div>
-        <div class="aurora__blob aurora__blob--1"></div>
-        <div class="aurora__blob aurora__blob--2"></div>
-        <div class="aurora__blob aurora__blob--3"></div>
-    </div>
-    <div class="spotlight" aria-hidden="true"></div>
-    <div class="motes" aria-hidden="true">
-        <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-        <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-    </div>
-    <div class="grain" aria-hidden="true"></div>
-
-    <header class="topbar">
-        <a href="/" class="brand">
-            <span class="brand__mark"><i class="fas fa-graduation-cap"></i></span>
-            <span>ALUMNI HUB</span>
-        </a>
-        <a href="/login" class="auth-topbar-cta">Sign In</a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="authNavLinks" aria-label="Open navigation menu">
-            <i class="fas fa-bars" aria-hidden="true"></i>
-        </button>
-        <nav class="topbar__links" id="authNavLinks" aria-label="Main navigation">
-            <a href="/" class="nav-home">Home</a>
-            <a href="/about" class="nav-secondary">About</a>
-            <a href="/services" class="nav-secondary">Services</a>
-            <a href="/events" class="nav-secondary">Events</a>
-            <a href="/contact" class="nav-secondary">Contact</a>
-            <a href="/login" class="nav-cta">Sign In</a>
-        </nav>
-    </header>
-
-    <div class="auth-layout auth-layout--register">
-    <aside class="auth-brand-panel reveal reveal--1" aria-labelledby="auth-brand-title">
-        <span class="auth-brand-kicker"><i class="fas fa-network-wired"></i> Alumni Hub Network</span>
-        <h1 id="auth-brand-title">Your experience.<span>Someone's next step.</span></h1>
-        <p class="auth-brand-copy">Join students, alumni and faculty building a stronger college community together.</p>
-        <ul class="auth-feature-list">
-            <li class="auth-feature"><i class="fas fa-people-arrows-left-right" aria-hidden="true"></i><span>Reconnect across graduating batches</span></li>
-            <li class="auth-feature"><i class="fas fa-handshake-angle" aria-hidden="true"></i><span>Share mentorship and career guidance</span></li>
-            <li class="auth-feature"><i class="fas fa-bullhorn" aria-hidden="true"></i><span>Stay close to jobs and campus events</span></li>
-        </ul>
-        <div class="auth-visual" aria-hidden="true">
-            <div class="auth-network">
-                <span class="auth-node auth-node--center"><i class="fas fa-graduation-cap"></i></span>
-                <span class="auth-node auth-node--one"><i class="fas fa-user"></i></span>
-                <span class="auth-node auth-node--two"><i class="fas fa-user-tie"></i></span>
-                <span class="auth-node auth-node--three"><i class="fas fa-book-open"></i></span>
-                <span class="auth-node auth-node--four"><i class="fas fa-briefcase"></i></span>
-            </div>
-        </div>
-    </aside>
-    <main class="shell auth-form-panel">
-
-        <!-- Hero -->
-        <div class="hero reveal reveal--1">
-            <span class="hero__eyebrow"><i class="fas fa-sparkles"></i> Join the network</span>
-            <h1 class="hero__title">Create your <span>account.</span></h1>
-            <p class="hero__sub">One profile. Every opportunity. Your entire campus community.</p>
+{% extends 'base.html' %}
+
+{% block title %}Create Account - Alumni Hub{% endblock %}
+
+{% block content %}
+<!-- Premium Fonts & CSS -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}">
+
+<style>
+    /* ========================================================
+       REGISTER PAGE - MODERN DESIGN SYSTEM (Matching Home & Services)
+       ======================================================== */
+    :root {
+        --srv-blue: #0284c7;
+        --srv-indigo: #4f46e5;
+        --srv-purple: #7c3aed;
+        --srv-green: #10b981;
+    }
+
+    .register-page-wrapper {
+        min-height: calc(100vh - 120px);
+        position: relative;
+        padding: 3rem 1.25rem 5rem 1.25rem;
+        background-color: #f8fafc;
+        overflow: hidden;
+    }
+
+    /* Ambient Background Glow */
+    .register-bg-glow {
+        position: absolute;
+        width: 650px;
+        height: 650px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(2, 132, 199, 0.12) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 70%);
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .register-ambient-ball {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.18;
+        pointer-events: none;
+        animation: floatOrb 20s infinite alternate ease-in-out;
+    }
+    .register-ball-1 {
+        width: 450px;
+        height: 450px;
+        background: #0284c7;
+        top: -100px;
+        left: -100px;
+    }
+    .register-ball-2 {
+        width: 400px;
+        height: 400px;
+        background: #7c3aed;
+        bottom: 100px;
+        right: -100px;
+        animation-delay: -6s;
+    }
+
+    @keyframes floatOrb {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(60px, 40px) scale(1.08); }
+    }
+
+    /* Container */
+    .register-container {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    /* VIP Multi-Section Card */
+    .register-panel {
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.18);
+        border-radius: 28px;
+        padding: 32px 30px;
+        margin-bottom: 24px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .register-panel:hover {
+        border-color: rgba(2, 132, 199, 0.35);
+        box-shadow: 0 20px 48px -10px rgba(2, 132, 199, 0.14);
+    }
+
+    .register-accent-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #0284c7 0%, #4f46e5 50%, #7c3aed 100%);
+    }
+
+    /* Section Number & Header */
+    .section-badge-num {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #0284c7, #1d4ed8);
+        color: #ffffff;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 0.95rem;
+        flex-shrink: 0;
+        box-shadow: 0 6px 14px rgba(2, 132, 199, 0.3);
+    }
+
+    /* Role Selection Cards */
+    .role-selection-card {
+        border: 2px solid #e2e8f0;
+        border-radius: 20px;
+        padding: 20px 16px;
+        text-align: center;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        user-select: none;
+    }
+    .role-selection-card:hover {
+        background: #ffffff;
+        border-color: #38bdf8;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.15);
+    }
+    .role-card-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: #e0f2fe;
+        color: #0284c7;
+        display: grid;
+        place-items: center;
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+        transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+    }
+    .role-input:checked + .role-selection-card {
+        border-color: #0284c7;
+        background: #ffffff;
+        box-shadow: 0 12px 30px -5px rgba(2, 132, 199, 0.25);
+    }
+    .role-input:checked + .role-selection-card .role-card-icon {
+        background: #0284c7;
+        color: #ffffff;
+        transform: scale(1.1) rotate(6deg);
+    }
+    .role-check-mark {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #0284c7;
+        color: #ffffff;
+        display: none;
+        place-items: center;
+        font-size: 0.72rem;
+    }
+    .role-input:checked + .role-selection-card .role-check-mark {
+        display: grid;
+    }
+
+    /* Form Input Groups */
+    .reg-input-group {
+        border-radius: 14px;
+        border: 1.5px solid #cbd5e1;
+        background: #ffffff;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+    }
+    .reg-input-group:focus-within {
+        border-color: #0284c7;
+        box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+    }
+    .reg-input-icon {
+        padding: 0 14px 0 16px;
+        color: #94a3b8;
+        font-size: 0.95rem;
+    }
+    .reg-input-group:focus-within .reg-input-icon {
+        color: #0284c7;
+    }
+    .reg-control {
+        border: none;
+        outline: none;
+        width: 100%;
+        padding: 12px 14px 12px 0;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #0f172a;
+        background: transparent;
+    }
+    .reg-control::placeholder {
+        color: #94a3b8;
+    }
+    .reg-pw-toggle {
+        background: transparent;
+        border: none;
+        padding: 0 14px;
+        color: #94a3b8;
+        cursor: pointer;
+        font-size: 0.95rem;
+    }
+    .reg-pw-toggle:hover {
+        color: #0284c7;
+    }
+
+    /* Dynamic Role Blocks */
+    .role-block {
+        display: none;
+    }
+    .role-block.is-active {
+        display: block;
+        animation: fadeIn 0.35s ease forwards;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Password Strength Meter */
+    .strength-wrapper {
+        margin-top: 8px;
+    }
+    .strength-bars-grid {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 4px;
+    }
+    .strength-bar-unit {
+        height: 4px;
+        flex: 1;
+        background: #e2e8f0;
+        border-radius: 4px;
+        transition: background 0.25s ease;
+    }
+
+    /* Sticky Progress Header Bar */
+    .register-progress-bar {
+        background: #ffffff;
+        border: 1.5px solid rgba(2, 132, 199, 0.2);
+        border-radius: 20px;
+        padding: 14px 20px;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+    }
+    .progress-track {
+        flex: 1;
+        height: 8px;
+        background: #e2e8f0;
+        border-radius: 50px;
+        margin: 0 16px;
+        overflow: hidden;
+    }
+    .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #0284c7, #10b981);
+        border-radius: 50px;
+        transition: width 0.3s ease;
+    }
+
+    /* Submit Button */
+    .btn-reg-submit {
+        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+        color: #ffffff;
+        border: none;
+        padding: 16px 28px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.4);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+    .btn-reg-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 34px -6px rgba(2, 132, 199, 0.5);
+        color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+        .register-panel {
+            padding: 22px 18px;
+            border-radius: 22px;
+        }
+        .hero-title {
+            font-size: 2.25rem !important;
+        }
+    }
+    @media (max-width: 480px) {
+        .register-page-wrapper {
+            padding-inline: 0.75rem;
+        }
+    }
+</style>
+
+<div class="register-page-wrapper">
+    <!-- Ambient Glow & Orbs -->
+    <div class="register-bg-glow"></div>
+    <div class="register-ambient-ball register-ball-1"></div>
+    <div class="register-ambient-ball register-ball-2"></div>
+
+    <div class="register-container">
+
+        <!-- Top Title Header -->
+        <div class="text-center mb-4">
+            <span class="badge rounded-pill bg-white text-primary px-3 py-2 mb-2 shadow-sm border fw-bold">
+                <i class="fas fa-sparkles text-warning me-1"></i> JOIN THE OFFICIAL ALUMNI COMMUNITY
+            </span>
+            <h1 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: clamp(2rem, 5vw, 2.8rem); color: #0f172a;">
+                Create Your <span class="text-holographic">Account</span>
+            </h1>
+            <p class="text-muted small mx-auto" style="max-width: 540px;">
+                One verified profile connects you to thousands of alumni, career referrals, 1-on-1 mentorship, and campus reunions.
+            </p>
         </div>
 
-        <!-- Progress -->
-        <div class="progress-panel reveal reveal--2">
-            <div class="ring">
-                <svg viewBox="0 0 56 56" aria-hidden="true">
-                    <defs>
-                        <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#06b6d4" />
-                            <stop offset="100%" stop-color="#7c3aed" />
-                        </linearGradient>
-                    </defs>
-                    <circle class="ring__track" cx="28" cy="28" r="24"></circle>
-                    <circle class="ring__fill" id="form-progress-ring" cx="28" cy="28" r="24"></circle>
-                </svg>
-                <span class="ring__label" id="ring-label">0%</span>
+        <!-- Progress Tracker Bar -->
+        <div class="register-progress-bar">
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-1 fw-bold small">
+                    <i class="fas fa-tasks me-1"></i> Progress
+                </span>
             </div>
-            <div class="progress-panel__meta">
-                <p class="progress-panel__title">Registration progress</p>
-                <div class="bar">
-                    <div class="bar__fill" id="form-progress"></div>
-                </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="form-progress"></div>
             </div>
-            <span class="completion-badge" id="completion-badge">0%</span>
+            <span class="badge bg-light text-dark border rounded-pill px-3 py-1 fw-bold" id="completion-badge">
+                0% Complete
+            </span>
         </div>
 
+        <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         {% for category, message in messages %}
-        <div class="flash flash--{{ 'danger' if category == 'error' else category }}" role="alert">
-            <i class="fas fa-info-circle"></i>
+        <div class="alert alert-{{ 'danger' if category == 'error' or category == 'danger' else ('warning' if category == 'warning' else 'success') }} rounded-4 mb-4 shadow-sm border-0 d-flex align-items-center gap-2">
+            <i class="fas fa-{{ 'exclamation-circle' if category == 'danger' or category == 'error' else ('info-circle' if category == 'warning' else 'check-circle') }}"></i>
             <span>{{ message }}</span>
         </div>
         {% endfor %}
         {% endif %}
         {% endwith %}
 
-        <form method="POST" id="registerForm" onsubmit="return validateRegisterForm()" novalidate>
+        <!-- Registration Form -->
+        <form method="POST" action="{{ url_for('register') }}" id="registerForm" onsubmit="return validateRegisterForm()" novalidate>
 
-            <!-- 1. Role -->
-            <section class="panel reveal reveal--3">
-                <div class="panel__head">
-                    <span class="panel__num">01</span>
-                    <h2 class="panel__title">
-                        I am a
-                        <span class="panel__hint">Choose the profile that matches you</span>
-                    </h2>
+            <!-- 1. Role Selection -->
+            <div class="register-panel">
+                <div class="register-accent-bar"></div>
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="section-badge-num">01</div>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Choose Your Affiliation</h4>
+                        <small class="text-muted">Select the profile that matches your status with the institution</small>
+                    </div>
                 </div>
 
-                <div class="role-grid">
-                    <label class="position-relative">
-                        <input type="radio" name="role" value="student" class="role-input d-none" id="roleStudent"
-                            {% if role=='student' or not role %}checked{% endif %} onchange="updateFormFields()">
-                        <div class="role-card" data-role="student">
-                            <span class="role-card__icon"><i class="fas fa-graduation-cap"></i></span>
-                            <span class="role-card__name">Student</span>
-                            <span class="role-card__desc">Currently enrolled</span>
-                        </div>
-                    </label>
-
-                    <label class="position-relative">
-                        <input type="radio" name="role" value="alumni" class="role-input d-none" id="roleAlumni"
-                            {% if role=='alumni' %}checked{% endif %} onchange="updateFormFields()">
-                        <div class="role-card" data-role="alumni">
-                            <span class="role-card__icon"><i class="fas fa-user-tie"></i></span>
-                            <span class="role-card__name">Alumni</span>
-                            <span class="role-card__desc">Graduate of the institute</span>
-                        </div>
-                    </label>
-
-                    <label class="position-relative">
-                        <input type="radio" name="role" value="faculty" class="role-input d-none" id="roleFaculty"
-                            {% if role=='faculty' %}checked{% endif %} onchange="updateFormFields()">
-                        <div class="role-card" data-role="faculty">
-                            <span class="role-card__icon"><i class="fas fa-chalkboard-teacher"></i></span>
-                            <span class="role-card__name">Faculty</span>
-                            <span class="role-card__desc">Teaching staff</span>
-                        </div>
-                    </label>
-                </div>
-            </section>
-
-            <!-- 2. Personal -->
-            <section class="panel reveal reveal--4">
-                <div class="panel__head">
-                    <span class="panel__num">02</span>
-                    <h2 class="panel__title">
-                        Personal details
-                        <span class="panel__hint">How members of the community will reach you</span>
-                    </h2>
-                </div>
-
-                <div class="grid">
-                    <div class="field">
-                        <label class="field__label" for="name">Full name</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-user field__icon"></i>
-                            <input type="text" class="input" name="name" id="name" required placeholder="Your full name"
-                                value="{{ form_data.get('name', '') if form_data else '' }}">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="email">Email address</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-envelope field__icon"></i>
-                            <input type="email" class="input" name="email" id="email" required placeholder="you@gmail.com"
-                                value="{{ form_data.get('email', '') if form_data else '' }}">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="phone">Phone number</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-phone field__icon"></i>
-                            <input type="tel" class="input" name="phone" id="phone" required placeholder="+91 98765 43210"
-                                value="{{ form_data.get('phone', '') if form_data else '' }}">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="city">City</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-city field__icon"></i>
-                            <input type="text" class="input" name="city" id="city" required placeholder="Mumbai" list="cityList"
-                                value="{{ form_data.get('city', '') if form_data else '' }}">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="state">State</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-map-location-dot field__icon"></i>
-                            <input type="text" class="input" name="state" id="state" required placeholder="Maharashtra"
-                                list="stateList" value="{{ form_data.get('state', '') if form_data else '' }}">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="password">Password</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-lock field__icon"></i>
-                            <input type="password" class="input input--pw" name="password" id="password" required
-                                placeholder="••••••••" autocomplete="new-password">
-                            <button type="button" class="pw-toggle" id="pwToggle1" aria-label="Show password">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="strength" id="strength">
-                            <div class="strength__bars">
-                                <div class="strength__bar"></div>
-                                <div class="strength__bar"></div>
-                                <div class="strength__bar"></div>
-                                <div class="strength__bar"></div>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="w-100 position-relative mb-0 h-100">
+                            <input type="radio" name="role" value="student" class="role-input d-none" id="roleStudent"
+                                   {% if role=='student' or not role %}checked{% endif %} onchange="updateFormFields()">
+                            <div class="role-selection-card">
+                                <span class="role-check-mark"><i class="fas fa-check"></i></span>
+                                <div class="role-card-icon"><i class="fas fa-graduation-cap"></i></div>
+                                <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.1rem;">Student</h5>
+                                <small class="text-muted">Currently enrolled in college</small>
                             </div>
-                            <span class="strength__label" id="strength-label">Use 8+ characters, mixed case, digits & a
-                                symbol</span>
+                        </label>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="w-100 position-relative mb-0 h-100">
+                            <input type="radio" name="role" value="alumni" class="role-input d-none" id="roleAlumni"
+                                   {% if role=='alumni' %}checked{% endif %} onchange="updateFormFields()">
+                            <div class="role-selection-card">
+                                <span class="role-check-mark"><i class="fas fa-check"></i></span>
+                                <div class="role-card-icon"><i class="fas fa-user-tie"></i></div>
+                                <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.1rem;">Alumni</h5>
+                                <small class="text-muted">Graduated batch member</small>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="w-100 position-relative mb-0 h-100">
+                            <input type="radio" name="role" value="faculty" class="role-input d-none" id="roleFaculty"
+                                   {% if role=='faculty' %}checked{% endif %} onchange="updateFormFields()">
+                            <div class="role-selection-card">
+                                <span class="role-check-mark"><i class="fas fa-check"></i></span>
+                                <div class="role-card-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                                <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.1rem;">Faculty</h5>
+                                <small class="text-muted">Teaching or academic staff</small>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Personal Information -->
+            <div class="register-panel">
+                <div class="register-accent-bar"></div>
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="section-badge-num">02</div>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Personal & Contact Details</h4>
+                        <small class="text-muted">How fellow community members and administrators can reach you</small>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="name">
+                            Full Name <span class="text-danger">*</span>
+                        </label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-user"></i></span>
+                            <input type="text" class="reg-control" name="name" id="name" required placeholder="e.g. Rahul Sharma"
+                                   value="{{ form_data.get('name', '') if form_data else '' }}" autocomplete="name">
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="field__label" for="confirm_password">Confirm password</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-lock field__icon"></i>
-                            <input type="password" class="input input--pw" name="confirm_password" id="confirm_password"
-                                required placeholder="••••••••" autocomplete="new-password">
-                            <button type="button" class="pw-toggle" id="pwToggle2" aria-label="Show password">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="email">
+                            Gmail Address <span class="text-danger">*</span>
+                        </label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-envelope"></i></span>
+                            <input type="email" class="reg-control" name="email" id="email" required placeholder="yourname@gmail.com"
+                                   value="{{ form_data.get('email', '') if form_data else '' }}" autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-dark small mb-1" for="phone">
+                            Phone Number <span class="text-danger">*</span>
+                        </label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-phone"></i></span>
+                            <input type="tel" class="reg-control" name="phone" id="phone" required placeholder="+91 98765 43210"
+                                   value="{{ form_data.get('phone', '') if form_data else '' }}" autocomplete="tel">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-dark small mb-1" for="city">
+                            City <span class="text-danger">*</span>
+                        </label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-city"></i></span>
+                            <input type="text" class="reg-control" name="city" id="city" required placeholder="e.g. Delhi" list="cityList"
+                                   value="{{ form_data.get('city', '') if form_data else '' }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-dark small mb-1" for="state">
+                            State <span class="text-danger">*</span>
+                        </label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-map-marked-alt"></i></span>
+                            <input type="text" class="reg-control" name="state" id="state" required placeholder="e.g. Delhi" list="stateList"
+                                   value="{{ form_data.get('state', '') if form_data else '' }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="password">
+                            Password <span class="text-danger">*</span>
+                        </label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-lock"></i></span>
+                            <input type="password" class="reg-control" name="password" id="password" required
+                                   placeholder="Min 8 characters" autocomplete="new-password">
+                            <button type="button" class="reg-pw-toggle" id="pwToggle1" aria-label="Toggle password">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        <span class="strength__label" id="match-label" style="display:none;color:#fda4af;"></span>
+                        <div class="strength-wrapper" id="strength">
+                            <div class="strength-bars-grid">
+                                <div class="strength-bar-unit" id="sb1"></div>
+                                <div class="strength-bar-unit" id="sb2"></div>
+                                <div class="strength-bar-unit" id="sb3"></div>
+                                <div class="strength-bar-unit" id="sb4"></div>
+                            </div>
+                            <small class="text-muted d-block" id="strength-label" style="font-size: 0.76rem;">
+                                Use 8+ characters with mixed case, numbers & symbols
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="confirm_password">
+                            Confirm Password <span class="text-danger">*</span>
+                        </label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-lock"></i></span>
+                            <input type="password" class="reg-control" name="confirm_password" id="confirm_password" required
+                                   placeholder="Re-type password" autocomplete="new-password">
+                            <button type="button" class="reg-pw-toggle" id="pwToggle2" aria-label="Toggle password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <small id="match-label" class="d-none fw-bold" style="font-size: 0.78rem;"></small>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- 3. Student -->
-            <section class="panel role-block" id="studentFields">
-                <div class="panel__head">
-                    <span class="panel__num" style="background:linear-gradient(135deg,#6366f1,#06b6d4);">03</span>
-                    <h2 class="panel__title">
-                        Academic details
-                        <span class="panel__hint">Used to match you with the right alumni</span>
-                    </h2>
-                </div>
-
-                <div class="grid">
-                    <div class="field">
-                        <label class="field__label" for="enrollment_no">Enrollment number</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-hashtag field__icon"></i>
-                            <input type="text" class="input" name="enrollment_no" id="enrollment_no" placeholder="D123456789">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="stu_department">Department / branch</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-building-columns field__icon"></i>
-                            <input type="text" class="input" name="stu_department" id="stu_department" placeholder="IT"
-                                list="categoryList" oninput="updateCourseDropdown()">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="stu_semester">Semester</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-layer-group field__icon"></i>
-                            <input type="text" class="input" name="stu_semester" id="stu_semester" placeholder="4th Semester"
-                                list="semesterList">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="stu_level">Level</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-signal field__icon"></i>
-                            <input type="text" class="input" name="stu_level" id="stu_level" placeholder="UG" list="levelList"
-                                oninput="updateCourseDropdown()">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="stu_degree">Course / degree</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-graduation-cap field__icon"></i>
-                            <input type="text" class="input" name="stu_degree" id="stu_degree" placeholder="BCA" list="courseList">
-                        </div>
+            <!-- 3. Dynamic Section: Student Academic Details -->
+            <div class="register-panel role-block" id="studentFields">
+                <div class="register-accent-bar" style="background: linear-gradient(90deg, #0284c7, #38bdf8);"></div>
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="section-badge-num" style="background: linear-gradient(135deg, #0284c7, #38bdf8);">03</div>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Student Academic Details</h4>
+                        <small class="text-muted">Used to match you with alumni mentors in your branch</small>
                     </div>
                 </div>
-            </section>
 
-            <!-- 4. Alumni -->
-            <section class="panel role-block" id="alumniFields">
-                <div class="panel__head">
-                    <span class="panel__num" style="background:linear-gradient(135deg,#10b981,#06b6d4);">03</span>
-                    <h2 class="panel__title">
-                        Academic &amp; professional
-                        <span class="panel__hint">This is what makes you discoverable to students</span>
-                    </h2>
-                </div>
-
-                <div class="grid">
-                    <div class="field">
-                        <label class="field__label" for="alum_enrollment_no">Enrollment number</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-hashtag field__icon"></i>
-                            <input type="text" class="input" name="alum_enrollment_no" id="alum_enrollment_no"
-                                placeholder="D123456789">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-dark small mb-1" for="enrollment_no">Enrollment Number</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-hashtag"></i></span>
+                            <input type="text" class="reg-control" name="enrollment_no" id="enrollment_no" placeholder="e.g. 0123456789">
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="field__label" for="pass_year">Passing year</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-calendar-check field__icon"></i>
-                            <input type="text" class="input" name="pass_year" id="pass_year" placeholder="2024" list="yearList">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-dark small mb-1" for="stu_department">Department / Stream</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-university"></i></span>
+                            <input type="text" class="reg-control" name="stu_department" id="stu_department" placeholder="e.g. IT"
+                                   list="categoryList" oninput="updateCourseDropdown()">
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="field__label" for="alum_department">Degree category</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-building-columns field__icon"></i>
-                            <input type="text" class="input" name="alum_department" id="alum_department" placeholder="IT"
-                                list="categoryList" oninput="updateAlumniCourseDropdown()">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-dark small mb-1" for="stu_level">Degree Level</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-signal"></i></span>
+                            <input type="text" class="reg-control" name="stu_level" id="stu_level" placeholder="UG / PG"
+                                   list="levelList" oninput="updateCourseDropdown()">
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="field__label" for="alum_level">Degree level</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-signal field__icon"></i>
-                            <input type="text" class="input" name="alum_level" id="alum_level" placeholder="UG" list="levelList"
-                                oninput="updateAlumniCourseDropdown()">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="stu_degree">Course / Degree</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-graduation-cap"></i></span>
+                            <input type="text" class="reg-control" name="stu_degree" id="stu_degree" placeholder="e.g. BCA" list="courseList">
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="field__label" for="alum_degree">Course / degree</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-graduation-cap field__icon"></i>
-                            <input type="text" class="input" name="alum_degree" id="alum_degree" placeholder="BCA"
-                                list="alumniCourseList">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="company_name">Current company</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-building field__icon"></i>
-                            <input type="text" class="input" name="company_name" id="company_name" placeholder="Microsoft"
-                                list="companyList">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="alumni_designation">Current designation</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-briefcase field__icon"></i>
-                            <input type="text" class="input" name="designation" id="alumni_designation"
-                                placeholder="Software Engineer" list="designationList">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="stu_semester">Current Semester</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-layer-group"></i></span>
+                            <input type="text" class="reg-control" name="stu_semester" id="stu_semester" placeholder="e.g. 4th Semester" list="semesterList">
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- 5. Faculty -->
-            <section class="panel role-block" id="facultyFields">
-                <div class="panel__head">
-                    <span class="panel__num" style="background:linear-gradient(135deg,#f59e0b,#f43f5e);">03</span>
-                    <h2 class="panel__title">
-                        Faculty details
-                        <span class="panel__hint">Helps students find the right mentor</span>
-                    </h2>
-                </div>
-
-                <div class="grid">
-                    <div class="field">
-                        <label class="field__label" for="fac_employee_id">Employee ID</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-id-badge field__icon"></i>
-                            <input type="text" class="input" name="fac_employee_id" id="fac_employee_id" placeholder="EMP-2041">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="fac_department">Department</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-building-columns field__icon"></i>
-                            <input type="text" class="input" name="fac_department" id="fac_department" placeholder="Information Technology"
-                                list="deptList">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="fac_designation">Designation</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-briefcase field__icon"></i>
-                            <input type="text" class="input" name="fac_designation" id="fac_designation" placeholder="Professor"
-                                list="designationList">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field__label" for="fac_qualification">Qualification</label>
-                        <div class="field__wrap">
-                            <i class="fas fa-scroll field__icon"></i>
-                            <input type="text" class="input" name="fac_qualification" id="fac_qualification" placeholder="PhD / M.Tech">
-                        </div>
+            <!-- 4. Dynamic Section: Alumni Details -->
+            <div class="register-panel role-block" id="alumniFields">
+                <div class="register-accent-bar" style="background: linear-gradient(90deg, #10b981, #34d399);"></div>
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="section-badge-num" style="background: linear-gradient(135deg, #059669, #10b981);">03</div>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Alumni Academic & Professional Details</h4>
+                        <small class="text-muted">Makes you discoverable to students seeking referrals and guidance</small>
                     </div>
                 </div>
-            </section>
 
-            <!-- 6. Terms -->
-            <section class="panel reveal reveal--4">
-                <label class="terms" for="terms">
-                    <span class="terms__box">
-                        <input type="checkbox" id="terms" required>
-                        <i class="fas fa-check"></i>
-                    </span>
-                    <span class="terms__text">
-                        I agree to the <a href="#" class="link">Terms &amp; Conditions</a> and the
-                        <a href="#" class="link">Privacy Policy</a> of Alumni Hub.
-                    </span>
-                </label>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="alum_enrollment_no">Enrollment Number</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-hashtag"></i></span>
+                            <input type="text" class="reg-control" name="alum_enrollment_no" id="alum_enrollment_no" placeholder="e.g. 0123456789">
+                        </div>
+                    </div>
 
-                <div style="margin-top:1.5rem;">
-                    <button type="submit" class="submit" id="registerSubmit">
-                        <span class="submit__inner" aria-live="polite">
-                            Create account <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                        </span>
-                    </button>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="pass_year">Passing Year</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-calendar-check"></i></span>
+                            <input type="text" class="reg-control" name="pass_year" id="pass_year" placeholder="e.g. 2024" list="yearList">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-dark small mb-1" for="alum_department">Department / Stream</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-university"></i></span>
+                            <input type="text" class="reg-control" name="alum_department" id="alum_department" placeholder="e.g. IT"
+                                   list="categoryList" oninput="updateAlumniCourseDropdown()">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-dark small mb-1" for="alum_level">Degree Level</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-signal"></i></span>
+                            <input type="text" class="reg-control" name="alum_level" id="alum_level" placeholder="UG / PG"
+                                   list="levelList" oninput="updateAlumniCourseDropdown()">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-dark small mb-1" for="alum_degree">Course / Degree</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-graduation-cap"></i></span>
+                            <input type="text" class="reg-control" name="alum_degree" id="alum_degree" placeholder="e.g. MCA" list="alumniCourseList">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="company_name">Current Company / Organization</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-building"></i></span>
+                            <input type="text" class="reg-control" name="company_name" id="company_name" placeholder="e.g. Microsoft / TCS / Startup" list="companyList">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="alumni_designation">Current Designation / Role</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-briefcase"></i></span>
+                            <input type="text" class="reg-control" name="designation" id="alumni_designation" placeholder="e.g. Software Engineer" list="designationList">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Dynamic Section: Faculty Details -->
+            <div class="register-panel role-block" id="facultyFields">
+                <div class="register-accent-bar" style="background: linear-gradient(90deg, #f59e0b, #ef4444);"></div>
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="section-badge-num" style="background: linear-gradient(135deg, #d97706, #ef4444);">03</div>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Faculty Information</h4>
+                        <small class="text-muted">Connect with campus departments and supervise alumni engagements</small>
+                    </div>
                 </div>
 
-                <p class="card__foot">
-                    Already a member?
-                    <a href="/login" class="link">Sign in</a>
-                </p>
-            </section>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="fac_employee_id">Employee ID</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-id-badge"></i></span>
+                            <input type="text" class="reg-control" name="fac_employee_id" id="fac_employee_id" placeholder="e.g. EMP-2041">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="fac_department">Department</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-university"></i></span>
+                            <input type="text" class="reg-control" name="fac_department" id="fac_department" placeholder="e.g. Information Technology" list="deptList">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="fac_designation">Designation</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-briefcase"></i></span>
+                            <input type="text" class="reg-control" name="fac_designation" id="fac_designation" placeholder="e.g. Associate Professor" list="designationList">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-dark small mb-1" for="fac_qualification">Highest Qualification</label>
+                        <div class="reg-input-group">
+                            <span class="reg-input-icon"><i class="fas fa-scroll"></i></span>
+                            <input type="text" class="reg-control" name="fac_qualification" id="fac_qualification" placeholder="e.g. PhD / M.Tech">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Agreement & Submission Panel -->
+            <div class="register-panel">
+                <div class="register-accent-bar"></div>
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="terms" required>
+                    <label class="form-check-label text-muted small" for="terms">
+                        I agree to the <a href="{{ url_for('terms_conditions') }}" target="_blank" class="text-primary fw-bold text-decoration-none">Terms & Conditions</a> and <a href="{{ url_for('privacy_policy') }}" target="_blank" class="text-primary fw-bold text-decoration-none">Privacy Policy</a> of Alumni Hub.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-reg-submit" id="registerSubmit">
+                    <span>Create My Free Account</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+
+                <div class="text-center mt-4">
+                    <span class="text-muted small">Already registered?</span>
+                    <a href="/login" class="text-primary fw-bold small ms-1 text-decoration-none">
+                        Sign in to account <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
         </form>
-    </main>
     </div>
+</div>
 
-    <!-- ============================= DATALISTS ============================= -->
-    <datalist id="cityList">
-        <option value="Mumbai">
-        <option value="Pune">
-        <option value="Delhi">
-        <option value="Bangalore">
-        <option value="Hyderabad">
-        <option value="Chennai">
-        <option value="Kolkata">
-        <option value="Ahmedabad">
-        <option value="Surat">
-        <option value="Jaipur">
-        <option value="Lucknow">
-        <option value="Kanpur">
-        <option value="Nagpur">
-        <option value="Indore">
-        <option value="Thane">
-        <option value="Bhopal">
-        <option value="Visakhapatnam">
-        <option value="Pimpri-Chinchwad">
-        <option value="Patna">
-        <option value="Vadodara">
-        <option value="Ghaziabad">
-        <option value="Ludhiana">
-        <option value="Agra">
-        <option value="Nashik">
-        <option value="Faridabad">
-        <option value="Meerut">
-        <option value="Rajkot">
-        <option value="Kalyan-Dombivli">
-        <option value="Vasai-Virar">
-        <option value="Varanasi">
-        <option value="Srinagar">
-        <option value="Aurangabad">
-        <option value="Dhanbad">
-        <option value="Amritsar">
-        <option value="Navi Mumbai">
-        <option value="Allahabad">
-        <option value="Ranchi">
-        <option value="Howrah">
-        <option value="Coimbatore">
-        <option value="Jabalpur">
-        <option value="Gwalior">
-        <option value="Vijayawada">
-        <option value="Jodhpur">
-        <option value="Madurai">
-        <option value="Raipur">
-        <option value="Kota">
-        <option value="Guwahati">
-        <option value="Chandigarh">
-        <option value="Solapur">
-    </datalist>
+<!-- ============================= DATALISTS ============================= -->
+<datalist id="cityList">
+    <option value="Delhi">
+    <option value="Mumbai">
+    <option value="Pune">
+    <option value="Bangalore">
+    <option value="Hyderabad">
+    <option value="Chennai">
+    <option value="Kolkata">
+    <option value="Ahmedabad">
+    <option value="Noida">
+    <option value="Gurugram">
+    <option value="Faridabad">
+    <option value="Ghaziabad">
+    <option value="Jaipur">
+    <option value="Lucknow">
+    <option value="Chandigarh">
+</datalist>
 
-    <datalist id="stateList">
-        <option value="Andhra Pradesh">
-        <option value="Arunachal Pradesh">
-        <option value="Assam">
-        <option value="Bihar">
-        <option value="Chhattisgarh">
-        <option value="Goa">
-        <option value="Gujarat">
-        <option value="Haryana">
-        <option value="Himachal Pradesh">
-        <option value="Jammu and Kashmir">
-        <option value="Jharkhand">
-        <option value="Karnataka">
-        <option value="Kerala">
-        <option value="Madhya Pradesh">
-        <option value="Maharashtra">
-        <option value="Manipur">
-        <option value="Meghalaya">
-        <option value="Mizoram">
-        <option value="Nagaland">
-        <option value="Odisha">
-        <option value="Punjab">
-        <option value="Rajasthan">
-        <option value="Sikkim">
-        <option value="Tamil Nadu">
-        <option value="Telangana">
-        <option value="Tripura">
-        <option value="Uttar Pradesh">
-        <option value="Uttarakhand">
-        <option value="West Bengal">
-        <option value="Andaman and Nicobar Islands">
-        <option value="Chandigarh">
-        <option value="Dadra and Nagar Haveli and Daman and Diu">
-        <option value="Delhi">
-        <option value="Ladakh">
-        <option value="Lakshadweep">
-        <option value="Puducherry">
-    </datalist>
+<datalist id="stateList">
+    <option value="Delhi">
+    <option value="Haryana">
+    <option value="Uttar Pradesh">
+    <option value="Maharashtra">
+    <option value="Karnataka">
+    <option value="Telangana">
+    <option value="Tamil Nadu">
+    <option value="West Bengal">
+    <option value="Gujarat">
+    <option value="Rajasthan">
+    <option value="Punjab">
+</datalist>
 
-    <datalist id="designationList">
-        <option value="Software Engineer">
-        <option value="Senior Software Engineer">
-        <option value="Associate Engineer">
-        <option value="System Analyst">
-        <option value="Data Scientist">
-        <option value="Web Developer">
-        <option value="UI/UX Designer">
-        <option value="Product Manager">
-        <option value="Project Manager">
-        <option value="Technical Lead">
-        <option value="CTO">
-        <option value="CEO">
-        <option value="Founder">
-        <option value="Operations Manager">
-        <option value="Marketing Executive">
-        <option value="Sales Manager">
-        <option value="HR Manager">
-        <option value="Business Analyst">
-        <option value="QA Engineer">
-        <option value="DevOps Engineer">
-        <option value="Full Stack Developer">
-        <option value="Cloud Architect">
-        <option value="Cybersecurity Analyst">
-        <option value="Network Engineer">
-        <option value="Mechanical Engineer">
-        <option value="Civil Engineer">
-        <option value="Electrical Engineer">
-        <option value="Consultant">
-        <option value="Assistant Professor">
-        <option value="Associate Professor">
-        <option value="Professor">
-        <option value="HOD (Head of Department)">
-        <option value="Dean">
-    </datalist>
+<datalist id="designationList">
+    <option value="Software Engineer">
+    <option value="Senior Software Engineer">
+    <option value="Full Stack Developer">
+    <option value="Data Scientist">
+    <option value="Cloud Architect">
+    <option value="DevOps Engineer">
+    <option value="UI/UX Designer">
+    <option value="Product Manager">
+    <option value="Business Analyst">
+    <option value="Assistant Professor">
+    <option value="Associate Professor">
+    <option value="Professor">
+</datalist>
 
-    <datalist id="companyList">
-        <option value="Google">
-        <option value="Microsoft">
-        <option value="Amazon">
-        <option value="Meta">
-        <option value="Apple">
-        <option value="Netflix">
-        <option value="Tesla">
-        <option value="IBM">
-        <option value="Oracle">
-        <option value="Adobe">
-        <option value="Salesforce">
-        <option value="Intel">
-        <option value="Nvidia">
-        <option value="Infosys">
-        <option value="TCS">
-        <option value="Wipro">
-        <option value="HCLTech">
-        <option value="Tech Mahindra">
-        <option value="Accenture">
-        <option value="Capgemini">
-        <option value="Cognizant">
-        <option value="DXC Technology">
-        <option value="Cisco">
-        <option value="HP">
-        <option value="Dell">
-        <option value="SAP">
-        <option value="ServiceNow">
-        <option value="Atlassian">
-        <option value="Deloitte">
-        <option value="KPMG">
-        <option value="PwC">
-        <option value="EY (Ernst & Young)">
-        <option value="HDFC Bank">
-        <option value="ICICI Bank">
-        <option value="State Bank of India (SBI)">
-        <option value="Flipkart">
-        <option value="Zomato">
-        <option value="Swiggy">
-        <option value="Paytm">
-        <option value="Reliance Industries">
-        <option value="Tata Consultancy Services">
-        <option value="Larsen &amp; Toubro">
-        <option value="J.P. Morgan Chase">
-        <option value="Morgan Stanley">
-        <option value="Goldman Sachs">
-        <option value="HSBC">
-    </datalist>
+<datalist id="companyList">
+    <option value="Google">
+    <option value="Microsoft">
+    <option value="Amazon">
+    <option value="TCS">
+    <option value="Infosys">
+    <option value="Wipro">
+    <option value="Accenture">
+    <option value="Deloitte">
+    <option value="KPMG">
+    <option value="EY (Ernst & Young)">
+    <option value="PwC">
+    <option value="HCLTech">
+    <option value="Cognizant">
+    <option value="Flipkart">
+    <option value="Zomato">
+</datalist>
 
-    <datalist id="deptList">
-        <option value="Information Technology">
-        <option value="Computer Engineering">
-        <option value="Mechanical Engineering">
-        <option value="Electronics &amp; Telecommunication">
-        <option value="First Year Engineering">
-        <option value="Civil Engineering">
-        <option value="Applied Science &amp; Humanities">
-        <option value="Management Studies">
-        <option value="Administration">
-        <option value="Library">
-        <option value="Placements Cell">
-    </datalist>
+<datalist id="deptList">
+    <option value="Information Technology">
+    <option value="Computer Applications">
+    <option value="Management Studies">
+    <option value="Applied Sciences">
+    <option value="Training & Placements Cell">
+</datalist>
 
-    <datalist id="categoryList">
-        <option value="IT">
-        <option value="Engineering">
-        <option value="Management">
-        <option value="Science">
-        <option value="Commerce">
-        <option value="Arts & Humanities">
-        <option value="Medical">
-        <option value="Law">
-        <option value="Design">
-        <option value="Education">
-        <option value="Media">
-        <option value="Hospitality">
-        <option value="Fine Arts">
-    </datalist>
+<datalist id="categoryList">
+    <option value="IT">
+    <option value="Engineering">
+    <option value="Management">
+    <option value="Science">
+    <option value="Commerce">
+    <option value="Arts & Humanities">
+</datalist>
 
-    <datalist id="semesterList">
-        <option value="1st Semester">
-        <option value="2nd Semester">
-        <option value="3rd Semester">
-        <option value="4th Semester">
-        <option value="5th Semester">
-        <option value="6th Semester">
-        <option value="7th Semester">
-        <option value="8th Semester">
-    </datalist>
+<datalist id="semesterList">
+    <option value="1st Semester">
+    <option value="2nd Semester">
+    <option value="3rd Semester">
+    <option value="4th Semester">
+    <option value="5th Semester">
+    <option value="6th Semester">
+</datalist>
 
-    <datalist id="levelList">
-        <option value="UG">
-        <option value="PG">
-        <option value="Diploma">
-        <option value="PG Diploma">
-        <option value="Integrated">
-        <option value="PhD">
-        <option value="M.Phil">
-        <option value="Post-Doc">
-        <option value="Certificate">
-        <option value="Professional">
-    </datalist>
+<datalist id="levelList">
+    <option value="UG">
+    <option value="PG">
+    <option value="Diploma">
+    <option value="PhD">
+</datalist>
 
-    <datalist id="courseList"></datalist>
-    <datalist id="alumniCourseList"></datalist>
+<datalist id="courseList"></datalist>
+<datalist id="alumniCourseList"></datalist>
 
-    <datalist id="yearList">
-        {% for year in range(2026, 1999, -1) %}
-        <option value="{{ year }}">
-        {% endfor %}
-    </datalist>
+<datalist id="yearList">
+    {% for year in range(2026, 1999, -1) %}
+    <option value="{{ year }}">
+    {% endfor %}
+</datalist>
 
-    <script>
-        const authNavToggle = document.querySelector('.nav-toggle');
-        const authNavLinks = document.getElementById('authNavLinks');
-        const setAuthNavOpen = open => {
-            authNavToggle?.setAttribute('aria-expanded', String(open));
-            authNavToggle?.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
-            authNavToggle?.querySelector('i')?.classList.toggle('fa-bars', !open);
-            authNavToggle?.querySelector('i')?.classList.toggle('fa-xmark', open);
-            authNavLinks?.classList.toggle('is-open', open);
-        };
-        authNavToggle?.addEventListener('click', () => setAuthNavOpen(authNavToggle.getAttribute('aria-expanded') !== 'true'));
-        authNavLinks?.addEventListener('click', event => {
-            if (event.target.closest('a')) setAuthNavOpen(false);
-        });
-        document.addEventListener('keydown', event => {
-            if (event.key === 'Escape' && authNavLinks?.classList.contains('is-open')) {
-                setAuthNavOpen(false);
-                authNavToggle?.focus();
-            }
-        });
+<!-- JavaScript Engine -->
+<script>
+const courseData = {
+    'IT': {
+        'UG': ['BCA', 'B.Sc IT', 'B.Sc CS', 'B.Sc Data Science', 'B.Sc Cyber Security', 'B.Sc AI', 'BIT'],
+        'PG': ['MCA', 'M.Sc IT', 'M.Sc CS', 'M.Sc Data Science', 'M.Sc AI', 'MIT'],
+        'Diploma': ['Diploma in CS', 'Diploma in IT'],
+        'PhD': ['PhD in Computer Science', 'PhD in IT']
+    },
+    'Engineering': {
+        'UG': ['B.Tech CS', 'B.Tech IT', 'B.Tech E&TC', 'B.Tech Mechanical', 'B.Tech Civil'],
+        'PG': ['M.Tech CS', 'M.Tech Electronics', 'M.Tech AI & Data Science'],
+        'Diploma': ['Diploma in Engineering']
+    },
+    'Management': {
+        'UG': ['BBA', 'BMS', 'B.Com General'],
+        'PG': ['MBA Finance', 'MBA Marketing', 'MBA IT', 'MBA HR', 'PGDM'],
+        'PhD': ['PhD in Management']
+    },
+    'Science': {
+        'UG': ['B.Sc Physics', 'B.Sc Chemistry', 'B.Sc Maths'],
+        'PG': ['M.Sc Physics', 'M.Sc Chemistry']
+    },
+    'Commerce': {
+        'UG': ['B.Com', 'B.Com (Hons)'],
+        'PG': ['M.Com']
+    },
+    'Arts & Humanities': {
+        'UG': ['BA English', 'BA Economics', 'BA Journalism'],
+        'PG': ['MA English', 'MA Economics']
+    }
+};
 
-        document.getElementById('registerForm')?.addEventListener('submit', event => {
-            if (event.defaultPrevented) return;
-            if (!event.currentTarget.reportValidity()) {
-                event.preventDefault();
-                return;
-            }
-            const button = document.getElementById('registerSubmit');
-            if (!button) return;
-            button.disabled = true;
-            button.setAttribute('aria-busy', 'true');
-            button.querySelector('.submit__inner').innerHTML = '<i class="fas fa-circle-notch fa-spin" aria-hidden="true"></i> Creating account…';
-        });
+function togglePassword(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const icon = btn.querySelector('i');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+}
 
-        const courseData = {
-            'IT': {
-                'UG': ['BCA', 'B.Sc IT', 'B.Sc CS', 'B.Sc Data Science', 'B.Sc Cyber Security', 'B.Sc AI', 'BIT'],
-                'PG': ['MCA', 'M.Sc IT', 'M.Sc CS', 'M.Sc Data Science', 'M.Sc AI', 'MIT'],
-                'Diploma': ['Diploma in CS', 'Diploma in IT', 'Diploma in Hardware & Networking'],
-                'PG Diploma': ['PGDCA', 'PGDIT', 'PG Diploma in Data Science'],
-                'Integrated': ['Integrated MCA (BCA+MCA)'],
-                'Certificate': ['Python Certification', 'Web Dev Bootcamp', 'Cloud Computing Cert']
-            },
-            'Engineering': {
-                'UG': ['B.Tech CS', 'B.Tech IT', 'B.Tech Mechanical', 'B.Tech Civil', 'B.Tech E&TC', 'B.Tech Electrical', 'B.Tech Aerospace', 'B.Tech Biotech'],
-                'PG': ['M.Tech CS', 'M.Tech Mechanical', 'M.Tech Electronics', 'M.Tech Civil', 'M.Tech AI & Data Science'],
-                'Diploma': ['Diploma in Mechanical', 'Diploma in Civil', 'Diploma in Electrical'],
-                'Integrated': ['Integrated B.Tech-M.Tech (5-Year)'],
-                'PhD': ['PhD in Mechanical', 'PhD in CS', 'PhD in Engineering']
-            },
-            'Management': {
-                'UG': ['BBA', 'BMS', 'BMM', 'BHM (Hospitality)'],
-                'PG': ['MBA Finance', 'MBA Marketing', 'MBA IT', 'MBA HR', 'MBA Operations', 'PGDM', 'MMS'],
-                'PG Diploma': ['PGDM', 'PGDBM', 'PGD in Marketing'],
-                'Integrated': ['Integrated MBA (BBA+MBA)']
-            },
-            'Medical': {
-                'UG': ['MBBS', 'BDS (Dental)', 'B.Pharm', 'B.Sc Nursing', 'BPT (Physiotherapy)', 'BAMS', 'BHMS'],
-                'PG': ['MD', 'MS (Surgery)', 'M.Pharm', 'MDS', 'M.Sc Nursing'],
-                'Diploma': ['Diploma in Pharmacy', 'Diploma in Nursing', 'DMLT'],
-                'Professional': ['Registered Medical Practitioner (RMP)']
-            },
-            'Law': {
-                'UG': ['LLB (3-Year)', 'Integrated BA-LLB (5-Year)', 'Integrated BBA-LLB', 'B.Com-LLB'],
-                'PG': ['LLM', 'LLD (Doctor of Laws)'],
-                'Integrated': ['BA-LLB', 'BBA-LLB']
-            },
-            'Science': {
-                'UG': ['B.Sc Physics', 'B.Sc Chemistry', 'B.Sc Maths', 'B.Sc Biotech', 'B.Sc Forensic Science', 'B.Sc Agriculture'],
-                'PG': ['M.Sc Physics', 'M.Sc Chemistry', 'M.Sc Pharma', 'M.Sc Environmental Science'],
-                'PhD': ['PhD in Physics', 'PhD in Chemistry', 'PhD in Mathematics']
-            },
-            'Commerce': {
-                'UG': ['B.Com General', 'B.Com Accounting', 'B.Com Banking', 'BBI', 'BAF'],
-                'PG': ['M.Com', 'MFA'],
-                'Professional': ['CA (Chartered Accountancy)', 'CS (Company Secretary)', 'CMA', 'CFA', 'ACCA', 'FRM']
-            },
-            'Arts & Humanities': {
-                'UG': ['BA Psychology', 'BA English', 'BA History', 'BA Sociology', 'BA Economics', 'BA Political Science'],
-                'PG': ['MA Psychology', 'MA English', 'MA Economics', 'MA History', 'MSW'],
-                'M.Phil': ['M.Phil in Psychology', 'M.Phil in Humanities']
-            },
-            'Design': {
-                'UG': ['B.Arch', 'B.Des (UI/UX)', 'B.Des (Fashion)', 'B.Des (Interior)', 'BFA'],
-                'PG': ['M.Arch', 'M.Des', 'MFA'],
-                'Diploma': ['Diploma in Interior Design', 'Diploma in Fashion']
-            },
-            'Education': {
-                'UG': ['B.Ed', 'B.El.Ed', 'B.P.Ed'],
-                'PG': ['M.Ed', 'MA Education'],
-                'Diploma': ['D.El.Ed', 'Nursery Teacher Training']
-            },
-            'Media': {
-                'UG': ['BJMC (Journalism)', 'BA Media', 'BA Animation'],
-                'PG': ['MJMC', 'MA Film Production'],
-                'Diploma': ['Diploma in Journalism', 'Diploma in Photography']
-            },
-            'Hospitality': {
-                'UG': ['BHMCT', 'B.Sc Hospitality', 'B.Sc Travel'],
-                'PG': ['MHM', 'MBA Hospitality'],
-                'Diploma': ['Diploma in Food & Beverage', 'Diploma in Hotel Operations']
-            },
-            'Fine Arts': {
-                'UG': ['B.Mus', 'BPA', 'BVA'],
-                'PG': ['M.Mus', 'MPA'],
-                'Certificate': ['Certificate in Music', 'Certificate in Painting']
-            }
-        };
+['pwToggle1', 'pwToggle2'].forEach(id => {
+    document.getElementById(id)?.addEventListener('click', function () {
+        const target = this.closest('.reg-input-group').querySelector('input');
+        togglePassword(target.id, this);
+    });
+});
 
-        function togglePassword(inputId, btn) {
-            const input = document.getElementById(inputId);
-            const icon = btn.querySelector('i');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
+function updateFormFields() {
+    const role = document.querySelector('input[name="role"]:checked')?.value || 'student';
+    ['student', 'alumni', 'faculty'].forEach(r => {
+        const block = document.getElementById(r + 'Fields');
+        if (block) {
+            if (role === r) {
+                block.classList.add('is-active');
             } else {
-                input.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
+                block.classList.remove('is-active');
             }
         }
+    });
+    calculateProgress();
+}
 
-        ['pwToggle1', 'pwToggle2'].forEach(id => {
-            document.getElementById(id)?.addEventListener('click', function () {
-                const target = this.closest('.field__wrap').querySelector('input');
-                togglePassword(target.id, this);
-            });
-        });
+function fillCourseList(targetId, category, level) {
+    const list = document.getElementById(targetId);
+    if (!list) return;
+    list.innerHTML = '';
+    const options = courseData[category] && courseData[category][level];
+    if (!options) return;
+    options.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c;
+        list.appendChild(o);
+    });
+}
 
-        function updateFormFields() {
-            const role = document.querySelector('input[name="role"]:checked')?.value;
-            ['student', 'alumni', 'faculty'].forEach(r => {
-                const block = document.getElementById(r + 'Fields');
-                if (block) block.classList.toggle('is-active', role === r);
-            });
-            calculateProgress();
+function updateCourseDropdown() {
+    fillCourseList('courseList',
+        document.getElementById('stu_department')?.value,
+        document.getElementById('stu_level')?.value);
+    calculateProgress();
+}
+
+function updateAlumniCourseDropdown() {
+    fillCourseList('alumniCourseList',
+        document.getElementById('alum_department')?.value,
+        document.getElementById('alum_level')?.value);
+    calculateProgress();
+}
+
+/* Password Strength Scoring */
+function scorePassword(val) {
+    if (!val) return 0;
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (val.length >= 12) score++;
+    if (/[a-z]/.test(val) && /[A-Z]/.test(val)) score++;
+    if (/\d/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    return Math.min(score, 4);
+}
+
+function updateStrength() {
+    const pw = document.getElementById('password')?.value || '';
+    const score = scorePassword(pw);
+    const bars = [document.getElementById('sb1'), document.getElementById('sb2'), document.getElementById('sb3'), document.getElementById('sb4')];
+    const label = document.getElementById('strength-label');
+
+    const colors = ['#ef4444', '#f59e0b', '#3b82f6', '#10b981'];
+    const texts = ['Weak', 'Fair', 'Good', 'Strong'];
+
+    bars.forEach((b, idx) => {
+        if (b) {
+            b.style.background = idx < score ? colors[score - 1] : '#e2e8f0';
         }
+    });
 
-        function fillCourseList(targetId, category, level) {
-            const list = document.getElementById(targetId);
-            if (!list) return;
-            list.innerHTML = '';
-            const options = courseData[category] && courseData[category][level];
-            if (!options) return;
-            options.forEach(c => {
-                const o = document.createElement('option');
-                o.value = c;
-                list.appendChild(o);
-            });
+    if (label) {
+        if (!pw) {
+            label.textContent = 'Use 8+ characters with mixed case, numbers & symbols';
+            label.style.color = '#64748b';
+        } else {
+            label.textContent = `Strength: ${texts[score - 1] || 'Weak'}`;
+            label.style.color = colors[score - 1] || '#ef4444';
         }
+    }
 
-        function updateCourseDropdown() {
-            fillCourseList('courseList',
-                document.getElementById('stu_department').value,
-                document.getElementById('stu_level').value);
-            calculateProgress();
-        }
-
-        function updateAlumniCourseDropdown() {
-            fillCourseList('alumniCourseList',
-                document.getElementById('alum_department').value,
-                document.getElementById('alum_level').value);
-            calculateProgress();
-        }
-
-        /* --- Password strength ------------------------------------------- */
-        const STRENGTH_LABELS = ['', 'Weak', 'Fair', 'Good', 'Strong'];
-
-        function scorePassword(value) {
-            if (!value) return 0;
-            let score = 0;
-            if (value.length >= 8) score++;
-            if (value.length >= 12) score++;
-            if (/[a-z]/.test(value) && /[A-Z]/.test(value)) score++;
-            if (/\d/.test(value)) score++;
-            if (/[^A-Za-z0-9]/.test(value)) score++;
-            return Math.min(score, 4);
-        }
-
-        function updateStrength() {
-            const pw = document.getElementById('password');
-            const box = document.getElementById('strength');
-            const label = document.getElementById('strength-label');
-            const score = scorePassword(pw.value);
-
-            box.classList.remove('is-1', 'is-2', 'is-3', 'is-4');
-            if (pw.value) {
-                box.classList.add('is-' + Math.max(score, 1));
-                label.textContent = STRENGTH_LABELS[score] || 'Weak';
+    // Match label
+    const confirmVal = document.getElementById('confirm_password')?.value || '';
+    const matchLabel = document.getElementById('match-label');
+    if (matchLabel) {
+        if (confirmVal.length > 0) {
+            matchLabel.classList.remove('d-none');
+            if (confirmVal === pw) {
+                matchLabel.textContent = '✓ Passwords match';
+                matchLabel.style.color = '#10b981';
             } else {
-                label.textContent = 'Use 8+ characters, mixed case, digits & a symbol';
+                matchLabel.textContent = '✕ Passwords do not match';
+                matchLabel.style.color = '#ef4444';
             }
-
-            const confirm = document.getElementById('confirm_password');
-            const match = document.getElementById('match-label');
-            if (confirm.value) {
-                if (confirm.value === pw.value) {
-                    match.style.display = 'inline';
-                    match.style.color = '#6ee7b7';
-                    match.textContent = 'Passwords match';
-                } else {
-                    match.style.display = 'inline';
-                    match.style.color = '#fda4af';
-                    match.textContent = 'Passwords do not match';
-                }
-            } else {
-                match.style.display = 'none';
-            }
+        } else {
+            matchLabel.classList.add('d-none');
         }
+    }
+}
 
-        /* --- Progress ----------------------------------------------------- */
-        const RING_CIRCUMFERENCE = 2 * Math.PI * 24; // r=24 in the SVG
+/* Calculate Progress */
+function calculateProgress() {
+    let total = 0;
+    let filled = 0;
 
-        function calculateProgress() {
-            let total = 0;
-            let filled = 0;
+    ['name', 'email', 'phone', 'city', 'state', 'password', 'confirm_password'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        total++;
+        if (el.value.trim() !== '') filled++;
+    });
 
-            ['name', 'email', 'phone', 'city', 'state', 'password', 'confirm_password'].forEach(id => {
-                const el = document.getElementById(id);
-                if (!el) return;
+    const role = document.querySelector('input[name="role"]:checked')?.value;
+    if (role) {
+        total++;
+        filled++;
+        const block = document.getElementById(role + 'Fields');
+        if (block) {
+            block.querySelectorAll('input:not([type="hidden"])').forEach(i => {
                 total++;
-                if (el.value.trim() !== '') filled++;
+                if (i.value.trim() !== '') filled++;
             });
-
-            const role = document.querySelector('input[name="role"]:checked')?.value;
-            if (role) {
-                total++;
-                filled++;
-                const block = document.getElementById(role + 'Fields');
-                if (block) {
-                    block.querySelectorAll('input:not([type="hidden"])').forEach(i => {
-                        total++;
-                        if (i.value.trim() !== '') filled++;
-                    });
-                }
-            }
-
-            total++; // terms
-            if (document.getElementById('terms').checked) filled++;
-
-            const pct = total ? Math.round((filled / total) * 100) : 0;
-
-            document.getElementById('form-progress').style.width = pct + '%';
-
-            const ring = document.getElementById('form-progress-ring');
-            if (ring) {
-                ring.style.strokeDasharray = RING_CIRCUMFERENCE;
-                ring.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - pct / 100);
-            }
-
-            const ringLabel = document.getElementById('ring-label');
-            if (ringLabel) ringLabel.textContent = pct + '%';
-
-            document.getElementById('completion-badge').textContent = pct + '%';
         }
+    }
 
-        function validateRegisterForm() {
-            const p1 = document.getElementById('password').value;
-            const p2 = document.getElementById('confirm_password').value;
+    total++; // terms
+    if (document.getElementById('terms')?.checked) filled++;
 
-            if (p1 !== p2) {
-                alert('Passwords do not match!');
-                document.getElementById('confirm_password').focus();
-                return false;
+    const pct = total ? Math.round((filled / total) * 100) : 0;
+
+    const progBar = document.getElementById('form-progress');
+    const badge = document.getElementById('completion-badge');
+    if (progBar) progBar.style.width = pct + '%';
+    if (badge) badge.textContent = pct + '% Complete';
+}
+
+function validateRegisterForm() {
+    const p1 = document.getElementById('password')?.value;
+    const p2 = document.getElementById('confirm_password')?.value;
+
+    if (p1 !== p2) {
+        alert('Passwords do not match! Please verify your password.');
+        document.getElementById('confirm_password')?.focus();
+        return false;
+    }
+    if (p1 && p1.length < 8) {
+        alert('Password must be at least 8 characters.');
+        document.getElementById('password')?.focus();
+        return false;
+    }
+    const terms = document.getElementById('terms');
+    if (terms && !terms.checked) {
+        alert('Please agree to the Terms & Conditions and Privacy Policy to proceed.');
+        terms.focus();
+        return false;
+    }
+    return true;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateFormFields();
+
+    document.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('input', calculateProgress);
+        el.addEventListener('change', calculateProgress);
+    });
+
+    document.getElementById('password')?.addEventListener('input', updateStrength);
+    document.getElementById('confirm_password')?.addEventListener('input', updateStrength);
+
+    calculateProgress();
+
+    // Form submit loading spinner
+    const form = document.getElementById('registerForm');
+    const btn = document.getElementById('registerSubmit');
+    if (form && btn) {
+        form.addEventListener('submit', () => {
+            if (form.checkValidity() && validateRegisterForm()) {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Creating Account...';
             }
-            if (p1 && p1.length < 8) {
-                alert('Password must be at least 8 characters.');
-                document.getElementById('password').focus();
-                return false;
-            }
-            return true;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            updateFormFields();
-
-            document.querySelectorAll('input, select').forEach(el => {
-                el.addEventListener('input', calculateProgress);
-                el.addEventListener('change', calculateProgress);
-            });
-
-            document.getElementById('password').addEventListener('input', updateStrength);
-            document.getElementById('confirm_password').addEventListener('input', updateStrength);
-
-            calculateProgress();
         });
-
-        /* ============================================================
-           MOTION — progressive enhancement only. Adds .motion-ok to
-           <body>; without JS (or with reduced-motion / a touch device)
-           the ambient layers simply stay static and every field is
-           still fully visible and usable.
-           ============================================================ */
-        (function () {
-            'use strict';
-
-            var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (reduced) return;
-
-            document.body.classList.add('motion-ok');
-
-            var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-            if (!fine) return;
-
-            /* Cursor spotlight — rAF throttled, one write per frame */
-            var root = document.documentElement;
-            var spotRaf = 0;
-
-            window.addEventListener('pointermove', function (e) {
-                if (spotRaf) return;
-                spotRaf = requestAnimationFrame(function () {
-                    spotRaf = 0;
-                    root.style.setProperty('--mx', e.clientX + 'px');
-                    root.style.setProperty('--my', e.clientY + 'px');
-                });
-            }, { passive: true });
-
-            /* Per-panel cursor spotlight, tracked only while hovering */
-            var panelRaf = 0;
-            var activePanel = null;
-
-            function applyPanel() {
-                panelRaf = 0;
-                if (!activePanel) return;
-                var rect = activePanel.getBoundingClientRect();
-                activePanel.style.setProperty('--px', (px - rect.left) + 'px');
-                activePanel.style.setProperty('--py', (py - rect.top) + 'px');
-            }
-
-            var px = 0;
-            var py = 0;
-
-            document.querySelectorAll('.panel').forEach(function (panel) {
-                panel.addEventListener('pointermove', function (e) {
-                    px = e.clientX;
-                    py = e.clientY;
-                    activePanel = panel;
-                    if (!panelRaf) panelRaf = requestAnimationFrame(applyPanel);
-                }, { passive: true });
-
-                panel.addEventListener('pointerleave', function () {
-                    if (activePanel === panel) activePanel = null;
-                });
-            });
-        })();
-    </script>
-</body>
-
-</html>
+    }
+});
+</script>
+{% endblock %}
