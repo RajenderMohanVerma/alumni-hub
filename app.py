@@ -599,7 +599,10 @@ def init_db():
         if admin_exists == 0:
             pw = generate_password_hash("AlumniHub195@")
             c.execute("INSERT INTO users (name, email, password, role, phone, is_verified) VALUES (?, ?, ?, ?, ?, ?)",
-                      ("Super Admin", "admin@alumnihub.local", pw, "admin", "0000000000", 1))
+                      ("Super Admin", "alumnihub26@gmail.com", pw, "admin", "7348619567", 1))
+        else:
+            # Auto-migrate existing seeded admin email & phone to official credentials
+            c.execute("UPDATE users SET email = 'alumnihub26@gmail.com', phone = '7348619567' WHERE email = 'admin@alumnihub.local'")
 
         conn.commit()
         print("Database initialized successfully!")
@@ -2933,7 +2936,7 @@ def delete_user(user_id):
             return jsonify({'error': 'User not found'}), 404
 
         # PROTECTION: Prevent deletion of super admin account
-        if user['email'] == 'admin@alumnihub.local':
+        if user['email'] in ('alumnihub26@gmail.com', 'admin@alumnihub.local'):
             conn.close()
             return jsonify({'error': 'Cannot delete the Super Admin account. This account is protected.'}), 403
 

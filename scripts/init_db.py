@@ -105,12 +105,12 @@ c.execute('''CREATE TABLE IF NOT EXISTS connections (
 print("Creating admin user...")
 pw = generate_password_hash("AlumniHub195@")
 c.execute("INSERT INTO users (name, email, password, role, phone) VALUES (?, ?, ?, ?, ?)",
-          ("Super Admin", "admin@alumnihub.local", pw, "admin", "0000000000"))
+          ("Super Admin", "alumnihub26@gmail.com", pw, "admin", "7348619567"))
 
 conn.commit()
 print("Database initialized successfully!")
 print("\nAdmin credentials:")
-print("Email: admin@alumnihub.local")
+print("Email: alumnihub26@gmail.com")
 print("Password: configured locally")
 
 # Verify tables

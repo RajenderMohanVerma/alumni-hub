@@ -254,7 +254,7 @@ def build_contact_user_confirmation_email(name: str, email: str, subject: str, m
         <ul style="margin: 0; padding-left: 20px; font-size: 13px; color: #15803d; line-height: 1.6;">
             <li>Our coordinators will review your note within <strong>24 to 48 business hours</strong>.</li>
             <li>We will reply directly to this email address (<strong>{escape(email)}</strong>).</li>
-            <li>For urgent campus matters, you may call our reception at <strong>+91 11 45184000</strong>.</li>
+            <li>For urgent campus matters, you may call our reception at <strong>+91 7348619567</strong>.</li>
         </ul>
     </div>
     """
