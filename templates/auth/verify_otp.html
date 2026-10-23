@@ -273,6 +273,61 @@
             border-radius: 10px;
         }
     }
+
+    @media (max-width: 390px) {
+        .otp-card-container {
+            padding: 1.75rem 0.9rem;
+            border-radius: 16px;
+        }
+
+        .otp-digits-wrapper {
+            gap: 4px;
+        }
+
+        .otp-box {
+            width: 38px;
+            height: 48px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+        }
+    }
+
+    @media (max-width: 330px) {
+        .otp-card-container {
+            padding: 1.5rem 0.6rem;
+        }
+
+        .otp-digits-wrapper {
+            gap: 3px;
+        }
+
+        .otp-box {
+            width: 34px;
+            height: 44px;
+            font-size: 1.1rem;
+        }
+    }
+
+    .btn-paste-clip {
+        background: transparent;
+        border: 1px dashed var(--accent-blue);
+        color: var(--accent-blue);
+        font-size: 0.78rem;
+        font-weight: 700;
+        border-radius: 50px;
+        padding: 4px 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-paste-clip:hover {
+        background: var(--accent-blue-subtle);
+        transform: translateY(-1px);
+    }
 </style>
 
 <div class="otp-page-wrapper">
@@ -281,18 +336,28 @@
     <div class="otp-card-container">
         <!-- Squircle Icon Badge -->
         <div class="otp-icon-badge">
-            <i class="fas fa-shield-halved"></i>
+            <i class="fas fa-{% if action_url == '/verify-reset-otp' %}key{% else %}shield-halved{% endif %}"></i>
         </div>
 
-        <h1 class="otp-header-title">Verify Your OTP</h1>
+        <h1 class="otp-header-title">
+            {% if action_url == '/verify-reset-otp' %}
+            Reset Password Verification
+            {% else %}
+            Verify Your Email
+            {% endif %}
+        </h1>
         <p class="otp-header-subtitle">
+            {% if action_url == '/verify-reset-otp' %}
+            Enter the 6-digit security code sent to verify your identity and set a new password.
+            {% else %}
             Please enter the 6-digit verification code sent to
+            {% endif %}
             {% if email %}
             <br>
             <span class="otp-email-chip">
                 <i class="fas fa-envelope"></i> {{ email }}
             </span>
-            {% else %}
+            {% elif action_url != '/verify-reset-otp' %}
             your registered email address.
             {% endif %}
         </p>
@@ -324,6 +389,13 @@
             {% endif %}
 
             <input type="hidden" name="otp" id="finalOtp">
+
+            <!-- Quick Paste Action -->
+            <div style="text-align: center;">
+                <button type="button" class="btn-paste-clip" id="btnPasteOtp">
+                    <i class="fas fa-paste"></i> Paste 6-Digit Code
+                </button>
+            </div>
 
             <!-- 6 Input Digits -->
             <div class="otp-digits-wrapper" id="otpBoxesContainer">
@@ -384,6 +456,8 @@
         const finalOtpInput = document.getElementById('finalOtp');
         const verifyBtn = document.getElementById('verifyBtn');
         const otpForm = document.getElementById('otpForm');
+        const btnPaste = document.getElementById('btnPasteOtp');
+        let autoSubmitted = false;
 
         function updateCombinedOtp() {
             let combined = '';
@@ -396,6 +470,35 @@
                 }
             });
             finalOtpInput.value = combined;
+
+            // Auto submit when all 6 digits are entered
+            if (combined.length === 6 && !autoSubmitted) {
+                autoSubmitted = true;
+                if (verifyBtn) {
+                    verifyBtn.disabled = true;
+                    verifyBtn.innerHTML = '<span>Verifying...</span> <i class="fas fa-spinner fa-spin ms-1"></i>';
+                }
+                setTimeout(() => {
+                    otpForm.submit();
+                }, 200);
+            }
+        }
+
+        if (btnPaste) {
+            btnPaste.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    const clean = text.replace(/[^0-9]/g, '').slice(0, 6);
+                    if (clean.length > 0) {
+                        clean.split('').forEach((d, i) => {
+                            if (i < boxes.length) boxes[i].value = d;
+                        });
+                        updateCombinedOtp();
+                    }
+                } catch (err) {
+                    if (boxes.length > 0) boxes[0].focus();
+                }
+            });
         }
 
         boxes.forEach((box, index) => {

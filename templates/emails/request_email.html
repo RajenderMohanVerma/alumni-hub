@@ -1,37 +1,40 @@
 {% extends 'emails/base_email.html' %}
 
 {% block content %}
-<h2 style="color: #1e293b; margin-top: 0;">New Connection Request</h2>
-<p style="font-size: 16px; color: #475569;">Hi <strong>{{ receiver_name }}</strong>,</p>
+<div style="text-align: center; margin-bottom: 20px;">
+    <span style="display: inline-block; background-color: #e0f2fe; color: #0369a1; padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">
+        🤝 Connection Request
+    </span>
+</div>
 
-<p style="font-size: 16px; color: #475569;">
-    You have a new connection request from <strong>{{ sender_name }}</strong> ({{ sender_email }}) on Alumni Hub.
+<h2 style="color: #0f172a; text-align: center; margin: 0 0 12px 0; font-size: 22px; font-weight: 800; letter-spacing: -0.3px;">
+    New Connection Invitation
+</h2>
+
+<p style="font-size: 15px; color: #475569; line-height: 1.6; text-align: center; margin: 0 0 20px 0;">
+    Hi <strong>{{ receiver_name }}</strong>,<br>
+    <strong>{{ sender_name }}</strong> ({{ sender_email }}) would like to connect with you on Alumni Hub.
 </p>
 
-<div style="background-color: #f1f5f9; padding: 20px; border-radius: 8px; margin: 25px 0;">
-    <p style="margin: 0; color: #334155; font-weight: 500;">
-        "I'd like to join your professional network on Alumni Hub."
+<div style="background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 18px 20px; border-radius: 12px; margin: 22px 0;">
+    <p style="margin: 0; color: #334155; font-size: 14px; line-height: 1.6; font-style: italic;">
+        &ldquo;I'd like to join your professional network on Alumni Hub.&rdquo;
     </p>
 </div>
 
-<p style="font-size: 16px; color: #475569;">
-    Expanding your network helps you discover new opportunities and stay connected with your alma mater. You can review
-    <strong>{{ sender_name }}'s</strong> professional background and skills by visiting their profile.
+<p style="font-size: 14px; color: #64748b; line-height: 1.6; text-align: center; margin: 0 0 26px 0;">
+    Expanding your network unlocks mutual mentorship, industry insights, and career growth. You can view their full profile and respond below.
 </p>
 
-<div style="text-align: center; margin: 35px 0;">
-    <a href="{{ profile_url }}" class="button"
-        style="background-color: #1e3a8a; display: block; margin-bottom: 15px;">View Profile & Respond</a>
+<div style="text-align: center; margin: 28px 0 12px 0;">
+    <a href="{{ profile_url }}" class="button" style="display: inline-block; padding: 13px 28px; margin: 6px;">
+        👤 View Profile &amp; Respond
+    </a>
 
     {% if sender_phone %}
-    <a href="https://wa.me/{{ sender_phone }}" class="button" style="background-color: #25D366; display: block;">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="16" height="16" alt="WhatsApp"
-            style="vertical-align: middle; margin-right: 8px;"> Chat on WhatsApp
+    <a href="https://wa.me/{{ sender_phone }}" class="button" style="display: inline-block; background: #25D366; padding: 13px 28px; margin: 6px; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);">
+        💬 Chat on WhatsApp
     </a>
     {% endif %}
 </div>
-
-<p style="font-size: 14px; color: #94a3b8; margin-top: 30px;">
-    If the buttons above don't work, verify by logging into your account.
-</p>
 {% endblock %}

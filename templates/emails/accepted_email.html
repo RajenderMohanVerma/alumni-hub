@@ -1,26 +1,40 @@
 {% extends 'emails/base_email.html' %}
 
 {% block content %}
-<h2 style="color: #1e293b; margin-top: 0;">Connection Accepted! 🎉</h2>
-<p style="font-size: 16px; color: #475569;">Hi <strong>{{ sender_name }}</strong>,</p>
+<div style="text-align: center; margin-bottom: 20px;">
+    <span style="display: inline-block; background-color: #dcfce7; color: #166534; padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">
+        🎉 Connection Accepted
+    </span>
+</div>
 
-<p style="font-size: 16px; color: #475569;">
-    Good news! <strong>{{ receiver_name }}</strong> has accepted your connection request.
+<h2 style="color: #0f172a; text-align: center; margin: 0 0 12px 0; font-size: 22px; font-weight: 800; letter-spacing: -0.3px;">
+    You're Now Connected!
+</h2>
+
+<p style="font-size: 15px; color: #475569; line-height: 1.6; text-align: center; margin: 0 0 20px 0;">
+    Hi <strong>{{ sender_name }}</strong>,<br>
+    Great news! <strong>{{ receiver_name }}</strong> has accepted your connection request on Alumni Hub.
 </p>
 
-<p style="font-size: 16px; color: #475569;">
-    You are now connected on Alumni Hub. You can view their full profile, contact them via email at <strong>{{
-        receiver_email }}</strong>, or start a conversation directly.
-</p>
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; margin: 22px 0; text-align: center;">
+    <p style="margin: 0; font-size: 14px; color: #334155; line-height: 1.6;">
+        You can now view their full portfolio, collaborate on projects, or message them directly via email at:
+    </p>
+    <div style="margin-top: 10px;">
+        <a href="mailto:{{ receiver_email }}" style="display: inline-block; background-color: #e0f2fe; color: #0284c7; padding: 6px 16px; border-radius: 50px; font-weight: 700; font-size: 13px; text-decoration: none;">
+            ✉️ {{ receiver_email }}
+        </a>
+    </div>
+</div>
 
-<div style="text-align: center; margin: 35px 0;">
-    <a href="{{ profile_url }}" class="button"
-        style="background-color: #1e3a8a; display: block; margin-bottom: 15px;">View Profile</a>
+<div style="text-align: center; margin: 28px 0 12px 0;">
+    <a href="{{ profile_url }}" class="button" style="display: inline-block; padding: 13px 28px; margin: 6px;">
+        👤 View Hub Profile
+    </a>
 
     {% if receiver_phone %}
-    <a href="https://wa.me/{{ receiver_phone }}" class="button" style="background-color: #25D366; display: block;">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="16" height="16" alt="WhatsApp"
-            style="vertical-align: middle; margin-right: 8px;"> Chat on WhatsApp
+    <a href="https://wa.me/{{ receiver_phone }}" class="button" style="display: inline-block; background: #25D366; padding: 13px 28px; margin: 6px; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);">
+        💬 Chat on WhatsApp
     </a>
     {% endif %}
 </div>

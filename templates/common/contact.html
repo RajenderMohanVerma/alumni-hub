@@ -125,55 +125,66 @@
                         </div>
                     </div>
 
-                    <form method="POST" action="{{ url_for('contact') }}" class="needs-validation">
+                    <form method="POST" action="{{ url_for('contact') }}" class="needs-validation" id="contactForm">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label fw-bold text-dark small">Your Full Name</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0 text-muted"><i class="fas fa-user"></i></span>
+                                <label class="form-label fw-bold text-dark small">Your Full Name <span class="text-danger">*</span></label>
+                                <div class="input-group contact-input-group">
+                                    <span class="input-group-text bg-white border-end-0 text-primary"><i class="fas fa-user"></i></span>
                                     <input type="text" name="name" class="form-control border-start-0" placeholder="e.g. Rahul Sharma" required
-                                           value="{{ current_user.name if current_user.is_authenticated else '' }}">
+                                           value="{{ current_user.name if current_user.is_authenticated else '' }}" autocomplete="name">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-bold text-dark small">Email Address</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0 text-muted"><i class="fas fa-at"></i></span>
+                                <label class="form-label fw-bold text-dark small">Email Address <span class="text-danger">*</span></label>
+                                <div class="input-group contact-input-group">
+                                    <span class="input-group-text bg-white border-end-0 text-primary"><i class="fas fa-envelope"></i></span>
                                     <input type="email" name="email" class="form-control border-start-0" placeholder="e.g. rahul@example.com" required
-                                           value="{{ current_user.email if current_user.is_authenticated else '' }}">
+                                           value="{{ current_user.email if current_user.is_authenticated else '' }}" autocomplete="email">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-dark small">Role / Affiliation</label>
-                                <select name="role_type" class="form-select">
-                                    <option value="student">Student</option>
-                                    <option value="alumni">Alumni</option>
-                                    <option value="faculty">Faculty Member</option>
-                                    <option value="employer">Recruiter / Employer</option>
-                                    <option value="other">Other Inquiry</option>
-                                </select>
+                                <div class="input-group contact-input-group">
+                                    <span class="input-group-text bg-white border-end-0 text-primary"><i class="fas fa-id-badge"></i></span>
+                                    <select name="role_type" class="form-select border-start-0">
+                                        <option value="student">🎓 Student</option>
+                                        <option value="alumni">💼 Alumni</option>
+                                        <option value="faculty">🏛️ Faculty Member</option>
+                                        <option value="employer">🏢 Recruiter / Employer</option>
+                                        <option value="other">💬 Other Inquiry</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-bold text-dark small">Subject</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0 text-muted"><i class="fas fa-tag"></i></span>
+                                <label class="form-label fw-bold text-dark small">Subject <span class="text-danger">*</span></label>
+                                <div class="input-group contact-input-group">
+                                    <span class="input-group-text bg-white border-end-0 text-primary"><i class="fas fa-tag"></i></span>
                                     <input type="text" name="subject" class="form-control border-start-0" placeholder="e.g. Mentorship Inquiry" required>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label fw-bold text-dark small">Your Message</label>
-                                <textarea name="message" class="form-control" rows="5" placeholder="How can our community team help you?" required></textarea>
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <label class="form-label fw-bold text-dark small mb-0">Your Message <span class="text-danger">*</span></label>
+                                    <span class="badge bg-light text-muted border rounded-pill px-2 py-1 small" id="charCounterBadge" style="font-size: 0.75rem;">0 / 1000</span>
+                                </div>
+                                <textarea name="message" id="contactMessageInput" class="form-control" rows="5" maxlength="1000" placeholder="Describe how our alumni community team can help you..." required></textarea>
                             </div>
 
-                            <div class="col-12 mt-4">
-                                <button type="submit" class="btn btn-premium btn-premium-primary magnetic-button w-100 py-3">
-                                    <i class="fas fa-paper-plane me-2"></i> Submit Inquiry
+                            <div class="col-12 mt-3">
+                                <button type="submit" class="btn btn-premium btn-premium-primary magnetic-button w-100 py-3 shadow-sm" id="contactSubmitBtn">
+                                    <span class="btn-text d-inline-flex align-items-center justify-content-center">
+                                        <i class="fas fa-paper-plane me-2"></i> Submit Inquiry
+                                    </span>
                                     <div class="btn-glow"></div>
                                 </button>
+                                <div class="text-center mt-2">
+                                    <small class="text-muted"><i class="fas fa-lock me-1 text-success"></i> Your contact information is never shared with third parties.</small>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -285,4 +296,105 @@
         </div>
     </div>
 </div>
+
+<style>
+/* Contact Page Specific Enhancements */
+.contact-input-group {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    transition: all 0.25s ease;
+    background: #ffffff;
+}
+.contact-input-group:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+.contact-input-group .form-control,
+.contact-input-group .form-select {
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+}
+.contact-input-group .form-control:focus,
+.contact-input-group .form-select:focus {
+    box-shadow: none;
+}
+.contact-input-group .input-group-text {
+    border: none;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+}
+#contactMessageInput {
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+}
+#contactMessageInput:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+@media (max-width: 768px) {
+    .home-card.accent-blue,
+    .home-card.accent-purple {
+        padding: 1.5rem !important;
+        border-radius: 20px !important;
+    }
+    .hero-title {
+        font-size: 2.25rem !important;
+    }
+}
+@media (max-width: 480px) {
+    .home-card.accent-blue,
+    .home-card.accent-purple {
+        padding: 1.25rem !important;
+    }
+    .contact-input-group .form-control,
+    .contact-input-group .form-select {
+        font-size: 0.9rem;
+        padding: 0.65rem 0.75rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Character counter for contact message
+    const msgInput = document.getElementById('contactMessageInput');
+    const charBadge = document.getElementById('charCounterBadge');
+    if (msgInput && charBadge) {
+        msgInput.addEventListener('input', function() {
+            const current = this.value.length;
+            charBadge.textContent = `${current} / 1000`;
+            if (current >= 900) {
+                charBadge.className = 'badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2 py-1 small';
+            } else if (current >= 500) {
+                charBadge.className = 'badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-2 py-1 small';
+            } else {
+                charBadge.className = 'badge bg-light text-muted border rounded-pill px-2 py-1 small';
+            }
+        });
+    }
+
+    // Submit button loading animation
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('contactSubmitBtn');
+    if (contactForm && submitBtn) {
+        contactForm.addEventListener('submit', function(e) {
+            if (this.checkValidity()) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    <span>Sending your inquiry...</span>
+                `;
+                // Allow the form to submit naturally
+                this.submit();
+            }
+        });
+    }
+});
+</script>
 {% endblock %}
