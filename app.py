@@ -94,6 +94,28 @@ def inject_dev_quick_login():
         return {'dev_quick_login': None}
 
 
+@app.context_processor
+def inject_community_stats():
+    """
+    Expose live real-time counts of enrolled members and active alumni/faculty
+    so auth showcase boxes reflect actual database figures dynamically.
+    """
+    try:
+        conn = get_db_connection()
+        alumni_faculty = conn.execute("SELECT COUNT(*) FROM users WHERE role IN ('alumni', 'faculty')").fetchone()[0]
+        total_enrolled = conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]
+        conn.close()
+        return {
+            'stats_alumni_faculty_count': alumni_faculty or 0,
+            'stats_total_enrolled_count': total_enrolled or 0
+        }
+    except Exception:
+        return {
+            'stats_alumni_faculty_count': 0,
+            'stats_total_enrolled_count': 0
+        }
+
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 UPLOAD_FOLDER = 'static/uploads'
 COMPANY_LOGOS_FOLDER = 'static/uploads/company_logos'
@@ -790,6 +812,28 @@ def contact():
             flash('Error sending message. Please try again.', 'danger')
 
     return render_template('common/contact.html')
+
+
+@app.route('/api/community-stats')
+def api_community_stats():
+    """Returns live JSON counts of enrolled users and active mentors/alumni."""
+    try:
+        conn = get_db_connection()
+        alumni_faculty = conn.execute("SELECT COUNT(*) FROM users WHERE role IN ('alumni', 'faculty')").fetchone()[0]
+        total_enrolled = conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]
+        conn.close()
+        return jsonify({
+            'success': True,
+            'alumni_faculty_count': alumni_faculty or 0,
+            'total_enrolled_count': total_enrolled or 0
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'alumni_faculty_count': 0,
+            'total_enrolled_count': 0
+        })
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
