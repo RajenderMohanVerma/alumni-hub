@@ -244,6 +244,25 @@ def setup_websocket_handlers(socketio):
             emit('error', {'message': 'Cannot send message to yourself'})
             return
 
+        # For non-admin roles: verify recipient is in connections circle or is admin
+        if current_user.role != 'admin':
+            from database.messaging_db import get_db_connection
+            with get_db_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute('SELECT role FROM users WHERE id = ?', (receiver_id,))
+                target = cursor.fetchone()
+                if not target:
+                    emit('error', {'message': 'Recipient not found'})
+                    return
+                if target['role'] != 'admin':
+                    cursor.execute('''
+                        SELECT 1 FROM connections
+                        WHERE (user_id_1 = ? AND user_id_2 = ?) OR (user_id_1 = ? AND user_id_2 = ?)
+                    ''', (current_user.id, receiver_id, receiver_id, current_user.id))
+                    if not cursor.fetchone():
+                        emit('error', {'message': 'You can only message users in your connections/friends circle.'})
+                        return
+
         # Check if receiver is online (has internet/active socket connection)
         receiver_online = is_user_online(receiver_id)
         now_iso = datetime.utcnow().isoformat() + 'Z'

@@ -184,6 +184,26 @@ def send_private_msg():
             'message': 'Cannot send message to yourself'
         }), 400
 
+    # For non-admin roles: verify recipient is in connections circle or is admin
+    if current_user.role != 'admin':
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT role FROM users WHERE id = ?', (receiver_id,))
+            target = cursor.fetchone()
+            if not target:
+                return jsonify({'success': False, 'message': 'Recipient not found'}), 404
+            
+            if target['role'] != 'admin':
+                cursor.execute('''
+                    SELECT 1 FROM connections
+                    WHERE (user_id_1 = ? AND user_id_2 = ?) OR (user_id_1 = ? AND user_id_2 = ?)
+                ''', (current_user.id, receiver_id, receiver_id, current_user.id))
+                if not cursor.fetchone():
+                    return jsonify({
+                        'success': False,
+                        'message': 'You can only message users who are in your connections / network.'
+                    }), 403
+
     # Check if receiver is online (net/socket active)
     from routes.websocket_routes import is_user_online
     receiver_online = is_user_online(receiver_id)
@@ -316,6 +336,26 @@ def create_conv():
             'message': 'Cannot create conversation with yourself'
         }), 400
 
+    # For non-admin roles: verify other user is in connections circle or is admin
+    if current_user.role != 'admin':
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT role FROM users WHERE id = ?', (other_user_id,))
+            target = cursor.fetchone()
+            if not target:
+                return jsonify({'success': False, 'message': 'User not found'}), 404
+            
+            if target['role'] != 'admin':
+                cursor.execute('''
+                    SELECT 1 FROM connections
+                    WHERE (user_id_1 = ? AND user_id_2 = ?) OR (user_id_1 = ? AND user_id_2 = ?)
+                ''', (current_user.id, other_user_id, other_user_id, current_user.id))
+                if not cursor.fetchone():
+                    return jsonify({
+                        'success': False,
+                        'message': 'You can only start conversations with users in your connections/friends circle.'
+                    }), 403
+
     conv_id = create_conversation(current_user.id, other_user_id)
 
     return jsonify({
@@ -324,78 +364,64 @@ def create_conv():
     }), 201
 
 
-@messaging_bp.route('/messages/conversation/<int:user_id>/messages', methods=['GET'])
-@login_required
-def get_conv_messages(user_id):
-    """Get all messages with a specific user"""
-    try:
-        limit = request.args.get('limit', 50, type=int)
-        offset = request.args.get('offset', 0, type=int)
-        limit = min(limit, 100)
-
-        messages = get_conversation_messages(current_user.id, user_id, limit=limit, offset=offset)
-
-        # Mark all as read
-        try:
-            marked_count = mark_conversation_as_read(current_user.id, user_id, current_user.id)
-            if marked_count > 0:
-                from app import socketio
-                socketio.emit('conversation_read', {
-                    'reader_id': current_user.id,
-                    'other_user_id': user_id,
-                    'timestamp': datetime.utcnow().isoformat() + 'Z'
-                }, room=f'user_{user_id}')
-        except Exception as sock_err:
-            print(f"Error marking/emitting conversation_read: {sock_err}")
-
-        # Fetch other user details
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute('SELECT id, name, email, role, phone, profile_pic FROM users WHERE id = ?', (user_id,))
-            row = cursor.fetchone()
-            other_user = dict(row) if row else None
-
-        return jsonify({
-            'success': True,
-            'other_user': other_user,
-            'messages': messages
-        }), 200
-    except Exception as e:
-        print(f"Error in get_conv_messages: {e}")
-        import traceback
-        traceback.print_exc()
-        return jsonify({
-            'success': False,
-            'message': str(e)
-        }), 500
-
-
 @messaging_bp.route('/messages/users', methods=['GET'])
 @login_required
 def get_messaging_users():
-    """Get all eligible users for starting or filtering conversations across all roles"""
+    """Get all eligible users for starting or filtering conversations across all roles.
+    Admins can see all approved users across the platform.
+    Non-admins (Student, Alumni, Faculty) can ONLY see users in their connections circle + Admins.
+    Both can filter by role and search by name or email.
+    """
     role = request.args.get('role', 'all').lower()
     search = request.args.get('search', '').strip().lower()
 
     with get_db_connection() as conn:
         cursor = conn.cursor()
-        query = '''
-            SELECT id, name, email, role, phone, profile_pic
-            FROM users
-            WHERE id != ? AND is_approved = 1
-        '''
-        params = [current_user.id]
 
-        if role != 'all' and role in ['student', 'alumni', 'faculty', 'admin']:
-            query += ' AND role = ?'
-            params.append(role)
+        if current_user.role == 'admin':
+            # Admin can view and message anyone in the system
+            query = '''
+                SELECT id, name, email, role, phone, profile_pic
+                FROM users
+                WHERE id != ? AND is_approved = 1
+            '''
+            params = [current_user.id]
 
-        if search:
-            query += ' AND (LOWER(name) LIKE ? OR LOWER(email) LIKE ? OR LOWER(role) LIKE ?)'
-            term = f"%{search}%"
-            params.extend([term, term, term])
+            if role != 'all' and role in ['student', 'alumni', 'faculty', 'admin']:
+                query += ' AND role = ?'
+                params.append(role)
 
-        query += ' ORDER BY name ASC'
+            if search:
+                query += ' AND (LOWER(name) LIKE ? OR LOWER(email) LIKE ? OR LOWER(role) LIKE ?)'
+                term = f"%{search}%"
+                params.extend([term, term, term])
+
+            query += ' ORDER BY name ASC'
+        else:
+            # Non-admin: ONLY connected users (friends/network) + Admins
+            query = '''
+                SELECT DISTINCT u.id, u.name, u.email, u.role, u.phone, u.profile_pic
+                FROM users u
+                LEFT JOIN connections c ON (
+                    (c.user_id_1 = ? AND c.user_id_2 = u.id) OR
+                    (c.user_id_2 = ? AND c.user_id_1 = u.id)
+                )
+                WHERE u.id != ? AND u.is_approved = 1
+                  AND (c.id IS NOT NULL OR u.role = 'admin')
+            '''
+            params = [current_user.id, current_user.id, current_user.id]
+
+            if role != 'all' and role in ['student', 'alumni', 'faculty', 'admin']:
+                query += ' AND u.role = ?'
+                params.append(role)
+
+            if search:
+                query += ' AND (LOWER(u.name) LIKE ? OR LOWER(u.email) LIKE ? OR LOWER(u.role) LIKE ?)'
+                term = f"%{search}%"
+                params.extend([term, term, term])
+
+            query += ' ORDER BY u.name ASC'
+
         cursor.execute(query, tuple(params))
         users = [dict(row) for row in cursor.fetchall()]
 

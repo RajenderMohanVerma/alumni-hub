@@ -655,7 +655,13 @@
                     <h5 class="modal-title fw-bold text-dark" id="newChatModalLabel">
                         <i class="fas fa-comment-dots text-primary me-2"></i> Start a New Chat
                     </h5>
-                    <p class="text-muted small mb-0">Select any student, alumni, faculty, or admin to message directly.</p>
+                    <p class="text-muted small mb-0">
+                        {% if current_user.role == 'admin' %}
+                            Select any student, alumni, faculty, or administrator across the campus to message directly.
+                        {% else %}
+                            Message members in your connection network or contact an Administrator directly.
+                        {% endif %}
+                    </p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -1243,8 +1249,18 @@
 
     // Modal Handling
     function openNewChatModal() {
-        const modal = new bootstrap.Modal(document.getElementById('newChatModal'));
+        const modalEl = document.getElementById('newChatModal');
+        const modal = new bootstrap.Modal(modalEl);
         modal.show();
+        // Clear previous search and reset filter to all
+        const searchInput = document.getElementById('modalUserSearch');
+        if (searchInput) searchInput.value = '';
+        modalFilterRole = 'all';
+        modalEl.querySelectorAll('.msg-filter-btn').forEach((b, idx) => {
+            if (idx === 0) b.classList.add('active');
+            else b.classList.remove('active');
+        });
+        loadAllUsers();
         renderModalUsers();
     }
 
@@ -1273,11 +1289,33 @@
         });
 
         if (filtered.length === 0) {
-            list.innerHTML = `
-                <div class="text-center py-4 text-muted small">
-                    No community members found matching criteria.
-                </div>
-            `;
+            if (search) {
+                list.innerHTML = `
+                    <div class="text-center py-5 text-muted">
+                        <i class="fas fa-search text-muted opacity-50 mb-2 fa-lg"></i>
+                        <div class="small fw-semibold">No contacts found for "<strong>${escapeHtml(search)}</strong>"</div>
+                    </div>
+                `;
+            } else if (currentUserRole !== 'admin') {
+                list.innerHTML = `
+                    <div class="text-center py-4 px-3 text-muted">
+                        <div class="rounded-circle p-3 bg-primary bg-opacity-10 text-primary d-inline-block mb-2">
+                            <i class="fas fa-user-friends fa-lg"></i>
+                        </div>
+                        <div class="fw-bold text-dark small mb-1">No Connections in this Category</div>
+                        <p class="extra-small text-muted mb-3" style="font-size: 0.8rem;">You can message peers once connected in your network circle, or reach out to an Administrator.</p>
+                        <a href="/network" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold" style="font-size: 0.78rem;">
+                            <i class="fas fa-satellite-dish me-1"></i> Connect on Network
+                        </a>
+                    </div>
+                `;
+            } else {
+                list.innerHTML = `
+                    <div class="text-center py-4 text-muted small">
+                        No community members registered in this role.
+                    </div>
+                `;
+            }
             return;
         }
 
