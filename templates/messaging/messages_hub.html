@@ -734,11 +734,50 @@
                 socket.on('connect', function () {
                     console.log('Socket.IO connected for real-time messaging');
                 });
+
                 socket.on('receive_private_message', function (msg) {
                     if (activeUserId && (msg.sender_id === activeUserId || msg.receiver_id === activeUserId)) {
                         appendMessageToStream(msg);
+                        // If we are currently actively viewing this conversation, mark it as read immediately
+                        if (msg.sender_id === activeUserId && socket && socket.connected) {
+                            socket.emit('mark_conversation_read', { other_user_id: activeUserId });
+                        }
                     }
                     loadInbox();
+                });
+
+                // When recipient comes online and pending messages are delivered -> Turn into Double Grey Ticks
+                socket.on('messages_delivered', function (data) {
+                    if (activeUserId && String(data.receiver_id) === String(activeUserId)) {
+                        document.querySelectorAll('#messagesStream .msg-sent .msg-tick-indicator').forEach(el => {
+                            if (el.querySelector('.fa-check') && !el.querySelector('.fa-check-double')) {
+                                el.innerHTML = '<i class="fas fa-check-double" style="color: #94a3b8; font-size: 0.82rem;" title="Delivered"></i>';
+                            }
+                        });
+                    }
+                    loadInbox();
+                });
+
+                // When recipient opens / reads the conversation -> Turn into Double Blue Ticks
+                socket.on('conversation_read', function (data) {
+                    if (activeUserId && (String(data.reader_id) === String(activeUserId) || String(data.other_user_id) === String(currentUserId))) {
+                        document.querySelectorAll('#messagesStream .msg-sent .msg-tick-indicator').forEach(el => {
+                            el.innerHTML = '<i class="fas fa-check-double" style="color: #0284c7; font-size: 0.82rem;" title="Seen"></i>';
+                        });
+                    }
+                    loadInbox();
+                });
+
+                socket.on('message_sent', function (data) {
+                    if (data.is_delivered && activeUserId && String(data.receiver_id) === String(activeUserId)) {
+                        const targetBubble = document.querySelector(`.msg-bubble-wrap[data-msg-id="${data.message_id}"]`);
+                        if (targetBubble) {
+                            const tickEl = targetBubble.querySelector('.msg-tick-indicator');
+                            if (tickEl && !tickEl.querySelector('i[style*="0284c7"]')) {
+                                tickEl.innerHTML = '<i class="fas fa-check-double" style="color: #94a3b8; font-size: 0.82rem;" title="Delivered"></i>';
+                            }
+                        }
+                    }
                 });
             }
         } catch (e) {
@@ -859,11 +898,30 @@
         document.getElementById('chatInputBar').style.display = 'flex';
         document.getElementById('chatEmptyPlaceholder').style.display = 'none';
 
+        // Notify socket that conversation is read
+        if (socket && socket.connected) {
+            socket.emit('mark_conversation_read', { other_user_id: userId });
+        }
+
         // Load conversation messages
         await loadConversationMessages(userId);
 
         // Focus message field
         document.getElementById('messageInput').focus();
+    }
+
+    // Helper: Generate tick icon HTML according to WhatsApp status
+    function getMessageTickHtml(m) {
+        if (m.is_read) {
+            // Seen / Read: Double Blue Ticks
+            return '<i class="fas fa-check-double" style="color: #0284c7; font-size: 0.82rem;" title="Seen"></i>';
+        } else if (m.is_delivered) {
+            // Delivered (recipient online / received): Double Grey Ticks
+            return '<i class="fas fa-check-double" style="color: #94a3b8; font-size: 0.82rem;" title="Delivered"></i>';
+        } else {
+            // Sent to server (recipient offline): Single Grey Tick
+            return '<i class="fas fa-check" style="color: #94a3b8; font-size: 0.82rem;" title="Sent"></i>';
+        }
     }
 
     // Load Conversation Messages
@@ -928,20 +986,21 @@
             const timeStr = formatMessageTime(m.created_at);
 
             if (isMine) {
+                const tickHtml = getMessageTickHtml(m);
                 html += `
-                    <div class="msg-bubble-wrap msg-sent">
+                    <div class="msg-bubble-wrap msg-sent" data-msg-id="${m.id || ''}">
                         <div class="msg-bubble-box">
                             ${escapeHtml(m.content)}
                         </div>
                         <div class="msg-time-tag">
                             <span>${timeStr}</span>
-                            <i class="fas fa-check-double text-info"></i>
+                            <span class="msg-tick-indicator">${tickHtml}</span>
                         </div>
                     </div>
                 `;
             } else {
                 html += `
-                    <div class="msg-bubble-wrap msg-received">
+                    <div class="msg-bubble-wrap msg-received" data-msg-id="${m.id || ''}">
                         <div class="msg-bubble-box">
                             ${escapeHtml(m.content)}
                         </div>
@@ -969,15 +1028,17 @@
 
         const wrap = document.createElement('div');
         wrap.className = `msg-bubble-wrap ${isMine ? 'msg-sent' : 'msg-received'}`;
+        if (m.id) wrap.setAttribute('data-msg-id', m.id);
 
         if (isMine) {
+            const tickHtml = getMessageTickHtml(m);
             wrap.innerHTML = `
                 <div class="msg-bubble-box">
                     ${escapeHtml(m.content)}
                 </div>
                 <div class="msg-time-tag">
                     <span>${timeStr}</span>
-                    <i class="fas fa-check text-info"></i>
+                    <span class="msg-tick-indicator">${tickHtml}</span>
                 </div>
             `;
         } else {
@@ -1007,11 +1068,15 @@
         input.value = '';
         input.focus();
 
-        // Optimistic UI Append
+        // Optimistic UI Append with Single Grey Tick (✓)
+        const tempId = 'temp_' + Date.now();
         const tempMsg = {
+            id: tempId,
             sender_id: currentUserId,
             receiver_id: activeUserId,
             content: content,
+            is_delivered: false,
+            is_read: false,
             created_at: new Date().toISOString()
         };
         appendMessageToStream(tempMsg);
@@ -1028,7 +1093,16 @@
             });
 
             const data = await res.json();
-            if (data.success) {
+            if (data.success && data.message) {
+                // Update temporary bubble with real message ID and server delivery status
+                const bubble = document.querySelector(`.msg-bubble-wrap[data-msg-id="${tempId}"]`);
+                if (bubble) {
+                    bubble.setAttribute('data-msg-id', data.message.id);
+                    const tickEl = bubble.querySelector('.msg-tick-indicator');
+                    if (tickEl) {
+                        tickEl.innerHTML = getMessageTickHtml(data.message);
+                    }
+                }
                 // Update inbox threads list
                 loadInbox();
             } else {
@@ -1174,18 +1248,51 @@
             .replace(/'/g, '&#039;');
     }
 
+    // Robust date parser that handles UTC ISO strings without explicit Z offset
+    function parseIsoDate(isoStr) {
+        if (!isoStr) return new Date();
+        if (isoStr instanceof Date) return isoStr;
+        let s = String(isoStr).trim();
+        if (!s) return new Date();
+        // If it's a sqlite timestamp format like "2026-10-24 18:44:30"
+        if (!s.includes('T') && s.includes(' ')) {
+            s = s.replace(' ', 'T');
+        }
+        // If no timezone offset is present, treat it as UTC by appending 'Z'
+        if (!s.endsWith('Z') && !/[+-]\d{2}:?\d{2}$/.test(s)) {
+            s += 'Z';
+        }
+        const d = new Date(s);
+        return isNaN(d.getTime()) ? new Date() : d;
+    }
+
+    // Format strictly into 12-hour pattern: hh:mm AM/PM (e.g. 12:15 AM, 06:45 PM)
+    function format12HourTime(dateObj) {
+        let hours = dateObj.getHours();
+        const minutes = dateObj.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // 0 hour becomes 12
+        const strHours = String(hours).padStart(2, '0');
+        const strMinutes = String(minutes).padStart(2, '0');
+        return `${strHours}:${strMinutes} ${ampm}`;
+    }
+
     function formatTime(isoStr) {
         if (!isoStr) return '';
         try {
-            const date = new Date(isoStr);
+            const date = parseIsoDate(isoStr);
             const now = new Date();
-            const diffMs = now - date;
-            const diffMin = Math.floor(diffMs / 60000);
-            if (diffMin < 1) return 'Just now';
-            if (diffMin < 60) return diffMin + 'm';
-            const diffHrs = Math.floor(diffMin / 60);
-            if (diffHrs < 24) return diffHrs + 'h';
-            return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+            const isToday = date.toDateString() === now.toDateString();
+
+            const yesterday = new Date(now);
+            yesterday.setDate(now.getDate() - 1);
+            const isYesterday = date.toDateString() === yesterday.toDateString();
+
+            const time12 = format12HourTime(date);
+            if (isToday) return time12;
+            if (isYesterday) return 'Yesterday ' + time12;
+            return date.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' ' + time12;
         } catch (e) {
             return '';
         }
@@ -1194,8 +1301,8 @@
     function formatMessageTime(isoStr) {
         if (!isoStr) return '';
         try {
-            const date = new Date(isoStr);
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const date = parseIsoDate(isoStr);
+            return format12HourTime(date);
         } catch (e) {
             return '';
         }

@@ -184,7 +184,12 @@ def send_private_msg():
             'message': 'Cannot send message to yourself'
         }), 400
 
-    message_id = send_private_message(current_user.id, receiver_id, content)
+    # Check if receiver is online (net/socket active)
+    from routes.websocket_routes import is_user_online
+    receiver_online = is_user_online(receiver_id)
+    now_iso = datetime.utcnow().isoformat() + 'Z'
+
+    message_id = send_private_message(current_user.id, receiver_id, content, is_delivered=receiver_online)
 
     if message_id:
         msg_obj = {
@@ -194,12 +199,18 @@ def send_private_msg():
             'sender_role': current_user.role,
             'receiver_id': receiver_id,
             'content': content,
+            'is_delivered': receiver_online,
             'is_read': False,
-            'created_at': datetime.utcnow().isoformat()
+            'created_at': now_iso
         }
         try:
             from app import socketio
-            socketio.emit('receive_private_message', msg_obj, room=f'user_{receiver_id}')
+            if receiver_online:
+                socketio.emit('receive_private_message', msg_obj, room=f'user_{receiver_id}')
+                socketio.emit('messages_delivered', {
+                    'receiver_id': receiver_id,
+                    'timestamp': now_iso
+                }, room=f'user_{current_user.id}')
         except Exception:
             pass
 
@@ -207,7 +218,7 @@ def send_private_msg():
             'success': True,
             'message_id': message_id,
             'message': msg_obj,
-            'created_at': msg_obj['created_at']
+            'created_at': now_iso
         }), 201
     else:
         return jsonify({
@@ -325,7 +336,17 @@ def get_conv_messages(user_id):
     messages = get_conversation_messages(current_user.id, user_id, limit=limit, offset=offset)
 
     # Mark all as read
-    mark_conversation_as_read(current_user.id, user_id, current_user.id)
+    marked_count = mark_conversation_as_read(current_user.id, user_id, current_user.id)
+    if marked_count > 0:
+        try:
+            from app import socketio
+            socketio.emit('conversation_read', {
+                'reader_id': current_user.id,
+                'other_user_id': user_id,
+                'timestamp': datetime.utcnow().isoformat() + 'Z'
+            }, room=f'user_{user_id}')
+        except Exception:
+            pass
 
     # Fetch other user details
     with get_db_connection() as conn:

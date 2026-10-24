@@ -6,7 +6,7 @@
     <script>
         document.documentElement.setAttribute('data-theme', 'light');
         document.documentElement.classList.remove('dark-mode');
-        try { localStorage.removeItem('alumni_hub_theme'); } catch(e){}
+        try { localStorage.removeItem('alumni_hub_theme'); } catch (e) { }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,8 +14,7 @@
     <!-- SEO Meta Tags -->
     <meta name="description"
         content="Official Alumni Hub - Connect, network, and grow with your college community. Post jobs, find mentors, and stay updated with events.">
-    <meta name="keywords"
-        content="Alumni Network, Mentorship, Job Portal, College Networking, Career Connections">
+    <meta name="keywords" content="Alumni Network, Mentorship, Job Portal, College Networking, Career Connections">
     <meta name="author" content="Alumni Hub Community">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ request.url }}">
@@ -172,13 +171,13 @@
             </a>
 
             {% if not current_user.is_authenticated %}
-            <a class="nav-mobile-register" href="/register">Register <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            <a class="nav-mobile-register" href="/register">Register <i class="fas fa-arrow-right"
+                    aria-hidden="true"></i></a>
             {% endif %}
 
             <!-- Open Button -->
-            <button class="navbar-toggler custom-toggler" type="button"
-                aria-controls="mobileMenuOverlay" aria-expanded="false"
-                aria-label="Toggle navigation" id="navbarToggler">
+            <button class="navbar-toggler custom-toggler" type="button" aria-controls="mobileMenuOverlay"
+                aria-expanded="false" aria-label="Toggle navigation" id="navbarToggler">
                 <div class="hamburger-lines">
                     <span class="line line1"></span>
                     <span class="line line2"></span>
@@ -187,50 +186,51 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                    {% if not current_user.is_authenticated %}
-                    <!-- Public View -->
-                    <ul class="navbar-nav public-nav-links">
-                        <li class="nav-item">
-                            <a class="nav-link nav-pill-link" href="/">
-                                <i class="fas fa-home"></i> <span>Home</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-pill-link" href="/about">
-                                <i class="fas fa-circle-info"></i> <span>About</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-pill-link" href="/services">
-                                <i class="fas fa-compass"></i> <span>Services</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-pill-link" href="/events">
-                                <i class="fas fa-calendar-days"></i> <span>Events</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-pill-link" href="/contact">
-                                <i class="fas fa-envelope"></i> <span>Contact</span>
-                            </a>
-                        </li>
-                    </ul>
+                {% if not current_user.is_authenticated %}
+                <!-- Public View -->
+                <ul class="navbar-nav public-nav-links">
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link" href="/">
+                            <i class="fas fa-home"></i> <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link" href="/about">
+                            <i class="fas fa-circle-info"></i> <span>About</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link" href="/services">
+                            <i class="fas fa-compass"></i> <span>Services</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link" href="/events">
+                            <i class="fas fa-calendar-days"></i> <span>Events</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link" href="/contact">
+                            <i class="fas fa-envelope"></i> <span>Contact</span>
+                        </a>
+                    </li>
+                </ul>
 
-                    <div class="nav-auth-actions d-flex align-items-center">
-                        <a class="nav-auth-login" href="/login">
-                            Sign In
-                        </a>
-                        <a class="nav-auth-register" href="/register">
-                            Register <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                    {% else %}
-                    <!-- Authenticated View -->
-                    <ul class="navbar-nav role-nav-links ms-auto align-items-center">
+                <div class="nav-auth-actions d-flex align-items-center">
+                    <a class="nav-auth-login" href="/login">
+                        Sign In
+                    </a>
+                    <a class="nav-auth-register" href="/register">
+                        Register <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+                {% else %}
+                <!-- Authenticated View -->
+                <ul class="navbar-nav role-nav-links ms-auto align-items-center">
                     {% if current_user.role == 'student' %}
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link {% if request.endpoint == 'dashboard_student' %}active{% endif %}" href="/student/dashboard">
+                        <a class="nav-link nav-pill-link {% if request.endpoint == 'dashboard_student' %}active{% endif %}"
+                            href="/student/dashboard">
                             <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
                         </a>
                     </li>
@@ -246,8 +246,10 @@
                             <i class="fas fa-users"></i> <span>Connect</span>
                         </a>
                         <ul class="dropdown-menu shadow-premium border-0">
-                            <li><a class="dropdown-item" href="/network"><i class="fas fa-network-wired me-2 text-primary"></i> Alumni Directory</a></li>
-                            <li><a class="dropdown-item" href="/mentorship"><i class="fas fa-user-graduate me-2 text-success"></i> Mentorship Hub</a></li>
+                            <li><a class="dropdown-item" href="/network"><i
+                                        class="fas fa-network-wired me-2 text-primary"></i> Alumni Directory</a></li>
+                            <li><a class="dropdown-item" href="/mentorship"><i
+                                        class="fas fa-user-graduate me-2 text-success"></i> Mentorship Hub</a></li>
                         </ul>
                     </li>
 
@@ -258,8 +260,10 @@
                             <i class="fas fa-briefcase"></i> <span>Opportunities</span>
                         </a>
                         <ul class="dropdown-menu shadow-premium border-0">
-                            <li><a class="dropdown-item" href="/jobs"><i class="fas fa-briefcase me-2 text-info"></i> Jobs &amp; Internships</a></li>
-                            <li><a class="dropdown-item" href="/events"><i class="fas fa-calendar-alt me-2 text-warning"></i> Campus Events</a></li>
+                            <li><a class="dropdown-item" href="/jobs"><i class="fas fa-briefcase me-2 text-info"></i>
+                                    Jobs &amp; Internships</a></li>
+                            <li><a class="dropdown-item" href="/events"><i
+                                        class="fas fa-calendar-alt me-2 text-warning"></i> Campus Events</a></li>
                         </ul>
                     </li>
 
@@ -271,7 +275,8 @@
 
                     {% elif current_user.role == 'alumni' %}
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link nav-alumni-link {% if request.endpoint == 'dashboard_alumni' %}active{% endif %}" href="/alumni/dashboard">
+                        <a class="nav-link nav-pill-link nav-alumni-link {% if request.endpoint == 'dashboard_alumni' %}active{% endif %}"
+                            href="/alumni/dashboard">
                             <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
                         </a>
                     </li>
@@ -340,7 +345,8 @@
 
                     {% elif current_user.role == 'faculty' %}
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link nav-faculty-link {% if request.endpoint == 'dashboard_faculty' %}active{% endif %}" href="/faculty/dashboard">
+                        <a class="nav-link nav-pill-link nav-faculty-link {% if request.endpoint == 'dashboard_faculty' %}active{% endif %}"
+                            href="/faculty/dashboard">
                             <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
                         </a>
                     </li>
@@ -353,17 +359,19 @@
 
                     <li class="nav-item">
                         <a class="nav-link nav-pill-link nav-faculty-link" href="/network">
-                            <i class="fas fa-users"></i> <span>Directory</span>
+                            <i class="fas fa-users"></i> <span>Networks</span>
                         </a>
                     </li>
 
                     <!-- Opportunities Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link nav-pill-link dropdown-toggle nav-faculty-link" href="#" id="facultyOpportunitiesDropdown"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link nav-pill-link dropdown-toggle nav-faculty-link" href="#"
+                            id="facultyOpportunitiesDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             <i class="fas fa-briefcase"></i> <span>Opportunities</span>
                         </a>
-                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="facultyOpportunitiesDropdown">
+                        <ul class="dropdown-menu shadow-premium border-0"
+                            aria-labelledby="facultyOpportunitiesDropdown">
                             <li>
                                 <a class="dropdown-item" href="/jobs">
                                     <i class="fas fa-briefcase me-2 text-primary"></i> Jobs &amp; Internships
@@ -384,8 +392,9 @@
 
                     <!-- Academic Hub Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link nav-pill-link dropdown-toggle nav-faculty-link" href="#" id="facultyAcademicHubDropdown"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link nav-pill-link dropdown-toggle nav-faculty-link" href="#"
+                            id="facultyAcademicHubDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             <i class="fas fa-chalkboard"></i> <span>Academic Hub</span>
                         </a>
                         <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="facultyAcademicHubDropdown">
@@ -468,44 +477,52 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-sliders-h"></i> <span>System Control</span>
                         </a>
-                        <ul class="dropdown-menu shadow-premium border-0 nav-system-menu" aria-labelledby="systemDropdown">
+                        <ul class="dropdown-menu shadow-premium border-0 nav-system-menu"
+                            aria-labelledby="systemDropdown">
                             <li class="nav-menu-intro">
                                 <span class="nav-menu-intro-icon"><i class="fas fa-shield-alt"></i></span>
-                                <span><strong>Platform Control Hub</strong><small>Administration &amp; Infrastructure</small></span>
+                                <span><strong>Platform Control Hub</strong><small>Administration &amp;
+                                        Infrastructure</small></span>
                             </li>
                             <li class="nav-menu-heading">CAREER &amp; JOBS</li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_jobs') }}">
                                     <span class="nav-menu-icon icon-blue"><i class="fas fa-briefcase"></i></span>
-                                    <span class="nav-menu-copy"><strong>Jobs Matrix</strong><small>Manage all job postings</small></span>
+                                    <span class="nav-menu-copy"><strong>Jobs Matrix</strong><small>Manage all job
+                                            postings</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item nav-menu-link position-relative" href="{{ url_for('admin_jobs') }}#pending">
+                                <a class="dropdown-item nav-menu-link position-relative"
+                                    href="{{ url_for('admin_jobs') }}#pending">
                                     <span class="nav-menu-icon icon-amber"><i class="fas fa-clipboard-check"></i></span>
-                                    <span class="nav-menu-copy"><strong>Job Approvals Queue</strong><small>Review pending submissions</small></span>
+                                    <span class="nav-menu-copy"><strong>Job Approvals Queue</strong><small>Review
+                                            pending submissions</small></span>
                                 </a>
                             </li>
                             <li class="nav-menu-heading">COMMUNICATIONS</li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_whatsapp_broadcast') }}">
                                     <span class="nav-menu-icon icon-green"><i class="fa-brands fa-whatsapp"></i></span>
-                                    <span class="nav-menu-copy"><strong>WhatsApp Broadcast</strong><small>Send bulk community alerts</small></span>
+                                    <span class="nav-menu-copy"><strong>WhatsApp Broadcast</strong><small>Send bulk
+                                            community alerts</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_messaging_control') }}">
                                     <span class="nav-menu-icon icon-violet"><i class="fas fa-comments"></i></span>
-                                    <span class="nav-menu-copy"><strong>Messaging Control</strong><small>Toggle chat and permissions</small></span>
+                                    <span class="nav-menu-copy"><strong>Messaging Control</strong><small>Toggle chat and
+                                            permissions</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="/announcements">
                                     <span class="nav-menu-icon icon-cyan"><i class="fas fa-bullhorn"></i></span>
-                                    <span class="nav-menu-copy"><strong>Campus Announcements</strong><small>Publish official notices</small></span>
+                                    <span class="nav-menu-copy"><strong>Campus Announcements</strong><small>Publish
+                                            official notices</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
@@ -513,35 +530,40 @@
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_connection_monitor') }}">
                                     <span class="nav-menu-icon icon-cyan"><i class="fas fa-link"></i></span>
-                                    <span class="nav-menu-copy"><strong>Connection Monitor</strong><small>Live socket &amp; active users</small></span>
+                                    <span class="nav-menu-copy"><strong>Connection Monitor</strong><small>Live socket
+                                            &amp; active users</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_analytics') }}">
                                     <span class="nav-menu-icon icon-purple"><i class="fas fa-chart-line"></i></span>
-                                    <span class="nav-menu-copy"><strong>Platform Analytics</strong><small>Engagement &amp; demographics</small></span>
+                                    <span class="nav-menu-copy"><strong>Platform Analytics</strong><small>Engagement
+                                            &amp; demographics</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_registrations') }}">
                                     <span class="nav-menu-icon icon-orange"><i class="fas fa-clipboard-list"></i></span>
-                                    <span class="nav-menu-copy"><strong>Registration Logs</strong><small>Account creation audit trail</small></span>
+                                    <span class="nav-menu-copy"><strong>Registration Logs</strong><small>Account
+                                            creation audit trail</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="/admin/events">
                                     <span class="nav-menu-icon icon-blue"><i class="fas fa-calendar-check"></i></span>
-                                    <span class="nav-menu-copy"><strong>Event RSVPs</strong><small>Track attendance &amp; registrations</small></span>
+                                    <span class="nav-menu-copy"><strong>Event RSVPs</strong><small>Track attendance
+                                            &amp; registrations</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="/reports">
                                     <span class="nav-menu-icon icon-amber"><i class="fas fa-file-invoice"></i></span>
-                                    <span class="nav-menu-copy"><strong>System Reports</strong><small>Export metrics and logs</small></span>
+                                    <span class="nav-menu-copy"><strong>System Reports</strong><small>Export metrics and
+                                            logs</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
@@ -568,37 +590,41 @@
                                 <span>Signed in as</span>
                                 <strong>{{ current_user.name }}</strong>
                             </li>
-                            <li><a class="dropdown-item" href="/profile"><i class="fas fa-user me-2"></i> My Profile</a></li>
-                            <li><a class="dropdown-item" href="/messages"><i class="fas fa-comment-alt me-2"></i> Messages</a></li>
-                    {% if current_user.role == 'student' %}
-                    <li><a class="dropdown-item" href="/upgrade"><i class="fas fa-crown"></i> Upgrade to Pro</a>
+                            <li><a class="dropdown-item" href="/profile"><i class="fas fa-user me-2"></i> My Profile</a>
+                            </li>
+                            <li><a class="dropdown-item" href="/messages"><i class="fas fa-comment-alt me-2"></i>
+                                    Messages</a></li>
+                            {% if current_user.role == 'student' %}
+                            <li><a class="dropdown-item" href="/upgrade"><i class="fas fa-crown"></i> Upgrade to Pro</a>
+                            </li>
+                            {% endif %}
+                            {% if current_user.role == 'student' %}
+                            <li><a class="dropdown-item" href="{{ url_for('settings') }}"><i class="fas fa-cog"></i>
+                                    Settings</a></li>
+                            {% elif current_user.role == 'admin' %}
+                            <li><a class="dropdown-item"
+                                    href="{{ url_for('edit_admin_profile', user_id=current_user.id) }}"><i
+                                        class="fas fa-cog"></i> Settings</a></li>
+                            {% elif current_user.role == 'alumni' %}
+                            <li><a class="dropdown-item"
+                                    href="{{ url_for('edit_alumni_profile', user_id=current_user.id) }}"><i
+                                        class="fas fa-cog"></i> Settings</a></li>
+                            {% elif current_user.role == 'faculty' %}
+                            <li><a class="dropdown-item"
+                                    href="{{ url_for('edit_faculty_profile', user_id=current_user.id) }}"><i
+                                        class="fas fa-cog"></i> Settings</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="/change_password"><i class="fas fa-lock"></i> Change
+                                    Password</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="/logout"><i class="fas fa-sign-out-alt"></i>
+                                    Logout</a></li>
+                        </ul>
                     </li>
                     {% endif %}
-                    {% if current_user.role == 'student' %}
-                    <li><a class="dropdown-item" href="{{ url_for('settings') }}"><i class="fas fa-cog"></i>
-                            Settings</a></li>
-                    {% elif current_user.role == 'admin' %}
-                    <li><a class="dropdown-item" href="{{ url_for('edit_admin_profile', user_id=current_user.id) }}"><i
-                                class="fas fa-cog"></i> Settings</a></li>
-                    {% elif current_user.role == 'alumni' %}
-                    <li><a class="dropdown-item" href="{{ url_for('edit_alumni_profile', user_id=current_user.id) }}"><i
-                                class="fas fa-cog"></i> Settings</a></li>
-                    {% elif current_user.role == 'faculty' %}
-                    <li><a class="dropdown-item"
-                            href="{{ url_for('edit_faculty_profile', user_id=current_user.id) }}"><i
-                                class="fas fa-cog"></i> Settings</a></li>
-                    {% endif %}
-                    <li><a class="dropdown-item" href="/change_password"><i class="fas fa-lock"></i> Change
-                            Password</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item text-danger" href="/logout"><i class="fas fa-sign-out-alt"></i>
-                            Logout</a></li>
                 </ul>
-                </li>
-                {% endif %}
-                    </ul>
             </div>
         </div>
     </nav>
@@ -623,10 +649,13 @@
                 </div>
                 <div class="mobile-quick-actions">
                     {% if current_user.role == 'admin' %}
-                    <a href="{{ url_for('dashboard_admin') }}" class="action-btn"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                    <a href="{{ url_for('dashboard_admin') }}" class="action-btn"><i class="fas fa-chart-pie"></i>
+                        Dashboard</a>
                     <a href="/messages" class="action-btn"><i class="fas fa-comment-alt"></i> Messages</a>
-                    <a href="{{ url_for('admin_approve_requests') }}" class="action-btn"><i class="fas fa-check-double"></i> Approvals</a>
-                    <a href="{{ url_for('admin_view_users', role='all') }}" class="action-btn"><i class="fas fa-users-cog"></i> Users</a>
+                    <a href="{{ url_for('admin_approve_requests') }}" class="action-btn"><i
+                            class="fas fa-check-double"></i> Approvals</a>
+                    <a href="{{ url_for('admin_view_users', role='all') }}" class="action-btn"><i
+                            class="fas fa-users-cog"></i> Users</a>
                     {% elif current_user.role == 'alumni' %}
                     <a href="/alumni/dashboard" class="action-btn"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                     <a href="/messages" class="action-btn"><i class="fas fa-comment-alt"></i> Messages</a>
@@ -648,73 +677,120 @@
 
             <div class="mobile-links-container">
                 <a href="/" class="mobile-nav-link" style="--delay: 0.15s"><i class="fas fa-home"></i> Home</a>
-                <a href="/about" class="mobile-nav-link" style="--delay: 0.2s"><i class="fas fa-info-circle"></i> About</a>
+                <a href="/about" class="mobile-nav-link" style="--delay: 0.2s"><i class="fas fa-info-circle"></i>
+                    About</a>
 
                 {% if current_user.is_authenticated %}
                 {% if current_user.role == 'student' %}
-                <a href="/student/dashboard" class="mobile-nav-link" style="--delay: 0.25s"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="/messages" class="mobile-nav-link" style="--delay: 0.3s"><i class="fas fa-comment-alt"></i> Messages</a>
-                <a href="/network" class="mobile-nav-link" style="--delay: 0.35s"><i class="fas fa-network-wired"></i> Alumni Directory</a>
-                <a href="/mentorship" class="mobile-nav-link" style="--delay: 0.4s"><i class="fas fa-user-graduate"></i> Mentorship Hub</a>
-                <a href="/jobs" class="mobile-nav-link" style="--delay: 0.45s"><i class="fas fa-briefcase"></i> Jobs &amp; Internships</a>
-                <a href="/events" class="mobile-nav-link" style="--delay: 0.5s"><i class="fas fa-calendar-alt"></i> Campus Events</a>
-                <a href="/notifications" class="mobile-nav-link" style="--delay: 0.55s"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="/student/dashboard" class="mobile-nav-link" style="--delay: 0.25s"><i
+                        class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="/messages" class="mobile-nav-link" style="--delay: 0.3s"><i class="fas fa-comment-alt"></i>
+                    Messages</a>
+                <a href="/network" class="mobile-nav-link" style="--delay: 0.35s"><i class="fas fa-network-wired"></i>
+                    Alumni Directory</a>
+                <a href="/mentorship" class="mobile-nav-link" style="--delay: 0.4s"><i class="fas fa-user-graduate"></i>
+                    Mentorship Hub</a>
+                <a href="/jobs" class="mobile-nav-link" style="--delay: 0.45s"><i class="fas fa-briefcase"></i> Jobs
+                    &amp; Internships</a>
+                <a href="/events" class="mobile-nav-link" style="--delay: 0.5s"><i class="fas fa-calendar-alt"></i>
+                    Campus Events</a>
+                <a href="/notifications" class="mobile-nav-link" style="--delay: 0.55s"><i class="fas fa-bell"></i>
+                    Notifications</a>
                 {% elif current_user.role == 'alumni' %}
-                <a href="/alumni/dashboard" class="mobile-nav-link" style="--delay: 0.25s"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="/messages" class="mobile-nav-link" style="--delay: 0.3s"><i class="fas fa-comment-alt"></i> Messages</a>
-                <a href="/alumni/network" class="mobile-nav-link" style="--delay: 0.35s"><i class="fas fa-network-wired"></i> Alumni Network</a>
-                <a href="/alumni/mentorship" class="mobile-nav-link" style="--delay: 0.4s"><i class="fas fa-chalkboard-teacher"></i> Mentorship Hub</a>
-                <a href="/alumni/jobs" class="mobile-nav-link" style="--delay: 0.45s"><i class="fas fa-briefcase"></i> Browse Jobs</a>
-                <a href="/alumni/post-job" class="mobile-nav-link" style="--delay: 0.5s"><i class="fas fa-plus-circle"></i> Post Job / Referral</a>
-                <a href="/alumni/events" class="mobile-nav-link" style="--delay: 0.55s"><i class="fas fa-calendar-alt"></i> Alumni Events</a>
-                <a href="/alumni/spotlight" class="mobile-nav-link" style="--delay: 0.6s"><i class="fas fa-star"></i> Alumni Spotlight</a>
-                <a href="/alumni/notifications" class="mobile-nav-link" style="--delay: 0.65s"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="/alumni/dashboard" class="mobile-nav-link" style="--delay: 0.25s"><i
+                        class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="/messages" class="mobile-nav-link" style="--delay: 0.3s"><i class="fas fa-comment-alt"></i>
+                    Messages</a>
+                <a href="/alumni/network" class="mobile-nav-link" style="--delay: 0.35s"><i
+                        class="fas fa-network-wired"></i> Alumni Network</a>
+                <a href="/alumni/mentorship" class="mobile-nav-link" style="--delay: 0.4s"><i
+                        class="fas fa-chalkboard-teacher"></i> Mentorship Hub</a>
+                <a href="/alumni/jobs" class="mobile-nav-link" style="--delay: 0.45s"><i class="fas fa-briefcase"></i>
+                    Browse Jobs</a>
+                <a href="/alumni/post-job" class="mobile-nav-link" style="--delay: 0.5s"><i
+                        class="fas fa-plus-circle"></i> Post Job / Referral</a>
+                <a href="/alumni/events" class="mobile-nav-link" style="--delay: 0.55s"><i
+                        class="fas fa-calendar-alt"></i> Alumni Events</a>
+                <a href="/alumni/spotlight" class="mobile-nav-link" style="--delay: 0.6s"><i class="fas fa-star"></i>
+                    Alumni Spotlight</a>
+                <a href="/alumni/notifications" class="mobile-nav-link" style="--delay: 0.65s"><i
+                        class="fas fa-bell"></i> Notifications</a>
                 {% elif current_user.role == 'faculty' %}
-                <a href="/faculty/dashboard" class="mobile-nav-link" style="--delay: 0.25s"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="/messages" class="mobile-nav-link" style="--delay: 0.3s"><i class="fas fa-comment-alt"></i> Messages</a>
-                <a href="/network" class="mobile-nav-link" style="--delay: 0.35s"><i class="fas fa-users"></i> Member Directory</a>
-                <a href="/jobs" class="mobile-nav-link" style="--delay: 0.4s"><i class="fas fa-briefcase"></i> Jobs &amp; Internships</a>
-                <a href="/post-job" class="mobile-nav-link" style="--delay: 0.45s"><i class="fas fa-plus-circle"></i> Post Opportunity</a>
-                <a href="/events" class="mobile-nav-link" style="--delay: 0.5s"><i class="fas fa-calendar-alt"></i> Campus Events</a>
-                <a href="/announcements" class="mobile-nav-link" style="--delay: 0.55s"><i class="fas fa-bullhorn"></i> Announcements</a>
-                <a href="/reports" class="mobile-nav-link" style="--delay: 0.6s"><i class="fas fa-chart-pie"></i> Reports &amp; Stats</a>
-                <a href="/notifications" class="mobile-nav-link" style="--delay: 0.65s"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="/faculty/dashboard" class="mobile-nav-link" style="--delay: 0.25s"><i
+                        class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="/messages" class="mobile-nav-link" style="--delay: 0.3s"><i class="fas fa-comment-alt"></i>
+                    Messages</a>
+                <a href="/network" class="mobile-nav-link" style="--delay: 0.35s"><i class="fas fa-users"></i> Member
+                    Directory</a>
+                <a href="/jobs" class="mobile-nav-link" style="--delay: 0.4s"><i class="fas fa-briefcase"></i> Jobs
+                    &amp; Internships</a>
+                <a href="/post-job" class="mobile-nav-link" style="--delay: 0.45s"><i class="fas fa-plus-circle"></i>
+                    Post Opportunity</a>
+                <a href="/events" class="mobile-nav-link" style="--delay: 0.5s"><i class="fas fa-calendar-alt"></i>
+                    Campus Events</a>
+                <a href="/announcements" class="mobile-nav-link" style="--delay: 0.55s"><i class="fas fa-bullhorn"></i>
+                    Announcements</a>
+                <a href="/reports" class="mobile-nav-link" style="--delay: 0.6s"><i class="fas fa-chart-pie"></i>
+                    Reports &amp; Stats</a>
+                <a href="/notifications" class="mobile-nav-link" style="--delay: 0.65s"><i class="fas fa-bell"></i>
+                    Notifications</a>
                 {% elif current_user.role == 'admin' %}
-                <a href="{{ url_for('dashboard_admin') }}" class="mobile-nav-link" style="--delay: 0.25s"><i class="fas fa-chart-line"></i> Dashboard</a>
-                <a href="/messages" class="mobile-nav-link" style="--delay: 0.28s"><i class="fas fa-comment-alt"></i> Live Messages</a>
-                <a href="{{ url_for('admin_view_users', role='all') }}" class="mobile-nav-link" style="--delay: 0.31s"><i class="fas fa-users-cog"></i> Users Directory</a>
-                <a href="{{ url_for('admin_approve_requests') }}" class="mobile-nav-link" style="--delay: 0.34s"><i class="fas fa-check-double"></i> Pending Approvals</a>
-                <a href="{{ url_for('admin_jobs') }}" class="mobile-nav-link" style="--delay: 0.37s"><i class="fas fa-briefcase"></i> Jobs Matrix</a>
-                <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="mobile-nav-link" style="--delay: 0.4s"><i class="fa-brands fa-whatsapp"></i> WhatsApp Broadcast</a>
-                <a href="{{ url_for('admin_messaging_control') }}" class="mobile-nav-link" style="--delay: 0.43s"><i class="fas fa-comments"></i> Messaging Control</a>
-                <a href="{{ url_for('admin_connection_monitor') }}" class="mobile-nav-link" style="--delay: 0.46s"><i class="fas fa-link"></i> Connection Monitor</a>
-                <a href="/announcements" class="mobile-nav-link" style="--delay: 0.49s"><i class="fas fa-bullhorn"></i> Campus Announcements</a>
-                <a href="{{ url_for('admin_analytics') }}" class="mobile-nav-link" style="--delay: 0.52s"><i class="fas fa-chart-line"></i> Platform Analytics</a>
-                <a href="/admin/events" class="mobile-nav-link" style="--delay: 0.55s"><i class="fas fa-calendar-check"></i> Event RSVPs</a>
-                <a href="{{ url_for('admin_registrations') }}" class="mobile-nav-link" style="--delay: 0.58s"><i class="fas fa-clipboard-list"></i> Registration Logs</a>
-                <a href="/reports" class="mobile-nav-link" style="--delay: 0.61s"><i class="fas fa-file-invoice"></i> Reports</a>
-                <a href="/admin/stats" class="mobile-nav-link" style="--delay: 0.64s"><i class="fas fa-chart-pie"></i> Statistics</a>
+                <a href="{{ url_for('dashboard_admin') }}" class="mobile-nav-link" style="--delay: 0.25s"><i
+                        class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="/messages" class="mobile-nav-link" style="--delay: 0.28s"><i class="fas fa-comment-alt"></i>
+                    Live Messages</a>
+                <a href="{{ url_for('admin_view_users', role='all') }}" class="mobile-nav-link"
+                    style="--delay: 0.31s"><i class="fas fa-users-cog"></i> Users Directory</a>
+                <a href="{{ url_for('admin_approve_requests') }}" class="mobile-nav-link" style="--delay: 0.34s"><i
+                        class="fas fa-check-double"></i> Pending Approvals</a>
+                <a href="{{ url_for('admin_jobs') }}" class="mobile-nav-link" style="--delay: 0.37s"><i
+                        class="fas fa-briefcase"></i> Jobs Matrix</a>
+                <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="mobile-nav-link" style="--delay: 0.4s"><i
+                        class="fa-brands fa-whatsapp"></i> WhatsApp Broadcast</a>
+                <a href="{{ url_for('admin_messaging_control') }}" class="mobile-nav-link" style="--delay: 0.43s"><i
+                        class="fas fa-comments"></i> Messaging Control</a>
+                <a href="{{ url_for('admin_connection_monitor') }}" class="mobile-nav-link" style="--delay: 0.46s"><i
+                        class="fas fa-link"></i> Connection Monitor</a>
+                <a href="/announcements" class="mobile-nav-link" style="--delay: 0.49s"><i class="fas fa-bullhorn"></i>
+                    Campus Announcements</a>
+                <a href="{{ url_for('admin_analytics') }}" class="mobile-nav-link" style="--delay: 0.52s"><i
+                        class="fas fa-chart-line"></i> Platform Analytics</a>
+                <a href="/admin/events" class="mobile-nav-link" style="--delay: 0.55s"><i
+                        class="fas fa-calendar-check"></i> Event RSVPs</a>
+                <a href="{{ url_for('admin_registrations') }}" class="mobile-nav-link" style="--delay: 0.58s"><i
+                        class="fas fa-clipboard-list"></i> Registration Logs</a>
+                <a href="/reports" class="mobile-nav-link" style="--delay: 0.61s"><i class="fas fa-file-invoice"></i>
+                    Reports</a>
+                <a href="/admin/stats" class="mobile-nav-link" style="--delay: 0.64s"><i class="fas fa-chart-pie"></i>
+                    Statistics</a>
                 {% endif %}
-                <a href="/events" class="mobile-nav-link" style="--delay: 0.7s"><i class="fas fa-calendar-alt"></i> Events</a>
+                <a href="/events" class="mobile-nav-link" style="--delay: 0.7s"><i class="fas fa-calendar-alt"></i>
+                    Events</a>
                 {% else %}
-                <a href="/services" class="mobile-nav-link" style="--delay: 0.25s"><i class="fas fa-briefcase"></i> Services</a>
-                <a href="/events" class="mobile-nav-link" style="--delay: 0.3s"><i class="fas fa-calendar-alt"></i> Events</a>
-                <a href="/contact" class="mobile-nav-link" style="--delay: 0.35s"><i class="fas fa-envelope"></i> Contact</a>
+                <a href="/services" class="mobile-nav-link" style="--delay: 0.25s"><i class="fas fa-briefcase"></i>
+                    Services</a>
+                <a href="/events" class="mobile-nav-link" style="--delay: 0.3s"><i class="fas fa-calendar-alt"></i>
+                    Events</a>
+                <a href="/contact" class="mobile-nav-link" style="--delay: 0.35s"><i class="fas fa-envelope"></i>
+                    Contact</a>
                 {% endif %}
             </div>
 
             {% if current_user.is_authenticated %}
             <div class="mobile-logout-section w-100 px-2 mt-3" style="--delay: 0.75s">
-                <a href="/logout" class="btn btn-outline-danger btn-lg w-100 shadow-sm" style="border-radius: 12px; font-weight: 600;">
+                <a href="/logout" class="btn btn-outline-danger btn-lg w-100 shadow-sm"
+                    style="border-radius: 12px; font-weight: 600;">
                     <i class="fas fa-sign-out-alt me-2"></i> Logout
                 </a>
             </div>
             {% else %}
             <div class="mobile-auth-buttons w-100 px-2 mt-3 d-flex flex-column gap-2" style="--delay: 0.45s">
-                <a href="/login" class="btn btn-outline-primary btn-lg w-100 shadow-sm" style="font-weight: 700; border-radius: 12px;">
+                <a href="/login" class="btn btn-outline-primary btn-lg w-100 shadow-sm"
+                    style="font-weight: 700; border-radius: 12px;">
                     <i class="fas fa-sign-in-alt me-2"></i> Sign In
                 </a>
-                <a href="/register" class="btn btn-primary btn-lg w-100 shadow-sm" style="font-weight: 700; border-radius: 12px; background: var(--accent-blue); border: none;">
+                <a href="/register" class="btn btn-primary btn-lg w-100 shadow-sm"
+                    style="font-weight: 700; border-radius: 12px; background: var(--accent-blue); border: none;">
                     Register <i class="fas fa-arrow-right ms-2"></i>
                 </a>
             </div>
@@ -778,17 +854,23 @@
                     <div class="col-lg-4 col-md-6" data-aos="fade-up">
                         <div class="footer-section">
                             <div class="d-flex align-items-center gap-2 mb-3">
-                                <div class="brand-logo-container" style="width: 38px; height: 38px; font-size: 1.15rem;">
+                                <div class="brand-logo-container"
+                                    style="width: 38px; height: 38px; font-size: 1.15rem;">
                                     <i class="fas fa-graduation-cap"></i>
                                 </div>
                                 <h5 class="footer-title mb-0" style="font-size: 1.25rem;">ALUMNI HUB</h5>
                             </div>
                             <p class="footer-text mb-3">
-                                The official institutional portal connecting students, distinguished alumni, and faculty guides for collaborative career growth and lifelong academic excellence.
+                                The official institutional portal connecting students, distinguished alumni, and faculty
+                                guides for collaborative career growth and lifelong academic excellence.
                             </p>
                             <div class="d-flex flex-wrap gap-2 mb-3">
-                                <span class="badge rounded-pill" style="background: rgba(2, 132, 199, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 0.72rem; padding: 0.38rem 0.75rem;">Verified Platform</span>
-                                <span class="badge rounded-pill" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); font-size: 0.72rem; padding: 0.38rem 0.75rem;">Mentorship Network</span>
+                                <span class="badge rounded-pill"
+                                    style="background: rgba(2, 132, 199, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 0.72rem; padding: 0.38rem 0.75rem;">Verified
+                                    Platform</span>
+                                <span class="badge rounded-pill"
+                                    style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); font-size: 0.72rem; padding: 0.38rem 0.75rem;">Mentorship
+                                    Network</span>
                             </div>
                             <div class="social-links-container">
                                 <div class="social-links-grid">
@@ -807,11 +889,16 @@
                             <h5 class="footer-title">Platform</h5>
                             <ul class="footer-links">
                                 <li><a href="/" class="footer-link"><i class="fas fa-chevron-right"></i> Home</a></li>
-                                <li><a href="/about" class="footer-link"><i class="fas fa-chevron-right"></i> About Us</a></li>
-                                <li><a href="/services" class="footer-link"><i class="fas fa-chevron-right"></i> Services</a></li>
-                                <li><a href="/events" class="footer-link"><i class="fas fa-chevron-right"></i> Events</a></li>
-                                <li><a href="/jobs" class="footer-link"><i class="fas fa-chevron-right"></i> Career Board</a></li>
-                                <li><a href="/contact" class="footer-link"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                                <li><a href="/about" class="footer-link"><i class="fas fa-chevron-right"></i> About
+                                        Us</a></li>
+                                <li><a href="/services" class="footer-link"><i class="fas fa-chevron-right"></i>
+                                        Services</a></li>
+                                <li><a href="/events" class="footer-link"><i class="fas fa-chevron-right"></i>
+                                        Events</a></li>
+                                <li><a href="/jobs" class="footer-link"><i class="fas fa-chevron-right"></i> Career
+                                        Board</a></li>
+                                <li><a href="/contact" class="footer-link"><i class="fas fa-chevron-right"></i> Contact
+                                        Us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -821,11 +908,16 @@
                         <div class="footer-section ps-lg-2">
                             <h5 class="footer-title">Resources</h5>
                             <ul class="footer-links">
-                                <li><a href="{{ url_for('privacy_policy') }}" class="footer-link"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
-                                <li><a href="{{ url_for('terms_conditions') }}" class="footer-link"><i class="fas fa-chevron-right"></i> Terms of Use</a></li>
-                                <li><a href="{{ url_for('faq') }}" class="footer-link"><i class="fas fa-chevron-right"></i> Help &amp; FAQs</a></li>
-                                <li><a href="{{ url_for('report_issue') }}" class="footer-link"><i class="fas fa-chevron-right"></i> Report an Issue</a></li>
-                                <li><a href="/donate" class="footer-link"><i class="fas fa-chevron-right"></i> Alumni Giving</a></li>
+                                <li><a href="{{ url_for('privacy_policy') }}" class="footer-link"><i
+                                            class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                                <li><a href="{{ url_for('terms_conditions') }}" class="footer-link"><i
+                                            class="fas fa-chevron-right"></i> Terms of Use</a></li>
+                                <li><a href="{{ url_for('faq') }}" class="footer-link"><i
+                                            class="fas fa-chevron-right"></i> Help &amp; FAQs</a></li>
+                                <li><a href="{{ url_for('report_issue') }}" class="footer-link"><i
+                                            class="fas fa-chevron-right"></i> Report an Issue</a></li>
+                                <li><a href="/donate" class="footer-link"><i class="fas fa-chevron-right"></i> Alumni
+                                        Giving</a></li>
                             </ul>
                         </div>
                     </div>
@@ -837,10 +929,11 @@
                                 <i class="fas fa-map-location-dot text-info"></i> Campus Location
                             </h5>
                             <div class="map-container mb-3" id="mapContainer" title="Click to open in Google Maps">
-                                <a href="https://maps.app.goo.gl/3BiLNAGwhh4jS9na8" target="_blank" class="d-block w-100 h-100 text-decoration-none">
+                                <a href="https://maps.app.goo.gl/3BiLNAGwhh4jS9na8" target="_blank"
+                                    class="d-block w-100 h-100 text-decoration-none">
                                     <img src="{{ url_for('static', filename='images/location_img.png') }}"
-                                         alt="JIMS Rohini Location"
-                                         style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                                        alt="JIMS Rohini Location"
+                                        style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
                                     <div class="map-overlay">
                                         <div class="map-overlay-text text-black">
                                             <i class="fas fa-arrow-up-right-from-square"></i> View Google Maps
@@ -849,13 +942,16 @@
                                 </a>
                             </div>
                             <p class="footer-text mb-1" style="font-size: 0.86rem; line-height: 1.45;">
-                                <i class="fas fa-location-dot text-danger me-1"></i> Jagan Institute of Management Studies (JIMS), Rohini, Institutional Area, Delhi 110085
+                                <i class="fas fa-location-dot text-danger me-1"></i> Jagan Institute of Management
+                                Studies (JIMS), Rohini, Institutional Area, Delhi 110085
                             </p>
                             <p class="footer-text mb-1" style="font-size: 0.82rem; color: #64748b;">
-                                <i class="fas fa-envelope text-info me-1"></i> <a href="mailto:alumnihub26@gmail.com" class="text-decoration-none text-muted">alumnihub26@gmail.com</a>
+                                <i class="fas fa-envelope text-info me-1"></i> <a href="mailto:alumnihub26@gmail.com"
+                                    class="text-decoration-none text-muted">alumnihub26@gmail.com</a>
                             </p>
                             <p class="footer-text mb-0" style="font-size: 0.82rem; color: #64748b;">
-                                <i class="fas fa-phone-alt text-success me-1"></i> <a href="tel:+917348619567" class="text-decoration-none text-muted">+91 7348619567</a>
+                                <i class="fas fa-phone-alt text-success me-1"></i> <a href="tel:+917348619567"
+                                    class="text-decoration-none text-muted">+91 7348619567</a>
                             </p>
                         </div>
                     </div>
@@ -873,7 +969,8 @@
                         </p>
                     </div>
                     <div class="col-md-3 text-center">
-                        <span class="badge rounded-pill" style="background: rgba(255, 255, 255, 0.06); color: #94a3b8; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+                        <span class="badge rounded-pill"
+                            style="background: rgba(255, 255, 255, 0.06); color: #94a3b8; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.72rem; padding: 0.35rem 0.75rem;">
                             <i class="fas fa-shield-halved text-success me-1"></i> SSL 256-Bit Encrypted
                         </span>
                     </div>
@@ -1087,29 +1184,29 @@
     <script src="{{ url_for('static', filename='js/network-animation.js') }}"></script>
     {% if current_user.is_authenticated and current_user.role == 'admin' %}
     <script>
-    (function loadPendingJobsBadge() {
-        function updateBadge() {
-            fetch('/api/admin/jobs/pending-count')
-                .then(function(r) { return r.json(); })
-                .then(function(data) {
-                    var badge = document.getElementById('pendingJobsBadge');
-                    if (badge) {
-                        badge.textContent = data.count > 0 ? data.count : '';
-                    }
-                })
-                .catch(function() {});
-        }
-        updateBadge();
-        setInterval(updateBadge, 60000); // refresh every minute
-    }());
+        (function loadPendingJobsBadge() {
+            function updateBadge() {
+                fetch('/api/admin/jobs/pending-count')
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        var badge = document.getElementById('pendingJobsBadge');
+                        if (badge) {
+                            badge.textContent = data.count > 0 ? data.count : '';
+                        }
+                    })
+                    .catch(function () { });
+            }
+            updateBadge();
+            setInterval(updateBadge, 60000); // refresh every minute
+        }());
     </script>
     {% endif %}
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.reveal-fade, .reveal-text').forEach(function(el) {
-            el.classList.add('revealed');
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.reveal-fade, .reveal-text').forEach(function (el) {
+                el.classList.add('revealed');
+            });
         });
-    });
     </script>
 </body>
 

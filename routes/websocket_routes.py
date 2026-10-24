@@ -13,11 +13,16 @@ from database.messaging_db import (
     send_private_message, mark_message_as_read, delete_private_message,
     get_conversation_messages, hide_all_public_messages, unhide_all_public_messages,
     send_public_message, is_messaging_locked, get_messaging_lock_status,
-    mark_conversation_as_read, is_user_suspended
+    mark_conversation_as_read, is_user_suspended, mark_user_messages_delivered
 )
 
 # Global dict to track online users
 online_users = {}
+
+
+def is_user_online(user_id):
+    """Check if a user is currently online via WebSocket"""
+    return int(user_id) in online_users
 
 
 def setup_websocket_handlers(socketio):
@@ -30,12 +35,13 @@ def setup_websocket_handlers(socketio):
             return False
 
         user_id = current_user.id
+        now_iso = datetime.utcnow().isoformat() + 'Z'
         online_users[user_id] = {
             'id': user_id,
             'name': current_user.name,
             'role': current_user.role,
             'session_id': request.sid,
-            'connected_at': datetime.utcnow().isoformat()
+            'connected_at': now_iso
         }
 
         # Join user to their personal room for private messages
@@ -46,12 +52,23 @@ def setup_websocket_handlers(socketio):
         if current_user.role == 'admin':
             join_room('admin_monitor')
 
+        # Deliver pending offline messages to this user and notify their senders
+        try:
+            senders_to_notify = mark_user_messages_delivered(user_id)
+            for s_id in senders_to_notify:
+                socketio.emit('messages_delivered', {
+                    'receiver_id': user_id,
+                    'timestamp': now_iso
+                }, room=f'user_{s_id}')
+        except Exception as e:
+            print(f"Error marking delivered on connect: {e}")
+
         # Broadcast user online status
         emit('user_online', {
             'user_id': user_id,
             'name': current_user.name,
             'role': current_user.role,
-            'timestamp': datetime.utcnow().isoformat()
+            'timestamp': now_iso
         }, room='public_chat')
 
         print(f"User {current_user.name} (ID: {user_id}) connected")
@@ -227,8 +244,12 @@ def setup_websocket_handlers(socketio):
             emit('error', {'message': 'Cannot send message to yourself'})
             return
 
+        # Check if receiver is online (has internet/active socket connection)
+        receiver_online = is_user_online(receiver_id)
+        now_iso = datetime.utcnow().isoformat() + 'Z'
+
         # Save to database
-        message_id = send_private_message(current_user.id, receiver_id, content)
+        message_id = send_private_message(current_user.id, receiver_id, content, is_delivered=receiver_online)
 
         if message_id:
             message_data = {
@@ -237,18 +258,23 @@ def setup_websocket_handlers(socketio):
                 'sender_name': current_user.name,
                 'receiver_id': receiver_id,
                 'content': content,
+                'is_delivered': receiver_online,
                 'is_read': False,
-                'created_at': datetime.utcnow().isoformat()
+                'created_at': now_iso
             }
 
             # Send to receiver if online
-            emit('receive_private_message', message_data, room=f'user_{receiver_id}')
+            if receiver_online:
+                emit('receive_private_message', message_data, room=f'user_{receiver_id}')
 
-            # Confirm to sender
+            # Confirm to sender with delivery state
             emit('message_sent', {
                 'message_id': message_id,
                 'status': 'success',
-                'receiver_id': receiver_id
+                'receiver_id': receiver_id,
+                'is_delivered': receiver_online,
+                'is_read': False,
+                'created_at': now_iso
             })
         else:
             emit('error', {'message': 'Failed to send message'})

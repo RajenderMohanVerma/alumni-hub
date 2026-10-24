@@ -129,6 +129,17 @@ def ensure_messaging_schema(conn=None):
         cursor = conn.cursor()
         for sql in statements:
             cursor.execute(sql)
+
+        # Ensure is_delivered and delivered_at columns exist in private_messages
+        cursor.execute("PRAGMA table_info(private_messages)")
+        cols = [row[1] if isinstance(row, (tuple, list)) else row['name'] for row in cursor.fetchall()]
+        if 'is_delivered' not in cols:
+            cursor.execute("ALTER TABLE private_messages ADD COLUMN is_delivered BOOLEAN DEFAULT 0")
+        if 'delivered_at' not in cols:
+            cursor.execute("ALTER TABLE private_messages ADD COLUMN delivered_at TIMESTAMP")
+        # Ensure any message marked read is also marked delivered
+        cursor.execute("UPDATE private_messages SET is_delivered = 1 WHERE is_read = 1 AND (is_delivered = 0 OR is_delivered IS NULL)")
+
         if owned:
             conn.commit()
     finally:
@@ -324,17 +335,21 @@ def get_public_message_count():
 
 # ==================== PRIVATE MESSAGE FUNCTIONS ====================
 
-def send_private_message(sender_id, receiver_id, content):
-    """Send a private message"""
+def send_private_message(sender_id, receiver_id, content, is_delivered=False):
+    """Send a private message with delivery tracking"""
     if is_user_suspended(sender_id):
         return None
+
+    now = datetime.utcnow().isoformat() + 'Z'
+    delivered_val = 1 if is_delivered else 0
+    delivered_at = now if is_delivered else None
 
     with get_db_connection() as conn:
         cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO private_messages (sender_id, receiver_id, content, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (sender_id, receiver_id, content, datetime.utcnow().isoformat(), datetime.utcnow().isoformat()))
+            INSERT INTO private_messages (sender_id, receiver_id, content, is_delivered, delivered_at, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (sender_id, receiver_id, content, delivered_val, delivered_at, now, now))
         message_id = cursor.lastrowid
 
         # Update or create conversation
@@ -344,20 +359,39 @@ def send_private_message(sender_id, receiver_id, content):
         cursor.execute('''
             INSERT OR IGNORE INTO conversations (user_id_1, user_id_2, created_at)
             VALUES (?, ?, ?)
-        ''', (user_1, user_2, datetime.utcnow().isoformat()))
+        ''', (user_1, user_2, now))
 
         # Update last message
         cursor.execute('''
             UPDATE conversations
             SET last_message_id = ?, last_message_at = ?
             WHERE (user_id_1 = ? AND user_id_2 = ?) OR (user_id_1 = ? AND user_id_2 = ?)
-        ''', (message_id, datetime.utcnow().isoformat(), user_1, user_2, user_2, user_1))
+        ''', (message_id, now, user_1, user_2, user_2, user_1))
 
         return message_id
 
 
+def mark_user_messages_delivered(receiver_id):
+    """Mark all undelivered messages sent to receiver_id as delivered, returning list of sender IDs"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT DISTINCT sender_id FROM private_messages
+            WHERE receiver_id = ? AND (is_delivered = 0 OR is_delivered IS NULL)
+        ''', (receiver_id,))
+        senders = [row['sender_id'] for row in cursor.fetchall()]
+
+        now = datetime.utcnow().isoformat() + 'Z'
+        cursor.execute('''
+            UPDATE private_messages
+            SET is_delivered = 1, delivered_at = ?
+            WHERE receiver_id = ? AND (is_delivered = 0 OR is_delivered IS NULL)
+        ''', (now, receiver_id))
+        return senders
+
+
 def get_conversation_messages(user_id_1, user_id_2, limit=50, offset=0):
-    """Get all messages in a conversation"""
+    """Get all messages in a conversation with read & delivered status"""
     user_1 = min(user_id_1, user_id_2)
     user_2 = max(user_id_1, user_id_2)
 
@@ -366,7 +400,8 @@ def get_conversation_messages(user_id_1, user_id_2, limit=50, offset=0):
         cursor.execute('''
             SELECT
                 pm.id, pm.sender_id, pm.receiver_id, pm.content,
-                pm.is_read, pm.read_at, pm.created_at, pm.updated_at,
+                pm.is_read, pm.read_at, pm.is_delivered, pm.delivered_at,
+                pm.created_at, pm.updated_at,
                 pm.deleted_by_sender, pm.deleted_by_receiver,
                 u.name, u.profile_pic, u.role
             FROM private_messages pm
@@ -429,11 +464,12 @@ def mark_message_as_read(message_id, reader_id):
     """Mark a private message as read"""
     with get_db_connection() as conn:
         cursor = conn.cursor()
+        now = datetime.utcnow().isoformat() + 'Z'
         cursor.execute('''
             UPDATE private_messages
-            SET is_read = 1, read_at = ?
+            SET is_read = 1, is_delivered = 1, read_at = ?
             WHERE id = ? AND receiver_id = ?
-        ''', (datetime.utcnow().isoformat(), message_id, reader_id))
+        ''', (now, message_id, reader_id))
         return cursor.rowcount > 0
 
 
@@ -441,13 +477,14 @@ def mark_conversation_as_read(user_id_1, user_id_2, reader_id):
     """Mark all unread messages in a conversation as read"""
     with get_db_connection() as conn:
         cursor = conn.cursor()
+        now = datetime.utcnow().isoformat() + 'Z'
         cursor.execute('''
             UPDATE private_messages
-            SET is_read = 1, read_at = ?
+            SET is_read = 1, is_delivered = 1, read_at = ?
             WHERE receiver_id = ?
             AND is_read = 0
             AND ((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?))
-        ''', (datetime.utcnow().isoformat(), reader_id, user_id_1, reader_id, user_id_2, reader_id))
+        ''', (now, reader_id, user_id_1, reader_id, user_id_2, reader_id))
         return cursor.rowcount
 
 
