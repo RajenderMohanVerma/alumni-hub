@@ -123,7 +123,7 @@
         display: grid;
         grid-template-columns: 380px 1fr;
         gap: 1.5rem;
-        height: 720px;
+        height: clamp(560px, calc(100vh - 210px), 800px);
         margin-bottom: 2rem;
     }
 
@@ -888,26 +888,81 @@
         container.innerHTML = html;
     }
 
+    // Helper to update active chat profile link
+    function updateChatProfileLink(userId, role) {
+        const profileLink = document.getElementById('chatHeadProfileLink');
+        if (!profileLink) return;
+        const r = (role || '').toLowerCase();
+        if (r === 'student') profileLink.href = `/student/profile/${userId}`;
+        else if (r === 'alumni') profileLink.href = `/alumni/profile/${userId}`;
+        else if (r === 'faculty') profileLink.href = `/faculty/profile/${userId}`;
+        else profileLink.href = `/admin/profile`;
+    }
+
     // Select Active Conversation
     async function selectConversation(userId) {
+        userId = Number(userId);
+        if (!userId || isNaN(userId)) return;
+
         activeUserId = userId;
         renderSidebarThreads();
 
-        // Show chat interface elements
-        document.getElementById('chatHeader').style.display = 'flex';
-        document.getElementById('chatInputBar').style.display = 'flex';
-        document.getElementById('chatEmptyPlaceholder').style.display = 'none';
+        // Show chat interface elements immediately
+        const chatHeader = document.getElementById('chatHeader');
+        const chatInputBar = document.getElementById('chatInputBar');
+        const emptyPlaceholder = document.getElementById('chatEmptyPlaceholder');
+        if (chatHeader) chatHeader.style.display = 'flex';
+        if (chatInputBar) chatInputBar.style.display = 'flex';
+        if (emptyPlaceholder) emptyPlaceholder.style.display = 'none';
+
+        // Pre-fill header INSTANTLY with known contact data so it never hangs on "Loading... ROLE"
+        const existingConv = conversationsList.find(c => Number(c.other_user_id) === userId);
+        const existingUser = allAvailableUsers.find(u => Number(u.id) === userId);
+        const contactName = (existingConv && existingConv.other_user_name) || (existingUser && existingUser.name);
+        const contactRole = (existingConv && existingConv.other_user_role) || (existingUser && existingUser.role) || 'member';
+        const contactPic = (existingConv && existingConv.other_user_pic) || (existingUser && existingUser.profile_pic);
+
+        if (contactName) {
+            activeUserName = contactName;
+            activeUserRole = contactRole;
+            document.getElementById('chatHeadName').textContent = contactName;
+            const roleEl = document.getElementById('chatHeadRole');
+            roleEl.textContent = contactRole.toUpperCase();
+            roleEl.className = `msg-role-badge role-${contactRole.toLowerCase()}`;
+            
+            const avatarEl = document.getElementById('chatHeadAvatar');
+            if (contactPic) {
+                avatarEl.innerHTML = `<img src="${contactPic}" alt="${escapeHtml(contactName)}"><span class="msg-status-dot"></span>`;
+            } else {
+                avatarEl.innerHTML = `<span>${getInitials(contactName)}</span><span class="msg-status-dot"></span>`;
+            }
+            updateChatProfileLink(userId, contactRole);
+        }
+
+        // Show lively spinner in stream while loading conversation
+        const stream = document.getElementById('messagesStream');
+        if (stream) {
+            stream.innerHTML = `
+                <div class="d-flex flex-column align-items-center justify-content-center h-100 py-5 text-muted" style="min-height: 240px;">
+                    <div class="spinner-border text-primary mb-3" style="width: 2.2rem; height: 2.2rem;" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="fw-semibold small">Opening conversation...</div>
+                </div>
+            `;
+        }
 
         // Notify socket that conversation is read
         if (socket && socket.connected) {
             socket.emit('mark_conversation_read', { other_user_id: userId });
         }
 
-        // Load conversation messages
+        // Load conversation messages from server
         await loadConversationMessages(userId);
 
         // Focus message field
-        document.getElementById('messageInput').focus();
+        const input = document.getElementById('messageInput');
+        if (input) input.focus();
     }
 
     // Helper: Generate tick icon HTML according to WhatsApp status
@@ -924,20 +979,48 @@
         }
     }
 
+    // Helper: display stream error with Retry button
+    function showStreamError(userId, message) {
+        const stream = document.getElementById('messagesStream');
+        if (!stream) return;
+        stream.innerHTML = `
+            <div class="d-flex flex-column align-items-center justify-content-center h-100 py-5 text-center">
+                <div class="rounded-circle p-3 bg-warning bg-opacity-10 text-warning mb-3">
+                    <i class="fas fa-exclamation-triangle fa-2x"></i>
+                </div>
+                <h6 class="fw-bold text-dark mb-1">Conversation Error</h6>
+                <p class="small text-muted mb-3" style="max-width: 320px;">${escapeHtml(message)}</p>
+                <button class="btn btn-outline-primary btn-sm rounded-pill px-4 fw-bold shadow-sm" onclick="selectConversation(${userId})">
+                    <i class="fas fa-redo me-1"></i> Retry
+                </button>
+            </div>
+        `;
+    }
+
     // Load Conversation Messages
     async function loadConversationMessages(userId) {
+        userId = Number(userId);
+        if (!userId) return;
+
         try {
             const res = await fetch(`/api/messages/conversation/${userId}/messages`);
+            if (!res.ok) {
+                throw new Error(`Server returned HTTP ${res.status}`);
+            }
             const data = await res.json();
 
+            // Ignore if user switched to another conversation in the meantime
+            if (activeUserId !== userId) return;
+
             if (data.success) {
-                // Update header details
+                // Update header details from authoritative server response
                 if (data.other_user) {
                     activeUserName = data.other_user.name;
-                    activeUserRole = data.other_user.role;
+                    activeUserRole = data.other_user.role || 'member';
                     document.getElementById('chatHeadName').textContent = data.other_user.name;
-                    document.getElementById('chatHeadRole').textContent = (data.other_user.role || 'MEMBER').toUpperCase();
-                    document.getElementById('chatHeadRole').className = `msg-role-badge role-${(data.other_user.role || 'student').toLowerCase()}`;
+                    const roleEl = document.getElementById('chatHeadRole');
+                    roleEl.textContent = activeUserRole.toUpperCase();
+                    roleEl.className = `msg-role-badge role-${activeUserRole.toLowerCase()}`;
                     
                     const avatarEl = document.getElementById('chatHeadAvatar');
                     if (data.other_user.profile_pic) {
@@ -946,20 +1029,27 @@
                         avatarEl.innerHTML = `<span>${getInitials(data.other_user.name)}</span><span class="msg-status-dot"></span>`;
                     }
 
-                    // Profile Link
-                    const profileLink = document.getElementById('chatHeadProfileLink');
-                    if (data.other_user.role === 'student') profileLink.href = `/student/profile/${data.other_user.id}`;
-                    else if (data.other_user.role === 'alumni') profileLink.href = `/alumni/profile/${data.other_user.id}`;
-                    else if (data.other_user.role === 'faculty') profileLink.href = `/faculty/profile/${data.other_user.id}`;
-                    else profileLink.href = `/admin/profile`;
+                    updateChatProfileLink(userId, activeUserRole);
                 }
 
                 // Render Messages
                 renderMessagesStream(data.messages || []);
                 lastRenderedMessageCount = (data.messages || []).length;
+
+                // Clear unread count for this thread in local state and re-render sidebar
+                const thread = conversationsList.find(c => Number(c.other_user_id) === userId);
+                if (thread && thread.unread_count > 0) {
+                    thread.unread_count = 0;
+                    renderSidebarThreads();
+                }
+            } else {
+                showStreamError(userId, data.message || 'Could not load messages.');
             }
         } catch (err) {
             console.error('Failed to load conversation messages:', err);
+            if (activeUserId === userId) {
+                showStreamError(userId, 'Network error while loading conversation. Please retry.');
+            }
         }
     }
 
@@ -982,7 +1072,7 @@
 
         let html = '';
         messages.forEach(m => {
-            const isMine = m.sender_id === currentUserId;
+            const isMine = Number(m.sender_id) === Number(currentUserId);
             const timeStr = formatMessageTime(m.created_at);
 
             if (isMine) {
@@ -1239,11 +1329,11 @@
     }
 
     function escapeHtml(str) {
-        if (!str) return '';
-        return str
+        if (str === null || str === undefined) return '';
+        return String(str)
             .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
+            .replace(/[/<]/g, '&lt;')
+            .replace(/[/>]/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#039;');
     }

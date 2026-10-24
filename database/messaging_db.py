@@ -406,9 +406,9 @@ def get_conversation_messages(user_id_1, user_id_2, limit=50, offset=0):
                 u.name, u.profile_pic, u.role
             FROM private_messages pm
             JOIN users u ON pm.sender_id = u.id
-            WHERE (pm.sender_id = ? AND pm.receiver_id = ?)
-               OR (pm.sender_id = ? AND pm.receiver_id = ?)
-            AND pm.deleted_by_sender = 0 AND pm.deleted_by_receiver = 0
+            WHERE ((pm.sender_id = ? AND pm.receiver_id = ?)
+                OR (pm.sender_id = ? AND pm.receiver_id = ?))
+              AND pm.deleted_by_sender = 0 AND pm.deleted_by_receiver = 0
             ORDER BY pm.created_at ASC
             LIMIT ? OFFSET ?
         ''', (user_1, user_2, user_2, user_1, limit, offset))

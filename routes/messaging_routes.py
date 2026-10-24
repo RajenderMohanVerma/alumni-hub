@@ -328,38 +328,46 @@ def create_conv():
 @login_required
 def get_conv_messages(user_id):
     """Get all messages with a specific user"""
-    limit = request.args.get('limit', 50, type=int)
-    offset = request.args.get('offset', 0, type=int)
+    try:
+        limit = request.args.get('limit', 50, type=int)
+        offset = request.args.get('offset', 0, type=int)
+        limit = min(limit, 100)
 
-    limit = min(limit, 100)
+        messages = get_conversation_messages(current_user.id, user_id, limit=limit, offset=offset)
 
-    messages = get_conversation_messages(current_user.id, user_id, limit=limit, offset=offset)
-
-    # Mark all as read
-    marked_count = mark_conversation_as_read(current_user.id, user_id, current_user.id)
-    if marked_count > 0:
+        # Mark all as read
         try:
-            from app import socketio
-            socketio.emit('conversation_read', {
-                'reader_id': current_user.id,
-                'other_user_id': user_id,
-                'timestamp': datetime.utcnow().isoformat() + 'Z'
-            }, room=f'user_{user_id}')
-        except Exception:
-            pass
+            marked_count = mark_conversation_as_read(current_user.id, user_id, current_user.id)
+            if marked_count > 0:
+                from app import socketio
+                socketio.emit('conversation_read', {
+                    'reader_id': current_user.id,
+                    'other_user_id': user_id,
+                    'timestamp': datetime.utcnow().isoformat() + 'Z'
+                }, room=f'user_{user_id}')
+        except Exception as sock_err:
+            print(f"Error marking/emitting conversation_read: {sock_err}")
 
-    # Fetch other user details
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute('SELECT id, name, email, role, phone, profile_pic FROM users WHERE id = ?', (user_id,))
-        row = cursor.fetchone()
-        other_user = dict(row) if row else None
+        # Fetch other user details
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT id, name, email, role, phone, profile_pic FROM users WHERE id = ?', (user_id,))
+            row = cursor.fetchone()
+            other_user = dict(row) if row else None
 
-    return jsonify({
-        'success': True,
-        'other_user': other_user,
-        'messages': messages
-    }), 200
+        return jsonify({
+            'success': True,
+            'other_user': other_user,
+            'messages': messages
+        }), 200
+    except Exception as e:
+        print(f"Error in get_conv_messages: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'message': str(e)
+        }), 500
 
 
 @messaging_bp.route('/messages/users', methods=['GET'])
