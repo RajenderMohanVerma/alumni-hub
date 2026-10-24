@@ -1,1168 +1,1248 @@
 {% extends 'base.html' %}
+{% block title %}Admin Dashboard • Executive Command Center{% endblock %}
+
 {% block content %}
+<!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}">
+
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
-
+    /* ========================================================
+       EXECUTIVE ADMIN DASHBOARD - LUXURY MODERN DESIGN SYSTEM
+       ======================================================== */
     :root {
-        --terminal-bg: #f8fafc;
-        --accent-primary: #6366f1;
-        --accent-secondary: #a855f7;
-        --accent-emerald: #10b981;
-        --accent-amber: #f59e0b;
-        --accent-rose: #ef4444;
-        --glass-bg: rgba(255, 255, 255, 0.85);
-        --glass-border: rgba(99, 102, 241, 0.15);
-        --text-main: #0f172a;
-        --text-dim: #475569;
-        --hero-dark-bg: #030712;
-        --fw-800: 800;
-    }
-
-    .fw-800 {
-        font-weight: 800;
-    }
-
-    .fs-7 {
-        font-size: 0.85rem;
-    }
-
-    .extra-small {
-        font-size: 0.7rem;
-    }
-
-    .text-main {
-        color: var(--text-main);
-    }
-
-    .bg-red-50 {
-        background-color: #fef2f2;
-    }
-
-    .text-red-500 {
-        color: #ef4444;
-    }
-
-    .text-slate-900 {
-        color: #0f172a;
-    }
-
-    .text-slate-500 {
-        color: #64748b;
-    }
-
-    .bg-slate-100 {
-        background-color: #f1f5f9;
-    }
-
-    .border-slate-200 {
-        border-color: #e2e8f0;
-    }
-
-    .rounded-full {
-        border-radius: 9999px;
-    }
-
-    .rounded-2xl {
-        border-radius: 1rem;
-    }
-
-    .text-amber-900 {
-        color: #78350f;
-    }
-
-    .shadow-2xl {
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        --adm-blue: #0284c7;
+        --adm-indigo: #4f46e5;
+        --adm-purple: #7c3aed;
+        --adm-green: #10b981;
+        --adm-amber: #f59e0b;
+        --adm-rose: #ef4444;
+        --adm-dark-navy: #0b1329;
+        --adm-card-bg: #ffffff;
+        --adm-card-border: rgba(2, 132, 199, 0.16);
+        --adm-text-main: #0f172a;
+        --adm-text-muted: #64748b;
     }
 
     body {
-        background: var(--terminal-bg);
-        color: var(--text-main);
-        font-family: 'Outfit', sans-serif;
+        background-color: #f8fafc;
+        color: var(--adm-text-main);
+        font-family: 'Plus Jakarta Sans', sans-serif;
         overflow-x: hidden;
     }
 
-    /* --- Background Layer --- */
-    .premium-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
-        z-index: -2;
+    /* Ambient Background Mesh */
+    .admin-dashboard-wrapper {
+        min-height: 100vh;
+        position: relative;
+        padding: clamp(105px, 11vw, 130px) 1.25rem 5rem 1.25rem;
+        background-color: #f8fafc;
+        overflow-x: clip;
     }
 
-    .mesh-gradient {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        overflow: hidden;
-        pointer-events: none;
-    }
-
-    .mesh-ball {
+    .admin-ambient-ball {
         position: absolute;
-        width: 600px;
-        height: 600px;
         border-radius: 50%;
-        filter: blur(120px);
-        opacity: 0.2;
-        animation: floatOrb 20s infinite alternate;
+        filter: blur(90px);
+        opacity: 0.16;
+        pointer-events: none;
+        z-index: 0;
+        animation: floatOrb 22s infinite alternate ease-in-out;
+    }
+    .admin-ball-1 {
+        width: 500px;
+        height: 500px;
+        background: #0284c7;
+        top: -60px;
+        left: -80px;
+    }
+    .admin-ball-2 {
+        width: 440px;
+        height: 440px;
+        background: #7c3aed;
+        top: 35%;
+        right: -100px;
+        animation-delay: -7s;
+    }
+    .admin-ball-3 {
+        width: 380px;
+        height: 380px;
+        background: #10b981;
+        bottom: 50px;
+        left: 20%;
+        animation-delay: -12s;
     }
 
-    /* --- Layout --- */
+    @keyframes floatOrb {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(50px, 35px) scale(1.08); }
+    }
+
     .admin-container {
-        max-width: 1800px;
-        margin: 0 auto;
-        padding: 80px 3rem 4rem;
+        position: relative;
+        z-index: 2;
+        max-width: 1440px;
+        margin: 10px auto 0 auto;
     }
 
-    /* --- Hero Terminal (STAY DARK) --- */
-    .hero-terminal {
-        background: var(--hero-dark-bg);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 32px;
-        padding: 60px;
+    /* --- Hero Command Terminal --- */
+    .admin-hero-card {
+        background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%);
+        border: 2px solid rgba(56, 189, 248, 0.25);
+        border-radius: 30px;
+        padding: clamp(28px, 4.5vw, 48px);
         position: relative;
         overflow: hidden;
-        margin-bottom: 3rem;
-        backdrop-filter: blur(20px);
-        color: #0f172a;
+        color: #ffffff;
+        box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.25);
+        margin-bottom: 2.25rem;
     }
 
-    .network-canvas {
+    .admin-hero-card::before {
+        content: "";
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(2, 132, 199, 0.35), transparent 70%);
+        top: -120px;
+        right: -80px;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .admin-hero-card::after {
+        content: "";
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.25), transparent 70%);
+        bottom: -100px;
+        left: 10%;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .hero-network-canvas {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        opacity: 0.4;
+        opacity: 0.32;
         pointer-events: none;
     }
 
-    .hero-title {
-        font-size: 3.5rem;
-        font-weight: 800;
-        background: linear-gradient(to right, #fff, #94a3b8);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: -1.5px;
-        line-height: 1.1;
-    }
-
-    .hero-badge {
+    .admin-live-badge {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        background: rgba(255, 255, 255, 0.05);
-        padding: 8px 16px;
+        gap: 8px;
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(16, 185, 129, 0.35);
+        color: #34d399;
+        padding: 6px 14px;
         border-radius: 50px;
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.7rem;
+        font-size: 0.72rem;
         font-weight: 700;
-        color: var(--accent-emerald);
-        margin-bottom: 20px;
-        border: 1px solid rgba(16, 185, 129, 0.2);
+        letter-spacing: 0.5px;
+        margin-bottom: 14px;
     }
 
-    /* --- Matrix Cards (LIGHT THEME) --- */
-    .glass-card {
-        background: var(--glass-bg);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--glass-border);
-        border-radius: 28px;
-        padding: 30px;
-        height: 100%;
-        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.05);
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    .live-pulse-dot {
+        width: 8px;
+        height: 8px;
+        background: #10b981;
+        border-radius: 50%;
+        box-shadow: 0 0 0 rgba(16, 185, 129, 0.6);
+        animation: livePulse 2s infinite;
+    }
+    @keyframes livePulse {
+        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
-    .matrix-card:hover {
-        transform: translateY(-8px);
-        border-color: var(--accent-primary);
-        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1);
-        background: #fff;
-    }
-
-    .matrix-value {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 2.8rem;
+    .admin-hero-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: clamp(1.85rem, 4.2vw, 2.75rem);
         font-weight: 800;
-        line-height: 1;
-        margin-bottom: 5px;
-        color: var(--text-main);
-    }
-
-    .initials-avatar {
-        width: 48px;
-        height: 48px;
-        border-radius: 14px;
-        background: linear-gradient(135deg, var(--accent-primary) 0%, #4f46e5 100%);
-        color: #0f172a;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 800;
-        font-size: 1.1rem;
-        border: 2px solid #f1f5f9;
-        text-transform: uppercase;
-        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
-    }
-
-    .identity-avatar-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .matrix-label {
-        font-size: 0.75rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color: var(--text-dim);
-    }
-
-    .text-white {
-        color: var(--text-main) !important;
-    }
-
-    .hero-terminal .text-white {
-        color: white !important;
-    }
-
-    .hero-terminal .matrix-label {
-        color: rgba(255, 255, 255, 0.5);
-    }
-
-    .hero-terminal .glass-card {
-        background: rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: none;
-        color: #0f172a;
-    }
-
-    /* --- Enhanced Directory & Tables --- */
-    .directory-module {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 32px;
-        padding: 40px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-    }
-
-    .directory-header {
-        margin-bottom: 40px;
-    }
-
-    .directory-title {
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: var(--text-main);
-        letter-spacing: -0.5px;
-    }
-
-    .command-bar {
-        background: #f1f5f9;
-        padding: 8px;
-        border-radius: 20px;
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-
-    .command-input-wrapper {
-        position: relative;
-        flex: 1;
-        min-width: 200px;
-    }
-
-    .command-input {
-        width: 100%;
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 10px 15px 10px 45px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--text-main);
-        transition: 0.3s;
-    }
-
-    .command-input:focus {
-        border-color: var(--accent-primary);
-        box-shadow: 0 0 10px rgba(99, 102, 241, 0.1);
-        outline: none;
-    }
-
-    .command-icon {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--text-dim);
-    }
-
-    .command-select {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 10px 20px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--text-main);
-        cursor: pointer;
-        min-width: 140px;
-    }
-
-    .node-row {
-        background: white;
-        border-radius: 16px;
+        line-height: 1.15;
+        letter-spacing: -0.025em;
         margin-bottom: 10px;
-        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid transparent;
+        color: #ffffff;
     }
 
-    .node-row:hover {
-        background: #f8fafc;
-        border-color: #e2e8f0;
-        transform: scale(1.005);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    .text-holographic-adm {
+        background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
-    .node-status {
+    .admin-hero-subtitle {
+        color: rgba(255, 255, 255, 0.75);
+        font-size: clamp(0.9rem, 2vw, 1.05rem);
+        line-height: 1.6;
+        max-width: 680px;
+        margin-bottom: 22px;
+    }
+
+    /* Hero System Clock Box */
+    .admin-clock-box {
+        background: rgba(15, 23, 42, 0.65);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        border-radius: 22px;
+        padding: 22px 24px;
+        text-align: left;
+        box-shadow: 0 14px 34px -8px rgba(0, 0, 0, 0.4);
+    }
+
+    .clock-time-display {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: #ffffff;
+        text-shadow: 0 0 25px rgba(56, 189, 248, 0.6);
+        line-height: 1;
+        margin-bottom: 6px;
+    }
+
+    .clock-date-display {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #94a3b8;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .system-pill-stat {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        font-weight: 700;
-        font-size: 0.75rem;
-        padding: 4px 12px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 50px;
-        background: rgba(16, 185, 129, 0.1);
-        color: var(--accent-emerald);
+        padding: 4px 10px;
+        font-size: 0.72rem;
+        color: #cbd5e1;
+        font-weight: 600;
     }
 
-    .node-status.offline {
-        background: rgba(239, 68, 68, 0.1);
-        color: var(--accent-rose);
-    }
-
-    .pulse-dot {
-        width: 6px;
-        height: 6px;
-        background: currentColor;
-        border-radius: 50%;
-        animation: pulseFade 2s infinite;
-    }
-
-    @keyframes pulseFade {
-
-        0%,
-        100% {
-            opacity: 1;
-        }
-
-        50% {
-            opacity: 0.3;
-        }
-    }
-
-    /* --- Advanced Export Console --- */
-    .export-module {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 32px;
-        padding: 45px;
-        margin-top: 50px;
-        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.03);
-    }
-
-    .export-console-card {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 20px;
-        padding: 0;
+    /* --- VIP Metric Stats Cards --- */
+    .admin-matrix-card {
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.15);
+        border-radius: 24px;
+        padding: 24px 22px;
+        position: relative;
         overflow: hidden;
-        transition: 0.3s;
         height: 100%;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 12px 32px -10px rgba(15, 23, 42, 0.07);
+        transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+        cursor: pointer;
     }
 
-    .export-console-card:hover {
-        border-color: var(--accent-primary);
-        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.08);
-        transform: translateY(-5px);
+    .admin-matrix-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 48px -12px rgba(2, 132, 199, 0.22);
+        border-color: rgba(2, 132, 199, 0.45);
     }
 
-    .export-card-head {
-        padding: 25px;
-        background: white;
-        border-bottom: 1px solid #f1f5f9;
+    .card-accent-strip {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+    }
+    .strip-blue { background: linear-gradient(90deg, #0284c7, #38bdf8); }
+    .strip-amber { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .strip-green { background: linear-gradient(90deg, #10b981, #34d399); }
+    .strip-purple { background: linear-gradient(90deg, #7c3aed, #a855f7); }
+
+    .matrix-icon-wrap {
+        width: 50px;
+        height: 50px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        font-size: 1.35rem;
+        margin-bottom: 14px;
+        transition: transform 0.35s ease;
+    }
+    .admin-matrix-card:hover .matrix-icon-wrap {
+        transform: scale(1.1) rotate(6deg);
+    }
+
+    .matrix-num {
+        font-family: 'Outfit', sans-serif;
+        font-size: clamp(2.2rem, 3.8vw, 2.75rem);
+        font-weight: 800;
+        color: #0f172a;
+        line-height: 1;
+        margin-bottom: 4px;
+    }
+
+    .matrix-title {
+        font-size: 0.84rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #64748b;
+    }
+
+    .matrix-progress-track {
+        height: 5px;
+        background: #f1f5f9;
+        border-radius: 50px;
+        overflow: hidden;
+        margin-top: 14px;
+    }
+    .matrix-progress-fill {
+        height: 100%;
+        border-radius: 50px;
+        transition: width 1s ease-in-out;
+    }
+
+    /* --- Fast Control Deck Tiles --- */
+    .action-deck-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.15rem;
+        margin-bottom: 2.25rem;
+    }
+
+    .action-deck-tile {
+        background: #ffffff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 20px;
+        padding: 20px;
         display: flex;
         align-items: center;
-        gap: 15px;
-    }
-
-    .export-card-body {
-        padding: 25px;
-        flex-grow: 1;
-    }
-
-    .export-card-footer {
-        padding: 20px 25px;
-        background: #f1f5f9;
-        border-top: 1px solid #e2e8f0;
-    }
-
-    .extraction-progress {
-        height: 6px;
-        background: #e2e8f0;
-        border-radius: 10px;
+        gap: 16px;
+        text-decoration: none;
+        color: #0f172a;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+        transition: all 0.28s cubic-bezier(0.2, 0, 0, 1);
+        position: relative;
         overflow: hidden;
-        margin: 15px 0;
     }
 
-    .extraction-bar {
+    .action-deck-tile:hover {
+        transform: translateY(-4px);
+        border-color: #38bdf8;
+        box-shadow: 0 16px 32px -8px rgba(2, 132, 199, 0.18);
+        color: #0f172a;
+    }
+
+    .deck-tile-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+    }
+    .action-deck-tile:hover .deck-tile-icon {
+        transform: scale(1.12);
+    }
+
+    .deck-tile-title {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 2px;
+        line-height: 1.2;
+    }
+    .deck-tile-sub {
+        font-size: 0.76rem;
+        color: #64748b;
+        line-height: 1.35;
+    }
+
+    /* --- Analytics Section --- */
+    .admin-analytics-box {
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.14);
+        border-radius: 28px;
+        padding: clamp(22px, 3.5vw, 32px);
+        box-shadow: 0 12px 34px -10px rgba(15, 23, 42, 0.06);
         height: 100%;
-        background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
-        width: 100%;
-        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
-    .meta-tag {
-        font-size: 0.65rem;
+    .analytics-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .analytics-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* --- User Directory Module --- */
+    .directory-vip-module {
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.15);
+        border-radius: 28px;
+        padding: clamp(20px, 3.5vw, 36px);
+        box-shadow: 0 14px 38px -10px rgba(15, 23, 42, 0.06);
+        margin-bottom: 2.25rem;
+    }
+
+    .directory-top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .command-search-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 50px;
+        padding: 5px 6px 5px 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+    .command-search-input {
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #0f172a;
+        min-width: 220px;
+    }
+    .command-role-select {
+        border: 1px solid #cbd5e1;
+        outline: none;
+        background: #ffffff;
+        border-radius: 50px;
+        padding: 6px 14px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #334155;
+        cursor: pointer;
+    }
+
+    /* Premium Modern Table */
+    .vip-table-container {
+        border-radius: 20px;
+        border: 1px solid #f1f5f9;
+        overflow: hidden;
+    }
+
+    .vip-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-bottom: 0;
+    }
+    .vip-table thead th {
+        background: #f8fafc;
+        padding: 14px 18px;
+        font-size: 0.78rem;
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 1px;
-        padding: 4px 10px;
-        border-radius: 6px;
-        background: #f1f5f9;
-        color: var(--text-dim);
+        color: #64748b;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    .vip-table tbody tr {
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .vip-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+    .vip-table tbody td {
+        padding: 16px 18px;
+        vertical-align: middle;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.88rem;
     }
 
-    .security-badge {
-        font-size: 0.7rem;
+    .avatar-initials-badge {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #0284c7 0%, #1e40af 100%);
+        color: #ffffff;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 1rem;
+        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        flex-shrink: 0;
+    }
+    .avatar-image-node {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        object-fit: cover;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        flex-shrink: 0;
+    }
+
+    .role-badge-tag {
+        font-size: 0.74rem;
         font-weight: 700;
-        color: var(--accent-emerald);
-        display: flex;
+        padding: 4px 12px;
+        border-radius: 50px;
+        display: inline-flex;
         align-items: center;
         gap: 5px;
     }
+    .role-tag-student { background: rgba(2, 132, 199, 0.1); color: #0284c7; }
+    .role-tag-alumni { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+    .role-tag-faculty { background: rgba(16, 185, 129, 0.1); color: #059669; }
+    .role-tag-admin { background: rgba(124, 58, 237, 0.1); color: #7c3aed; }
 
-    .hover-primary:hover {
-        color: var(--accent-primary) !important;
-        text-decoration: underline !important;
-    }
-
-    /* --- Action Deck --- */
-
-    .action-deck {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 3rem;
-    }
-
-    .deck-item {
-        background: #fff;
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        padding: 25px;
-        text-align: center;
-        cursor: pointer;
-        transition: 0.3s;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
-    }
-
-    .deck-item:hover {
-        background: var(--accent-primary);
-        color: #0f172a;
-        transform: translateY(-5px);
-    }
-
-    .deck-item:hover i,
-    .deck-item:hover .text-dim {
-        color: white !important;
-    }
-
-    /* --- Tables --- */
-    .premium-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0 10px;
-    }
-
-    .premium-table thead th {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.7rem;
-        color: var(--text-dim);
-        padding: 15px 20px;
-    }
-
-    .premium-table tbody tr {
-        background: white;
-        transition: 0.3s;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
-    }
-
-    .premium-table tbody tr:hover {
-        background: #f1f5f9;
-        transform: scale(1.01);
-    }
-
-    .premium-table td {
-        padding: 20px;
-        color: var(--text-main);
-        border-bottom: 1px solid #f1f5f9;
-    }
-
-    /* --- Controls --- */
-    .action-btn {
+    .action-icon-btn {
         width: 36px;
         height: 36px;
         border-radius: 10px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #e2e8f0;
-        background: white;
-        color: var(--text-main);
-        transition: 0.3s;
+        display: grid;
+        place-items: center;
+        font-size: 0.92rem;
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
         text-decoration: none;
+        cursor: pointer;
+    }
+    .action-btn-view {
+        background: rgba(2, 132, 199, 0.1);
+        color: #0284c7;
+        border-color: rgba(2, 132, 199, 0.2);
+    }
+    .action-btn-view:hover {
+        background: #0284c7;
+        color: #ffffff;
+    }
+    .action-btn-delete {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border-color: rgba(239, 68, 68, 0.2);
+    }
+    .action-btn-delete:hover {
+        background: #ef4444;
+        color: #ffffff;
     }
 
-    .view-btn:hover {
-        background: var(--accent-primary);
-        color: #0f172a;
-        border-color: var(--accent-primary);
+    /* --- Export Console Module --- */
+    .export-vip-module {
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.15);
+        border-radius: 28px;
+        padding: clamp(22px, 3.5vw, 36px);
+        box-shadow: 0 14px 38px -10px rgba(15, 23, 42, 0.06);
     }
 
-    .delete-btn:hover {
-        background: var(--accent-rose);
-        color: #0f172a;
-        border-color: var(--accent-rose);
+    .export-card-node {
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 20px;
+        padding: 22px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: all 0.25s ease;
+    }
+    .export-card-node:hover {
+        transform: translateY(-4px);
+        border-color: #38bdf8;
+        box-shadow: 0 14px 28px -6px rgba(2, 132, 199, 0.15);
     }
 
-    .clock-widget {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #0f172a;
-        text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    /* --- Mobile Responsive Optimizations --- */
+    @media (max-width: 991px) {
+        .admin-dashboard-wrapper {
+            padding-inline: 1rem;
+        }
+        .action-deck-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 
-    input.form-control::placeholder {
-        color: var(--text-dim);
+    @media (max-width: 768px) {
+        .admin-hero-card {
+            border-radius: 24px;
+        }
+        .action-deck-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.85rem;
+        }
+        .action-deck-tile {
+            padding: 14px 12px;
+            gap: 10px;
+            flex-direction: column;
+            text-align: center;
+        }
+        .deck-tile-icon {
+            width: 42px;
+            height: 42px;
+            font-size: 1.1rem;
+        }
+        .deck-tile-title {
+            font-size: 0.88rem;
+        }
+        .deck-tile-sub {
+            display: none;
+        }
+        .command-search-wrap {
+            width: 100%;
+        }
+        .command-search-input {
+            width: 100%;
+            min-width: 100%;
+        }
+        .command-role-select {
+            width: 100%;
+        }
     }
 
-    .bg-dark {
-        background: #fff !important;
-        color: var(--text-main) !important;
+    @media (max-width: 480px) {
+        .admin-dashboard-wrapper {
+            padding-inline: 0.75rem;
+        }
+        .admin-matrix-card {
+            padding: 18px 15px;
+        }
+        .matrix-num {
+            font-size: 1.95rem;
+        }
+        .action-deck-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.65rem;
+        }
     }
-
-    /* --- Modern Home-Card Container & Dark Theme Support --- */
-    .glass-card, .matrix-card, .admin-card, .stat-card-premium, .job-card-master, .directory-module {
-        position: relative !important;
-        border-radius: 18px !important;
-        overflow: hidden !important;
-        transition: transform 0.25s ease, box-shadow 0.25s ease !important;
-    }
-    .glass-card::before, .matrix-card::before, .stat-card-premium::before, .job-card-master::before {
-        content: '' !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        height: 3px !important;
-        background: linear-gradient(90deg, #6366f1, #a855f7) !important;
-        opacity: 0.9 !important;
-    }
-    .glass-card:hover, .matrix-card:hover, .stat-card-premium:hover, .job-card-master:hover {
-        transform: translateY(-4px) !important;
-    }
-
-    [data-theme="dark"] {
-        --terminal-bg: #0b0f19;
-        --dark-navy: #f8fafc;
-        --dark-slate: #f8fafc;
-        --soft-slate: #1e293b;
-        --glass-white: #1e293b;
-        --glass-bg: rgba(30, 41, 59, 0.85);
-        --glass-border: #e1e7ed;
-        --text-main: #f8fafc;
-        --text-dim: #64748b;
-    }
-    [data-theme="dark"] body {
-        background: #0b0f19 !important;
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .premium-bg {
-        background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%) !important;
-    }
-    [data-theme="dark"] .glass-card,
-    [data-theme="dark"] .matrix-card,
-    [data-theme="dark"] .directory-module,
-    [data-theme="dark"] .stat-card-premium,
-    [data-theme="dark"] .job-card-master,
-    [data-theme="dark"] .filter-bar-floating,
-    [data-theme="dark"] .form-container,
-    [data-theme="dark"] .card-custom {
-        background: #1e293b !important;
-        border-color: #334155 !important;
-        color: #f8fafc !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
-    }
-    [data-theme="dark"] .matrix-value,
-    [data-theme="dark"] .matrix-title,
-    [data-theme="dark"] .directory-title,
-    [data-theme="dark"] .job-card-master h3,
-    [data-theme="dark"] .job-card-master h4,
-    [data-theme="dark"] .job-card-master h5,
-    [data-theme="dark"] .stat-value,
-    [data-theme="dark"] .text-slate-900 {
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .text-dim,
-    [data-theme="dark"] .text-slate-500 {
-        color: #94a3b8 !important;
-    }
-    [data-theme="dark"] .command-bar {
-        background: rgba(15, 23, 42, 0.6) !important;
-    }
-    [data-theme="dark"] .command-input,
-    [data-theme="dark"] .form-control,
-    [data-theme="dark"] .form-select {
-        background: #0f172a !important;
-        border-color: #334155 !important;
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .table {
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .table tr {
-        border-color: rgba(255, 255, 255, 0.08) !important;
-    }
-    [data-theme="dark"] .table th {
-        background: #0f172a !important;
-        color: #94a3b8 !important;
-    }
-    [data-theme="dark"] .table td {
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .bg-slate-100 {
-        background-color: #1e293b !important;
-    }
-    [data-theme="dark"] .border-slate-200 {
-        border-color: #334155 !important;
-    }
-
 </style>
 
+<div class="admin-dashboard-wrapper">
+    <!-- Ambient Blur Balls -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
 
+    <div class="admin-container">
 
-<!-- Background Elements -->
-<div class="premium-bg"></div>
-<div class="mesh-gradient">
-    <div class="mesh-ball" style="background: #4f46e5; top: -10%; left: -10%;"></div>
-    <div class="mesh-ball" style="background: #7c3aed; bottom: -10%; right: -10%;"></div>
-    <div class="mesh-ball"
-        style="background: #1e3a8a; top: 40%; right: 20%; width: 400px; height: 400px; opacity: 0.1;"></div>
-</div>
+        <!-- ========================================================
+             1. EXECUTIVE HOLOGRAPHIC HERO TERMINAL
+             ======================================================== -->
+        <div class="admin-hero-card">
+            <canvas id="networkCanvas" class="hero-network-canvas"></canvas>
 
-<div class="admin-container">
-    <!-- Holographic Hero Section -->
-    <div class="hero-terminal animate__animated animate__zoomIn">
-        <canvas id="networkCanvas" class="network-canvas"></canvas>
-        <div class="row align-items-center position-relative">
-            <div class="col-lg-7">
-                <div class="hero-badge">
-                    <i class="fas fa-circle text-accent-success"></i>
-                    <span>ALUMNI HUB • ADMIN PORTAL</span>
-                </div>
-                <h1 class="hero-title">Welcome Back, <br><span id="typingName"></span></h1>
-                <p class="text-dim mt-3 fs-5">Administrator Dashboard. Managing registered members across the platform.</p>
-                <div class="mt-4 d-flex flex-wrap gap-2">
-                    <a href="{{ url_for('admin_messaging_control') }}" class="btn btn-primary btn-lg px-4"
-                        style="border-radius: 12px;">
-                        <i class="fas fa-bullhorn me-2"></i> Messaging Control
-                    </a>
-                    <button class="btn btn-outline-light btn-lg px-4"
-                        style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);">
-                        <i class="fas fa-chart-line me-2"></i> View Analytics
-                    </button>
-                </div>
-            </div>
-            <div class="col-lg-5 text-end d-none d-lg-block">
-                <div class="glass-card p-4 d-inline-block text-start" style="background: rgba(0,0,0,0.3);">
-                    <div class="matrix-label mb-2">Current System Time</div>
-                    <div class="clock-widget" id="dynamicClock">00:00:00</div>
-                    <div class="text-dim mt-2 fw-bold" id="dynamicDate">FEBRUARY 12, 2026</div>
-                </div>
-            </div>
-        </div>
-    </div>
+            <div class="row align-items-center g-4 position-relative" style="z-index: 2;">
+                <!-- Left Details -->
+                <div class="col-lg-8">
+                    <div class="admin-live-badge">
+                        <span class="live-pulse-dot"></span>
+                        <span>ADMIN COMMAND CENTER • LIVE CONTROL</span>
+                    </div>
 
-    <!-- Analytics Matrix -->
-    <div class="row g-4 mb-5">
-        <div class="col-6 col-xl-3 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
-            <div class="glass-card matrix-card btn-action-nav" data-url="/admin/users/student" style="cursor: pointer;">
-                <div class="matrix-icon" style="color: #6366f1;"><i class="fas fa-user-graduate"></i></div>
-                <div class="matrix-value text-white">{{ s_count }}</div>
-                <div class="matrix-label">Students</div>
-                <div class="mt-3 overflow-hidden"
-                    style="height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px;">
-                    <div class="h-100" style="width: 75%; background: #6366f1; box-shadow: 0 0 10px #6366f1;"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-xl-3 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
-            <div class="glass-card matrix-card btn-action-nav" data-url="/admin/users/alumni" style="cursor: pointer;">
-                <div class="matrix-icon" style="color: #f59e0b;"><i class="fas fa-user-tie"></i></div>
-                <div class="matrix-value text-white">{{ a_count }}</div>
-                <div class="matrix-label">Alumni</div>
-                <div class="mt-3 overflow-hidden"
-                    style="height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px;">
-                    <div class="h-100" style="width: 60%; background: #f59e0b; box-shadow: 0 0 10px #f59e0b;"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-xl-3 animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
-            <div class="glass-card matrix-card btn-action-nav" data-url="/admin/users/faculty" style="cursor: pointer;">
-                <div class="matrix-icon" style="color: #10b981;"><i class="fas fa-chalkboard-teacher"></i></div>
-                <div class="matrix-value text-white">{{ f_count }}</div>
-                <div class="matrix-label">Faculty</div>
-                <div class="mt-3 overflow-hidden"
-                    style="height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px;">
-                    <div class="h-100" style="width: 45%; background: #10b981; box-shadow: 0 0 10px #10b981;"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-xl-3 animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
-            <div class="glass-card matrix-card btn-action-nav" data-url="/admin/events" style="cursor: pointer;">
-                <div class="matrix-icon" style="color: #a855f7;"><i class="fas fa-calendar-check"></i></div>
-                <div class="matrix-value text-white">{{ event_total }}</div>
-                <div class="matrix-label">Events</div>
-                <div class="mt-3 overflow-hidden"
-                    style="height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px;">
-                    <div class="h-100" style="width: 85%; background: #a855f7; box-shadow: 0 0 10px #a855f7;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <h1 class="admin-hero-title">
+                        Welcome Back, <span class="text-holographic-adm" id="typingName">{{ current_user.name }}</span>
+                    </h1>
+                    <p class="admin-hero-subtitle">
+                        Complete campus ecosystem administration. Monitor community enrollments, approve credentials, oversee recruitment drives, and inspect real-time platform metrics.
+                    </p>
 
-
-    <!-- Core Control Deck -->
-    <div class="action-deck animate__animated animate__fadeInUp">
-        <div class="deck-item btn-action-nav" data-url="/admin/messaging-control">
-            <i class="fas fa-broadcast-tower"></i>
-            <div class="fw-bold">Broadcasts</div>
-            <div class="small text-dim">Messaging & Announcements</div>
-        </div>
-        <div class="deck-item btn-action-nav" data-url="/admin/events">
-            <i class="fas fa-calendar-plus"></i>
-            <div class="fw-bold">Events</div>
-            <div class="small text-dim">Create & Manage Events</div>
-        </div>
-        <div class="deck-item btn-action-nav" data-url="/admin/registrations">
-            <i class="fas fa-users-cog"></i>
-            <div class="fw-bold">User Approvals</div>
-            <div class="small text-dim">Manage Registrations</div>
-        </div>
-        <div class="deck-item btn-action-nav" data-url="/admin/jobs">
-            <i class="fas fa-briefcase"></i>
-            <div class="fw-bold">Jobs Board</div>
-            <div class="small text-dim">Approve & Review Jobs</div>
-        </div>
-        <div class="deck-item btn-action-nav" data-url="/admin/connection-monitor">
-            <i class="fas fa-link"></i>
-            <div class="fw-bold">Connection Monitor</div>
-            <div class="small text-dim">Track Student-Alumni Links</div>
-        </div>
-        <div class="deck-item btn-action-nav" data-url="/admin/analytics">
-            <i class="fas fa-atom"></i>
-            <div class="fw-bold">Analytics</div>
-            <div class="small text-dim">Platform Growth & Stats</div>
-        </div>
-    </div>
-
-
-    <!-- Analytics Dashboard Section -->
-    <div class="row g-4 mb-5">
-        <div class="col-lg-8">
-            <div class="glass-card p-4 h-100">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold mb-0 text-white"><i class="fas fa-project-diagram me-2 text-primary"></i>
-                        User Growth Overview</h4>
-                    <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3">Live Feed
+                    <!-- Quick Executive Action Buttons -->
+                    <div class="d-flex flex-wrap gap-2 pt-1">
+                        <a href="{{ url_for('admin_messaging_control') }}" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm d-inline-flex align-items-center gap-2">
+                            <i class="fas fa-bullhorn"></i> Send Broadcast
+                        </a>
+                        <a href="{{ url_for('admin_approve_requests') }}" class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2">
+                            <i class="fas fa-user-check"></i> Pending Approvals
+                        </a>
+                        <a href="{{ url_for('admin_jobs') }}" class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2">
+                            <i class="fas fa-briefcase"></i> Job Matrix
+                        </a>
+                        <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="btn btn-success rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1 shadow-sm">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
                     </div>
                 </div>
-                <div id="chart-data" data-years='{{ chart_data.years | tojson }}'
-                    data-students-growth='{{ chart_data.students | tojson }}'
-                    data-alumni-growth='{{ chart_data.alumni | tojson }}'
-                    data-faculty-growth='{{ chart_data.faculty | tojson }}' data-students='{{ s_count }}'
-                    data-alumni='{{ a_count }}' data-faculty='{{ f_count }}' style="display: none;"></div>
-                <div style="height: 350px;">
-                    <canvas id="growthChart"></canvas>
+
+                <!-- Right Clock & Node Status Card -->
+                <div class="col-lg-4 text-lg-end">
+                    <div class="admin-clock-box d-inline-block">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <small class="text-info fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 1px;">
+                                <i class="fas fa-satellite-dish me-1"></i> System Time
+                            </small>
+                            <span class="badge rounded-pill bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-2 py-0" style="font-size: 0.68rem;">
+                                ACTIVE
+                            </span>
+                        </div>
+                        <div class="clock-time-display" id="dynamicClock">00:00:00</div>
+                        <div class="clock-date-display mb-3" id="dynamicDate">OCTOBER 24, 2026</div>
+
+                        <div class="d-flex flex-column gap-1 pt-2 border-top border-secondary border-opacity-25">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="system-pill-stat"><i class="fas fa-database text-info"></i> Turso / SQLite</span>
+                                <span class="system-pill-stat"><i class="fas fa-lock text-warning"></i> 256-Bit SSL</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="glass-card p-4 h-100">
-                <h4 class="fw-bold mb-4 text-white"><i class="fas fa-chart-pie me-2 text-warning"></i> User Distribution by Role
-                </h4>
-                <div style="height: 350px;">
-                    <canvas id="userChart"></canvas>
+
+        <!-- ========================================================
+             2. FOUR VIP ROLE MATRIX STAT CARDS
+             ======================================================== -->
+        <div class="row g-3 g-md-4 mb-4">
+            <!-- Students -->
+            <div class="col-6 col-lg-3">
+                <div class="admin-matrix-card" onclick="window.location.href='{{ url_for('admin_view_users', role='student') }}'">
+                    <div class="card-accent-strip strip-blue"></div>
+                    <div>
+                        <div class="matrix-icon-wrap" style="background: rgba(2, 132, 199, 0.12); color: #0284c7;">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="matrix-num">{{ s_count }}</div>
+                        <div class="matrix-title">Students</div>
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
+                            <span>Active Learners</span>
+                            <i class="fas fa-arrow-right text-primary"></i>
+                        </div>
+                        <div class="matrix-progress-track">
+                            <div class="matrix-progress-fill" style="width: 78%; background: #0284c7;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alumni -->
+            <div class="col-6 col-lg-3">
+                <div class="admin-matrix-card" onclick="window.location.href='{{ url_for('admin_view_users', role='alumni') }}'">
+                    <div class="card-accent-strip strip-amber"></div>
+                    <div>
+                        <div class="matrix-icon-wrap" style="background: rgba(245, 158, 11, 0.12); color: #d97706;">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="matrix-num">{{ a_count }}</div>
+                        <div class="matrix-title">Alumni</div>
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
+                            <span>Graduates & Mentors</span>
+                            <i class="fas fa-arrow-right text-warning"></i>
+                        </div>
+                        <div class="matrix-progress-track">
+                            <div class="matrix-progress-fill" style="width: 65%; background: #f59e0b;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Faculty -->
+            <div class="col-6 col-lg-3">
+                <div class="admin-matrix-card" onclick="window.location.href='{{ url_for('admin_view_users', role='faculty') }}'">
+                    <div class="card-accent-strip strip-green"></div>
+                    <div>
+                        <div class="matrix-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: #059669;">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="matrix-num">{{ f_count }}</div>
+                        <div class="matrix-title">Faculty</div>
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
+                            <span>Guides & HODs</span>
+                            <i class="fas fa-arrow-right text-success"></i>
+                        </div>
+                        <div class="matrix-progress-track">
+                            <div class="matrix-progress-fill" style="width: 50%; background: #10b981;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events & Meets -->
+            <div class="col-6 col-lg-3">
+                <div class="admin-matrix-card" onclick="window.location.href='{{ url_for('admin_events') }}'">
+                    <div class="card-accent-strip strip-purple"></div>
+                    <div>
+                        <div class="matrix-icon-wrap" style="background: rgba(124, 58, 237, 0.12); color: #7c3aed;">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="matrix-num">{{ event_total }}</div>
+                        <div class="matrix-title">Event Registrations</div>
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
+                            <span>Reunions & Meets</span>
+                            <i class="fas fa-arrow-right text-purple"></i>
+                        </div>
+                        <div class="matrix-progress-track">
+                            <div class="matrix-progress-fill" style="width: 82%; background: #7c3aed;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Identity Directory -->
-    <div class="directory-module animate__animated animate__fadeIn">
-        <div class="directory-header d-flex justify-content-between align-items-center flex-wrap gap-4">
-            <div>
-                <h3 class="directory-title mb-1"><i class="fas fa-id-card-alt me-2 text-primary"></i> User Directory
-                </h3>
-                <p class="text-dim mb-0 fw-bold small">Manage and view registered community members</p>
+        <!-- ========================================================
+             3. QUICK CONTROL DECK (8 VIP ACTION TILES)
+             ======================================================== -->
+        <div class="action-deck-grid">
+            <a href="{{ url_for('admin_approve_requests') }}" class="action-deck-tile">
+                <div class="deck-tile-icon" style="background: rgba(2, 132, 199, 0.1); color: #0284c7;">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div>
+                    <div class="deck-tile-title">Approvals</div>
+                    <div class="deck-tile-sub">Verify pending alumni & faculty</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin_view_users', role='all') }}" class="action-deck-tile">
+                <div class="deck-tile-icon" style="background: rgba(99, 102, 241, 0.1); color: #4f46e5;">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <div>
+                    <div class="deck-tile-title">All Users</div>
+                    <div class="deck-tile-sub">Search, edit & manage accounts</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin_jobs') }}" class="action-deck-tile">
+                <div class="deck-tile-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div>
+                    <div class="deck-tile-title">Jobs Board</div>
+                    <div class="deck-tile-sub">Approve postings & referrals</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin_messaging_control') }}" class="action-deck-tile">
+                <div class="deck-tile-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">
+                    <i class="fas fa-broadcast-tower"></i>
+                </div>
+                <div>
+                    <div class="deck-tile-title">Broadcasts</div>
+                    <div class="deck-tile-sub">Portal messages & announcements</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="action-deck-tile">
+                <div class="deck-tile-icon" style="background: rgba(34, 197, 94, 0.1); color: #16a34a;">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div>
+                    <div class="deck-tile-title">WhatsApp Desk</div>
+                    <div class="deck-tile-sub">Instant bulk message alerts</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin_events') }}" class="action-deck-tile">
+                <div class="deck-tile-icon" style="background: rgba(124, 58, 237, 0.1); color: #7c3aed;">
+                    <i class="fas fa-calendar-plus"></i>
+                </div>
+                <div>
+                    <div class="deck-tile-title">Events Desk</div>
+                    <div class="deck-tile-sub">Annual meets & webinars</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin_connection_monitor') }}" class="action-deck-tile">
+                <div class="deck-tile-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div>
+                    <div class="deck-tile-title">Connection Graph</div>
+                    <div class="deck-tile-sub">Track student-alumni links</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin_analytics') }}" class="action-deck-tile">
+                <div class="deck-tile-icon" style="background: rgba(14, 165, 233, 0.1); color: #0284c7;">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div>
+                    <div class="deck-tile-title">Deep Analytics</div>
+                    <div class="deck-tile-sub">Demographics & activity charts</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- ========================================================
+             4. ANALYTICS & GROWTH CENTER (CHART.JS)
+             ======================================================== -->
+        <div class="row g-4 mb-4">
+            <!-- Growth Timeline Line Chart -->
+            <div class="col-lg-8">
+                <div class="admin-analytics-box">
+                    <div class="analytics-header">
+                        <h4 class="analytics-title">
+                            <i class="fas fa-chart-line text-primary"></i> 5-Year User Growth Trajectory
+                        </h4>
+                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-1 fw-bold small">
+                            <i class="fas fa-sync-alt fa-spin me-1"></i> Live Real-Time Feed
+                        </span>
+                    </div>
+
+                    <!-- Hidden Data Holder for Chart.js Script -->
+                    <div id="chart-data" 
+                         data-years='{{ chart_data.years | tojson }}'
+                         data-students-growth='{{ chart_data.students | tojson }}'
+                         data-alumni-growth='{{ chart_data.alumni | tojson }}'
+                         data-faculty-growth='{{ chart_data.faculty | tojson }}' 
+                         data-students='{{ s_count }}'
+                         data-alumni='{{ a_count }}' 
+                         data-faculty='{{ f_count }}' 
+                         style="display: none;"></div>
+
+                    <div style="position: relative; height: 320px; width: 100%;">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
             </div>
 
-            <div class="command-bar">
-                <div class="command-input-wrapper">
-                    <i class="fas fa-search command-icon"></i>
-                    <input type="text" id="userSearch" class="command-input" placeholder="Search by name, email, department...">
+            <!-- Role Distribution Doughnut Chart -->
+            <div class="col-lg-4">
+                <div class="admin-analytics-box">
+                    <div class="analytics-header">
+                        <h4 class="analytics-title">
+                            <i class="fas fa-chart-pie text-warning"></i> Role Ratio
+                        </h4>
+                        <small class="text-muted fw-bold">Active Demographics</small>
+                    </div>
+
+                    <div style="position: relative; height: 260px; width: 100%;">
+                        <canvas id="userChart"></canvas>
+                    </div>
+
+                    <!-- Legend Quick Metrics -->
+                    <div class="d-flex justify-content-around text-center pt-3 border-top border-light-subtle">
+                        <div>
+                            <div class="fw-bold small text-primary">Students</div>
+                            <h5 class="fw-bold mb-0">{{ s_count }}</h5>
+                        </div>
+                        <div>
+                            <div class="fw-bold small text-warning">Alumni</div>
+                            <h5 class="fw-bold mb-0">{{ a_count }}</h5>
+                        </div>
+                        <div>
+                            <div class="fw-bold small text-success">Faculty</div>
+                            <h5 class="fw-bold mb-0">{{ f_count }}</h5>
+                        </div>
+                    </div>
                 </div>
-                <select id="roleFilter" class="command-select">
-                    <option value="all">All Roles</option>
-                    <option value="student">STUDENTS</option>
-                    <option value="alumni">ALUMNI</option>
-                    <option value="faculty">FACULTY</option>
-                </select>
             </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="premium-table" id="usersTable">
-                <thead>
-                    <tr>
-                        <th>User Profile</th>
-                        <th>Role</th>
-                        <th>Department & Batch</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="node-matrix-body">
-                    {% for user in users[:15] %}
-                    <tr class="user-row node-row" data-role="{{ user['role'] }}">
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div class="avatar-node me-3"
-                                    style="width: 64px; height: 64px; border-radius: 14px; overflow: hidden; border: 2px solid #f1f5f9;">
+        <!-- ========================================================
+             5. USER DIRECTORY & MANAGEMENT MODULE
+             ======================================================== -->
+        <div class="directory-vip-module">
+            <div class="directory-top-bar">
+                <div>
+                    <h3 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: 1.6rem; color: #0f172a;">
+                        <i class="fas fa-id-card-alt text-primary me-2"></i> User Directory &amp; Governance
+                    </h3>
+                    <p class="text-muted small mb-0">Search, filter, and inspect registered campus members across all graduation batches.</p>
+                </div>
+
+                <!-- Search & Role Filter Toolbar -->
+                <div class="command-search-wrap">
+                    <i class="fas fa-search text-muted ms-1"></i>
+                    <input type="text" id="userSearch" class="command-search-input" placeholder="Search by name, email, department...">
+                    <select id="roleFilter" class="command-role-select">
+                        <option value="all">All Roles</option>
+                        <option value="student">Students</option>
+                        <option value="alumni">Alumni</option>
+                        <option value="faculty">Faculty</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="vip-table-container table-responsive">
+                <table class="vip-table" id="usersTable">
+                    <thead>
+                        <tr>
+                            <th>User Profile</th>
+                            <th>Role</th>
+                            <th>Department &amp; Batch</th>
+                            <th>Account Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users[:20] %}
+                        <tr class="user-row" data-role="{{ user['role'] }}">
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
                                     {% if user['profile_pic'] and user['profile_pic'].startswith('/') %}
-                                    <img src="{{ user['profile_pic'] }}" alt="" class="identity-avatar-img">
+                                    <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] }}" class="avatar-image-node">
                                     {% else %}
-                                    <div class="initials-avatar">
+                                    <div class="avatar-initials-badge">
                                         {{ user['name'] | initials }}
                                     </div>
                                     {% endif %}
-                                </div>
-                                <div>
-                                    <div class="fw-800 text-main mb-0" style="font-size: 0.95rem;">
+                                    <div>
                                         <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% else %}{{ url_for('faculty_profile', user_id=user['id']) }}{% endif %}"
-                                            class="text-decoration-none text-inherit hover-primary">
+                                           class="fw-bold text-dark text-decoration-none d-block hover-primary" style="font-size: 0.95rem;">
                                             {{ user['name'] }}
                                         </a>
+                                        <code class="text-muted" style="font-size: 0.76rem;">{{ user['email'] }}</code>
                                     </div>
-                                    <code class="text-dim" style="font-size: 0.75rem;">{{ user['email'] }}</code>
                                 </div>
+                            </td>
 
-                            </div>
-                        </td>
-                        <td>
-                            {% if user['role'] == 'student' %}
-                            <span class="badge-modern badge-student"
-                                style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">Student</span>
-                            {% elif user['role'] == 'alumni' %}
-                            <span class="badge-modern badge-alumni"
-                                style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">Alumni</span>
-                            {% elif user['role'] == 'faculty' %}
-                            <span class="badge-modern badge-faculty"
-                                style="background: rgba(16, 185, 129, 0.1); color: #10b981;">Faculty</span>
-                            {% else %}
-                            <span class="badge-modern badge-admin"
-                                style="background: #fef3c7; color: #92400e;">Admin</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <div class="fw-bold fs-7">{{ user['department'] or 'Not specified' }}</div>
-                            <div class="text-dim extra-small">
-                                {% if user['role'] == 'student' and user['batch_info'] %}
-                                SEM_{{ user['batch_info'] }}
-                                {% elif user['role'] == 'alumni' and user['batch_info'] %}
-                                BATCH_{{ user['batch_info'] }}
+                            <td>
+                                {% if user['role'] == 'student' %}
+                                <span class="role-badge-tag role-tag-student"><i class="fas fa-user-graduate"></i> Student</span>
+                                {% elif user['role'] == 'alumni' %}
+                                <span class="role-badge-tag role-tag-alumni"><i class="fas fa-user-tie"></i> Alumni</span>
+                                {% elif user['role'] == 'faculty' %}
+                                <span class="role-badge-tag role-tag-faculty"><i class="fas fa-chalkboard-teacher"></i> Faculty</span>
                                 {% else %}
-                                Faculty / Staff
+                                <span class="role-badge-tag role-tag-admin"><i class="fas fa-shield-alt"></i> Admin</span>
                                 {% endif %}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="node-status">
-                                <span class="pulse-dot"></span>
-                                VERIFIED
-                            </div>
-                        </td>
-                        <td>
-                            <div class="d-flex gap-2">
-                                {% if user['email'] == 'alumnihub26@gmail.com' or user['email'] == 'admin@alumnihub.local' %}
-                                <div class="badge bg-slate-100 text-slate-500 border border-slate-200 px-3 py-2"
-                                    style="border-radius: 12px; font-size: 0.7rem;">
-                                    <i class="fas fa-lock me-1"></i> PROTECTED
+                            </td>
+
+                            <td>
+                                <div class="fw-bold small text-dark">{{ user['department'] or 'Not specified' }}</div>
+                                <small class="text-muted" style="font-size: 0.74rem;">
+                                    {% if user['role'] == 'student' and user['batch_info'] %}
+                                    Semester {{ user['batch_info'] }}
+                                    {% elif user['role'] == 'alumni' and user['batch_info'] %}
+                                    Class of {{ user['batch_info'] }}
+                                    {% else %}
+                                    Academic Staff
+                                    {% endif %}
+                                </small>
+                            </td>
+
+                            <td>
+                                <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1 small fw-bold">
+                                    <i class="fas fa-check-circle me-1"></i> Verified
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                    {% if user['email'] == 'alumnihub26@gmail.com' or user['email'] == 'admin@alumnihub.local' %}
+                                    <span class="badge bg-light text-secondary border rounded-pill px-3 py-1 small fw-bold">
+                                        <i class="fas fa-lock me-1"></i> PROTECTED
+                                    </span>
+                                    {% else %}
+                                    <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% else %}{{ url_for('faculty_profile', user_id=user['id']) }}{% endif %}"
+                                       class="action-icon-btn action-btn-view" title="View Member Profile">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <button class="action-icon-btn action-btn-delete"
+                                            onclick="confirmDelete('{{ user.id }}', '{{ user.name }}', this)"
+                                            title="Delete Member Account">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    {% endif %}
                                 </div>
-                                {% else %}
-                                <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% else %}{{ url_for('faculty_profile', user_id=user['id']) }}{% endif %}"
-                                    class="action-btn view-btn" title="View Profile">
-                                    <i class="fas fa-crosshairs"></i>
-                                </a>
-                                <button class="action-btn delete-btn btn-delete-user"
-                                    onclick="confirmDelete('{{ user.id }}', '{{ user.name }}', this)"
-                                    title="Delete User">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                                {% endif %}
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Downloads Section -->
-    <div class="export-module mb-5 animate__animated animate__fadeInUp">
-        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-4">
-            <div>
-                <h3 class="directory-title mb-1"><i class="fas fa-server me-2 text-warning"></i> Data Export Center
-                </h3>
-                <p class="text-dim mb-0 fw-bold small">Download and backup platform data in CSV or Database format</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
 
-            <div class="d-flex gap-2">
-                <div class="glass-card py-2 px-3 d-flex align-items-center gap-3 border"
-                    style="background: #f1f5f9; border-radius: 16px;">
-                    <span class="security-badge"><i class="fas fa-shield-alt"></i> SYSTEM_INTEGRITY: OPTIMAL</span>
-                    <span class="text-dim small fw-bold">|</span>
-                    <span class="text-dim small fw-bold">BACKUP_DEPTH: 84.2%</span>
+            <!-- Empty Search State -->
+            <div id="noUserResults" class="text-center py-5 d-none">
+                <div class="mb-2 text-muted" style="font-size: 2.5rem;"><i class="fas fa-user-slash"></i></div>
+                <h5 class="fw-bold text-dark">No Members Found</h5>
+                <p class="text-muted small">No registered members matched your search query. Try searching for a different name, department, or role.</p>
+            </div>
+        </div>
+
+        <!-- ========================================================
+             6. DATA EXPORT & SYSTEM BACKUP CENTER
+             ======================================================== -->
+        <div class="export-vip-module">
+            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+                <div>
+                    <h3 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: 1.5rem; color: #0f172a;">
+                        <i class="fas fa-server text-warning me-2"></i> Data Export &amp; Backup Center
+                    </h3>
+                    <p class="text-muted small mb-0">Export live database tables, user records, and snapshots for administrative archival.</p>
                 </div>
-                <ul class="nav nav-pills command-bar p-1" id="exportTabs" role="tablist" style="border-radius: 14px;">
+
+                <!-- Tab switcher -->
+                <ul class="nav nav-pills bg-light rounded-pill p-1 border" id="exportTabs" role="tablist">
                     <li class="nav-item">
-                        <button class="nav-link active px-4 py-2 border-0 fw-800" data-bs-toggle="pill"
-                            data-bs-target="#csvExports"
-                            style="border-radius: 10px; font-size: 0.75rem;">CSV Exports</button>
+                        <button class="nav-link active rounded-pill px-4 py-1 small fw-bold" data-bs-toggle="pill" data-bs-target="#csvExports">
+                            <i class="fas fa-file-csv me-1"></i> CSV Spreadsheets
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link px-4 py-2 border-0 fw-800" data-bs-toggle="pill"
-                            data-bs-target="#dbExports"
-                            style="border-radius: 10px; font-size: 0.75rem;">Database Backup</button>
+                        <button class="nav-link rounded-pill px-4 py-1 small fw-bold" data-bs-toggle="pill" data-bs-target="#dbExports">
+                            <i class="fas fa-database me-1"></i> Database Backups
+                        </button>
                     </li>
                 </ul>
             </div>
-        </div>
 
-        <div class="tab-content" id="exportTabsContent">
-            <!-- CSV Exports -->
-            <div class="tab-pane fade show active" id="csvExports">
-                <div class="row g-4">
-                    <div class="col-lg-4">
-                        <div class="export-console-card">
-                            <div class="export-card-head">
-                                <div class="export-icon text-primary m-0"
-                                    style="width:40px; height:40px; font-size: 1rem;"><i
-                                        class="fas fa-user-graduate"></i></div>
+            <div class="tab-content" id="exportTabsContent">
+                <!-- CSV Exports Pane -->
+                <div class="tab-pane fade show active" id="csvExports">
+                    <div class="row g-3 g-md-4">
+                        <div class="col-md-4">
+                            <div class="export-card-node">
                                 <div>
-                                    <h5 class="fw-800 mb-0">Student Records</h5>
-                                    <span class="meta-tag">Format: CSV</span>
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <div class="badge rounded-pill bg-primary bg-opacity-10 text-primary fw-bold small">
+                                            <i class="fas fa-user-graduate me-1"></i> Students
+                                        </div>
+                                        <small class="text-muted fw-bold">.CSV Format</small>
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-1">Student Registry</h5>
+                                    <p class="text-muted small mb-3">Academic metrics, enrolled courses, branches, and verified contact points.</p>
                                 </div>
-                            </div>
-                            <div class="export-card-body">
-                                <p class="text-dim small mb-4">Complete node profile synchronization. Academic
-                                    metrics,
-                                    identity verification tokens, and registration metadata.</p>
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-dim extra-small fw-bold">Ready for Download</span>
-                                    <span class="text-dim extra-small fw-bold">100%</span>
-                                </div>
-                                <div class="extraction-progress">
-                                    <div class="extraction-bar"></div>
-                                </div>
-                            </div>
-                            <div class="export-card-footer">
-                                <button class="btn btn-primary w-100 fw-800 py-2"
-                                    onclick="downloadData('student', 'csv')"
-                                    style="border-radius: 10px; font-size: 0.8rem;">Download CSV</button>
+                                <button class="btn btn-outline-primary rounded-pill w-100 py-2 fw-bold small" onclick="downloadData('student', 'csv')">
+                                    <i class="fas fa-download me-1"></i> Download Students CSV
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="export-console-card">
-                            <div class="export-card-head">
-                                <div class="export-icon text-warning m-0"
-                                    style="width:40px; height:40px; font-size: 1rem;"><i class="fas fa-user-tie"></i>
-                                </div>
+
+                        <div class="col-md-4">
+                            <div class="export-card-node">
                                 <div>
-                                    <h5 class="fw-800 mb-0">Alumni Records</h5>
-                                    <span class="meta-tag">Format: CSV</span>
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <div class="badge rounded-pill bg-warning bg-opacity-10 text-warning-emphasis fw-bold small">
+                                            <i class="fas fa-user-tie me-1"></i> Alumni
+                                        </div>
+                                        <small class="text-muted fw-bold">.CSV Format</small>
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-1">Alumni Directory</h5>
+                                    <p class="text-muted small mb-3">Graduation batches, company designations, career profiles, and contact links.</p>
                                 </div>
-                            </div>
-                            <div class="export-card-body">
-                                <p class="text-dim small mb-4">Professional alumni directory. Career advancement
-                                    metadata, contact validation, and professional node links.</p>
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-dim extra-small fw-bold">Ready for Download</span>
-                                    <span class="text-dim extra-small fw-bold">100%</span>
-                                </div>
-                                <div class="extraction-progress">
-                                    <div class="extraction-bar"></div>
-                                </div>
-                            </div>
-                            <div class="export-card-footer">
-                                <button class="btn btn-warning w-100 fw-800 py-2 text-white"
-                                    onclick="downloadData('alumni', 'csv')"
-                                    style="border-radius: 10px; font-size: 0.8rem;">Download CSV</button>
+                                <button class="btn btn-outline-warning rounded-pill w-100 py-2 fw-bold small text-dark" onclick="downloadData('alumni', 'csv')">
+                                    <i class="fas fa-download me-1"></i> Download Alumni CSV
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="export-console-card">
-                            <div class="export-card-head">
-                                <div class="export-icon text-success m-0"
-                                    style="width:40px; height:40px; font-size: 1rem;"><i
-                                        class="fas fa-users-viewfinder"></i></div>
+
+                        <div class="col-md-4">
+                            <div class="export-card-node">
                                 <div>
-                                    <h5 class="fw-800 mb-0">All Members Records</h5>
-                                    <span class="meta-tag">Format: CSV</span>
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <div class="badge rounded-pill bg-success bg-opacity-10 text-success fw-bold small">
+                                            <i class="fas fa-users me-1"></i> Master
+                                        </div>
+                                        <small class="text-muted fw-bold">.CSV Format</small>
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-1">Omni-Registry Master</h5>
+                                    <p class="text-muted small mb-3">Complete combined list of all registered accounts across all roles.</p>
                                 </div>
-                            </div>
-                            <div class="export-card-body">
-                                <p class="text-dim small mb-4">Complete Omni-Registry. The absolute master list of
-                                    all
-                                    identified entities across the university network.</p>
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-dim extra-small fw-bold">Ready for Download</span>
-                                    <span class="text-dim extra-small fw-bold">100%</span>
-                                </div>
-                                <div class="extraction-progress">
-                                    <div class="extraction-bar"></div>
-                                </div>
-                            </div>
-                            <div class="export-card-footer">
-                                <button class="btn btn-success w-100 fw-800 py-2" onclick="downloadData('all', 'csv')"
-                                    style="border-radius: 10px; font-size: 0.8rem;">Download CSV</button>
+                                <button class="btn btn-outline-success rounded-pill w-100 py-2 fw-bold small" onclick="downloadData('all', 'csv')">
+                                    <i class="fas fa-download me-1"></i> Download Master CSV
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- DB Exports -->
-            <div class="tab-pane fade" id="dbExports">
-                <div class="row g-4">
-                    <div class="col-lg-6">
-                        <div class="export-console-card">
-                            <div class="export-card-head">
-                                <div class="export-icon text-info m-0"
-                                    style="width:40px; height:40px; font-size: 1rem;"><i class="fas fa-database"></i>
-                                </div>
+                <!-- Database Exports Pane -->
+                <div class="tab-pane fade" id="dbExports">
+                    <div class="row g-3 g-md-4">
+                        <div class="col-md-6">
+                            <div class="export-card-node">
                                 <div>
-                                    <h5 class="fw-800 mb-0">Primary Database (college_pro.db)</h5>
-                                    <span class="meta-tag">Format: SQLITE (.db)</span>
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <div class="badge rounded-pill bg-info bg-opacity-10 text-info fw-bold small">
+                                            <i class="fas fa-database me-1"></i> Primary DB
+                                        </div>
+                                        <span class="badge bg-danger rounded-pill px-2 py-1" style="font-size: 0.65rem;">RESTRICTED</span>
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-1">Primary Database (college_pro.db)</h5>
+                                    <p class="text-muted small mb-3">Complete relational database snapshot containing tables, schemas, relations, and system logs.</p>
                                 </div>
-                                <div class="ms-auto"><span class="badge bg-danger pulse-dot-static"
-                                        style="font-size: 0.6rem;">RESTRICTED</span></div>
-                            </div>
-                            <div class="export-card-body">
-                                <p class="text-dim small mb-4">Master relational database snapshot (college_pro.db).
-                                    Contains all encrypted tables, relations, and system logs.</p>
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-dim extra-small fw-bold">Backup Ready</span>
-                                    <span class="text-dim extra-small fw-bold">94%</span>
-                                </div>
-                                <div class="extraction-progress">
-                                    <div class="extraction-bar" style="width: 94%;"></div>
-                                </div>
-                            </div>
-                            <div class="export-card-footer">
-                                <button class="btn btn-info text-white w-100 fw-800 py-2"
-                                    onclick="downloadData('college_pro', 'db')"
-                                    style="border-radius: 10px; font-size: 0.8rem;">Download Database</button>
+                                <button class="btn btn-outline-info rounded-pill w-100 py-2 fw-bold small" onclick="downloadData('college_pro', 'db')">
+                                    <i class="fas fa-database me-1"></i> Download college_pro.db
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="export-console-card">
-                            <div class="export-card-head">
-                                <div class="export-icon text-secondary m-0"
-                                    style="width:40px; height:40px; font-size: 1rem;"><i
-                                        class="fas fa-shield-halved"></i></div>
+
+                        <div class="col-md-6">
+                            <div class="export-card-node">
                                 <div>
-                                    <h5 class="fw-800 mb-2">Secondary Database (alumni.db)</h5>
-                                    <span class="meta-tag">Format: SQLITE (.db)</span>
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <div class="badge rounded-pill bg-dark bg-opacity-10 text-dark fw-bold small">
+                                            <i class="fas fa-shield-halved me-1"></i> Secondary DB
+                                        </div>
+                                        <span class="badge bg-warning text-dark rounded-pill px-2 py-1" style="font-size: 0.65rem;">ENCRYPTED</span>
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-1">Secondary Database (alumni.db)</h5>
+                                    <p class="text-muted small mb-3">Dedicated storage segment for alumni profile nodes, mentorship links, and encrypted career histories.</p>
                                 </div>
-                                <div class="ms-auto"><span class="badge bg-warning text-dark"
-                                        style="font-size: 0.6rem;">PROTECTED</span></div>
-                            </div>
-                            <div class="export-card-body">
-                                <p class="text-dim small mb-4">Dedicated storage segment for alumni nodes.
-                                    High-fidelity
-                                    career relationship data and encrypted professional histories.</p>
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-dim extra-small fw-bold">SYNC_COMPLETE</span>
-                                    <span class="text-dim extra-small fw-bold">100%</span>
-                                </div>
-                                <div class="extraction-progress">
-                                    <div class="extraction-bar"></div>
-                                </div>
-                            </div>
-                            <div class="export-card-footer">
-                                <button class="btn btn-dark w-100 fw-800 py-2" onclick="downloadData('alumni', 'db')"
-                                    style="border-radius: 10px; font-size: 0.8rem;">Download Database</button>
+                                <button class="btn btn-outline-dark rounded-pill w-100 py-2 fw-bold small" onclick="downloadData('alumni', 'db')">
+                                    <i class="fas fa-database me-1"></i> Download alumni.db
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
-
+<!-- ========================================================
+     7. INTERACTIVE SCRIPTS & CONTROLLERS
+     ======================================================== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <script>
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Digital Clock & Live Date
+    function updateLiveClock() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
 
+        const clockEl = document.getElementById('dynamicClock');
+        const dateEl = document.getElementById('dynamicDate');
 
-    // --- Premium Interactive Controllers ---
-    document.addEventListener('DOMContentLoaded', function () {
-        // 1. Typing Effect for Admin Name
-        const adminName = "{{ current_user.name }}";
-        const typingElement = document.getElementById('typingName');
-        let i = 0;
-        function typeWriter() {
-            if (i < adminName.length) {
-                typingElement.innerHTML += adminName.charAt(i);
-                i++;
-                setTimeout(typeWriter, 100);
-            }
-        }
-        typeWriter();
+        if (clockEl) clockEl.textContent = timeStr;
+        if (dateEl) dateEl.textContent = dateStr;
+    }
+    setInterval(updateLiveClock, 1000);
+    updateLiveClock();
 
-        // 2. Network Canvas Animation (Background Hero)
-        const canvas = document.getElementById('networkCanvas');
+    // 2. Interactive Network Canvas
+    const canvas = document.getElementById('networkCanvas');
+    if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
 
@@ -1170,12 +1250,13 @@
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
             particles = [];
-            for (let i = 0; i < 40; i++) {
+            const count = Math.min(35, Math.floor(canvas.width / 30));
+            for (let i = 0; i < count; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
                     size: Math.random() * 2 + 1
                 });
             }
@@ -1183,8 +1264,8 @@
 
         function animateCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(99, 102, 241, 0.5)';
-            ctx.strokeStyle = 'rgba(99, 102, 241, 0.1)';
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
 
             particles.forEach((p, index) => {
                 p.x += p.vx;
@@ -1200,7 +1281,7 @@
                 for (let j = index + 1; j < particles.length; j++) {
                     const p2 = particles[j];
                     const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 100) {
+                    if (dist < 90) {
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
@@ -1210,175 +1291,211 @@
             });
             requestAnimationFrame(animateCanvas);
         }
+
         initCanvas();
         animateCanvas();
         window.addEventListener('resize', initCanvas);
+    }
 
-        // 3. Real-time Clock Widget
-        function updateClock() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
+    // 3. Chart.js Graphs Initialization
+    const chartDataEl = document.getElementById('chart-data');
+    if (chartDataEl) {
+        try {
+            const years = JSON.parse(chartDataEl.dataset.years || '[]');
+            const studentsGrowth = JSON.parse(chartDataEl.dataset.studentsGrowth || '[]');
+            const alumniGrowth = JSON.parse(chartDataEl.dataset.alumniGrowth || '[]');
+            const facultyGrowth = JSON.parse(chartDataEl.dataset.facultyGrowth || '[]');
 
-            const clockEl = document.getElementById('dynamicClock');
-            const dateEl = document.getElementById('dynamicDate');
+            const sTotal = parseInt(chartDataEl.dataset.students || '0');
+            const aTotal = parseInt(chartDataEl.dataset.alumni || '0');
+            const fTotal = parseInt(chartDataEl.dataset.faculty || '0');
 
-            if (clockEl) clockEl.textContent = timeStr;
-            if (dateEl) dateEl.textContent = dateStr;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // 4. Advanced Chart.js Customization
-        const chartFont = { family: "'JetBrains Mono', monospace", size: 11, color: '#64748b' };
-        const chartDataEl = document.getElementById('chart-data');
-        const years = JSON.parse(chartDataEl.dataset.years);
-
-        // Growth Chart (Line)
-        const ctxGrowth = document.getElementById('growthChart').getContext('2d');
-        new Chart(ctxGrowth, {
-            type: 'line',
-            data: {
-                labels: years,
-                datasets: [
-                    {
-                        label: 'Students',
-                        data: JSON.parse(chartDataEl.dataset.studentsGrowth),
-                        borderColor: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 3,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#6366f1'
+            // Line Chart: 5-Year User Growth
+            const ctxGrowth = document.getElementById('growthChart');
+            if (ctxGrowth) {
+                new Chart(ctxGrowth, {
+                    type: 'line',
+                    data: {
+                        labels: years,
+                        datasets: [
+                            {
+                                label: 'Students',
+                                data: studentsGrowth,
+                                borderColor: '#0284c7',
+                                backgroundColor: 'rgba(2, 132, 199, 0.08)',
+                                fill: true,
+                                tension: 0.38,
+                                borderWidth: 3,
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                pointBackgroundColor: '#0284c7'
+                            },
+                            {
+                                label: 'Alumni',
+                                data: alumniGrowth,
+                                borderColor: '#f59e0b',
+                                backgroundColor: 'rgba(245, 158, 11, 0.08)',
+                                fill: true,
+                                tension: 0.38,
+                                borderWidth: 3,
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                pointBackgroundColor: '#f59e0b'
+                            },
+                            {
+                                label: 'Faculty',
+                                data: facultyGrowth,
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.08)',
+                                fill: true,
+                                tension: 0.38,
+                                borderWidth: 3,
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                pointBackgroundColor: '#10b981'
+                            }
+                        ]
                     },
-                    {
-                        label: 'Alumni',
-                        data: JSON.parse(chartDataEl.dataset.alumniGrowth),
-                        borderColor: '#f59e0b',
-                        backgroundColor: 'rgba(245, 158, 11, 0.05)',
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 3,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#f59e0b'
-                    },
-                    {
-                        label: 'Faculty',
-                        data: JSON.parse(chartDataEl.dataset.facultyGrowth),
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.05)',
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 3,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#10b981'
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    font: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold', size: 12 },
+                                    color: '#475569',
+                                    usePointStyle: true,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 10,
+                                titleFont: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold' },
+                                bodyFont: { family: "'Plus Jakarta Sans', sans-serif" }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: { font: { family: "'Plus Jakarta Sans', sans-serif", weight: '600' }, color: '#64748b' }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: '#f1f5f9' },
+                                ticks: { font: { family: "'Plus Jakarta Sans', sans-serif", weight: '600' }, color: '#64748b' }
+                            }
+                        }
                     }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { labels: { color: '#64748b', font: chartFont } }
-                },
-                scales: {
-                    x: { grid: { display: false }, ticks: { color: '#64748b', font: chartFont } },
-                    y: { grid: { color: '#f1f5f9' }, ticks: { color: '#64748b', font: chartFont } }
-                }
+                });
+            }
+
+            // Doughnut Chart: Role Ratio
+            const ctxUser = document.getElementById('userChart');
+            if (ctxUser) {
+                new Chart(ctxUser, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Students', 'Alumni', 'Faculty'],
+                        datasets: [{
+                            data: [sTotal, aTotal, fTotal],
+                            backgroundColor: ['#0284c7', '#f59e0b', '#10b981'],
+                            borderWidth: 3,
+                            borderColor: '#ffffff',
+                            hoverOffset: 12
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '72%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    font: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold', size: 12 },
+                                    color: '#475569',
+                                    padding: 14,
+                                    usePointStyle: true
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        } catch (e) {
+            console.warn('Charts initialization notice:', e);
+        }
+    }
+
+    // 4. Live Directory Filter (Search & Role Select)
+    const userSearchInput = document.getElementById('userSearch');
+    const roleFilterSelect = document.getElementById('roleFilter');
+    const userRows = document.querySelectorAll('.user-row');
+    const noUserResultsEl = document.getElementById('noUserResults');
+
+    function applyDirectoryFilter() {
+        const query = (userSearchInput ? userSearchInput.value : '').toLowerCase().trim();
+        const selectedRole = roleFilterSelect ? roleFilterSelect.value : 'all';
+        let matchCount = 0;
+
+        userRows.forEach(row => {
+            const rowText = row.innerText.toLowerCase();
+            const rowRole = row.dataset.role || '';
+            const matchesQuery = query === '' || rowText.includes(query);
+            const matchesRole = selectedRole === 'all' || rowRole === selectedRole;
+
+            if (matchesQuery && matchesRole) {
+                row.style.display = '';
+                matchCount++;
+            } else {
+                row.style.display = 'none';
             }
         });
 
-        // Mix Chart (Doughnut)
-        const ctxUser = document.getElementById('userChart').getContext('2d');
-        new Chart(ctxUser, {
-            type: 'doughnut',
-            data: {
-                labels: ['Students', 'Alumni', 'Faculty'],
-                datasets: [{
-                    data: [
-                        parseInt(chartDataEl.dataset.students),
-                        parseInt(chartDataEl.dataset.alumni),
-                        parseInt(chartDataEl.dataset.faculty)
-                    ],
-                    backgroundColor: ['#6366f1', '#f59e0b', '#10b981'],
-                    borderWidth: 0,
-                    hoverOffset: 20
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '80%',
-                plugins: {
-                    legend: { position: 'bottom', labels: { color: '#64748b', font: chartFont, padding: 20 } }
-                }
-            }
-        });
-
-        // Action Deck Navigation
-        document.querySelectorAll('.btn-action-nav').forEach(btn => {
-            btn.addEventListener('click', function () {
-                const url = this.dataset.url;
-                if (url) {
-                    window.location.href = url;
-                }
-            });
-        });
-
-        // 5. Search & Search Matrix Logic
-
-        const searchInput = document.getElementById('userSearch');
-        const roleFilter = document.getElementById('roleFilter');
-        const userRows = document.querySelectorAll('.user-row');
-
-        function filterNodes() {
-            const query = searchInput.value.toLowerCase();
-            const role = roleFilter.value;
-            userRows.forEach(row => {
-                const text = row.innerText.toLowerCase();
-                const rowRole = row.dataset.role;
-                const matchesSearch = text.includes(query);
-                const matchesRole = role === 'all' || rowRole === role;
-                row.style.display = matchesSearch && matchesRole ? '' : 'none';
-            });
+        if (noUserResultsEl) {
+            noUserResultsEl.classList.toggle('d-none', matchCount > 0);
         }
-        searchInput.addEventListener('input', filterNodes);
-        roleFilter.addEventListener('change', filterNodes);
-    });
+    }
 
-    function confirmDelete(id, name, btn) {
-        if (confirm(`Are you sure you want to delete user: ${name}? This action cannot be undone.`)) {
-            const originalHtml = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
+    if (userSearchInput) userSearchInput.addEventListener('input', applyDirectoryFilter);
+    if (roleFilterSelect) roleFilterSelect.addEventListener('change', applyDirectoryFilter);
+});
 
-            fetch(`/api/delete-user/${id}`, { method: 'POST' })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        btn.innerHTML = '<i class="fas fa-check"></i>';
-                        btn.style.background = '#10b981';
-                        btn.style.color = 'white';
-                        setTimeout(() => location.reload(), 1000);
-                    } else {
-                        alert('❌ Delete failed: ' + data.error);
-                        btn.innerHTML = originalHtml;
-                        btn.disabled = false;
-                    }
-                })
-                .catch(err => {
-                    alert('❌ Connection Error: Delete Failed');
+// 5. User Account Deletion Handler
+function confirmDelete(id, name, btn) {
+    if (confirm(`Are you sure you want to delete member: "${name}"? This action cannot be undone.`)) {
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        btn.disabled = true;
+
+        fetch(`/api/delete-user/${id}`, { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                    btn.classList.remove('action-btn-delete');
+                    btn.classList.add('btn-success');
+                    setTimeout(() => location.reload(), 800);
+                } else {
+                    alert('❌ Delete failed: ' + (data.error || 'Unknown error'));
                     btn.innerHTML = originalHtml;
                     btn.disabled = false;
-                });
-        }
+                }
+            })
+            .catch(() => {
+                alert('❌ Connection Error: Unable to reach deletion service.');
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            });
     }
+}
 
-    // 7. Matrix Data Export
-    function downloadData(category, type) {
-        const endpoint = type === 'csv' ? `/api/download-csv/${category}` : `/api/download-db/${category}`;
-        window.location.href = endpoint;
-    }
+// 6. CSV & Database Downloads
+function downloadData(category, type) {
+    const endpoint = type === 'csv' ? `/api/download-csv/${category}` : `/api/download-db/${category}`;
+    window.location.href = endpoint;
+}
 </script>
 {% endblock %}
