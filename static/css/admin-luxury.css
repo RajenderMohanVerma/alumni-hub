@@ -90,15 +90,96 @@ body {
 
 /* --- Executive Hero Terminal (Dark Variant) --- */
 .admin-hero-card {
-    background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%);
-    border: 2px solid rgba(56, 189, 248, 0.25);
+    background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%) !important;
+    border: 2px solid rgba(56, 189, 248, 0.25) !important;
     border-radius: 28px;
     padding: clamp(24px, 4vw, 42px);
     position: relative;
     overflow: hidden;
-    color: #ffffff;
+    color: #ffffff !important;
     box-shadow: 0 25px 50px -15px rgba(15, 23, 42, 0.25);
     margin-bottom: 2rem;
+}
+
+/* Bulletproof text contrast protection inside dark hero cards against theme-system.css:154 */
+.admin-hero-card h1,
+.admin-hero-card h2,
+.admin-hero-card h3,
+.admin-hero-card h4,
+.admin-hero-card h5,
+.admin-hero-card h6,
+.admin-hero-card .h1,
+.admin-hero-card .h2,
+.admin-hero-card .h3,
+.admin-hero-card .h4,
+.admin-hero-card .h5,
+.admin-hero-card .h6,
+.admin-hero-card .admin-hero-title,
+.admin-hero-card .admin-hero-stat-val,
+.admin-hero-card .metric-badge-counter,
+.admin-hero-card [class*="text-white"],
+.admin-hero-card .text-white,
+.admin-hero-card div.text-white,
+.admin-hero-card span.text-white,
+.admin-hero-card p.text-white,
+.admin-hero-card strong.text-white,
+.admin-hero-card div.fw-bold {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Hero Stat Nodes */
+.admin-hero-stat-box {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 18px !important;
+    padding: 0.85rem 1.15rem !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+.admin-hero-stat-box:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.14) !important;
+    border-color: rgba(56, 189, 248, 0.5) !important;
+}
+.admin-hero-stat-label {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    margin-bottom: 0.25rem !important;
+    display: block !important;
+}
+.admin-hero-stat-val {
+    font-size: clamp(1.4rem, 2.2vw, 1.85rem) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+    font-family: 'Outfit', sans-serif !important;
+    margin: 0 !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+.admin-hero-stat-sub {
+    font-size: 0.74rem !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+    margin-top: 0.2rem !important;
+}
+
+.admin-hero-card .btn-outline-light {
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.35) !important;
+    transition: all 0.25s ease !important;
+}
+.admin-hero-card .btn-outline-light:hover {
+    color: #0f172a !important;
+    background: #ffffff !important;
+    border-color: #ffffff !important;
+    transform: translateY(-2px);
+}
+.admin-hero-card .btn-outline-light i {
+    transition: color 0.25s ease !important;
 }
 
 .admin-hero-card h1,
