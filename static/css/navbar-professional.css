@@ -1018,23 +1018,49 @@
 
 /* ===== SHARED NAVIGATION REFRESH ===== */
 .navbar-floating {
-    padding: 0.8rem 1.25rem;
+    padding: 0.75rem 1.25rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1040;
 }
 
 .navbar-floating .navbar-container {
     max-width: 1440px;
-    padding: 0.6rem 1.25rem;
+    padding: 0.5rem 1.25rem;
     border: 1px solid rgba(226, 232, 240, 0.9);
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.96) !important;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    position: relative;
+    overflow: visible !important;
 }
 
 .navbar-floating.nav-dark-mode .navbar-container {
     background: rgba(255, 255, 255, 0.96) !important;
     border-color: rgba(226, 232, 240, 0.9);
+}
+
+.navbar-floating .navbar-collapse {
+    overflow: visible !important;
+}
+
+@media (min-width: 992px) {
+    .navbar-floating .navbar-nav {
+        display: flex !important;
+        align-items: center !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 0.35rem !important;
+        margin-bottom: 0 !important;
+    }
 }
 
 .navbar-floating .brand-logo-container {
@@ -1047,10 +1073,6 @@
     display: grid;
     place-items: center;
     font-size: 1.25rem;
-}
-
-.navbar-floating .navbar-nav {
-    gap: 0.35rem;
 }
 
 .navbar-floating .nav-pill-link {
@@ -1090,14 +1112,19 @@
     transform: rotate(180deg);
 }
 
+.navbar-floating .nav-item.dropdown {
+    position: relative !important;
+}
+
 .navbar-floating .dropdown-menu.shadow-premium,
-.navbar-floating .dropdown-menu:not(.dropdown-menu-end) {
+.navbar-floating .dropdown-menu:not(.dropdown-menu-end),
+.navbar-floating .dropdown-menu {
     --bs-dropdown-link-color: #334155;
     --bs-dropdown-link-hover-color: #0284c7;
     --bs-dropdown-link-hover-bg: #f8fafc;
     min-width: 14rem;
     max-width: min(22rem, calc(100vw - 2rem));
-    max-height: min(68vh, 34rem);
+    max-height: min(72vh, 36rem);
     overflow-x: hidden;
     overflow-y: auto;
     margin-top: 0.65rem;
@@ -1105,8 +1132,17 @@
     border: 1px solid #e2e8f0 !important;
     border-radius: 16px;
     background: #ffffff !important;
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.09);
-    position: relative;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    z-index: 1050 !important;
+    float: none !important;
+}
+
+.navbar-floating .dropdown-menu-end {
+    right: 0 !important;
+    left: auto !important;
 }
 
 .navbar-floating .dropdown-menu::before {
