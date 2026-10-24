@@ -136,16 +136,20 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(16, 185, 129, 0.15);
-        border: 1px solid rgba(16, 185, 129, 0.35);
-        color: #34d399;
-        padding: 6px 14px;
+        background: rgba(16, 185, 129, 0.22) !important;
+        border: 1px solid rgba(52, 211, 153, 0.5) !important;
+        color: #34d399 !important;
+        padding: 7px 16px;
         border-radius: 50px;
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.72rem;
+        font-size: 0.74rem;
         font-weight: 700;
         letter-spacing: 0.5px;
         margin-bottom: 14px;
+        box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
+    }
+    .admin-live-badge span {
+        color: #34d399 !important;
     }
 
     .live-pulse-dot {
@@ -162,14 +166,22 @@
         100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
-    .admin-hero-title {
-        font-family: 'Outfit', sans-serif;
+    .admin-hero-title,
+    .admin-hero-card h1,
+    h1.admin-hero-title {
+        font-family: 'Outfit', sans-serif !important;
         font-size: clamp(1.85rem, 4.2vw, 2.75rem);
-        font-weight: 800;
+        font-weight: 800 !important;
         line-height: 1.15;
         letter-spacing: -0.025em;
         margin-bottom: 10px;
-        color: #ffffff;
+        color: #ffffff !important;
+    }
+
+    .hero-title-prefix {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
     }
 
     .text-holographic-adm {
@@ -178,12 +190,25 @@
         -webkit-text-fill-color: transparent;
     }
 
-    .admin-hero-subtitle {
-        color: rgba(255, 255, 255, 0.75);
+    .admin-hero-subtitle,
+    .admin-hero-card p {
+        color: #e2e8f0 !important;
         font-size: clamp(0.9rem, 2vw, 1.05rem);
         line-height: 1.6;
         max-width: 680px;
         margin-bottom: 22px;
+    }
+
+    .admin-hero-card .btn-outline-light {
+        color: #ffffff !important;
+        border-color: rgba(255, 255, 255, 0.45) !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        backdrop-filter: blur(8px);
+    }
+    .admin-hero-card .btn-outline-light:hover {
+        color: #0b1329 !important;
+        background: #ffffff !important;
+        border-color: #ffffff !important;
     }
 
     /* Hero System Clock Box */
@@ -666,8 +691,8 @@
                         <span>ADMIN COMMAND CENTER • LIVE CONTROL</span>
                     </div>
 
-                    <h1 class="admin-hero-title">
-                        Welcome Back, <span class="text-holographic-adm" id="typingName">{{ current_user.name }}</span>
+                    <h1 class="admin-hero-title" style="color: #ffffff !important;">
+                        <span class="hero-title-prefix" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);">Welcome Back,</span> <span class="text-holographic-adm" id="typingName">{{ current_user.name }}</span>
                     </h1>
                     <p class="admin-hero-subtitle">
                         Complete campus ecosystem administration. Monitor community enrollments, approve credentials, oversee recruitment drives, and inspect real-time platform metrics.
