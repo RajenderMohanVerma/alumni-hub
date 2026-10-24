@@ -1,0 +1,1204 @@
+{% extends "base.html" %}
+
+{% block title %}Conversations &amp; Real-Time Chat • Alumni Hub{% endblock %}
+
+{% block content %}
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- Socket.IO for Realtime Delivery -->
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+<style>
+    :root {
+        --msg-bg-page: #f8fafc;
+        --msg-surface: #ffffff;
+        --msg-border: #e2e8f0;
+        --msg-text-primary: #0f172a;
+        --msg-text-muted: #64748b;
+        --msg-accent: #0284c7;
+        --msg-indigo: #4f46e5;
+        --msg-emerald: #10b981;
+        --msg-amber: #f59e0b;
+        --msg-purple: #7c3aed;
+    }
+
+    body {
+        background-color: var(--msg-bg-page);
+    }
+
+    .msg-page-wrapper {
+        min-height: calc(100vh - 80px);
+        padding-top: clamp(100px, 8vw, 125px);
+        padding-bottom: 3rem;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* Ambient floating glowing orbs */
+    .msg-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(90px);
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 0;
+        animation: orbFloat 22s infinite alternate ease-in-out;
+    }
+    .msg-orb-1 {
+        width: 480px;
+        height: 480px;
+        background: #0284c7;
+        top: 20px;
+        left: -100px;
+    }
+    .msg-orb-2 {
+        width: 420px;
+        height: 420px;
+        background: #7c3aed;
+        top: 40%;
+        right: -80px;
+        animation-delay: -6s;
+    }
+    @keyframes orbFloat {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(50px, 35px) scale(1.08); }
+    }
+
+    .msg-container {
+        position: relative;
+        z-index: 2;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 1.25rem;
+    }
+
+    /* Top Page Header */
+    .msg-header-card {
+        background: #ffffff;
+        border: 1px solid var(--msg-border);
+        border-radius: 24px;
+        padding: 1.5rem 2rem;
+        box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.25rem;
+    }
+
+    .msg-header-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(2, 132, 199, 0.1);
+        border: 1px solid rgba(2, 132, 199, 0.25);
+        color: var(--msg-accent);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 4px 14px;
+        border-radius: 99px;
+        margin-bottom: 0.4rem;
+    }
+
+    .msg-header-title {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: clamp(1.45rem, 2.5vw, 1.95rem);
+        color: #0f172a;
+        margin-bottom: 0.2rem;
+        line-height: 1.2;
+    }
+
+    .msg-header-sub {
+        color: #64748b;
+        font-size: 0.92rem;
+        margin-bottom: 0;
+    }
+
+    /* Main Chat Layout Grid */
+    .msg-layout-row {
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        gap: 1.5rem;
+        height: 720px;
+        margin-bottom: 2rem;
+    }
+
+    @media (max-width: 992px) {
+        .msg-layout-row {
+            grid-template-columns: 1fr;
+            height: auto;
+        }
+    }
+
+    /* Sidebar Container */
+    .msg-sidebar-panel {
+        background: #ffffff;
+        border: 1px solid var(--msg-border);
+        border-radius: 24px;
+        box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .msg-sidebar-head {
+        padding: 1.25rem 1.25rem 0.75rem 1.25rem;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .msg-search-box {
+        position: relative;
+        margin-bottom: 0.75rem;
+    }
+    .msg-search-box i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 0.95rem;
+    }
+    .msg-search-input {
+        width: 100%;
+        padding: 0.7rem 1rem 0.7rem 2.5rem;
+        border-radius: 14px;
+        border: 1.5px solid #e2e8f0;
+        background: #f8fafc;
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: #0f172a;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+    .msg-search-input:focus {
+        border-color: #0284c7;
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+    }
+
+    /* Role Filter Tabs in Sidebar */
+    .msg-filter-pills {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scrollbar-width: none;
+    }
+    .msg-filter-pills::-webkit-scrollbar {
+        display: none;
+    }
+    .msg-filter-btn {
+        background: #f1f5f9;
+        color: #64748b;
+        border: none;
+        padding: 5px 12px;
+        border-radius: 99px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+    }
+    .msg-filter-btn.active, .msg-filter-btn:hover {
+        background: #0284c7;
+        color: #ffffff;
+        box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
+    }
+
+    /* Threads Scrollable List */
+    .msg-thread-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0.75rem;
+    }
+    .msg-thread-list::-webkit-scrollbar {
+        width: 5px;
+    }
+    .msg-thread-list::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 99px;
+    }
+
+    .msg-thread-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0.85rem 1rem;
+        border-radius: 16px;
+        border: 1px solid transparent;
+        background: #ffffff;
+        cursor: pointer;
+        margin-bottom: 6px;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+    .msg-thread-item:hover {
+        background: #f8fafc;
+        border-color: #e2e8f0;
+        transform: translateX(2px);
+    }
+    .msg-thread-item.active {
+        background: #f0f9ff !important;
+        border-color: #bae6fd !important;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.08);
+    }
+    .msg-thread-item.active::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 15%;
+        bottom: 15%;
+        width: 4px;
+        border-radius: 0 4px 4px 0;
+        background: #0284c7;
+    }
+
+    /* Thread Avatar */
+    .msg-avatar {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 1.05rem;
+        color: #ffffff;
+        flex-shrink: 0;
+        position: relative;
+        background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+    }
+    .msg-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 14px;
+    }
+    .msg-status-dot {
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #10b981;
+        border: 2px solid #ffffff;
+    }
+
+    .msg-thread-meta {
+        flex: 1;
+        min-width: 0;
+    }
+    .msg-thread-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 2px;
+    }
+    .msg-thread-name {
+        font-weight: 700;
+        font-size: 0.92rem;
+        color: #0f172a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .msg-thread-time {
+        font-size: 0.72rem;
+        color: #94a3b8;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    .msg-thread-snippet {
+        font-size: 0.8rem;
+        color: #64748b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 0;
+    }
+    .msg-unread-pill {
+        background: #0284c7;
+        color: #ffffff;
+        font-size: 0.7rem;
+        font-weight: 800;
+        padding: 2px 7px;
+        border-radius: 99px;
+        box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
+    }
+
+    /* Role Badges */
+    .msg-role-badge {
+        font-size: 0.65rem;
+        font-weight: 800;
+        padding: 2px 7px;
+        border-radius: 6px;
+        text-transform: uppercase;
+        display: inline-block;
+        letter-spacing: 0.04em;
+    }
+    .role-student { background: #e0f2fe; color: #0369a1; }
+    .role-alumni { background: #fef3c7; color: #b45309; }
+    .role-faculty { background: #dcfce7; color: #15803d; }
+    .role-admin { background: #f3e8ff; color: #6b21a8; }
+
+    /* Right Chat Main Window */
+    .msg-chat-panel {
+        background: #ffffff;
+        border: 1px solid var(--msg-border);
+        border-radius: 24px;
+        box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        height: 100%;
+        position: relative;
+    }
+
+    /* Active Chat Top Header */
+    .msg-chat-head {
+        padding: 1.15rem 1.5rem;
+        border-bottom: 1px solid #f1f5f9;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #ffffff;
+        z-index: 5;
+    }
+    .msg-chat-user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    /* Messages Stream Container */
+    .msg-stream {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1.5rem;
+        background: #f8fafc;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+    .msg-stream::-webkit-scrollbar {
+        width: 6px;
+    }
+    .msg-stream::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 99px;
+    }
+
+    /* Message Bubbles */
+    .msg-bubble-wrap {
+        display: flex;
+        flex-direction: column;
+        max-width: 72%;
+        animation: msgIn 0.25s ease-out;
+    }
+    @keyframes msgIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Sent Bubble (Mine) */
+    .msg-sent {
+        align-self: flex-end;
+        align-items: flex-end;
+    }
+    .msg-sent .msg-bubble-box {
+        background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%) !important;
+        color: #ffffff !important;
+        border-radius: 20px 20px 4px 20px;
+        padding: 0.85rem 1.15rem;
+        box-shadow: 0 8px 20px -6px rgba(2, 132, 199, 0.35);
+        word-break: break-word;
+        font-size: 0.94rem;
+        line-height: 1.5;
+    }
+    .msg-sent .msg-bubble-box * {
+        color: #ffffff !important;
+    }
+    .msg-sent .msg-time-tag {
+        font-size: 0.7rem;
+        color: #94a3b8;
+        margin-top: 4px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Received Bubble */
+    .msg-received {
+        align-self: flex-start;
+        align-items: flex-start;
+    }
+    .msg-received .msg-bubble-box {
+        background: #ffffff;
+        color: #0f172a;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px 20px 20px 4px;
+        padding: 0.85rem 1.15rem;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+        word-break: break-word;
+        font-size: 0.94rem;
+        line-height: 1.5;
+    }
+    .msg-received .msg-time-tag {
+        font-size: 0.7rem;
+        color: #94a3b8;
+        margin-top: 4px;
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Chat Input Bar */
+    .msg-input-bar {
+        padding: 1rem 1.25rem;
+        border-top: 1px solid #f1f5f9;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 5;
+    }
+    .msg-input-field {
+        flex: 1;
+        border: 1.5px solid #e2e8f0;
+        background: #f8fafc;
+        border-radius: 99px;
+        padding: 0.85rem 1.35rem;
+        font-size: 0.94rem;
+        color: #0f172a;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+    .msg-input-field:focus {
+        border-color: #0284c7;
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+    }
+    .msg-send-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+        color: #ffffff;
+        border: none;
+        display: grid;
+        place-items: center;
+        font-size: 1.1rem;
+        cursor: pointer;
+        flex-shrink: 0;
+        box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .msg-send-btn:hover {
+        transform: scale(1.06);
+        box-shadow: 0 10px 24px rgba(2, 132, 199, 0.45);
+    }
+    .msg-send-btn:active {
+        transform: scale(0.96);
+    }
+
+    /* Empty States */
+    .msg-empty-chat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+        padding: 2rem;
+        color: #64748b;
+    }
+    .msg-empty-chat i {
+        font-size: 3.5rem;
+        color: #cbd5e1;
+        margin-bottom: 1rem;
+    }
+
+    /* Modal User Picker Styles */
+    .msg-modal-user-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.85rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        margin-bottom: 8px;
+        background: #ffffff;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .msg-modal-user-item:hover {
+        background: #f0f9ff;
+        border-color: #0284c7;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="msg-page-wrapper">
+    <!-- Ambient Background Elements -->
+    <div class="msg-orb msg-orb-1"></div>
+    <div class="msg-orb msg-orb-2"></div>
+
+    <div class="msg-container">
+        <!-- Top Page Header Box -->
+        <div class="msg-header-card">
+            <div>
+                <div class="msg-header-badge">
+                    <i class="fas fa-satellite-dish"></i>
+                    <span>Real-Time Campus Messenger</span>
+                </div>
+                <h1 class="msg-header-title">Conversations &amp; Live Chat</h1>
+                <p class="msg-header-sub">
+                    Direct communication engine across Students, Alumni mentors, Faculty advisors, and Administrators in real time.
+                </p>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <button type="button" class="btn btn-primary rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2 shadow-sm" style="background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%); border: none;" onclick="openNewChatModal();">
+                    <i class="fas fa-plus"></i> New Chat
+                </button>
+            </div>
+        </div>
+
+        <!-- 2-Column Chat Layout -->
+        <div class="msg-layout-row">
+            <!-- Sidebar (Conversations & Contacts) -->
+            <div class="msg-sidebar-panel">
+                <div class="msg-sidebar-head">
+                    <div class="msg-search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="chatSearchInput" class="msg-search-input" placeholder="Search chats by name, role or email..." oninput="handleSearchInput(this.value)">
+                    </div>
+
+                    <!-- Filter Tabs -->
+                    <div class="msg-filter-pills" id="roleFilterTabs">
+                        <button class="msg-filter-btn active" data-filter="all" onclick="setRoleFilter('all', this)">All</button>
+                        <button class="msg-filter-btn" data-filter="student" onclick="setRoleFilter('student', this)">Students</button>
+                        <button class="msg-filter-btn" data-filter="alumni" onclick="setRoleFilter('alumni', this)">Alumni</button>
+                        <button class="msg-filter-btn" data-filter="faculty" onclick="setRoleFilter('faculty', this)">Faculty</button>
+                        <button class="msg-filter-btn" data-filter="admin" onclick="setRoleFilter('admin', this)">Admins</button>
+                    </div>
+                </div>
+
+                <!-- Scrollable Thread List -->
+                <div class="msg-thread-list" id="threadsContainer">
+                    <div class="text-center py-5 text-muted small">
+                        <span class="spinner-border spinner-border-sm text-primary mb-2"></span>
+                        <div>Syncing conversations...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Chat Area -->
+            <div class="msg-chat-panel">
+                <!-- Active Conversation Header -->
+                <div class="msg-chat-head" id="chatHeader" style="display: none;">
+                    <div class="msg-chat-user-info">
+                        <div class="msg-avatar" id="chatHeadAvatar">
+                            <span id="chatHeadInitials">--</span>
+                            <span class="msg-status-dot"></span>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center gap-2">
+                                <h5 class="fw-bold mb-0 text-dark" id="chatHeadName">Loading...</h5>
+                                <span class="msg-role-badge role-student" id="chatHeadRole">Role</span>
+                            </div>
+                            <small class="text-success fw-semibold" style="font-size: 0.75rem;">
+                                <i class="fas fa-circle text-success me-1" style="font-size: 0.55rem;"></i> Active on Network
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="javascript:void(0)" id="chatHeadProfileLink" class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1">
+                            <i class="fas fa-id-badge"></i> Profile
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Chat Stream / Bubbles Container -->
+                <div class="msg-stream" id="messagesStream">
+                    <div class="msg-empty-chat" id="chatEmptyPlaceholder">
+                        <i class="far fa-comments"></i>
+                        <h4 class="fw-bold text-dark mb-1">Select a Conversation</h4>
+                        <p class="small text-muted mb-3">Choose a contact from the sidebar or click "New Chat" to begin messaging anyone.</p>
+                        <button class="btn btn-outline-primary rounded-pill px-4 btn-sm fw-bold" onclick="openNewChatModal();">
+                            <i class="fas fa-plus me-1"></i> Start a Conversation
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Input Composer -->
+                <div class="msg-input-bar" id="chatInputBar" style="display: none;">
+                    <input type="text" id="messageInput" class="msg-input-field" placeholder="Type your message here... (Press Enter to send)" autocomplete="off">
+                    <button type="button" class="msg-send-btn" id="sendBtn" onclick="sendMessage();" title="Send Message">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Chat Modal -->
+<div class="modal fade" id="newChatModal" tabindex="-1" aria-labelledby="newChatModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 24px; overflow: hidden;">
+            <div class="modal-header px-4 pt-4 pb-2 border-0">
+                <div>
+                    <h5 class="modal-title fw-bold text-dark" id="newChatModalLabel">
+                        <i class="fas fa-comment-dots text-primary me-2"></i> Start a New Chat
+                    </h5>
+                    <p class="text-muted small mb-0">Select any student, alumni, faculty, or admin to message directly.</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4 py-3">
+                <!-- Search within modal -->
+                <div class="msg-search-box mb-3">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="modalUserSearch" class="msg-search-input" placeholder="Search people by name or email..." oninput="filterModalUsers(this.value)">
+                </div>
+
+                <!-- Modal Role Filter Pills -->
+                <div class="msg-filter-pills mb-3">
+                    <button class="msg-filter-btn active" onclick="setModalFilter('all', this)">All Roles</button>
+                    <button class="msg-filter-btn" onclick="setModalFilter('student', this)">Students</button>
+                    <button class="msg-filter-btn" onclick="setModalFilter('alumni', this)">Alumni</button>
+                    <button class="msg-filter-btn" onclick="setModalFilter('faculty', this)">Faculty</button>
+                    <button class="msg-filter-btn" onclick="setModalFilter('admin', this)">Admins</button>
+                </div>
+
+                <!-- Users List in Modal -->
+                <div id="modalUsersList" style="max-height: 380px; overflow-y: auto;">
+                    <div class="text-center py-4 text-muted small">
+                        <span class="spinner-border spinner-border-sm text-primary mb-2"></span>
+                        <div>Loading registered community members...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // State Variables
+    const currentUserId = {{ current_user.id }};
+    const currentUserRole = "{{ current_user.role }}";
+    let activeUserId = null;
+    let activeUserName = "";
+    let activeUserRole = "";
+    let conversationsList = [];
+    let allAvailableUsers = [];
+    let currentFilterRole = "all";
+    let modalFilterRole = "all";
+    let pollingTimer = null;
+    let socket = null;
+    let lastRenderedMessageCount = 0;
+
+    // Check for query param chat_with or user_id
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialChatWith = urlParams.get('chat_with') || urlParams.get('user_id');
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initSocket();
+        loadInbox(initialChatWith);
+        loadAllUsers();
+
+        // Setup message input enter key listener
+        const msgInput = document.getElementById('messageInput');
+        msgInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Background auto-refresh loop (Realtime sync every 2.5s)
+        pollingTimer = setInterval(function () {
+            syncRealtime();
+        }, 2500);
+    });
+
+    // Initialize Socket.IO connection
+    function initSocket() {
+        try {
+            if (typeof io !== 'undefined') {
+                socket = io();
+                socket.on('connect', function () {
+                    console.log('Socket.IO connected for real-time messaging');
+                });
+                socket.on('receive_private_message', function (msg) {
+                    if (activeUserId && (msg.sender_id === activeUserId || msg.receiver_id === activeUserId)) {
+                        appendMessageToStream(msg);
+                    }
+                    loadInbox();
+                });
+            }
+        } catch (e) {
+            console.warn('Socket init fallback to polling', e);
+        }
+    }
+
+    // Load Inbox / Active Conversations
+    async function loadInbox(autoSelectUserId = null) {
+        try {
+            const res = await fetch('/api/messages/inbox');
+            const data = await res.json();
+            if (data.success) {
+                conversationsList = data.conversations || [];
+                renderSidebarThreads();
+
+                // If user requested a specific person or no chat selected yet
+                if (autoSelectUserId && !activeUserId) {
+                    selectConversation(parseInt(autoSelectUserId));
+                } else if (!activeUserId && conversationsList.length > 0 && !autoSelectUserId) {
+                    selectConversation(conversationsList[0].other_user_id);
+                }
+            }
+        } catch (err) {
+            console.error('Failed to load inbox:', err);
+        }
+    }
+
+    // Load All Approved Community Members
+    async function loadAllUsers() {
+        try {
+            const res = await fetch('/api/messages/users?role=all');
+            const data = await res.json();
+            if (data.success) {
+                allAvailableUsers = data.users || [];
+                renderModalUsers();
+            }
+        } catch (err) {
+            console.error('Failed to load users:', err);
+        }
+    }
+
+    // Render Sidebar Conversation Threads
+    function renderSidebarThreads() {
+        const container = document.getElementById('threadsContainer');
+        const searchVal = document.getElementById('chatSearchInput').value.trim().toLowerCase();
+
+        let filtered = conversationsList.filter(c => {
+            const matchesRole = currentFilterRole === 'all' || (c.other_user_role && c.other_user_role.toLowerCase() === currentFilterRole);
+            const matchesSearch = !searchVal || 
+                (c.other_user_name && c.other_user_name.toLowerCase().includes(searchVal)) ||
+                (c.other_user_role && c.other_user_role.toLowerCase().includes(searchVal)) ||
+                (c.last_message_content && c.last_message_content.toLowerCase().includes(searchVal));
+            return matchesRole && matchesSearch;
+        });
+
+        if (filtered.length === 0) {
+            if (conversationsList.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-5 px-3">
+                        <i class="far fa-comments fa-2x text-muted opacity-50 mb-3"></i>
+                        <h6 class="fw-bold text-dark mb-1">No Active Chats Yet</h6>
+                        <p class="text-muted small mb-3">Start connecting with peers, mentors, or faculty.</p>
+                        <button class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold" onclick="openNewChatModal();">
+                            <i class="fas fa-plus me-1"></i> Start New Chat
+                        </button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="text-center py-4 text-muted small">
+                        No conversations match this filter.
+                    </div>
+                `;
+            }
+            return;
+        }
+
+        let html = '';
+        filtered.forEach(c => {
+            const isActive = activeUserId === c.other_user_id ? 'active' : '';
+            const initials = getInitials(c.other_user_name);
+            const timeAgo = formatTime(c.last_message_at);
+            const roleClass = `role-${(c.other_user_role || 'student').toLowerCase()}`;
+            const unreadBadge = c.unread_count > 0 ? `<span class="msg-unread-pill">${c.unread_count}</span>` : '';
+
+            html += `
+                <div class="msg-thread-item ${isActive}" onclick="selectConversation(${c.other_user_id})">
+                    <div class="msg-avatar">
+                        ${c.other_user_pic ? `<img src="${c.other_user_pic}" alt="${escapeHtml(c.other_user_name)}">` : initials}
+                        <span class="msg-status-dot"></span>
+                    </div>
+                    <div class="msg-thread-meta">
+                        <div class="msg-thread-top">
+                            <span class="msg-thread-name">${escapeHtml(c.other_user_name)}</span>
+                            <span class="msg-thread-time">${timeAgo}</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between gap-1">
+                            <p class="msg-thread-snippet">${escapeHtml(c.last_message_content || 'No messages yet')}</p>
+                            ${unreadBadge}
+                        </div>
+                        <span class="msg-role-badge ${roleClass} mt-1">${(c.other_user_role || 'member').toUpperCase()}</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    // Select Active Conversation
+    async function selectConversation(userId) {
+        activeUserId = userId;
+        renderSidebarThreads();
+
+        // Show chat interface elements
+        document.getElementById('chatHeader').style.display = 'flex';
+        document.getElementById('chatInputBar').style.display = 'flex';
+        document.getElementById('chatEmptyPlaceholder').style.display = 'none';
+
+        // Load conversation messages
+        await loadConversationMessages(userId);
+
+        // Focus message field
+        document.getElementById('messageInput').focus();
+    }
+
+    // Load Conversation Messages
+    async function loadConversationMessages(userId) {
+        try {
+            const res = await fetch(`/api/messages/conversation/${userId}/messages`);
+            const data = await res.json();
+
+            if (data.success) {
+                // Update header details
+                if (data.other_user) {
+                    activeUserName = data.other_user.name;
+                    activeUserRole = data.other_user.role;
+                    document.getElementById('chatHeadName').textContent = data.other_user.name;
+                    document.getElementById('chatHeadRole').textContent = (data.other_user.role || 'MEMBER').toUpperCase();
+                    document.getElementById('chatHeadRole').className = `msg-role-badge role-${(data.other_user.role || 'student').toLowerCase()}`;
+                    
+                    const avatarEl = document.getElementById('chatHeadAvatar');
+                    if (data.other_user.profile_pic) {
+                        avatarEl.innerHTML = `<img src="${data.other_user.profile_pic}" alt="${escapeHtml(data.other_user.name)}"><span class="msg-status-dot"></span>`;
+                    } else {
+                        avatarEl.innerHTML = `<span>${getInitials(data.other_user.name)}</span><span class="msg-status-dot"></span>`;
+                    }
+
+                    // Profile Link
+                    const profileLink = document.getElementById('chatHeadProfileLink');
+                    if (data.other_user.role === 'student') profileLink.href = `/student/profile/${data.other_user.id}`;
+                    else if (data.other_user.role === 'alumni') profileLink.href = `/alumni/profile/${data.other_user.id}`;
+                    else if (data.other_user.role === 'faculty') profileLink.href = `/faculty/profile/${data.other_user.id}`;
+                    else profileLink.href = `/admin/profile`;
+                }
+
+                // Render Messages
+                renderMessagesStream(data.messages || []);
+                lastRenderedMessageCount = (data.messages || []).length;
+            }
+        } catch (err) {
+            console.error('Failed to load conversation messages:', err);
+        }
+    }
+
+    // Render Messages in Stream
+    function renderMessagesStream(messages) {
+        const stream = document.getElementById('messagesStream');
+        
+        if (messages.length === 0) {
+            stream.innerHTML = `
+                <div class="msg-empty-chat">
+                    <div class="rounded-circle p-3 bg-primary bg-opacity-10 text-primary mb-3">
+                        <i class="fas fa-hand-wave fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-1">Start of Conversation</h5>
+                    <p class="small text-muted mb-0">Say hello to <strong>${escapeHtml(activeUserName)}</strong>! Send your first message below.</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        messages.forEach(m => {
+            const isMine = m.sender_id === currentUserId;
+            const timeStr = formatMessageTime(m.created_at);
+
+            if (isMine) {
+                html += `
+                    <div class="msg-bubble-wrap msg-sent">
+                        <div class="msg-bubble-box">
+                            ${escapeHtml(m.content)}
+                        </div>
+                        <div class="msg-time-tag">
+                            <span>${timeStr}</span>
+                            <i class="fas fa-check-double text-info"></i>
+                        </div>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="msg-bubble-wrap msg-received">
+                        <div class="msg-bubble-box">
+                            ${escapeHtml(m.content)}
+                        </div>
+                        <div class="msg-time-tag">
+                            <span>${timeStr}</span>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        stream.innerHTML = html;
+        stream.scrollTop = stream.scrollHeight;
+    }
+
+    // Append single message to stream
+    function appendMessageToStream(m) {
+        const stream = document.getElementById('messagesStream');
+        // If placeholder empty message exists, remove it
+        const emptyState = stream.querySelector('.msg-empty-chat');
+        if (emptyState) emptyState.remove();
+
+        const isMine = m.sender_id === currentUserId;
+        const timeStr = formatMessageTime(m.created_at);
+
+        const wrap = document.createElement('div');
+        wrap.className = `msg-bubble-wrap ${isMine ? 'msg-sent' : 'msg-received'}`;
+
+        if (isMine) {
+            wrap.innerHTML = `
+                <div class="msg-bubble-box">
+                    ${escapeHtml(m.content)}
+                </div>
+                <div class="msg-time-tag">
+                    <span>${timeStr}</span>
+                    <i class="fas fa-check text-info"></i>
+                </div>
+            `;
+        } else {
+            wrap.innerHTML = `
+                <div class="msg-bubble-box">
+                    ${escapeHtml(m.content)}
+                </div>
+                <div class="msg-time-tag">
+                    <span>${timeStr}</span>
+                </div>
+            `;
+        }
+
+        stream.appendChild(wrap);
+        stream.scrollTop = stream.scrollHeight;
+    }
+
+    // Send Message
+    async function sendMessage() {
+        const input = document.getElementById('messageInput');
+        const content = input.value.trim();
+        const sendBtn = document.getElementById('sendBtn');
+
+        if (!content || !activeUserId) return;
+
+        // Clear input immediately for snappy experience
+        input.value = '';
+        input.focus();
+
+        // Optimistic UI Append
+        const tempMsg = {
+            sender_id: currentUserId,
+            receiver_id: activeUserId,
+            content: content,
+            created_at: new Date().toISOString()
+        };
+        appendMessageToStream(tempMsg);
+
+        try {
+            sendBtn.disabled = true;
+            const res = await fetch('/api/messages/private', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    receiver_id: activeUserId,
+                    content: content
+                })
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                // Update inbox threads list
+                loadInbox();
+            } else {
+                alert('Could not send message: ' + (data.message || 'Error'));
+            }
+        } catch (err) {
+            console.error('Error sending message:', err);
+        } finally {
+            sendBtn.disabled = false;
+        }
+    }
+
+    // Real-Time Background Synchronization
+    async function syncRealtime() {
+        if (!activeUserId) {
+            loadInbox();
+            return;
+        }
+
+        try {
+            // Check for new messages in active chat
+            const res = await fetch(`/api/messages/conversation/${activeUserId}/messages`);
+            const data = await res.json();
+            if (data.success && data.messages) {
+                if (data.messages.length !== lastRenderedMessageCount) {
+                    renderMessagesStream(data.messages);
+                    lastRenderedMessageCount = data.messages.length;
+                    loadInbox();
+                }
+            }
+        } catch (e) {
+            // Background sync silent fail
+        }
+    }
+
+    // Sidebar Role Filter Tabs Handler
+    function setRoleFilter(role, btn) {
+        currentFilterRole = role;
+        document.querySelectorAll('#roleFilterTabs .msg-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderSidebarThreads();
+    }
+
+    // Sidebar Search Filter Handler
+    function handleSearchInput(val) {
+        renderSidebarThreads();
+    }
+
+    // Modal Handling
+    function openNewChatModal() {
+        const modal = new bootstrap.Modal(document.getElementById('newChatModal'));
+        modal.show();
+        renderModalUsers();
+    }
+
+    function setModalFilter(role, btn) {
+        modalFilterRole = role;
+        btn.parentElement.querySelectorAll('.msg-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderModalUsers();
+    }
+
+    function filterModalUsers(val) {
+        renderModalUsers();
+    }
+
+    function renderModalUsers() {
+        const list = document.getElementById('modalUsersList');
+        const search = document.getElementById('modalUserSearch').value.trim().toLowerCase();
+
+        let filtered = allAvailableUsers.filter(u => {
+            const matchesRole = modalFilterRole === 'all' || (u.role && u.role.toLowerCase() === modalFilterRole);
+            const matchesSearch = !search || 
+                (u.name && u.name.toLowerCase().includes(search)) ||
+                (u.email && u.email.toLowerCase().includes(search)) ||
+                (u.role && u.role.toLowerCase().includes(search));
+            return matchesRole && matchesSearch;
+        });
+
+        if (filtered.length === 0) {
+            list.innerHTML = `
+                <div class="text-center py-4 text-muted small">
+                    No community members found matching criteria.
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        filtered.forEach(u => {
+            const initials = getInitials(u.name);
+            const roleClass = `role-${(u.role || 'student').toLowerCase()}`;
+
+            html += `
+                <div class="msg-modal-user-item" onclick="startChatWithUser(${u.id})">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="msg-avatar" style="width: 40px; height: 40px; font-size: 0.95rem;">
+                            ${u.profile_pic ? `<img src="${u.profile_pic}" alt="${escapeHtml(u.name)}">` : initials}
+                        </div>
+                        <div>
+                            <div class="fw-bold text-dark mb-0">${escapeHtml(u.name)}</div>
+                            <div class="text-muted extra-small font-monospace" style="font-size: 0.75rem;">${escapeHtml(u.email)}</div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="msg-role-badge ${roleClass}">${(u.role || 'member').toUpperCase()}</span>
+                        <button class="btn btn-primary btn-sm rounded-pill px-3 py-1 fw-bold shadow-sm" style="font-size: 0.78rem;">
+                            Chat
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        list.innerHTML = html;
+    }
+
+    function startChatWithUser(userId) {
+        // Hide modal
+        const modalEl = document.getElementById('newChatModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
+
+        // Select and open conversation
+        selectConversation(userId);
+    }
+
+    // Helper Utilities
+    function getInitials(name) {
+        if (!name) return 'U';
+        const parts = name.trim().split(' ');
+        if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+        return name.slice(0, 2).toUpperCase();
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function formatTime(isoStr) {
+        if (!isoStr) return '';
+        try {
+            const date = new Date(isoStr);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMin = Math.floor(diffMs / 60000);
+            if (diffMin < 1) return 'Just now';
+            if (diffMin < 60) return diffMin + 'm';
+            const diffHrs = Math.floor(diffMin / 60);
+            if (diffHrs < 24) return diffHrs + 'h';
+            return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+        } catch (e) {
+            return '';
+        }
+    }
+
+    function formatMessageTime(isoStr) {
+        if (!isoStr) return '';
+        try {
+            const date = new Date(isoStr);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } catch (e) {
+            return '';
+        }
+    }
+</script>
+{% endblock %}

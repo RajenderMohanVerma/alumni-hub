@@ -9,6 +9,7 @@ from datetime import datetime
 import json
 
 from database.messaging_db import (
+    get_db_connection,
     # Lock functions
     get_messaging_lock_status, lock_messaging, unlock_messaging, is_messaging_locked,
     # Public message functions
@@ -186,10 +187,27 @@ def send_private_msg():
     message_id = send_private_message(current_user.id, receiver_id, content)
 
     if message_id:
+        msg_obj = {
+            'id': message_id,
+            'sender_id': current_user.id,
+            'sender_name': current_user.name,
+            'sender_role': current_user.role,
+            'receiver_id': receiver_id,
+            'content': content,
+            'is_read': False,
+            'created_at': datetime.utcnow().isoformat()
+        }
+        try:
+            from app import socketio
+            socketio.emit('receive_private_message', msg_obj, room=f'user_{receiver_id}')
+        except Exception:
+            pass
+
         return jsonify({
             'success': True,
             'message_id': message_id,
-            'created_at': datetime.utcnow().isoformat()
+            'message': msg_obj,
+            'created_at': msg_obj['created_at']
         }), 201
     else:
         return jsonify({
@@ -309,9 +327,52 @@ def get_conv_messages(user_id):
     # Mark all as read
     mark_conversation_as_read(current_user.id, user_id, current_user.id)
 
+    # Fetch other user details
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT id, name, email, role, phone, profile_pic FROM users WHERE id = ?', (user_id,))
+        row = cursor.fetchone()
+        other_user = dict(row) if row else None
+
     return jsonify({
         'success': True,
+        'other_user': other_user,
         'messages': messages
+    }), 200
+
+
+@messaging_bp.route('/messages/users', methods=['GET'])
+@login_required
+def get_messaging_users():
+    """Get all eligible users for starting or filtering conversations across all roles"""
+    role = request.args.get('role', 'all').lower()
+    search = request.args.get('search', '').strip().lower()
+
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        query = '''
+            SELECT id, name, email, role, phone, profile_pic
+            FROM users
+            WHERE id != ? AND is_approved = 1
+        '''
+        params = [current_user.id]
+
+        if role != 'all' and role in ['student', 'alumni', 'faculty', 'admin']:
+            query += ' AND role = ?'
+            params.append(role)
+
+        if search:
+            query += ' AND (LOWER(name) LIKE ? OR LOWER(email) LIKE ? OR LOWER(role) LIKE ?)'
+            term = f"%{search}%"
+            params.extend([term, term, term])
+
+        query += ' ORDER BY name ASC'
+        cursor.execute(query, tuple(params))
+        users = [dict(row) for row in cursor.fetchall()]
+
+    return jsonify({
+        'success': True,
+        'users': users
     }), 200
 
 

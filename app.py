@@ -1964,8 +1964,8 @@ def alumni_network():
 @app.route('/alumni/messages')
 @login_required
 def alumni_messages():
-    if current_user.role != 'alumni': return redirect(url_for('home'))
-    return render_template('alumni/messages.html')
+    if current_user.role not in ['alumni', 'admin']: return redirect(url_for('home'))
+    return render_template('messaging/messages_hub.html')
 
 @app.route('/alumni/mentorship')
 @login_required
@@ -4455,11 +4455,7 @@ def messages():
     if current_user.role not in ['student', 'faculty', 'alumni', 'admin']:
         flash('Access denied!', 'danger')
         return redirect(url_for('home'))
-    if current_user.role == 'faculty':
-        return render_template('faculty/messages.html')
-    elif current_user.role == 'alumni':
-        return render_template('alumni/messages.html')
-    return render_template('student/messages.html')
+    return render_template('messaging/messages_hub.html')
 
 @app.route('/faculty/messages')
 @login_required
@@ -4467,7 +4463,7 @@ def faculty_messages():
     if current_user.role not in ['faculty', 'admin']:
         flash('Access denied!', 'danger')
         return redirect(url_for('home'))
-    return render_template('faculty/messages.html')
+    return render_template('messaging/messages_hub.html')
 
 @app.route('/mentorship')
 @login_required
