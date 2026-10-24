@@ -1,661 +1,397 @@
 {% extends 'base.html' %}
+
+{% block title %}Post Opportunity • Career Matrix Admin{% endblock %}
+
 {% block content %}
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}">
+
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap');
-
-    :root {
-        --primary-indigo: #6366f1;
-        --primary-purple: #a855f7;
-        --dark-slate: #0f172a;
-        --glass-white: rgba(255, 255, 255, 0.95);
-        --border-glass: rgba(99, 102, 241, 0.15);
-    }
-
-    body {
-        background: #f1f5f9;
-        font-family: 'Outfit', sans-serif;
-        color: var(--dark-slate);
-    }
-
-    .premium-form-container {
-        padding: 120px 2rem 5rem;
-        max-width: 1100px;
-        margin: 0 auto;
-    }
-
-    .form-hero {
-        text-align: center;
-        margin-bottom: 3.5rem;
-    }
-
-    .form-hero h1 {
-        font-weight: 800;
-        font-size: 3rem;
-        background: linear-gradient(135deg, var(--primary-indigo), var(--primary-purple));
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: -1.5px;
-    }
-
-    .form-card-premium {
-        background: var(--glass-white);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--border-glass);
-        border-radius: 32px;
-        padding: 3.5rem;
-        box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.1);
-        position: relative;
-    }
-
-    .section-block {
-        margin-bottom: 4rem;
-        background: rgba(255, 255, 255, 0.5);
-        padding: 2rem;
+    .job-form-block {
+        background: #ffffff;
+        border: 1.5px solid var(--adm-card-border);
         border-radius: 24px;
-        border: 1px solid rgba(255, 255, 255, 0.8);
-    }
-
-    .section-label {
-        font-weight: 800;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color: var(--primary-indigo);
+        padding: clamp(20px, 3.5vw, 36px);
         margin-bottom: 2rem;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .section-label i {
-        font-size: 1.2rem;
-    }
-
-    .section-label::after {
-        content: '';
-        height: 1px;
-        flex: 1;
-        background: linear-gradient(to right, rgba(99, 102, 241, 0.3), transparent);
-    }
-
-    .input-group-premium {
-        margin-bottom: 1.5rem;
-    }
-
-    .input-label-premium {
-        font-weight: 700;
-        font-size: 0.95rem;
-        margin-bottom: 0.75rem;
-        display: block;
-        color: #334155;
-    }
-
-    .form-control-premium {
-        width: 100%;
-        padding: 14px 20px;
-        border-radius: 16px;
-        border: 2px solid #e2e8f0;
-        background: white;
-        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        font-weight: 500;
-    }
-
-    .form-control-premium:focus {
-        border-color: var(--primary-indigo);
-        box-shadow: 0 0 0 5px rgba(99, 102, 241, 0.1);
-        outline: none;
-    }
-
-    .dynamic-field {
-        display: none;
-        margin-top: 1rem;
-        animation: slideDown 0.3s ease-out;
-    }
-
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .logo-upload-zone {
-        border: 2px dashed #cbd5e1;
-        border-radius: 20px;
-        padding: 2.5rem;
-        text-align: center;
-        cursor: pointer;
-        transition: 0.3s;
-        background: #f8fafc;
+        box-shadow: var(--adm-card-shadow);
         position: relative;
-    }
-
-    .logo-upload-zone:hover {
-        border-color: var(--primary-indigo);
-        background: rgba(99, 102, 241, 0.05);
-    }
-
-    .logo-preview-box {
-        width: 120px;
-        height: 120px;
-        border-radius: 20px;
-        margin: 0 auto 1.5rem;
-        border: 2px solid #e2e8f0;
-        background: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         overflow: hidden;
     }
-
-    .logo-preview-box img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-
-    .btn-publish {
-        background: linear-gradient(135deg, var(--primary-indigo), var(--primary-purple));
-        color: white;
-        border: none;
-        padding: 1.5rem 3rem;
-        border-radius: 24px;
+    .job-section-title {
+        font-family: 'Outfit', sans-serif;
         font-weight: 800;
-        font-size: 1.25rem;
-        width: 100%;
-        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
-        transition: 0.4s;
-        margin-top: 3rem;
-    }
-
-    .btn-publish:hover {
-        transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 30px 60px rgba(99, 102, 241, 0.4);
-        color: white;
-    }
-
-    .back-btn {
-        display: inline-flex;
+        font-size: 1.15rem;
+        color: var(--adm-slate-900);
+        margin-bottom: 1.5rem;
+        display: flex;
         align-items: center;
-        gap: 10px;
-        color: #64748b;
-        text-decoration: none;
-        font-weight: 700;
-        margin-bottom: 2rem;
-        transition: 0.3s;
+        gap: 12px;
+        padding-bottom: 0.75rem;
+        border-bottom: 1.5px solid #f1f5f9;
     }
-
-    .back-btn:hover {
-        color: var(--primary-indigo);
+    .job-section-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        font-size: 1.05rem;
+        flex-shrink: 0;
     }
-
-    /* --- Modern Home-Card Container & Dark Theme Support --- */
-    .glass-card, .matrix-card, .admin-card, .stat-card-premium, .job-card-master, .directory-module {
-        position: relative !important;
-        border-radius: 18px !important;
-        overflow: hidden !important;
-        transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+    .logo-dropzone {
+        border: 2px dashed rgba(2, 132, 199, 0.35);
+        border-radius: 20px;
+        padding: 24px;
+        text-align: center;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: all 0.25s ease;
     }
-    .glass-card::before, .matrix-card::before, .stat-card-premium::before, .job-card-master::before {
-        content: '' !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        height: 3px !important;
-        background: linear-gradient(90deg, #6366f1, #a855f7) !important;
-        opacity: 0.9 !important;
+    .logo-dropzone:hover {
+        border-color: var(--adm-blue);
+        background: #f0f9ff;
     }
-    .glass-card:hover, .matrix-card:hover, .stat-card-premium:hover, .job-card-master:hover {
-        transform: translateY(-4px) !important;
-    }
-
-    [data-theme="dark"] {
-        --terminal-bg: #0b0f19;
-        --dark-navy: #f8fafc;
-        --dark-slate: #f8fafc;
-        --soft-slate: #1e293b;
-        --glass-white: #1e293b;
-        --glass-bg: rgba(30, 41, 59, 0.85);
-        --glass-border: rgba(255, 255, 255, 0.1);
-        --text-main: #f8fafc;
-        --text-dim: #94a3b8;
-    }
-    [data-theme="dark"] body {
-        background: #0b0f19 !important;
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .premium-bg {
-        background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%) !important;
-    }
-    [data-theme="dark"] .glass-card,
-    [data-theme="dark"] .matrix-card,
-    [data-theme="dark"] .directory-module,
-    [data-theme="dark"] .stat-card-premium,
-    [data-theme="dark"] .job-card-master,
-    [data-theme="dark"] .filter-bar-floating,
-    [data-theme="dark"] .form-container,
-    [data-theme="dark"] .card-custom {
-        background: #1e293b !important;
-        border-color: #334155 !important;
-        color: #f8fafc !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
-    }
-    [data-theme="dark"] .matrix-value,
-    [data-theme="dark"] .matrix-title,
-    [data-theme="dark"] .directory-title,
-    [data-theme="dark"] .job-card-master h3,
-    [data-theme="dark"] .job-card-master h4,
-    [data-theme="dark"] .job-card-master h5,
-    [data-theme="dark"] .stat-value,
-    [data-theme="dark"] .text-slate-900 {
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .text-dim,
-    [data-theme="dark"] .text-slate-500 {
-        color: #94a3b8 !important;
-    }
-    [data-theme="dark"] .command-bar {
-        background: rgba(15, 23, 42, 0.6) !important;
-    }
-    [data-theme="dark"] .command-input,
-    [data-theme="dark"] .form-control,
-    [data-theme="dark"] .form-select {
-        background: #0f172a !important;
-        border-color: #334155 !important;
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .table {
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .table tr {
-        border-color: rgba(255, 255, 255, 0.08) !important;
-    }
-    [data-theme="dark"] .table th {
-        background: #0f172a !important;
-        color: #94a3b8 !important;
-    }
-    [data-theme="dark"] .table td {
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .bg-slate-100 {
-        background-color: #1e293b !important;
-    }
-    [data-theme="dark"] .border-slate-200 {
-        border-color: #334155 !important;
-    }
-
 </style>
 
-<div class="premium-form-container">
-    <a href="{{ url_for('admin_jobs') }}" class="back-btn">
-        <i class="fas fa-chevron-left"></i> Back to Jobs Dashboard
-    </a>
+<div class="admin-page-wrapper">
+    <!-- Ambient Floating Orbs -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
 
-    <div class="form-hero">
-        <h1 data-aos="fade-down">Advanced Recruitment Deployment</h1>
-        <p class="text-muted fs-5" data-aos="fade-up">Precision-engineering professional opportunities for the network.
-        </p>
-    </div>
-
-    <div class="form-card-premium">
-        <form method="POST" enctype="multipart/form-data">
-            <!-- 1. Basic Job Information -->
-            <div class="section-block">
-                <div class="section-label"><i class="fas fa-info-circle"></i> 1. Basic Job Information</div>
-                <div class="row g-4">
-                    <div class="col-md-12">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Job Title*</label>
-                            <input type="text" name="title" class="form-control-premium"
-                                placeholder="e.g. Senior Software Architect" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Company Name*</label>
-                            <input type="text" name="company_name" class="form-control-premium"
-                                placeholder="e.g. Google India" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Company Website (optional)</label>
-                            <input type="url" name="company_website" class="form-control-premium"
-                                placeholder="https://google.com">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Job Description*</label>
-                            <textarea name="description" class="form-control-premium" rows="6"
-                                placeholder="Detailed role responsibilities and expectations..." required></textarea>
-                        </div>
-                    </div>
+    <div class="admin-container" style="max-width: 1080px;">
+        <!-- 1. Executive Holographic Hero Terminal -->
+        <div class="admin-hero-card">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div class="admin-live-badge mb-0">
+                    <span class="live-pulse-dot"></span>
+                    <span>OPPORTUNITY DEPLOYMENT • VACANCY CREATION MATRIX</span>
                 </div>
-                <!-- Company Logo -->
-                <div class="mt-4">
-                    <div class="logo-upload-zone" id="uploadZone">
-                        <div class="logo-preview-box" id="previewBox">
-                            <i class="fas fa-image fa-3x text-slate-300"></i>
+                <a href="{{ url_for('admin_jobs') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
+                    <i class="fas fa-arrow-left"></i> Return to Job Matrix
+                </a>
+            </div>
+
+            <h1 class="admin-hero-title mb-2">
+                <span class="hero-title-prefix">Publish New</span> <span class="text-holographic-adm">Career Vacancy</span>
+            </h1>
+            <p class="admin-hero-subtitle mb-0">
+                Deploy high-impact job opportunities and corporate referrals across student and alumni dashboards with precision targeting and intelligence calibration.
+            </p>
+        </div>
+
+        <!-- 2. Form Submission Container -->
+        <form method="POST" enctype="multipart/form-data">
+            <!-- Section 1: Basic Information -->
+            <div class="job-form-block">
+                <div class="job-section-title">
+                    <span class="job-section-icon bg-primary bg-opacity-10 text-primary">
+                        <i class="fas fa-briefcase"></i>
+                    </span>
+                    <span>1. Basic Role & Entity Information</span>
+                </div>
+
+                <div class="row g-3 g-md-4">
+                    <div class="col-12">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label"><i class="fas fa-heading text-primary"></i> Job Title*</label>
+                            <input type="text" name="title" class="admin-input" placeholder="e.g. Senior Full Stack Engineer" required>
                         </div>
-                        <div class="fw-bold">Company Logo (Optional)</div>
-                        <input type="file" name="company_logo" id="logoInput" hidden accept="image/*">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label"><i class="far fa-building text-primary"></i> Organization / Company*</label>
+                            <input type="text" name="company_name" class="admin-input" placeholder="e.g. Google India / Microsoft" required>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label"><i class="fas fa-globe text-primary"></i> Company Website (Optional)</label>
+                            <input type="url" name="company_website" class="admin-input" placeholder="https://company.com">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label"><i class="fas fa-align-left text-primary"></i> Detailed Role Description*</label>
+                            <textarea name="description" class="admin-textarea" rows="5" placeholder="Outline job responsibilities, mission, and day-to-day expectations..." required></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="admin-form-label"><i class="fas fa-image text-primary"></i> Company Branding Logo</label>
+                        <div class="logo-dropzone" id="uploadZone">
+                            <div class="mb-2" id="previewBox">
+                                <i class="fas fa-cloud-upload-alt fa-2x text-primary"></i>
+                            </div>
+                            <div class="fw-bold text-dark mb-1">Click to browse or drop company logo here</div>
+                            <small class="text-muted">Supports PNG, JPG, WEBP up to 5MB</small>
+                            <input type="file" name="company_logo" id="logoInput" hidden accept="image/*">
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. Job Location Details -->
-            <div class="section-block">
-                <div class="section-label"><i class="fas fa-map-marker-alt"></i> 2. Job Location Details</div>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Job Location</label>
-                            <select name="location_select" class="form-control-premium dynamic-toggle"
-                                data-target="manual_location">
+            <!-- Section 2: Location & Work Mode -->
+            <div class="job-form-block">
+                <div class="job-section-title">
+                    <span class="job-section-icon bg-info bg-opacity-10 text-info">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </span>
+                    <span>2. Location & Work Arrangement</span>
+                </div>
+
+                <div class="row g-3 g-md-4">
+                    <div class="col-12 col-md-6">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Job Location City</label>
+                            <select name="location_select" class="admin-select dynamic-toggle" data-target="manual_location">
                                 <option value="Mumbai">Mumbai</option>
                                 <option value="Bangalore">Bangalore</option>
                                 <option value="Pune">Pune</option>
                                 <option value="Delhi NCR">Delhi NCR</option>
                                 <option value="Hyderabad">Hyderabad</option>
-                                <option value="Other">Other (Specify manually)</option>
-                            </select>
-                            <div id="manual_location" class="dynamic-field">
-                                <input type="text" name="location_manual" class="form-control-premium mt-2"
-                                    placeholder="Enter custom location...">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Work Mode</label>
-                            <select name="work_mode" class="form-control-premium">
-                                <option value="Onsite">Onsite</option>
                                 <option value="Remote">Remote</option>
-                                <option value="Hybrid">Hybrid</option>
+                                <option value="Other">Other (Custom Location)</option>
+                            </select>
+                            <div id="manual_location" class="mt-2" style="display: none;">
+                                <input type="text" name="location_manual" class="admin-input" placeholder="Specify city, state or country...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Work Protocol Mode</label>
+                            <select name="work_mode" class="admin-select">
+                                <option value="Onsite">Onsite (Campus/Office)</option>
+                                <option value="Remote">Remote (Work From Anywhere)</option>
+                                <option value="Hybrid">Hybrid (Flexible)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="admin-form-group mb-0">
+                            <label class="admin-form-label">Employment Agreement Type</label>
+                            <select name="employment_type" class="admin-select">
+                                <option value="Full-time">Full-time Regular</option>
+                                <option value="Internship">Internship (Paid)</option>
+                                <option value="Part-time">Part-time Engagement</option>
+                                <option value="Contract">Contract / Project-Based</option>
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. Job Type -->
-            <div class="section-block">
-                <div class="section-label"><i class="fas fa-briefcase"></i> 3. Job Type</div>
-                <div class="row g-4">
-                    <div class="col-md-12">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Employment Protocol</label>
-                            <select name="employment_type" class="form-control-premium">
-                                <option value="Full-time">Full-time</option>
-                                <option value="Internship">Internship</option>
-                                <option value="Part-time">Part-time</option>
-                                <option value="Contract">Contract</option>
-                            </select>
-                        </div>
-                    </div>
+            <!-- Section 3: Eligibility & Requirements -->
+            <div class="job-form-block">
+                <div class="job-section-title">
+                    <span class="job-section-icon bg-success bg-opacity-10 text-success">
+                        <i class="fas fa-graduation-cap"></i>
+                    </span>
+                    <span>3. Eligibility & Candidate Calibration</span>
                 </div>
-            </div>
 
-            <!-- 4. Eligibility Criteria -->
-            <div class="section-block">
-                <div class="section-label"><i class="fas fa-graduation-cap"></i> 4. Eligibility Criteria</div>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Eligible Branch</label>
-                            <select name="eligible_branch" class="form-control-premium">
+                <div class="row g-3 g-md-4">
+                    <div class="col-12 col-md-6">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Target Academic Branch</label>
+                            <select name="eligible_branch" class="admin-select">
+                                <option value="All Branches">All Branches Open</option>
+                                <option value="MCA">MCA (Computer Applications)</option>
                                 <option value="BCA">BCA</option>
-                                <option value="MCA">MCA</option>
-                                <option value="B.Tech (CS/IT)">B.Tech (CS/IT)</option>
-                                <option value="All Branches">All Branches</option>
-                                <option value="Other">Other</option>
+                                <option value="B.Tech (CS/IT)">B.Tech (CS / IT)</option>
+                                <option value="Other">Other Departments</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Eligible Batch (Passing Year)</label>
-                            <input type="text" name="eligible_batch" class="form-control-premium"
-                                placeholder="e.g. 2024, 2025">
+                    <div class="col-12 col-md-6">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Eligible Graduation Batch</label>
+                            <input type="text" name="eligible_batch" class="admin-input" placeholder="e.g. 2024, 2025, 2026">
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Minimum Qualification</label>
-                            <input type="text" name="qualification" class="form-control-premium"
-                                placeholder="e.g. Graduate / Post Graduate">
+                    <div class="col-12 col-md-4">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Min Qualification</label>
+                            <input type="text" name="qualification" class="admin-input" placeholder="e.g. BCA / MCA / B.Tech">
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Minimum CGPA (optional)</label>
-                            <input type="text" name="min_cgpa" class="form-control-premium" placeholder="e.g. 7.5">
+                    <div class="col-12 col-md-4">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Min CGPA Threshold</label>
+                            <input type="text" name="min_cgpa" class="admin-input" placeholder="e.g. 7.0 (Optional)">
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Experience Protocol</label>
-                            <select name="experience_required" class="form-control-premium">
-                                <option value="Fresher">Fresher</option>
-                                <option value="0–1 year">0–1 year</option>
-                                <option value="1–3 years">1–3 years</option>
-                                <option value="3+ years">3+ years</option>
+                    <div class="col-12 col-md-4">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Experience Bracket</label>
+                            <select name="experience_required" class="admin-select">
+                                <option value="Fresher">Fresher (0 Years)</option>
+                                <option value="0–1 year">0–1 Year</option>
+                                <option value="1–3 years">1–3 Years</option>
+                                <option value="3+ years">3+ Years Senior</option>
                             </select>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- 5. Skills Section -->
-            <div class="section-block">
-                <div class="section-label"><i class="fas fa-fire"></i> 5. Skills Section (Critical for Recommendation)
-                </div>
-                <div class="row g-4">
-                    <div class="col-md-12">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Required Skills* (Comma Separated)</label>
-                            <input type="text" name="skills_required" class="form-control-premium"
-                                placeholder="Python, React, SQL" required>
+                    <div class="col-12">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label"><i class="fas fa-fire text-warning"></i> Mandatory Required Skills* (Comma Separated)</label>
+                            <input type="text" name="skills_required" class="admin-input" placeholder="e.g. Python, Flask, React, SQL, Git" required>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Preferred Skills</label>
-                            <input type="text" name="skills_preferred" class="form-control-premium"
-                                placeholder="AWS, Docker, Kubernetes">
+                    <div class="col-12">
+                        <div class="admin-form-group mb-0">
+                            <label class="admin-form-label">Preferred Bonus Skills</label>
+                            <input type="text" name="skills_preferred" class="admin-input" placeholder="e.g. Docker, AWS, GraphQL, TailwindCSS">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 6. Salary / Stipend -->
-            <div class="section-block">
-                <div class="section-label"><i class="fas fa-money-bill-wave"></i> 6. Salary / Stipend</div>
-                <div class="row g-4">
-                    <div class="col-md-12">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Salary / Stipend</label>
-                            <input type="text" name="salary" class="form-control-premium"
-                                placeholder="e.g. 8–10 LPA or 20k/month">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">CTC Range / Numeric Value</label>
-                            <input type="text" name="ctc_range" class="form-control-premium" placeholder="e.g. 1000000">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Perks & Benefits</label>
-                            <input type="text" name="perks" class="form-control-premium"
-                                placeholder="Health Insurance, WFH allowance">
-                        </div>
-                    </div>
+            <!-- Section 4: Remuneration & Application Timeline -->
+            <div class="job-form-block">
+                <div class="job-section-title">
+                    <span class="job-section-icon bg-warning bg-opacity-10 text-warning">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </span>
+                    <span>4. Remuneration & Timeline</span>
                 </div>
-            </div>
 
-            <!-- 7. Important Dates -->
-            <div class="section-block">
-                <div class="section-label"><i class="fas fa-calendar-alt"></i> 7. Important Dates</div>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Application Deadline*</label>
-                            <input type="date" name="deadline" class="form-control-premium" required>
+                <div class="row g-3 g-md-4">
+                    <div class="col-12 col-md-6">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Compensation / Package*</label>
+                            <input type="text" name="salary" class="admin-input" placeholder="e.g. ₹8–12 LPA or ₹30k/Month">
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Expected Joining Date</label>
-                            <input type="date" name="joining_date" class="form-control-premium">
+                    <div class="col-12 col-md-6">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Perks & Allowances</label>
+                            <input type="text" name="perks" class="admin-input" placeholder="e.g. Health Insurance, WFH stipend, Gym">
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- 8. Apply Method -->
-            <div class="section-block">
-                <div class="section-label"><i class="fas fa-link"></i> 8. Apply Method</div>
-                <div class="row g-4">
-                    <div class="col-md-12">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Selection Protocol</label>
-                            <select name="apply_method" class="form-control-premium dynamic-toggle"
-                                data-target="apply_input_field">
-                                <option value="Link">External Apply Link</option>
-                                <option value="Email">Apply via Email</option>
-                                <option value="Portal">Apply Inside Portal</option>
+                    <div class="col-12 col-md-6">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label"><i class="far fa-calendar-alt text-danger"></i> Application Deadline*</label>
+                            <input type="date" name="deadline" class="admin-input" required>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label"><i class="far fa-calendar-check text-success"></i> Expected Onboarding Date</label>
+                            <input type="date" name="joining_date" class="admin-input">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Application Method</label>
+                            <select name="apply_method" class="admin-select dynamic-toggle" data-target="apply_input_field">
+                                <option value="Link">External Application URL</option>
+                                <option value="Email">Direct Email Submissions</option>
+                                <option value="Portal">Direct Inside Alumni-Hub Portal</option>
                             </select>
-                            <div id="apply_input_field" class="mt-3">
-                                <input type="text" name="apply_link" class="form-control-premium"
-                                    placeholder="Enter link or email address...">
+                            <div id="apply_input_field" class="mt-2">
+                                <input type="text" name="apply_link" class="admin-input" placeholder="Enter full URL (e.g. https://careers.company.com) or HR email...">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 9. Hiring Details -->
-            <div class="section-block">
-                <div class="section-label"><i class="fas fa-users-cog"></i> 9. Hiring Details</div>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Number of Openings</label>
-                            <input type="number" name="openings" class="form-control-premium" placeholder="e.g. 5">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Selection Stages</label>
-                            <div class="d-flex flex-wrap gap-3 mt-2">
-                                <label class="d-flex align-items-center gap-2"><input type="checkbox" name="selection[]"
-                                        value="Shortlisting"> Shortlisting</label>
-                                <label class="d-flex align-items-center gap-2"><input type="checkbox" name="selection[]"
-                                        value="Aptitude"> Aptitude</label>
-                                <label class="d-flex align-items-center gap-2"><input type="checkbox" name="selection[]"
-                                        value="Technical"> Technical</label>
-                                <label class="d-flex align-items-center gap-2"><input type="checkbox" name="selection[]"
-                                        value="HR"> HR</label>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Section 5: Classification & Vacancy Count -->
+            <div class="job-form-block">
+                <div class="job-section-title">
+                    <span class="job-section-icon bg-purple bg-opacity-10 text-purple">
+                        <i class="fas fa-sliders-h"></i>
+                    </span>
+                    <span>5. Classification & Intelligence Calibration</span>
                 </div>
-            </div>
 
-            <!-- 11. Intelligence Layer Fields -->
-            <div class="section-block">
-                <div class="section-label"><i class="fas fa-brain"></i> 11. Intelligence Layer (Recommendation Fields)
-                </div>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Job Category</label>
-                            <select name="category" class="form-control-premium">
-                                <option value="Software">Software / IT</option>
-                                <option value="Data">Data Analytics</option>
+                <div class="row g-3 g-md-4">
+                    <div class="col-12 col-md-4">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Job Category Domain</label>
+                            <select name="category" class="admin-select">
+                                <option value="Technology">Technology / IT</option>
+                                <option value="Software">Software Engineering</option>
+                                <option value="Data">Data Science & Analytics</option>
                                 <option value="Core">Core Engineering</option>
-                                <option value="Management">Management</option>
-                                <option value="Design">UI/UX & Design</option>
+                                <option value="Business">Business & Management</option>
+                                <option value="Design">UI/UX & Product Design</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Target Role</label>
-                            <input type="text" name="target_role" class="form-control-premium"
-                                placeholder="e.g. Frontend Developer, Data Scientist">
+                    <div class="col-12 col-md-4">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Target Role Specification</label>
+                            <input type="text" name="target_role" class="admin-input" placeholder="e.g. Backend Architect">
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="input-group-premium">
-                            <label class="input-label-premium">Calibration Level</label>
-                            <select name="skill_level" class="form-control-premium">
-                                <option value="Beginner">Beginner / Junior</option>
-                                <option value="Intermediate">Intermediate / Mid-level</option>
-                                <option value="Advanced">Advanced / Senior</option>
-                            </select>
+                    <div class="col-12 col-md-4">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Number of Available Openings</label>
+                            <input type="number" name="openings" class="admin-input" value="1" min="1">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn-publish">
-                <i class="fas fa-satellite-dish me-2"></i> Post Job Opportunity
-            </button>
+            <!-- Action Buttons -->
+            <div class="d-flex flex-wrap align-items-center justify-content-end gap-3 mb-5">
+                <a href="{{ url_for('admin_jobs') }}" class="admin-btn-pill admin-btn-outline">
+                    <i class="fas fa-times"></i> Cancel & Discard
+                </a>
+                <button type="submit" class="admin-btn-pill admin-btn-primary px-4 py-3 shadow">
+                    <i class="fas fa-satellite-dish me-1"></i> Authorize & Publish Vacancy
+                </button>
+            </div>
         </form>
     </div>
 </div>
 
 <script>
-    // Logo upload preview logic
+document.addEventListener('DOMContentLoaded', function () {
+    // Logo Upload Preview
     const uploadZone = document.getElementById('uploadZone');
     const logoInput = document.getElementById('logoInput');
     const previewBox = document.getElementById('previewBox');
 
-    uploadZone.addEventListener('click', () => logoInput.click());
+    if (uploadZone && logoInput) {
+        uploadZone.addEventListener('click', () => logoInput.click());
 
-    logoInput.addEventListener('change', function () {
-        if (this.files && this.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                previewBox.innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:contain;">`;
+        logoInput.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewBox.innerHTML = `<img src="${e.target.result}" style="max-height: 80px; max-width: 180px; object-fit: contain;" class="rounded-3 shadow-sm">`;
+                };
+                reader.readAsDataURL(this.files[0]);
             }
-            reader.readAsDataURL(this.files[0]);
-        }
-    });
+        });
+    }
 
-    // Dynamic field Toggles
+    // Dynamic Select Field Toggles
     document.querySelectorAll('.dynamic-toggle').forEach(select => {
         select.addEventListener('change', function () {
             const targetId = this.dataset.target;
             const target = document.getElementById(targetId);
-            if (this.value === 'Other') {
-                target.style.display = 'block';
-            } else {
-                target.style.display = 'none';
-            }
+            if (!target) return;
 
-            // Specific logic for Apply Method
-            if (this.name === 'apply_method') {
-                const input = document.querySelector('#apply_input_field input');
+            if (this.name === 'location_select') {
+                target.style.display = this.value === 'Other' ? 'block' : 'none';
+            } else if (this.name === 'apply_method') {
                 if (this.value === 'Portal') {
-                    document.getElementById('apply_input_field').style.display = 'none';
+                    target.style.display = 'none';
                 } else {
-                    document.getElementById('apply_input_field').style.display = 'block';
-                    input.placeholder = this.value === 'Link' ? 'https://...' : 'Enter email address...';
+                    target.style.display = 'block';
+                    const inp = target.querySelector('input');
+                    if (inp) {
+                        inp.placeholder = this.value === 'Link' ? 'https://company.com/apply' : 'Enter careers email address...';
+                    }
                 }
             }
         });
     });
+});
 </script>
 {% endblock %}

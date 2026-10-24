@@ -1,357 +1,151 @@
 {% extends "base.html" %}
 
-{% block title %}Veracity Protocol - Alumni Hub{% endblock %}
+{% block title %}Veracity Protocol • Identity Verification Console{% endblock %}
 
 {% block content %}
-<link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
+<!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}">
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+<div class="admin-page-wrapper">
+    <!-- Ambient Floating Orbs -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
 
-    :root {
-        --terminal-bg: #f8fafc;
-        --accent-primary: #6366f1;
-        --accent-secondary: #a855f7;
-        --accent-amber: #f59e0b;
-        --accent-emerald: #10b981;
-        --accent-rose: #ef4444;
-        --glass-bg: #ffffff;
-        --glass-border: #e1e7ed;
-        --text-dim: #64748b;
-    }
+    <div class="admin-container">
+        <!-- 1. Executive Holographic Hero Terminal -->
+        <div class="admin-hero-card">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div class="admin-live-badge mb-0">
+                    <span class="live-pulse-dot"></span>
+                    <span>VERACITY PROTOCOL • MANUAL AUDIT CONSOLE</span>
+                </div>
+                <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
+                    <i class="fas fa-arrow-left"></i> Return to Command
+                </a>
+            </div>
 
-    body {
-        background: var(--terminal-bg);
-        color: #0f172a;
-        font-family: 'Outfit', sans-serif;
-        overflow-x: hidden;
-    }
+            <h1 class="admin-hero-title mb-2">
+                <span class="hero-title-prefix">Identity Access</span> <span class="text-holographic-adm">Verifications</span>
+            </h1>
+            <p class="admin-hero-subtitle mb-4">
+                Strict administrative oversight for community onboarding. Inspect applicant credentials, student IDs, and alumni graduation records before granting ecosystem permissions.
+            </p>
 
-    /* --- Background Layer --- */
-    .premium-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
-        z-index: -2;
-    }
-
-    .mesh-gradient {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        overflow: hidden;
-        pointer-events: none;
-    }
-
-    .mesh-ball {
-        position: absolute;
-        width: 600px;
-        height: 600px;
-        border-radius: 50%;
-        filter: blur(120px);
-        opacity: 0.1;
-        animation: floatOrb 20s infinite alternate;
-    }
-
-    @keyframes floatOrb {
-        0% {
-            transform: translate(0, 0) scale(1);
-        }
-
-        100% {
-            transform: translate(100px, 50px) scale(1.1);
-        }
-    }
-
-    /* --- Page Layout --- */
-    .approve-wrapper {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 120px 2rem 4rem;
-    }
-
-    .matrix-title {
-        font-size: 3.5rem;
-        font-weight: 800;
-        background: linear-gradient(to right, #fff, #94a3b8);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: -1px;
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-    /* --- Glass Components --- */
-    .glass-card {
-        background: var(--glass-bg);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid var(--glass-border);
-        border-radius: 24px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-        padding: 30px;
-        margin-bottom: 30px;
-    }
-
-    .request-item {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--glass-border);
-        border-radius: 16px;
-        padding: 20px;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .request-item:hover {
-        transform: translateX(10px);
-        background: rgba(255, 255, 255, 0.07);
-        border-color: var(--accent-amber);
-    }
-
-    .u-avatar {
-        width: 60px;
-        height: 60px;
-        border-radius: 12px;
-        object-fit: cover;
-        border: 2px solid var(--glass-border);
-    }
-
-    .u-name {
-        font-weight: 800;
-        color: #0f172a;
-        font-size: 1.1rem;
-        display: block;
-    }
-
-    .u-email {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.8rem;
-        color: var(--text-dim);
-    }
-
-    .detail-pill {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 6px 12px;
-        border-radius: 8px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--text-dim);
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        border: 1px solid var(--glass-border);
-    }
-
-    .btn-auth {
-        padding: 10px 18px;
-        border-radius: 10px;
-        font-weight: 800;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        transition: 0.3s;
-    }
-
-    .btn-approve {
-        background: var(--accent-emerald);
-        color: #0f172a;
-        border: none;
-    }
-
-    .btn-reject {
-        background: rgba(239, 68, 68, 0.1);
-        color: var(--accent-rose);
-        border: 1px solid var(--accent-rose);
-    }
-
-    .btn-approve:hover {
-        transform: scale(1.05);
-        filter: brightness(1.1);
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-    }
-
-    .btn-reject:hover {
-        background: var(--accent-rose);
-        color: #0f172a;
-    }
-
-    .status-count {
-        background: rgba(245, 158, 11, 0.1);
-        padding: 10px 24px;
-        border-radius: 50px;
-        font-weight: 700;
-        color: var(--accent-amber);
-        border: 1px solid rgba(245, 158, 11, 0.3);
-        font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* --- Modern Home-Card Container & Light/Dark Theme System --- */
-    .glass-card, .matrix-card, .admin-card, .stat-card-premium {
-        position: relative !important;
-        border-radius: 18px !important;
-        overflow: hidden !important;
-        transition: transform 0.25s ease, box-shadow 0.25s ease !important;
-    }
-    .glass-card::before, .matrix-card::before, .admin-card::before, .stat-card-premium::before {
-        content: '' !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        height: 3px !important;
-        background: linear-gradient(90deg, #6366f1, #a855f7) !important;
-        opacity: 0.9 !important;
-    }
-    .glass-card:hover, .matrix-card:hover, .admin-card:hover {
-        transform: translateY(-4px) !important;
-    }
-
-    [data-theme="light"] {
-        --terminal-bg: #f8fafc;
-        --glass-bg: rgba(255, 255, 255, 0.95);
-        --glass-border: #e2e8f0;
-        --text-dim: #64748b;
-    }
-    [data-theme="light"] body {
-        background: #f8fafc !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .premium-bg {
-        background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%) !important;
-    }
-    [data-theme="light"] .glass-card,
-    [data-theme="light"] .matrix-card,
-    [data-theme="light"] .admin-card,
-    [data-theme="light"] .stat-card,
-    [data-theme="light"] .directory-module,
-    [data-theme="light"] .form-matrix,
-    [data-theme="light"] .card-terminal {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .matrix-title,
-    [data-theme="light"] .matrix-value,
-    [data-theme="light"] .text-white,
-    [data-theme="light"] h1, 
-    [data-theme="light"] h2, 
-    [data-theme="light"] h3, 
-    [data-theme="light"] h4, 
-    [data-theme="light"] h5, 
-    [data-theme="light"] h6 {
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .text-dim,
-    [data-theme="light"] .text-white-50 {
-        color: #64748b !important;
-    }
-    [data-theme="light"] .table {
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .table tr {
-        border-color: #e2e8f0 !important;
-    }
-    [data-theme="light"] .table th {
-        background: #f8fafc !important;
-        color: #64748b !important;
-    }
-    [data-theme="light"] .table td {
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .form-control,
-    [data-theme="light"] .form-select,
-    [data-theme="light"] .command-input {
-        background: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .form-control:focus,
-    [data-theme="light"] .form-select:focus,
-    [data-theme="light"] .command-input:focus {
-        border-color: #6366f1 !important;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
-    }
-    [data-theme="light"] .stat-chip,
-    [data-theme="light"] .glass-pill,
-    [data-theme="light"] .action-chip {
-        background: #f1f5f9 !important;
-        border: 1px solid #e2e8f0 !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .particles-bg,
-    [data-theme="light"] .mesh-gradient {
-        opacity: 0.15 !important;
-    }
-
-</style>
-
-<div class="premium-admin-base">
-    <div class="container">
-        <!-- Header -->
-        <div class="header-section text-center">
-            <h1 class="header-title">Identity Veracity</h1>
-            <p class="text-muted fw-medium">Authorized manual verification for new ecosystem participants</p>
-            <div class="mt-3">
-                <span class="status-count">
-                    <i class="fas fa-fingerprint me-2"></i> {{ users|length }} PENDING COMMANDS
-                </span>
+            <div class="d-flex flex-wrap align-items-center gap-3 pt-2">
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-white bg-opacity-10 border border-white border-opacity-20 text-white" style="font-size: 0.85rem;">
+                    <i class="fas fa-fingerprint text-info"></i>
+                    <span><strong>{{ users|length }}</strong> Pending Candidate{{ 's' if users|length != 1 else '' }}</span>
+                </div>
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-white bg-opacity-10 border border-white border-opacity-20 text-white" style="font-size: 0.85rem;">
+                    <i class="fas fa-shield-alt text-success"></i>
+                    <span>Zero-Trust Manual Validation Active</span>
+                </div>
             </div>
         </div>
 
-        <div class="glass-card animate__animated animate__fadeInUp">
+        <!-- 2. Live Search & Filter Bar -->
+        {% if users %}
+        <div class="admin-filter-bar mb-4">
+            <i class="fas fa-search text-muted ps-2"></i>
+            <input type="text" id="approvalSearch" class="admin-filter-input" placeholder="Search applicant by name, email, role, or credentials...">
+            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-bold" id="visibleCounter" style="font-size: 0.8rem;">
+                Showing {{ users|length }} of {{ users|length }}
+            </span>
+        </div>
+        {% endif %}
+
+        <!-- 3. Requests Container -->
+        <div class="admin-card">
             {% if users %}
-            <div class="requests-pipeline">
+            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                <div>
+                    <h3 class="fw-bold mb-1" style="font-size: 1.25rem; color: var(--adm-slate-900);">Pending Review Pipeline</h3>
+                    <p class="text-muted small mb-0">Carefully authenticate submitted profile records before admission.</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-2 fw-bold" onclick="location.reload()">
+                        <i class="fas fa-sync-alt me-1"></i> Refresh Queue
+                    </button>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column gap-3" id="requestsPipeline">
                 {% for user in users %}
-                <div class="request-item" id="user-row-{{ user['id'] }}">
-                    <img src="https://ui-avatars.com/api/?name={{ user['name'] }}&background=f59e0b&color=fff&rounded=true&bold=true"
-                        alt="Identity" class="u-avatar">
+                <div class="request-item-card p-3 p-md-4 rounded-4 border bg-white shadow-sm" id="user-row-{{ user['id'] }}" data-search="{{ user['name']|lower }} {{ user['email']|lower }} {{ user['role']|lower }} {{ user['detail_summary']|lower }}">
+                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
+                        <!-- User Meta -->
+                        <div class="d-flex align-items-center gap-3">
+                            {% if user['profile_pic'] and user['profile_pic'].startswith('/') %}
+                            <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] }}" class="rounded-4 border" style="width: 54px; height: 54px; object-fit: cover;">
+                            {% else %}
+                            <div class="rounded-4 d-grid place-items-center fw-bold text-white shadow-sm" style="width: 54px; height: 54px; background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%); font-size: 1.2rem; flex-shrink: 0;">
+                                {{ user['name'][:2]|upper }}
+                            </div>
+                            {% endif %}
 
-                    <div class="u-info">
-                        <span class="u-name">{{ user['name'] }}</span>
-                        <span class="u-email"><i class="far fa-envelope me-1"></i> {{ user['email'] }}</span>
-                    </div>
-
-                    <div class="u-info d-none d-lg-block">
-                        <div class="detail-pill">
-                            <i class="fas fa-id-card"></i> {{ user['role']|upper }}
+                            <div>
+                                <div class="d-flex align-items-center gap-2 flex-wrap">
+                                    <h5 class="fw-bold mb-0 text-dark" style="font-size: 1.05rem;">{{ user['name'] }}</h5>
+                                    <span class="admin-badge-pill badge-{{ user['role'] }}">
+                                        {% if user['role'] == 'student' %}<i class="fas fa-user-graduate"></i> STUDENT
+                                        {% elif user['role'] == 'alumni' %}<i class="fas fa-award"></i> ALUMNI
+                                        {% elif user['role'] == 'faculty' %}<i class="fas fa-chalkboard-teacher"></i> FACULTY
+                                        {% else %}<i class="fas fa-shield-alt"></i> ADMIN{% endif %}
+                                    </span>
+                                </div>
+                                <div class="text-muted small d-flex align-items-center gap-1 mt-1 font-monospace" style="font-size: 0.82rem;">
+                                    <i class="far fa-envelope text-primary"></i> {{ user['email'] }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="detail-pill ms-2">
-                            <i class="fas fa-fingerprint"></i> {{ user['detail_summary'] }}
-                        </div>
-                    </div>
 
-                    <div class="action-group">
-                        <button class="btn-action btn-approve" data-user-id="{{ user['id'] }}" data-action="approve">
-                            <i class="fas fa-check-circle"></i> AUTHORIZE
-                        </button>
-                        <button class="btn-action btn-reject" data-user-id="{{ user['id'] }}" data-action="reject">
-                            <i class="fas fa-times-circle"></i> DENY
-                        </button>
+                        <!-- Details Pill -->
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                            <div class="px-3 py-2 rounded-pill bg-light border text-secondary small fw-bold d-inline-flex align-items-center gap-2">
+                                <i class="fas fa-id-card text-muted"></i>
+                                <span>{{ user['detail_summary'] or 'Standard Enrollment Request' }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex align-items-center gap-2 w-100 w-md-auto justify-content-end">
+                            <button class="btn btn-success rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1 flex-fill flex-md-grow-0 btn-action" data-user-id="{{ user['id'] }}" data-action="approve" style="font-size: 0.85rem;">
+                                <i class="fas fa-check-circle"></i> Authorize
+                            </button>
+                            <button class="btn btn-outline-danger rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1 flex-fill flex-md-grow-0 btn-action" data-user-id="{{ user['id'] }}" data-action="reject" style="font-size: 0.85rem;">
+                                <i class="fas fa-times-circle"></i> Reject
+                            </button>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
+
+            <div id="noMatchMessage" class="admin-empty-state d-none py-5">
+                <i class="fas fa-search fa-3x text-muted opacity-50 mb-3 d-block"></i>
+                <h5 class="fw-bold text-dark">No Matching Applicants Found</h5>
+                <p class="text-muted small">Try adjusting your search keywords or clear the filter input.</p>
+            </div>
             {% else %}
-            <div class="empty-state animate__animated animate__zoomIn">
-                <i class="fas fa-shield-check fa-4x text-success mb-4 d-block"
-                    style="color: var(--accent-emerald) !important;"></i>
-                <h3 class="fw-bold text-dark">Ecosystem Synced</h3>
-                <p class="text-muted">No pending identity verification requests found in the pipeline.</p>
-                <a href="/admin/dashboard" class="btn btn-outline-primary px-5 fw-bold mt-4"
-                    style="border-radius: 15px;">RETURN TO COMMAND</a>
+            <!-- All Synced Empty State -->
+            <div class="admin-empty-state">
+                <div class="empty-state-icon" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">
+                    <i class="fas fa-shield-check"></i>
+                </div>
+                <h3 class="fw-bold text-dark mb-2" style="font-family: 'Outfit', sans-serif;">Ecosystem Synchronized</h3>
+                <p class="text-muted mx-auto mb-4" style="max-width: 480px;">
+                    Great news! There are zero pending identity verification requests awaiting review in the veracity queue.
+                </p>
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="{{ url_for('dashboard_admin') }}" class="admin-btn-pill admin-btn-primary">
+                        <i class="fas fa-th-large"></i> Command Center
+                    </a>
+                    <a href="{{ url_for('admin_view_users', role='all') }}" class="admin-btn-pill admin-btn-outline">
+                        <i class="fas fa-users"></i> Directory Records
+                    </a>
+                </div>
             </div>
             {% endif %}
         </div>
@@ -359,9 +153,46 @@
 </div>
 
 <script>
-    function handleAction(userId, action) {
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Live Client-Side Search Filter
+    const searchInput = document.getElementById('approvalSearch');
+    const requestCards = document.querySelectorAll('.request-item-card');
+    const counterBadge = document.getElementById('visibleCounter');
+    const noMatchMsg = document.getElementById('noMatchMessage');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const query = this.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            requestCards.forEach(card => {
+                const searchContent = card.dataset.search || card.textContent.toLowerCase();
+                if (query === '' || searchContent.includes(query)) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (counterBadge) {
+                counterBadge.textContent = `Showing ${visibleCount} of ${requestCards.length}`;
+            }
+
+            if (noMatchMsg) {
+                if (visibleCount === 0 && requestCards.length > 0) {
+                    noMatchMsg.classList.remove('d-none');
+                } else {
+                    noMatchMsg.classList.add('d-none');
+                }
+            }
+        });
+    }
+
+    // 2. Action Buttons Protocol Handler
+    function handleAction(userId, action, btn) {
         const item = document.getElementById(`user-row-${userId}`);
-        const buttons = item.querySelectorAll('button');
+        const buttons = item ? item.querySelectorAll('button') : [];
 
         buttons.forEach(b => b.disabled = true);
 
@@ -369,31 +200,39 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    item.classList.add('animate__animated', action === 'approve' ? 'animate__fadeOutRight' : 'animate__fadeOutLeft');
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                if (item) {
+                    item.style.transition = 'all 0.4s ease';
+                    item.style.opacity = '0';
+                    item.style.transform = action === 'approve' ? 'translateX(40px)' : 'translateX(-40px)';
                     setTimeout(() => {
                         item.remove();
-                        if (document.querySelectorAll('.request-item').length === 0) {
+                        const remaining = document.querySelectorAll('.request-item-card').length;
+                        if (counterBadge) counterBadge.textContent = `Showing ${remaining} of ${remaining}`;
+                        if (remaining === 0) {
                             location.reload();
                         }
-                    }, 500);
-                } else throw new Error(data.error);
-            })
-            .catch(err => {
-                alert('Protocol Error: ' + err.message);
-                buttons.forEach(b => b.disabled = false);
-            });
+                    }, 400);
+                }
+            } else {
+                throw new Error(data.error || 'Operation failed');
+            }
+        })
+        .catch(err => {
+            alert('Protocol Error: ' + err.message);
+            buttons.forEach(b => b.disabled = false);
+        });
     }
 
-    // Action Listener
     document.querySelectorAll('.btn-action').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const userId = btn.getAttribute('data-user-id');
-            const action = btn.getAttribute('data-action');
-            handleAction(userId, action);
+        btn.addEventListener('click', function () {
+            const userId = this.getAttribute('data-user-id');
+            const action = this.getAttribute('data-action');
+            handleAction(userId, action, this);
         });
     });
+});
 </script>
 {% endblock %}

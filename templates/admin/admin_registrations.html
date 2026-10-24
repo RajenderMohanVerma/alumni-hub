@@ -1,469 +1,226 @@
 {% extends "base.html" %}
 
-{% block title %}Registration Management - Admin{% endblock %}
+{% block title %}Alumni Meet Registrations • Attendee Command Console{% endblock %}
 
 {% block content %}
-<link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}">
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+<div class="admin-page-wrapper">
+    <!-- Ambient Floating Orbs -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
 
-    :root {
-        --terminal-bg: #f8fafc;
-        --accent-primary: #6366f1;
-        --accent-secondary: #a855f7;
-        --accent-success: #10b981;
-        --accent-warning: #f59e0b;
-        --glass-bg: #ffffff;
-        --glass-border: #e1e7ed;
-        --text-dim: #64748b;
-    }
-
-    body {
-        background: var(--terminal-bg);
-        color: #0f172a;
-        font-family: 'Outfit', sans-serif;
-        overflow-x: hidden;
-    }
-
-    /* --- Background Layer --- */
-    .premium-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
-        z-index: -2;
-    }
-
-    .mesh-gradient {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        overflow: hidden;
-        pointer-events: none;
-    }
-
-    .mesh-ball {
-        position: absolute;
-        width: 600px;
-        height: 600px;
-        border-radius: 50%;
-        filter: blur(120px);
-        opacity: 0.15;
-        animation: floatOrb 20s infinite alternate;
-    }
-
-    @keyframes floatOrb {
-        0% {
-            transform: translate(0, 0) scale(1);
-        }
-
-        100% {
-            transform: translate(100px, 50px) scale(1.1);
-        }
-    }
-
-    /* --- Glass Components --- */
-    .glass-card {
-        background: var(--glass-bg);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid var(--glass-border);
-        border-radius: 24px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-        padding: 30px;
-        margin-bottom: 30px;
-    }
-
-    .reg-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 120px 2rem 4rem;
-    }
-
-    .matrix-title {
-        font-size: 3.5rem;
-        font-weight: 800;
-        background: linear-gradient(to right, #fff, #94a3b8);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: -1px;
-        text-align: center;
-        margin-bottom: 4rem;
-    }
-
-    /* --- Stats Matrix --- */
-    .stats-matrix {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 20px;
-        margin-bottom: 40px;
-    }
-
-    .stat-orb {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        padding: 24px;
-        transition: 0.3s;
-    }
-
-    .stat-orb:hover {
-        background: rgba(255, 255, 255, 0.05);
-        transform: translateY(-5px);
-    }
-
-    .stat-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        margin-bottom: 15px;
-    }
-
-    .orb-indigo {
-        background: rgba(99, 102, 241, 0.1);
-        color: #818cf8;
-    }
-
-    .orb-emerald {
-        background: rgba(16, 185, 129, 0.1);
-        color: #34d399;
-    }
-
-    .orb-amber {
-        background: rgba(245, 158, 11, 0.1);
-        color: #fbbf24;
-    }
-
-    .stat-count {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 2.2rem;
-        font-weight: 700;
-        color: #0f172a;
-    }
-
-    /* --- Filter Control --- */
-    .filter-dock {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-
-    .dock-input {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--glass-border);
-        border-radius: 14px;
-        padding: 12px 20px;
-        color: #0f172a;
-        outline: none;
-        transition: 0.3s;
-    }
-
-    .dock-input:focus {
-        border-color: var(--accent-primary);
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    /* --- Premium Table --- */
-    .premium-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0 10px;
-    }
-
-    .premium-table thead th {
-        color: var(--text-dim);
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        padding: 1rem 1.5rem;
-    }
-
-    .premium-table tbody tr {
-        background: rgba(255, 255, 255, 0.03);
-        transition: 0.3s;
-    }
-
-    .premium-table tbody tr:hover {
-        background: rgba(255, 255, 255, 0.07);
-    }
-
-    .premium-table tbody td {
-        padding: 1.5rem;
-        vertical-align: middle;
-    }
-
-    .role-pill {
-        padding: 4px 12px;
-        border-radius: 8px;
-        font-size: 0.7rem;
-        font-weight: 800;
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    /* --- Modern Home-Card Container & Light/Dark Theme System --- */
-    .glass-card, .matrix-card, .admin-card, .stat-card-premium {
-        position: relative !important;
-        border-radius: 18px !important;
-        overflow: hidden !important;
-        transition: transform 0.25s ease, box-shadow 0.25s ease !important;
-    }
-    .glass-card::before, .matrix-card::before, .admin-card::before, .stat-card-premium::before {
-        content: '' !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        height: 3px !important;
-        background: linear-gradient(90deg, #6366f1, #a855f7) !important;
-        opacity: 0.9 !important;
-    }
-    .glass-card:hover, .matrix-card:hover, .admin-card:hover {
-        transform: translateY(-4px) !important;
-    }
-
-    [data-theme="light"] {
-        --terminal-bg: #f8fafc;
-        --glass-bg: rgba(255, 255, 255, 0.95);
-        --glass-border: #e2e8f0;
-        --text-dim: #64748b;
-    }
-    [data-theme="light"] body {
-        background: #f8fafc !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .premium-bg {
-        background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%) !important;
-    }
-    [data-theme="light"] .glass-card,
-    [data-theme="light"] .matrix-card,
-    [data-theme="light"] .admin-card,
-    [data-theme="light"] .stat-card,
-    [data-theme="light"] .directory-module,
-    [data-theme="light"] .form-matrix,
-    [data-theme="light"] .card-terminal {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .matrix-title,
-    [data-theme="light"] .matrix-value,
-    [data-theme="light"] .text-white,
-    [data-theme="light"] h1, 
-    [data-theme="light"] h2, 
-    [data-theme="light"] h3, 
-    [data-theme="light"] h4, 
-    [data-theme="light"] h5, 
-    [data-theme="light"] h6 {
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .text-dim,
-    [data-theme="light"] .text-white-50 {
-        color: #64748b !important;
-    }
-    [data-theme="light"] .table {
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .table tr {
-        border-color: #e2e8f0 !important;
-    }
-    [data-theme="light"] .table th {
-        background: #f8fafc !important;
-        color: #64748b !important;
-    }
-    [data-theme="light"] .table td {
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .form-control,
-    [data-theme="light"] .form-select,
-    [data-theme="light"] .command-input {
-        background: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .form-control:focus,
-    [data-theme="light"] .form-select:focus,
-    [data-theme="light"] .command-input:focus {
-        border-color: #6366f1 !important;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
-    }
-    [data-theme="light"] .stat-chip,
-    [data-theme="light"] .glass-pill,
-    [data-theme="light"] .action-chip {
-        background: #f1f5f9 !important;
-        border: 1px solid #e2e8f0 !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .particles-bg,
-    [data-theme="light"] .mesh-gradient {
-        opacity: 0.15 !important;
-    }
-
-</style>
-
-<!-- Background Layer -->
-<div class="premium-bg"></div>
-<div class="mesh-gradient">
-    <div class="mesh-ball" style="background: #4f46e5; top: -10%; left: -10%;"></div>
-    <div class="mesh-ball" style="background: #7c3aed; bottom: -10%; right: -10%;"></div>
-</div>
-
-<div class="reg-container">
-    <div class="matrix-header animate__animated animate__fadeInDown">
-        <h1 class="matrix-title">Member Registrations</h1>
-        <p class="text-center text-dim fs-5 mb-5">View, search, and manage platform member registrations</p>
-    </div>
-
-    <!-- Stats Matrix -->
-    <div class="stats-matrix">
-        <div class="stat-orb animate__animated animate__zoomIn">
-            <div class="stat-icon orb-indigo"><i class="fas fa-user-graduate"></i></div>
-            <div class="stat-count">{{ stats.students }}</div>
-            <div class="text-dim small fw-bold">TOTAL STUDENTS</div>
-        </div>
-        <div class="stat-orb animate__animated animate__zoomIn" style="animation-delay: 0.1s;">
-            <div class="stat-icon orb-emerald"><i class="fas fa-award"></i></div>
-            <div class="stat-count">{{ stats.alumni }}</div>
-            <div class="text-dim small fw-bold">TOTAL ALUMNI</div>
-        </div>
-        <div class="stat-orb animate__animated animate__zoomIn" style="animation-delay: 0.2s;">
-            <div class="stat-icon orb-amber"><i class="fas fa-chalkboard-teacher"></i></div>
-            <div class="stat-count">{{ stats.faculty }}</div>
-            <div class="text-dim small fw-bold">TOTAL FACULTY</div>
-        </div>
-        <div class="stat-orb animate__animated animate__zoomIn" style="animation-delay: 0.3s;">
-            <div class="stat-icon orb-indigo"><i class="fas fa-globe"></i></div>
-            <div class="stat-count">{{ stats.total }}</div>
-            <div class="text-dim small fw-bold">TOTAL REGISTRATIONS</div>
-        </div>
-    </div>
-
-    <!-- Filter Dock -->
-    <div class="glass-card mb-4 animate__animated animate__fadeInUp">
-        <form method="GET" action="{{ url_for('admin_registrations') }}" class="filter-dock">
-            <select name="role_filter" class="dock-input" onchange="this.form.submit()">
-                <option value="">All Roles</option>
-                <option value="student" {% if current_filter=='student' %}selected{% endif %}>STUDENTS</option>
-                <option value="alumni" {% if current_filter=='alumni' %}selected{% endif %}>ALUMNI</option>
-                <option value="faculty" {% if current_filter=='faculty' %}selected{% endif %}>FACULTY</option>
-            </select>
-            <div class="flex-grow-1 position-relative">
-                <i class="fas fa-search position-absolute top-50 translate-middle-y ms-3 text-primary"></i>
-                <input type="text" name="search" class="dock-input ps-5 w-100"
-                    placeholder="Search by name, email, or department..." value="{{ search_query or '' }}">
+    <div class="admin-container">
+        <!-- 1. Executive Holographic Hero Terminal -->
+        <div class="admin-hero-card">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div class="admin-live-badge mb-0">
+                    <span class="live-pulse-dot"></span>
+                    <span>ALUMNI REUNION DESK • ATTENDEE REGISTRATIONS</span>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
+                        <i class="fas fa-th-large"></i> Command Center
+                    </a>
+                    <a href="{{ url_for('admin_events') }}" class="btn btn-primary btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1 shadow">
+                        <i class="fas fa-calendar-alt"></i> Events Manager
+                    </a>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary px-4 py-2 border-0"
-                style="background: var(--accent-primary); border-radius: 12px;">
-                <i class="fas fa-filter me-2"></i> Filter
-            </button>
-            <button type="button" onclick="exportData()" class="btn btn-outline-light px-4 py-2"
-                style="border-radius: 12px;">
-                <i class="fas fa-file-csv me-2"></i> Export CSV
-            </button>
-        </form>
-    </div>
 
-    <!-- Main Matrix -->
-    <div class="glass-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
-        {% if registrations %}
-        <div class="table-responsive">
-            <table class="premium-table">
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Name & Email</th>
-                        <th>Role</th>
-                        <th>Department</th>
-                        <th>Registration Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for reg in registrations %}
-                    <tr>
-                        <td><span class="text-dim fw-bold">#{{ reg.user_id }}</span></td>
-                        <td>
-                            <div class="d-flex flex-column">
-                                <span class="fw-bold text-white">{{ reg.name }}</span>
-                                <span class="text-dim small">{{ reg.email }}</span>
-                            </div>
-                        </td>
-                        <td><span class="role-pill">{{ reg.role|upper }}</span></td>
-                        <td>
-                            <div class="d-flex flex-column">
-                                <span class="fw-semibold text-white">{{ reg.department or 'GENERAL' }}</span>
-                                <span class="text-dim small">{% if reg.role == 'student' %}{{ reg.enrollment_no }}{%
-                                    else %}{{ reg.designation }}{% endif %}</span>
-                            </div>
-                        </td>
-                        <td><span class="text-dim small"><i class="far fa-clock me-1"></i> {{ reg.registered_at
-                                }}</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary btn-view-details"
-                                data-user-id="{{ reg.user_id }}" data-user-role="{{ reg.role }}"
-                                style="border-radius: 8px;">
-                                <i class="fas fa-fingerprint"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <h1 class="admin-hero-title mb-2">
+                <span class="hero-title-prefix">Institutional Meet</span> <span class="text-holographic-adm">RSVP Registrations</span>
+            </h1>
+            <p class="admin-hero-subtitle mb-4">
+                Real-time tracking of confirmed attendees, batch reunions, and institutional delegate participation for upcoming campus assemblies.
+            </p>
+
+            <!-- 4 VIP Stat Nodes in Hero -->
+            <div class="row g-3 pt-2">
+                <div class="col-6 col-md-3">
+                    <div class="p-3 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                        <small class="text-info fw-bold text-uppercase" style="font-size: 0.72rem;">Students RSVP</small>
+                        <div class="h3 fw-bold mb-0 text-white font-monospace">{{ stats.students or 0 }}</div>
+                        <div class="text-white-50 extra-small" style="font-size: 0.74rem;">Active Learners</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="p-3 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                        <small class="text-warning fw-bold text-uppercase" style="font-size: 0.72rem;">Alumni RSVP</small>
+                        <div class="h3 fw-bold mb-0 text-white font-monospace">{{ stats.alumni or 0 }}</div>
+                        <div class="text-white-50 extra-small" style="font-size: 0.74rem;">Graduates & Mentors</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="p-3 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                        <small class="text-success fw-bold text-uppercase" style="font-size: 0.72rem;">Faculty RSVP</small>
+                        <div class="h3 fw-bold mb-0 text-white font-monospace">{{ stats.faculty or 0 }}</div>
+                        <div class="text-white-50 extra-small" style="font-size: 0.74rem;">Professors & Guides</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="p-3 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                        <small class="text-white fw-bold text-uppercase" style="font-size: 0.72rem;">Total Confirmed</small>
+                        <div class="h3 fw-bold mb-0 text-white font-monospace">{{ stats.total or 0 }}</div>
+                        <div class="text-white-50 extra-small" style="font-size: 0.74rem;">Gross Attendance</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        {% else %}
-        <div class="text-center py-5">
-            <i class="fas fa-radar fa-4x text-dim opacity-25 mb-4"></i>
-            <h4 class="text-white fw-bold">No Entities Detected</h4>
-            <p class="text-dim">No registrations found for the selected criteria.</p>
+
+        <!-- 2. Search & Filter Bar -->
+        <div class="admin-card p-3 p-md-4 mb-4">
+            <form method="GET" action="{{ url_for('admin_registrations') }}">
+                <div class="row g-3 align-items-center">
+                    <div class="col-12 col-md-5">
+                        <div class="admin-filter-bar mb-0">
+                            <i class="fas fa-search text-muted ps-2"></i>
+                            <input type="text" name="search" class="admin-filter-input" placeholder="Search by name, email, department..." value="{{ search_query or '' }}">
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <select name="role_filter" class="admin-select" onchange="this.form.submit()">
+                            <option value="">All Classification Roles</option>
+                            <option value="student" {% if current_filter == 'student' %}selected{% endif %}>Students</option>
+                            <option value="alumni" {% if current_filter == 'alumni' %}selected{% endif %}>Alumni</option>
+                            <option value="faculty" {% if current_filter == 'faculty' %}selected{% endif %}>Faculty</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 fw-bold w-100 shadow-sm d-inline-flex align-items-center justify-content-center gap-1">
+                            <i class="fas fa-filter"></i> Apply
+                        </button>
+                    </div>
+                    <div class="col-12 col-md-2 text-md-end">
+                        <button type="button" onclick="exportData()" class="btn btn-success rounded-pill px-3 py-2 fw-bold w-100 shadow-sm d-inline-flex align-items-center justify-content-center gap-1">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-        {% endif %}
+
+        <!-- 3. Confirmed Attendees Table -->
+        <div class="admin-card">
+            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div>
+                    <h3 class="fw-bold mb-1" style="font-size: 1.25rem; color: var(--adm-slate-900);">Confirmed Reunion Attendee Records</h3>
+                    <p class="text-muted small mb-0">Inspecting registration logs across campus clusters.</p>
+                </div>
+                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-bold">
+                    {{ registrations|length }} Result{{ 's' if registrations|length != 1 else '' }}
+                </span>
+            </div>
+
+            {% if registrations %}
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Attendee Identity</th>
+                            <th>Role Classification</th>
+                            <th>Department & Ref</th>
+                            <th>Registration Date</th>
+                            <th class="text-end">Inspect Profile</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reg in registrations %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="rounded-circle d-grid place-items-center fw-bold text-white shadow-sm" style="width: 42px; height: 42px; background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%); font-size: 0.95rem; flex-shrink: 0;">
+                                        {{ reg.name[:2]|upper }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark mb-0">{{ reg.name }}</div>
+                                        <div class="text-muted small font-monospace" style="font-size: 0.78rem;">{{ reg.email }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="admin-badge-pill badge-{{ reg.role }}">
+                                    {{ reg.role|upper }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark small">{{ reg.department or 'General Studies' }}</div>
+                                <div class="text-muted extra-small" style="font-size: 0.72rem;">
+                                    {% if reg.role == 'student' %}Roll: {{ reg.enrollment_no or 'N/A' }}
+                                    {% else %}{{ reg.designation or 'Alumni Delegate' }}{% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-secondary small font-monospace">
+                                    <i class="far fa-clock text-muted me-1"></i> {{ reg.registered_at }}
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-light border rounded-circle d-inline-grid place-items-center text-primary btn-view-details" data-user-id="{{ reg.user_id }}" data-user-role="{{ reg.role }}" style="width: 36px; height: 36px;" title="View Attendee Profile">
+                                    <i class="fas fa-id-badge"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <!-- Empty State -->
+            <div class="admin-empty-state">
+                <div class="empty-state-icon">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <h3 class="fw-bold text-dark mb-2" style="font-family: 'Outfit', sans-serif;">No Attendee Records Detected</h3>
+                <p class="text-muted mx-auto mb-4" style="max-width: 480px;">
+                    No alumni meet registrations match your filter parameters. Try clearing the search or role filter.
+                </p>
+                <a href="{{ url_for('admin_registrations') }}" class="admin-btn-pill admin-btn-primary">
+                    <i class="fas fa-undo"></i> Reset All Filters
+                </a>
+            </div>
+            {% endif %}
+        </div>
     </div>
 </div>
 
 <script>
-    function exportData() {
-        const btn = document.querySelector('button[onclick="exportData()"]');
-        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Orchestrating...';
+function exportData() {
+    const btn = document.querySelector('button[onclick="exportData()"]');
+    if (btn) {
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-1"></i> Preparing CSV...';
         btn.disabled = true;
-        setTimeout(() => {
-            window.location.href = '/admin/export/registrations';
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-file-csv me-2"></i> Export CSV';
-                btn.disabled = false;
-            }, 2000);
-        }, 800);
     }
+    setTimeout(() => {
+        window.location.href = '/admin/export/registrations';
+        setTimeout(() => {
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-file-csv me-1"></i> Export CSV';
+                btn.disabled = false;
+            }
+        }, 2000);
+    }, 600);
+}
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.btn-view-details').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const userId = btn.getAttribute('data-user-id');
-                const role = btn.getAttribute('data-user-role');
-                let path = '';
-                switch (role) {
-                    case 'student': path = `/student/profile/${userId}`; break;
-                    case 'alumni': path = `/alumni/profile/${userId}`; break;
-                    case 'faculty': path = `/faculty/profile/${userId}`; break;
-                    case 'admin': path = `/admin/profile/${userId}`; break;
-                    default: path = `/profile/${userId}`;
-                }
-                window.location.href = path;
-            });
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.btn-view-details').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const userId = btn.getAttribute('data-user-id');
+            const role = btn.getAttribute('data-user-role');
+            let path = '';
+            switch (role) {
+                case 'student': path = `/student/profile/${userId}`; break;
+                case 'alumni': path = `/alumni/profile/${userId}`; break;
+                case 'faculty': path = `/faculty/profile/${userId}`; break;
+                case 'admin': path = `/admin/profile/${userId}`; break;
+                default: path = `/profile/${userId}`;
+            }
+            window.location.href = path;
         });
     });
+});
 </script>
 {% endblock %}

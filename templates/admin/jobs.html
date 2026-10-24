@@ -1,775 +1,395 @@
 {% extends 'base.html' %}
+
+{% block title %}Opportunity Matrix • Admin Career Portal Management{% endblock %}
+
 {% block content %}
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap');
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}">
 
-    :root {
-        --primary-indigo: #6366f1;
-        --secondary-purple: #a855f7;
-        --dark-navy: #0f172a;
-        --soft-slate: #f1f5f9;
-        --glass-white: rgba(255, 255, 255, 0.9);
-        --glass-border: rgba(99, 102, 241, 0.1);
-    }
+<div class="admin-page-wrapper">
+    <!-- Ambient Floating Orbs -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
 
-    body {
-        background: #f8fafc;
-        font-family: 'Outfit', sans-serif;
-        color: var(--dark-navy);
-    }
-
-    .admin-jobs-wrapper {
-        padding: 120px 2rem 5rem;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-
-    .dashboard-hero {
-        margin-bottom: 4rem;
-        position: relative;
-    }
-
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 3.5rem;
-    }
-
-    .stat-card-premium {
-        background: var(--glass-white);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--glass-border);
-        border-radius: 28px;
-        padding: 2rem;
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.02);
-    }
-
-    .stat-card-premium:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1);
-        border-color: var(--primary-indigo);
-    }
-
-    .stat-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-    }
-
-    .container-glass {
-        background: var(--glass-white);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--glass-border);
-        border-radius: 32px;
-        padding: 2.5rem;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
-    }
-
-    .filter-bar {
-        display: flex;
-        gap: 1.5rem;
-        margin-bottom: 2.5rem;
-        flex-wrap: wrap;
-    }
-
-    .search-input-wrapper {
-        position: relative;
-        flex: 1;
-        min-width: 300px;
-    }
-
-    .search-input-wrapper i {
-        position: absolute;
-        left: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #94a3b8;
-    }
-
-    .premium-input {
-        width: 100%;
-        padding: 14px 20px 14px 50px;
-        border-radius: 16px;
-        border: 2px solid #e2e8f0;
-        background: #f8fafc;
-        transition: 0.3s;
-        font-weight: 500;
-    }
-
-    .premium-input:focus {
-        border-color: var(--primary-indigo);
-        background: white;
-        box-shadow: 0 0 0 5px rgba(99, 102, 241, 0.08);
-        outline: none;
-    }
-
-    .premium-select {
-        padding: 14px 25px;
-        border-radius: 16px;
-        border: 2px solid #e2e8f0;
-        background: #f8fafc;
-        font-weight: 600;
-        min-width: 180px;
-    }
-
-    .job-table-premium {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0 15px;
-    }
-
-    .job-table-premium thead th {
-        font-weight: 800;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: #64748b;
-        padding: 0 1.5rem;
-        border: none;
-    }
-
-    .job-item-row {
-        background: white;
-        transition: 0.3s;
-        cursor: pointer;
-    }
-
-    .job-item-row:hover {
-        transform: scale(1.015);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .job-item-row td {
-        padding: 1.5rem;
-        vertical-align: middle;
-        border-top: 1px solid #f1f5f9;
-        border-bottom: 1px solid #f1f5f9;
-    }
-
-    .job-item-row td:first-child {
-        border-left: 1px solid #f1f5f9;
-        border-radius: 20px 0 0 20px;
-    }
-
-    .job-item-row td:last-child {
-        border-right: 1px solid #f1f5f9;
-        border-radius: 0 20px 20px 0;
-    }
-
-    .company-logo {
-        width: 50px;
-        height: 50px;
-        border-radius: 14px;
-        background: #f8fafc;
-        overflow: hidden;
-        border: 1px solid #e2e8f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .company-logo img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-
-    .status-badge {
-        padding: 6px 16px;
-        border-radius: 50px;
-        font-weight: 800;
-        font-size: 0.7rem;
-        text-transform: uppercase;
-    }
-
-    .badge-active {
-        background: #dcfce7;
-        color: #15803d;
-    }
-
-    .badge-inactive {
-        background: #fee2e2;
-        color: #b91c1c;
-    }
-
-    .text-navy {
-        color: var(--dark-navy);
-    }
-
-    .bg-slate-200 {
-        background-color: #e2e8f0;
-    }
-
-    .text-slate-700 {
-        color: #334155;
-    }
-
-    .category-badge {
-        padding: 6px 14px;
-        border-radius: 50px;
-        font-weight: 700;
-        font-size: 0.75rem;
-        background: rgba(99, 102, 241, 0.08);
-        color: var(--primary-indigo);
-        border: 1px solid rgba(99, 102, 241, 0.15);
-        display: inline-block;
-    }
-
-    .action-btn-group {
-        display: flex;
-        gap: 10px;
-    }
-
-    .action-circle {
-        width: 42px;
-        height: 42px;
-        border-radius: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: 0.3s;
-        text-decoration: none;
-        border: none;
-    }
-
-    .btn-view {
-        background: #e0e7ff;
-        color: #4338ca;
-    }
-
-    .btn-edit {
-        background: #fef3c7;
-        color: #b45309;
-    }
-
-    .btn-delete {
-        background: #fee2e2;
-        color: #b91c1c;
-    }
-
-    .action-circle:hover {
-        transform: rotate(10deg) scale(1.1);
-        filter: brightness(0.95);
-    }
-
-    .toggle-switch {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 26px;
-    }
-
-    .toggle-switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #cbd5e1;
-        transition: .4s;
-        border-radius: 34px;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 18px;
-        width: 18px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
-
-    input:checked+.slider {
-        background-color: var(--primary-indigo);
-    }
-
-    input:checked+.slider:before {
-        transform: translateX(24px);
-    }
-
-    .btn-add-floating {
-        background: linear-gradient(135deg, var(--primary-indigo), var(--secondary-purple));
-        color: white;
-        padding: 1.2rem 2.5rem;
-        border-radius: 20px;
-        font-weight: 800;
-        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
-        text-decoration: none;
-        transition: 0.3s;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .btn-add-floating:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.5);
-        color: white;
-    }
-
-    /* --- Modern Home-Card Container & Dark Theme Support --- */
-    .glass-card, .matrix-card, .admin-card, .stat-card-premium, .job-card-master, .directory-module {
-        position: relative !important;
-        border-radius: 18px !important;
-        overflow: hidden !important;
-        transition: transform 0.25s ease, box-shadow 0.25s ease !important;
-    }
-    .glass-card::before, .matrix-card::before, .stat-card-premium::before, .job-card-master::before {
-        content: '' !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        height: 3px !important;
-        background: linear-gradient(90deg, #6366f1, #a855f7) !important;
-        opacity: 0.9 !important;
-    }
-    .glass-card:hover, .matrix-card:hover, .stat-card-premium:hover, .job-card-master:hover {
-        transform: translateY(-4px) !important;
-    }
-
-    [data-theme="dark"] {
-        --terminal-bg: #0b0f19;
-        --dark-navy: #f8fafc;
-        --dark-slate: #f8fafc;
-        --soft-slate: #1e293b;
-        --glass-white: #1e293b;
-        --glass-bg: rgba(30, 41, 59, 0.85);
-        --glass-border: rgba(255, 255, 255, 0.1);
-        --text-main: #f8fafc;
-        --text-dim: #94a3b8;
-    }
-    [data-theme="dark"] body {
-        background: #0b0f19 !important;
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .premium-bg {
-        background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%) !important;
-    }
-    [data-theme="dark"] .glass-card,
-    [data-theme="dark"] .matrix-card,
-    [data-theme="dark"] .directory-module,
-    [data-theme="dark"] .stat-card-premium,
-    [data-theme="dark"] .job-card-master,
-    [data-theme="dark"] .filter-bar-floating,
-    [data-theme="dark"] .form-container,
-    [data-theme="dark"] .card-custom {
-        background: #1e293b !important;
-        border-color: #334155 !important;
-        color: #f8fafc !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
-    }
-    [data-theme="dark"] .matrix-value,
-    [data-theme="dark"] .matrix-title,
-    [data-theme="dark"] .directory-title,
-    [data-theme="dark"] .job-card-master h3,
-    [data-theme="dark"] .job-card-master h4,
-    [data-theme="dark"] .job-card-master h5,
-    [data-theme="dark"] .stat-value,
-    [data-theme="dark"] .text-slate-900 {
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .text-dim,
-    [data-theme="dark"] .text-slate-500 {
-        color: #94a3b8 !important;
-    }
-    [data-theme="dark"] .command-bar {
-        background: rgba(15, 23, 42, 0.6) !important;
-    }
-    [data-theme="dark"] .command-input,
-    [data-theme="dark"] .form-control,
-    [data-theme="dark"] .form-select {
-        background: #0f172a !important;
-        border-color: #334155 !important;
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .table {
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .table tr {
-        border-color: rgba(255, 255, 255, 0.08) !important;
-    }
-    [data-theme="dark"] .table th {
-        background: #0f172a !important;
-        color: #94a3b8 !important;
-    }
-    [data-theme="dark"] .table td {
-        color: #f8fafc !important;
-    }
-    [data-theme="dark"] .bg-slate-100 {
-        background-color: #1e293b !important;
-    }
-    [data-theme="dark"] .border-slate-200 {
-        border-color: #334155 !important;
-    }
-
-</style>
-
-<div class="admin-jobs-wrapper">
-    <!-- Header -->
-    <div class="dashboard-hero d-flex justify-content-between align-items-end" data-aos="fade-down">
-        <div>
-            <h1 class="fw-800 display-4 mb-2">Job Management Portal</h1>
-            <p class="text-muted fs-5">Review alumni &amp; faculty job submissions and manage professional opportunities.</p>
-        </div>
-        {% if stats.pending > 0 %}
-        <a href="#pending" class="btn btn-warning fw-bold rounded-pill px-4 py-2 shadow">
-            <i class="fas fa-clipboard-check me-2"></i>{{ stats.pending }} Pending Approval
-        </a>
-        {% endif %}
-    </div>
-
-    <!-- Stats -->
-    <div class="stats-grid">
-        <div class="stat-card-premium" data-aos="zoom-in" data-aos-delay="100">
-            <div class="stat-icon bg-primary-subtle text-primary">
-                <i class="fas fa-briefcase"></i>
+    <div class="admin-container">
+        <!-- 1. Executive Holographic Hero Terminal -->
+        <div class="admin-hero-card">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div class="admin-live-badge mb-0">
+                    <span class="live-pulse-dot"></span>
+                    <span>OPPORTUNITY DESK • RECRUITMENT & CAREER ENGINE</span>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
+                        <i class="fas fa-th-large"></i> Command Center
+                    </a>
+                    <a href="{{ url_for('admin_add_job') }}" class="btn btn-primary btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1 shadow">
+                        <i class="fas fa-plus-circle"></i> Post New Job
+                    </a>
+                </div>
             </div>
-            <div>
-                <div class="text-muted small fw-bold">TOTAL POSTINGS</div>
-                <div class="fs-2 fw-800">{{ stats.total }}</div>
+
+            <h1 class="admin-hero-title mb-2">
+                <span class="hero-title-prefix">Enterprise Career</span> <span class="text-holographic-adm">Opportunity Hub</span>
+            </h1>
+            <p class="admin-hero-subtitle mb-4">
+                Oversee campus recruitment campaigns, inspect corporate referral submissions, approve pending alumni vacancy listings, and monitor placement metrics across global industries.
+            </p>
+
+            <!-- Quick Metrics Strip -->
+            <div class="row g-3 pt-2">
+                <div class="col-6 col-md-3">
+                    <div class="px-3 py-2 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                        <small class="text-info fw-bold text-uppercase" style="font-size: 0.7rem;">Live Postings</small>
+                        <div class="h4 fw-bold mb-0 text-white">{{ jobs|length }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="px-3 py-2 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                        <small class="text-warning fw-bold text-uppercase" style="font-size: 0.7rem;">Pending Approvals</small>
+                        <div class="h4 fw-bold mb-0 text-white">{{ pending_jobs|length }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="px-3 py-2 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                        <small class="text-success fw-bold text-uppercase" style="font-size: 0.7rem;">Remote Work</small>
+                        <div class="h4 fw-bold mb-0 text-white">Available</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="px-3 py-2 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                        <small class="text-info fw-bold text-uppercase" style="font-size: 0.7rem;">Status Sync</small>
+                        <div class="h4 fw-bold mb-0 text-white">Realtime</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="stat-card-premium" data-aos="zoom-in" data-aos-delay="200">
-            <div class="stat-icon bg-success-subtle text-success">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <div>
-                <div class="text-muted small fw-bold">ACTIVE NODES</div>
-                <div class="fs-2 fw-800 text-success">{{ stats.active }}</div>
-            </div>
-        </div>
-        <div class="stat-card-premium" data-aos="zoom-in" data-aos-delay="300">
-            <div class="stat-icon bg-warning-subtle text-warning">
-                <i class="fas fa-hourglass-end"></i>
-            </div>
-            <div>
-                <div class="text-muted small fw-bold">EXPIRED / CLOSED</div>
-                <div class="fs-2 fw-800 text-warning">{{ stats.expired }}</div>
-            </div>
-        </div>
-        <div class="stat-card-premium" data-aos="zoom-in" data-aos-delay="400">
-            <div class="stat-icon bg-danger-subtle text-danger">
-                <i class="fas fa-eye-slash"></i>
-            </div>
-            <div>
-                <div class="text-muted small fw-bold">HIDDEN / INACTIVE</div>
-                <div class="fs-2 fw-800 text-danger">{{ stats.inactive }}</div>
-            </div>
-        </div>
-        <div class="stat-card-premium" data-aos="zoom-in" data-aos-delay="500">
-            <div class="stat-icon bg-warning-subtle text-warning">
-                <i class="fas fa-clipboard-check"></i>
-            </div>
-            <div>
-                <div class="text-muted small fw-bold">PENDING APPROVAL</div>
-                <div class="fs-2 fw-800 text-warning">{{ stats.pending }}</div>
-            </div>
-        </div>
-    </div>
 
-    <!-- ===== PENDING APPROVAL QUEUE ===== -->
-    {% if pending_jobs %}
-    <div id="pending" class="container-glass animate__animated animate__fadeInUp mb-5"
-         style="border: 2px solid rgba(245,158,11,0.35); background:rgba(255,251,235,0.95);">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <div>
-                <h3 class="fw-800 mb-1" style="color:#92400e;">
-                    <i class="fas fa-clipboard-check me-2 text-warning"></i>Pending Job Approvals
-                </h3>
-                <p class="text-muted mb-0 small">Jobs submitted by alumni &amp; faculty — review and approve or reject each listing.</p>
+        <!-- 2. Pending Jobs Verification Queue -->
+        {% if pending_jobs %}
+        <div class="admin-card mb-4 border-warning border-opacity-50" style="background: #fffdfa;">
+            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="rounded-3 p-2 bg-warning bg-opacity-10 text-warning d-grid place-items-center" style="width: 38px; height: 38px;">
+                        <i class="fas fa-hourglass-half"></i>
+                    </span>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.15rem;">Pending Corporate Approvals</h4>
+                        <p class="text-muted small mb-0">Alumni submissions awaiting administrator authorization before publication.</p>
+                    </div>
+                </div>
+                <span class="badge bg-warning text-dark fw-bold rounded-pill px-3 py-2">
+                    {{ pending_jobs|length }} Awaiting Review
+                </span>
             </div>
-            <span class="badge bg-warning text-dark fw-bold px-3 py-2" style="font-size:1rem;border-radius:999px;">
-                {{ pending_jobs|length }} awaiting
-            </span>
-        </div>
-        <div class="table-responsive">
-            <table class="job-table-premium" id="pendingJobTable">
-                <thead>
-                    <tr>
-                        <th>Job Details</th>
-                        <th>Posted By</th>
-                        <th>Role</th>
-                        <th>Deadline</th>
-                        <th>Approval Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for job in pending_jobs %}
-                    <tr id="pendingRow{{ job.id }}">
-                        <td>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="company-logo">
-                                    {% if job.company_logo %}
-                                    <img src="{{ job.company_logo }}" alt="Logo">
-                                    {% else %}
-                                    <span class="fw-bold text-primary">{{ (job.company or 'J')[0] }}</span>
-                                    {% endif %}
+
+            <div class="admin-table-wrapper">
+                <table class="admin-table" id="pendingJobTable">
+                    <thead>
+                        <tr>
+                            <th>Job Information & Company</th>
+                            <th>Posted By</th>
+                            <th>Target Role</th>
+                            <th>Application Deadline</th>
+                            <th class="text-end">Verification Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for job in pending_jobs %}
+                        <tr id="pendingRow{{ job.id }}">
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="rounded-4 d-grid place-items-center fw-bold text-primary bg-primary bg-opacity-10 border" style="width: 44px; height: 44px; font-size: 1.1rem; flex-shrink: 0;">
+                                        {% if job.company_logo %}
+                                        <img src="{{ job.company_logo }}" alt="Logo" class="rounded-4 w-100 h-100 object-fit-cover">
+                                        {% else %}
+                                        {{ (job.company or 'J')[0]|upper }}
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark mb-0">{{ job.title }}</div>
+                                        <div class="text-muted small">
+                                            <i class="far fa-building me-1"></i> {{ job.company }} &bull;
+                                            <i class="fas fa-map-marker-alt ms-1 me-1 text-danger"></i> {{ job.location or 'Remote' }}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div class="fw-800 text-navy">{{ job.title }}</div>
-                                    <div class="text-muted small">{{ job.company }} &bull; {{ job.location or 'Remote' }}</div>
-                                    {% if job.description %}
-                                    <div class="text-muted" style="font-size:0.78rem;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ job.description }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </td>
-                        <td class="fw-bold">{{ job.posted_by_name or 'Unknown' }}</td>
-                        <td>
-                            <span class="badge rounded-pill px-3 py-1
-                                {% if job.poster_role == 'alumni' %}bg-primary-subtle text-primary
-                                {% else %}bg-success-subtle text-success{% endif %}">
-                                {{ (job.poster_role or 'unknown')|title }}
-                            </span>
-                        </td>
-                        <td>
-                            {% if job.deadline %}
-                            <span class="fw-bold">{{ job.deadline }}</span>
-                            {% else %}
-                            <span class="text-muted">No deadline</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-success btn-sm rounded-pill fw-bold px-3"
-                                    onclick="approveJob({{ job.id }})"
-                                    title="Approve this job">
-                                    <i class="fas fa-check me-1"></i> Approve
-                                </button>
-                                <button class="btn btn-outline-danger btn-sm rounded-pill fw-bold px-3"
-                                    onclick="rejectJobPrompt({{ job.id }})"
-                                    title="Reject this job">
-                                    <i class="fas fa-times me-1"></i> Reject
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    {% else %}
-    <div id="pending" class="alert" style="border-radius:1rem;border:1px dashed rgba(16,185,129,0.4);background:rgba(236,253,245,0.9);color:#065f46;font-weight:700;margin-bottom:2rem;">
-        <i class="fas fa-check-circle me-2 text-success"></i> No pending job approvals — all submissions are reviewed!
-    </div>
-    {% endif %}
-    <div class="container-glass animate__animated animate__fadeInUp">
-        <div class="filter-bar">
-            <div class="search-input-wrapper">
-                <i class="fas fa-search"></i>
-                <input type="text" id="jobSearch" class="premium-input"
-                    placeholder="Query nodes by title, entity or category...">
-            </div>
-            <select class="premium-select" id="roleFilter">
-                <option value="all">Every Classification</option>
-                <option value="Technology">Technology</option>
-                <option value="Design">Design</option>
-                <option value="Business">Business</option>
-                <option value="Marketing">Marketing</option>
-            </select>
-            <select class="premium-select" id="statusFilter">
-                <option value="all">All States</option>
-                <option value="active">Active Only</option>
-                <option value="inactive">Inactive Only</option>
-            </select>
-        </div>
-
-        <div class="table-responsive">
-            <table class="job-table-premium">
-                <thead>
-                    <tr>
-                        <th>Job Title & Company</th>
-                        <th>Category</th>
-                        <th>Employment & Mode</th>
-                        <th>Salary & Location</th>
-                        <th>Eligibility</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="jobTableBody">
-                    {% for job in jobs %}
-                    <tr class="job-item-row" data-title="{{ job.title | lower }}"
-                        data-company="{{ job.company | lower }}" data-category="{{ job.category }}"
-                        data-status="{{ 'active' if job.is_active else 'inactive' }}">
-                        <td>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="company-logo">
-                                    {% if job.company_logo %}
-                                    <img src="{{ job.company_logo }}" alt="Logo">
-                                    {% else %}
-                                    <span class="fw-bold text-primary">{{ job.company[0] }}</span>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <div class="fw-800 text-navy">{{ job.title }}</div>
-                                    <div class="text-muted small">{{ job.company }}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="category-badge">{{ job.category or 'General' }}</span>
-                        </td>
-                        <td>
-                            <div class="fw-bold">{{ job.employment_type or 'Full-time' }}</div>
-                            <span
-                                class="badge {{ 'bg-success-subtle text-success' if job.work_mode == 'Remote' else 'bg-primary-subtle text-primary' }} rounded-pill px-3 mt-1"
-                                style="font-size: 0.65rem;">
-                                {{ job.work_mode or 'Onsite' }}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="fw-bold text-success">{{ job.salary or 'Unspecified' }}</div>
-                            <div class="text-muted extra-small"><i class="fas fa-map-marker-alt me-1"></i> {{
-                                job.location or 'Remote' }}</div>
-                        </td>
-                        <td>
-                            <div class="fw-bold text-indigo">{{ job.eligible_branch or 'All' }}</div>
-                            <div class="text-muted small">{{ job.openings or '1' }} Openings</div>
-                        </td>
-                        <td>
-                            <label class="toggle-switch">
-                                <input type="checkbox" class="status-toggle-input" data-job-id="{{ job.id }}" {% if
-                                    job.is_active %}checked{% endif %}>
-                                <span class="slider"></span>
-                            </label>
-                        </td>
-                        <td>
-                            <div class="action-btn-group">
-                                <a href="{{ url_for('admin_edit_job', job_id=job.id) }}" class="action-circle btn-edit"
-                                    title="Edit Job">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ url_for('admin_delete_job', job_id=job.id) }}" method="POST"
-                                    onsubmit="return confirm('Are you sure you want to permanently delete this job posting?');"
-                                    style="display: inline;">
-                                    <button type="submit" class="action-circle btn-delete" title="Delete Job">
-                                        <i class="fas fa-trash-alt"></i>
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark">{{ job.posted_by_name or 'Alumni Member' }}</div>
+                            </td>
+                            <td>
+                                <span class="admin-badge-pill {% if job.poster_role == 'alumni' %}badge-alumni{% else %}badge-faculty{% endif %}">
+                                    {{ (job.poster_role or 'alumni')|upper }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="font-monospace small text-muted">{{ job.deadline or 'Open Ended' }}</span>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <button class="btn btn-sm btn-success rounded-pill fw-bold px-3 py-1 shadow-sm" onclick="approveJob({{ job.id }})">
+                                        <i class="fas fa-check me-1"></i> Approve
                                     </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                                    <button class="btn btn-sm btn-outline-danger rounded-pill fw-bold px-3 py-1" onclick="rejectJobPrompt({{ job.id }})">
+                                        <i class="fas fa-times me-1"></i> Reject
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- 3. Filter Dock -->
+        <div class="admin-card p-3 p-md-4 mb-4">
+            <div class="row g-3 align-items-center">
+                <div class="col-12 col-md-5">
+                    <div class="admin-filter-bar mb-0">
+                        <i class="fas fa-search text-muted ps-2"></i>
+                        <input type="text" id="jobSearch" class="admin-filter-input" placeholder="Query jobs by title, company, or domain...">
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <select class="admin-select" id="roleFilter">
+                        <option value="all">Every Domain</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Design">Design</option>
+                        <option value="Business">Business</option>
+                        <option value="Marketing">Marketing</option>
+                    </select>
+                </div>
+                <div class="col-6 col-md-2">
+                    <select class="admin-select" id="statusFilter">
+                        <option value="all">All States</option>
+                        <option value="active">Active Only</option>
+                        <option value="inactive">Inactive Only</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-2 text-md-end">
+                    <a href="{{ url_for('admin_add_job') }}" class="admin-btn-pill admin-btn-primary w-100 justify-content-center">
+                        <i class="fas fa-plus"></i> Post Job
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Active Job Listings Table -->
+        <div class="admin-card">
+            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div>
+                    <h3 class="fw-bold mb-1" style="font-size: 1.25rem; color: var(--adm-slate-900);">Active Employment Postings</h3>
+                    <p class="text-muted small mb-0">Monitor open vacancies, edit listings, and manage visibility toggles.</p>
+                </div>
+                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-bold" id="jobTotalBadge">
+                    {{ jobs|length }} Total Posting{{ 's' if jobs|length != 1 else '' }}
+                </span>
+            </div>
+
+            {% if jobs %}
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Job Title & Organization</th>
+                            <th>Category</th>
+                            <th>Employment & Mode</th>
+                            <th>Package & Location</th>
+                            <th>Openings</th>
+                            <th>Visibility</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobTableBody">
+                        {% for job in jobs %}
+                        <tr class="job-item-row" data-title="{{ (job.title or '') | lower }}"
+                            data-company="{{ (job.company or '') | lower }}" data-category="{{ job.category }}"
+                            data-status="{{ 'active' if job.is_active else 'inactive' }}">
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="rounded-4 d-grid place-items-center fw-bold text-primary bg-primary bg-opacity-10 border" style="width: 44px; height: 44px; font-size: 1.1rem; flex-shrink: 0;">
+                                        {% if job.company_logo %}
+                                        <img src="{{ job.company_logo }}" alt="Logo" class="rounded-4 w-100 h-100 object-fit-cover">
+                                        {% else %}
+                                        {{ (job.company or 'J')[0]|upper }}
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark mb-0">{{ job.title }}</div>
+                                        <div class="text-muted small">{{ job.company }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="admin-badge-pill badge-student">{{ job.category or 'General' }}</span>
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark small">{{ job.employment_type or 'Full-time' }}</div>
+                                <span class="badge {{ 'bg-success-subtle text-success' if job.work_mode == 'Remote' else 'bg-primary-subtle text-primary' }} rounded-pill px-2 py-0 mt-1" style="font-size: 0.68rem;">
+                                    {{ job.work_mode or 'Onsite' }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="fw-bold text-success small font-monospace">{{ job.salary or 'Disclosed upon request' }}</div>
+                                <div class="text-muted extra-small" style="font-size: 0.74rem;">
+                                    <i class="fas fa-map-marker-alt me-1 text-danger"></i> {{ job.location or 'Remote' }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark small">{{ job.openings or '1' }} Openings</div>
+                                <div class="text-muted extra-small" style="font-size: 0.72rem;">{{ job.eligible_branch or 'All Branches' }}</div>
+                            </td>
+                            <td>
+                                <div class="form-check form-switch m-0">
+                                    <input class="form-check-input status-toggle-input" type="checkbox" role="switch" data-job-id="{{ job.id }}" {% if job.is_active %}checked{% endif %} style="cursor: pointer; width: 2.2em; height: 1.2em;">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2 justify-content-end align-items-center">
+                                    <a href="{{ url_for('admin_edit_job', job_id=job.id) }}" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-primary" style="width: 36px; height: 36px;" title="Edit Job Details">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ url_for('admin_delete_job', job_id=job.id) }}" method="POST" onsubmit="return confirm('Permanently remove this job posting from the portal?');" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center" style="width: 36px; height: 36px;" title="Delete Job">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="noJobResults" class="admin-empty-state d-none py-5">
+                <i class="fas fa-briefcase fa-3x text-muted opacity-50 mb-3 d-block"></i>
+                <h5 class="fw-bold text-dark">No Matching Opportunities Found</h5>
+                <p class="text-muted small">No jobs match your search criteria. Try modifying your filter keywords.</p>
+            </div>
+            {% else %}
+            <!-- Empty Jobs -->
+            <div class="admin-empty-state">
+                <div class="empty-state-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3 class="fw-bold text-dark mb-2" style="font-family: 'Outfit', sans-serif;">No Job Postings Yet</h3>
+                <p class="text-muted mx-auto mb-4" style="max-width: 480px;">
+                    Your recruitment portal currently has no active vacancy listings. Click below to create your first opportunity listing.
+                </p>
+                <a href="{{ url_for('admin_add_job') }}" class="admin-btn-pill admin-btn-primary">
+                    <i class="fas fa-plus"></i> Post Your First Vacancy
+                </a>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
 
 <script>
-    // Real-time Filtering Logic
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Live Filter Logic
     const searchInput = document.getElementById('jobSearch');
     const roleFilter = document.getElementById('roleFilter');
     const statusFilter = document.getElementById('statusFilter');
     const rows = document.querySelectorAll('.job-item-row');
+    const noResults = document.getElementById('noJobResults');
+    const totalBadge = document.getElementById('jobTotalBadge');
 
     function filterTable() {
-        const query = searchInput.value.toLowerCase();
-        const role = roleFilter.value;
-        const status = statusFilter.value;
+        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        const role = roleFilter ? roleFilter.value : 'all';
+        const status = statusFilter ? statusFilter.value : 'all';
+        let matchCount = 0;
 
         rows.forEach(row => {
-            const title = row.dataset.title;
-            const company = row.dataset.company;
-            const category = row.dataset.category;
-            const itemStatus = row.dataset.status;
+            const title = row.dataset.title || '';
+            const company = row.dataset.company || '';
+            const category = row.dataset.category || '';
+            const itemStatus = row.dataset.status || '';
 
-            const matchesQuery = title.includes(query) || company.includes(query);
+            const matchesQuery = query === '' || title.includes(query) || company.includes(query);
             const matchesRole = role === 'all' || category === role;
             const matchesStatus = status === 'all' || itemStatus === status;
 
             if (matchesQuery && matchesRole && matchesStatus) {
                 row.style.display = '';
+                matchCount++;
             } else {
                 row.style.display = 'none';
             }
         });
-    }
 
-    // Dynamic Status Toggle Implementation
-    document.querySelectorAll('.status-toggle-input').forEach(toggle => {
-        toggle.addEventListener('change', function () {
-            const jobId = this.dataset.jobId;
-            toggleJobStatus(jobId, this);
-        });
-    });
-
-    async function toggleJobStatus(jobId, checkbox) {
-        try {
-            const response = await fetch(`/api/admin/jobs/toggle/${jobId}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            const data = await response.json();
-            if (data.success) {
-                const row = checkbox.closest('tr');
-                row.dataset.status = data.new_status ? 'active' : 'inactive';
-                const statusText = data.new_status ? 'Activated' : 'Deactivated';
-                console.log(`Job ${jobId} ${statusText}`);
+        if (totalBadge) totalBadge.textContent = `${matchCount} Opportunities`;
+        if (noResults) {
+            if (matchCount === 0 && rows.length > 0) {
+                noResults.classList.remove('d-none');
             } else {
-                checkbox.checked = !checkbox.checked;
-                alert('Error: Failed to update job status.');
+                noResults.classList.add('d-none');
             }
-        } catch (error) {
-            checkbox.checked = !checkbox.checked;
-            console.error('Core sync failure:', error);
         }
     }
 
-    // ── Approve / Reject pending jobs ──────────────────────────────────────
-    function showAdminJobToast(msg, type) {
-        const color = type === 'success' ? '#16a34a' : '#dc2626';
-        const t = document.createElement('div');
-        t.style.cssText = `position:fixed;bottom:1.4rem;right:1.4rem;z-index:9999;background:#fff;
-            border-left:4px solid ${color};padding:.65rem 1rem;border-radius:.75rem;
-            box-shadow:0 8px 24px rgba(15,23,42,.14);font-weight:700;font-size:.9rem;
-            color:#0f172a;animation:fadeInUp .4s ease;max-width:320px;`;
-        t.textContent = msg;
-        document.body.appendChild(t);
-        setTimeout(() => t.remove(), 4000);
-    }
+    if (searchInput) searchInput.addEventListener('input', filterTable);
+    if (roleFilter) roleFilter.addEventListener('change', filterTable);
+    if (statusFilter) statusFilter.addEventListener('change', filterTable);
 
-    async function approveJob(jobId) {
+    // 2. Real-Time Status Toggle
+    document.querySelectorAll('.status-toggle-input').forEach(toggle => {
+        toggle.addEventListener('change', async function () {
+            const jobId = this.dataset.jobId;
+            try {
+                const response = await fetch(`/api/admin/jobs/toggle/${jobId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    const row = this.closest('tr');
+                    if (row) row.dataset.status = data.new_status ? 'active' : 'inactive';
+                } else {
+                    this.checked = !this.checked;
+                    alert('Error: Unable to update job status.');
+                }
+            } catch (err) {
+                this.checked = !this.checked;
+                console.error('Job sync failure:', err);
+            }
+        });
+    });
+});
+
+// 3. Approval Handlers
+async function approveJob(jobId) {
+    try {
         const res = await fetch(`/admin/jobs/approve/${jobId}`, { method: 'POST' });
         const data = await res.json();
         if (data.success) {
             const row = document.getElementById(`pendingRow${jobId}`);
             if (row) {
-                row.style.transition = 'opacity .4s ease';
+                row.style.transition = 'all 0.3s ease';
                 row.style.opacity = '0';
-                setTimeout(() => row.remove(), 450);
+                setTimeout(() => {
+                    row.remove();
+                    location.reload();
+                }, 300);
             }
-            showAdminJobToast('\u2705 Job approved and is now live!', 'success');
         } else {
-            showAdminJobToast('\u274C Approval failed. Try again.', 'danger');
+            alert('Approval failed. Please retry.');
         }
+    } catch (e) {
+        alert('Server Error: ' + e.message);
     }
+}
 
-    async function rejectJobPrompt(jobId) {
-        const reason = prompt('Rejection reason (optional — will be sent to poster):') ?? '';
+async function rejectJobPrompt(jobId) {
+    const reason = prompt('Rejection reason (optional):') ?? '';
+    try {
         const res = await fetch(`/admin/jobs/reject/${jobId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -779,14 +399,16 @@
         if (data.success) {
             const row = document.getElementById(`pendingRow${jobId}`);
             if (row) {
-                row.style.transition = 'opacity .4s ease';
+                row.style.transition = 'all 0.3s ease';
                 row.style.opacity = '0';
-                setTimeout(() => row.remove(), 450);
+                setTimeout(() => row.remove(), 300);
             }
-            showAdminJobToast('\u274C Job rejected.', 'danger');
         } else {
-            showAdminJobToast('Failed to reject job.', 'danger');
+            alert('Rejection failed.');
         }
+    } catch (e) {
+        alert('Server Error: ' + e.message);
     }
+}
 </script>
 {% endblock %}

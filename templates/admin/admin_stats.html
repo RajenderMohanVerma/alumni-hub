@@ -1,343 +1,207 @@
 {% extends "base.html" %}
 
-{% block title %}Platform Statistics - Alumni Hub{% endblock %}
+{% block title %}Platform Telemetry • Statistical Performance Matrices{% endblock %}
 
 {% block content %}
-<link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+<div class="admin-page-wrapper">
+    <!-- Ambient Floating Orbs -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
 
-    :root {
-        --terminal-bg: #f8fafc;
-        --accent-primary: #6366f1;
-        --accent-secondary: #a855f7;
-        --accent-emerald: #10b981;
-        --accent-amber: #f59e0b;
-        --glass-bg: #ffffff;
-        --glass-border: #e1e7ed;
-        --text-dim: #64748b;
-    }
+    <div class="admin-container">
+        <!-- 1. Executive Holographic Hero Terminal -->
+        <div class="admin-hero-card">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div class="admin-live-badge mb-0">
+                    <span class="live-pulse-dot"></span>
+                    <span>TELEMETRY MATRIX • HISTORICAL PERFORMANCE CHARTS</span>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
+                        <i class="fas fa-th-large"></i> Command Center
+                    </a>
+                    <a href="{{ url_for('admin_analytics') }}" class="btn btn-primary btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1 shadow">
+                        <i class="fas fa-chart-pie"></i> Analytics Radar
+                    </a>
+                </div>
+            </div>
 
-    body {
-        background: var(--terminal-bg);
-        color: #0f172a;
-        font-family: 'Outfit', sans-serif;
-        overflow-x: hidden;
-    }
+            <h1 class="admin-hero-title mb-2">
+                <span class="hero-title-prefix">Platform Performance</span> <span class="text-holographic-adm">Statistics</span>
+            </h1>
+            <p class="admin-hero-subtitle mb-0">
+                Detailed telemetry over monthly registration velocities, user retention cohorts, and demographic ratios across community segments.
+            </p>
+        </div>
 
-    /* --- Background Layer --- */
-    .premium-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
-        z-index: -2;
-    }
+        <!-- 2. Four Mini Metric Nodes -->
+        <div class="row g-3 g-md-4 mb-4">
+            <div class="col-6 col-lg-3">
+                <div class="admin-stat-node">
+                    <div class="stat-accent-bar bar-blue"></div>
+                    <div>
+                        <div class="stat-icon-wrap" style="background: rgba(2, 132, 199, 0.12); color: #0284c7;">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="stat-number-display">1,250</div>
+                        <div class="stat-label-text">Total Ecosystem Base</div>
+                    </div>
+                </div>
+            </div>
 
-    .mesh-gradient {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        overflow: hidden;
-        pointer-events: none;
-    }
+            <div class="col-6 col-lg-3">
+                <div class="admin-stat-node">
+                    <div class="stat-accent-bar bar-amber"></div>
+                    <div>
+                        <div class="stat-icon-wrap" style="background: rgba(245, 158, 11, 0.12); color: #d97706;">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="stat-number-display">850</div>
+                        <div class="stat-label-text">Verified Alumni</div>
+                    </div>
+                </div>
+            </div>
 
-    .mesh-ball {
-        position: absolute;
-        width: 600px;
-        height: 600px;
-        border-radius: 50%;
-        filter: blur(120px);
-        opacity: 0.15;
-        animation: floatOrb 20s infinite alternate;
-    }
+            <div class="col-6 col-lg-3">
+                <div class="admin-stat-node">
+                    <div class="stat-accent-bar bar-green"></div>
+                    <div>
+                        <div class="stat-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: #059669;">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stat-number-display">350</div>
+                        <div class="stat-label-text">Active Learners</div>
+                    </div>
+                </div>
+            </div>
 
-    @keyframes floatOrb {
-        0% {
-            transform: translate(0, 0) scale(1);
-        }
-
-        100% {
-            transform: translate(100px, 50px) scale(1.1);
-        }
-    }
-
-    /* --- Page Layout --- */
-    .stats-wrapper {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 120px 2rem 4rem;
-    }
-
-    .matrix-title {
-        font-size: 3.5rem;
-        font-weight: 800;
-        background: linear-gradient(to right, #fff, #94a3b8);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: -1px;
-        text-align: center;
-        margin-bottom: 4rem;
-    }
-
-    /* --- Glass Components --- */
-    .glass-card {
-        background: var(--glass-bg);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid var(--glass-border);
-        border-radius: 24px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-        padding: 30px;
-        height: 100%;
-    }
-
-    .stat-mini {
-        padding: 24px;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--glass-border);
-        text-align: center;
-        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .stat-mini:hover {
-        transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .mini-value {
-        font-family: 'JetBrains Mono', monospace;
-        font-weight: 700;
-        font-size: 2rem;
-        display: block;
-        color: #0f172a;
-    }
-
-    .mini-label {
-        color: var(--text-dim);
-        font-size: 0.7rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-top: 5px;
-    }
-
-    /* --- Modern Home-Card Container & Light/Dark Theme System --- */
-    .glass-card, .matrix-card, .admin-card, .stat-card-premium {
-        position: relative !important;
-        border-radius: 18px !important;
-        overflow: hidden !important;
-        transition: transform 0.25s ease, box-shadow 0.25s ease !important;
-    }
-    .glass-card::before, .matrix-card::before, .admin-card::before, .stat-card-premium::before {
-        content: '' !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        height: 3px !important;
-        background: linear-gradient(90deg, #6366f1, #a855f7) !important;
-        opacity: 0.9 !important;
-    }
-    .glass-card:hover, .matrix-card:hover, .admin-card:hover {
-        transform: translateY(-4px) !important;
-    }
-
-    [data-theme="light"] {
-        --terminal-bg: #f8fafc;
-        --glass-bg: rgba(255, 255, 255, 0.95);
-        --glass-border: #e2e8f0;
-        --text-dim: #64748b;
-    }
-    [data-theme="light"] body {
-        background: #f8fafc !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .premium-bg {
-        background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%) !important;
-    }
-    [data-theme="light"] .glass-card,
-    [data-theme="light"] .matrix-card,
-    [data-theme="light"] .admin-card,
-    [data-theme="light"] .stat-card,
-    [data-theme="light"] .directory-module,
-    [data-theme="light"] .form-matrix,
-    [data-theme="light"] .card-terminal {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .matrix-title,
-    [data-theme="light"] .matrix-value,
-    [data-theme="light"] .text-white,
-    [data-theme="light"] h1, 
-    [data-theme="light"] h2, 
-    [data-theme="light"] h3, 
-    [data-theme="light"] h4, 
-    [data-theme="light"] h5, 
-    [data-theme="light"] h6 {
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .text-dim,
-    [data-theme="light"] .text-white-50 {
-        color: #64748b !important;
-    }
-    [data-theme="light"] .table {
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .table tr {
-        border-color: #e2e8f0 !important;
-    }
-    [data-theme="light"] .table th {
-        background: #f8fafc !important;
-        color: #64748b !important;
-    }
-    [data-theme="light"] .table td {
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .form-control,
-    [data-theme="light"] .form-select,
-    [data-theme="light"] .command-input {
-        background: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .form-control:focus,
-    [data-theme="light"] .form-select:focus,
-    [data-theme="light"] .command-input:focus {
-        border-color: #6366f1 !important;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
-    }
-    [data-theme="light"] .stat-chip,
-    [data-theme="light"] .glass-pill,
-    [data-theme="light"] .action-chip {
-        background: #f1f5f9 !important;
-        border: 1px solid #e2e8f0 !important;
-        color: #0f172a !important;
-    }
-    [data-theme="light"] .particles-bg,
-    [data-theme="light"] .mesh-gradient {
-        opacity: 0.15 !important;
-    }
-
-</style>
-
-<!-- Background Layer -->
-<div class="premium-bg"></div>
-<div class="mesh-gradient">
-    <div class="mesh-ball" style="background: #4f46e5; top: -10%; left: -10%;"></div>
-    <div class="mesh-ball" style="background: #7c3aed; bottom: -10%; right: -10%;"></div>
-</div>
-
-<div class="stats-wrapper">
-    <div class="matrix-header animate__animated animate__fadeInDown">
-        <h1 class="matrix-title">Platform Statistics</h1>
-        <p class="text-center text-dim fs-5 mb-5">Platform Performance • Growth Analytics • User Breakdown</p>
-    </div>
-
-    <!-- Quick Stats Hub -->
-    <div class="row g-4 mb-5">
-        <div class="col-md-3 animate__animated animate__zoomIn">
-            <div class="stat-mini">
-                <span class="mini-value">1,250</span>
-                <span class="mini-label">TOTAL MEMBERS</span>
+            <div class="col-6 col-lg-3">
+                <div class="admin-stat-node">
+                    <div class="stat-accent-bar bar-purple"></div>
+                    <div>
+                        <div class="stat-icon-wrap" style="background: rgba(124, 58, 237, 0.12); color: #7c3aed;">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stat-number-display">50</div>
+                        <div class="stat-label-text">Faculty Leaders</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-3 animate__animated animate__zoomIn" style="animation-delay: 0.1s;">
-            <div class="stat-mini">
-                <span class="mini-value" style="color: var(--accent-emerald);">850</span>
-                <span class="mini-label">TOTAL ALUMNI</span>
-            </div>
-        </div>
-        <div class="col-md-3 animate__animated animate__zoomIn" style="animation-delay: 0.2s;">
-            <div class="stat-mini">
-                <span class="mini-value" style="color: var(--accent-primary);">350</span>
-                <span class="mini-label">TOTAL STUDENTS</span>
-            </div>
-        </div>
-        <div class="col-md-3 animate__animated animate__zoomIn" style="animation-delay: 0.3s;">
-            <div class="stat-mini">
-                <span class="mini-value" style="color: var(--accent-amber);">50</span>
-                <span class="mini-label">TOTAL FACULTY</span>
-            </div>
-        </div>
-    </div>
 
-    <!-- Analytics Matrices -->
-    <div class="row g-4">
-        <div class="col-lg-8 animate__animated animate__fadeInUp">
-            <div class="glass-card">
-                <h5 class="fw-bold text-white mb-4"><i class="fas fa-wave-square me-2 text-primary"></i>
-                    Monthly Member Registrations</h5>
-                <canvas id="userGrowthChart" height="150"></canvas>
+        <!-- 3. Dual High-Fidelity Charts Row -->
+        <div class="row g-4 mb-4">
+            <!-- Left: Growth Velocity Curve -->
+            <div class="col-12 col-lg-8">
+                <div class="admin-card h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                        <div>
+                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.2rem;">Monthly Member Onboarding Velocity</h4>
+                            <p class="text-muted small mb-0">Historical registration progression over recent semesters.</p>
+                        </div>
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-bold" style="font-size: 0.75rem;">
+                            Velocity Index
+                        </span>
+                    </div>
+
+                    <div style="height: 280px; position: relative;">
+                        <canvas id="userGrowthChart"></canvas>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-4 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
-            <div class="glass-card">
-                <h5 class="fw-bold text-white mb-4"><i class="fas fa-chart-pie me-2 text-primary"></i> User Distribution by Role
-                </h5>
-                <canvas id="roleDistChart" height="250"></canvas>
+
+            <!-- Right: Role Ratio Doughnut -->
+            <div class="col-12 col-lg-4">
+                <div class="admin-card h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                        <div>
+                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.2rem;">Role Share</h4>
+                            <p class="text-muted small mb-0">Demographic balance.</p>
+                        </div>
+                    </div>
+
+                    <div style="height: 280px; position: relative;">
+                        <canvas id="roleDistChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const growthCtx = document.getElementById('userGrowthChart').getContext('2d');
-        new Chart(growthCtx, {
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Monthly Registrations Curve
+    const growthCanvas = document.getElementById('userGrowthChart');
+    if (growthCanvas) {
+        new Chart(growthCanvas, {
             type: 'line',
             data: {
                 labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN'],
                 datasets: [{
                     label: 'Registrations',
                     data: [65, 59, 80, 81, 56, 155],
-                    borderColor: '#6366f1',
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    borderColor: '#0284c7',
+                    backgroundColor: 'rgba(2, 132, 199, 0.08)',
                     fill: true,
-                    tension: 0.4
+                    tension: 0.38,
+                    borderWidth: 3,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#0284c7'
                 }]
             },
             options: {
                 responsive: true,
-                plugins: { legend: { display: false } },
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
                 scales: {
-                    y: { beginAtZero: true, grid: { display: false } },
-                    x: { grid: { display: false } }
+                    x: { grid: { display: false }, ticks: { color: '#64748b', font: { weight: '600' } } },
+                    y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { color: '#64748b' } }
                 }
             }
         });
+    }
 
-        const roleCtx = document.getElementById('roleDistChart').getContext('2d');
-        new Chart(roleCtx, {
+    // 2. Role Distribution Doughnut
+    const roleCanvas = document.getElementById('roleDistChart');
+    if (roleCanvas) {
+        new Chart(roleCanvas, {
             type: 'doughnut',
             data: {
                 labels: ['ALUMNI', 'STUDENTS', 'FACULTY'],
                 datasets: [{
                     data: [850, 350, 50],
-                    backgroundColor: ['#10b981', '#0ea5e9', '#f59e0b'],
-                    borderWidth: 0,
-                    hoverOffset: 20
+                    backgroundColor: ['#f59e0b', '#0284c7', '#10b981'],
+                    borderWidth: 3,
+                    borderColor: '#ffffff',
+                    hoverOffset: 10
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 cutout: '70%',
-                plugins: { legend: { position: 'bottom', labels: { font: { weight: 'bold' }, padding: 20 } } }
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#475569',
+                            font: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold', size: 12 },
+                            padding: 16
+                        }
+                    }
+                }
             }
         });
-    });
+    }
+});
 </script>
 {% endblock %}
