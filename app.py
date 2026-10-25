@@ -4693,6 +4693,14 @@ def announcements():
 def reports():
     if current_user.role == 'faculty':
         return render_template('faculty/reports.html')
+    if current_user.role == 'admin':
+        return redirect(url_for('admin_reports'))
+    flash('Access denied! Administrator privileges required.', 'danger')
+    return redirect(url_for('home'))
+
+@app.route('/admin/reports')
+@login_required
+def admin_reports():
     if current_user.role != 'admin':
         flash('Access denied! Administrator privileges required.', 'danger')
         return redirect(url_for('home'))
@@ -4723,11 +4731,17 @@ def reports():
         )
     ''')
 
-    # Clean up any leftover demo sample tickets
-    c.execute("DELETE FROM support_tickets WHERE ticket_num IN ('TKT-1024', 'TKT-1023')")
+    # Permanently delete all sample/demo and test tickets so queue starts completely clean
+    c.execute('''
+        DELETE FROM support_tickets 
+        WHERE ticket_num IN ('TKT-1024', 'TKT-1023', 'TKT-3BCDC9') 
+           OR reporter_email LIKE '%test%' 
+           OR reporter_name LIKE '%test%'
+           OR reporter_email LIKE '%example.com'
+    ''')
     conn.commit()
 
-    # Fetch all real tickets
+    # Fetch all real tickets submitted by users
     c.execute('''
         SELECT id, ticket_num, reporter_id, reporter_name, reporter_email, reporter_role,
                category, subject, description, priority, status, admin_notes, resolved_by,
@@ -5020,6 +5034,24 @@ try:
         
 except Exception as e:
     logger.warning(f"Blueprint registration error: {e}")
+
+@app.route('/favicon.ico')
+def favicon():
+    response = send_from_directory(
+        os.path.join(app.root_path, 'static', 'images', 'icons'),
+        'favicon.png',
+        mimetype='image/png'
+    )
+    response.headers['Cache-Control'] = 'public, max-age=86400'
+    return response
+
+@app.route('/manifest.json')
+def manifest_json():
+    return send_from_directory(
+        os.path.join(app.root_path, 'static'),
+        'manifest.json',
+        mimetype='application/manifest+json'
+    )
 
 # Initialize ML Recommendation Engine & DB migrations (only in main worker or non-debug)
 if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':

@@ -25,11 +25,13 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Alumni Hub">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/icons/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='images/icons/icon-192.png') }}">
-    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='images/icons/favicon.png') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/icons/favicon.png') }}">
+    <!-- Primary Favicons & App Icons (Matching New Squircle Brand Icon) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/icons/favicon.png') }}?v=2">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/icons/favicon.png') }}?v=2">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='images/icons/icon-192.png') }}?v=2">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='images/icons/icon-512.png') }}?v=2">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.png') }}?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/icons/apple-touch-icon.png') }}?v=2">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -37,15 +39,15 @@
     <meta property="og:title" content="ALUMNI HUB - Connect & Grow">
     <meta property="og:description"
         content="The official platform for alumni to connect with students and grow professionally.">
-    <meta property="og:image" content="{{ url_for('static', filename='img/og-image.jpg', _external=True) }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/icons/icon-512.png', _external=True) }}?v=2">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ request.url }}">
     <meta property="twitter:title" content="ALUMNI HUB - Connect & Grow">
+    <meta property="twitter:image" content="{{ url_for('static', filename='images/icons/icon-512.png', _external=True) }}?v=2">
     <meta property="twitter:description"
         content="The official platform for alumni to connect with students and grow professionally.">
-    <meta property="twitter:image" content="{{ url_for('static', filename='img/og-image.jpg', _external=True) }}">
 
     <title>{% block title %}ALUMNI HUB{% endblock %}</title>
 
@@ -580,10 +582,10 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item nav-menu-link" href="/reports">
+                                <a class="dropdown-item nav-menu-link" href="/admin/reports">
                                     <span class="nav-menu-icon icon-amber"><i class="fas fa-file-invoice"></i></span>
-                                    <span class="nav-menu-copy"><strong>System Reports</strong><small>Export metrics and
-                                            logs</small></span>
+                                    <span class="nav-menu-copy"><strong>Incident Reports</strong><small>Live tickets &amp;
+                                            resolution desk</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
@@ -786,8 +788,8 @@
                         class="fas fa-calendar-check"></i> Event RSVPs</a>
                 <a href="{{ url_for('admin_registrations') }}" class="mobile-nav-link" style="--delay: 0.58s"><i
                         class="fas fa-clipboard-list"></i> Registration Logs</a>
-                <a href="/reports" class="mobile-nav-link" style="--delay: 0.61s"><i class="fas fa-file-invoice"></i>
-                    Reports</a>
+                <a href="/admin/reports" class="mobile-nav-link" style="--delay: 0.61s"><i class="fas fa-file-invoice"></i>
+                    Incident Reports</a>
                 <a href="/admin/stats" class="mobile-nav-link" style="--delay: 0.64s"><i class="fas fa-chart-pie"></i>
                     Statistics</a>
                 {% endif %}

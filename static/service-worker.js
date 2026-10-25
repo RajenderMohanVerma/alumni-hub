@@ -1,8 +1,9 @@
 // Alumni Hub - High Performance Service Worker
-const CACHE_NAME = 'alumni-hub-v1.0.1';
+const CACHE_NAME = 'alumni-hub-v1.0.2';
 const PRECACHE_ASSETS = [
     '/',
     '/manifest.json',
+    '/static/images/icons/favicon.png',
     '/static/images/icons/icon-192.png',
     '/static/images/icons/icon-512.png',
     '/static/images/icons/apple-touch-icon.png',
