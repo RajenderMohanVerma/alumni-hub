@@ -80,12 +80,14 @@
                                                 </svg>
 
                                                 <!-- Images -->
-                                                <img id="uploadPreview" src="{{ user['profile_pic'] }}"
-                                                    class="{% if user['profile_pic'] %}d-block{% else %}d-none{% endif %}">
+                                                {% set has_custom_pic = user['profile_pic'] and (user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http') or user['profile_pic'].startswith('/')) and user['profile_pic'] != 'default.jpg' %}
+                                                <img id="uploadPreview" src="{{ user['profile_pic'] if has_custom_pic else '' }}"
+                                                    class="{% if has_custom_pic %}d-block{% else %}d-none{% endif %}"
+                                                    onerror="this.classList.add('d-none'); this.classList.remove('d-block'); var sp = document.getElementById('svgPlaceholder'); if(sp){sp.classList.remove('d-none'); sp.classList.add('d-block');}">
                                                 <img id="svgPlaceholder"
                                                     src="{{ url_for('static', filename='images/camera_pic.svg') }}"
                                                     alt="Upload Photo"
-                                                    class="camera-svg-placeholder {% if user['profile_pic'] %}d-none{% else %}d-block{% endif %}">
+                                                    class="camera-svg-placeholder {% if has_custom_pic %}d-none{% else %}d-block{% endif %}">
 
                                                 <!-- Hover Overlay -->
                                                 <div class="photo" id="photoPlaceholder">

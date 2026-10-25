@@ -45,14 +45,14 @@
             <div class="col-12 col-lg-4">
                 <div class="admin-card text-center h-100">
                     <div class="position-relative d-inline-block mx-auto mb-3">
-                        {% if user['profile_pic'] and user['profile_pic'].startswith('/') %}
-                        <img src="{{ user['profile_pic'] }}" alt="Admin" class="rounded-4 border shadow-sm" style="width: 140px; height: 140px; object-fit: cover;">
+                        {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
+                        <img src="{{ user['profile_pic'] }}" alt="Admin" class="rounded-circle border border-3 border-primary shadow" style="width: 140px; height: 140px; object-fit: cover;">
                         {% else %}
-                        <div class="rounded-4 d-grid place-items-center fw-bold text-white shadow-sm mx-auto" style="width: 140px; height: 140px; background: linear-gradient(135deg, #0284c7 0%, #7c3aed 100%); font-size: 3rem;">
+                        <div class="rounded-circle d-grid place-items-center fw-bold text-white shadow-lg mx-auto border border-3 border-primary" style="width: 140px; height: 140px; background: linear-gradient(135deg, #0284c7 0%, #7c3aed 100%); font-size: 2.8rem; font-family: 'Outfit', sans-serif;">
                             {{ user['name'][:2]|upper }}
                         </div>
                         {% endif %}
-                        <span class="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-2" title="System Online"></span>
+                        <span class="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-2" title="System Online" style="width: 16px; height: 16px;"></span>
                     </div>
 
                     <h3 class="fw-bold mb-1 text-dark">{{ user['name'] }}</h3>

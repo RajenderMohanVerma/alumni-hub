@@ -50,8 +50,8 @@
                     <div class="card-body text-center" style="padding-top: 3rem;">
                         <!-- Avatar -->
                         <div class="avatar-container">
-                            {% if user['profile_pic'] and user['profile_pic'].startswith('/') %}
-                            <img src="{{ user['profile_pic'] }}" alt="Avatar" class="avatar-img shadow-lg">
+                            {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
+                            <img src="{{ user['profile_pic'] }}" alt="Avatar" class="avatar-img shadow-lg" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'avatar-img shadow-lg initials-avatar-large\'>{{ user[\'name\'] | initials }}</div>';">
                             {% else %}
                             <div class="avatar-img shadow-lg initials-avatar-large">
                                 {{ user['name'] | initials }}

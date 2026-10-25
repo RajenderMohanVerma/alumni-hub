@@ -32,18 +32,43 @@
                         <div class="text-center mb-5 section-reveal position-relative">
                             <div class="avatar-edit-container mb-4">
                                 <div class="avatar-glow"></div>
+                                {% set has_custom_pic = user['profile_pic'] and (user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http') or user['profile_pic'].startswith('/')) and user['profile_pic'] != 'default.jpg' %}
                                 <img id="photoPreview"
-                                    src="{{ user['profile_pic'] if user['profile_pic'] and user['profile_pic'].startswith('/') else 'https://ui-avatars.com/api/?name=' + user['name'] + '&size=200&background=0D6EFD&color=fff' }}"
-                                    alt="Profile Photo" class="avatar-img shadow-2xl">
-                                <label for="profile_pic" class="avatar-upload-btn">
+                                    src="{{ user['profile_pic'] if has_custom_pic else '' }}"
+                                    alt="Profile Photo" class="avatar-img shadow-2xl {% if has_custom_pic %}d-block{% else %}d-none{% endif %}"
+                                    onerror="handleFacultyAvatarError(this)">
+                                
+                                <svg id="facultyDefaultAvatarSvg" class="avatar-img shadow-2xl {% if has_custom_pic %}d-none{% else %}d-block{% endif %}" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius: 50%; border: 3px solid #f59e0b;">
+                                    <defs>
+                                        <radialGradient id="facRadGrad" cx="50%" cy="35%" r="70%">
+                                            <stop offset="0%" stop-color="#1e293b" />
+                                            <stop offset="100%" stop-color="#0b1329" />
+                                        </radialGradient>
+                                        <linearGradient id="facAccGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#fbbf24" />
+                                            <stop offset="50%" stop-color="#f59e0b" />
+                                            <stop offset="100%" stop-color="#d97706" />
+                                        </linearGradient>
+                                    </defs>
+                                    <circle cx="80" cy="80" r="80" fill="url(#facRadGrad)" />
+                                    <circle cx="80" cy="80" r="74" stroke="url(#facAccGrad)" stroke-width="2" stroke-dasharray="5 5" opacity="0.4" />
+                                    <circle cx="80" cy="58" r="26" fill="url(#facAccGrad)" />
+                                    <path d="M38 126C38 102.8 56.8 84 80 84C103.2 84 122 102.8 122 126V138C122 141.3 119.3 144 116 144H44C40.7 144 38 141.3 38 138V126Z" fill="url(#facAccGrad)" opacity="0.9" />
+                                    <circle cx="112" cy="112" r="17" fill="#f59e0b" stroke="#0b1329" stroke-width="3"/>
+                                    <path d="M112 104L105 108L112 112L119 108L112 104ZM106 111V115C106 116.5 108.5 118 112 118C115.5 118 118 116.5 118 115V111L112 114L106 111Z" fill="#0b1329"/>
+                                </svg>
+
+                                <label for="profile_pic" class="avatar-upload-btn" title="Change Profile Picture" style="cursor: pointer;">
                                     <i class="fas fa-camera"></i>
                                 </label>
                             </div>
                             <input type="file" id="profile_pic" name="profile_pic" class="d-none" accept="image/*"
                                 onchange="previewPhoto(this)">
                             <h4 class="fw-bold text-white mb-1">{{ user['name'] }}</h4>
-                            <p class="text-white-50 small">{{ profile['designation'] }} • {{ profile['department'] }}
-                            </p>
+                            <p class="text-white-50 small mb-2">{{ profile['designation'] or 'Faculty Member' }} • {{ profile['department'] or 'Academic Staff' }}</p>
+                            <button type="button" class="btn btn-sm btn-outline-warning rounded-pill px-3 fw-bold" onclick="document.getElementById('profile_pic').click()">
+                                <i class="fas fa-camera me-1"></i> Change Photo
+                            </button>
                         </div>
 
                         <!-- Registry Information -->
@@ -567,8 +592,30 @@
     function previewPhoto(input) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
-            reader.onload = e => { document.getElementById('photoPreview').src = e.target.result; };
+            reader.onload = e => {
+                const img = document.getElementById('photoPreview');
+                const svg = document.getElementById('facultyDefaultAvatarSvg');
+                if (img) {
+                    img.src = e.target.result;
+                    img.classList.remove('d-none');
+                    img.classList.add('d-block');
+                }
+                if (svg) {
+                    svg.classList.add('d-none');
+                    svg.classList.remove('d-block');
+                }
+            };
             reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function handleFacultyAvatarError(img) {
+        img.classList.add('d-none');
+        img.classList.remove('d-block');
+        const svg = document.getElementById('facultyDefaultAvatarSvg');
+        if (svg) {
+            svg.classList.remove('d-none');
+            svg.classList.add('d-block');
         }
     }
 </script>

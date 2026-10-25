@@ -59,17 +59,43 @@
                             <!-- Photo Section -->
                             <div class="text-center mb-5 section-reveal">
                                 <div class="avatar-edit-container mb-4">
+                                    {% set has_custom_pic = user['profile_pic'] and (user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http') or user['profile_pic'].startswith('/')) and user['profile_pic'] != 'default.jpg' %}
                                     <img id="photoPreview"
-                                        src="{{ user['profile_pic'] if user['profile_pic'] and user['profile_pic'].startswith('/') else 'https://ui-avatars.com/api/?name=' + user['name'] + '&size=200&background=6366f1&color=fff' }}"
-                                        alt="Profile Photo" class="avatar-img shadow-lg">
-                                    <label for="profile_pic" class="avatar-upload-badge shadow-lg">
+                                        src="{{ user['profile_pic'] if has_custom_pic else '' }}"
+                                        alt="Profile Photo" class="avatar-img shadow-lg {% if has_custom_pic %}d-block{% else %}d-none{% endif %}"
+                                        onerror="handleStudentAvatarError(this)">
+
+                                    <svg id="studentDefaultAvatarSvg" class="avatar-img shadow-lg {% if has_custom_pic %}d-none{% else %}d-block{% endif %}" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius: 50%; border: 3px solid #6366f1;">
+                                        <defs>
+                                            <radialGradient id="studRadGrad" cx="50%" cy="35%" r="70%">
+                                                <stop offset="0%" stop-color="#1e293b" />
+                                                <stop offset="100%" stop-color="#0f172a" />
+                                            </radialGradient>
+                                            <linearGradient id="studAccGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#38bdf8" />
+                                                <stop offset="50%" stop-color="#6366f1" />
+                                                <stop offset="100%" stop-color="#a855f7" />
+                                            </linearGradient>
+                                        </defs>
+                                        <circle cx="80" cy="80" r="80" fill="url(#studRadGrad)" />
+                                        <circle cx="80" cy="80" r="74" stroke="url(#studAccGrad)" stroke-width="2" stroke-dasharray="5 5" opacity="0.4" />
+                                        <circle cx="80" cy="58" r="26" fill="url(#studAccGrad)" />
+                                        <path d="M38 126C38 102.8 56.8 84 80 84C103.2 84 122 102.8 122 126V138C122 141.3 119.3 144 116 144H44C40.7 144 38 141.3 38 138V126Z" fill="url(#studAccGrad)" opacity="0.9" />
+                                        <circle cx="112" cy="112" r="17" fill="#6366f1" stroke="#0f172a" stroke-width="3"/>
+                                        <path d="M112 104L105 108L112 112L119 108L112 104ZM106 111V115C106 116.5 108.5 118 112 118C115.5 118 118 116.5 118 115V111L112 114L106 111Z" fill="#ffffff"/>
+                                    </svg>
+
+                                    <label for="profile_pic" class="avatar-upload-badge shadow-lg" title="Upload Student Photo" style="cursor: pointer;">
                                         <i class="fas fa-camera"></i>
                                     </label>
                                 </div>
                                 <input type="file" id="profile_pic" name="profile_pic" class="d-none" accept="image/*"
                                     onchange="previewPhoto(this)">
                                 <h4 class="fw-bold text-dark mb-1">{{ user['name'] }}</h4>
-                                <p class="text-muted small">Update your profile picture to stand out</p>
+                                <p class="text-muted small mb-2">Update your verified student profile photo</p>
+                                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold" onclick="document.getElementById('profile_pic').click()">
+                                    <i class="fas fa-camera me-1"></i> Change Photo
+                                </button>
                             </div>
 
                             <!-- Personal Info Section -->
@@ -755,10 +781,30 @@
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function (e) {
-                document.getElementById('photoPreview').src = e.target.result;
+                const img = document.getElementById('photoPreview');
+                const svg = document.getElementById('studentDefaultAvatarSvg');
+                if (img) {
+                    img.src = e.target.result;
+                    img.classList.remove('d-none');
+                    img.classList.add('d-block');
+                }
+                if (svg) {
+                    svg.classList.add('d-none');
+                    svg.classList.remove('d-block');
+                }
                 showToast('Perfect! New photo selected.', 'success');
             };
             reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function handleStudentAvatarError(img) {
+        img.classList.add('d-none');
+        img.classList.remove('d-block');
+        const svg = document.getElementById('studentDefaultAvatarSvg');
+        if (svg) {
+            svg.classList.remove('d-none');
+            svg.classList.add('d-block');
         }
     }
 

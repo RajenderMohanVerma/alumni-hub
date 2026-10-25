@@ -1029,8 +1029,8 @@
                         <tr class="user-row" data-role="{{ user['role'] }}">
                             <td>
                                 <div class="d-flex align-items-center gap-3">
-                                    {% if user['profile_pic'] and user['profile_pic'].startswith('/') %}
-                                    <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] }}" class="avatar-image-node">
+                                    {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
+                                    <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] }}" class="avatar-image-node" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'avatar-initials-badge\'>{{ user[\'name\'] | initials }}</div>';">
                                     {% else %}
                                     <div class="avatar-initials-badge">
                                         {{ user['name'] | initials }}

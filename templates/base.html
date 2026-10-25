@@ -576,7 +576,7 @@
                         <a class="nav-link user-pill dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="user-avatar overflow-hidden">
-                                {% if current_user.profile_pic and current_user.profile_pic.startswith('/') %}
+                                {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
                                 <img src="{{ current_user.profile_pic }}" alt=""
                                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                                 {% else %}
