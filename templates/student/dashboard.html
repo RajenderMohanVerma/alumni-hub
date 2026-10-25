@@ -242,7 +242,8 @@
                     </div>
                     {% endif %}
                     <img src="{{ rec.profile_pic }}" class="rounded-circle mb-3 shadow-sm"
-                        style="width: 70px; height: 70px; object-fit: cover; border: 3px solid #e0e7ff;">
+                        style="width: 70px; height: 70px; object-fit: cover; border: 3px solid #e0e7ff;"
+                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ rec.name|urlencode }}&background=667eea&color=fff';">
                     <h6 class="fw-bold mb-1 text-truncate" title="{{ rec.name }}">{{ rec.name }}</h6>
                     <p class="text-muted small mb-2">{{ rec.branch or 'General' }}</p>
                     {% if rec.reason %}
@@ -316,8 +317,10 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="d-flex align-items-center p-3 border rounded-3 bg-light">
                             <div class="avatar-sm me-3">
-                                <img src="{{ req['profile_pic'] or 'https://ui-avatars.com/api/?name=' + req['name'] }}"
-                                    class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;">
+                                {% set req_pic = req['profile_pic'] if (req['profile_pic'] and req['profile_pic'] != 'default.jpg' and (req['profile_pic'].startswith('/') or req['profile_pic'].startswith('data:image/') or req['profile_pic'].startswith('http'))) else 'https://ui-avatars.com/api/?name=' + (req['name']|urlencode) %}
+                                <img src="{{ req_pic }}"
+                                    class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;"
+                                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ req.name|urlencode }}';">
                             </div>
                             <div class="flex-grow-1">
                                 <h6 class="mb-0 fw-bold">{{ req['name'] }}</h6>
@@ -386,8 +389,10 @@
                     <div class="premium-card holographic-border">
                         <div class="card-gradient-top alumni-gradient"></div>
                         <div class="card-avatar-wrapper">
-                            <img src="{{ alum['profile_pic'] or 'https://ui-avatars.com/api/?name=' + alum['name'] + '&bg=667eea&color=fff' }}"
-                                class="card-avatar">
+                            {% set alum_pic = alum['profile_pic'] if (alum['profile_pic'] and alum['profile_pic'] != 'default.jpg' and (alum['profile_pic'].startswith('/') or alum['profile_pic'].startswith('data:image/') or alum['profile_pic'].startswith('http'))) else 'https://ui-avatars.com/api/?name=' + (alum['name']|urlencode) + '&bg=667eea&color=fff' %}
+                            <img src="{{ alum_pic }}"
+                                class="card-avatar"
+                                onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ alum.name|urlencode }}&bg=667eea&color=fff';">
                         </div>
                         <div class="card-body-content text-center pt-2">
                             <h5 class="fw-bold mb-1 text-theme-primary">{{ alum['name'] }}</h5>
@@ -425,8 +430,10 @@
                     <div class="premium-card holographic-border">
                         <div class="card-gradient-top student-gradient"></div>
                         <div class="card-avatar-wrapper">
-                            <img src="{{ s['profile_pic'] or 'https://ui-avatars.com/api/?name=' + s['name'] + '&bg=4facfe&color=fff' }}"
-                                class="card-avatar">
+                            {% set s_pic = s['profile_pic'] if (s['profile_pic'] and s['profile_pic'] != 'default.jpg' and (s['profile_pic'].startswith('/') or s['profile_pic'].startswith('data:image/') or s['profile_pic'].startswith('http'))) else 'https://ui-avatars.com/api/?name=' + (s['name']|urlencode) + '&bg=4facfe&color=fff' %}
+                            <img src="{{ s_pic }}"
+                                class="card-avatar"
+                                onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ s.name|urlencode }}&bg=4facfe&color=fff';">
                         </div>
                         <div class="card-body-content text-center pt-2">
                             <h5 class="fw-bold mb-1 text-theme-primary">{{ s['name'] }}</h5>
@@ -472,8 +479,10 @@
                     <div class="premium-card holographic-border">
                         <div class="card-gradient-top faculty-gradient"></div>
                         <div class="card-avatar-wrapper">
-                            <img src="{{ f['profile_pic'] or 'https://ui-avatars.com/api/?name=' + f['name'] + '&bg=f093fb&color=fff' }}"
-                                class="card-avatar">
+                            {% set f_pic = f['profile_pic'] if (f['profile_pic'] and f['profile_pic'] != 'default.jpg' and (f['profile_pic'].startswith('/') or f['profile_pic'].startswith('data:image/') or f['profile_pic'].startswith('http'))) else 'https://ui-avatars.com/api/?name=' + (f['name']|urlencode) + '&bg=f093fb&color=fff' %}
+                            <img src="{{ f_pic }}"
+                                class="card-avatar"
+                                onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ f.name|urlencode }}&bg=f093fb&color=fff';">
                         </div>
                         <div class="card-body-content text-center pt-2">
                             <h5 class="fw-bold mb-1 text-theme-primary">{{ f['name'] }}</h5>

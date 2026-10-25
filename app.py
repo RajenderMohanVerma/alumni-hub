@@ -321,7 +321,11 @@ def load_user(user_id):
         user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
         if user:
             # Avatar generation logic
-            avatar = user['profile_pic'] if user['profile_pic'] else f"https://ui-avatars.com/api/?name={user['name']}&background=0D6EFD&color=fff"
+            pic = user['profile_pic']
+            if pic and pic != 'default.jpg' and ('static/uploads/admin_1_1770903475' not in pic):
+                avatar = pic
+            else:
+                avatar = f"https://ui-avatars.com/api/?name={user['name']}&background=0D6EFD&color=fff"
             is_verified = user['is_verified'] if 'is_verified' in user.keys() else 1
             
             def get_field(key):
@@ -2640,19 +2644,24 @@ def admin_registrations():
         search_query = request.args.get('search', '')
 
         # Build query with filters
-        query = 'SELECT * FROM registration_log WHERE 1=1'
+        query = '''
+            SELECT r.*, u.profile_pic as user_profile_pic, u.id as user_account_id
+            FROM registration_log r
+            LEFT JOIN users u ON (r.email = u.email)
+            WHERE 1=1
+        '''
         params = []
 
         if role_filter:
-            query += ' AND role = ?'
+            query += ' AND r.role = ?'
             params.append(role_filter)
 
         if search_query:
-            query += ' AND (name LIKE ? OR email LIKE ?)'
+            query += ' AND (r.name LIKE ? OR r.email LIKE ?)'
             search_term = f'%{search_query}%'
             params.extend([search_term, search_term])
 
-        query += ' ORDER BY registered_at DESC'
+        query += ' ORDER BY r.registered_at DESC'
 
         registrations = c.execute(query, params).fetchall()
 

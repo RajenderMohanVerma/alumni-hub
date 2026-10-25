@@ -873,7 +873,7 @@
             html += `
                 <div class="msg-thread-item ${isActive}" onclick="selectConversation(${c.other_user_id})">
                     <div class="msg-avatar">
-                        ${c.other_user_pic ? `<img src="${c.other_user_pic}" alt="${escapeHtml(c.other_user_name)}">` : initials}
+                        ${renderAvatarMarkup(c.other_user_pic, c.other_user_name)}
                         <span class="msg-status-dot"></span>
                     </div>
                     <div class="msg-thread-meta">
@@ -937,11 +937,7 @@
             roleEl.className = `msg-role-badge role-${contactRole.toLowerCase()}`;
             
             const avatarEl = document.getElementById('chatHeadAvatar');
-            if (contactPic) {
-                avatarEl.innerHTML = `<img src="${contactPic}" alt="${escapeHtml(contactName)}"><span class="msg-status-dot"></span>`;
-            } else {
-                avatarEl.innerHTML = `<span>${getInitials(contactName)}</span><span class="msg-status-dot"></span>`;
-            }
+            avatarEl.innerHTML = renderAvatarMarkup(contactPic, contactName) + '<span class="msg-status-dot"></span>';
             updateChatProfileLink(userId, contactRole);
         }
 
@@ -1029,11 +1025,7 @@
                     roleEl.className = `msg-role-badge role-${activeUserRole.toLowerCase()}`;
                     
                     const avatarEl = document.getElementById('chatHeadAvatar');
-                    if (data.other_user.profile_pic) {
-                        avatarEl.innerHTML = `<img src="${data.other_user.profile_pic}" alt="${escapeHtml(data.other_user.name)}"><span class="msg-status-dot"></span>`;
-                    } else {
-                        avatarEl.innerHTML = `<span>${getInitials(data.other_user.name)}</span><span class="msg-status-dot"></span>`;
-                    }
+                    avatarEl.innerHTML = renderAvatarMarkup(data.other_user.profile_pic, data.other_user.name) + '<span class="msg-status-dot"></span>';
 
                     updateChatProfileLink(userId, activeUserRole);
                 }
@@ -1328,7 +1320,7 @@
                 <div class="msg-modal-user-item" onclick="startChatWithUser(${u.id})">
                     <div class="d-flex align-items-center gap-3">
                         <div class="msg-avatar" style="width: 40px; height: 40px; font-size: 0.95rem;">
-                            ${u.profile_pic ? `<img src="${u.profile_pic}" alt="${escapeHtml(u.name)}">` : initials}
+                            ${renderAvatarMarkup(u.profile_pic, u.name)}
                         </div>
                         <div>
                             <div class="fw-bold text-dark mb-0">${escapeHtml(u.name)}</div>
@@ -1359,6 +1351,21 @@
     }
 
     // Helper Utilities
+    function isValidAvatar(pic) {
+        if (!pic || typeof pic !== 'string') return false;
+        pic = pic.trim();
+        if (pic === '' || pic === 'default.jpg' || pic === 'None' || pic === 'null') return false;
+        return pic.startsWith('/') || pic.startsWith('data:image/') || pic.startsWith('http');
+    }
+
+    function renderAvatarMarkup(pic, name) {
+        const initials = getInitials(name);
+        if (isValidAvatar(pic)) {
+            return `<img src="${pic}" alt="${escapeHtml(name)}" onerror="this.onerror=null; this.parentElement.innerHTML='<span>${initials}</span><span class=\\'msg-status-dot\\'></span>';">`;
+        }
+        return `<span>${initials}</span>`;
+    }
+
     function getInitials(name) {
         if (!name) return 'U';
         const parts = name.trim().split(' ');

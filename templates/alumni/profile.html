@@ -73,7 +73,7 @@
                             <div class="avatar-ring"></div>
                             <div class="profile-avatar-xl shadow-2xl mx-auto">
                                 {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
-                                <img src="{{ user['profile_pic'] }}" alt="Avatar" class="avatar-img-extreme" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'avatar-img-extreme initials-avatar-extreme\'>{{ user[\'name\'] | initials }}</div>';">
+                                <img src="{{ user['profile_pic'] }}" alt="Avatar" class="avatar-img-extreme" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'avatar-img-extreme initials-avatar-extreme\'>{{ user.name | initials }}</div>';">
                                 {% else %}
                                 <div class="avatar-img-extreme initials-avatar-extreme">
                                     {{ user['name'] | initials }}

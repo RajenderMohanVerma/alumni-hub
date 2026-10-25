@@ -333,8 +333,10 @@
                             <div class="card-cover bg-gradient-info"></div>
                             <div class="card-content text-center">
                                 <div class="avatar-holder">
-                                    <img src="{{ s['profile_pic'] or 'https://ui-avatars.com/api/?name=' + s['name'] }}"
-                                        alt="{{ s['name'] }}">
+                                    {% set s_pic = s['profile_pic'] if (s['profile_pic'] and s['profile_pic'] != 'default.jpg' and (s['profile_pic'].startswith('/') or s['profile_pic'].startswith('data:image/') or s['profile_pic'].startswith('http'))) else 'https://ui-avatars.com/api/?name=' + (s['name']|urlencode) %}
+                                    <img src="{{ s_pic }}"
+                                        alt="{{ s['name'] }}"
+                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ s['name']|urlencode }}';">
                                 </div>
                                 <h5 class="fw-bold mt-3 mb-1">{{ s['name'] }}</h5>
                                 <div class="badge bg-light text-dark mb-2 border">{{ s['department'] }}</div>
@@ -375,8 +377,10 @@
                             <div class="card-cover bg-gradient-primary"></div>
                             <div class="card-content text-center">
                                 <div class="avatar-holder">
-                                    <img src="{{ alum['profile_pic'] or 'https://ui-avatars.com/api/?name=' + alum['name'] }}"
-                                        alt="{{ alum['name'] }}">
+                                    {% set alum_pic = alum['profile_pic'] if (alum['profile_pic'] and alum['profile_pic'] != 'default.jpg' and (alum['profile_pic'].startswith('/') or alum['profile_pic'].startswith('data:image/') or alum['profile_pic'].startswith('http'))) else 'https://ui-avatars.com/api/?name=' + (alum['name']|urlencode) %}
+                                    <img src="{{ alum_pic }}"
+                                        alt="{{ alum['name'] }}"
+                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ alum['name']|urlencode }}';">
                                 </div>
                                 <h5 class="fw-bold mt-3 mb-1">{{ alum['name'] }}</h5>
                                 <div class="badge bg-light text-primary mb-2 border">{{ alum['company_name'] or 'Working
@@ -413,8 +417,10 @@
                             <div class="card-cover bg-gradient-warning"></div>
                             <div class="card-content text-center">
                                 <div class="avatar-holder">
-                                    <img src="{{ fac['profile_pic'] or 'https://ui-avatars.com/api/?name=' + fac['name'] }}"
-                                        alt="{{ fac['name'] }}">
+                                    {% set fac_pic = fac['profile_pic'] if (fac['profile_pic'] and fac['profile_pic'] != 'default.jpg' and (fac['profile_pic'].startswith('/') or fac['profile_pic'].startswith('data:image/') or fac['profile_pic'].startswith('http'))) else 'https://ui-avatars.com/api/?name=' + (fac['name']|urlencode) %}
+                                    <img src="{{ fac_pic }}"
+                                        alt="{{ fac['name'] }}"
+                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ fac['name']|urlencode }}';">
                                 </div>
                                 <h5 class="fw-bold mt-3 mb-1">{{ fac['name'] }}</h5>
                                 <div class="badge bg-light text-warning mb-2 border">{{ fac['designation'] or 'Faculty'

@@ -46,7 +46,7 @@
                 <div class="admin-card text-center h-100">
                     <div class="position-relative d-inline-block mx-auto mb-3">
                         {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
-                        <img src="{{ user['profile_pic'] }}" alt="Admin" class="rounded-circle border border-3 border-primary shadow" style="width: 140px; height: 140px; object-fit: cover;">
+                        <img src="{{ user['profile_pic'] }}" alt="Admin" class="rounded-circle border border-3 border-primary shadow" style="width: 140px; height: 140px; object-fit: cover;" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'rounded-circle d-grid place-items-center fw-bold text-white shadow-lg mx-auto border border-3 border-primary\' style=\'width: 140px; height: 140px; background: linear-gradient(135deg, #0284c7 0%, #7c3aed 100%); font-size: 2.8rem; font-family: Outfit, sans-serif;\'>{{ user.name[:2]|upper }}</div>';">
                         {% else %}
                         <div class="rounded-circle d-grid place-items-center fw-bold text-white shadow-lg mx-auto border border-3 border-primary" style="width: 140px; height: 140px; background: linear-gradient(135deg, #0284c7 0%, #7c3aed 100%); font-size: 2.8rem; font-family: 'Outfit', sans-serif;">
                             {{ user['name'][:2]|upper }}
