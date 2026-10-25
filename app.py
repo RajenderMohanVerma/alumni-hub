@@ -73,8 +73,11 @@ mail.init_app(app)
 # Initialize Scheduler
 scheduler = APScheduler()
 scheduler.init_app(app)
-if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
-    scheduler.start()
+if (not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true') and not os.environ.get('VERCEL'):
+    try:
+        scheduler.start()
+    except Exception as e:
+        app.logger.warning(f"Scheduler start skipped: {e}")
 
 DB_NAME = app.config['DB_NAME']
 
