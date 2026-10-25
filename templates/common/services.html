@@ -352,66 +352,161 @@
         color: #ffffff;
     }
 
+    /* Hero KPI Pills */
+    .hero-kpi-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        color: #ffffff;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        transition: all 0.2s ease;
+    }
+    .hero-kpi-pill:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+    }
+
     /* Mobile Responsive Optimizations */
     @media (max-width: 991px) {
         .service-roadmap-track::before {
-            display: none;
+            display: none !important;
         }
 
         .roadmap-step-item {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             text-align: left;
             display: flex;
             align-items: flex-start;
-            gap: 1.25rem;
+            gap: 1.15rem;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 18px 16px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
         }
 
         .roadmap-step-badge {
             margin: 0;
             flex-shrink: 0;
-            width: 52px;
-            height: 52px;
+            width: 48px;
+            height: 48px;
             font-size: 1rem;
         }
     }
 
     @media (max-width: 768px) {
-        .service-vip-card {
-            border-radius: 20px !important;
-            padding: 1.5rem !important;
-        }
-
-        .service-filter-wrapper {
-            border-radius: 18px;
-            width: 100%;
-            justify-content: flex-start;
-            padding: 4px;
-        }
-
-        .service-filter-btn {
-            padding: 8px 14px;
-            font-size: 0.82rem;
+        .hero-premium,
+        .glass-hero {
+            padding: 85px 12px 35px !important;
         }
 
         .hero-title {
-            font-size: 2.3rem !important;
+            font-size: clamp(1.9rem, 7vw, 2.5rem) !important;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 0.92rem !important;
+            line-height: 1.55 !important;
+            padding: 0 4px;
+        }
+
+        .hero-kpi-pill {
+            font-size: 0.75rem;
+            padding: 5px 10px;
+            gap: 4px;
+        }
+
+        .hero-cta-buttons {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+            width: 100% !important;
+            max-width: 330px !important;
+            margin: 1.25rem auto 0 !important;
+        }
+
+        .hero-cta-buttons .btn-premium {
+            width: 100% !important;
+            min-height: 46px;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.92rem;
+        }
+
+        .service-vip-card {
+            border-radius: 20px !important;
+            padding: 1.25rem 1.15rem !important;
+        }
+
+        .service-filter-wrapper {
+            border-radius: 999px;
+            width: 100%;
+            justify-content: flex-start;
+            padding: 4px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .service-filter-btn {
+            padding: 7px 12px;
+            font-size: 0.78rem;
+            white-space: nowrap;
         }
 
         .finder-widget-card {
             border-radius: 20px;
-            padding: 1.5rem !important;
+            padding: 1.25rem !important;
+        }
+
+        .finder-widget-card .form-select {
+            font-size: 16px !important; /* Prevents iOS auto-zoom */
+        }
+
+        .service-cta-card {
+            border-radius: 22px !important;
+            padding: 1.5rem 1.15rem !important;
+        }
+
+        .service-cta-card .d-flex {
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+
+        .service-cta-card .btn {
+            width: 100% !important;
+            padding: 0.75rem 1rem !important;
         }
     }
 
     @media (max-width: 480px) {
         .service-vip-card {
-            padding: 1.25rem !important;
+            padding: 1.15rem 1rem !important;
         }
 
         .service-icon-box {
-            width: 46px;
-            height: 46px;
-            font-size: 1.2rem;
+            width: 42px;
+            height: 42px;
+            font-size: 1.15rem;
+            border-radius: 12px;
+        }
+
+        .home-card-title {
+            font-size: 1.15rem !important;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 14px;
+            font-size: 0.85rem;
         }
     }
 
@@ -504,7 +599,7 @@
             <div class="hero-content text-center mx-auto">
                 <div
                     class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade hero-network-badge">
-                    <i class="fas fa-sparkles me-2 text-warning"></i> COMPREHENSIVE UNIVERSITY ECOSYSTEM
+                    <i class="fas fa-sparkles me-2 text-warning"></i> <span>University Ecosystem &amp; Services</span>
                 </div>
                 <h1 class="hero-title fw-bold mb-3 reveal-text text-white">
                     Services &amp; <span class="text-holographic">Offerings</span>
@@ -516,21 +611,17 @@
 
                 <!-- Hero KPI Pills -->
                 <div class="d-flex justify-content-center flex-wrap gap-2 mb-4 reveal-fade">
-                    <span
-                        class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 px-3 py-2 rounded-pill small">
-                        <i class="fas fa-user-graduate me-1 text-info"></i> 15,000+ Alumni
+                    <span class="hero-kpi-pill">
+                        <i class="fas fa-user-graduate text-info"></i> 15,000+ Alumni
                     </span>
-                    <span
-                        class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 px-3 py-2 rounded-pill small">
-                        <i class="fas fa-briefcase me-1 text-success"></i> 500+ Partner Companies
+                    <span class="hero-kpi-pill">
+                        <i class="fas fa-briefcase text-success"></i> 500+ Companies
                     </span>
-                    <span
-                        class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 px-3 py-2 rounded-pill small">
-                        <i class="fas fa-handshake me-1 text-warning"></i> 1:1 Mentorship
+                    <span class="hero-kpi-pill">
+                        <i class="fas fa-handshake text-warning"></i> 1:1 Mentorship
                     </span>
-                    <span
-                        class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 px-3 py-2 rounded-pill small">
-                        <i class="fas fa-shield-alt me-1 text-primary"></i> 100% Free Campus Access
+                    <span class="hero-kpi-pill">
+                        <i class="fas fa-shield-halved text-primary"></i> 100% Free Access
                     </span>
                 </div>
 

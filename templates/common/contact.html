@@ -282,26 +282,58 @@
     }
 
     @media (max-width: 768px) {
+        .hero-premium,
+        .glass-hero {
+            padding: 85px 14px 35px !important;
+        }
+        .hero-title {
+            font-size: clamp(2rem, 7vw, 2.6rem) !important;
+            letter-spacing: -0.02em;
+        }
+        .hero-subtitle {
+            font-size: 0.92rem !important;
+            line-height: 1.55 !important;
+            padding: 0 4px;
+        }
+        .hero-cta-buttons {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+            width: 100% !important;
+            max-width: 320px !important;
+            margin: 1.25rem auto 0 !important;
+        }
+        .hero-cta-buttons .btn-premium {
+            width: 100% !important;
+            min-height: 46px;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.92rem;
+        }
         .contact-vip-card {
             padding: 20px 18px;
             border-radius: 20px;
         }
-        .hero-title {
-            font-size: 2.25rem !important;
-        }
         .topic-pill {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             padding: 6px 12px;
+        }
+        .contact-input-group .form-control,
+        .contact-input-group .form-select {
+            font-size: 16px !important; /* Prevents iOS auto-zoom */
+        }
+        .btn-cta-primary, .btn-cta-dark, .btn-cta-outline {
+            width: 100%;
         }
     }
     @media (max-width: 480px) {
         .contact-input-group .form-control,
         .contact-input-group .form-select {
-            font-size: 0.88rem;
+            font-size: 16px !important;
             padding: 0.65rem 0.75rem;
         }
-        .btn-cta-primary, .btn-cta-dark, .btn-cta-outline {
-            width: 100%;
+        .contact-vip-card {
+            padding: 16px 14px;
         }
     }
 </style>
@@ -322,7 +354,7 @@
         <div class="container" style="position: relative; z-index: 2;">
             <div class="hero-content text-center mx-auto">
                 <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade hero-network-badge">
-                    <i class="fas fa-headset me-2"></i> WE'RE HERE TO HELP • 24/7 SUPPORT DESK
+                    <i class="fas fa-headset me-2 text-primary"></i> <span>24/7 Help &amp; Support Desk</span>
                 </div>
                 <h1 class="hero-title fw-bold mb-3 reveal-text text-white">
                     Get in <span class="text-holographic">Touch</span>
@@ -336,7 +368,7 @@
                         <div class="btn-glow"></div>
                     </a>
                     <a href="#quick-info" class="btn btn-premium btn-premium-secondary magnetic-button">
-                        <i class="fas fa-map-marker-alt me-1"></i> Campus & Directory
+                        <i class="fas fa-map-marker-alt me-1"></i> Campus &amp; Directory
                     </a>
                 </div>
             </div>
@@ -408,7 +440,7 @@
                     <div>
                         <div class="contact-icon-box"><i class="fas fa-envelope-open-text"></i></div>
                         <h4 class="fw-bold mb-2" style="font-family: 'Outfit'; color: #0f172a; font-size: 1.25rem;">Email Inquiries</h4>
-                        <p class="text-muted small mb-3" style="line-height: 1.6;">
+                        <p class="text-muted small mb-3" style="line-height: 1.6; word-break: break-all;">
                             alumnihub26@gmail.com<br>
                             Support: alumnihub26@gmail.com
                         </p>

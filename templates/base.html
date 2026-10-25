@@ -896,8 +896,8 @@
                         <div class="footer-section">
                             <div class="d-flex align-items-center gap-2 mb-3">
                                 <div class="brand-logo-container"
-                                    style="width: 38px; height: 38px; font-size: 1.15rem;">
-                                    <i class="fas fa-graduation-cap"></i>
+                                    style="width: 38px; height: 38px;">
+                                    <img src="{{ url_for('static', filename='images/icons/app-logo.png') }}" alt="Alumni Hub Logo" class="brand-app-logo">
                                 </div>
                                 <h5 class="footer-title mb-0" style="font-size: 1.25rem;">ALUMNI HUB</h5>
                             </div>
@@ -1518,28 +1518,30 @@
         }
 
         .pwa-sheet-logo {
-            width: 76px;
-            height: 76px;
+            width: 82px;
+            height: 82px;
             border-radius: 20px;
-            box-shadow: 0 12px 30px rgba(2, 132, 199, 0.35);
+            box-shadow: 0 16px 36px rgba(2, 132, 199, 0.42), 0 4px 12px rgba(0, 0, 0, 0.08);
             position: relative;
             z-index: 2;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.35));
         }
 
         .pwa-logo-glow {
             position: absolute;
-            inset: -6px;
-            border-radius: 26px;
-            background: linear-gradient(135deg, #38bdf8, #6366f1);
-            filter: blur(14px);
-            opacity: 0.6;
+            inset: -8px;
+            border-radius: 28px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.75) 0%, rgba(37, 99, 235, 0.5) 55%, transparent 75%);
+            filter: blur(16px);
+            opacity: 0.75;
             z-index: 1;
             animation: pwaPulseGlow 3s ease-in-out infinite;
         }
 
         @keyframes pwaPulseGlow {
-            0%, 100% { opacity: 0.45; transform: scale(0.96); }
-            50% { opacity: 0.8; transform: scale(1.05); }
+            0%, 100% { opacity: 0.5; transform: scale(0.96); }
+            50% { opacity: 0.85; transform: scale(1.06); }
         }
 
         .pwa-badge {

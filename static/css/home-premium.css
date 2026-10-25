@@ -48,11 +48,28 @@
 .hero-network-badge {
     display: inline-flex;
     align-items: center;
-    font-size: 0.8rem;
+    justify-content: center;
+    text-align: center;
+    white-space: normal !important;
+    max-width: 95%;
+    font-size: clamp(0.72rem, 2.5vw, 0.8rem);
     font-weight: 750;
-    letter-spacing: 1.2px;
+    letter-spacing: 0.6px;
+    line-height: 1.35;
+    word-break: break-word;
     border: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 576px) {
+    .hero-network-badge {
+        font-size: 0.72rem !important;
+        padding: 6px 14px !important;
+        letter-spacing: 0.4px !important;
+        border-radius: 999px !important;
+    }
 }
 
 .hero-cta-buttons {

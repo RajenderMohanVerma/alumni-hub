@@ -85,22 +85,34 @@
 }
 
 .brand-logo-container {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, #4f46e5 0%, #8b5cf6 100%);
+    width: 44px;
+    height: 44px;
+    background: transparent;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
-    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-app-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    display: block;
+    filter: drop-shadow(0 4px 12px rgba(2, 132, 199, 0.35));
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .navbar-brand:hover .brand-logo-container {
-    transform: rotate(-10deg) scale(1.1);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+    transform: translateY(-2px) scale(1.05);
+}
+
+.navbar-brand:hover .brand-app-logo {
+    filter: drop-shadow(0 6px 18px rgba(37, 99, 235, 0.5));
 }
 
 .brand-text-wrapper {
@@ -1067,12 +1079,11 @@
     width: 42px;
     height: 42px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
-    color: #ffffff;
-    display: grid;
-    place-items: center;
-    font-size: 1.25rem;
+    background: transparent;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .navbar-floating .nav-pill-link {

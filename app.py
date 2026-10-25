@@ -733,6 +733,30 @@ def init_db():
             )
         ''')
 
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS support_tickets (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                ticket_num TEXT UNIQUE NOT NULL,
+                reporter_id INTEGER NULL,
+                reporter_name TEXT NOT NULL,
+                reporter_email TEXT NOT NULL,
+                reporter_role TEXT DEFAULT 'Guest',
+                category TEXT NOT NULL,
+                subject TEXT NOT NULL,
+                description TEXT NOT NULL,
+                priority TEXT DEFAULT 'Medium',
+                status TEXT DEFAULT 'Pending',
+                admin_notes TEXT DEFAULT '',
+                resolved_by TEXT NULL,
+                resolved_at TEXT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (reporter_id) REFERENCES users(id) ON DELETE SET NULL
+            )
+        ''')
+        c.execute('CREATE INDEX IF NOT EXISTS idx_tickets_status ON support_tickets(status)')
+        c.execute('CREATE INDEX IF NOT EXISTS idx_tickets_created_at ON support_tickets(created_at)')
+
         conn.commit()
 
         # Messaging tables. These were previously only created by
@@ -815,9 +839,23 @@ def contact():
                 send_email(email, '✓ Message Received - Alumni Hub', user_html)
 
             except Exception as email_error:
-
                 print(f"Email sending error: {email_error}")
                 # Continue even if email fails
+
+            # Save inquiry into support_tickets for real-time admin incident console
+            try:
+                ticket_num = f"INQ-{secrets.token_hex(3).upper()}"
+                reporter_id = current_user.id if current_user.is_authenticated else None
+                reporter_role = current_user.role if current_user.is_authenticated else role_type
+                with get_db_connection() as tkt_conn:
+                    tkt_conn.execute('''
+                        INSERT INTO support_tickets 
+                        (ticket_num, reporter_id, reporter_name, reporter_email, reporter_role, category, subject, description, priority, status)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')
+                    ''', (ticket_num, reporter_id, name, email, reporter_role, 'Contact Inquiry', subject, message, 'Medium'))
+                    tkt_conn.commit()
+            except Exception as tkt_err:
+                print(f"Warning saving contact inquiry ticket: {tkt_err}")
 
             flash('Thank you! We will get back to you soon.', 'success')
             return redirect(url_for('contact'))
@@ -4278,10 +4316,26 @@ def report_issue():
             admin_email = app.config.get('ADMIN_EMAIL', 'alumnihub26@gmail.com')
             success, msg_text = send_email(admin_email, f'🚨 Issue Report: {issue_type}', html_content)
             
+            # Save ticket into DB for real-time Admin Incident Console
+            try:
+                ticket_num = f"TKT-{secrets.token_hex(3).upper()}"
+                reporter_id = current_user.id if current_user.is_authenticated else None
+                reporter_role = current_user.role if current_user.is_authenticated else 'Guest'
+                priority = 'High' if any(w in issue_type.lower() for w in ['bug', 'security', 'error', 'fraud', 'login', 'access']) else 'Medium'
+                with get_db_connection() as tkt_conn:
+                    tkt_conn.execute('''
+                        INSERT INTO support_tickets 
+                        (ticket_num, reporter_id, reporter_name, reporter_email, reporter_role, category, subject, description, priority, status)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')
+                    ''', (ticket_num, reporter_id, name, email, reporter_role, issue_type, f"{issue_type} Report", description, priority))
+                    tkt_conn.commit()
+            except Exception as tkt_err:
+                print(f"Warning saving issue ticket: {tkt_err}")
+
             if success:
                 flash('Issue reported successfully! We will get back to you soon.', 'success')
             else:
-                flash(f'Error sending report: {msg_text}', 'danger')
+                flash(f'Issue submitted to ticket desk! (Email notification note: {msg_text})', 'info')
             
             return redirect(url_for('report_issue'))
 
@@ -4639,10 +4693,163 @@ def announcements():
 def reports():
     if current_user.role == 'faculty':
         return render_template('faculty/reports.html')
-    if current_user.role == 'admin':
-        return render_template('admin/reports.html')
-    flash('Access denied!', 'danger')
-    return redirect(url_for('home'))
+    if current_user.role != 'admin':
+        flash('Access denied! Administrator privileges required.', 'danger')
+        return redirect(url_for('home'))
+
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    # Ensure table exists
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS support_tickets (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            ticket_num TEXT UNIQUE NOT NULL,
+            reporter_id INTEGER NULL,
+            reporter_name TEXT NOT NULL,
+            reporter_email TEXT NOT NULL,
+            reporter_role TEXT DEFAULT 'Guest',
+            category TEXT NOT NULL,
+            subject TEXT NOT NULL,
+            description TEXT NOT NULL,
+            priority TEXT DEFAULT 'Medium',
+            status TEXT DEFAULT 'Pending',
+            admin_notes TEXT DEFAULT '',
+            resolved_by TEXT NULL,
+            resolved_at TEXT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (reporter_id) REFERENCES users(id) ON DELETE SET NULL
+        )
+    ''')
+
+    # Clean up any leftover demo sample tickets
+    c.execute("DELETE FROM support_tickets WHERE ticket_num IN ('TKT-1024', 'TKT-1023')")
+    conn.commit()
+
+    # Fetch all real tickets
+    c.execute('''
+        SELECT id, ticket_num, reporter_id, reporter_name, reporter_email, reporter_role,
+               category, subject, description, priority, status, admin_notes, resolved_by,
+               resolved_at, created_at, updated_at
+        FROM support_tickets
+        ORDER BY 
+            CASE status 
+                WHEN 'Pending' THEN 1 
+                WHEN 'In Progress' THEN 2 
+                WHEN 'Resolved' THEN 3 
+                ELSE 4 
+            END,
+            id DESC
+    ''')
+    rows = c.fetchall()
+
+    tickets = [dict(r) for r in rows]
+    total_count = len(tickets)
+    pending_count = sum(1 for t in tickets if t.get('status') == 'Pending')
+    in_progress_count = sum(1 for t in tickets if t.get('status') == 'In Progress')
+    resolved_count = sum(1 for t in tickets if t.get('status') == 'Resolved')
+
+    conn.close()
+
+    return render_template(
+        'admin/reports.html',
+        tickets=tickets,
+        total_count=total_count,
+        pending_count=pending_count,
+        in_progress_count=in_progress_count,
+        resolved_count=resolved_count
+    )
+
+@app.route('/api/admin/reports/live')
+@login_required
+def api_admin_reports_live():
+    if current_user.role != 'admin':
+        return jsonify({'success': False, 'error': 'Unauthorized'}), 403
+
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('''
+        SELECT id, ticket_num, reporter_id, reporter_name, reporter_email, reporter_role,
+               category, subject, description, priority, status, admin_notes, resolved_by,
+               resolved_at, created_at, updated_at
+        FROM support_tickets
+        ORDER BY 
+            CASE status 
+                WHEN 'Pending' THEN 1 
+                WHEN 'In Progress' THEN 2 
+                WHEN 'Resolved' THEN 3 
+                ELSE 4 
+            END,
+            id DESC
+    ''')
+    rows = c.fetchall()
+    tickets = [dict(r) for r in rows]
+    conn.close()
+
+    total_count = len(tickets)
+    pending_count = sum(1 for t in tickets if t.get('status') == 'Pending')
+    in_progress_count = sum(1 for t in tickets if t.get('status') == 'In Progress')
+    resolved_count = sum(1 for t in tickets if t.get('status') == 'Resolved')
+
+    return jsonify({
+        'success': True,
+        'total_count': total_count,
+        'pending_count': pending_count,
+        'in_progress_count': in_progress_count,
+        'resolved_count': resolved_count,
+        'tickets': tickets
+    })
+
+@app.route('/api/admin/reports/<int:ticket_id>/status', methods=['POST'])
+@login_required
+def api_admin_update_ticket_status(ticket_id):
+    if current_user.role != 'admin':
+        return jsonify({'success': False, 'error': 'Unauthorized'}), 403
+
+    data = request.get_json(silent=True) or request.form
+    new_status = data.get('status', 'Resolved').strip()
+    admin_notes = data.get('admin_notes', '').strip()
+
+    valid_statuses = ['Pending', 'In Progress', 'Resolved', 'Closed']
+    if new_status not in valid_statuses:
+        return jsonify({'success': False, 'error': 'Invalid status'}), 400
+
+    conn = get_db_connection()
+    now_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    if new_status in ['Resolved', 'Closed']:
+        resolved_by = current_user.name
+        resolved_at = now_str
+    else:
+        resolved_by = None
+        resolved_at = None
+
+    conn.execute('''
+        UPDATE support_tickets 
+        SET status = ?, 
+            admin_notes = CASE WHEN ? != '' THEN ? ELSE admin_notes END,
+            resolved_by = ?, 
+            resolved_at = ?, 
+            updated_at = ?
+        WHERE id = ?
+    ''', (new_status, admin_notes, admin_notes, resolved_by, resolved_at, now_str, ticket_id))
+    conn.commit()
+    conn.close()
+
+    return jsonify({'success': True, 'ticket_id': ticket_id, 'new_status': new_status})
+
+@app.route('/api/admin/reports/<int:ticket_id>/delete', methods=['POST'])
+@login_required
+def api_admin_delete_ticket(ticket_id):
+    if current_user.role != 'admin':
+        return jsonify({'success': False, 'error': 'Unauthorized'}), 403
+
+    conn = get_db_connection()
+    conn.execute('DELETE FROM support_tickets WHERE id = ?', (ticket_id,))
+    conn.commit()
+    conn.close()
+
+    return jsonify({'success': True, 'ticket_id': ticket_id})
 
 # --- ADMIN ROUTES ---
 
