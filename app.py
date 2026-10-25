@@ -4,7 +4,7 @@ import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='requests')
 warnings.filterwarnings('ignore', message=r".*doesn't match a supported version!.*")
 
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session, send_from_directory, make_response
 from flask_socketio import SocketIO
 import random
 import secrets
@@ -4768,6 +4768,26 @@ def periodic_profile_reminder():
             print(f"❌ Error in periodic_profile_reminder task: {e}")
             import traceback
             traceback.print_exc()
+
+# --- PWA & ROOT SEO ENDPOINTS ---
+@app.route('/manifest.json')
+def serve_manifest():
+    return send_from_directory('static', 'manifest.json', mimetype='application/manifest+json')
+
+@app.route('/service-worker.js')
+def serve_service_worker():
+    response = make_response(send_from_directory('static', 'service-worker.js', mimetype='application/javascript'))
+    response.headers['Service-Worker-Allowed'] = '/'
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    return response
+
+@app.route('/robots.txt')
+def serve_robots():
+    return send_from_directory('static', 'robots.txt', mimetype='text/plain')
+
+@app.route('/sitemap.xml')
+def serve_sitemap():
+    return send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
 
 # --- Register Modular Blueprints (module-level for Gunicorn/production compatibility) ---
 try:

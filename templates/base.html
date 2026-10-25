@@ -19,6 +19,18 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ request.url }}">
 
+    <!-- PWA Progressive Web App & App Icons -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0284c7">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Alumni Hub">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/icons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='images/icons/icon-192.png') }}">
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='images/icons/favicon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/icons/favicon.png') }}">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.url }}">
@@ -163,12 +175,17 @@
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar navbar-expand-lg navbar-floating fixed-top smart-scroll-nav" id="mainNavbar">
         <div class="container-fluid navbar-container">
-            <a class="navbar-brand brand-premium" href="/">
+            <a class="navbar-brand brand-premium" href="/" title="Alumni Hub Official Portal">
                 <div class="brand-logo-container">
-                    <i class="fas fa-graduation-cap"></i>
+                    <img src="{{ url_for('static', filename='images/icons/app-logo.png') }}" alt="Alumni Hub Logo" class="brand-app-logo">
                 </div>
                 <strong class="brand-text-premium brand-animate-rtl">ALUMNI HUB</strong>
             </a>
+
+            <!-- Mobile App Download Quick Button -->
+            <button class="btn-pwa-mobile-pill d-none" id="pwaMobileHeaderBtn" type="button" title="Download Alumni Hub App" aria-label="Download App">
+                <i class="fas fa-cloud-arrow-down"></i>
+            </button>
 
             {% if not current_user.is_authenticated %}
             <a class="nav-mobile-register" href="/register">Register <i class="fas fa-arrow-right"
@@ -217,6 +234,9 @@
                 </ul>
 
                 <div class="nav-auth-actions d-flex align-items-center">
+                    <button class="btn btn-sm btn-pwa-install d-none me-2" id="pwaNavInstallBtnPublic" type="button" title="Download Alumni Hub App">
+                        <i class="fas fa-cloud-arrow-down me-1"></i> <span>Download App</span>
+                    </button>
                     <a class="nav-auth-login" href="/login">
                         Sign In
                     </a>
@@ -571,6 +591,13 @@
                     </li>
                     {% endif %}
 
+                    <!-- PWA Download Button for Authenticated Users -->
+                    <li class="nav-item d-none d-md-flex align-items-center me-1">
+                        <button class="btn btn-sm btn-pwa-install d-none" id="pwaNavInstallBtnAuth" type="button" title="Download Alumni Hub App">
+                            <i class="fas fa-cloud-arrow-down me-1"></i> <span>Download App</span>
+                        </button>
+                    </li>
+
                     <!-- User Profile Dropdown -->
                     <li class="nav-item dropdown px-2 user-dropdown">
                         <a class="nav-link user-pill dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -774,6 +801,20 @@
                 <a href="/contact" class="mobile-nav-link" style="--delay: 0.35s"><i class="fas fa-envelope"></i>
                     Contact</a>
                 {% endif %}
+            </div>
+
+            <!-- Mobile Drawer PWA Download Card -->
+            <div class="mobile-pwa-banner d-none" id="pwaMobileDrawerCard">
+                <div class="mobile-pwa-content">
+                    <img src="{{ url_for('static', filename='images/icons/icon-192.png') }}" alt="App Icon" class="mobile-pwa-icon">
+                    <div class="mobile-pwa-text">
+                        <strong>Download Alumni Hub App</strong>
+                        <small>1-Tap Home Screen &amp; Instant Access</small>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-primary pwa-btn-install" id="pwaDrawerInstallBtn" type="button">
+                    <i class="fas fa-cloud-arrow-down me-1"></i> Install
+                </button>
             </div>
 
             {% if current_user.is_authenticated %}
@@ -1207,6 +1248,629 @@
                 el.classList.add('revealed');
             });
         });
+    </script>
+
+    <!-- ===== PWA FIRST-TIME POPUP MODAL & PWA CONTROLLER ===== -->
+    <div id="pwaInstallModal" class="pwa-modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="pwaModalTitle">
+        <div class="pwa-modal-sheet">
+            <button type="button" class="pwa-modal-close" id="pwaModalCloseBtn" aria-label="Close dialog">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="pwa-sheet-drag-handle"></div>
+
+            <div class="pwa-brand-header text-center">
+                <div class="pwa-logo-wrapper">
+                    <img src="{{ url_for('static', filename='images/icons/icon-192.png') }}" alt="Alumni Hub" class="pwa-sheet-logo">
+                    <span class="pwa-logo-glow"></span>
+                </div>
+                <div class="pwa-title-area mt-3">
+                    <span class="pwa-badge"><i class="fas fa-shield-halved me-1"></i> Official Community App</span>
+                    <h3 id="pwaModalTitle" class="pwa-heading mt-2">Download Alumni Hub</h3>
+                    <p class="pwa-subtitle">Add the official app to your device for instant, one-tap access anytime.</p>
+                </div>
+            </div>
+
+            <div class="pwa-perks-grid">
+                <div class="pwa-perk-item">
+                    <div class="pwa-perk-icon pwa-icon-zap"><i class="fas fa-bolt"></i></div>
+                    <div class="pwa-perk-text">
+                        <strong>Instant Launch</strong>
+                        <span>Opens in 1-tap from your home screen</span>
+                    </div>
+                </div>
+                <div class="pwa-perk-item">
+                    <div class="pwa-perk-icon pwa-icon-feather"><i class="fas fa-feather-pointed"></i></div>
+                    <div class="pwa-perk-text">
+                        <strong>Ultra Lightweight</strong>
+                        <span>Under 1 MB • No app store download needed</span>
+                    </div>
+                </div>
+                <div class="pwa-perk-item">
+                    <div class="pwa-perk-icon pwa-icon-bell"><i class="fas fa-bell"></i></div>
+                    <div class="pwa-perk-text">
+                        <strong>Live Updates</strong>
+                        <span>Campus alerts, job postings &amp; chats</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- iOS Safari Instruction Box (Automatically shown on iPhone/iPad) -->
+            <div id="pwaIosInstructions" class="pwa-ios-instructions d-none">
+                <div class="pwa-ios-step">
+                    <span class="pwa-step-number">1</span>
+                    <span>Tap the Safari <strong>Share</strong> button <i class="fas fa-arrow-up-from-bracket text-primary mx-1"></i> below.</span>
+                </div>
+                <div class="pwa-ios-step">
+                    <span class="pwa-step-number">2</span>
+                    <span>Scroll and choose <strong>Add to Home Screen</strong> <i class="far fa-plus-square text-primary mx-1"></i>.</span>
+                </div>
+            </div>
+
+            <div class="pwa-actions-row mt-4">
+                <button type="button" class="btn pwa-btn-primary" id="pwaModalInstallBtn">
+                    <i class="fas fa-cloud-arrow-down me-2"></i> Download &amp; Install App
+                </button>
+                <button type="button" class="btn pwa-btn-secondary" id="pwaModalDismissBtn">
+                    Maybe Later
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PWA Styles -->
+    <style>
+        /* Brand logo in navbar */
+        .brand-app-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+
+        /* Navbar Install App Button (Desktop) */
+        .btn-pwa-install {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(37, 99, 235, 0.16));
+            border: 1px solid rgba(2, 132, 199, 0.35);
+            color: #0284c7 !important;
+            font-weight: 700;
+            font-size: 0.82rem;
+            padding: 6px 14px;
+            border-radius: 999px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.12);
+        }
+
+        .btn-pwa-install:hover {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: #ffffff !important;
+            border-color: transparent;
+            transform: translateY(-1px) scale(1.03);
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35);
+        }
+
+        /* Mobile Header Quick Install Pill */
+        .btn-pwa-mobile-pill {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+            margin-left: auto;
+            margin-right: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-pwa-mobile-pill:active {
+            transform: scale(0.92);
+        }
+
+        /* Mobile Drawer Banner */
+        .mobile-pwa-banner {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid rgba(2, 132, 199, 0.3);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin: 14px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.12);
+        }
+
+        .mobile-pwa-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mobile-pwa-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+        }
+
+        .mobile-pwa-text strong {
+            display: block;
+            font-size: 0.92rem;
+            color: #0f172a;
+            line-height: 1.2;
+        }
+
+        .mobile-pwa-text small {
+            font-size: 0.75rem;
+            color: #475569;
+        }
+
+        .pwa-btn-install {
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 7px 14px;
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            border: none;
+            white-space: nowrap;
+        }
+
+        /* PWA POPUP MODAL (Backdrop & Sheet) */
+        .pwa-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 999999;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+
+        .pwa-modal-backdrop.pwa-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .pwa-modal-sheet {
+            position: relative;
+            background: #ffffff;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 28px 28px 0 0;
+            padding: 28px 24px 32px 24px;
+            box-shadow: 0 25px 60px -15px rgba(2, 132, 199, 0.4), 0 0 0 1px rgba(2, 132, 199, 0.12);
+            transform: translateY(100%);
+            transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .pwa-modal-backdrop.pwa-active .pwa-modal-sheet {
+            transform: translateY(0);
+        }
+
+        @media (min-width: 640px) {
+            .pwa-modal-backdrop {
+                align-items: center;
+                padding: 20px;
+            }
+            .pwa-modal-sheet {
+                border-radius: 26px;
+                transform: translateY(30px) scale(0.96);
+                transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+            }
+            .pwa-modal-backdrop.pwa-active .pwa-modal-sheet {
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .pwa-sheet-drag-handle {
+            width: 44px;
+            height: 4px;
+            background: #cbd5e1;
+            border-radius: 999px;
+            margin: -10px auto 18px auto;
+        }
+
+        @media (min-width: 640px) {
+            .pwa-sheet-drag-handle {
+                display: none;
+            }
+        }
+
+        .pwa-modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            border: none;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pwa-modal-close:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            transform: rotate(90deg);
+        }
+
+        .pwa-logo-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .pwa-sheet-logo {
+            width: 76px;
+            height: 76px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(2, 132, 199, 0.35);
+            position: relative;
+            z-index: 2;
+        }
+
+        .pwa-logo-glow {
+            position: absolute;
+            inset: -6px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, #38bdf8, #6366f1);
+            filter: blur(14px);
+            opacity: 0.6;
+            z-index: 1;
+            animation: pwaPulseGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes pwaPulseGlow {
+            0%, 100% { opacity: 0.45; transform: scale(0.96); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .pwa-badge {
+            display: inline-block;
+            background: #f0f9ff;
+            color: #0284c7;
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(2, 132, 199, 0.25);
+        }
+
+        .pwa-heading {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 6px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .pwa-subtitle {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0;
+            line-height: 1.45;
+        }
+
+        .pwa-perks-grid {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 14px 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .pwa-perk-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .pwa-perk-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .pwa-icon-zap { background: #fef3c7; color: #d97706; }
+        .pwa-icon-feather { background: #e0f2fe; color: #0284c7; }
+        .pwa-icon-bell { background: #ede9fe; color: #7c3aed; }
+
+        .pwa-perk-text strong {
+            display: block;
+            font-size: 0.88rem;
+            color: #1e293b;
+        }
+
+        .pwa-perk-text span {
+            font-size: 0.78rem;
+            color: #64748b;
+            line-height: 1.3;
+        }
+
+        .pwa-ios-instructions {
+            background: #f0fdf4;
+            border: 1px dashed #22c55e;
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .pwa-ios-step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: #15803d;
+        }
+
+        .pwa-step-number {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #22c55e;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.72rem;
+            flex-shrink: 0;
+        }
+
+        .pwa-actions-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .pwa-btn-primary {
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px 22px;
+            border-radius: 14px;
+            border: none;
+            box-shadow: 0 8px 24px rgba(2, 132, 199, 0.38);
+            transition: all 0.25s ease;
+        }
+
+        .pwa-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(2, 132, 199, 0.48);
+            filter: brightness(1.06);
+        }
+
+        .pwa-btn-secondary {
+            background: transparent;
+            color: #64748b !important;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .pwa-btn-secondary:hover {
+            background: #f1f5f9;
+            color: #0f172a !important;
+        }
+    </style>
+
+    <!-- PWA CONTROLLER JAVASCRIPT -->
+    <script>
+        (function initPwaController() {
+            let deferredInstallPrompt = null;
+            const DISMISS_KEY = 'alumni_hub_pwa_dismissed';
+            const INSTALLED_KEY = 'alumni_hub_pwa_installed';
+
+            // Check if already running in standalone PWA mode
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                                 window.navigator.standalone === true;
+
+            // Detect iOS Safari
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+            // DOM Elements
+            const pwaModal = document.getElementById('pwaInstallModal');
+            const pwaModalInstallBtn = document.getElementById('pwaModalInstallBtn');
+            const pwaModalDismissBtn = document.getElementById('pwaModalDismissBtn');
+            const pwaModalCloseBtn = document.getElementById('pwaModalCloseBtn');
+            const pwaIosInstructions = document.getElementById('pwaIosInstructions');
+            const pwaNavInstallBtnPublic = document.getElementById('pwaNavInstallBtnPublic');
+            const pwaNavInstallBtnAuth = document.getElementById('pwaNavInstallBtnAuth');
+            const pwaMobileHeaderBtn = document.getElementById('pwaMobileHeaderBtn');
+            const pwaMobileDrawerCard = document.getElementById('pwaMobileDrawerCard');
+            const pwaDrawerInstallBtn = document.getElementById('pwaDrawerInstallBtn');
+
+            function showModal() {
+                if (pwaModal) {
+                    pwaModal.classList.add('pwa-active');
+                    pwaModal.setAttribute('aria-hidden', 'false');
+                }
+            }
+
+            function hideModal() {
+                if (pwaModal) {
+                    pwaModal.classList.remove('pwa-active');
+                    pwaModal.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            function recordDismissal() {
+                try {
+                    localStorage.setItem(DISMISS_KEY, Date.now().toString());
+                } catch (e) { }
+                hideModal();
+            }
+
+            function revealInstallTriggers() {
+                if (isStandalone) return;
+                if (pwaNavInstallBtnPublic) pwaNavInstallBtnPublic.classList.remove('d-none');
+                if (pwaNavInstallBtnAuth) pwaNavInstallBtnAuth.classList.remove('d-none');
+                if (pwaMobileHeaderBtn) pwaMobileHeaderBtn.classList.remove('d-none');
+                if (pwaMobileDrawerCard) pwaMobileDrawerCard.classList.remove('d-none');
+            }
+
+            // Register Service Worker
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function () {
+                    navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+                        .then(function (reg) {
+                            console.log('Alumni Hub SW registered successfully:', reg.scope);
+                            // Check for updates
+                            reg.addEventListener('updatefound', function () {
+                                const newWorker = reg.installing;
+                                if (newWorker) {
+                                    newWorker.addEventListener('statechange', function () {
+                                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                            console.log('New content available; will update on reload.');
+                                        }
+                                    });
+                                }
+                            });
+                        })
+                        .catch(function (err) {
+                            console.warn('SW registration skipped or failed:', err);
+                        });
+                });
+            }
+
+            // Capture 'beforeinstallprompt' event (Chrome, Edge, Android)
+            window.addEventListener('beforeinstallprompt', function (e) {
+                e.preventDefault();
+                deferredInstallPrompt = e;
+                revealInstallTriggers();
+
+                // Check if user has dismissed previously (within last 5 days)
+                let lastDismissed = 0;
+                try {
+                    lastDismissed = parseInt(localStorage.getItem(DISMISS_KEY) || '0', 10);
+                } catch (e) { }
+
+                const fiveDaysMs = 5 * 24 * 60 * 60 * 1000;
+                const isRecentlyDismissed = (Date.now() - lastDismissed) < fiveDaysMs;
+                const isInstalled = localStorage.getItem(INSTALLED_KEY) === 'true';
+
+                // Automatically pop up for first-time / return visitors after 2.5 seconds
+                if (!isRecentlyDismissed && !isInstalled && !isStandalone) {
+                    setTimeout(function () {
+                        showModal();
+                    }, 2500);
+                }
+            });
+
+            // iOS Fallback handling
+            if (isIOS && !isStandalone) {
+                revealInstallTriggers();
+                if (pwaIosInstructions) {
+                    pwaIosInstructions.classList.remove('d-none');
+                }
+                if (pwaModalInstallBtn) {
+                    pwaModalInstallBtn.innerHTML = '<i class="fas fa-arrow-up-from-bracket me-2"></i> How to Install (iOS)';
+                }
+
+                let lastDismissed = 0;
+                try {
+                    lastDismissed = parseInt(localStorage.getItem(DISMISS_KEY) || '0', 10);
+                } catch (e) { }
+                const fiveDaysMs = 5 * 24 * 60 * 60 * 1000;
+                if ((Date.now() - lastDismissed) > fiveDaysMs) {
+                    setTimeout(function () {
+                        showModal();
+                    }, 3000);
+                }
+            }
+
+            // Trigger prompt on install buttons
+            async function triggerInstallFlow() {
+                if (deferredInstallPrompt) {
+                    deferredInstallPrompt.prompt();
+                    const choiceResult = await deferredInstallPrompt.userChoice;
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted Alumni Hub PWA installation');
+                        try { localStorage.setItem(INSTALLED_KEY, 'true'); } catch (e) { }
+                        hideModal();
+                    } else {
+                        console.log('User dismissed Alumni Hub PWA installation');
+                    }
+                    deferredInstallPrompt = null;
+                } else if (isIOS) {
+                    // For iOS, toggle instruction panel or highlight steps
+                    if (pwaIosInstructions) {
+                        pwaIosInstructions.classList.remove('d-none');
+                        pwaIosInstructions.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    showModal();
+                } else {
+                    // If prompt is not yet ready or browser doesn't support beforeinstallprompt
+                    showModal();
+                }
+            }
+
+            // Bind triggers
+            if (pwaModalInstallBtn) pwaModalInstallBtn.addEventListener('click', triggerInstallFlow);
+            if (pwaNavInstallBtnPublic) pwaNavInstallBtnPublic.addEventListener('click', function (e) { e.preventDefault(); showModal(); });
+            if (pwaNavInstallBtnAuth) pwaNavInstallBtnAuth.addEventListener('click', function (e) { e.preventDefault(); showModal(); });
+            if (pwaMobileHeaderBtn) pwaMobileHeaderBtn.addEventListener('click', function (e) { e.preventDefault(); showModal(); });
+            if (pwaDrawerInstallBtn) pwaDrawerInstallBtn.addEventListener('click', triggerInstallFlow);
+
+            if (pwaModalCloseBtn) pwaModalCloseBtn.addEventListener('click', recordDismissal);
+            if (pwaModalDismissBtn) pwaModalDismissBtn.addEventListener('click', recordDismissal);
+
+            // Close on backdrop click
+            if (pwaModal) {
+                pwaModal.addEventListener('click', function (e) {
+                    if (e.target === pwaModal) {
+                        recordDismissal();
+                    }
+                });
+            }
+
+            // Listen for appinstalled
+            window.addEventListener('appinstalled', function () {
+                console.log('Alumni Hub has been installed successfully!');
+                try {
+                    localStorage.setItem(INSTALLED_KEY, 'true');
+                } catch (e) { }
+                hideModal();
+                if (pwaNavInstallBtnPublic) pwaNavInstallBtnPublic.classList.add('d-none');
+                if (pwaNavInstallBtnAuth) pwaNavInstallBtnAuth.classList.add('d-none');
+                if (pwaMobileHeaderBtn) pwaMobileHeaderBtn.classList.add('d-none');
+                if (pwaMobileDrawerCard) pwaMobileDrawerCard.classList.add('d-none');
+            });
+        }());
     </script>
 </body>
 
