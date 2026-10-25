@@ -28,7 +28,7 @@ from flask_apscheduler import APScheduler
 from urllib.parse import quote
 from utils.decorators import role_required
 from utils.helpers import (
-    generate_otp, save_profile_photo, save_company_logo,
+    generate_otp, save_profile_photo, save_company_logo, save_uploaded_file,
     normalize_phone, parse_db_timestamp, safe_error_message,
     sanitize_html, validate_password, extract_job_form_data,
     PASSWORD_MIN_LENGTH, OTP_EXPIRY_SECONDS
@@ -124,9 +124,15 @@ UPLOAD_FOLDER = 'static/uploads'
 COMPANY_LOGOS_FOLDER = 'static/uploads/company_logos'
 
 if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+    try:
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    except OSError:
+        pass
 if not os.path.exists(COMPANY_LOGOS_FOLDER):
-    os.makedirs(COMPANY_LOGOS_FOLDER)
+    try:
+        os.makedirs(COMPANY_LOGOS_FOLDER, exist_ok=True)
+    except OSError:
+        pass
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -143,7 +149,7 @@ def normalize_profile_pic(profile_pic, name='User'):
     """
     if not profile_pic or profile_pic == 'default.jpg' or profile_pic == '':
         return None
-    if profile_pic.startswith('/'):
+    if profile_pic.startswith('/') or profile_pic.startswith('http') or profile_pic.startswith('data:image/'):
         return profile_pic
     return None
 
@@ -2072,11 +2078,7 @@ def edit_student_profile(user_id):
             # Handle profile photo upload
             profile_pic = None
             if 'profile_pic' in request.files:
-                file = request.files['profile_pic']
-                if file and file.filename and allowed_file(file.filename):
-                    filename = secure_filename(f"student_{user_id}_{datetime.now().timestamp()}.{file.filename.rsplit('.', 1)[1].lower()}")
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                    profile_pic = f"/static/uploads/{filename}"
+                profile_pic = save_uploaded_file(request.files['profile_pic'], prefix='student', user_id=user_id)
 
             # Update users table
             if profile_pic:
@@ -2149,11 +2151,7 @@ def edit_alumni_profile(user_id):
             # Handle profile photo upload
             profile_pic = None
             if 'profile_pic' in request.files:
-                file = request.files['profile_pic']
-                if file and file.filename and allowed_file(file.filename):
-                    filename = secure_filename(f"alumni_{user_id}_{datetime.now().timestamp()}.{file.filename.rsplit('.', 1)[1].lower()}")
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                    profile_pic = f"/static/uploads/{filename}"
+                profile_pic = save_uploaded_file(request.files['profile_pic'], prefix='alumni', user_id=user_id)
 
             if profile_pic:
                 conn.execute('UPDATE users SET name = ?, phone = ?, profile_pic = ? WHERE id = ?',
@@ -2239,11 +2237,7 @@ def edit_faculty_profile(user_id):
             # Handle profile photo upload
             profile_pic = None
             if 'profile_pic' in request.files:
-                file = request.files['profile_pic']
-                if file and file.filename and allowed_file(file.filename):
-                    filename = secure_filename(f"faculty_{user_id}_{datetime.now().timestamp()}.{file.filename.rsplit('.', 1)[1].lower()}")
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                    profile_pic = f"/static/uploads/{filename}"
+                profile_pic = save_uploaded_file(request.files['profile_pic'], prefix='faculty', user_id=user_id)
 
             if profile_pic:
                 conn.execute('UPDATE users SET name = ?, phone = ?, profile_pic = ? WHERE id = ?',
@@ -2310,11 +2304,7 @@ def edit_admin_profile(user_id):
             # Handle profile photo upload
             profile_pic = None
             if 'profile_pic' in request.files:
-                file = request.files['profile_pic']
-                if file and file.filename and allowed_file(file.filename):
-                    filename = secure_filename(f"admin_{user_id}_{datetime.now().timestamp()}.{file.filename.rsplit('.', 1)[1].lower()}")
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                    profile_pic = f"/static/uploads/{filename}"
+                profile_pic = save_uploaded_file(request.files['profile_pic'], prefix='admin', user_id=user_id)
 
             # Update users table
             if profile_pic:
@@ -2537,11 +2527,8 @@ def complete_profile(user_id):
             # Handle profile photo
             profile_pic = None
             if 'profile_pic' in request.files:
-                file = request.files['profile_pic']
-                if file and file.filename and allowed_file(file.filename):
-                    filename = secure_filename(f"{current_user.role}_{user_id}_{datetime.now().timestamp()}.{file.filename.rsplit('.', 1)[1].lower()}")
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                    profile_pic = f"/static/uploads/{filename}"
+                profile_pic = save_uploaded_file(request.files['profile_pic'], prefix=current_user.role, user_id=user_id)
+                if profile_pic:
                     conn.execute('UPDATE users SET profile_pic = ? WHERE id = ?', (profile_pic, user_id))
 
             # Update common fields
@@ -3285,13 +3272,7 @@ def admin_add_job():
         # Handle Logo Upload
         logo_path = None
         if 'company_logo' in request.files:
-            file = request.files['company_logo']
-            if file and file.filename != '':
-                if allowed_file(file.filename):
-                    filename = secure_filename(f"{int(time.time())}_{file.filename}")
-                    logo_path = os.path.join('static/uploads/company_logos', filename)
-                    file.save(logo_path)
-                    logo_path = '/' + logo_path.replace('\\', '/')
+            logo_path = save_uploaded_file(request.files['company_logo'], prefix='logo', folder=COMPANY_LOGOS_FOLDER, max_dim=300)
             
         conn = get_db_connection()
         c = conn.cursor()
@@ -3378,13 +3359,9 @@ def admin_edit_job(job_id):
 
         logo_path = job['company_logo']
         if 'company_logo' in request.files:
-            file = request.files['company_logo']
-            if file and file.filename != '':
-                if allowed_file(file.filename):
-                    filename = secure_filename(f"{int(time.time())}_{file.filename}")
-                    logo_path = os.path.join('static/uploads/company_logos', filename)
-                    file.save(logo_path)
-                    logo_path = '/' + logo_path.replace('\\', '/')
+            new_logo = save_uploaded_file(request.files['company_logo'], prefix='logo', folder=COMPANY_LOGOS_FOLDER, max_dim=300)
+            if new_logo:
+                logo_path = new_logo
 
         c.execute('''
             UPDATE jobs SET 
@@ -4530,13 +4507,7 @@ def post_job():
         # Handle Logo Upload
         logo_path = None
         if 'company_logo' in request.files:
-            file = request.files['company_logo']
-            if file and file.filename != '':
-                if allowed_file(file.filename):
-                    filename = secure_filename(f"{int(time.time())}_{file.filename}")
-                    full_path = os.path.join('static/uploads/company_logos', filename)
-                    file.save(full_path)
-                    logo_path = '/' + full_path.replace('\\', '/')
+            logo_path = save_uploaded_file(request.files['company_logo'], prefix='logo', folder=COMPANY_LOGOS_FOLDER, max_dim=300)
             
         conn = get_db_connection()
         c = conn.cursor()

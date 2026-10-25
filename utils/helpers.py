@@ -15,6 +15,8 @@ Functions:
 """
 
 import os
+import io
+import base64
 import secrets
 import string
 import logging
@@ -47,73 +49,97 @@ def generate_otp(length: int = OTP_LENGTH) -> str:
 
 
 # ─────────────────────────────────────────────
-# File Uploads
+# File Uploads (Supports Local Disk & Serverless / Vercel Base64 Fallback)
 # ─────────────────────────────────────────────
 def allowed_file(filename: str) -> bool:
     """Check if file extension is in the allowed set."""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
 
 
+def save_uploaded_file(file, prefix: str = 'photo', user_id: Optional[int] = None, folder: str = UPLOAD_FOLDER, max_dim: int = 400) -> Optional[str]:
+    """
+    Safely process and save uploaded image.
+    Works seamlessly on local development AND serverless platforms (Vercel, AWS Lambda).
+
+    1. If not running on Vercel:
+       Attempts to save to local folder and returns the relative web URL.
+    2. If running on Vercel OR if filesystem is read-only (OSError Errno 30):
+       Reads the image bytes in memory, resizes/optimizes to max_dim x max_dim,
+       and returns a Base64 Data URI ('data:image/jpeg;base64,...').
+       This persists in the database and renders natively in all <img> tags!
+    """
+    if not file or not file.filename:
+        return None
+
+    if not allowed_file(file.filename):
+        return None
+
+    try:
+        ext = file.filename.rsplit('.', 1)[1].lower()
+        file_bytes = file.read()
+        if not file_bytes:
+            return None
+
+        # Check if we should attempt local filesystem write
+        if not os.environ.get('VERCEL'):
+            try:
+                os.makedirs(folder, exist_ok=True)
+                uid_part = f"_{user_id}" if user_id is not None else ""
+                filename = secure_filename(f"{prefix}{uid_part}_{datetime.now().timestamp()}.{ext}")
+                filepath = os.path.join(folder, filename)
+                with open(filepath, 'wb') as f:
+                    f.write(file_bytes)
+                web_path = filepath.replace('\\', '/')
+                if not web_path.startswith('/'):
+                    web_path = '/' + web_path
+                return web_path
+            except OSError as fs_err:
+                logger.warning(f"Local filesystem save failed ({fs_err}). Falling back to Base64 Data URI.")
+
+        # Vercel / Serverless / Read-Only Fallback: Base64 Data URI
+        try:
+            from PIL import Image
+            img = Image.open(io.BytesIO(file_bytes))
+            fmt = 'PNG' if ext == 'png' else 'JPEG'
+            if fmt == 'JPEG' and img.mode in ('RGBA', 'P'):
+                img = img.convert('RGB')
+            img.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
+            out_buf = io.BytesIO()
+            img.save(out_buf, format=fmt, quality=85, optimize=True)
+            encoded = base64.b64encode(out_buf.getvalue()).decode('utf-8')
+            mime = 'image/png' if fmt == 'PNG' else 'image/jpeg'
+            return f"data:{mime};base64,{encoded}"
+        except Exception as pil_err:
+            logger.debug(f"Pillow resize skipped ({pil_err}), using raw bytes")
+            encoded = base64.b64encode(file_bytes).decode('utf-8')
+            mime = f"image/{ext}" if ext != 'jpg' else 'image/jpeg'
+            return f"data:{mime};base64,{encoded}"
+
+    except Exception as e:
+        logger.error(f"save_uploaded_file error: {e}")
+        return None
+
+
 def save_profile_photo(request_files, user_id: int, role: str) -> Optional[str]:
     """
     Handle profile picture upload from request.files.
-
-    Args:
-        request_files: Flask request.files object
-        user_id: User's database ID
-        role: User role (student, alumni, etc.)
-
-    Returns:
-        URL path string (e.g., '/static/uploads/student_1_....jpg') or None
     """
     if 'profile_pic' not in request_files:
         return None
 
     file = request_files['profile_pic']
-    if not file or not file.filename or not allowed_file(file.filename):
-        return None
-
-    try:
-        ext = file.filename.rsplit('.', 1)[1].lower()
-        filename = secure_filename(f"{role}_{user_id}_{datetime.now().timestamp()}.{ext}")
-        filepath = os.path.join(UPLOAD_FOLDER, filename)
-
-        # Ensure directory exists
-        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-        file.save(filepath)
-
-        return f"/static/uploads/{filename}"
-    except Exception as e:
-        logger.error(f"Profile photo upload failed: {e}")
-        return None
+    return save_uploaded_file(file, prefix=role, user_id=user_id, folder=UPLOAD_FOLDER)
 
 
 def save_company_logo(request_files) -> Optional[str]:
     """
     Handle company logo upload from request.files.
-
-    Returns:
-        URL path string or None.
     """
     if 'company_logo' not in request_files:
         return None
 
     file = request_files['company_logo']
-    if not file or not file.filename or not allowed_file(file.filename):
-        return None
-
-    try:
-        ext = file.filename.rsplit('.', 1)[1].lower()
-        filename = secure_filename(f"logo_{datetime.now().timestamp()}.{ext}")
-        filepath = os.path.join(COMPANY_LOGOS_FOLDER, filename)
-
-        os.makedirs(COMPANY_LOGOS_FOLDER, exist_ok=True)
-        file.save(filepath)
-
-        return f"/static/uploads/company_logos/{filename}"
-    except Exception as e:
-        logger.error(f"Company logo upload failed: {e}")
-        return None
+    return save_uploaded_file(file, prefix='logo', folder=COMPANY_LOGOS_FOLDER, max_dim=300)
 
 
 # ─────────────────────────────────────────────
