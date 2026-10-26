@@ -467,13 +467,13 @@
     .command-search-wrap {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         flex-wrap: wrap;
         background: #f8fafc;
         border: 1.5px solid #e2e8f0;
-        border-radius: 50px;
-        padding: 6px 8px 6px 16px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        border-radius: 18px;
+        padding: 6px 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
     }
     .command-search-input {
         border: none;
@@ -482,18 +482,118 @@
         font-size: 16px !important; /* Prevent iOS Safari auto-zoom */
         font-weight: 500;
         color: #0f172a;
-        min-width: 200px;
+        min-width: 170px;
     }
-    .command-role-select {
-        border: 1px solid #cbd5e1;
+    .command-role-select,
+    .command-sort-select,
+    .command-date-input {
+        border: 1.5px solid #cbd5e1;
         outline: none;
         background: #ffffff;
-        border-radius: 50px;
-        padding: 6px 14px;
-        font-size: 16px !important; /* Prevent iOS Safari auto-zoom */
+        border-radius: 12px;
+        padding: 6px 12px;
+        font-size: 14px;
         font-weight: 700;
         color: #334155;
         cursor: pointer;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .command-role-select:focus,
+    .command-sort-select:focus,
+    .command-date-input:focus {
+        border-color: #0284c7;
+        box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    /* Executive Pagination Controller */
+    .directory-pagination-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 22px;
+        padding: 14px 20px;
+        background: #f8fafc;
+        border-radius: 18px;
+        border: 1.5px solid #e2e8f0;
+    }
+    .pagination-info {
+        font-size: 0.86rem;
+        color: #64748b;
+        font-weight: 600;
+    }
+    .pagination-info strong {
+        color: #0f172a;
+    }
+    .pagination-controls {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .pagination-nav-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        border: 1.5px solid #cbd5e1;
+        background: #ffffff;
+        color: #334155;
+        display: grid;
+        place-items: center;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .pagination-nav-btn:hover:not(:disabled) {
+        background: #0284c7;
+        color: #ffffff;
+        border-color: #0284c7;
+        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+        transform: translateY(-1px);
+    }
+    .pagination-nav-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        background: #f1f5f9;
+        border-color: #e2e8f0;
+    }
+    .pagination-numbers {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .page-number-btn {
+        min-width: 38px;
+        height: 38px;
+        padding: 0 10px;
+        border-radius: 12px;
+        border: 1.5px solid #cbd5e1;
+        background: #ffffff;
+        color: #334155;
+        display: grid;
+        place-items: center;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .page-number-btn:hover {
+        background: #f1f5f9;
+        border-color: #94a3b8;
+    }
+    .page-number-btn.active {
+        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+        color: #ffffff;
+        border-color: transparent;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    }
+    .page-ellipsis {
+        min-width: 24px;
+        text-align: center;
+        color: #94a3b8;
+        font-weight: 700;
+        font-size: 0.9rem;
     }
 
     /* Premium Modern Table (Desktop View) */
@@ -746,8 +846,31 @@
             width: 100%;
             min-width: 100%;
         }
-        .command-role-select {
+        .command-role-select,
+        .command-sort-select,
+        .command-date-input {
             width: 100%;
+            font-size: 16px !important; /* Prevent iOS Safari auto-zoom */
+        }
+
+        .directory-pagination-bar {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 14px 10px;
+            gap: 12px;
+        }
+        .pagination-controls {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px;
+        }
+        .pagination-nav-btn,
+        .page-number-btn {
+            min-width: 36px;
+            height: 36px;
+            font-size: 0.82rem;
+            padding: 0 8px;
         }
 
         .export-vip-module {
@@ -1112,26 +1235,45 @@
         <!-- ========================================================
              5. USER DIRECTORY & MANAGEMENT MODULE
              ======================================================== -->
-        <div class="directory-vip-module">
+        <div class="directory-vip-module" id="userDirectoryModule">
             <div class="directory-top-bar">
                 <div>
                     <h3 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: clamp(1.35rem, 3.5vw, 1.6rem); color: #0f172a;">
                         <i class="fas fa-id-card-alt text-primary me-2"></i> User Directory &amp; Governance
                     </h3>
-                    <p class="text-muted small mb-0">Search, filter, and inspect registered campus members across all graduation batches.</p>
+                    <p class="text-muted small mb-0">Search, filter by role or date, and inspect registered campus members across batches.</p>
                 </div>
 
-                <!-- Search & Role Filter Toolbar -->
+                <!-- Search & Filters Toolbar -->
                 <div class="command-search-wrap">
-                    <div class="d-flex align-items-center gap-2 flex-grow-1">
+                    <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
                         <i class="fas fa-search text-muted ms-1"></i>
                         <input type="text" id="userSearch" class="command-search-input" placeholder="Search name, email, department...">
                     </div>
-                    <select id="roleFilter" class="command-role-select">
+
+                    <!-- Role Filter -->
+                    <select id="roleFilter" class="command-role-select" title="Filter by Role">
                         <option value="all">All Roles</option>
                         <option value="student">Students</option>
                         <option value="alumni">Alumni</option>
                         <option value="faculty">Faculty</option>
+                        <option value="admin">Admins</option>
+                    </select>
+
+                    <!-- Date Filter Picker -->
+                    <div class="d-flex align-items-center gap-1">
+                        <input type="date" id="dateFilter" class="command-date-input" title="Filter by Joined/Login Date">
+                        <button type="button" id="clearDateBtn" class="btn btn-sm btn-light border text-muted px-2 py-1 rounded-3 d-none" title="Clear Date" style="font-size: 0.72rem;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Sort Order Dropdown -->
+                    <select id="sortFilter" class="command-sort-select" title="Sort Order">
+                        <option value="date-desc">Newest First</option>
+                        <option value="date-asc">Oldest First</option>
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
                     </select>
                 </div>
             </div>
@@ -1144,13 +1286,19 @@
                             <th>User Profile</th>
                             <th>Role</th>
                             <th>Department &amp; Batch</th>
-                            <th>Account Status</th>
+                            <th>Date &amp; Status</th>
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {% for user in users[:20] %}
-                        <tr class="user-row" data-role="{{ user['role'] }}">
+                    <tbody id="usersTableBody">
+                        {% for user in users %}
+                        <tr class="user-row" 
+                            data-role="{{ user['role'] }}"
+                            data-date="{{ user['created_at'][:10] if user['created_at'] else '' }}"
+                            data-datetime="{{ user['created_at'] or '' }}"
+                            data-name="{{ (user['name'] or '') | lower }}"
+                            data-email="{{ (user['email'] or '') | lower }}"
+                            data-dept="{{ (user['department'] or '') | lower }}">
                             <td>
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="user-avatar-node-wrap">
@@ -1201,9 +1349,14 @@
                             </td>
 
                             <td>
-                                <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1 small fw-bold">
-                                    <i class="fas fa-check-circle me-1"></i> Verified
-                                </span>
+                                <div class="d-flex flex-column gap-1">
+                                    <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1 small fw-bold d-inline-flex align-items-center gap-1" style="width: fit-content; font-size: 0.72rem;">
+                                        <i class="fas fa-check-circle"></i> Verified
+                                    </span>
+                                    <small class="text-muted d-inline-flex align-items-center gap-1" style="font-size: 0.74rem;">
+                                        <i class="far fa-calendar-alt text-primary"></i> {{ user['created_at'][:10] if user['created_at'] else 'N/A' }}
+                                    </small>
+                                </div>
                             </td>
 
                             <td>
@@ -1233,8 +1386,14 @@
 
             <!-- Mobile View: User Cards (Zero horizontal scroll on phones) -->
             <div class="mobile-users-grid" id="mobileUsersGrid">
-                {% for user in users[:20] %}
-                <div class="mobile-user-card user-row" data-role="{{ user['role'] }}">
+                {% for user in users %}
+                <div class="mobile-user-card user-row" 
+                     data-role="{{ user['role'] }}"
+                     data-date="{{ user['created_at'][:10] if user['created_at'] else '' }}"
+                     data-datetime="{{ user['created_at'] or '' }}"
+                     data-name="{{ (user['name'] or '') | lower }}"
+                     data-email="{{ (user['email'] or '') | lower }}"
+                     data-dept="{{ (user['department'] or '') | lower }}">
                     <div class="d-flex align-items-start justify-content-between mb-2">
                         <div class="d-flex align-items-center gap-2">
                             <div class="user-avatar-node-wrap">
@@ -1272,15 +1431,20 @@
                     <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-2">
                         <div>
                             <div class="fw-semibold small text-dark" style="font-size: 0.82rem;">{{ user['department'] or 'Not specified' }}</div>
-                            <small class="text-muted" style="font-size: 0.72rem;">
-                                {% if user['role'] == 'student' and user['batch_info'] %}
-                                Semester {{ user['batch_info'] }}
-                                {% elif user['role'] == 'alumni' and user['batch_info'] %}
-                                Class of {{ user['batch_info'] }}
-                                {% else %}
-                                Academic Staff
-                                {% endif %}
-                            </small>
+                            <div class="d-flex align-items-center gap-2 mt-1">
+                                <small class="text-muted" style="font-size: 0.72rem;">
+                                    {% if user['role'] == 'student' and user['batch_info'] %}
+                                    Semester {{ user['batch_info'] }}
+                                    {% elif user['role'] == 'alumni' and user['batch_info'] %}
+                                    Class of {{ user['batch_info'] }}
+                                    {% else %}
+                                    Academic Staff
+                                    {% endif %}
+                                </small>
+                                <span class="badge bg-light text-secondary border px-2 py-1" style="font-size: 0.7rem;">
+                                    <i class="far fa-calendar-alt text-primary me-1"></i> {{ user['created_at'][:10] if user['created_at'] else 'N/A' }}
+                                </span>
+                            </div>
                         </div>
 
                         <div class="d-flex align-items-center gap-2">
@@ -1309,7 +1473,28 @@
             <div id="noUserResults" class="text-center py-5 d-none">
                 <div class="mb-2 text-muted" style="font-size: 2.5rem;"><i class="fas fa-user-slash"></i></div>
                 <h5 class="fw-bold text-dark">No Members Found</h5>
-                <p class="text-muted small">No registered members matched your search query. Try searching for a different name, department, or role.</p>
+                <p class="text-muted small">No registered members matched your search or filter criteria. Try adjusting your search query, role, or date filter.</p>
+                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 mt-1" id="resetFiltersBtn">
+                    <i class="fas fa-rotate-left me-1"></i> Reset Filters
+                </button>
+            </div>
+
+            <!-- Executive Pagination Controller (12 Per Page) -->
+            <div class="directory-pagination-bar" id="directoryPaginationBar">
+                <div class="pagination-info">
+                    Showing <strong id="pageRangeText">1-12</strong> of <strong id="totalCountText">{{ users|length }}</strong> members
+                </div>
+                <div class="pagination-controls">
+                    <button type="button" class="pagination-nav-btn" id="prevPageBtn" title="Previous 12 Members" aria-label="Previous Page">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="pagination-numbers" id="paginationNumbers">
+                        <!-- Dynamic page numbers like 1, 2, 3 injected here -->
+                    </div>
+                    <button type="button" class="pagination-nav-btn" id="nextPageBtn" title="Next 12 Members" aria-label="Next Page">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1657,38 +1842,233 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 4. Live Directory Filter (Search & Role Select) - Works on BOTH Table rows & Mobile Cards!
+    // 4. Live Directory Filter, Date Search, Sorting & Pagination (12 Per Page)
     const userSearchInput = document.getElementById('userSearch');
     const roleFilterSelect = document.getElementById('roleFilter');
-    const userRows = document.querySelectorAll('.user-row');
-    const noUserResultsEl = document.getElementById('noUserResults');
+    const dateFilterInput = document.getElementById('dateFilter');
+    const clearDateBtn = document.getElementById('clearDateBtn');
+    const sortFilterSelect = document.getElementById('sortFilter');
+    const resetFiltersBtn = document.getElementById('resetFiltersBtn');
 
-    function applyDirectoryFilter() {
+    const tableBody = document.getElementById('usersTableBody');
+    const mobileGrid = document.getElementById('mobileUsersGrid');
+    const noUserResultsEl = document.getElementById('noUserResults');
+    const paginationBar = document.getElementById('directoryPaginationBar');
+    const pageRangeText = document.getElementById('pageRangeText');
+    const totalCountText = document.getElementById('totalCountText');
+    const prevPageBtn = document.getElementById('prevPageBtn');
+    const nextPageBtn = document.getElementById('nextPageBtn');
+    const paginationNumbers = document.getElementById('paginationNumbers');
+
+    const PAGE_SIZE = 12;
+    let currentPage = 1;
+
+    // Cache initial row and card arrays
+    const tableRows = tableBody ? Array.from(tableBody.querySelectorAll('.user-row')) : [];
+    const mobileCards = mobileGrid ? Array.from(mobileGrid.querySelectorAll('.mobile-user-card')) : [];
+
+    function updateDirectoryView(resetToFirstPage = false) {
+        if (resetToFirstPage) {
+            currentPage = 1;
+        }
+
         const query = (userSearchInput ? userSearchInput.value : '').toLowerCase().trim();
         const selectedRole = roleFilterSelect ? roleFilterSelect.value : 'all';
-        let matchCount = 0;
+        const selectedDate = dateFilterInput ? dateFilterInput.value : '';
+        const selectedSort = sortFilterSelect ? sortFilterSelect.value : 'date-desc';
 
-        userRows.forEach(row => {
-            const rowText = row.innerText.toLowerCase();
-            const rowRole = row.dataset.role || '';
-            const matchesQuery = query === '' || rowText.includes(query);
+        // Toggle clear date button visibility
+        if (clearDateBtn) {
+            clearDateBtn.classList.toggle('d-none', !selectedDate);
+        }
+
+        // Matching helper
+        function itemMatches(el) {
+            const rowRole = el.dataset.role || '';
+            const rowDate = el.dataset.date || '';
+            const name = el.dataset.name || '';
+            const email = el.dataset.email || '';
+            const dept = el.dataset.dept || '';
+            const allText = (name + ' ' + email + ' ' + dept + ' ' + el.innerText).toLowerCase();
+
+            const matchesQuery = query === '' || allText.includes(query);
             const matchesRole = selectedRole === 'all' || rowRole === selectedRole;
+            const matchesDate = selectedDate === '' || rowDate === selectedDate;
 
-            if (matchesQuery && matchesRole) {
-                row.style.display = '';
-                matchCount++;
+            return matchesQuery && matchesRole && matchesDate;
+        }
+
+        // Filter arrays
+        let matchedTableRows = tableRows.filter(itemMatches);
+        let matchedMobileCards = mobileCards.filter(itemMatches);
+
+        // Sorting helper
+        function sortItems(a, b) {
+            if (selectedSort === 'date-desc') {
+                return (b.dataset.datetime || '').localeCompare(a.dataset.datetime || '');
+            } else if (selectedSort === 'date-asc') {
+                return (a.dataset.datetime || '').localeCompare(b.dataset.datetime || '');
+            } else if (selectedSort === 'name-asc') {
+                return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+            } else if (selectedSort === 'name-desc') {
+                return (b.dataset.name || '').localeCompare(a.dataset.name || '');
+            }
+            return 0;
+        }
+
+        matchedTableRows.sort(sortItems);
+        matchedMobileCards.sort(sortItems);
+
+        // Re-append to DOM container in sorted order so DOM order matches visual sort
+        if (tableBody) {
+            matchedTableRows.forEach(row => tableBody.appendChild(row));
+        }
+        if (mobileGrid) {
+            matchedMobileCards.forEach(card => mobileGrid.appendChild(card));
+        }
+
+        const totalFiltered = matchedTableRows.length;
+        const totalPages = Math.ceil(totalFiltered / PAGE_SIZE) || 1;
+
+        if (currentPage > totalPages) currentPage = totalPages;
+        if (currentPage < 1) currentPage = 1;
+
+        const startIndex = (currentPage - 1) * PAGE_SIZE;
+        const endIndex = Math.min(startIndex + PAGE_SIZE, totalFiltered);
+
+        // Hide all table rows first, then display current page slice
+        tableRows.forEach(row => { row.style.display = 'none'; });
+        for (let i = startIndex; i < endIndex; i++) {
+            if (matchedTableRows[i]) matchedTableRows[i].style.display = '';
+        }
+
+        // Hide all mobile cards first, then display current page slice
+        mobileCards.forEach(card => { card.style.display = 'none'; });
+        for (let i = startIndex; i < endIndex; i++) {
+            if (matchedMobileCards[i]) matchedMobileCards[i].style.display = '';
+        }
+
+        // Update range and total count labels
+        if (pageRangeText) {
+            pageRangeText.textContent = totalFiltered > 0 ? `${startIndex + 1}-${endIndex}` : '0-0';
+        }
+        if (totalCountText) {
+            totalCountText.textContent = totalFiltered;
+        }
+
+        // Show/hide no results notice & pagination bar
+        if (noUserResultsEl) {
+            noUserResultsEl.classList.toggle('d-none', totalFiltered > 0);
+        }
+        if (paginationBar) {
+            paginationBar.classList.toggle('d-none', totalFiltered === 0);
+        }
+
+        // Update navigation arrows
+        if (prevPageBtn) {
+            prevPageBtn.disabled = currentPage <= 1;
+        }
+        if (nextPageBtn) {
+            nextPageBtn.disabled = currentPage >= totalPages;
+        }
+
+        // Render page number buttons
+        renderPaginationButtons(totalPages);
+    }
+
+    function renderPaginationButtons(totalPages) {
+        if (!paginationNumbers) return;
+        paginationNumbers.innerHTML = '';
+
+        if (totalPages <= 1) return;
+
+        // Determine which page numbers to show
+        let pages = [];
+        if (totalPages <= 5) {
+            for (let i = 1; i <= totalPages; i++) pages.push(i);
+        } else {
+            if (currentPage <= 3) {
+                pages = [1, 2, 3, 4, '...', totalPages];
+            } else if (currentPage >= totalPages - 2) {
+                pages = [1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
             } else {
-                row.style.display = 'none';
+                pages = [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+            }
+        }
+
+        pages.forEach(p => {
+            if (p === '...') {
+                const el = document.createElement('span');
+                el.className = 'page-ellipsis';
+                el.textContent = '...';
+                paginationNumbers.appendChild(el);
+            } else {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'page-number-btn' + (p === currentPage ? ' active' : '');
+                btn.textContent = p;
+                btn.title = `Go to page ${p}`;
+                btn.addEventListener('click', () => {
+                    currentPage = p;
+                    updateDirectoryView(false);
+                    smoothScrollToDirectory();
+                });
+                paginationNumbers.appendChild(btn);
             }
         });
+    }
 
-        if (noUserResultsEl) {
-            noUserResultsEl.classList.toggle('d-none', matchCount > 0);
+    function smoothScrollToDirectory() {
+        const mod = document.getElementById('userDirectoryModule');
+        if (mod) {
+            const yOffset = -90; // offset for sticky navbar
+            const y = mod.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
         }
     }
 
-    if (userSearchInput) userSearchInput.addEventListener('input', applyDirectoryFilter);
-    if (roleFilterSelect) roleFilterSelect.addEventListener('change', applyDirectoryFilter);
+    if (prevPageBtn) {
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updateDirectoryView(false);
+                smoothScrollToDirectory();
+            }
+        });
+    }
+
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', () => {
+            currentPage++;
+            updateDirectoryView(false);
+            smoothScrollToDirectory();
+        });
+    }
+
+    if (userSearchInput) userSearchInput.addEventListener('input', () => updateDirectoryView(true));
+    if (roleFilterSelect) roleFilterSelect.addEventListener('change', () => updateDirectoryView(true));
+    if (dateFilterInput) dateFilterInput.addEventListener('change', () => updateDirectoryView(true));
+    if (sortFilterSelect) sortFilterSelect.addEventListener('change', () => updateDirectoryView(false));
+
+    if (clearDateBtn) {
+        clearDateBtn.addEventListener('click', () => {
+            if (dateFilterInput) dateFilterInput.value = '';
+            updateDirectoryView(true);
+        });
+    }
+
+    if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener('click', () => {
+            if (userSearchInput) userSearchInput.value = '';
+            if (roleFilterSelect) roleFilterSelect.value = 'all';
+            if (dateFilterInput) dateFilterInput.value = '';
+            if (sortFilterSelect) sortFilterSelect.value = 'date-desc';
+            updateDirectoryView(true);
+        });
+    }
+
+    // Initial render call
+    updateDirectoryView(true);
 });
 
 // 5. User Account Deletion Handler

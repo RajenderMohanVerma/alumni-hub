@@ -539,33 +539,125 @@ h1.admin-hero-title {
     margin: 0 auto 1.25rem auto;
 }
 
-/* Responsive */
-@media (max-width: 991px) {
+/* Fast Click Feedback & Tap Optimization */
+.btn, .admin-btn-pill, .admin-filter-bar button, .action-icon-btn, a.btn {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+.btn:active, .admin-btn-pill:active, .action-icon-btn:active {
+    transform: scale(0.96) !important;
+    transition: transform 0.08s ease !important;
+}
+
+/* Slim Custom Scrollbars for Tables */
+.admin-table-wrapper::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+.admin-table-wrapper::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+.admin-table-wrapper::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+.admin-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Responsive & Mobile Ergonomics */
+@media (max-width: 991.98px) {
     .admin-page-wrapper {
-        padding-inline: 1rem;
+        padding: clamp(90px, 12vw, 115px) 1rem 3.5rem 1rem;
+    }
+    .admin-hero-card {
+        padding: 26px 20px;
+    }
+    .admin-ambient-ball {
+        opacity: 0.08 !important;
+        filter: blur(50px) !important;
     }
 }
 
 @media (max-width: 768px) {
+    .admin-page-wrapper {
+        padding: 95px 12px 3rem 12px !important;
+    }
     .admin-header-box {
-        padding: 22px 18px;
-        border-radius: 20px;
-    }
-    .admin-hero-card {
-        padding: 24px 18px;
-        border-radius: 22px;
-    }
-    .admin-card {
         padding: 20px 16px;
         border-radius: 20px;
     }
-    .admin-filter-bar {
+    .admin-hero-card {
+        padding: 22px 16px;
+        border-radius: 22px;
+    }
+    .admin-hero-title {
+        font-size: 1.55rem !important;
+    }
+    .admin-hero-subtitle {
+        font-size: 0.85rem !important;
+    }
+    .admin-card {
+        padding: 18px 14px;
         border-radius: 20px;
+    }
+    .admin-filter-bar {
+        border-radius: 18px;
         flex-direction: column;
         align-items: stretch;
+        padding: 10px 14px;
+        gap: 8px;
     }
-    .admin-filter-input {
+    .admin-filter-input,
+    .admin-input,
+    .admin-select,
+    .admin-textarea {
         width: 100%;
         min-width: 100%;
+        font-size: 16px !important; /* Critical: stops iOS Safari auto-zoom */
+        padding: 11px 14px;
+    }
+    .admin-btn-pill, .btn {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .admin-table thead th {
+        padding: 10px 12px;
+        font-size: 0.72rem;
+    }
+    .admin-table tbody td {
+        padding: 12px 10px;
+        font-size: 0.82rem;
+    }
+    .stat-number-display {
+        font-size: 1.85rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .admin-page-wrapper {
+        padding: 85px 8px 2.5rem 8px !important;
+    }
+    .admin-hero-card {
+        padding: 18px 14px;
+        border-radius: 18px;
+    }
+    .admin-hero-title {
+        font-size: 1.35rem !important;
+    }
+    .admin-card {
+        padding: 14px 10px;
+        border-radius: 16px;
+    }
+    .admin-table tbody td {
+        padding: 10px 8px;
+    }
+    .empty-state-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.6rem;
     }
 }
