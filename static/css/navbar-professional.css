@@ -540,7 +540,7 @@
 }
 
 .mobile-user-info h4 {
-    color: white;
+    color: #ffffff !important;
     font-weight: 700;
     font-size: 1.3rem;
     margin-bottom: 0.5rem;
@@ -2252,10 +2252,11 @@
 
 /* Remove any hiding or delay issues - 100% guaranteed visible */
 .admin-mobile-card,
-.admin-mobile-section-card,
-.admin-nav-tile,
+.adm-drawer-group,
+.adm-drawer-group-box,
+.adm-drawer-row,
 .admin-tile-btn,
-.mini-roster-btn {
+.adm-roster-pill {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
@@ -2374,22 +2375,22 @@
 }
 
 .admin-mobile-name {
-    color: #ffffff;
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: #ffffff !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .admin-mobile-email {
-    color: #94a3b8;
-    font-size: 0.72rem;
-    margin: 0.1rem 0 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: #cbd5e1 !important;
+    font-size: 0.72rem !important;
+    margin: 0.15rem 0 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 /* --- 4 Quick Action App Tiles --- */
@@ -2442,214 +2443,214 @@
     white-space: nowrap !important;
 }
 
-/* --- Admin Categorized Section Cards --- */
-.admin-mobile-section-card {
+/* ===== ADMIN MOBILE DRAWER THEME OVERRIDES ===== */
+.mobile-menu-overlay.admin-drawer-theme {
+    background: linear-gradient(180deg, #070b14 0%, #0a0f1d 45%, #0c1222 100%) !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+    padding: 68px 12px 35px !important;
+}
+
+.admin-drawer-theme .mobile-menu-content {
+    gap: 14px !important;
+    max-width: 480px !important;
+}
+
+.admin-drawer-theme .mobile-close-btn {
+    top: 14px !important;
+    right: 14px !important;
+    width: 40px !important;
+    height: 40px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45) !important;
+}
+
+.admin-drawer-theme .mobile-close-btn i {
+    color: #f8fafc !important;
+    font-size: 1.1rem !important;
+}
+
+.admin-drawer-theme .mobile-close-btn:hover {
+    background: rgba(239, 68, 68, 0.25) !important;
+    border-color: rgba(239, 68, 68, 0.5) !important;
+    transform: scale(1.05) !important;
+}
+
+.admin-drawer-theme .mobile-close-btn:hover i {
+    color: #fca5a5 !important;
+}
+
+/* --- Admin Categorized Groups (Grouped Inset Style) --- */
+.adm-drawer-group {
     width: 100%;
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 0.75rem 0.85rem;
-    border: 1.5px solid #e2e8f0;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
-    margin-bottom: 0.65rem;
+    margin-bottom: 0.85rem;
 }
 
-[data-bs-theme="dark"] .admin-mobile-section-card,
-.premium-theme .admin-mobile-section-card {
-    background: #0f172a;
-    border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
-}
-
-.admin-section-header {
+.adm-drawer-group-head {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 0.2rem 0.2rem 0.5rem;
-    border-bottom: 1px solid #f1f5f9;
-    margin-bottom: 0.45rem;
+    gap: 7px;
+    padding: 0 6px 6px;
 }
 
-[data-bs-theme="dark"] .admin-section-header,
-.premium-theme .admin-section-header {
-    border-bottom-color: rgba(255, 255, 255, 0.08);
+.adm-head-icon {
+    font-size: 0.8rem;
 }
 
-.section-icon {
-    font-size: 0.82rem;
+.adm-head-title {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.07em !important;
+    text-transform: uppercase !important;
+    color: #94a3b8 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
 }
 
-.section-title {
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    color: #64748b;
-    text-transform: uppercase;
-}
-
-[data-bs-theme="dark"] .section-title,
-.premium-theme .section-title {
-    color: #94a3b8;
-}
-
-.admin-section-links {
+.adm-drawer-group-box {
+    background: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45) !important;
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
 }
 
-.admin-nav-tile {
+.adm-drawer-row {
     display: flex !important;
     align-items: center !important;
-    gap: 0.65rem !important;
-    padding: 0.55rem 0.7rem !important;
-    border-radius: 10px !important;
+    gap: 0.75rem !important;
+    padding: 0.65rem 0.85rem !important;
     text-decoration: none !important;
-    background: #f8fafc !important;
-    border: 1px solid #e2e8f0 !important;
-    transition: all 0.16s ease !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    transition: background 0.15s ease, transform 0.15s ease !important;
+    background: transparent !important;
 }
 
-[data-bs-theme="dark"] .admin-nav-tile,
-.premium-theme .admin-nav-tile {
-    background: rgba(255, 255, 255, 0.04) !important;
-    border-color: rgba(255, 255, 255, 0.08) !important;
+.adm-drawer-row:last-child {
+    border-bottom: none !important;
 }
 
-.admin-nav-tile:active,
-.admin-nav-tile:hover {
-    background: #f0f9ff !important;
-    border-color: #0284c7 !important;
-    transform: translateX(3px) !important;
+.adm-drawer-row:hover,
+.adm-drawer-row:active {
+    background: rgba(255, 255, 255, 0.06) !important;
 }
 
-.tile-bullet {
+.adm-row-urgent {
+    background: rgba(244, 63, 94, 0.05) !important;
+}
+
+.adm-row-danger {
+    background: rgba(239, 68, 68, 0.04) !important;
+}
+
+.adm-row-danger:hover,
+.adm-row-danger:active {
+    background: rgba(239, 68, 68, 0.15) !important;
+}
+
+.adm-row-bullet {
     width: 32px !important;
     height: 32px !important;
     flex: 0 0 32px !important;
-    border-radius: 8px !important;
-    display: grid !important;
-    place-items: center !important;
-    font-size: 0.85rem !important;
+    border-radius: 9px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.84rem !important;
 }
 
-.tile-bullet.icon-blue { background: rgba(59, 130, 246, 0.14) !important; color: #3b82f6 !important; }
-.tile-bullet.icon-cyan { background: rgba(6, 182, 212, 0.14) !important; color: #06b6d4 !important; }
-.tile-bullet.icon-amber { background: rgba(245, 158, 11, 0.14) !important; color: #f59e0b !important; }
-.tile-bullet.icon-green { background: rgba(16, 185, 129, 0.14) !important; color: #10b981 !important; }
-.tile-bullet.icon-violet { background: rgba(139, 92, 246, 0.14) !important; color: #8b5cf6 !important; }
-.tile-bullet.icon-purple { background: rgba(168, 85, 247, 0.14) !important; color: #a855f7 !important; }
-.tile-bullet.icon-rose { background: rgba(244, 63, 94, 0.14) !important; color: #f43f5e !important; }
-.tile-bullet.icon-orange { background: rgba(249, 115, 22, 0.14) !important; color: #f97316 !important; }
+.bullet-blue    { background: rgba(59, 130, 246, 0.18) !important; color: #60a5fa !important; }
+.bullet-rose    { background: rgba(244, 63, 94, 0.18) !important; color: #fb7185 !important; }
+.bullet-emerald { background: rgba(16, 185, 129, 0.18) !important; color: #34d399 !important; }
+.bullet-violet  { background: rgba(139, 92, 246, 0.18) !important; color: #a78bfa !important; }
+.bullet-cyan    { background: rgba(6, 182, 212, 0.18) !important; color: #22d3ee !important; }
+.bullet-amber   { background: rgba(245, 158, 11, 0.18) !important; color: #fbbf24 !important; }
+.bullet-purple  { background: rgba(168, 85, 247, 0.18) !important; color: #c084fc !important; }
+.bullet-orange  { background: rgba(249, 115, 22, 0.18) !important; color: #fb923c !important; }
+.bullet-indigo  { background: rgba(99, 102, 241, 0.18) !important; color: #818cf8 !important; }
 
-.tile-meta {
+.adm-row-content {
     flex: 1;
     min-width: 0;
 }
 
-.tile-meta strong {
-    display: block;
-    font-size: 0.84rem !important;
-    font-weight: 700;
-    color: #0f172a;
-    line-height: 1.25;
+.adm-row-title {
+    display: block !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    color: #f1f5f9 !important;
+    line-height: 1.25 !important;
 }
 
-[data-bs-theme="dark"] .tile-meta strong,
-.premium-theme .tile-meta strong {
-    color: #f8fafc;
-}
-
-.tile-meta small {
-    display: block;
+.adm-row-sub {
+    display: block !important;
     font-size: 0.68rem !important;
-    color: #64748b;
-    margin-top: 0.1rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: #94a3b8 !important;
+    margin-top: 2px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.2 !important;
 }
 
-[data-bs-theme="dark"] .tile-meta small,
-.premium-theme .tile-meta small {
-    color: #94a3b8;
+.adm-row-chevron {
+    font-size: 0.68rem !important;
+    color: #64748b !important;
+    margin-left: auto !important;
 }
 
-.chevron-icon {
-    font-size: 0.68rem;
-    color: #94a3b8;
-    margin-left: auto;
+.adm-badge-urgent {
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    font-size: 0.62rem !important;
+    font-weight: 800 !important;
+    padding: 2px 7px !important;
+    border-radius: 50px !important;
+    letter-spacing: 0.04em !important;
+    margin-left: auto !important;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4) !important;
 }
 
-.tile-highlight-urgent {
-    background: rgba(244, 63, 94, 0.06) !important;
-    border-color: rgba(244, 63, 94, 0.25) !important;
+/* 3-Pill Filter inside Category 1 */
+.adm-roster-pills {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+    padding: 8px 10px !important;
+    background: rgba(0, 0, 0, 0.28) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
-.admin-mini-roster-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.35rem;
-    margin-top: 0.25rem;
-    padding-top: 0.25rem;
-    border-top: 1px dashed #e2e8f0;
-}
-
-[data-bs-theme="dark"] .admin-mini-roster-grid,
-.premium-theme .admin-mini-roster-grid {
-    border-top-color: rgba(255, 255, 255, 0.08);
-}
-
-.mini-roster-btn {
+.adm-roster-pill {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.3rem !important;
-    padding: 0.45rem 0.2rem !important;
-    font-size: 0.74rem !important;
-    font-weight: 700 !important;
+    gap: 5px !important;
+    padding: 6px 2px !important;
     border-radius: 8px !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
     text-decoration: none !important;
-    background: #f1f5f9 !important;
-    border: 1px solid #e2e8f0 !important;
-    color: #334155 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    transition: all 0.16s ease !important;
 }
 
-[data-bs-theme="dark"] .mini-roster-btn,
-.premium-theme .mini-roster-btn {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border-color: rgba(255, 255, 255, 0.1) !important;
-    color: #e2e8f0 !important;
-}
+.pill-student { color: #38bdf8 !important; }
+.pill-alumni  { color: #fbbf24 !important; }
+.pill-faculty { color: #34d399 !important; }
 
-.mini-roster-btn:active,
-.mini-roster-btn:hover {
-    background: #0284c7 !important;
-    color: #ffffff !important;
-    border-color: #0284c7 !important;
-}
-
-/* --- Admin Mobile Logout Button --- */
-.admin-mobile-logout-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 0.75rem 1.25rem;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 0.88rem;
-    color: #fda4af;
-    background: linear-gradient(135deg, rgba(225, 29, 72, 0.15), rgba(159, 18, 57, 0.2));
-    border: 1px solid rgba(225, 29, 72, 0.35);
-    text-decoration: none;
-    transition: all 0.2s ease;
-}
-
-.admin-mobile-logout-btn:active,
-.admin-mobile-logout-btn:hover {
-    color: #ffffff;
-    background: linear-gradient(135deg, #e11d48, #be123c);
-    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35);
+.adm-roster-pill:active,
+.adm-roster-pill:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    transform: translateY(-1px) !important;
 }
 
 /* ========================================================

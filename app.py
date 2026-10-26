@@ -3466,7 +3466,7 @@ def admin_whatsapp_broadcast():
         else:
             conn = get_db_connection()
             # Exclude admins from the broadcast list
-            query = "SELECT name, role, phone FROM users WHERE is_verified = 1 AND role != 'admin'"
+            query = "SELECT name, role, phone, profile_pic FROM users WHERE is_verified = 1 AND role != 'admin'"
             params = []
 
             if selected_role != 'all':
@@ -3493,6 +3493,7 @@ def admin_whatsapp_broadcast():
                     'name': row['name'],
                     'role': row['role'],
                     'phone': row['phone'],
+                    'profile_pic': row['profile_pic'],
                     'whatsapp_url': whatsapp_url
                 })
 
