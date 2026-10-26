@@ -177,11 +177,19 @@
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar navbar-expand-lg navbar-floating fixed-top smart-scroll-nav" id="mainNavbar">
         <div class="container-fluid navbar-container">
-            <a class="navbar-brand brand-premium" href="/" title="Alumni Hub Official Portal">
-                <div class="brand-logo-container">
+            <a class="navbar-brand brand-premium {% if current_user.is_authenticated and current_user.role == 'admin' %}admin-brand-wrap{% endif %}" href="{{ url_for('dashboard_admin') if current_user.is_authenticated and current_user.role == 'admin' else '/' }}" title="Alumni Hub {% if current_user.is_authenticated and current_user.role == 'admin' %}Admin Console{% else %}Official Portal{% endif %}">
+                <div class="brand-logo-container position-relative">
                     <img src="{{ url_for('static', filename='images/icons/app-logo.png') }}" alt="Alumni Hub Logo" class="brand-app-logo">
+                    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+                    <span class="admin-pulse-beacon" title="Security Active"></span>
+                    {% endif %}
                 </div>
-                <strong class="brand-text-premium brand-animate-rtl">ALUMNI HUB</strong>
+                <div class="brand-meta-group">
+                    <strong class="brand-text-premium brand-animate-rtl">ALUMNI HUB</strong>
+                    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+                    <span class="admin-brand-badge"><i class="fas fa-shield-halved"></i> <span>CONSOLE</span></span>
+                    {% endif %}
+                </div>
             </a>
 
             <!-- Mobile App Download Quick Button -->
@@ -195,7 +203,7 @@
             {% endif %}
 
             <!-- Open Button -->
-            <button class="navbar-toggler custom-toggler" type="button" aria-controls="mobileMenuOverlay"
+            <button class="navbar-toggler custom-toggler {% if current_user.is_authenticated and current_user.role == 'admin' %}admin-custom-toggler{% endif %}" type="button" aria-controls="mobileMenuOverlay"
                 aria-expanded="false" aria-label="Toggle navigation" id="navbarToggler">
                 <div class="hamburger-lines">
                     <span class="line line1"></span>
@@ -440,54 +448,68 @@
 
                     {% elif current_user.role == 'admin' %}
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link {% if request.endpoint == 'dashboard_admin' %}active{% endif %}"
+                        <a class="nav-link nav-pill-link nav-admin-pill {% if request.endpoint == 'dashboard_admin' %}active{% endif %}"
                             href="{{ url_for('dashboard_admin') }}">
-                            <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+                            <i class="fas fa-gauge-high"></i> <span>Dashboard</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link" href="/messages">
-                            <i class="fas fa-comment-alt"></i> <span>Messages</span>
+                        <a class="nav-link nav-pill-link nav-admin-pill {% if request.endpoint == 'messages' or request.path.startswith('/messages') %}active{% endif %}" href="/messages">
+                            <i class="fas fa-comments"></i> <span>Messages</span>
                         </a>
                     </li>
 
                     <!-- Users Directory Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link nav-pill-link dropdown-toggle" href="#" id="usersDropdown" role="button"
+                        <a class="nav-link nav-pill-link nav-admin-pill dropdown-toggle {% if 'admin_view_users' in request.endpoint|default('') or 'admin_approve' in request.endpoint|default('') %}active{% endif %}" href="#" id="usersDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-users-cog"></i> <span>Directory</span>
+                            <i class="fas fa-users-gear"></i> <span>Directory</span>
                         </a>
-                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="usersDropdown">
+                        <ul class="dropdown-menu shadow-premium border-0 nav-admin-dropdown-menu" aria-labelledby="usersDropdown">
+                            <li class="nav-menu-intro admin-dropdown-intro">
+                                <span class="nav-menu-intro-icon admin-intro-icon"><i class="fas fa-users-gear"></i></span>
+                                <span><strong>User Governance</strong><small>Members, Roles &amp; Security</small></span>
+                            </li>
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('admin_view_users', role='all') }}">
-                                    <i class="fas fa-list me-2 text-primary"></i> All Members
+                                <a class="dropdown-item nav-admin-menu-item" href="{{ url_for('admin_view_users', role='all') }}">
+                                    <span class="nav-menu-icon icon-blue"><i class="fas fa-list-check"></i></span>
+                                    <span class="nav-menu-copy"><strong>All Members</strong><small>Full user database</small></span>
+                                    <i class="fas fa-chevron-right nav-item-chevron"></i>
                                 </a>
                             </li>
                             <li>
-                                <hr class="dropdown-divider">
+                                <hr class="dropdown-divider my-1 opacity-10">
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('admin_view_users', role='student') }}">
-                                    <i class="fas fa-user-graduate me-2 text-info"></i> Students Directory
+                                <a class="dropdown-item nav-admin-menu-item" href="{{ url_for('admin_view_users', role='student') }}">
+                                    <span class="nav-menu-icon icon-cyan"><i class="fas fa-user-graduate"></i></span>
+                                    <span class="nav-menu-copy"><strong>Students Roster</strong><small>Enrolled student directory</small></span>
+                                    <i class="fas fa-chevron-right nav-item-chevron"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('admin_view_users', role='alumni') }}">
-                                    <i class="fas fa-user-tie me-2 text-warning"></i> Alumni Directory
+                                <a class="dropdown-item nav-admin-menu-item" href="{{ url_for('admin_view_users', role='alumni') }}">
+                                    <span class="nav-menu-icon icon-amber"><i class="fas fa-user-tie"></i></span>
+                                    <span class="nav-menu-copy"><strong>Alumni Directory</strong><small>Graduates &amp; mentors</small></span>
+                                    <i class="fas fa-chevron-right nav-item-chevron"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('admin_view_users', role='faculty') }}">
-                                    <i class="fas fa-chalkboard-teacher me-2 text-success"></i> Faculty Directory
+                                <a class="dropdown-item nav-admin-menu-item" href="{{ url_for('admin_view_users', role='faculty') }}">
+                                    <span class="nav-menu-icon icon-green"><i class="fas fa-chalkboard-user"></i></span>
+                                    <span class="nav-menu-copy"><strong>Faculty Directory</strong><small>Professors &amp; staff</small></span>
+                                    <i class="fas fa-chevron-right nav-item-chevron"></i>
                                 </a>
                             </li>
                             <li>
-                                <hr class="dropdown-divider">
+                                <hr class="dropdown-divider my-1 opacity-10">
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('admin_approve_requests') }}">
-                                    <i class="fas fa-user-check me-2 text-danger"></i> Pending Approvals
+                                <a class="dropdown-item nav-admin-menu-item nav-admin-item-urgent" href="{{ url_for('admin_approve_requests') }}">
+                                    <span class="nav-menu-icon icon-rose"><i class="fas fa-user-clock"></i></span>
+                                    <span class="nav-menu-copy"><strong class="text-danger">Pending Approvals</strong><small>Review verification queue</small></span>
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill ms-auto px-2 py-1 font-monospace" style="font-size: 0.65rem;">ACTION</span>
                                 </a>
                             </li>
                         </ul>
@@ -495,23 +517,21 @@
 
                     <!-- System Operations Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link nav-pill-link dropdown-toggle" href="#" id="systemDropdown" role="button"
+                        <a class="nav-link nav-pill-link nav-admin-pill dropdown-toggle" href="#" id="systemDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-sliders-h"></i> <span>System Control</span>
+                            <i class="fas fa-shield-halved"></i> <span>System Control</span>
                         </a>
-                        <ul class="dropdown-menu shadow-premium border-0 nav-system-menu"
+                        <ul class="dropdown-menu shadow-premium border-0 nav-system-menu nav-admin-dropdown-menu"
                             aria-labelledby="systemDropdown">
-                            <li class="nav-menu-intro">
-                                <span class="nav-menu-intro-icon"><i class="fas fa-shield-alt"></i></span>
-                                <span><strong>Platform Control Hub</strong><small>Administration &amp;
-                                        Infrastructure</small></span>
+                            <li class="nav-menu-intro admin-system-intro">
+                                <span class="nav-menu-intro-icon admin-sys-icon"><i class="fas fa-shield-alt"></i></span>
+                                <span><strong>Enterprise Control Hub</strong><small>Governance, Comms &amp; Infrastructure</small></span>
                             </li>
-                            <li class="nav-menu-heading">CAREER &amp; JOBS</li>
+                            <li class="nav-menu-heading">CAREER &amp; TALENT</li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_jobs') }}">
                                     <span class="nav-menu-icon icon-blue"><i class="fas fa-briefcase"></i></span>
-                                    <span class="nav-menu-copy"><strong>Jobs Matrix</strong><small>Manage all job
-                                            postings</small></span>
+                                    <span class="nav-menu-copy"><strong>Jobs Matrix</strong><small>Manage all job postings</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
@@ -519,73 +539,71 @@
                                 <a class="dropdown-item nav-menu-link position-relative"
                                     href="{{ url_for('admin_jobs') }}#pending">
                                     <span class="nav-menu-icon icon-amber"><i class="fas fa-clipboard-check"></i></span>
-                                    <span class="nav-menu-copy"><strong>Job Approvals Queue</strong><small>Review
-                                            pending submissions</small></span>
+                                    <span class="nav-menu-copy"><strong>Job Approvals Queue</strong><small>Review pending submissions</small></span>
                                 </a>
                             </li>
-                            <li class="nav-menu-heading">COMMUNICATIONS</li>
+                            <li class="nav-menu-heading">COMMUNICATIONS &amp; BROADCAST</li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_whatsapp_broadcast') }}">
                                     <span class="nav-menu-icon icon-green"><i class="fa-brands fa-whatsapp"></i></span>
-                                    <span class="nav-menu-copy"><strong>WhatsApp Broadcast</strong><small>Send bulk
-                                            community alerts</small></span>
+                                    <span class="nav-menu-copy"><strong>WhatsApp Broadcast</strong><small>Send bulk community alerts</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_messaging_control') }}">
                                     <span class="nav-menu-icon icon-violet"><i class="fas fa-comments"></i></span>
-                                    <span class="nav-menu-copy"><strong>Messaging Control</strong><small>Toggle chat and
-                                            permissions</small></span>
+                                    <span class="nav-menu-copy"><strong>Messaging Control</strong><small>Toggle chat and permissions</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="/announcements">
                                     <span class="nav-menu-icon icon-cyan"><i class="fas fa-bullhorn"></i></span>
-                                    <span class="nav-menu-copy"><strong>Campus Announcements</strong><small>Publish
-                                            official notices</small></span>
+                                    <span class="nav-menu-copy"><strong>Campus Announcements</strong><small>Publish official notices</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
-                            <li class="nav-menu-heading">ANALYTICS &amp; AUDIT</li>
+                            <li class="nav-menu-heading">INFRASTRUCTURE &amp; AUDIT</li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_connection_monitor') }}">
-                                    <span class="nav-menu-icon icon-cyan"><i class="fas fa-link"></i></span>
-                                    <span class="nav-menu-copy"><strong>Connection Monitor</strong><small>Live socket
-                                            &amp; active users</small></span>
+                                    <span class="nav-menu-icon icon-cyan"><i class="fas fa-network-wired"></i></span>
+                                    <span class="nav-menu-copy"><strong>Connection Monitor</strong><small>Live socket &amp; active users</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_analytics') }}">
                                     <span class="nav-menu-icon icon-purple"><i class="fas fa-chart-line"></i></span>
-                                    <span class="nav-menu-copy"><strong>Platform Analytics</strong><small>Engagement
-                                            &amp; demographics</small></span>
+                                    <span class="nav-menu-copy"><strong>Platform Analytics</strong><small>Engagement &amp; demographics</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_registrations') }}">
                                     <span class="nav-menu-icon icon-orange"><i class="fas fa-clipboard-list"></i></span>
-                                    <span class="nav-menu-copy"><strong>Registration Logs</strong><small>Account
-                                            creation audit trail</small></span>
+                                    <span class="nav-menu-copy"><strong>Registration Logs</strong><small>Account creation audit trail</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="/admin/events">
                                     <span class="nav-menu-icon icon-blue"><i class="fas fa-calendar-check"></i></span>
-                                    <span class="nav-menu-copy"><strong>Event RSVPs</strong><small>Track attendance
-                                            &amp; registrations</small></span>
+                                    <span class="nav-menu-copy"><strong>Event RSVPs</strong><small>Track attendance &amp; registrations</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-menu-link" href="/admin/reports">
-                                    <span class="nav-menu-icon icon-amber"><i class="fas fa-file-invoice"></i></span>
-                                    <span class="nav-menu-copy"><strong>Incident Reports</strong><small>Live tickets &amp;
-                                            resolution desk</small></span>
+                                    <span class="nav-menu-icon icon-rose"><i class="fas fa-triangle-exclamation"></i></span>
+                                    <span class="nav-menu-copy"><strong>Incident Reports</strong><small>Live tickets &amp; resolution desk</small></span>
+                                    <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-menu-link" href="/admin/stats">
+                                    <span class="nav-menu-icon icon-amber"><i class="fas fa-chart-pie"></i></span>
+                                    <span class="nav-menu-copy"><strong>System Statistics</strong><small>Telemetry &amp; summary reports</small></span>
                                     <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
                                 </a>
                             </li>
@@ -601,10 +619,10 @@
                     </li>
 
                     <!-- User Profile Dropdown -->
-                    <li class="nav-item dropdown px-2 user-dropdown">
-                        <a class="nav-link user-pill dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    <li class="nav-item dropdown px-2 user-dropdown {% if current_user.role == 'admin' %}admin-user-dropdown{% endif %}">
+                        <a class="nav-link user-pill {% if current_user.role == 'admin' %}admin-user-pill{% endif %} dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="user-avatar overflow-hidden">
+                            <div class="user-avatar overflow-hidden {% if current_user.role == 'admin' %}admin-user-avatar-ring{% endif %}">
                                 {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
                                 <img src="{{ current_user.profile_pic }}" alt=""
                                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
@@ -613,6 +631,9 @@
                                 {% endif %}
                             </div>
                             <span class="user-name d-none d-sm-inline">{{ current_user.name }}</span>
+                            {% if current_user.role == 'admin' %}
+                            <span class="admin-user-pill-tag ms-1"><i class="fas fa-shield-alt"></i> ADMIN</span>
+                            {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-premium" aria-labelledby="navbarDropdown">
                             <li class="dropdown-header-custom">
@@ -668,6 +689,55 @@
         <div class="mobile-menu-content">
             <!-- User Profile Section for Mobile -->
             {% if current_user.is_authenticated %}
+            {% if current_user.role == 'admin' %}
+            <!-- ===== ADMIN MOBILE COMMAND PROFILE CARD ===== -->
+            <div class="admin-mobile-card" style="--delay: 0.08s">
+                <div class="admin-mobile-card-header">
+                    <div class="admin-mobile-status-pill">
+                        <span class="admin-status-pulse"></span>
+                        <span>ADMIN CONSOLE</span>
+                    </div>
+                    <span class="admin-role-badge">SUPER ADMIN</span>
+                </div>
+
+                <div class="admin-mobile-user-row">
+                    <div class="admin-mobile-avatar-box">
+                        {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
+                        <img src="{{ current_user.profile_pic }}" alt="{{ current_user.name }}" class="admin-mobile-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="admin-mobile-initials" style="display: none;">{{ current_user.name | initials }}</div>
+                        {% else %}
+                        <div class="admin-mobile-initials">{{ current_user.name | initials }}</div>
+                        {% endif %}
+                        <span class="admin-avatar-badge-icon" title="Super Admin"><i class="fas fa-shield-halved"></i></span>
+                    </div>
+                    <div class="admin-mobile-user-details">
+                        <h4 class="admin-mobile-name">{{ current_user.name }}</h4>
+                        <p class="admin-mobile-email">{{ current_user.email or 'System Administrator' }}</p>
+                    </div>
+                </div>
+
+                <!-- 4 Quick Launch App Tiles -->
+                <div class="admin-mobile-quick-grid">
+                    <a href="{{ url_for('dashboard_admin') }}" class="admin-tile-btn tile-indigo mobile-nav-link">
+                        <div class="tile-icon"><i class="fas fa-gauge-high"></i></div>
+                        <div class="tile-label">Dashboard</div>
+                    </a>
+                    <a href="{{ url_for('admin_approve_requests') }}" class="admin-tile-btn tile-rose mobile-nav-link">
+                        <div class="tile-icon"><i class="fas fa-user-check"></i></div>
+                        <div class="tile-label">Approvals</div>
+                    </a>
+                    <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="admin-tile-btn tile-emerald mobile-nav-link">
+                        <div class="tile-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                        <div class="tile-label">WhatsApp</div>
+                    </a>
+                    <a href="/messages" class="admin-tile-btn tile-sky mobile-nav-link">
+                        <div class="tile-icon"><i class="fas fa-comments"></i></div>
+                        <div class="tile-label">Messages</div>
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <!-- Standard User Profile Section for Mobile -->
             <div class="mobile-profile-card" style="--delay: 0.1s">
                 <div class="mobile-avatar">
                     {{ current_user.name[0] }}
@@ -677,15 +747,7 @@
                     <span class="badge badge-role">{{ current_user.role|capitalize }}</span>
                 </div>
                 <div class="mobile-quick-actions">
-                    {% if current_user.role == 'admin' %}
-                    <a href="{{ url_for('dashboard_admin') }}" class="action-btn"><i class="fas fa-chart-pie"></i>
-                        Dashboard</a>
-                    <a href="/messages" class="action-btn"><i class="fas fa-comment-alt"></i> Messages</a>
-                    <a href="{{ url_for('admin_approve_requests') }}" class="action-btn"><i
-                            class="fas fa-check-double"></i> Approvals</a>
-                    <a href="{{ url_for('admin_view_users', role='all') }}" class="action-btn"><i
-                            class="fas fa-users-cog"></i> Users</a>
-                    {% elif current_user.role == 'alumni' %}
+                    {% if current_user.role == 'alumni' %}
                     <a href="/alumni/dashboard" class="action-btn"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                     <a href="/messages" class="action-btn"><i class="fas fa-comment-alt"></i> Messages</a>
                     <a href="/alumni/network" class="action-btn"><i class="fas fa-network-wired"></i> Network</a>
@@ -701,13 +763,16 @@
                     <a href="/profile" class="action-btn"><i class="fas fa-user"></i> Profile</a>
                 </div>
             </div>
-            <hr class="w-100 border-white opacity-25" style="max-width: 80%;">
+            {% endif %}
+            <hr class="w-100 border-white opacity-25" style="max-width: 90%;">
             {% endif %}
 
             <div class="mobile-links-container">
+                {% if not (current_user.is_authenticated and current_user.role == 'admin') %}
                 <a href="/" class="mobile-nav-link" style="--delay: 0.15s"><i class="fas fa-home"></i> Home</a>
                 <a href="/about" class="mobile-nav-link" style="--delay: 0.2s"><i class="fas fa-info-circle"></i>
                     About</a>
+                {% endif %}
 
                 {% if current_user.is_authenticated %}
                 {% if current_user.role == 'student' %}
@@ -764,37 +829,190 @@
                 <a href="/notifications" class="mobile-nav-link" style="--delay: 0.65s"><i class="fas fa-bell"></i>
                     Notifications</a>
                 {% elif current_user.role == 'admin' %}
-                <a href="{{ url_for('dashboard_admin') }}" class="mobile-nav-link" style="--delay: 0.25s"><i
-                        class="fas fa-chart-line"></i> Dashboard</a>
-                <a href="/messages" class="mobile-nav-link" style="--delay: 0.28s"><i class="fas fa-comment-alt"></i>
-                    Live Messages</a>
-                <a href="{{ url_for('admin_view_users', role='all') }}" class="mobile-nav-link"
-                    style="--delay: 0.31s"><i class="fas fa-users-cog"></i> Users Directory</a>
-                <a href="{{ url_for('admin_approve_requests') }}" class="mobile-nav-link" style="--delay: 0.34s"><i
-                        class="fas fa-check-double"></i> Pending Approvals</a>
-                <a href="{{ url_for('admin_jobs') }}" class="mobile-nav-link" style="--delay: 0.37s"><i
-                        class="fas fa-briefcase"></i> Jobs Matrix</a>
-                <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="mobile-nav-link" style="--delay: 0.4s"><i
-                        class="fa-brands fa-whatsapp"></i> WhatsApp Broadcast</a>
-                <a href="{{ url_for('admin_messaging_control') }}" class="mobile-nav-link" style="--delay: 0.43s"><i
-                        class="fas fa-comments"></i> Messaging Control</a>
-                <a href="{{ url_for('admin_connection_monitor') }}" class="mobile-nav-link" style="--delay: 0.46s"><i
-                        class="fas fa-link"></i> Connection Monitor</a>
-                <a href="/announcements" class="mobile-nav-link" style="--delay: 0.49s"><i class="fas fa-bullhorn"></i>
-                    Campus Announcements</a>
-                <a href="{{ url_for('admin_analytics') }}" class="mobile-nav-link" style="--delay: 0.52s"><i
-                        class="fas fa-chart-line"></i> Platform Analytics</a>
-                <a href="/admin/events" class="mobile-nav-link" style="--delay: 0.55s"><i
-                        class="fas fa-calendar-check"></i> Event RSVPs</a>
-                <a href="{{ url_for('admin_registrations') }}" class="mobile-nav-link" style="--delay: 0.58s"><i
-                        class="fas fa-clipboard-list"></i> Registration Logs</a>
-                <a href="/admin/reports" class="mobile-nav-link" style="--delay: 0.61s"><i class="fas fa-file-invoice"></i>
-                    Incident Reports</a>
-                <a href="/admin/stats" class="mobile-nav-link" style="--delay: 0.64s"><i class="fas fa-chart-pie"></i>
-                    Statistics</a>
+                
+                <!-- Category 1: Member Governance & Directory -->
+                <div class="admin-mobile-section-card" style="--delay: 0.12s">
+                    <div class="admin-section-header">
+                        <span class="section-icon text-primary"><i class="fas fa-users-gear"></i></span>
+                        <span class="section-title">MEMBER GOVERNANCE</span>
+                    </div>
+                    <div class="admin-section-links">
+                        <a href="{{ url_for('admin_view_users', role='all') }}" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-blue"><i class="fas fa-users"></i></span>
+                            <div class="tile-meta">
+                                <strong>All Members Directory</strong>
+                                <small>View &amp; manage all registered accounts</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="{{ url_for('admin_approve_requests') }}" class="mobile-nav-link admin-nav-tile tile-highlight-urgent">
+                            <span class="tile-bullet icon-rose"><i class="fas fa-user-clock"></i></span>
+                            <div class="tile-meta">
+                                <strong class="text-danger">Pending Approvals Queue</strong>
+                                <small>Verify credentials &amp; registrations</small>
+                            </div>
+                            <span class="badge bg-danger text-white rounded-pill px-2 py-1" style="font-size: 0.65rem;">ACTION</span>
+                        </a>
+                        <div class="admin-mini-roster-grid">
+                            <a href="{{ url_for('admin_view_users', role='student') }}" class="mobile-nav-link mini-roster-btn">
+                                <i class="fas fa-user-graduate text-info"></i> Students
+                            </a>
+                            <a href="{{ url_for('admin_view_users', role='alumni') }}" class="mobile-nav-link mini-roster-btn">
+                                <i class="fas fa-user-tie text-warning"></i> Alumni
+                            </a>
+                            <a href="{{ url_for('admin_view_users', role='faculty') }}" class="mobile-nav-link mini-roster-btn">
+                                <i class="fas fa-chalkboard-user text-success"></i> Faculty
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 2: Communications & Broadcasts -->
+                <div class="admin-mobile-section-card" style="--delay: 0.18s">
+                    <div class="admin-section-header">
+                        <span class="section-icon text-success"><i class="fas fa-tower-broadcast"></i></span>
+                        <span class="section-title">COMMUNICATIONS &amp; BROADCAST</span>
+                    </div>
+                    <div class="admin-section-links">
+                        <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-green"><i class="fa-brands fa-whatsapp"></i></span>
+                            <div class="tile-meta">
+                                <strong>WhatsApp Broadcast Hub</strong>
+                                <small>Send instant updates to student &amp; alumni groups</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="{{ url_for('admin_messaging_control') }}" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-violet"><i class="fas fa-comments"></i></span>
+                            <div class="tile-meta">
+                                <strong>Messaging Control</strong>
+                                <small>Manage chat permissions &amp; rate limits</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="/announcements" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-cyan"><i class="fas fa-bullhorn"></i></span>
+                            <div class="tile-meta">
+                                <strong>Campus Announcements</strong>
+                                <small>Publish official notices to community</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="/messages" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-blue"><i class="fas fa-envelope-open-text"></i></span>
+                            <div class="tile-meta">
+                                <strong>Direct Messages Inbox</strong>
+                                <small>One-on-one administrator dialogues</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Category 3: Platform Operations & Audit -->
+                <div class="admin-mobile-section-card" style="--delay: 0.24s">
+                    <div class="admin-section-header">
+                        <span class="section-icon text-warning"><i class="fas fa-server"></i></span>
+                        <span class="section-title">OPERATIONS, AUDIT &amp; SECURITY</span>
+                    </div>
+                    <div class="admin-section-links">
+                        <a href="{{ url_for('admin_jobs') }}" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-blue"><i class="fas fa-briefcase"></i></span>
+                            <div class="tile-meta">
+                                <strong>Jobs &amp; Internships Matrix</strong>
+                                <small>Review, approve &amp; govern job listings</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="{{ url_for('admin_connection_monitor') }}" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-cyan"><i class="fas fa-network-wired"></i></span>
+                            <div class="tile-meta">
+                                <strong>Connection Monitor</strong>
+                                <small>Real-time active socket connections</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="{{ url_for('admin_analytics') }}" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-purple"><i class="fas fa-chart-line"></i></span>
+                            <div class="tile-meta">
+                                <strong>Platform Analytics</strong>
+                                <small>User growth, demographics &amp; metrics</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="{{ url_for('admin_registrations') }}" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-orange"><i class="fas fa-clipboard-list"></i></span>
+                            <div class="tile-meta">
+                                <strong>Registration Logs</strong>
+                                <small>Account creation audit trail</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="/admin/events" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-blue"><i class="fas fa-calendar-check"></i></span>
+                            <div class="tile-meta">
+                                <strong>Event RSVPs &amp; Registrations</strong>
+                                <small>Attendee lists &amp; ticket tracking</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="/admin/reports" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-rose"><i class="fas fa-triangle-exclamation"></i></span>
+                            <div class="tile-meta">
+                                <strong>Incident Reports &amp; Helpdesk</strong>
+                                <small>User issues, abuse reports &amp; logs</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="/admin/stats" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-amber"><i class="fas fa-chart-pie"></i></span>
+                            <div class="tile-meta">
+                                <strong>System Statistics</strong>
+                                <small>Telemetry &amp; comprehensive system summary</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Category 4: Administrator Quick Settings -->
+                <div class="admin-mobile-section-card" style="--delay: 0.30s">
+                    <div class="admin-section-header">
+                        <span class="section-icon text-info"><i class="fas fa-sliders"></i></span>
+                        <span class="section-title">ADMIN CONFIGURATION</span>
+                    </div>
+                    <div class="admin-section-links">
+                        <a href="{{ url_for('edit_admin_profile', user_id=current_user.id) }}" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-violet"><i class="fas fa-user-gear"></i></span>
+                            <div class="tile-meta">
+                                <strong>Administrator Settings</strong>
+                                <small>Account details, preferences &amp; profile</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="/change_password" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-amber"><i class="fas fa-key"></i></span>
+                            <div class="tile-meta">
+                                <strong>Change Password &amp; 2FA</strong>
+                                <small>Update console credentials</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                        <a href="/" class="mobile-nav-link admin-nav-tile">
+                            <span class="tile-bullet icon-cyan"><i class="fas fa-globe"></i></span>
+                            <div class="tile-meta">
+                                <strong>View Public Portal</strong>
+                                <small>Switch to student / public landing view</small>
+                            </div>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </a>
+                    </div>
+                </div>
                 {% endif %}
+                {% if current_user.role != 'admin' %}
                 <a href="/events" class="mobile-nav-link" style="--delay: 0.7s"><i class="fas fa-calendar-alt"></i>
                     Events</a>
+                {% endif %}
                 {% else %}
                 <a href="/services" class="mobile-nav-link" style="--delay: 0.25s"><i class="fas fa-briefcase"></i>
                     Services</a>
@@ -820,11 +1038,22 @@
             </div>
 
             {% if current_user.is_authenticated %}
-            <div class="mobile-logout-section w-100 px-2 mt-3" style="--delay: 0.75s">
+            <div class="mobile-logout-section w-100 px-2 mt-2 mb-3" style="--delay: 0.36s">
+                {% if current_user.role == 'admin' %}
+                <a href="/logout" class="admin-mobile-logout-btn shadow-sm">
+                    <i class="fas fa-power-off me-2"></i> Terminate Admin Session
+                </a>
+                <div class="text-center mt-2">
+                    <small class="text-muted" style="font-size: 0.72rem; letter-spacing: 0.05em;">
+                        <i class="fas fa-lock text-warning me-1"></i> ENCRYPTED ADMIN SESSION • v2.4
+                    </small>
+                </div>
+                {% else %}
                 <a href="/logout" class="btn btn-outline-danger btn-lg w-100 shadow-sm"
                     style="border-radius: 12px; font-weight: 600;">
                     <i class="fas fa-sign-out-alt me-2"></i> Logout
                 </a>
+                {% endif %}
             </div>
             {% else %}
             <div class="mobile-auth-buttons w-100 px-2 mt-3 d-flex flex-column gap-2" style="--delay: 0.45s">
