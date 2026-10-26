@@ -2,9 +2,9 @@
 {% block title %}Admin Dashboard • Executive Command Center{% endblock %}
 
 {% block content %}
-<!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}?v=2.3">
 
 <style>
     /* ========================================================
@@ -12,6 +12,7 @@
        ======================================================== */
     :root {
         --adm-blue: #0284c7;
+        --adm-blue-dark: #0369a1;
         --adm-indigo: #4f46e5;
         --adm-purple: #7c3aed;
         --adm-green: #10b981;
@@ -35,9 +36,10 @@
     .admin-dashboard-wrapper {
         min-height: 100vh;
         position: relative;
-        padding: clamp(105px, 11vw, 130px) 1.25rem 5rem 1.25rem;
+        padding: 135px 1.25rem 5rem 1.25rem;
         background-color: #f8fafc;
         overflow-x: clip;
+        width: 100%;
     }
 
     .admin-ambient-ball {
@@ -50,39 +52,39 @@
         animation: floatOrb 22s infinite alternate ease-in-out;
     }
     .admin-ball-1 {
-        width: 500px;
-        height: 500px;
+        width: clamp(260px, 40vw, 500px);
+        height: clamp(260px, 40vw, 500px);
         background: #0284c7;
         top: -60px;
         left: -80px;
     }
     .admin-ball-2 {
-        width: 440px;
-        height: 440px;
+        width: clamp(240px, 35vw, 440px);
+        height: clamp(240px, 35vw, 440px);
         background: #7c3aed;
         top: 35%;
-        right: -100px;
+        right: -80px;
         animation-delay: -7s;
     }
     .admin-ball-3 {
-        width: 380px;
-        height: 380px;
+        width: clamp(220px, 30vw, 380px);
+        height: clamp(220px, 30vw, 380px);
         background: #10b981;
         bottom: 50px;
-        left: 20%;
+        left: 15%;
         animation-delay: -12s;
     }
 
     @keyframes floatOrb {
         0% { transform: translate(0, 0) scale(1); }
-        100% { transform: translate(50px, 35px) scale(1.08); }
+        100% { transform: translate(45px, 30px) scale(1.08); }
     }
 
     .admin-container {
         position: relative;
         z-index: 2;
         max-width: 1440px;
-        margin: 10px auto 0 auto;
+        margin: 0 auto;
     }
 
     /* --- Hero Command Terminal --- */
@@ -90,19 +92,31 @@
         background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%);
         border: 2px solid rgba(56, 189, 248, 0.25);
         border-radius: 30px;
-        padding: clamp(28px, 4.5vw, 48px);
+        padding: clamp(24px, 4vw, 44px);
         position: relative;
         overflow: hidden;
         color: #ffffff;
         box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.25);
-        margin-bottom: 2.25rem;
+        margin-bottom: 2rem;
+        animation: adminFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes adminFadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .admin-hero-card::before {
         content: "";
         position: absolute;
-        width: 400px;
-        height: 400px;
+        width: 380px;
+        height: 380px;
         background: radial-gradient(circle, rgba(2, 132, 199, 0.35), transparent 70%);
         top: -120px;
         right: -80px;
@@ -113,8 +127,8 @@
     .admin-hero-card::after {
         content: "";
         position: absolute;
-        width: 320px;
-        height: 320px;
+        width: 300px;
+        height: 300px;
         background: radial-gradient(circle, rgba(124, 58, 237, 0.25), transparent 70%);
         bottom: -100px;
         left: 10%;
@@ -139,13 +153,13 @@
         background: rgba(16, 185, 129, 0.22) !important;
         border: 1px solid rgba(52, 211, 153, 0.5) !important;
         color: #34d399 !important;
-        padding: 7px 16px;
+        padding: 6px 16px;
         border-radius: 50px;
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.74rem;
+        font-size: clamp(0.7rem, 2vw, 0.76rem);
         font-weight: 700;
         letter-spacing: 0.5px;
-        margin-bottom: 14px;
+        margin-bottom: 12px;
         box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
     }
     .admin-live-badge span {
@@ -159,6 +173,7 @@
         border-radius: 50%;
         box-shadow: 0 0 0 rgba(16, 185, 129, 0.6);
         animation: livePulse 2s infinite;
+        vertical-align: middle;
     }
     @keyframes livePulse {
         0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
@@ -170,10 +185,10 @@
     .admin-hero-card h1,
     h1.admin-hero-title {
         font-family: 'Outfit', sans-serif !important;
-        font-size: clamp(1.85rem, 4.2vw, 2.75rem);
+        font-size: clamp(1.75rem, 4.2vw, 2.65rem);
         font-weight: 800 !important;
-        line-height: 1.15;
-        letter-spacing: -0.025em;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
         margin-bottom: 10px;
         color: #ffffff !important;
     }
@@ -193,10 +208,10 @@
     .admin-hero-subtitle,
     .admin-hero-card p {
         color: #e2e8f0 !important;
-        font-size: clamp(0.9rem, 2vw, 1.05rem);
+        font-size: clamp(0.88rem, 2vw, 1rem);
         line-height: 1.6;
         max-width: 680px;
-        margin-bottom: 22px;
+        margin-bottom: 20px;
     }
 
     .admin-hero-card .btn-outline-light {
@@ -204,28 +219,33 @@
         border-color: rgba(255, 255, 255, 0.45) !important;
         background: rgba(255, 255, 255, 0.08) !important;
         backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: all 0.25s ease;
     }
     .admin-hero-card .btn-outline-light:hover {
         color: #0b1329 !important;
         background: #ffffff !important;
         border-color: #ffffff !important;
+        transform: translateY(-2px);
     }
 
     /* Hero System Clock Box */
     .admin-clock-box {
-        background: rgba(15, 23, 42, 0.65);
+        background: rgba(15, 23, 42, 0.7);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
         border: 1px solid rgba(56, 189, 248, 0.25);
         border-radius: 22px;
-        padding: 22px 24px;
+        padding: 20px 22px;
         text-align: left;
         box-shadow: 0 14px 34px -8px rgba(0, 0, 0, 0.4);
+        width: 100%;
+        max-width: 340px;
     }
 
     .clock-time-display {
         font-family: 'JetBrains Mono', monospace;
-        font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+        font-size: clamp(1.5rem, 3.2vw, 2.1rem);
         font-weight: 800;
         letter-spacing: 1px;
         color: #ffffff;
@@ -235,7 +255,7 @@
     }
 
     .clock-date-display {
-        font-size: 0.78rem;
+        font-size: 0.76rem;
         font-weight: 700;
         color: #94a3b8;
         letter-spacing: 1px;
@@ -258,9 +278,9 @@
     /* --- VIP Metric Stats Cards --- */
     .admin-matrix-card {
         background: #ffffff;
-        border: 2px solid rgba(2, 132, 199, 0.15);
+        border: 2px solid rgba(2, 132, 199, 0.14);
         border-radius: 24px;
-        padding: 24px 22px;
+        padding: clamp(18px, 2.5vw, 24px);
         position: relative;
         overflow: hidden;
         height: 100%;
@@ -273,8 +293,8 @@
     }
 
     .admin-matrix-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 24px 48px -12px rgba(2, 132, 199, 0.22);
+        transform: translateY(-5px);
+        box-shadow: 0 22px 45px -10px rgba(2, 132, 199, 0.2);
         border-color: rgba(2, 132, 199, 0.45);
     }
 
@@ -291,13 +311,13 @@
     .strip-purple { background: linear-gradient(90deg, #7c3aed, #a855f7); }
 
     .matrix-icon-wrap {
-        width: 50px;
-        height: 50px;
+        width: 48px;
+        height: 48px;
         border-radius: 16px;
         display: grid;
         place-items: center;
-        font-size: 1.35rem;
-        margin-bottom: 14px;
+        font-size: 1.3rem;
+        margin-bottom: 12px;
         transition: transform 0.35s ease;
     }
     .admin-matrix-card:hover .matrix-icon-wrap {
@@ -306,7 +326,7 @@
 
     .matrix-num {
         font-family: 'Outfit', sans-serif;
-        font-size: clamp(2.2rem, 3.8vw, 2.75rem);
+        font-size: clamp(2rem, 3.6vw, 2.7rem);
         font-weight: 800;
         color: #0f172a;
         line-height: 1;
@@ -314,10 +334,10 @@
     }
 
     .matrix-title {
-        font-size: 0.84rem;
+        font-size: 0.82rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 0.8px;
         color: #64748b;
     }
 
@@ -326,7 +346,7 @@
         background: #f1f5f9;
         border-radius: 50px;
         overflow: hidden;
-        margin-top: 14px;
+        margin-top: 12px;
     }
     .matrix-progress-fill {
         height: 100%;
@@ -334,26 +354,26 @@
         transition: width 1s ease-in-out;
     }
 
-    /* --- Fast Control Deck Tiles --- */
+    /* --- Fast Control Deck Tiles (2 Balanced Rows: 4 + 4) --- */
     .action-deck-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
         gap: 1.15rem;
-        margin-bottom: 2.25rem;
+        margin-bottom: 2rem;
     }
 
     .action-deck-tile {
         background: #ffffff;
         border: 1.5px solid #e2e8f0;
         border-radius: 20px;
-        padding: 20px;
+        padding: 18px 20px;
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 14px;
         text-decoration: none;
         color: #0f172a;
         box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
-        transition: all 0.28s cubic-bezier(0.2, 0, 0, 1);
+        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
         position: relative;
         overflow: hidden;
     }
@@ -366,8 +386,8 @@
     }
 
     .deck-tile-icon {
-        width: 48px;
-        height: 48px;
+        width: 46px;
+        height: 46px;
         border-radius: 14px;
         display: grid;
         place-items: center;
@@ -382,7 +402,7 @@
     .deck-tile-title {
         font-family: 'Outfit', sans-serif;
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 0.98rem;
         margin-bottom: 2px;
         line-height: 1.2;
     }
@@ -396,8 +416,8 @@
     .admin-analytics-box {
         background: #ffffff;
         border: 2px solid rgba(2, 132, 199, 0.14);
-        border-radius: 28px;
-        padding: clamp(22px, 3.5vw, 32px);
+        border-radius: 26px;
+        padding: clamp(20px, 3.5vw, 30px);
         box-shadow: 0 12px 34px -10px rgba(15, 23, 42, 0.06);
         height: 100%;
         display: flex;
@@ -416,7 +436,7 @@
 
     .analytics-title {
         font-family: 'Outfit', sans-serif;
-        font-size: 1.25rem;
+        font-size: clamp(1.1rem, 2.5vw, 1.25rem);
         font-weight: 800;
         color: #0f172a;
         margin-bottom: 0;
@@ -430,9 +450,9 @@
         background: #ffffff;
         border: 2px solid rgba(2, 132, 199, 0.15);
         border-radius: 28px;
-        padding: clamp(20px, 3.5vw, 36px);
+        padding: clamp(20px, 3.5vw, 34px);
         box-shadow: 0 14px 38px -10px rgba(15, 23, 42, 0.06);
-        margin-bottom: 2.25rem;
+        margin-bottom: 2rem;
     }
 
     .directory-top-bar {
@@ -452,17 +472,17 @@
         background: #f8fafc;
         border: 1.5px solid #e2e8f0;
         border-radius: 50px;
-        padding: 5px 6px 5px 16px;
+        padding: 6px 8px 6px 16px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
     }
     .command-search-input {
         border: none;
         outline: none;
         background: transparent;
-        font-size: 0.9rem;
+        font-size: 16px !important; /* Prevent iOS Safari auto-zoom */
         font-weight: 500;
         color: #0f172a;
-        min-width: 220px;
+        min-width: 200px;
     }
     .command-role-select {
         border: 1px solid #cbd5e1;
@@ -470,13 +490,13 @@
         background: #ffffff;
         border-radius: 50px;
         padding: 6px 14px;
-        font-size: 0.82rem;
+        font-size: 16px !important; /* Prevent iOS Safari auto-zoom */
         font-weight: 700;
         color: #334155;
         cursor: pointer;
     }
 
-    /* Premium Modern Table */
+    /* Premium Modern Table (Desktop View) */
     .vip-table-container {
         border-radius: 20px;
         border: 1px solid #f1f5f9;
@@ -500,7 +520,7 @@
         border-bottom: 1px solid #e2e8f0;
     }
     .vip-table tbody tr {
-        transition: background-color 0.2s ease, transform 0.2s ease;
+        transition: background-color 0.2s ease;
     }
     .vip-table tbody tr:hover {
         background-color: #f8fafc;
@@ -512,26 +532,74 @@
         font-size: 0.88rem;
     }
 
+    /* Mobile User Cards Grid (Phone View) */
+    .mobile-users-grid {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .mobile-user-card {
+        background: #ffffff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 20px;
+        padding: 16px;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .mobile-user-card:hover {
+        border-color: #38bdf8;
+        box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12);
+    }
+
+    .user-avatar-node-wrap {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        position: relative;
+    }
+
     .avatar-initials-badge {
         width: 44px;
         height: 44px;
         border-radius: 14px;
-        background: linear-gradient(135deg, #0284c7 0%, #1e40af 100%);
         color: #ffffff;
         display: grid;
         place-items: center;
+        font-family: 'Outfit', sans-serif;
         font-weight: 800;
-        font-size: 1rem;
-        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        font-size: 1.15rem;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
         flex-shrink: 0;
+        text-transform: uppercase;
+        user-select: none;
     }
+
+    .avatar-initials-student {
+        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    }
+    .avatar-initials-alumni {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    }
+    .avatar-initials-faculty {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    }
+    .avatar-initials-admin {
+        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+        box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+    }
+
     .avatar-image-node {
         width: 44px;
         height: 44px;
         border-radius: 14px;
         object-fit: cover;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         flex-shrink: 0;
+        border: 1.5px solid rgba(2, 132, 199, 0.2);
     }
 
     .role-badge-tag {
@@ -549,12 +617,12 @@
     .role-tag-admin { background: rgba(124, 58, 237, 0.1); color: #7c3aed; }
 
     .action-icon-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
         display: grid;
         place-items: center;
-        font-size: 0.92rem;
+        font-size: 0.95rem;
         border: 1px solid transparent;
         transition: all 0.2s ease;
         text-decoration: none;
@@ -584,7 +652,7 @@
         background: #ffffff;
         border: 2px solid rgba(2, 132, 199, 0.15);
         border-radius: 28px;
-        padding: clamp(22px, 3.5vw, 36px);
+        padding: clamp(20px, 3.5vw, 34px);
         box-shadow: 0 14px 38px -10px rgba(15, 23, 42, 0.06);
     }
 
@@ -592,7 +660,7 @@
         background: #f8fafc;
         border: 1.5px solid #e2e8f0;
         border-radius: 20px;
-        padding: 22px;
+        padding: 20px;
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -605,23 +673,40 @@
         box-shadow: 0 14px 28px -6px rgba(2, 132, 199, 0.15);
     }
 
-    /* --- Mobile Responsive Optimizations --- */
-    @media (max-width: 991px) {
+    /* --------------------------------------------------------
+       MOBILE ERGONOMICS & RESPONSIVE PERFECTION
+       -------------------------------------------------------- */
+    @media (max-width: 991.98px) {
         .admin-dashboard-wrapper {
             padding-inline: 1rem;
         }
         .action-deck-grid {
             grid-template-columns: repeat(2, 1fr);
         }
+        .admin-clock-box {
+            max-width: 100%;
+            margin-top: 1rem;
+        }
     }
 
     @media (max-width: 768px) {
+        .admin-dashboard-wrapper {
+            padding: 100px 12px 3.5rem 12px !important;
+        }
+
         .admin-hero-card {
             border-radius: 24px;
+            padding: 22px 18px;
         }
+
+        .admin-hero-card .btn {
+            font-size: 0.88rem;
+            padding: 9px 16px;
+        }
+
         .action-deck-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.85rem;
+            gap: 0.75rem;
         }
         .action-deck-tile {
             padding: 14px 12px;
@@ -630,9 +715,9 @@
             text-align: center;
         }
         .deck-tile-icon {
-            width: 42px;
-            height: 42px;
-            font-size: 1.1rem;
+            width: 44px;
+            height: 44px;
+            font-size: 1.15rem;
         }
         .deck-tile-title {
             font-size: 0.88rem;
@@ -640,8 +725,22 @@
         .deck-tile-sub {
             display: none;
         }
+
+        /* Table Switch to Mobile Cards */
+        .vip-table-container {
+            display: none;
+        }
+        .mobile-users-grid {
+            display: flex;
+        }
+
         .command-search-wrap {
             width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+            border-radius: 20px;
+            padding: 10px 14px;
+            gap: 8px;
         }
         .command-search-input {
             width: 100%;
@@ -650,17 +749,39 @@
         .command-role-select {
             width: 100%;
         }
+
+        .export-vip-module {
+            padding: 20px 16px;
+        }
+        #exportTabs {
+            width: 100%;
+            justify-content: stretch;
+        }
+        #exportTabs .nav-item {
+            flex: 1;
+        }
+        #exportTabs .nav-link {
+            width: 100%;
+            text-align: center;
+            padding: 8px 10px;
+            font-size: 0.82rem;
+        }
     }
 
     @media (max-width: 480px) {
         .admin-dashboard-wrapper {
-            padding-inline: 0.75rem;
+            padding-inline: 10px !important;
         }
         .admin-matrix-card {
-            padding: 18px 15px;
+            padding: 16px 14px;
         }
         .matrix-num {
-            font-size: 1.95rem;
+            font-size: 1.85rem;
+        }
+        .matrix-icon-wrap {
+            width: 42px;
+            height: 42px;
+            font-size: 1.15rem;
         }
         .action-deck-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -727,7 +848,7 @@
                             </span>
                         </div>
                         <div class="clock-time-display" id="dynamicClock">00:00:00</div>
-                        <div class="clock-date-display mb-3" id="dynamicDate">OCTOBER 24, 2026</div>
+                        <div class="clock-date-display mb-3" id="dynamicDate">OCTOBER 26, 2026</div>
 
                         <div class="d-flex flex-column gap-1 pt-2 border-top border-secondary border-opacity-25">
                             <div class="d-flex align-items-center justify-content-between">
@@ -780,7 +901,7 @@
                     </div>
                     <div>
                         <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
-                            <span>Graduates & Mentors</span>
+                            <span>Graduates &amp; Mentors</span>
                             <i class="fas fa-arrow-right text-warning"></i>
                         </div>
                         <div class="matrix-progress-track">
@@ -803,7 +924,7 @@
                     </div>
                     <div>
                         <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
-                            <span>Guides & HODs</span>
+                            <span>Guides &amp; HODs</span>
                             <i class="fas fa-arrow-right text-success"></i>
                         </div>
                         <div class="matrix-progress-track">
@@ -826,7 +947,7 @@
                     </div>
                     <div>
                         <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
-                            <span>Reunions & Meets</span>
+                            <span>Reunions &amp; Meets</span>
                             <i class="fas fa-arrow-right text-purple"></i>
                         </div>
                         <div class="matrix-progress-track">
@@ -847,7 +968,7 @@
                 </div>
                 <div>
                     <div class="deck-tile-title">Approvals</div>
-                    <div class="deck-tile-sub">Verify pending alumni & faculty</div>
+                    <div class="deck-tile-sub">Verify pending alumni &amp; faculty</div>
                 </div>
             </a>
 
@@ -857,7 +978,7 @@
                 </div>
                 <div>
                     <div class="deck-tile-title">All Users</div>
-                    <div class="deck-tile-sub">Search, edit & manage accounts</div>
+                    <div class="deck-tile-sub">Search, edit &amp; manage accounts</div>
                 </div>
             </a>
 
@@ -867,7 +988,7 @@
                 </div>
                 <div>
                     <div class="deck-tile-title">Jobs Board</div>
-                    <div class="deck-tile-sub">Approve postings & referrals</div>
+                    <div class="deck-tile-sub">Approve postings &amp; referrals</div>
                 </div>
             </a>
 
@@ -877,7 +998,7 @@
                 </div>
                 <div>
                     <div class="deck-tile-title">Broadcasts</div>
-                    <div class="deck-tile-sub">Portal messages & announcements</div>
+                    <div class="deck-tile-sub">Portal messages &amp; announcements</div>
                 </div>
             </a>
 
@@ -897,7 +1018,7 @@
                 </div>
                 <div>
                     <div class="deck-tile-title">Events Desk</div>
-                    <div class="deck-tile-sub">Annual meets & webinars</div>
+                    <div class="deck-tile-sub">Annual meets &amp; webinars</div>
                 </div>
             </a>
 
@@ -917,7 +1038,7 @@
                 </div>
                 <div>
                     <div class="deck-tile-title">Deep Analytics</div>
-                    <div class="deck-tile-sub">Demographics & activity charts</div>
+                    <div class="deck-tile-sub">Demographics &amp; activity charts</div>
                 </div>
             </a>
         </div>
@@ -949,7 +1070,7 @@
                          data-faculty='{{ f_count }}' 
                          style="display: none;"></div>
 
-                    <div style="position: relative; height: 320px; width: 100%;">
+                    <div style="position: relative; height: clamp(230px, 45vw, 320px); width: 100%;">
                         <canvas id="growthChart"></canvas>
                     </div>
                 </div>
@@ -965,7 +1086,7 @@
                         <small class="text-muted fw-bold">Active Demographics</small>
                     </div>
 
-                    <div style="position: relative; height: 260px; width: 100%;">
+                    <div style="position: relative; height: clamp(200px, 40vw, 260px); width: 100%;">
                         <canvas id="userChart"></canvas>
                     </div>
 
@@ -994,7 +1115,7 @@
         <div class="directory-vip-module">
             <div class="directory-top-bar">
                 <div>
-                    <h3 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: 1.6rem; color: #0f172a;">
+                    <h3 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: clamp(1.35rem, 3.5vw, 1.6rem); color: #0f172a;">
                         <i class="fas fa-id-card-alt text-primary me-2"></i> User Directory &amp; Governance
                     </h3>
                     <p class="text-muted small mb-0">Search, filter, and inspect registered campus members across all graduation batches.</p>
@@ -1002,8 +1123,10 @@
 
                 <!-- Search & Role Filter Toolbar -->
                 <div class="command-search-wrap">
-                    <i class="fas fa-search text-muted ms-1"></i>
-                    <input type="text" id="userSearch" class="command-search-input" placeholder="Search by name, email, department...">
+                    <div class="d-flex align-items-center gap-2 flex-grow-1">
+                        <i class="fas fa-search text-muted ms-1"></i>
+                        <input type="text" id="userSearch" class="command-search-input" placeholder="Search name, email, department...">
+                    </div>
                     <select id="roleFilter" class="command-role-select">
                         <option value="all">All Roles</option>
                         <option value="student">Students</option>
@@ -1013,6 +1136,7 @@
                 </div>
             </div>
 
+            <!-- Desktop View: Table Container -->
             <div class="vip-table-container table-responsive">
                 <table class="vip-table" id="usersTable">
                     <thead>
@@ -1029,19 +1153,24 @@
                         <tr class="user-row" data-role="{{ user['role'] }}">
                             <td>
                                 <div class="d-flex align-items-center gap-3">
-                                    {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
-                                    <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] }}" class="avatar-image-node" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'avatar-initials-badge\'>{{ user.name | initials }}</div>';">
-                                    {% else %}
-                                    <div class="avatar-initials-badge">
-                                        {{ user['name'] | initials }}
+                                    <div class="user-avatar-node-wrap">
+                                        {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
+                                        <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] or 'User' }}" class="avatar-image-node" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+                                        <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}" style="display: none;">
+                                            {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
+                                        </div>
+                                        {% else %}
+                                        <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}">
+                                            {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
+                                        </div>
+                                        {% endif %}
                                     </div>
-                                    {% endif %}
-                                    <div>
-                                        <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% else %}{{ url_for('faculty_profile', user_id=user['id']) }}{% endif %}"
-                                           class="fw-bold text-dark text-decoration-none d-block hover-primary" style="font-size: 0.95rem;">
-                                            {{ user['name'] }}
+                                    <div class="min-w-0">
+                                        <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
+                                           class="fw-bold text-dark text-decoration-none d-block hover-primary text-truncate" style="font-size: 0.95rem;">
+                                            {{ (user['name']|title) if user['name'] else 'Unknown User' }}
                                         </a>
-                                        <code class="text-muted" style="font-size: 0.76rem;">{{ user['email'] }}</code>
+                                        <code class="text-muted text-break" style="font-size: 0.76rem;">{{ user['email'] }}</code>
                                     </div>
                                 </div>
                             </td>
@@ -1084,7 +1213,7 @@
                                         <i class="fas fa-lock me-1"></i> PROTECTED
                                     </span>
                                     {% else %}
-                                    <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% else %}{{ url_for('faculty_profile', user_id=user['id']) }}{% endif %}"
+                                    <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
                                        class="action-icon-btn action-btn-view" title="View Member Profile">
                                         <i class="fas fa-eye"></i>
                                     </a>
@@ -1102,6 +1231,80 @@
                 </table>
             </div>
 
+            <!-- Mobile View: User Cards (Zero horizontal scroll on phones) -->
+            <div class="mobile-users-grid" id="mobileUsersGrid">
+                {% for user in users[:20] %}
+                <div class="mobile-user-card user-row" data-role="{{ user['role'] }}">
+                    <div class="d-flex align-items-start justify-content-between mb-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="user-avatar-node-wrap">
+                                {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
+                                <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] or 'User' }}" class="avatar-image-node" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+                                <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}" style="display: none;">
+                                    {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
+                                </div>
+                                {% else %}
+                                <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}">
+                                    {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="min-w-0">
+                                <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
+                                   class="fw-bold text-dark text-decoration-none d-block hover-primary text-truncate" style="font-size: 0.96rem;">
+                                    {{ (user['name']|title) if user['name'] else 'Unknown User' }}
+                                </a>
+                                <code class="text-muted text-break" style="font-size: 0.76rem;">{{ user['email'] }}</code>
+                            </div>
+                        </div>
+
+                        {% if user['role'] == 'student' %}
+                        <span class="role-badge-tag role-tag-student"><i class="fas fa-user-graduate"></i> Student</span>
+                        {% elif user['role'] == 'alumni' %}
+                        <span class="role-badge-tag role-tag-alumni"><i class="fas fa-user-tie"></i> Alumni</span>
+                        {% elif user['role'] == 'faculty' %}
+                        <span class="role-badge-tag role-tag-faculty"><i class="fas fa-chalkboard-teacher"></i> Faculty</span>
+                        {% else %}
+                        <span class="role-badge-tag role-tag-admin"><i class="fas fa-shield-alt"></i> Admin</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-2">
+                        <div>
+                            <div class="fw-semibold small text-dark" style="font-size: 0.82rem;">{{ user['department'] or 'Not specified' }}</div>
+                            <small class="text-muted" style="font-size: 0.72rem;">
+                                {% if user['role'] == 'student' and user['batch_info'] %}
+                                Semester {{ user['batch_info'] }}
+                                {% elif user['role'] == 'alumni' and user['batch_info'] %}
+                                Class of {{ user['batch_info'] }}
+                                {% else %}
+                                Academic Staff
+                                {% endif %}
+                            </small>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2">
+                            {% if user['email'] == 'alumnihub26@gmail.com' or user['email'] == 'admin@alumnihub.local' %}
+                            <span class="badge bg-light text-secondary border rounded-pill px-2 py-1 small fw-bold" style="font-size: 0.7rem;">
+                                <i class="fas fa-lock me-1"></i> PROTECTED
+                            </span>
+                            {% else %}
+                            <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
+                               class="action-icon-btn action-btn-view" title="View Profile">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <button class="action-icon-btn action-btn-delete"
+                                    onclick="confirmDelete('{{ user.id }}', '{{ user.name }}', this)"
+                                    title="Delete Member">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
             <!-- Empty Search State -->
             <div id="noUserResults" class="text-center py-5 d-none">
                 <div class="mb-2 text-muted" style="font-size: 2.5rem;"><i class="fas fa-user-slash"></i></div>
@@ -1116,7 +1319,7 @@
         <div class="export-vip-module">
             <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
                 <div>
-                    <h3 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: 1.5rem; color: #0f172a;">
+                    <h3 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: clamp(1.25rem, 3vw, 1.5rem); color: #0f172a;">
                         <i class="fas fa-server text-warning me-2"></i> Data Export &amp; Backup Center
                     </h3>
                     <p class="text-muted small mb-0">Export live database tables, user records, and snapshots for administrative archival.</p>
@@ -1125,12 +1328,12 @@
                 <!-- Tab switcher -->
                 <ul class="nav nav-pills bg-light rounded-pill p-1 border" id="exportTabs" role="tablist">
                     <li class="nav-item">
-                        <button class="nav-link active rounded-pill px-4 py-1 small fw-bold" data-bs-toggle="pill" data-bs-target="#csvExports">
+                        <button class="nav-link active rounded-pill px-3 px-sm-4 py-1 small fw-bold" data-bs-toggle="pill" data-bs-target="#csvExports">
                             <i class="fas fa-file-csv me-1"></i> CSV Spreadsheets
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link rounded-pill px-4 py-1 small fw-bold" data-bs-toggle="pill" data-bs-target="#dbExports">
+                        <button class="nav-link rounded-pill px-3 px-sm-4 py-1 small fw-bold" data-bs-toggle="pill" data-bs-target="#dbExports">
                             <i class="fas fa-database me-1"></i> Database Backups
                         </button>
                     </li>
@@ -1275,7 +1478,7 @@ document.addEventListener('DOMContentLoaded', function () {
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
             particles = [];
-            const count = Math.min(35, Math.floor(canvas.width / 30));
+            const count = Math.min(30, Math.floor(canvas.width / 35));
             for (let i = 0; i < count; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
@@ -1391,7 +1594,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     font: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold', size: 12 },
                                     color: '#475569',
                                     usePointStyle: true,
-                                    padding: 16
+                                    padding: 14
                                 }
                             },
                             tooltip: {
@@ -1441,7 +1644,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 labels: {
                                     font: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold', size: 12 },
                                     color: '#475569',
-                                    padding: 14,
+                                    padding: 12,
                                     usePointStyle: true
                                 }
                             }
@@ -1454,7 +1657,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 4. Live Directory Filter (Search & Role Select)
+    // 4. Live Directory Filter (Search & Role Select) - Works on BOTH Table rows & Mobile Cards!
     const userSearchInput = document.getElementById('userSearch');
     const roleFilterSelect = document.getElementById('roleFilter');
     const userRows = document.querySelectorAll('.user-row');
