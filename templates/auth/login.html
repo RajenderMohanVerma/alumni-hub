@@ -4,41 +4,45 @@
 
 {% block content %}
 <!-- Premium Fonts & CSS -->
-<link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}?v=2.3">
 
 <style>
     /* ========================================================
-       LOGIN PAGE - BALANCED TWIN CONTAINERS (EQUAL H * W)
+       LOGIN PAGE - ULTRA LUXURY EXECUTIVE & MOBILE-FIRST DESIGN
        ======================================================== */
     :root {
         --srv-blue: #0284c7;
+        --srv-blue-dark: #0369a1;
         --srv-indigo: #4f46e5;
         --srv-purple: #7c3aed;
         --srv-green: #10b981;
+        --srv-dark: #0f172a;
+        --srv-slate: #1e293b;
+        --srv-muted: #64748b;
+        --srv-border: rgba(2, 132, 199, 0.16);
     }
 
     .auth-page-wrapper {
         min-height: calc(100vh - 80px);
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
         position: relative;
-        padding: clamp(120px, 12vw, 150px) 1.25rem 4.5rem 1.25rem;
+        padding: 135px 1.25rem 4rem 1.25rem;
         background-color: #f8fafc;
         overflow: hidden;
+        width: 100%;
     }
 
-    /* Ambient Background Glow */
+    /* Ambient Background Glow & Floating Orbs */
     .auth-bg-glow {
         position: absolute;
-        width: 650px;
-        height: 650px;
+        width: clamp(350px, 60vw, 700px);
+        height: clamp(350px, 60vw, 700px);
         border-radius: 50%;
         background: radial-gradient(circle, rgba(2, 132, 199, 0.12) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 70%);
-        top: 50%;
+        top: 40%;
         left: 50%;
         transform: translate(-50%, -50%);
         pointer-events: none;
@@ -51,43 +55,90 @@
         filter: blur(80px);
         opacity: 0.18;
         pointer-events: none;
-        animation: floatOrb 18s infinite alternate ease-in-out;
+        animation: floatOrb 20s infinite alternate ease-in-out;
     }
 
     .auth-ball-1 {
-        width: 420px;
-        height: 420px;
+        width: clamp(240px, 35vw, 440px);
+        height: clamp(240px, 35vw, 440px);
         background: #0284c7;
-        top: -100px;
-        left: -100px;
+        top: -60px;
+        left: -80px;
     }
 
     .auth-ball-2 {
-        width: 380px;
-        height: 380px;
+        width: clamp(220px, 30vw, 400px);
+        height: clamp(220px, 30vw, 400px);
         background: #7c3aed;
-        bottom: -80px;
+        bottom: -60px;
         right: -80px;
-        animation-delay: -6s;
+        animation-delay: -7s;
     }
 
     @keyframes floatOrb {
-        0% {
-            transform: translate(0, 0) scale(1);
-        }
-
-        100% {
-            transform: translate(60px, 40px) scale(1.08);
-        }
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(50px, 35px) scale(1.08); }
     }
 
-    /* Main Grid Layout - Equal Width Container */
+    /* Main Container */
     .auth-container-grid {
         position: relative;
         z-index: 2;
         width: 100%;
-        max-width: 1080px;
-        margin: 15px auto 0 auto;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    /* Top Gateway Header */
+    .auth-top-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        animation: authHeaderFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes authHeaderFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-16px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .auth-top-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #ffffff;
+        color: #0284c7;
+        border: 1px solid rgba(2, 132, 199, 0.2);
+        box-shadow: 0 4px 15px rgba(2, 132, 199, 0.08);
+        font-weight: 700;
+        font-size: clamp(0.72rem, 2.5vw, 0.8rem);
+        letter-spacing: 0.5px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .auth-top-badge:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.14);
+    }
+
+    /* Card Stagger Entrance */
+    .auth-card-motion {
+        animation: authCardFadeIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes authCardFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(24px) scale(0.985);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
     }
 
     /* Equal Twin Card Bases */
@@ -100,17 +151,18 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.14);
+        box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    /* Left Brand Showcase Card */
+    /* Left Brand Showcase Card (Desktop) */
     .auth-info-card {
         background: linear-gradient(150deg, #0b1329 0%, #172554 50%, #0f172a 100%);
-        padding: 42px 38px;
+        padding: 42px 36px;
         color: #ffffff;
         border: 2px solid rgba(56, 189, 248, 0.25);
     }
+
     .auth-info-card h2 {
         color: #ffffff !important;
     }
@@ -118,11 +170,11 @@
     .auth-info-card::before {
         content: "";
         position: absolute;
-        width: 340px;
-        height: 340px;
-        background: radial-gradient(circle, rgba(2, 132, 199, 0.4), transparent 70%);
-        top: -120px;
-        right: -100px;
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(circle, rgba(2, 132, 199, 0.35), transparent 70%);
+        top: -100px;
+        right: -80px;
         border-radius: 50%;
         pointer-events: none;
         animation: pulseOrb 8s infinite alternate ease-in-out;
@@ -131,29 +183,22 @@
     .auth-info-card::after {
         content: "";
         position: absolute;
-        width: 280px;
-        height: 280px;
-        background: radial-gradient(circle, rgba(124, 58, 237, 0.3), transparent 70%);
-        bottom: -100px;
-        left: -80px;
+        width: 260px;
+        height: 260px;
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.28), transparent 70%);
+        bottom: -80px;
+        left: -60px;
         border-radius: 50%;
         pointer-events: none;
         animation: pulseOrb 10s infinite alternate ease-in-out;
     }
 
     @keyframes pulseOrb {
-        0% {
-            transform: scale(1) translate(0, 0);
-            opacity: 0.3;
-        }
-
-        100% {
-            transform: scale(1.15) translate(20px, 15px);
-            opacity: 0.6;
-        }
+        0% { transform: scale(1) translate(0, 0); opacity: 0.3; }
+        100% { transform: scale(1.15) translate(20px, 15px); opacity: 0.6; }
     }
 
-    /* Animated Interactive Network Hub */
+    /* Interactive Radar Hub */
     .auth-anim-stage {
         position: relative;
         height: 160px;
@@ -182,23 +227,13 @@
     }
 
     @keyframes spinRadar {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
     }
 
     @keyframes spinRadarReverse {
-        from {
-            transform: rotate(360deg);
-        }
-
-        to {
-            transform: rotate(0deg);
-        }
+        from { transform: rotate(360deg); }
+        to { transform: rotate(0deg); }
     }
 
     .auth-central-node {
@@ -209,31 +244,20 @@
         color: #ffffff;
         display: grid;
         place-items: center;
-        font-size: 1.6rem;
-        box-shadow: 0 0 35px rgba(2, 132, 199, 0.6);
+        box-shadow: 0 0 35px rgba(2, 132, 199, 0.65);
         z-index: 3;
         position: relative;
         animation: pulseCenterNode 3s infinite ease-in-out;
     }
 
     @keyframes pulseCenterNode {
-
-        0%,
-        100% {
-            transform: scale(1);
-            box-shadow: 0 0 25px rgba(2, 132, 199, 0.5);
-        }
-
-        50% {
-            transform: scale(1.08);
-            box-shadow: 0 0 40px rgba(56, 189, 248, 0.85);
-        }
+        0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(2, 132, 199, 0.5); }
+        50% { transform: scale(1.08); box-shadow: 0 0 40px rgba(56, 189, 248, 0.85); }
     }
 
-    /* Orbiting Floating Badges */
     .orbit-badge {
         position: absolute;
-        background: rgba(15, 23, 42, 0.85);
+        background: rgba(15, 23, 42, 0.88);
         border: 1px solid rgba(56, 189, 248, 0.35);
         color: #e2e8f0;
         padding: 5px 12px;
@@ -241,6 +265,7 @@
         font-size: 0.72rem;
         font-weight: 700;
         backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         display: flex;
         align-items: center;
         gap: 6px;
@@ -248,76 +273,26 @@
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .orbit-badge-1 {
-        top: 8px;
-        left: 20px;
-        animation: floatItem1 5s infinite ease-in-out;
-    }
-
-    .orbit-badge-2 {
-        bottom: 10px;
-        left: 25px;
-        animation: floatItem2 6s infinite ease-in-out;
-    }
-
-    .orbit-badge-3 {
-        top: 15px;
-        right: 20px;
-        animation: floatItem3 5.5s infinite ease-in-out;
-    }
-
-    .orbit-badge-4 {
-        bottom: 8px;
-        right: 15px;
-        animation: floatItem4 6.5s infinite ease-in-out;
-    }
+    .orbit-badge-1 { top: 8px; left: 20px; animation: floatItem1 5s infinite ease-in-out; }
+    .orbit-badge-2 { bottom: 10px; left: 25px; animation: floatItem2 6s infinite ease-in-out; }
+    .orbit-badge-3 { top: 15px; right: 20px; animation: floatItem3 5.5s infinite ease-in-out; }
+    .orbit-badge-4 { bottom: 8px; right: 15px; animation: floatItem4 6.5s infinite ease-in-out; }
 
     @keyframes floatItem1 {
-
-        0%,
-        100% {
-            transform: translateY(0px) rotate(-1deg);
-        }
-
-        50% {
-            transform: translateY(-8px) rotate(1deg);
-        }
+        0%, 100% { transform: translateY(0px) rotate(-1deg); }
+        50% { transform: translateY(-8px) rotate(1deg); }
     }
-
     @keyframes floatItem2 {
-
-        0%,
-        100% {
-            transform: translateY(0px) rotate(1deg);
-        }
-
-        50% {
-            transform: translateY(-6px) rotate(-1deg);
-        }
+        0%, 100% { transform: translateY(0px) rotate(1deg); }
+        50% { transform: translateY(-6px) rotate(-1deg); }
     }
-
     @keyframes floatItem3 {
-
-        0%,
-        100% {
-            transform: translateY(0px) rotate(2deg);
-        }
-
-        50% {
-            transform: translateY(-7px) rotate(-1deg);
-        }
+        0%, 100% { transform: translateY(0px) rotate(2deg); }
+        50% { transform: translateY(-7px) rotate(-1deg); }
     }
-
     @keyframes floatItem4 {
-
-        0%,
-        100% {
-            transform: translateY(0px) rotate(-2deg);
-        }
-
-        50% {
-            transform: translateY(-9px) rotate(1deg);
-        }
+        0%, 100% { transform: translateY(0px) rotate(-2deg); }
+        50% { transform: translateY(-9px) rotate(1deg); }
     }
 
     /* Live Activity Counter Pill */
@@ -329,41 +304,31 @@
         display: inline-block;
         box-shadow: 0 0 0 rgba(16, 185, 129, 0.6);
         animation: livePulse 2s infinite;
+        vertical-align: middle;
     }
 
     @keyframes livePulse {
-        0% {
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-        }
-
-        70% {
-            box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
-        }
-
-        100% {
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-        }
+        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
-    /* Feature Row */
     .auth-feature-row {
         display: flex;
         align-items: center;
         gap: 14px;
-        margin-bottom: 14px;
-        padding: 8px 12px;
+        margin-bottom: 12px;
+        padding: 9px 14px;
         border-radius: 16px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.06);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         transition: all 0.25s ease;
     }
-
     .auth-feature-row:hover {
-        background: rgba(255, 255, 255, 0.07);
+        background: rgba(255, 255, 255, 0.08);
         border-color: rgba(56, 189, 248, 0.35);
         transform: translateX(4px);
     }
-
     .auth-feature-icon {
         width: 36px;
         height: 36px;
@@ -380,8 +345,10 @@
     /* Right VIP Login Card */
     .auth-vip-card {
         background: #ffffff;
-        border: 2px solid rgba(2, 132, 199, 0.2);
-        padding: 42px 38px;
+        border: 1.5px solid var(--srv-border);
+        padding: clamp(28px, 4vw, 42px) clamp(20px, 3.5vw, 36px);
+        box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.08);
+        position: relative;
     }
 
     .auth-accent-bar {
@@ -393,53 +360,78 @@
         background: linear-gradient(90deg, #0284c7 0%, #4f46e5 50%, #7c3aed 100%);
     }
 
-    /* Icon Wrap */
+    /* Icon Wrap with Ambient Halo */
     .auth-icon-wrap {
-        width: 58px;
-        height: 58px;
-        border-radius: 18px;
-        background: linear-gradient(135deg, rgba(2, 132, 199, 0.1) 0%, rgba(99, 102, 241, 0.15) 100%);
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(2, 132, 199, 0.12) 0%, rgba(99, 102, 241, 0.16) 100%);
         color: #0284c7;
         display: grid;
         place-items: center;
-        font-size: 1.5rem;
-        margin-bottom: 16px;
+        font-size: 1.35rem;
         border: 1px solid rgba(2, 132, 199, 0.25);
-        box-shadow: 0 8px 20px -4px rgba(2, 132, 199, 0.2);
-        transition: transform 0.35s ease;
+        box-shadow: 0 8px 20px -4px rgba(2, 132, 199, 0.22);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease, box-shadow 0.3s ease;
+        flex-shrink: 0;
     }
-
     .auth-vip-card:hover .auth-icon-wrap {
-        transform: rotate(8deg) scale(1.08);
+        transform: rotate(8deg) scale(1.06);
         color: #4f46e5;
+        box-shadow: 0 12px 25px -4px rgba(79, 70, 229, 0.3);
     }
 
-    /* Form Fields */
+    /* Mobile Quick Community Badge (Mobile Only) */
+    .mobile-community-pill {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 50px;
+        background: #f0f9ff;
+        border: 1px solid rgba(2, 132, 199, 0.2);
+        color: #0369a1;
+        font-size: 0.76rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(2, 132, 199, 0.06);
+    }
+
+    /* Form Inputs (16px to prevent iOS auto-zoom) */
     .auth-input-group {
         position: relative;
         border-radius: 14px;
         border: 1.5px solid #cbd5e1;
         background: #ffffff;
-        transition: all 0.25s ease;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         display: flex;
         align-items: center;
         overflow: hidden;
+        min-height: 50px;
     }
 
     .auth-input-group:focus-within {
         border-color: #0284c7;
+        background: #fcfdfe;
         box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+        transform: translateY(-1px);
     }
 
     .auth-input-icon {
-        padding: 0 16px 0 18px;
+        padding: 0 14px 0 16px;
         color: #94a3b8;
         font-size: 1.05rem;
-        transition: color 0.25s ease;
+        transition: color 0.25s ease, transform 0.25s ease;
+        display: grid;
+        place-items: center;
+        min-width: 46px;
     }
 
     .auth-input-group:focus-within .auth-input-icon {
         color: #0284c7;
+        transform: scale(1.08);
     }
 
     .auth-control {
@@ -447,14 +439,18 @@
         outline: none;
         width: 100%;
         padding: 13px 14px 13px 0;
-        font-size: 0.96rem;
+        font-size: 16px !important; /* Critical: Prevent iOS Safari auto-zoom */
         font-weight: 500;
         color: #0f172a;
         background: transparent;
+        min-height: 50px;
+        font-family: inherit;
     }
 
     .auth-control::placeholder {
         color: #94a3b8;
+        font-size: 0.94rem;
+        font-weight: 400;
     }
 
     .auth-pw-toggle {
@@ -463,12 +459,20 @@
         padding: 0 16px;
         color: #94a3b8;
         cursor: pointer;
-        font-size: 1rem;
-        transition: color 0.2s ease;
+        font-size: 1.05rem;
+        transition: color 0.2s ease, transform 0.2s ease;
+        min-width: 48px;
+        min-height: 48px;
+        display: grid;
+        place-items: center;
+        touch-action: manipulation;
     }
 
-    .auth-pw-toggle:hover {
+    .auth-pw-toggle:hover,
+    .auth-pw-toggle:focus {
         color: #0284c7;
+        transform: scale(1.1);
+        outline: none;
     }
 
     /* Dev Quick Login Box */
@@ -480,52 +484,104 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 18px;
+        gap: 10px;
+        margin-bottom: 20px;
+        transition: transform 0.2s ease;
+    }
+    .devfill-card:hover {
+        transform: translateY(-1px);
     }
 
-    /* Submit Button */
+    /* Submit Button with Dynamic Shine Effect */
     .btn-auth-submit {
-        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 45%, #1d4ed8 100%);
         color: #ffffff;
         border: none;
-        padding: 14px 24px;
+        padding: 14px 26px;
         border-radius: 50px;
         font-weight: 700;
-        font-size: 1.05rem;
+        font-size: clamp(0.98rem, 2.5vw, 1.06rem);
         width: 100%;
+        min-height: 52px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
-        box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.4);
+        box-shadow: 0 12px 28px -4px rgba(2, 132, 199, 0.42);
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         text-decoration: none;
+        touch-action: manipulation;
+    }
+
+    .btn-auth-submit::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -60%;
+        width: 40%;
+        height: 200%;
+        background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.25) 50%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        transform: rotate(30deg);
+        animation: btnShine 5s infinite;
+        pointer-events: none;
+    }
+
+    @keyframes btnShine {
+        0%, 80% { left: -60%; }
+        100% { left: 140%; }
     }
 
     .btn-auth-submit:hover {
         transform: translateY(-2px);
-        box-shadow: 0 16px 34px -6px rgba(2, 132, 199, 0.5);
+        box-shadow: 0 16px 36px -4px rgba(2, 132, 199, 0.55);
         color: #ffffff;
     }
 
     .btn-auth-submit:active {
-        transform: translateY(0);
+        transform: scale(0.985);
+        box-shadow: 0 8px 18px -4px rgba(2, 132, 199, 0.38);
     }
 
     /* Alerts */
     .alert-auth {
         border-radius: 14px;
         padding: 12px 16px;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
         font-weight: 600;
-        margin-bottom: 18px;
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
         gap: 10px;
+        word-break: break-word;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
     }
 
-    @media (max-width: 991px) {
+    /* Switch Register Card */
+    .auth-register-box {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 14px 18px;
+        margin-top: 1.25rem;
+        transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .auth-register-box:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+    }
+
+    /* --------------------------------------------------------
+       RESPONSIVE & MOBILE ERGONOMICS (<= 991px & <= 768px)
+       -------------------------------------------------------- */
+    @media (max-width: 991.98px) {
         .auth-info-card {
             display: none;
         }
@@ -533,12 +589,74 @@
         .auth-twin-card {
             min-height: auto;
         }
+
+        .mobile-community-pill {
+            display: inline-flex;
+        }
+
+        .auth-container-grid {
+            max-width: 500px;
+        }
     }
 
-    @media (max-width: 576px) {
+    @media (max-width: 768px) {
+        .auth-page-wrapper {
+            padding: 100px 14px 2.5rem 14px !important;
+        }
+
+        .auth-top-header {
+            margin-bottom: 1.5rem;
+        }
+
         .auth-vip-card {
-            padding: 28px 20px;
-            border-radius: 22px;
+            padding: 24px 18px !important;
+            border-radius: 24px !important;
+        }
+
+        .auth-icon-wrap {
+            width: 46px !important;
+            height: 46px !important;
+            font-size: 1.2rem !important;
+            border-radius: 14px !important;
+        }
+
+        .devfill-card {
+            flex-direction: column;
+            align-items: stretch;
+            text-align: center;
+            gap: 8px;
+        }
+
+        .devfill-card .btn {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .auth-page-wrapper {
+            padding-inline: 10px !important;
+        }
+
+        .auth-vip-card {
+            padding: 20px 14px !important;
+            border-radius: 20px !important;
+        }
+
+        .form-options-row {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 10px;
+        }
+
+        .btn-auth-submit {
+            padding: 13px 18px;
+            font-size: 0.98rem;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .auth-vip-card {
+            padding: 16px 12px !important;
         }
     }
 </style>
@@ -550,8 +668,22 @@
     <div class="auth-ambient-ball auth-ball-2"></div>
 
     <div class="auth-container-grid">
-        <!-- Equal Twin Row: Col-LG-6 and Col-LG-6 (Equal H * W) -->
-        <div class="row g-4 align-items-stretch justify-content-center">
+
+        <!-- Top Title Header for Clear Page Identity (Consistent with Register & Contact) -->
+        <div class="auth-top-header">
+            <span class="badge rounded-pill auth-top-badge px-3 py-2 mb-2">
+                <i class="fas fa-shield-halved text-primary me-1"></i> OFFICIAL ALUMNI PORTAL • SECURE GATEWAY
+            </span>
+            <h1 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: clamp(1.85rem, 5vw, 2.5rem); color: #0f172a;">
+                Welcome <span class="text-holographic">Back</span>
+            </h1>
+            <p class="text-muted small mx-auto" style="max-width: 500px;">
+                Sign in to your verified campus account to connect with alumni, access job referrals, and explore reunions.
+            </p>
+        </div>
+
+        <!-- Equal Twin Row: Col-LG-6 and Col-LG-6 -->
+        <div class="row g-4 align-items-stretch justify-content-center auth-card-motion">
 
             <!-- Left Brand Showcase Panel (Equal 50% Width on Desktop) -->
             <div class="col-lg-6 d-none d-lg-block">
@@ -561,19 +693,16 @@
                             <div class="badge rounded-pill bg-primary bg-opacity-25 text-info px-3 py-1 fw-bold small">
                                 <i class="fas fa-network-wired me-1"></i> CAMPUS ECOSYSTEM
                             </div>
-                            <span
-                                class="badge rounded-pill bg-dark bg-opacity-50 text-white-50 border border-secondary border-opacity-25 px-2 py-1 small">
-                                <span class="live-pulse-dot me-1"></span> <span id="alumniFacultyLiveCount">{{
-                                    stats_alumni_faculty_count }}</span> Alumni &amp; Faculty Active
+                            <span class="badge rounded-pill bg-dark bg-opacity-50 text-white-50 border border-secondary border-opacity-25 px-2 py-1 small">
+                                <span class="live-pulse-dot me-1"></span> <span id="alumniFacultyLiveCount">{{ stats_alumni_faculty_count }}</span> Alumni &amp; Faculty Active
                             </span>
                         </div>
 
-                        <h2 class="fw-bold mb-2 text-white" style="font-family: 'Outfit'; font-size: 1.85rem; line-height: 1.2; color: #ffffff !important;">
+                        <h2 class="fw-bold mb-2 text-white" style="font-family: 'Outfit'; font-size: 1.85rem; line-height: 1.25; color: #ffffff !important;">
                             Your Campus Roots.<br><span style="color: #38bdf8 !important;">Your Next Chapter.</span>
                         </h2>
                         <p class="text-white-50 small mb-2" style="line-height: 1.6;">
-                            Connect with thousands of graduates, request verified mentors, and explore career
-                            opportunities worldwide.
+                            Connect with thousands of graduates, request verified mentors, and explore career opportunities worldwide.
                         </p>
 
                         <!-- Animated Interactive Radar Stage -->
@@ -613,52 +742,52 @@
                             <div class="auth-feature-icon"><i class="fas fa-bolt"></i></div>
                             <div>
                                 <h6 class="fw-bold mb-0 text-white small">Instant Access to Opportunities</h6>
-                                <small class="text-white-50">Placement drives, tech talks & webinars</small>
+                                <small class="text-white-50">Placement drives, tech talks &amp; webinars</small>
                             </div>
                         </div>
                     </div>
 
-                    <div
-                        class="pt-3 border-top border-secondary border-opacity-25 mt-3 d-flex align-items-center justify-content-between">
-                        <small class="text-white-50"><i class="fas fa-shield-alt text-success me-1"></i> JIMS Rohini
-                            Official Portal</small>
-                        <small class="text-white-50"><i class="fas fa-check-circle text-info me-1"></i> Verified
-                            Network</small>
+                    <div class="pt-3 border-top border-secondary border-opacity-25 mt-3 d-flex align-items-center justify-content-between">
+                        <small class="text-white-50"><i class="fas fa-shield-alt text-success me-1"></i> Official Institutional Network</small>
+                        <small class="text-white-50"><i class="fas fa-check-circle text-info me-1"></i> Verified Members Only</small>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Login Form Card (Equal 50% Width on Desktop) -->
-            <div class="col-lg-6 col-md-10">
+            <!-- Right Login Form Card (Equal 50% Width on Desktop, Full Width on Mobile) -->
+            <div class="col-12 col-md-10 col-lg-6">
                 <div class="auth-twin-card auth-vip-card">
                     <div class="auth-accent-bar"></div>
 
                     <div>
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <div class="auth-icon-wrap">
-                                <i class="fas fa-fingerprint"></i>
-                            </div>
-                            <span
-                                class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-1 fw-bold small">
-                                <i class="fas fa-lock me-1"></i> SECURE ACCESS
-                            </span>
+                        <!-- Mobile Community Active Status Pill (Visible on Phone/Tablet) -->
+                        <div class="mobile-community-pill">
+                            <img src="{{ url_for('static', filename='images/icons/app-logo.png') }}" alt="Logo" style="width: 18px; height: 18px; border-radius: 4px; object-fit: contain;">
+                            <span><span class="live-pulse-dot me-1"></span> <strong id="alumniFacultyMobileCount">{{ stats_alumni_faculty_count }}</strong> Members Online</span>
                         </div>
 
-                        <h1 class="fw-bold mb-1" style="font-family: 'Outfit'; color: #0f172a; font-size: 1.85rem;">
-                            Welcome <span class="text-holographic">Back</span>
-                        </h1>
-                        <p class="text-muted small mb-3">
-                            Sign in to your campus account to access the directory, events, and jobs.
-                        </p>
+                        <!-- Card Header Row -->
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="auth-icon-wrap">
+                                    <i class="fas fa-fingerprint"></i>
+                                </div>
+                                <div>
+                                    <h2 class="h5 fw-bold mb-0 text-dark" style="font-family: 'Outfit';">Member Access</h2>
+                                    <small class="text-muted">Enter credentials to continue</small>
+                                </div>
+                            </div>
+                            <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-1 fw-bold small">
+                                <i class="fas fa-lock me-1"></i> SECURE
+                            </span>
+                        </div>
 
                         <!-- Flash Messages -->
                         {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
                         {% for category, message in messages %}
-                        <div
-                            class="alert-auth alert alert-{{ 'danger' if category == 'error' or category == 'danger' else ('warning' if category == 'warning' else 'success') }} shadow-sm">
-                            <i
-                                class="fas fa-{{ 'exclamation-circle' if category == 'danger' or category == 'error' else ('info-circle' if category == 'warning' else 'check-circle') }}"></i>
+                        <div class="alert-auth alert alert-{{ 'danger' if category == 'error' or category == 'danger' else ('warning' if category == 'warning' else 'success') }}">
+                            <i class="fas fa-{{ 'exclamation-circle' if category == 'danger' or category == 'error' else ('info-circle' if category == 'warning' else 'check-circle') }}"></i>
                             <span>{{ message }}</span>
                         </div>
                         {% endfor %}
@@ -669,12 +798,10 @@
                         {% if dev_quick_login %}
                         <div class="devfill-card">
                             <div>
-                                <strong class="d-block small text-warning-emphasis"><i
-                                        class="fas fa-flask me-1 text-warning"></i> Development Mode</strong>
+                                <strong class="d-block small text-warning-emphasis"><i class="fas fa-flask me-1 text-warning"></i> Development Mode</strong>
                                 <small class="text-muted">Autofill Admin credentials for testing</small>
                             </div>
-                            <button type="button" class="btn btn-sm btn-warning rounded-pill px-3 fw-bold"
-                                id="devQuickLoginBtn">
+                            <button type="button" class="btn btn-sm btn-warning rounded-pill px-3 fw-bold" id="devQuickLoginBtn">
                                 <i class="fas fa-bolt me-1"></i> Fill Admin
                             </button>
                         </div>
@@ -708,19 +835,20 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                            <!-- Form Options: Remember Me & Forgot Password -->
+                            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2 form-options-row">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe">
                                     <label class="form-check-label text-muted small fw-semibold" for="rememberMe">
                                         Remember me
                                     </label>
                                 </div>
-                                <a href="{{ url_for('forgot_password') }}"
-                                    class="text-primary small fw-bold text-decoration-none">
+                                <a href="{{ url_for('forgot_password') }}" class="text-primary small fw-bold text-decoration-none">
                                     Forgot password?
                                 </a>
                             </div>
 
+                            <!-- Submit Button -->
                             <button type="submit" class="btn-auth-submit" id="loginSubmit">
                                 <span>Sign In to Alumni Hub</span>
                                 <i class="fas fa-arrow-right"></i>
@@ -728,15 +856,15 @@
                         </form>
                     </div>
 
-                    <div class="pt-3 border-top mt-3 text-center">
+                    <!-- Bottom Switch & Trust Indicator -->
+                    <div class="auth-register-box text-center">
                         <span class="text-muted small">New to the community?</span>
                         <a href="/register" class="text-primary fw-bold small ms-1 text-decoration-none">
                             Create an account free <i class="fas fa-arrow-right ms-1"></i>
                         </a>
-                        <div class="mt-2">
-                            <small class="text-muted" style="font-size: 0.76rem;">
-                                <i class="fas fa-shield-alt text-success me-1"></i> 256-Bit SSL Encrypted • Privacy
-                                Protected
+                        <div class="mt-2 pt-2 border-top">
+                            <small class="text-muted" style="font-size: 0.74rem;">
+                                <i class="fas fa-shield-alt text-success me-1"></i> 256-Bit SSL Encrypted • Privacy Protected
                             </small>
                         </div>
                     </div>
@@ -776,34 +904,36 @@
         }
         {% endif %}
 
-    // 3. Form Submit Loading State
-    const loginForm = document.getElementById('loginForm');
-    const submitBtn = document.getElementById('loginSubmit');
-    if (loginForm && submitBtn) {
-        loginForm.addEventListener('submit', function () {
-            if (this.checkValidity()) {
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = `
-                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    <span>Authenticating...</span>
-                `;
-            }
-        });
-    }
-
-    // 4. Live Community Stats Poller
-    function pollCommunityStats() {
-        fetch('/api/community-stats')
-            .then(res => res.json())
-            .then(data => {
-                if (data && data.success) {
-                    const el = document.getElementById('alumniFacultyLiveCount');
-                    if (el) el.textContent = data.alumni_faculty_count;
+        // 3. Form Submit Loading State
+        const loginForm = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('loginSubmit');
+        if (loginForm && submitBtn) {
+            loginForm.addEventListener('submit', function () {
+                if (this.checkValidity()) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = `
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        <span>Authenticating...</span>
+                    `;
                 }
-            })
-            .catch(() => { });
-    }
-    setInterval(pollCommunityStats, 15000);
-});
+            });
+        }
+
+        // 4. Live Community Stats Poller
+        function pollCommunityStats() {
+            fetch('/api/community-stats')
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.success) {
+                        const el = document.getElementById('alumniFacultyLiveCount');
+                        const mobileEl = document.getElementById('alumniFacultyMobileCount');
+                        if (el) el.textContent = data.alumni_faculty_count;
+                        if (mobileEl) mobileEl.textContent = data.alumni_faculty_count;
+                    }
+                })
+                .catch(() => { });
+        }
+        setInterval(pollCommunityStats, 15000);
+    });
 </script>
 {% endblock %}

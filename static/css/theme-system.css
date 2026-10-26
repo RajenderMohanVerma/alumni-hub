@@ -1450,3 +1450,65 @@ a:hover {
     }
 }
 
+/* ========================================================
+   UNIFIED HEADER DISTANCE SYSTEM (Pixel-Perfect Alignment)
+   Standardizes distance between floating navbar and content
+   across ALL pages: Desktop: 135px, Mobile: 100px.
+   Provides comfortable ~45px desktop / ~32px mobile breathing space.
+   ======================================================== */
+:root {
+    --nav-header-offset-desktop: 135px;
+    --nav-header-offset-mobile: 100px;
+}
+
+/* 1. Hero Sections across all public pages & dashboards */
+.hero-premium,
+.contact-hero,
+.events-hero,
+.student-hero-section,
+.alumni-hero-section {
+    padding-top: var(--nav-header-offset-desktop) !important;
+}
+
+/* 2. All Auth & Account Security Pages */
+.auth-page-wrapper,
+.register-page-wrapper,
+.forgot-page-wrapper,
+.otp-page-wrapper,
+.reset-page-wrapper,
+.password-page-wrapper {
+    padding-top: var(--nav-header-offset-desktop) !important;
+    align-items: flex-start !important;
+}
+
+/* 3. Standard Non-Hero Container Pages */
+.main-wrapper > .container:first-child,
+.main-wrapper > div:first-child:not(.hero-premium):not(.glass-hero):not(.home-wrapper):not(.events-wrapper):not(.contact-wrapper):not(.auth-page-wrapper):not(.register-page-wrapper):not(.forgot-page-wrapper):not(.otp-page-wrapper):not(.reset-page-wrapper):not(.password-page-wrapper):not(.dashboard-wrapper):not(.student-hero-section):not(.alumni-hero-section) {
+    padding-top: var(--nav-header-offset-desktop) !important;
+}
+
+/* 4. Phone Screen Uniform Alignment (<= 768px) */
+@media (max-width: 768px) {
+    .hero-premium,
+    .contact-hero,
+    .events-hero,
+    .student-hero-section,
+    .alumni-hero-section {
+        padding-top: var(--nav-header-offset-mobile) !important;
+    }
+
+    .auth-page-wrapper,
+    .register-page-wrapper,
+    .forgot-page-wrapper,
+    .otp-page-wrapper,
+    .reset-page-wrapper,
+    .password-page-wrapper {
+        padding-top: var(--nav-header-offset-mobile) !important;
+    }
+
+    .main-wrapper > .container:first-child,
+    .main-wrapper > div:first-child:not(.hero-premium):not(.glass-hero):not(.home-wrapper):not(.events-wrapper):not(.contact-wrapper):not(.auth-page-wrapper):not(.register-page-wrapper):not(.forgot-page-wrapper):not(.otp-page-wrapper):not(.reset-page-wrapper):not(.password-page-wrapper):not(.dashboard-wrapper):not(.student-hero-section):not(.alumni-hero-section) {
+        padding-top: var(--nav-header-offset-mobile) !important;
+    }
+}
+

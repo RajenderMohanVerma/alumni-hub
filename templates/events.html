@@ -1,36 +1,120 @@
 {% extends "base.html" %}
 
-{% block title %}Upcoming Events - Alumni Hub{% endblock %}
+{% block title %}Upcoming Events & Summits - Alumni Hub{% endblock %}
 
 {% block content %}
-<!-- Premium Typography & Base Styles -->
+<!-- Premium Typography & Modern Styles -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}">
 
 <style>
     /* ========================================================
-       UPCOMING EVENTS PAGE - MODERN DESIGN SYSTEM
+       UPCOMING EVENTS PAGE - LUXURY EXECUTIVE & MOBILE-FIRST
        ======================================================== */
+    :root {
+        --event-blue: #0284c7;
+        --event-blue-dark: #0369a1;
+        --event-green: #059669;
+        --event-amber: #d97706;
+        --event-purple: #7c3aed;
+        --event-rose: #e11d48;
+        --event-dark: #0f172a;
+        --event-slate: #1e293b;
+        --event-muted: #64748b;
+        --event-border: rgba(2, 132, 199, 0.16);
+    }
+
     .events-wrapper {
         position: relative;
         overflow-x: hidden;
+        width: 100%;
     }
 
-    /* Stat Cards */
+    /* --------------------------------------------------------
+       HERO RESPONSIVE PERFECTION
+       -------------------------------------------------------- */
+    .events-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 135px 16px clamp(42px, 7vw, 70px);
+        background: radial-gradient(circle at 50% 20%, rgba(2, 132, 199, 0.18) 0%, rgba(15, 23, 42, 0.98) 72%), #0b1329;
+    }
+
+    .events-hero .hero-network-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+        font-weight: 700;
+        font-size: clamp(0.74rem, 2.5vw, 0.85rem);
+        letter-spacing: 0.5px;
+        padding: 6px 18px;
+        border-radius: 999px;
+        margin-bottom: 14px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        max-width: 95%;
+        white-space: normal;
+        text-align: center;
+    }
+
+    .events-hero .hero-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: clamp(2.1rem, 7vw, 3.8rem);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+        margin-bottom: 14px;
+    }
+
+    .events-hero .hero-subtitle {
+        font-size: clamp(0.92rem, 2.8vw, 1.15rem);
+        max-width: 680px;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.78);
+        margin-bottom: 24px;
+        padding: 0 8px;
+    }
+
+    .events-hero-ctas {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    /* --------------------------------------------------------
+       STAT METRICS WIDGETS (Desktop & Mobile 2x2 Grid)
+       -------------------------------------------------------- */
+    .event-stat-col {
+        margin-bottom: 14px;
+    }
+
     .event-stat-card {
         background: #ffffff;
-        border: 1px solid rgba(226, 232, 240, 0.9);
+        border: 1.5px solid rgba(226, 232, 240, 0.95);
         border-radius: 20px;
-        padding: 24px 20px;
-        transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        padding: clamp(16px, 3vw, 24px) clamp(12px, 2.5vw, 20px);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
         position: relative;
         overflow: hidden;
         box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
     .event-stat-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 18px 38px -8px rgba(2, 132, 199, 0.16);
-        border-color: rgba(2, 132, 199, 0.35);
+        box-shadow: 0 18px 38px -8px rgba(2, 132, 199, 0.2);
+        border-color: rgba(2, 132, 199, 0.4);
     }
     .event-stat-card .stat-bar {
         position: absolute;
@@ -45,16 +129,17 @@
     .event-stat-card.accent-purple .stat-bar { background: linear-gradient(90deg, #7c3aed, #c084fc); }
 
     .event-stat-icon {
-        width: 48px;
-        height: 48px;
+        width: clamp(40px, 8vw, 48px);
+        height: clamp(40px, 8vw, 48px);
         border-radius: 14px;
         display: grid;
         place-items: center;
-        font-size: 1.25rem;
+        font-size: clamp(1.15rem, 2.5vw, 1.25rem);
         background: #f0f9ff;
         color: #0284c7;
-        margin: 0 auto 12px auto;
+        margin: 0 auto 10px auto;
         transition: transform 0.3s ease;
+        flex-shrink: 0;
     }
     .event-stat-card:hover .event-stat-icon {
         transform: scale(1.1) rotate(6deg);
@@ -63,114 +148,162 @@
     .event-stat-card.accent-amber .event-stat-icon { background: #fffbeb; color: #d97706; }
     .event-stat-card.accent-purple .event-stat-icon { background: #f5f3ff; color: #7c3aed; }
 
-    /* ========================================================
-       REFINED FILTER & SEARCH BAR (High Contrast & Visible)
-       ======================================================== */
+    .event-stat-num {
+        font-family: 'Outfit', sans-serif;
+        font-size: clamp(1.5rem, 5vw, 2.1rem);
+        font-weight: 800;
+        color: #0f172a;
+        line-height: 1.1;
+        margin-bottom: 4px;
+    }
+
+    .event-stat-label {
+        font-size: clamp(0.72rem, 2vw, 0.84rem);
+        font-weight: 600;
+        color: #64748b;
+        margin-bottom: 0;
+        line-height: 1.3;
+    }
+
+    /* --------------------------------------------------------
+       FILTER & SEARCH CONTROL BAR (Swipeable & High Contrast)
+       -------------------------------------------------------- */
     .events-filter-container {
         background: #ffffff;
-        border: 1px solid rgba(226, 232, 240, 0.95);
+        border: 1.5px solid rgba(226, 232, 240, 0.95);
         border-radius: 24px;
-        padding: 18px 24px;
+        padding: clamp(14px, 3vw, 20px) clamp(14px, 3.5vw, 24px);
         box-shadow: 0 14px 35px -10px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(2, 132, 199, 0.05);
         position: relative;
     }
 
-    /* Filter Search Input */
     .event-search-wrapper {
         position: relative;
-        min-width: 250px;
+        flex-grow: 1;
+        min-width: 0;
     }
+
     .event-search-input {
         width: 100%;
-        padding: 10px 18px 10px 42px;
+        padding: 11px 18px 11px 44px;
         border-radius: 50px;
         border: 1.5px solid #e2e8f0;
         background: #f8fafc;
-        font-size: 0.9rem;
+        font-size: 16px !important; /* iOS zoom prevention */
         font-weight: 500;
         color: #1e293b;
         transition: all 0.25s ease;
         outline: none;
+        min-height: 48px;
     }
     .event-search-input:focus {
         border-color: #0284c7;
         background: #ffffff;
-        box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+        box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.16);
     }
+
     .event-search-icon {
         position: absolute;
         left: 16px;
         top: 50%;
         transform: translateY(-50%);
         color: #94a3b8;
-        font-size: 0.92rem;
+        font-size: 1rem;
         pointer-events: none;
     }
 
-    /* Filter Category Pills */
+    /* Horizontal Swipeable Filter Pills Container */
+    .filter-pills-scroll-wrapper {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .event-filter-scroll {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 4px 2px 8px 2px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .event-filter-scroll::-webkit-scrollbar {
+        display: none;
+    }
+
     .event-filter-pill {
         border: 1.5px solid #e2e8f0;
         background: #f8fafc;
         color: #334155;
         border-radius: 50px;
-        padding: 8px 18px;
-        font-size: 0.88rem;
+        padding: 8px 16px;
+        font-size: clamp(0.78rem, 2vw, 0.88rem);
         font-weight: 600;
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         cursor: pointer;
         user-select: none;
         white-space: nowrap;
+        flex-shrink: 0;
+        touch-action: manipulation;
+        min-height: 42px;
     }
-
     .event-filter-pill:hover {
         background: #f1f5f9;
         border-color: #cbd5e1;
         color: #0284c7;
-        transform: translateY(-2px);
+        transform: translateY(-1px);
     }
 
     .event-filter-pill .pill-badge {
         background: #e2e8f0;
         color: #475569;
-        font-size: 0.74rem;
+        font-size: 0.72rem;
         font-weight: 700;
         padding: 2px 7px;
         border-radius: 50px;
         transition: all 0.25s ease;
     }
 
-    /* Active State (Bold, High Contrast, 100% Readable) */
+    /* Active Pill State */
     .event-filter-pill.active {
         background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%) !important;
         color: #ffffff !important;
         border-color: transparent !important;
         box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35) !important;
-        transform: translateY(-2px);
+        transform: translateY(-1px);
     }
-
     .event-filter-pill.active .pill-badge {
         background: rgba(255, 255, 255, 0.25);
         color: #ffffff;
     }
-
     .event-filter-pill.active i {
         color: #ffffff !important;
     }
 
-    /* ========================================================
-       EVENT CARDS SYSTEM (Elevated, Interactive & Responsive)
-       ======================================================== */
+    .swipe-pill-hint {
+        font-size: 0.72rem;
+        color: #94a3b8;
+        display: none;
+        align-items: center;
+        gap: 4px;
+        margin-top: 2px;
+        margin-left: 4px;
+    }
+
+    /* --------------------------------------------------------
+       EVENT CARDS SYSTEM (Ultra-Responsive & Touch-Friendly)
+       -------------------------------------------------------- */
     .event-card-item {
-        transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), opacity 0.35s ease;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
     }
 
     .event-card {
         background: #ffffff;
         border-radius: 22px;
-        border: 1px solid rgba(226, 232, 240, 0.95);
+        border: 1.5px solid rgba(226, 232, 240, 0.95);
         box-shadow: 0 10px 30px -8px rgba(15, 23, 42, 0.07);
         overflow: hidden;
         height: 100%;
@@ -179,7 +312,12 @@
         justify-content: space-between;
         position: relative;
         width: 100%;
-        transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .event-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(2, 132, 199, 0.2);
+        border-color: rgba(2, 132, 199, 0.35);
     }
 
     .event-card-main {
@@ -189,18 +327,13 @@
         width: 100%;
     }
 
-    .event-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 22px 48px -10px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(2, 132, 199, 0.15);
-        border-color: rgba(2, 132, 199, 0.3);
-    }
-
-    /* Card Banner Header */
+    /* Card Banner */
     .event-card-banner {
         position: relative;
-        height: 220px;
+        height: clamp(165px, 25vw, 215px);
         width: 100%;
         overflow: hidden;
+        background: #0f172a;
     }
 
     .event-card-banner-img {
@@ -209,37 +342,36 @@
         object-fit: cover;
         transition: transform 0.5s ease;
     }
-
     .event-card:hover .event-card-banner-img {
-        transform: scale(1.06);
+        transform: scale(1.05);
     }
 
     .event-card-banner-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.7) 100%);
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.25) 0%, rgba(15, 23, 42, 0.72) 100%);
     }
 
     /* Floating Date Badge */
     .event-date-badge {
         position: absolute;
-        bottom: 14px;
-        left: 16px;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        bottom: 12px;
+        left: 14px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         border-radius: 12px;
-        padding: 6px 12px;
+        padding: 5px 12px;
         text-align: center;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.9);
         z-index: 2;
     }
 
     .event-date-badge .date-num {
         display: block;
         font-family: 'Outfit', sans-serif;
-        font-size: 1.25rem;
+        font-size: clamp(1.15rem, 3vw, 1.3rem);
         font-weight: 800;
         line-height: 1;
         color: #0f172a;
@@ -247,7 +379,7 @@
 
     .event-date-badge .date-month {
         display: block;
-        font-size: 0.72rem;
+        font-size: 0.7rem;
         font-weight: 800;
         text-transform: uppercase;
         color: #0284c7;
@@ -257,25 +389,25 @@
     /* Floating Status Badge (Top-Right) */
     .event-status-badge {
         position: absolute;
-        top: 14px;
-        right: 14px;
+        top: 12px;
+        right: 12px;
         border-radius: 50px;
         padding: 5px 12px;
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.3px;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
         z-index: 2;
         color: #ffffff;
     }
 
-    /* Beacon Pulse Dot */
+    /* Pulse Dot */
     .status-dot-pulse {
-        width: 8px;
-        height: 8px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         background-color: currentColor;
         animation: pulseBeacon 1.8s infinite;
@@ -289,7 +421,7 @@
 
     /* Card Body */
     .event-card-body {
-        padding: 24px 26px 20px 26px;
+        padding: clamp(16px, 3vw, 24px);
         flex-grow: 1;
         display: flex;
         flex-direction: column;
@@ -297,42 +429,37 @@
     }
 
     .event-category-chip {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.5px;
         text-transform: uppercase;
         border-radius: 50px;
-        padding: 5px 12px;
+        padding: 4px 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
     }
 
     .event-card-title {
         font-family: 'Outfit', sans-serif;
-        font-size: 1.35rem;
+        font-size: clamp(1.15rem, 2.5vw, 1.35rem);
         font-weight: 700;
         color: #0f172a;
         letter-spacing: -0.3px;
         margin-bottom: 8px;
+        line-height: 1.3;
         transition: color 0.2s ease;
     }
-
     .event-card:hover .event-card-title {
         color: #0284c7;
     }
 
-    .event-card-desc {
-        font-size: 0.93rem;
-        line-height: 1.6;
-        color: #475569;
-        margin-bottom: 18px;
-    }
-
-    /* Meta Details Pill */
     .event-meta-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 16px;
-        margin-bottom: 16px;
-        font-size: 0.86rem;
+        gap: 12px;
+        margin-bottom: 12px;
+        font-size: 0.84rem;
         color: #64748b;
     }
 
@@ -342,39 +469,73 @@
         gap: 6px;
     }
 
+    .event-card-desc {
+        font-size: clamp(0.82rem, 2vw, 0.9rem);
+        line-height: 1.55;
+        color: #475569;
+        margin-bottom: 14px;
+        word-break: break-word;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .event-tag-pill {
+        background: #f1f5f9;
+        color: #334155;
+        border: 1px solid #e2e8f0;
+        border-radius: 50px;
+        padding: 3px 10px;
+        font-size: 0.72rem;
+        font-weight: 600;
+    }
+
     /* Card Footer & Action */
     .event-card-footer {
-        padding: 18px 26px;
+        padding: 14px clamp(16px, 3vw, 24px);
         background: #f8fafc;
         border-top: 1px solid #edf2f7;
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        gap: 10px;
     }
 
     .event-location-text {
-        font-size: 0.84rem;
+        font-size: clamp(0.76rem, 2vw, 0.84rem);
         color: #64748b;
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        max-width: 55%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .btn-event-cta {
         border-radius: 50px;
-        font-size: 0.84rem;
-        font-weight: 600;
-        padding: 7px 18px;
+        font-size: clamp(0.76rem, 2vw, 0.84rem);
+        font-weight: 700;
+        padding: 8px 16px;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
         transition: all 0.25s ease;
+        text-decoration: none;
+        white-space: nowrap;
+        min-height: 40px;
+        touch-action: manipulation;
     }
-
     .btn-event-cta:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 18px rgba(2, 132, 199, 0.28);
+    }
+    .btn-event-cta:active {
+        transform: scale(0.98);
     }
 
     /* Empty state */
@@ -382,86 +543,75 @@
         background: #ffffff;
         border: 2px dashed #cbd5e1;
         border-radius: 24px;
-        padding: 60px 20px;
+        padding: clamp(40px, 8vw, 60px) 20px;
         text-align: center;
     }
 
-    /* Responsive */
-    @media (max-width: 767.98px) {
-        .events-filter-container {
-            padding: 16px;
-            border-radius: 18px;
-        }
-        .event-filter-scroll {
-            overflow-x: auto;
-            padding-bottom: 6px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-        .event-filter-scroll::-webkit-scrollbar {
-            display: none;
-        }
-        .event-card-banner {
-            height: 170px;
-        }
-    }
-
-    /* High-contrast CTA Buttons for Light Backgrounds */
-    .btn-cta-dark {
-        background: #0f172a !important;
+    /* --------------------------------------------------------
+       HIGH-CONTRAST MOBILE CTA BUTTONS
+       -------------------------------------------------------- */
+    .btn-cta-primary {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 40%, #1d4ed8 100%) !important;
         color: #ffffff !important;
-        border: 1px solid #1e293b !important;
-        border-radius: 99px !important;
+        border: none !important;
         font-weight: 700 !important;
+        border-radius: 50px !important;
+        box-shadow: 0 8px 22px rgba(2, 132, 199, 0.35) !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         gap: 8px !important;
-        box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.25) !important;
-        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
         text-decoration: none !important;
+        transition: all 0.25s ease !important;
+        min-height: 48px;
+        padding: 11px 22px;
+        touch-action: manipulation;
+    }
+    .btn-cta-primary:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 12px 28px rgba(2, 132, 199, 0.45) !important;
+        color: #ffffff !important;
+    }
+
+    .btn-cta-dark {
+        background: #0f172a !important;
+        color: #ffffff !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        text-decoration: none !important;
+        transition: all 0.25s ease !important;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15) !important;
+        min-height: 48px;
+        padding: 11px 22px;
+        touch-action: manipulation;
     }
     .btn-cta-dark:hover {
         background: #1e293b !important;
         color: #38bdf8 !important;
+        border-color: #38bdf8 !important;
         transform: translateY(-2px) !important;
-        box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.35) !important;
-    }
-
-    .btn-cta-primary {
-        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
-        color: #ffffff !important;
-        border: none !important;
-        border-radius: 99px !important;
-        font-weight: 700 !important;
-        box-shadow: 0 8px 24px -4px rgba(2, 132, 199, 0.45) !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 8px !important;
-        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
-        text-decoration: none !important;
-    }
-    .btn-cta-primary:hover {
-        background: #0369a1 !important;
-        color: #ffffff !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 12px 28px -4px rgba(2, 132, 199, 0.55) !important;
     }
 
     .btn-cta-outline {
         background: #ffffff !important;
         color: #0f172a !important;
         border: 1.5px solid #cbd5e1 !important;
-        border-radius: 99px !important;
         font-weight: 700 !important;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+        border-radius: 50px !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         gap: 8px !important;
-        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
         text-decoration: none !important;
+        transition: all 0.25s ease !important;
+        min-height: 48px;
+        padding: 11px 22px;
+        touch-action: manipulation;
     }
     .btn-cta-outline:hover {
         background: #f8fafc !important;
@@ -471,10 +621,176 @@
     }
 
     .service-cta-card {
-        border-radius: 32px;
-        background: #ffffff;
+        border-radius: 28px;
+        background: radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.1) 0%, rgba(248, 250, 252, 0.98) 75%), #ffffff;
         border: 2px solid rgba(2, 132, 199, 0.22);
-        box-shadow: 0 24px 50px -12px rgba(15, 23, 42, 0.08);
+        box-shadow: 0 20px 50px -15px rgba(2, 132, 199, 0.18);
+        padding: clamp(24px, 5vw, 48px) clamp(16px, 4vw, 36px);
+    }
+
+    .propose-event-card {
+        background: radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.08) 0%, #ffffff 80%);
+        border: 1.5px solid rgba(2, 132, 199, 0.25);
+        border-radius: 24px;
+        padding: clamp(20px, 4vw, 36px);
+        box-shadow: 0 14px 35px -10px rgba(15, 23, 42, 0.06);
+    }
+
+    /* --------------------------------------------------------
+       PHONE SCREEN MEDIA QUERIES (<= 768px)
+       -------------------------------------------------------- */
+    @media (max-width: 768px) {
+        .events-hero {
+            padding: 100px 14px 36px !important;
+        }
+
+        .events-hero .hero-title {
+            font-size: 2.2rem !important;
+        }
+
+        .events-hero .hero-subtitle {
+            font-size: 0.9rem !important;
+            line-height: 1.5 !important;
+        }
+
+        .events-hero-ctas {
+            flex-direction: column !important;
+            width: 100% !important;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .events-hero-ctas .btn {
+            width: 100% !important;
+            min-height: 48px;
+        }
+
+        /* 2x2 Stats Grid on Mobile */
+        .event-stat-col {
+            padding-left: 6px !important;
+            padding-right: 6px !important;
+            margin-bottom: 12px;
+        }
+
+        .event-stat-card {
+            padding: 14px 8px !important;
+            border-radius: 16px !important;
+        }
+
+        .event-stat-icon {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 1.1rem !important;
+            margin-bottom: 6px !important;
+            border-radius: 10px !important;
+        }
+
+        .event-stat-num {
+            font-size: 1.5rem !important;
+            margin-bottom: 2px !important;
+        }
+
+        .event-stat-label {
+            font-size: 0.72rem !important;
+        }
+
+        /* Filter Controls on Mobile */
+        .events-filter-container {
+            padding: 14px 12px !important;
+            border-radius: 20px !important;
+        }
+
+        .event-search-wrapper {
+            width: 100% !important;
+        }
+
+        .swipe-pill-hint {
+            display: inline-flex !important;
+        }
+
+        .event-filter-scroll {
+            padding-bottom: 6px !important;
+        }
+
+        .event-filter-pill {
+            padding: 6px 14px !important;
+            font-size: 0.8rem !important;
+            min-height: 38px !important;
+        }
+
+        /* Event Card Mobile Polish */
+        .event-card {
+            border-radius: 18px !important;
+        }
+
+        .event-card-banner {
+            height: 175px !important;
+        }
+
+        .event-card-body {
+            padding: 16px 14px !important;
+        }
+
+        .event-card-title {
+            font-size: 1.12rem !important;
+            margin-bottom: 6px !important;
+        }
+
+        .event-meta-row {
+            font-size: 0.78rem !important;
+            gap: 8px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .event-card-desc {
+            font-size: 0.82rem !important;
+            line-height: 1.48 !important;
+            margin-bottom: 12px !important;
+        }
+
+        .event-card-footer {
+            padding: 12px 14px !important;
+        }
+
+        .event-location-text {
+            font-size: 0.76rem !important;
+            max-width: 50% !important;
+        }
+
+        .btn-event-cta {
+            font-size: 0.78rem !important;
+            padding: 6px 14px !important;
+            min-height: 36px !important;
+        }
+
+        /* Propose Card Mobile */
+        .propose-event-card {
+            padding: 20px 16px !important;
+            text-align: center;
+        }
+
+        .propose-event-card .btn {
+            width: 100% !important;
+            min-height: 48px;
+            margin-top: 10px;
+        }
+
+        /* Bottom Notification CTA */
+        .service-cta-card {
+            padding: 24px 16px !important;
+            border-radius: 22px !important;
+        }
+
+        .service-cta-card .d-flex {
+            flex-direction: column !important;
+            width: 100% !important;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .service-cta-card .btn {
+            width: 100% !important;
+        }
     }
 </style>
 
@@ -487,35 +803,40 @@
         <div class="mesh-ball ball-4"></div>
     </div>
 
-    <!-- Hero Section (Consistent Home/About Aesthetics) -->
-    <section class="hero-premium glass-hero position-relative overflow-hidden">
+    <!-- Hero Section (Consistent Executive Styling) -->
+    <section class="events-hero glass-hero position-relative overflow-hidden">
         <canvas class="network-canvas"></canvas>
         <div class="hero-particles"></div>
         <div class="container" style="position: relative; z-index: 2;">
             <div class="hero-content text-center mx-auto">
-                <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade hero-network-badge">
-                    <i class="fas fa-calendar-star me-2"></i> CONNECT &amp; GROW
+                <div class="hero-network-badge">
+                    <i class="fas fa-calendar-star text-warning"></i> CONNECT, LEARN &amp; GROW
                 </div>
-                <h1 class="hero-title fw-bold mb-3 reveal-text text-white">
+                <h1 class="hero-title fw-bold text-white">
                     Upcoming <span class="text-holographic">Events &amp; Summits</span>
                 </h1>
-                <p class="hero-subtitle text-white-50 lead mb-4 reveal-fade mx-auto">
+                <p class="hero-subtitle text-white-50 lead mx-auto">
                     Join interactive masterclasses, tech webinars, grand alumni reunions, and competitive hackathons to accelerate your career and expand your network.
                 </p>
-                <div class="hero-cta-buttons d-flex justify-content-center gap-3 flex-wrap reveal-fade">
-                    <a href="#events-catalogue" class="btn btn-premium btn-premium-primary magnetic-button">
+                <div class="events-hero-ctas">
+                    <a href="#events-catalogue" class="btn btn-cta-primary">
                         Browse Schedule <i class="fas fa-arrow-down ms-1"></i>
-                        <div class="btn-glow"></div>
                     </a>
-                    <a href="{{ url_for('register') }}" class="btn btn-premium btn-premium-secondary magnetic-button">
-                        <i class="fas fa-bell me-1"></i> Get Event Alerts
+                    {% if not session.get('user_id') %}
+                    <a href="{{ url_for('register') }}" class="btn btn-cta-dark">
+                        <i class="fas fa-bell me-1 text-info"></i> Get Event Alerts
                     </a>
+                    {% else %}
+                    <a href="{{ url_for('contact') }}" class="btn btn-cta-dark">
+                        <i class="fas fa-envelope me-1 text-info"></i> Contact Organizers
+                    </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Marquee Banner (Matching Home Page) -->
+    <!-- Marquee Banner -->
     <section class="marquee-section">
         <div class="marquee-container">
             <div class="marquee">
@@ -531,93 +852,98 @@
         </div>
     </section>
 
-    <div class="container py-5" id="events-catalogue">
+    <div class="container py-4 py-md-5" id="events-catalogue">
         <!-- ========================================================
-             QUICK STATS METRICS ROW (Clean Glassmorphic Cards)
+             QUICK STATS METRICS ROW (Responsive 2x2 on Mobile)
              ======================================================== -->
-        <div class="row g-3 g-md-4 mb-5 pt-3">
-            <div class="col-6 col-lg-3 reveal-fade">
+        <div class="row g-2 g-md-4 mb-4 mb-md-5 pt-2">
+            <div class="col-6 col-lg-3 event-stat-col">
                 <div class="event-stat-card">
                     <div class="stat-bar"></div>
                     <div class="event-stat-icon"><i class="fas fa-calendar-check"></i></div>
-                    <h3 class="fw-bold mb-1 text-center" style="font-size: 2rem; color: #0f172a; font-family: 'Outfit';">
+                    <div class="event-stat-num">
                         <span class="counter" data-target="25">0</span>+
-                    </h3>
-                    <p class="text-muted text-center mb-0 small fw-semibold">Events This Year</p>
+                    </div>
+                    <p class="event-stat-label">Events This Year</p>
                 </div>
             </div>
-            <div class="col-6 col-lg-3 reveal-fade" style="animation-delay: 0.1s;">
+            <div class="col-6 col-lg-3 event-stat-col">
                 <div class="event-stat-card accent-green">
                     <div class="stat-bar"></div>
                     <div class="event-stat-icon"><i class="fas fa-users"></i></div>
-                    <h3 class="fw-bold mb-1 text-center" style="font-size: 2rem; color: #0f172a; font-family: 'Outfit';">
+                    <div class="event-stat-num">
                         <span class="counter" data-target="650">0</span>+
-                    </h3>
-                    <p class="text-muted text-center mb-0 small fw-semibold">Active Participants</p>
+                    </div>
+                    <p class="event-stat-label">Active Participants</p>
                 </div>
             </div>
-            <div class="col-6 col-lg-3 reveal-fade" style="animation-delay: 0.2s;">
+            <div class="col-6 col-lg-3 event-stat-col">
                 <div class="event-stat-card accent-amber">
                     <div class="stat-bar"></div>
                     <div class="event-stat-icon"><i class="fas fa-clock"></i></div>
-                    <h3 class="fw-bold mb-1 text-center" style="font-size: 2rem; color: #0f172a; font-family: 'Outfit';">
+                    <div class="event-stat-num">
                         <span class="counter" data-target="7">0</span>
-                    </h3>
-                    <p class="text-muted text-center mb-0 small fw-semibold">Upcoming This Month</p>
+                    </div>
+                    <p class="event-stat-label">Upcoming This Month</p>
                 </div>
             </div>
-            <div class="col-6 col-lg-3 reveal-fade" style="animation-delay: 0.3s;">
+            <div class="col-6 col-lg-3 event-stat-col">
                 <div class="event-stat-card accent-purple">
                     <div class="stat-bar"></div>
                     <div class="event-stat-icon"><i class="fas fa-star"></i></div>
-                    <h3 class="fw-bold mb-1 text-center" style="font-size: 2rem; color: #0f172a; font-family: 'Outfit';">
+                    <div class="event-stat-num">
                         <span class="counter" data-target="98">0</span>%
-                    </h3>
-                    <p class="text-muted text-center mb-0 small fw-semibold">Satisfaction Rate</p>
+                    </div>
+                    <p class="event-stat-label">Satisfaction Rate</p>
                 </div>
             </div>
         </div>
 
         <!-- ========================================================
-             REDESIGNED FILTER & SEARCH BAR (High Contrast & Responsive)
+             FILTER & SEARCH BAR (Swipeable Chips & Instant Search)
              ======================================================== -->
-        <div class="row justify-content-center mb-5 reveal-fade">
+        <div class="row justify-content-center mb-4 mb-md-5">
             <div class="col-12">
                 <div class="events-filter-container">
                     <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center justify-content-between gap-3">
                         <!-- Search Bar -->
                         <div class="event-search-wrapper">
                             <i class="fas fa-search event-search-icon"></i>
-                            <input type="text" id="eventSearchInput" class="event-search-input" placeholder="Search events by title, keyword, or venue...">
+                            <input type="text" id="eventSearchInput" class="event-search-input" placeholder="Search events by title, keyword, or venue..." autocomplete="off">
                         </div>
 
                         <!-- Filter Chips Scrollable on Mobile -->
-                        <div class="event-filter-scroll d-flex align-items-center gap-2 flex-wrap flex-lg-nowrap">
-                            <button class="event-filter-pill active" data-filter="all">
-                                <i class="fas fa-th-large" style="color: #0284c7;"></i>
-                                <span>All Events</span>
-                                <span class="pill-badge" id="count-all">6</span>
-                            </button>
-                            <button class="event-filter-pill" data-filter="webinar">
-                                <i class="fas fa-video" style="color: #059669;"></i>
-                                <span>Webinars</span>
-                                <span class="pill-badge" id="count-webinar">1</span>
-                            </button>
-                            <button class="event-filter-pill" data-filter="workshop">
-                                <i class="fas fa-chalkboard-teacher" style="color: #d97706;"></i>
-                                <span>Workshops</span>
-                                <span class="pill-badge" id="count-workshop">2</span>
-                            </button>
-                            <button class="event-filter-pill" data-filter="social">
-                                <i class="fas fa-users" style="color: #7c3aed;"></i>
-                                <span>Campus &amp; Social</span>
-                                <span class="pill-badge" id="count-social">2</span>
-                            </button>
-                            <button class="event-filter-pill" data-filter="networking">
-                                <i class="fas fa-handshake" style="color: #0284c7;"></i>
-                                <span>Career &amp; Jobs</span>
-                                <span class="pill-badge" id="count-networking">1</span>
-                            </button>
+                        <div class="filter-pills-scroll-wrapper">
+                            <div class="event-filter-scroll">
+                                <button class="event-filter-pill active" data-filter="all">
+                                    <i class="fas fa-th-large text-primary"></i>
+                                    <span>All Events</span>
+                                    <span class="pill-badge" id="count-all">6</span>
+                                </button>
+                                <button class="event-filter-pill" data-filter="webinar">
+                                    <i class="fas fa-video text-success"></i>
+                                    <span>Webinars</span>
+                                    <span class="pill-badge" id="count-webinar">1</span>
+                                </button>
+                                <button class="event-filter-pill" data-filter="workshop">
+                                    <i class="fas fa-chalkboard-teacher text-warning"></i>
+                                    <span>Workshops</span>
+                                    <span class="pill-badge" id="count-workshop">2</span>
+                                </button>
+                                <button class="event-filter-pill" data-filter="social">
+                                    <i class="fas fa-users" style="color: #7c3aed;"></i>
+                                    <span>Campus &amp; Social</span>
+                                    <span class="pill-badge" id="count-social">2</span>
+                                </button>
+                                <button class="event-filter-pill" data-filter="networking">
+                                    <i class="fas fa-briefcase text-info"></i>
+                                    <span>Career &amp; Jobs</span>
+                                    <span class="pill-badge" id="count-networking">1</span>
+                                </button>
+                            </div>
+                            <span class="swipe-pill-hint">
+                                <i class="fas fa-arrows-left-right"></i> Swipe to filter categories
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -627,13 +953,13 @@
         <!-- ========================================================
              EVENTS CATALOGUE GRID (6 High-Impact Event Cards)
              ======================================================== -->
-        <div class="row g-4 events-grid" id="eventsGrid">
+        <div class="row g-3 g-md-4 events-grid" id="eventsGrid">
             <!-- Event 1: Itrang'26 (Cultural Fest) -->
-            <div class="col-12 col-md-6 event-card-item" data-category="social" data-title="itrang cultural fest live battle bands">
+            <div class="col-12 col-md-6 event-card-item" data-category="social" data-title="itrang cultural fest live battle bands extravaganza campus">
                 <div class="event-card">
                     <div class="event-card-main">
                         <div class="event-card-banner">
-                            <img src="{{ url_for('static', filename='images/itrang.jpeg') }}" alt="Itrang'26" class="event-card-banner-img">
+                            <img src="{{ url_for('static', filename='images/itrang.jpeg') }}" alt="Itrang'26" class="event-card-banner-img" loading="lazy">
                             <div class="event-card-banner-overlay"></div>
                             <span class="event-status-badge" style="background: linear-gradient(135deg, #e11d48, #be123c);">
                                 <span class="status-dot-pulse"></span> Happening Now
@@ -647,7 +973,7 @@
                         <div class="event-card-body">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="event-category-chip" style="background: #ffe4e6; color: #e11d48;">
-                                    <i class="fas fa-sparkles me-1"></i> Cultural Fest
+                                    <i class="fas fa-sparkles"></i> Cultural Fest
                                 </span>
                                 <span class="small fw-semibold text-muted">
                                     <i class="fas fa-users text-danger me-1"></i> 1,000+ Seats
@@ -661,9 +987,9 @@
                                 Annual campus cultural mega-event featuring dance battles, music bands, fashion runway, comedy nights, and celebrity guest performances.
                             </p>
                             <div class="d-flex flex-wrap gap-2 mt-auto">
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Live Stage</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Music &amp; Drama</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Food Carnival</span>
+                                <span class="event-tag-pill">Live Stage</span>
+                                <span class="event-tag-pill">Music &amp; Drama</span>
+                                <span class="event-tag-pill">Food Carnival</span>
                             </div>
                         </div>
                     </div>
@@ -680,7 +1006,7 @@
             </div>
 
             <!-- Event 2: AI in 2026 (Webinar) -->
-            <div class="col-12 col-md-6 event-card-item" data-category="webinar" data-title="ai 2026 future tech webinar llms agents">
+            <div class="col-12 col-md-6 event-card-item" data-category="webinar" data-title="ai 2026 future tech webinar llms agents artificial intelligence">
                 <div class="event-card">
                     <div class="event-card-main">
                         <div class="event-card-banner" style="background: linear-gradient(135deg, #059669 0%, #064e3b 100%);">
@@ -700,7 +1026,7 @@
                         <div class="event-card-body">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="event-category-chip" style="background: #dcfce7; color: #047857;">
-                                    <i class="fas fa-video me-1"></i> Tech Webinar
+                                    <i class="fas fa-video"></i> Tech Webinar
                                 </span>
                                 <span class="small fw-semibold text-muted">
                                     <i class="fas fa-users text-success me-1"></i> 250 Seats
@@ -714,9 +1040,9 @@
                                 Join distinguished alumni engineering leaders from Google, Amazon, and top AI startups discussing LLMs, autonomous agents, and production architectures.
                             </p>
                             <div class="d-flex flex-wrap gap-2 mt-auto">
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">LLMs &amp; RAG</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Live Q&amp;A</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Certificate</span>
+                                <span class="event-tag-pill">LLMs &amp; RAG</span>
+                                <span class="event-tag-pill">Live Q&amp;A</span>
+                                <span class="event-tag-pill">Certificate</span>
                             </div>
                         </div>
                     </div>
@@ -725,15 +1051,21 @@
                         <span class="event-location-text">
                             <i class="fas fa-video text-success"></i> Zoom Live Online
                         </span>
+                        {% if not session.get('user_id') %}
                         <a href="{{ url_for('register') }}" class="btn btn-sm btn-success btn-event-cta shadow-sm">
                             Register Free <i class="fas fa-arrow-right ms-1"></i>
                         </a>
+                        {% else %}
+                        <a href="{{ url_for('contact') }}" class="btn btn-sm btn-success btn-event-cta shadow-sm">
+                            RSVP Online <i class="fas fa-check ms-1"></i>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
 
             <!-- Event 3: Resume Building Masterclass (Workshop) -->
-            <div class="col-12 col-md-6 event-card-item" data-category="workshop" data-title="resume building masterclass ats hr interview">
+            <div class="col-12 col-md-6 event-card-item" data-category="workshop" data-title="resume building masterclass ats hr interview workshop career">
                 <div class="event-card">
                     <div class="event-card-main">
                         <div class="event-card-banner" style="background: linear-gradient(135deg, #d97706 0%, #78350f 100%);">
@@ -753,7 +1085,7 @@
                         <div class="event-card-body">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="event-category-chip" style="background: #fef3c7; color: #b45309;">
-                                    <i class="fas fa-chalkboard-teacher me-1"></i> Workshop
+                                    <i class="fas fa-chalkboard-teacher"></i> Workshop
                                 </span>
                                 <span class="small fw-semibold text-muted">
                                     <i class="fas fa-users text-warning me-1"></i> 100 Seats
@@ -767,9 +1099,9 @@
                                 Master ATS formatting algorithms, receive live resume critiques from senior alumni hiring leads, and learn high-impact storytelling for elite tech job interviews.
                             </p>
                             <div class="d-flex flex-wrap gap-2 mt-auto">
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">ATS Optimization</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">1:1 Feedback</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Templates</span>
+                                <span class="event-tag-pill">ATS Optimization</span>
+                                <span class="event-tag-pill">1:1 Feedback</span>
+                                <span class="event-tag-pill">Templates</span>
                             </div>
                         </div>
                     </div>
@@ -778,15 +1110,21 @@
                         <span class="event-location-text">
                             <i class="fas fa-map-marker-alt text-warning"></i> University Auditorium
                         </span>
+                        {% if not session.get('user_id') %}
                         <a href="{{ url_for('register') }}" class="btn btn-sm btn-warning text-dark fw-bold btn-event-cta shadow-sm">
                             Reserve Seat <i class="fas fa-arrow-right ms-1"></i>
                         </a>
+                        {% else %}
+                        <a href="{{ url_for('contact') }}" class="btn btn-sm btn-warning text-dark fw-bold btn-event-cta shadow-sm">
+                            Claim Pass <i class="fas fa-ticket-alt ms-1"></i>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
 
             <!-- Event 4: Annual Alumni Meet 2026 (Social) -->
-            <div class="col-12 col-md-6 event-card-item" data-category="social" data-title="annual alumni meet 2026 grand reunion dinner awards">
+            <div class="col-12 col-md-6 event-card-item" data-category="social" data-title="annual alumni meet 2026 grand reunion dinner awards banquet networking">
                 <div class="event-card">
                     <div class="event-card-main">
                         <div class="event-card-banner" style="background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);">
@@ -806,7 +1144,7 @@
                         <div class="event-card-body">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="event-category-chip" style="background: #f3e8ff; color: #6d28d9;">
-                                    <i class="fas fa-university me-1"></i> Grand Reunion
+                                    <i class="fas fa-university"></i> Grand Reunion
                                 </span>
                                 <span class="small fw-semibold text-muted">
                                     <i class="fas fa-users text-purple me-1"></i> 500+ Seats
@@ -814,32 +1152,38 @@
                             </div>
                             <h4 class="event-card-title">Annual Alumni Meet 2026</h4>
                             <div class="event-meta-row">
-                                <span class="event-meta-item"><i class="far fa-clock text-purple" style="color: #7c3aed;"></i> 06:00 PM Onwards</span>
+                                <span class="event-meta-item"><i class="far fa-clock" style="color: #7c3aed;"></i> 06:00 PM Onwards</span>
                             </div>
                             <p class="event-card-desc">
                                 Reconnect with former classmates, faculty professors, and industry peers. Features commemorative banquet dinner, networking cocktail lounge, and distinguished alumni awards.
                             </p>
                             <div class="d-flex flex-wrap gap-2 mt-auto">
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Networking Lounge</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Gala Dinner</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Awards Ceremony</span>
+                                <span class="event-tag-pill">Networking Lounge</span>
+                                <span class="event-tag-pill">Gala Dinner</span>
+                                <span class="event-tag-pill">Awards Ceremony</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="event-card-footer">
                         <span class="event-location-text">
-                            <i class="fas fa-map-marker-alt text-purple" style="color: #7c3aed;"></i> Grand Campus Lawns
+                            <i class="fas fa-map-marker-alt" style="color: #7c3aed;"></i> Grand Campus Lawns
                         </span>
+                        {% if not session.get('user_id') %}
                         <a href="{{ url_for('register') }}" class="btn btn-sm btn-primary btn-event-cta shadow-sm" style="background: #7c3aed; border-color: #7c3aed;">
                             Get Tickets <i class="fas fa-arrow-right ms-1"></i>
                         </a>
+                        {% else %}
+                        <a href="{{ url_for('contact') }}" class="btn btn-sm btn-primary btn-event-cta shadow-sm" style="background: #7c3aed; border-color: #7c3aed;">
+                            RSVP Ticket <i class="fas fa-check ms-1"></i>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
 
-            <!-- Event 5: Spring Career Fair 2026 (Networking) -->
-            <div class="col-12 col-md-6 event-card-item" data-category="networking" data-title="spring career fair 2026 hiring jobs interview recruitment">
+            <!-- Event 5: Spring Career Fair 2026 (Networking / Jobs) -->
+            <div class="col-12 col-md-6 event-card-item" data-category="networking" data-title="spring career fair 2026 hiring jobs interview recruitment corporate">
                 <div class="event-card">
                     <div class="event-card-main">
                         <div class="event-card-banner" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
@@ -859,7 +1203,7 @@
                         <div class="event-card-body">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="event-category-chip" style="background: #e0f2fe; color: #0369a1;">
-                                    <i class="fas fa-briefcase me-1"></i> Career Fair
+                                    <i class="fas fa-briefcase"></i> Career Fair
                                 </span>
                                 <span class="small fw-semibold text-muted">
                                     <i class="fas fa-building text-primary me-1"></i> 50+ MNCs
@@ -873,9 +1217,9 @@
                                 Connect directly with hiring directors from Microsoft, Deloitte, TCS, and high-growth unicorn startups. Bring your resume for on-spot technical interviews.
                             </p>
                             <div class="d-flex flex-wrap gap-2 mt-auto">
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">On-Spot Interviews</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Full-Time &amp; Intern</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Fast-Track</span>
+                                <span class="event-tag-pill">On-Spot Interviews</span>
+                                <span class="event-tag-pill">Full-Time &amp; Intern</span>
+                                <span class="event-tag-pill">Fast-Track</span>
                             </div>
                         </div>
                     </div>
@@ -884,15 +1228,21 @@
                         <span class="event-location-text">
                             <i class="fas fa-building text-primary"></i> Placement Complex
                         </span>
+                        {% if not session.get('user_id') %}
                         <a href="{{ url_for('register') }}" class="btn btn-sm btn-primary btn-event-cta shadow-sm">
                             Register Now <i class="fas fa-arrow-right ms-1"></i>
                         </a>
+                        {% else %}
+                        <a href="{{ url_for('list_jobs') }}" class="btn btn-sm btn-primary btn-event-cta shadow-sm">
+                            View Jobs <i class="fas fa-external-link-alt ms-1"></i>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
 
             <!-- Event 6: Alumni Hackathon 2026 (Workshop / Competition) -->
-            <div class="col-12 col-md-6 event-card-item" data-category="workshop" data-title="alumni hackathon 2026 coding prizes team innovation">
+            <div class="col-12 col-md-6 event-card-item" data-category="workshop" data-title="alumni hackathon 2026 coding prizes team innovation generative ai">
                 <div class="event-card">
                     <div class="event-card-main">
                         <div class="event-card-banner" style="background: linear-gradient(135deg, #059669 0%, #064e3b 100%);">
@@ -912,7 +1262,7 @@
                         <div class="event-card-body">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="event-category-chip" style="background: #dcfce7; color: #047857;">
-                                    <i class="fas fa-trophy me-1"></i> Hackathon
+                                    <i class="fas fa-trophy"></i> Hackathon
                                 </span>
                                 <span class="small fw-semibold text-muted">
                                     <i class="fas fa-code text-success me-1"></i> 200 Hackers
@@ -926,9 +1276,9 @@
                                 Collaborate with students and alumni mentors to build innovative software in Generative AI, Web3, and HealthTech. Direct VC seed grants for winning teams.
                             </p>
                             <div class="d-flex flex-wrap gap-2 mt-auto">
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">₹5L Prize Pool</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Mentorship</span>
-                                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">VC Funding</span>
+                                <span class="event-tag-pill">₹5L Prize Pool</span>
+                                <span class="event-tag-pill">Mentorship</span>
+                                <span class="event-tag-pill">VC Funding</span>
                             </div>
                         </div>
                     </div>
@@ -937,9 +1287,15 @@
                         <span class="event-location-text">
                             <i class="fas fa-laptop-code text-success"></i> Hybrid (Online + Campus)
                         </span>
+                        {% if not session.get('user_id') %}
                         <a href="{{ url_for('register') }}" class="btn btn-sm btn-success btn-event-cta shadow-sm">
                             Apply with Team <i class="fas fa-arrow-right ms-1"></i>
                         </a>
+                        {% else %}
+                        <a href="{{ url_for('contact') }}" class="btn btn-sm btn-success btn-event-cta shadow-sm">
+                            Register Team <i class="fas fa-users ms-1"></i>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -948,15 +1304,15 @@
         <!-- ========================================================
              EMPTY STATE (Shown when no search/filter matches)
              ======================================================== -->
-        <div id="noEventsState" class="empty-events-state my-5 d-none">
-            <div class="mx-auto mb-3" style="width: 70px; height: 70px; border-radius: 50%; background: #f0f9ff; color: #0284c7; display: grid; place-items: center; font-size: 2rem;">
+        <div id="noEventsState" class="empty-events-state my-4 my-md-5 d-none">
+            <div class="mx-auto mb-3" style="width: 65px; height: 65px; border-radius: 50%; background: #f0f9ff; color: #0284c7; display: grid; place-items: center; font-size: 1.8rem;">
                 <i class="fas fa-calendar-times"></i>
             </div>
-            <h3 class="fw-bold mb-2" style="font-family: 'Outfit'; color: #0f172a;">No Matching Events Found</h3>
-            <p class="text-muted mx-auto mb-4" style="max-width: 450px;">
-                We couldn't find any events matching your selected filter or search query. Try searching for different keywords or reset your filters.
+            <h3 class="fw-bold mb-2" style="font-family: 'Outfit'; color: #0f172a; font-size: clamp(1.2rem, 3.5vw, 1.5rem);">No Matching Events Found</h3>
+            <p class="text-muted mx-auto mb-4" style="max-width: 440px; font-size: 0.9rem;">
+                We couldn't find any events matching your selected filter or search keyword. Try searching for different terms or reset your filters.
             </p>
-            <button id="resetFiltersBtn" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
+            <button id="resetFiltersBtn" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm" style="font-weight: 600; font-size: 0.9rem;">
                 <i class="fas fa-redo me-2"></i> Reset All Filters
             </button>
         </div>
@@ -964,26 +1320,25 @@
         <!-- ========================================================
              PROPOSE AN EVENT CARD
              ======================================================== -->
-        <div class="row justify-content-center my-5 pt-3">
-            <div class="col-lg-10 reveal-fade">
-                <div class="home-card p-4 p-md-5 position-relative overflow-hidden" style="background: radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.05) 0%, #ffffff 80%); border: 1.5px solid rgba(2, 132, 199, 0.25);">
-                    <div class="row align-items-center g-4">
+        <div class="row justify-content-center my-4 my-md-5 pt-2">
+            <div class="col-lg-10">
+                <div class="propose-event-card">
+                    <div class="row align-items-center g-3 g-md-4">
                         <div class="col-md-8 text-center text-md-start">
                             <span class="badge px-3 py-1 mb-2 text-white fw-bold d-inline-flex align-items-center gap-1"
-                                style="background: linear-gradient(135deg, #0284c7, #2563eb); border-radius: 50px; font-size: 0.78rem;">
+                                style="background: linear-gradient(135deg, #0284c7, #2563eb); border-radius: 50px; font-size: 0.76rem;">
                                 <i class="fas fa-lightbulb"></i> COMMUNITY CALL FOR SPEAKERS
                             </span>
-                            <h3 class="fw-bold mb-2" style="font-family: 'Outfit', sans-serif; font-size: 1.65rem; color: #0f172a;">
+                            <h3 class="fw-bold mb-2" style="font-family: 'Outfit', sans-serif; font-size: clamp(1.25rem, 3.5vw, 1.65rem); color: #0f172a;">
                                 Want to Host a Workshop or Tech Talk?
                             </h3>
-                            <p class="text-muted mb-0" style="font-size: 0.95rem; line-height: 1.6;">
+                            <p class="text-muted mb-0" style="font-size: clamp(0.85rem, 2vw, 0.95rem); line-height: 1.6;">
                                 Alumni with industry experience are invited to share their knowledge, mentor students, or organize department-specific reunions. We provide the streaming platform, venue, and campus audience.
                             </p>
                         </div>
                         <div class="col-md-4 text-center text-md-end">
-                            <a href="{{ url_for('contact') }}" class="btn btn-premium btn-premium-primary magnetic-button px-4 py-3">
-                                Propose an Event <i class="fas fa-arrow-right ms-2"></i>
-                                <div class="btn-glow"></div>
+                            <a href="{{ url_for('contact') }}" class="btn btn-cta-primary w-100 w-md-auto">
+                                Propose an Event <i class="fas fa-arrow-right ms-1"></i>
                             </a>
                         </div>
                     </div>
@@ -994,35 +1349,35 @@
         <!-- ========================================================
              BOTTOM NOTIFICATION CTA CARD
              ======================================================== -->
-        <div class="row justify-content-center my-5">
-            <div class="col-lg-10 text-center reveal-fade">
-                <div class="service-cta-card p-4 p-md-5 text-center position-relative overflow-hidden">
+        <div class="row justify-content-center my-4 my-md-5">
+            <div class="col-lg-10 text-center">
+                <div class="service-cta-card text-center position-relative overflow-hidden">
                     <div class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-1 mb-3 fw-bold small">
                         <i class="fas fa-calendar-check me-1"></i> EVENT NOTIFICATIONS
                     </div>
-                    <h2 class="display-6 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
+                    <h2 class="fw-bold mb-3" style="color: #0f172a; font-family: 'Outfit', sans-serif; font-size: clamp(1.4rem, 4vw, 2.2rem);">
                         Never Miss an Important Milestone
                     </h2>
-                    <p class="mx-auto mb-4 text-muted" style="max-width: 620px; font-size: 1.05rem; line-height: 1.6;">
+                    <p class="mx-auto mb-4 text-muted" style="max-width: 620px; font-size: clamp(0.88rem, 2.2vw, 1.05rem); line-height: 1.6;">
                         Receive instant notifications about new technical workshops, verified alumni career summits, and department reunion dates tailored directly to your graduation batch.
                     </p>
                     <div class="d-flex justify-content-center gap-3 flex-wrap">
                         {% if not session.get('user_id') %}
-                        <a href="{{ url_for('register') }}" class="btn btn-cta-primary px-4 py-3">
+                        <a href="{{ url_for('register') }}" class="btn btn-cta-primary">
                             <i class="fas fa-user-plus me-1"></i> Join Alumni Hub Free
                         </a>
-                        <a href="{{ url_for('login') }}" class="btn btn-cta-dark px-4 py-3">
+                        <a href="{{ url_for('login') }}" class="btn btn-cta-dark">
                             <i class="fas fa-sign-in-alt me-1 text-info"></i> Member Login
                         </a>
                         {% else %}
-                        <a href="{{ url_for('network') }}" class="btn btn-cta-primary px-4 py-3">
+                        <a href="{{ url_for('network') }}" class="btn btn-cta-primary">
                             <i class="fas fa-users me-1"></i> Explore Network
                         </a>
-                        <a href="{{ url_for('list_jobs') }}" class="btn btn-cta-dark px-4 py-3">
+                        <a href="{{ url_for('list_jobs') }}" class="btn btn-cta-dark">
                             <i class="fas fa-briefcase me-1 text-info"></i> Explore Jobs
                         </a>
                         {% endif %}
-                        <a href="{{ url_for('contact') }}" class="btn btn-cta-outline px-4 py-3">
+                        <a href="{{ url_for('contact') }}" class="btn btn-cta-outline">
                             <i class="fas fa-envelope me-1 text-primary"></i> Contact Organizers
                         </a>
                     </div>
@@ -1037,12 +1392,12 @@
      ======================================================== -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. Animated Stats Counter
+        // 1. Animated Stats Counter (Smooth & Safe)
         const counters = document.querySelectorAll('.counter');
         counters.forEach(counter => {
-            const target = +counter.getAttribute('data-target');
+            const target = +counter.getAttribute('data-target') || 0;
             let count = 0;
-            const step = Math.ceil(target / 40);
+            const step = Math.max(1, Math.ceil(target / 30));
 
             const update = () => {
                 count += step;
@@ -1056,7 +1411,7 @@
             update();
         });
 
-        // 2. Filter & Realtime Search Logic
+        // 2. Realtime Search & Category Filtering
         const searchInput = document.getElementById('eventSearchInput');
         const filterPills = document.querySelectorAll('.event-filter-pill');
         const eventItems = document.querySelectorAll('.event-card-item');
@@ -1079,12 +1434,6 @@
 
                 if (categoryMatch && searchMatch) {
                     item.classList.remove('d-none');
-                    item.style.opacity = '0';
-                    item.style.transform = 'translateY(15px)';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateY(0)';
-                    }, 50);
                     visibleCount++;
                 } else {
                     item.classList.add('d-none');
@@ -1108,7 +1457,7 @@
             });
         });
 
-        // Search Input Keyup Event
+        // Search Input Keyup/Input Event
         if (searchInput) {
             searchInput.addEventListener('input', applyFilter);
         }
