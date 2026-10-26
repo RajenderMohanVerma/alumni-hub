@@ -49,11 +49,21 @@
                         data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
                         <div class="glass-panel text-center p-5 border-0 shadow-premium"
                             style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(30px);">
-                            <div class="profile-img-wrap mb-4">
-                                <img src="{{ current_user.profile_pic or 'https://ui-avatars.com/api/?name=' + current_user.name + '&background=f59e0b&color=fff' }}"
-                                    class="img-fluid rounded-circle shadow-lg main-profile-img animate__animated animate__bounceIn animate__delay-2s">
+                            <div class="profile-img-wrap mb-4" style="position: relative; width: 140px; height: 140px; margin: 0 auto;">
+                                {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
+                                <img src="{{ current_user.profile_pic }}" alt="{{ current_user.name }}"
+                                    class="img-fluid rounded-circle shadow-lg main-profile-img animate__animated animate__bounceIn animate__delay-2s" style="width: 140px; height: 140px; object-fit: cover;"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="img-fluid rounded-circle shadow-lg main-profile-img" style="display: none; width: 140px; height: 140px; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 3.5rem; font-weight: 800; align-items: center; justify-content: center;">
+                                    {{ (current_user.name|trim)[0]|upper }}
+                                </div>
+                                {% else %}
+                                <div class="img-fluid rounded-circle shadow-lg main-profile-img" style="display: flex; width: 140px; height: 140px; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 3.5rem; font-weight: 800; align-items: center; justify-content: center;">
+                                    {{ (current_user.name|trim)[0]|upper }}
+                                </div>
+                                {% endif %}
                                 <div class="status-indicator online"
-                                    style="width: 25px; height: 25px; bottom: 15px; right: 15px; border-width: 4px;">
+                                    style="width: 25px; height: 25px; bottom: 5px; right: 5px; border-width: 4px;">
                                 </div>
                             </div>
                             <h2 class="text-white fw-bold mb-1 animate__animated animate__fadeInUp animate__delay-2s">{{
@@ -249,8 +259,20 @@
                         <div
                             class="request-card p-3 bg-white rounded-4 shadow-sm border-start border-4 border-warning h-100">
                             <div class="d-flex align-items-center">
-                                <img src="{{ req['profile_pic'] or 'https://ui-avatars.com/api/?name=' + req['name'] }}"
-                                    class="rounded-circle me-3" width="50" height="50">
+                                <div style="width: 50px; height: 50px; position: relative; flex-shrink: 0;" class="me-3">
+                                    {% if req['profile_pic'] and (req['profile_pic'].startswith('/') or req['profile_pic'].startswith('data:image/') or req['profile_pic'].startswith('http')) and req['profile_pic'] != 'default.jpg' %}
+                                    <img src="{{ req['profile_pic'] }}"
+                                        class="rounded-circle" width="50" height="50" style="object-fit: cover;"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div class="rounded-circle" style="display: none; width: 50px; height: 50px; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #fff; font-size: 1.3rem; font-weight: 800; align-items: center; justify-content: center;">
+                                        {{ (req['name']|trim)[0]|upper }}
+                                    </div>
+                                    {% else %}
+                                    <div class="rounded-circle" style="display: flex; width: 50px; height: 50px; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #fff; font-size: 1.3rem; font-weight: 800; align-items: center; justify-content: center;">
+                                        {{ (req['name']|trim)[0]|upper }}
+                                    </div>
+                                    {% endif %}
+                                </div>
                                 <div class="flex-grow-1">
                                     <h6 class="mb-1 fw-bold">{{ req['name'] }}</h6>
                                     <p class="mb-0 small text-muted">{{ req['role'] | capitalize }}</p>
@@ -333,10 +355,18 @@
                             <div class="card-cover bg-gradient-info"></div>
                             <div class="card-content text-center">
                                 <div class="avatar-holder">
-                                    {% set s_pic = s['profile_pic'] if (s['profile_pic'] and s['profile_pic'] != 'default.jpg' and (s['profile_pic'].startswith('/') or s['profile_pic'].startswith('data:image/') or s['profile_pic'].startswith('http'))) else 'https://ui-avatars.com/api/?name=' + (s['name']|urlencode) %}
-                                    <img src="{{ s_pic }}"
+                                    {% if s['profile_pic'] and (s['profile_pic'].startswith('/') or s['profile_pic'].startswith('data:image/') or s['profile_pic'].startswith('http')) and s['profile_pic'] != 'default.jpg' %}
+                                    <img src="{{ s['profile_pic'] }}"
                                         alt="{{ s['name'] }}"
-                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ s['name']|urlencode }}';">
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div class="avatar-holder-initials" style="display: none; background: linear-gradient(135deg, #0284c7, #1d4ed8);">
+                                        {{ (s['name']|trim)[0]|upper }}
+                                    </div>
+                                    {% else %}
+                                    <div class="avatar-holder-initials" style="display: flex; background: linear-gradient(135deg, #0284c7, #1d4ed8);">
+                                        {{ (s['name']|trim)[0]|upper }}
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 <h5 class="fw-bold mt-3 mb-1">{{ s['name'] }}</h5>
                                 <div class="badge bg-light text-dark mb-2 border">{{ s['department'] }}</div>
@@ -377,10 +407,18 @@
                             <div class="card-cover bg-gradient-primary"></div>
                             <div class="card-content text-center">
                                 <div class="avatar-holder">
-                                    {% set alum_pic = alum['profile_pic'] if (alum['profile_pic'] and alum['profile_pic'] != 'default.jpg' and (alum['profile_pic'].startswith('/') or alum['profile_pic'].startswith('data:image/') or alum['profile_pic'].startswith('http'))) else 'https://ui-avatars.com/api/?name=' + (alum['name']|urlencode) %}
-                                    <img src="{{ alum_pic }}"
+                                    {% if alum['profile_pic'] and (alum['profile_pic'].startswith('/') or alum['profile_pic'].startswith('data:image/') or alum['profile_pic'].startswith('http')) and alum['profile_pic'] != 'default.jpg' %}
+                                    <img src="{{ alum['profile_pic'] }}"
                                         alt="{{ alum['name'] }}"
-                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ alum['name']|urlencode }}';">
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div class="avatar-holder-initials" style="display: none; background: linear-gradient(135deg, #f59e0b, #d97706);">
+                                        {{ (alum['name']|trim)[0]|upper }}
+                                    </div>
+                                    {% else %}
+                                    <div class="avatar-holder-initials" style="display: flex; background: linear-gradient(135deg, #f59e0b, #d97706);">
+                                        {{ (alum['name']|trim)[0]|upper }}
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 <h5 class="fw-bold mt-3 mb-1">{{ alum['name'] }}</h5>
                                 <div class="badge bg-light text-primary mb-2 border">{{ alum['company_name'] or 'Working
@@ -417,10 +455,18 @@
                             <div class="card-cover bg-gradient-warning"></div>
                             <div class="card-content text-center">
                                 <div class="avatar-holder">
-                                    {% set fac_pic = fac['profile_pic'] if (fac['profile_pic'] and fac['profile_pic'] != 'default.jpg' and (fac['profile_pic'].startswith('/') or fac['profile_pic'].startswith('data:image/') or fac['profile_pic'].startswith('http'))) else 'https://ui-avatars.com/api/?name=' + (fac['name']|urlencode) %}
-                                    <img src="{{ fac_pic }}"
+                                    {% if fac['profile_pic'] and (fac['profile_pic'].startswith('/') or fac['profile_pic'].startswith('data:image/') or fac['profile_pic'].startswith('http')) and fac['profile_pic'] != 'default.jpg' %}
+                                    <img src="{{ fac['profile_pic'] }}"
                                         alt="{{ fac['name'] }}"
-                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ fac['name']|urlencode }}';">
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div class="avatar-holder-initials" style="display: none; background: linear-gradient(135deg, #10b981, #059669);">
+                                        {{ (fac['name']|trim)[0]|upper }}
+                                    </div>
+                                    {% else %}
+                                    <div class="avatar-holder-initials" style="display: flex; background: linear-gradient(135deg, #10b981, #059669);">
+                                        {{ (fac['name']|trim)[0]|upper }}
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 <h5 class="fw-bold mt-3 mb-1">{{ fac['name'] }}</h5>
                                 <div class="badge bg-light text-warning mb-2 border">{{ fac['designation'] or 'Faculty'
@@ -567,7 +613,8 @@
         z-index: 2;
     }
 
-    .avatar-holder img {
+    .avatar-holder img,
+    .avatar-holder .avatar-holder-initials {
         width: 100px;
         height: 100px;
         border-radius: 50%;
@@ -576,6 +623,15 @@
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         background: white;
         transition: transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: 2.2rem;
+        color: #ffffff;
+        text-transform: uppercase;
+        user-select: none;
     }
 
     .profile-card-modern:hover .avatar-holder img {

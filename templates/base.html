@@ -624,8 +624,10 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="user-avatar overflow-hidden {% if current_user.role == 'admin' %}admin-user-avatar-ring{% endif %}">
                                 {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
-                                <img src="{{ current_user.profile_pic }}" alt=""
-                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                <img src="{{ current_user.profile_pic }}" alt="{{ current_user.name }}"
+                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <span style="display: none;">{{ current_user.name | initials }}</span>
                                 {% else %}
                                 <span>{{ current_user.name | initials }}</span>
                                 {% endif %}
@@ -740,7 +742,12 @@
             <!-- Standard User Profile Section for Mobile -->
             <div class="mobile-profile-card" style="--delay: 0.1s">
                 <div class="mobile-avatar">
-                    {{ current_user.name[0] }}
+                    {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
+                    <img src="{{ current_user.profile_pic }}" alt="{{ current_user.name }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span style="display: none;">{{ current_user.name | initials }}</span>
+                    {% else %}
+                    <span>{{ current_user.name | initials }}</span>
+                    {% endif %}
                 </div>
                 <div class="mobile-user-info">
                     <h4>{{ current_user.name }}</h4>

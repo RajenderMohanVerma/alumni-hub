@@ -103,13 +103,18 @@
                         <tr class="user-row" data-role="{{ user['role']|lower }}">
                             <td>
                                 <div class="d-flex align-items-center gap-3">
-                                    {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
-                                    <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] }}" class="rounded-4 border" style="width: 44px; height: 44px; object-fit: cover;" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'rounded-4 d-grid place-items-center fw-bold text-white shadow-sm\' style=\'width: 44px; height: 44px; background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%); font-size: 1rem; flex-shrink: 0;\'>{{ user.name[:2]|upper }}</div>';">
-                                    {% else %}
-                                    <div class="rounded-4 d-grid place-items-center fw-bold text-white shadow-sm" style="width: 44px; height: 44px; background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%); font-size: 1rem; flex-shrink: 0;">
-                                        {{ user['name'][:2]|upper }}
+                                    <div class="user-avatar-node-wrap">
+                                        {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
+                                        <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] or 'User' }}" class="avatar-image-node" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+                                        <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}" style="display: none;">
+                                            {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
+                                        </div>
+                                        {% else %}
+                                        <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}">
+                                            {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
+                                        </div>
+                                        {% endif %}
                                     </div>
-                                    {% endif %}
                                     <div>
                                         <div class="fw-bold text-dark mb-0 user-display-name">{{ user['name'] }}</div>
                                         <div class="text-muted small font-monospace user-display-email" style="font-size: 0.78rem;">{{ user['email'] }}</div>

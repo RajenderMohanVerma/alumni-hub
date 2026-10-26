@@ -157,10 +157,15 @@ def normalize_profile_pic(profile_pic, name='User'):
 def get_initials(name):
     if not name:
         return '?'
-    parts = name.split()
-    if len(parts) >= 2:
-        return (parts[0][0] + parts[-1][0]).upper()
-    return name[0].upper()
+    clean = str(name).strip()
+    return clean[0].upper() if clean else '?'
+
+@app.template_filter('first_letter')
+def get_first_letter(name):
+    if not name:
+        return '?'
+    clean = str(name).strip()
+    return clean[0].upper() if clean else '?'
 
 def send_email(to_email, subject, html_content):
     """Send an HTML email using the configured SMTP account."""

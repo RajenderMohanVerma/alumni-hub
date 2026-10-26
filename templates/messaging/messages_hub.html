@@ -1361,16 +1361,16 @@
     function renderAvatarMarkup(pic, name) {
         const initials = getInitials(name);
         if (isValidAvatar(pic)) {
-            return `<img src="${pic}" alt="${escapeHtml(name)}" onerror="this.onerror=null; this.parentElement.innerHTML='<span>${initials}</span><span class=\\'msg-status-dot\\'></span>';">`;
+            return `<img src="${pic}" alt="${escapeHtml(name)}" onerror="this.style.display='none'; if(this.nextElementSibling){this.nextElementSibling.style.display='flex';}">` +
+                   `<span style="display: none;">${initials}</span>`;
         }
         return `<span>${initials}</span>`;
     }
 
     function getInitials(name) {
         if (!name) return 'U';
-        const parts = name.trim().split(' ');
-        if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
-        return name.slice(0, 2).toUpperCase();
+        const clean = name.trim();
+        return clean.length > 0 ? clean[0].toUpperCase() : 'U';
     }
 
     function escapeHtml(str) {

@@ -62,10 +62,20 @@
                 </div>
                 <div class="col-lg-5 text-center d-none d-lg-block">
                     <div class="hero-image-wrapper" style="animation: float 4s ease-in-out infinite;">
-                        <div class="avatar-glass-card shadow-lg">
-                            <img src="{{ current_user.profile_pic or 'https://ui-avatars.com/api/?name=' + current_user.name + '&size=200&background=1e293b&color=fff' }}"
-                                alt="Profile" class="rounded-pill border border-4 border-white shadow-lg"
-                                style="width: 180px; height: 180px; object-fit: cover;">
+                        <div class="avatar-glass-card shadow-lg" style="position: relative; width: 180px; height: 180px; margin: 0 auto;">
+                            {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
+                            <img src="{{ current_user.profile_pic }}"
+                                alt="{{ current_user.name }}" class="rounded-pill border border-4 border-white shadow-lg"
+                                style="width: 180px; height: 180px; object-fit: cover;"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="rounded-pill border border-4 border-white shadow-lg" style="display: none; width: 180px; height: 180px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 4rem; font-weight: 800; align-items: center; justify-content: center;">
+                                {{ (current_user.name|trim)[0]|upper }}
+                            </div>
+                            {% else %}
+                            <div class="rounded-pill border border-4 border-white shadow-lg" style="display: flex; width: 180px; height: 180px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 4rem; font-weight: 800; align-items: center; justify-content: center;">
+                                {{ (current_user.name|trim)[0]|upper }}
+                            </div>
+                            {% endif %}
                             <div class="glass-tag bg-primary">Alumni</div>
                         </div>
                     </div>
@@ -146,13 +156,20 @@
                     <div class="conn-request-card mb-3" id="req-{{ req['sender_id'] }}" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:18px;padding:18px 22px;box-shadow:var(--card-shadow);transition:all 0.3s ease;">
                         <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
                             <div class="d-flex align-items-center gap-3">
-                                <!-- Avatar -->
-                                <div class="position-relative flex-shrink-0">
-                                    {% set req_pic = req['profile_pic'] if (req['profile_pic'] and req['profile_pic'] != 'default.jpg' and (req['profile_pic'].startswith('/') or req['profile_pic'].startswith('data:image/') or req['profile_pic'].startswith('http'))) else 'https://ui-avatars.com/api/?name=' + (req['name']|urlencode) + '&background=6366f1&color=fff&size=80' %}
-                                    <img src="{{ req_pic }}"
+                                <div class="position-relative flex-shrink-0" style="width:60px;height:60px;">
+                                    {% if req['profile_pic'] and (req['profile_pic'].startswith('/') or req['profile_pic'].startswith('data:image/') or req['profile_pic'].startswith('http')) and req['profile_pic'] != 'default.jpg' %}
+                                    <img src="{{ req['profile_pic'] }}"
                                         class="rounded-circle"
                                         style="width:60px;height:60px;object-fit:cover;border:3px solid #e0e7ff;box-shadow:0 4px 12px rgba(99,102,241,0.2);"
-                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ req.name|urlencode }}&background=6366f1&color=fff&size=80';">
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div class="rounded-circle" style="display:none;width:60px;height:60px;border:3px solid #e0e7ff;background:linear-gradient(135deg,#0284c7,#1d4ed8);color:#fff;font-size:1.5rem;font-weight:800;align-items:center;justify-content:center;">
+                                        {{ (req['name']|trim)[0]|upper }}
+                                    </div>
+                                    {% else %}
+                                    <div class="rounded-circle" style="display:flex;width:60px;height:60px;border:3px solid #e0e7ff;background:linear-gradient(135deg,#0284c7,#1d4ed8);color:#fff;font-size:1.5rem;font-weight:800;align-items:center;justify-content:center;">
+                                        {{ (req['name']|trim)[0]|upper }}
+                                    </div>
+                                    {% endif %}
                                     <span class="position-absolute bottom-0 end-0 d-flex align-items-center justify-content-center"
                                         style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);border:2px solid white;">
                                         <i class="fas fa-graduation-cap text-white" style="font-size:7px;"></i>
@@ -289,9 +306,20 @@
                         </span>
                     </div>
                     {% endif %}
-                    <img src="{{ rec.profile_pic }}" class="rounded-circle mb-3 shadow-sm"
-                        style="width: 70px; height: 70px; object-fit: cover; border: 3px solid #e0e7ff;"
-                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ rec.name|urlencode }}&background=667eea&color=fff';">
+                    <div style="width: 70px; height: 70px; margin: 0 auto 1rem; position: relative;">
+                        {% if rec.profile_pic and (rec.profile_pic.startswith('/') or rec.profile_pic.startswith('data:image/') or rec.profile_pic.startswith('http')) and rec.profile_pic != 'default.jpg' %}
+                        <img src="{{ rec.profile_pic }}" class="rounded-circle shadow-sm"
+                            style="width: 70px; height: 70px; object-fit: cover; border: 3px solid #e0e7ff;"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="rounded-circle shadow-sm" style="display: none; width: 70px; height: 70px; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #fff; font-size: 1.8rem; font-weight: 800; align-items: center; justify-content: center; border: 3px solid #e0e7ff;">
+                            {{ (rec.name|trim)[0]|upper }}
+                        </div>
+                        {% else %}
+                        <div class="rounded-circle shadow-sm" style="display: flex; width: 70px; height: 70px; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #fff; font-size: 1.8rem; font-weight: 800; align-items: center; justify-content: center; border: 3px solid #e0e7ff;">
+                            {{ (rec.name|trim)[0]|upper }}
+                        </div>
+                        {% endif %}
+                    </div>
                     <h6 class="fw-bold mb-1 text-truncate" title="{{ rec.name }}">{{ rec.name }}</h6>
                     <p class="text-muted small mb-2">{{ rec.branch or 'General' }}</p>
                     {% if rec.reason %}
