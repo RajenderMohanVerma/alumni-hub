@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Connection Monitoring Dashboard • Admin Hub{% endblock %}
+{% block title %}Connection Monitoring & Link Intelligence • Admin Hub{% endblock %}
 
 {% block content %}
 <!-- Socket.IO CDN -->
@@ -10,12 +10,12 @@
 
 <style>
 /* ========================================================
-   CONNECTION MONITOR - MOBILE-FIRST ENTERPRISE INTELLIGENCE
+   CONNECTION MONITOR - LUXURY MOBILE-FIRST TELEMETRY
    ======================================================== */
 .cm-page-wrapper {
     position: relative;
     padding-top: var(--adm-top-spacing-desktop, 145px) !important;
-    padding-bottom: 3.5rem;
+    padding-bottom: 4rem;
     padding-inline: 1rem;
     background-color: var(--adm-bg, #0c1427);
     min-height: 100vh;
@@ -25,30 +25,30 @@
 
 .cm-container {
     width: 100%;
-    max-width: 1240px;
+    max-width: 1320px;
     margin: 0 auto;
 }
 
 /* 1. Hero Card */
 .cm-hero {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.75) 0%, rgba(15, 23, 42, 0.85) 100%);
-    backdrop-filter: blur(14px);
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.78) 0%, rgba(15, 23, 42, 0.9) 100%);
+    backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
     padding: 26px 30px;
     margin-bottom: 22px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.45);
 }
 .cm-hero::after {
     content: '';
     position: absolute;
     top: -40%;
     right: -15%;
-    width: 340px;
-    height: 340px;
-    background: radial-gradient(circle, rgba(14, 165, 233, 0.16) 0%, transparent 70%);
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.18) 0%, transparent 70%);
     pointer-events: none;
 }
 
@@ -59,25 +59,25 @@
     background: rgba(14, 165, 233, 0.12);
     border: 1px solid rgba(14, 165, 233, 0.28);
     color: #38bdf8;
-    padding: 5px 14px;
+    padding: 6px 14px;
     border-radius: 50px;
     font-size: 0.76rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 .cm-radar-dot {
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background: #22c55e;
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
     animation: cmRadarPulse 1.8s infinite;
 }
 @keyframes cmRadarPulse {
     0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    70% { transform: scale(1); box-shadow: 0 0 0 9px rgba(34, 197, 94, 0); }
     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
 }
 
@@ -87,83 +87,138 @@
     font-size: clamp(1.5rem, 3.2vw, 2.2rem);
     color: #ffffff;
     line-height: 1.2;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     letter-spacing: -0.02em;
 }
 .cm-hero-sub {
     color: #94a3b8;
     font-size: clamp(0.85rem, 1.5vw, 0.98rem);
-    max-width: 680px;
+    max-width: 720px;
     margin-bottom: 0;
-    line-height: 1.5;
+    line-height: 1.55;
 }
 
-.cm-action-chip {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    color: #f1f5f9;
-    border-radius: 50px;
-    padding: 7px 16px;
-    font-size: 0.82rem;
-    font-weight: 600;
+/* Header Action Buttons (Squircle/Pill Structured, No Naked Circles) */
+.cm-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.cm-action-btn {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 12px;
+    color: #f1f5f9 !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
     text-decoration: none;
-    transition: all 0.2s ease;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    user-select: none;
 }
-.cm-action-chip:hover {
-    background: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.25);
+.cm-action-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #ffffff !important;
     transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+.cm-action-btn.btn-primary-glow {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    border-color: #38bdf8;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+}
+.cm-action-btn.btn-primary-glow:hover {
+    background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
 }
 
-/* 2. Executive KPI Deck */
+/* 2. Executive KPI Deck (6 Cards) */
 .cm-kpi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(6, 1fr);
     gap: 12px;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
+@media (max-width: 1200px) {
+    .cm-kpi-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 640px) {
+    .cm-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
 .cm-kpi {
-    background: rgba(30, 41, 59, 0.55);
-    backdrop-filter: blur(10px);
+    background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 18px;
-    padding: 16px 18px;
+    padding: 16px 14px;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
-    align-items: center;
-    gap: 14px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
     user-select: none;
+    position: relative;
+    overflow: hidden;
 }
 .cm-kpi:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(30, 41, 59, 0.85);
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.3);
 }
 .cm-kpi.active {
     background: rgba(14, 165, 233, 0.16);
     border-color: #0ea5e9;
-    box-shadow: 0 0 20px rgba(14, 165, 233, 0.25);
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.28);
+}
+.cm-kpi-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
 }
 .cm-kpi-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
     display: grid;
     place-items: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     flex-shrink: 0;
 }
+.cm-kpi-tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 6px;
+    letter-spacing: 0.03em;
+}
 .cm-kpi-value {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.45rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.4rem, 2.2vw, 1.85rem);
     font-weight: 800;
     color: #ffffff;
     line-height: 1.1;
+    margin-bottom: 2px;
 }
 .cm-kpi-label {
     font-size: 0.72rem;
@@ -177,8 +232,8 @@
 .cm-pulse-strip {
     background: rgba(14, 165, 233, 0.08);
     border: 1px dashed rgba(14, 165, 233, 0.28);
-    border-radius: 14px;
-    padding: 10px 18px;
+    border-radius: 16px;
+    padding: 12px 18px;
     margin-bottom: 20px;
     font-size: 0.85rem;
     color: #cbd5e1;
@@ -188,22 +243,49 @@
     flex-wrap: wrap;
     gap: 10px;
 }
+.cm-radar-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(34, 197, 94, 0.14);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    color: #4ade80;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
 
 /* 3. Search & Filter Bar Dock */
 .cm-filter-card {
-    background: rgba(15, 23, 42, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(15, 23, 42, 0.78);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: 14px 18px;
-    margin-bottom: 20px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.3);
+}
+
+.cm-search-wrapper {
+    position: relative;
+    width: 100%;
+}
+.cm-search-icon {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 0.9rem;
+    pointer-events: none;
 }
 .cm-search-input {
-    background: rgba(30, 41, 59, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(30, 41, 59, 0.85);
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
     color: #ffffff;
-    border-radius: 50px;
-    padding: 9px 18px 9px 38px;
+    border-radius: 12px;
+    padding: 10px 40px 10px 42px;
     font-size: 0.88rem;
     outline: none;
     width: 100%;
@@ -211,8 +293,40 @@
 }
 .cm-search-input:focus {
     border-color: #0ea5e9;
-    background: rgba(30, 41, 59, 0.95);
-    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+    background: rgba(30, 41, 59, 0.98);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25);
+}
+.cm-search-clear {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: none;
+    padding: 4px;
+}
+.cm-search-clear:hover { color: #ffffff; }
+
+.cm-select {
+    background: rgba(30, 41, 59, 0.85);
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 9px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    outline: none;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.cm-select:focus {
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25);
 }
 
 .cm-filter-chips {
@@ -221,24 +335,28 @@
     overflow-x: auto;
     scrollbar-width: none;
     padding: 4px 0;
+    -webkit-overflow-scrolling: touch;
 }
 .cm-filter-chips::-webkit-scrollbar { display: none; }
 
 .cm-chip {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: #94a3b8;
-    padding: 6px 14px;
-    border-radius: 50px;
+    padding: 7px 14px;
+    border-radius: 10px;
     font-size: 0.78rem;
     font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.15s ease;
     user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 .cm-chip:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.14);
     color: #ffffff;
 }
 .cm-chip.active {
@@ -247,10 +365,17 @@
     color: #ffffff;
     box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
 }
+.cm-chip .chip-counter {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 1px 6px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+}
 
-/* 4. Desktop Table View */
+/* 4. Desktop High-Density Table View */
 .cm-table-card {
-    background: rgba(30, 41, 59, 0.55);
+    background: rgba(30, 41, 59, 0.6);
     backdrop-filter: blur(14px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
@@ -263,7 +388,7 @@
     color: #f1f5f9;
 }
 .cm-table thead th {
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(15, 23, 42, 0.9);
     color: #94a3b8;
     font-size: 0.76rem;
     font-weight: 700;
@@ -285,24 +410,94 @@
     background: rgba(255, 255, 255, 0.04);
 }
 
-/* 5. Mobile Cards View (Shown on screens < 992px) */
+/* User Card in Table & Mobile */
+.cm-user-brief {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.cm-user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #ffffff;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Status Pills */
+.cm-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 11px;
+    border-radius: 8px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+.cm-pill.ok { background: rgba(16, 185, 129, 0.16); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); }
+.cm-pill.warn { background: rgba(245, 158, 11, 0.16); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35); }
+.cm-pill.danger { background: rgba(239, 68, 68, 0.16); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.35); }
+.cm-pill.neutral { background: rgba(100, 116, 139, 0.16); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.35); }
+
+.cm-online-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.cm-online-dot.online { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
+.cm-online-dot.offline { background: #64748b; }
+
+/* Table Action Buttons (Squircle/Structured) */
+.cm-table-btn {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #e2e8f0;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+}
+.cm-table-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+/* 5. Mobile Cards View (Screens < 992px) */
 .cm-mobile-feed {
     display: none;
     flex-direction: column;
     gap: 14px;
 }
 .cm-mobile-card {
-    background: rgba(30, 41, 59, 0.65);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 18px;
     padding: 16px 18px;
     position: relative;
     overflow: hidden;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.35);
 }
 .cm-mobile-card:hover {
-    border-color: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.22);
     transform: translateY(-2px);
 }
 .cm-mobile-card::before {
@@ -321,9 +516,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    background: rgba(15, 23, 42, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 14px;
     padding: 12px 14px;
     margin: 12px 0;
@@ -332,88 +527,83 @@
     flex: 1;
     min-width: 0;
 }
-.cm-user-initial {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: #ffffff;
-    flex-shrink: 0;
-}
-.cm-node-arrow {
+.cm-node-mid {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #64748b;
-    font-size: 0.85rem;
-    padding: 0 6px;
+    padding: 0 4px;
     flex-shrink: 0;
 }
+.cm-node-msg-badge {
+    background: rgba(14, 165, 233, 0.14);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    color: #38bdf8;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 6px;
+    margin-bottom: 3px;
+    font-family: 'JetBrains Mono', monospace;
+}
 
-/* Status Pills */
-.cm-pill {
+/* Mobile Action Buttons */
+.cm-mobile-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.cm-mobile-btn {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 3px 10px;
-    border-radius: 50px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-}
-.cm-pill.ok { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-.cm-pill.warn { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-.cm-pill.danger { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-.cm-pill.neutral { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.3); }
-
-.cm-online-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    display: inline-block;
-}
-.cm-online-dot.online { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
-.cm-online-dot.offline { background: #64748b; }
-
-.cm-btn-sm {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: #e2e8f0;
-    padding: 5px 12px;
-    border-radius: 50px;
+    justify-content: center;
+    gap: 6px;
+    height: 38px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    color: #ffffff;
     font-size: 0.78rem;
     font-weight: 600;
+    text-decoration: none;
     cursor: pointer;
     transition: all 0.15s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
 }
-.cm-btn-sm:hover {
-    background: rgba(255, 255, 255, 0.15);
+.cm-mobile-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.28);
     color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.25);
 }
 
-/* Modal Styling */
+/* 6. Modals (Desktop Center & Mobile Bottom Sheet) */
 .cm-modal .modal-content {
-    background: #111827;
+    background: #0f172a;
     color: #ffffff;
     border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
     overflow: hidden;
 }
 .cm-modal .modal-header {
-    background: rgba(30, 41, 59, 0.5);
+    background: rgba(30, 41, 59, 0.75);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 16px 22px;
+}
+.cm-modal-pill-tag {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #e2e8f0;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.76rem;
+    font-weight: 600;
 }
 
-/* Responsive Breakpoints */
+/* Responsive Rules for Small Devices */
 @media (max-width: 991.98px) {
     .cm-page-wrapper {
         padding-top: 115px !important;
@@ -421,11 +611,10 @@
     }
     .cm-hero {
         padding: 20px 18px;
-        border-radius: 18px;
+        border-radius: 20px;
     }
-    .cm-kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+    .cm-hero-title {
+        font-size: 1.45rem;
     }
     .cm-table-card {
         display: none; /* Hide large horizontal table on tablet/phone */
@@ -434,7 +623,7 @@
         display: flex; /* Show responsive touch cards on tablet/phone */
     }
     
-    /* Mobile Bottom Sheet */
+    /* Bottom Sheet on Mobile */
     .modal.bottom-sheet-mobile .modal-dialog {
         margin: 0 !important;
         position: fixed !important;
@@ -468,21 +657,25 @@
                 <div>
                     <div class="cm-hero-badge">
                         <span class="cm-radar-dot"></span>
-                        <span>Link Intelligence Core &bull; WebSocket Live</span>
+                        <span>Connection Intelligence Core &bull; WebSocket Live</span>
                     </div>
                     <h1 class="cm-hero-title">Connection Monitoring Dashboard</h1>
                     <p class="cm-hero-sub">
-                        Real-time telemetry of student-alumni networking requests, message exchanges, credentials, and live engagement timeline.
+                        Real-time institutional telemetry of student-alumni networking requests, message exchanges, credentials, and live engagement timeline.
                     </p>
                 </div>
 
-                <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <button type="button" class="cm-action-chip" onclick="exportConnectionsToCSV()">
+                <div class="cm-header-actions">
+                    <button type="button" class="cm-action-btn" onclick="syncLiveFeed()" id="btnSyncFeed" title="Refresh Telemetry">
+                        <i class="fas fa-sync-alt" id="syncIcon"></i>
+                        <span>Sync Radar</span>
+                    </button>
+                    <button type="button" class="cm-action-btn" onclick="exportConnectionsToCSV()" title="Export Dataset to CSV">
                         <i class="fas fa-file-csv text-success"></i>
                         <span>Export CSV</span>
                     </button>
-                    <a href="{{ url_for('dashboard_admin') }}" class="cm-action-chip">
-                        <i class="fas fa-arrow-left text-primary"></i>
+                    <a href="{{ url_for('dashboard_admin') }}" class="cm-action-btn btn-primary-glow" title="Back to Admin Dashboard">
+                        <i class="fas fa-shield-alt"></i>
                         <span>Admin Hub</span>
                     </a>
                 </div>
@@ -499,11 +692,15 @@
             {% set ns.total_messages = ns.total_messages + (row.messages_exchanged or 0) %}
         {% endfor %}
 
-        <!-- 2. Executive KPI Deck -->
+        <!-- 2. Executive KPI Deck (6 Cards) -->
         <div class="cm-kpi-grid">
+            <!-- 1: Total Connections -->
             <div class="cm-kpi active" id="kpiAll" onclick="setConnectionFilter('all')">
-                <div class="cm-kpi-icon" style="background: rgba(14, 165, 233, 0.15); color: #0ea5e9;">
-                    <i class="fas fa-network-wired"></i>
+                <div class="cm-kpi-top">
+                    <div class="cm-kpi-icon" style="background: rgba(14, 165, 233, 0.16); color: #38bdf8;">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <span class="cm-kpi-tag" style="background: rgba(14, 165, 233, 0.12); color: #38bdf8;">ALL</span>
                 </div>
                 <div>
                     <div class="cm-kpi-value" id="kpiCountAll" data-kpi="{{ total_records }}">{{ total_records }}</div>
@@ -511,9 +708,13 @@
                 </div>
             </div>
 
+            <!-- 2: Pending Requests -->
             <div class="cm-kpi" id="kpiPending" onclick="setConnectionFilter('pending')">
-                <div class="cm-kpi-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
-                    <i class="fas fa-clock"></i>
+                <div class="cm-kpi-top">
+                    <div class="cm-kpi-icon" style="background: rgba(245, 158, 11, 0.16); color: #fbbf24;">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <span class="cm-kpi-tag" style="background: rgba(245, 158, 11, 0.12); color: #fbbf24;">PENDING</span>
                 </div>
                 <div>
                     <div class="cm-kpi-value" id="kpiCountPending" data-kpi="{{ ns.pending }}">{{ ns.pending }}</div>
@@ -521,9 +722,13 @@
                 </div>
             </div>
 
+            <!-- 3: Accepted Links -->
             <div class="cm-kpi" id="kpiAccepted" onclick="setConnectionFilter('accepted')">
-                <div class="cm-kpi-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
-                    <i class="fas fa-check-circle"></i>
+                <div class="cm-kpi-top">
+                    <div class="cm-kpi-icon" style="background: rgba(16, 185, 129, 0.16); color: #34d399;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <span class="cm-kpi-tag" style="background: rgba(16, 185, 129, 0.12); color: #34d399;">CONNECTED</span>
                 </div>
                 <div>
                     <div class="cm-kpi-value" id="kpiCountAccepted" data-kpi="{{ ns.accepted }}">{{ ns.accepted }}</div>
@@ -531,9 +736,13 @@
                 </div>
             </div>
 
+            <!-- 4: Declined Requests -->
             <div class="cm-kpi" id="kpiRejected" onclick="setConnectionFilter('rejected')">
-                <div class="cm-kpi-icon" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">
-                    <i class="fas fa-times-circle"></i>
+                <div class="cm-kpi-top">
+                    <div class="cm-kpi-icon" style="background: rgba(239, 68, 68, 0.16); color: #f87171;">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <span class="cm-kpi-tag" style="background: rgba(239, 68, 68, 0.12); color: #f87171;">DECLINED</span>
                 </div>
                 <div>
                     <div class="cm-kpi-value" id="kpiCountRejected" data-kpi="{{ ns.rejected }}">{{ ns.rejected }}</div>
@@ -541,54 +750,129 @@
                 </div>
             </div>
 
-            <div class="cm-kpi" id="kpiMessages">
-                <div class="cm-kpi-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">
-                    <i class="fas fa-comments"></i>
+            <!-- 5: Chat Volume -->
+            <div class="cm-kpi" id="kpiMessages" onclick="setConnectionFilter('active-chat')">
+                <div class="cm-kpi-top">
+                    <div class="cm-kpi-icon" style="background: rgba(99, 102, 241, 0.16); color: #a5b4fc;">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <span class="cm-kpi-tag" style="background: rgba(99, 102, 241, 0.12); color: #a5b4fc;">VOLUME</span>
                 </div>
                 <div>
                     <div class="cm-kpi-value" id="kpiCountMessages" data-kpi="{{ ns.total_messages }}">{{ ns.total_messages }}</div>
                     <div class="cm-kpi-label">Messages Exchanged</div>
                 </div>
             </div>
+
+            <!-- 6: Acceptance Health Rate -->
+            <div class="cm-kpi" id="kpiRate" onclick="setConnectionFilter('all')">
+                <div class="cm-kpi-top">
+                    <div class="cm-kpi-icon" style="background: rgba(168, 85, 247, 0.16); color: #c084fc;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <span class="cm-kpi-tag" style="background: rgba(168, 85, 247, 0.12); color: #c084fc;">HEALTH</span>
+                </div>
+                <div>
+                    {% set total_decided = ns.accepted + ns.rejected %}
+                    {% set accept_rate = ((ns.accepted / total_decided * 100)|round(1)) if total_decided > 0 else 100.0 %}
+                    <div class="cm-kpi-value" id="kpiCountRate">{{ accept_rate }}%</div>
+                    <div class="cm-kpi-label">Acceptance Rate</div>
+                </div>
+            </div>
         </div>
 
         <!-- Pulse Strip -->
         <div class="cm-pulse-strip">
-            <div>
-                <i class="fas fa-wave-square me-2 text-primary"></i>
-                <span>Live Activity Radar: <strong class="text-white" id="liveOnlineCount">{{ ns.online }}</strong> profiles are currently online across monitored links.</span>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="cm-radar-live-badge">
+                    <span class="cm-radar-dot"></span> LIVE TELEMETRY
+                </span>
+                <span>Active Network Radar: <strong class="text-white" id="liveOnlineCount">{{ ns.online }}</strong> participants currently active across monitored nodes.</span>
             </div>
-            <div class="text-muted extra-small">
-                <span>Auto-refreshing via Socket.IO</span>
+            <div class="text-muted small">
+                <span id="feedSyncTimestamp">Sync Status: Operational &bull; Real-time</span>
             </div>
         </div>
 
         <!-- 3. Search & Filter Bar Dock -->
         <div class="cm-filter-card">
-            <div class="row g-2 align-items-center">
-                <div class="col-12 col-md-4">
-                    <form method="GET" action="{{ url_for('admin_connection_monitor') }}" class="d-flex gap-2">
-                        <select name="role" class="form-select form-select-sm rounded-pill" style="background: rgba(30, 41, 59, 0.8); border-color: rgba(255, 255, 255, 0.12); color: #ffffff;" onchange="this.form.submit()">
-                            <option value="all" {% if role_filter == 'all' %}selected{% endif %}>All Roles</option>
+            <div class="row g-3 align-items-center">
+                <!-- Search Input -->
+                <div class="col-12 col-md-6 col-lg-5">
+                    <div class="cm-search-wrapper">
+                        <i class="fas fa-search cm-search-icon"></i>
+                        <input type="text" id="cmSearchInput" class="cm-search-input" placeholder="Search by name, email, department, company..." oninput="handleSearchInput()">
+                        <button type="button" class="cm-search-clear" id="cmSearchClear" onclick="clearSearchInput()" title="Clear Search">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Role Initiator Filter (Form Get) -->
+                <div class="col-6 col-md-3 col-lg-3">
+                    <form method="GET" action="{{ url_for('admin_connection_monitor') }}" id="roleForm">
+                        <select name="role" class="cm-select" onchange="document.getElementById('roleForm').submit()">
+                            <option value="all" {% if role_filter == 'all' %}selected{% endif %}>All Initiator Roles</option>
                             <option value="student" {% if role_filter == 'student' %}selected{% endif %}>Student Initiated</option>
                             <option value="alumni" {% if role_filter == 'alumni' %}selected{% endif %}>Alumni Initiated</option>
                         </select>
                     </form>
                 </div>
-                <div class="col-12 col-md-8">
-                    <div class="position-relative">
-                        <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" style="font-size: 0.85rem;"></i>
-                        <input type="text" id="cmSearchInput" class="cm-search-input" placeholder="Search by sender or receiver name, email, department..." oninput="filterConnections()">
+
+                <!-- Sort Selector -->
+                <div class="col-6 col-md-3 col-lg-4">
+                    <select id="cmSortSelect" class="cm-select" onchange="applySorting()">
+                        <option value="recent">Sort: Most Recent First</option>
+                        <option value="oldest">Sort: Oldest Request First</option>
+                        <option value="messages">Sort: Highest Messages Exchanged</option>
+                        <option value="sender">Sort: Initiator Name (A-Z)</option>
+                    </select>
+                </div>
+
+                <!-- Quick Filter Chips -->
+                <div class="col-12 pt-1">
+                    <div class="cm-filter-chips" id="cmStatusChips">
+                        <button type="button" class="cm-chip active" data-status="all" onclick="setConnectionFilter('all')">
+                            <span>All Records</span>
+                            <span class="chip-counter" id="chipCountAll">{{ total_records }}</span>
+                        </button>
+                        <button type="button" class="cm-chip" data-status="pending" onclick="setConnectionFilter('pending')">
+                            <i class="fas fa-clock text-warning"></i>
+                            <span>Pending</span>
+                            <span class="chip-counter" id="chipCountPending">{{ ns.pending }}</span>
+                        </button>
+                        <button type="button" class="cm-chip" data-status="accepted" onclick="setConnectionFilter('accepted')">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span>Accepted</span>
+                            <span class="chip-counter" id="chipCountAccepted">{{ ns.accepted }}</span>
+                        </button>
+                        <button type="button" class="cm-chip" data-status="rejected" onclick="setConnectionFilter('rejected')">
+                            <i class="fas fa-times-circle text-danger"></i>
+                            <span>Declined</span>
+                            <span class="chip-counter" id="chipCountRejected">{{ ns.rejected }}</span>
+                        </button>
+                        <button type="button" class="cm-chip" data-status="online" onclick="setConnectionFilter('online')">
+                            <span class="cm-online-dot online"></span>
+                            <span>Active Online</span>
+                            <span class="chip-counter" id="chipCountOnline">{{ ns.online }}</span>
+                        </button>
+                        <button type="button" class="cm-chip" data-status="active-chat" onclick="setConnectionFilter('active-chat')">
+                            <i class="fas fa-comments text-info"></i>
+                            <span>Active Chats (&gt;0 Msgs)</span>
+                        </button>
                     </div>
                 </div>
-                <div class="col-12 mt-2">
-                    <div class="cm-filter-chips" id="cmStatusChips">
-                        <button type="button" class="cm-chip active" data-status="all" onclick="setConnectionFilter('all')">All Records (<span id="chipCountAll">{{ total_records }}</span>)</button>
-                        <button type="button" class="cm-chip" data-status="pending" onclick="setConnectionFilter('pending')">⏳ Pending (<span id="chipCountPending">{{ ns.pending }}</span>)</button>
-                        <button type="button" class="cm-chip" data-status="accepted" onclick="setConnectionFilter('accepted')">✅ Accepted (<span id="chipCountAccepted">{{ ns.accepted }}</span>)</button>
-                        <button type="button" class="cm-chip" data-status="rejected" onclick="setConnectionFilter('rejected')">❌ Declined (<span id="chipCountRejected">{{ ns.rejected }}</span>)</button>
-                        <button type="button" class="cm-chip" data-status="online" onclick="setConnectionFilter('online')">🟢 Online Profiles (<span id="chipCountOnline">{{ ns.online }}</span>)</button>
-                    </div>
+            </div>
+
+            <!-- Visible Counter Bar -->
+            <div class="d-flex align-items-center justify-content-between pt-2 mt-2 border-top border-secondary border-opacity-25 small text-muted">
+                <div>
+                    <span id="filterResultsCount">Showing <strong>{{ total_records }}</strong> of {{ total_records }} links</span>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-link text-info text-decoration-none p-0 small fw-bold" onclick="resetConnectionFilters()">
+                        <i class="fas fa-undo-alt me-1"></i> Reset Filters
+                    </button>
                 </div>
             </div>
         </div>
@@ -600,11 +884,11 @@
                     <thead>
                         <tr>
                             <th>Link Status &amp; Timeline</th>
-                            <th>Sender (Initiator)</th>
-                            <th>Receiver (Recipient)</th>
+                            <th>Initiator (Sender)</th>
+                            <th>Recipient (Receiver)</th>
                             <th>Social Footprint</th>
-                            <th>Activity Status</th>
-                            <th>Chat Volume</th>
+                            <th>Live Presence</th>
+                            <th class="text-center">Chat Volume</th>
                             <th class="text-end">Deep Inspect</th>
                         </tr>
                     </thead>
@@ -616,36 +900,51 @@
                             data-receiver-online="{{ row.receiver_activity.online_status or 'offline' }}"
                             data-search-text="{{ (row.sender_name ~ ' ' ~ row.sender_email ~ ' ' ~ row.receiver_name ~ ' ' ~ row.receiver_email ~ ' ' ~ (row.sender_department or '') ~ ' ' ~ (row.receiver_department or ''))|lower }}"
                             data-messages="{{ row.messages_exchanged or 0 }}"
-                            data-sent-at="{{ row.request_sent_at or '' }}">
+                            data-sent-at="{{ row.request_sent_at or '' }}"
+                            data-sender-name="{{ (row.sender_name or '')|lower }}">
                             <td>
                                 <div class="mb-1">
                                     {% if row.status == 'accepted' %}
-                                        <span class="cm-pill ok"><i class="fas fa-check-circle"></i> Accepted</span>
+                                        <span class="cm-pill ok"><i class="fas fa-check-circle"></i> Connected</span>
                                     {% elif row.status == 'rejected' %}
-                                        <span class="cm-pill danger"><i class="fas fa-times-circle"></i> Rejected</span>
+                                        <span class="cm-pill danger"><i class="fas fa-times-circle"></i> Declined</span>
                                     {% else %}
                                         <span class="cm-pill warn"><i class="fas fa-clock"></i> Pending</span>
                                     {% endif %}
                                 </div>
                                 <div class="text-muted extra-small"><i class="far fa-calendar-alt me-1"></i> Sent: {{ row.request_sent_at or 'N/A' }}</div>
                                 {% if row.request_accepted_at %}
-                                <div class="text-muted extra-small"><i class="fas fa-handshake me-1 text-success"></i> Connected: {{ row.request_accepted_at }}</div>
+                                <div class="text-muted extra-small"><i class="fas fa-handshake me-1 text-success"></i> Linked: {{ row.request_accepted_at }}</div>
                                 {% endif %}
                             </td>
                             <td>
-                                <div class="fw-bold text-white">{{ row.sender_name }}</div>
-                                <div class="text-muted small">{{ row.sender_email }}</div>
-                                <div class="d-flex align-items-center gap-1 mt-1">
-                                    <span class="badge bg-primary-subtle text-primary extra-small text-uppercase">{{ row.sender_role }}</span>
-                                    <span class="text-white-50 extra-small">&bull; {{ row.sender_department or 'N/A' }}</span>
+                                <div class="cm-user-brief">
+                                    <div class="cm-user-avatar" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
+                                        {{ (row.sender_name[0] if row.sender_name else 'S')|upper }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-white">{{ row.sender_name }}</div>
+                                        <div class="text-muted small">{{ row.sender_email }}</div>
+                                        <div class="d-flex align-items-center gap-1 mt-1">
+                                            <span class="badge bg-primary-subtle text-primary extra-small text-uppercase">{{ row.sender_role }}</span>
+                                            <span class="text-white-50 extra-small">&bull; {{ row.sender_department or 'N/A' }}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                             <td>
-                                <div class="fw-bold text-white">{{ row.receiver_name }}</div>
-                                <div class="text-muted small">{{ row.receiver_email }}</div>
-                                <div class="d-flex align-items-center gap-1 mt-1">
-                                    <span class="badge bg-info-subtle text-info extra-small text-uppercase">{{ row.receiver_role }}</span>
-                                    <span class="text-white-50 extra-small">&bull; {{ row.receiver_department or 'N/A' }}</span>
+                                <div class="cm-user-brief">
+                                    <div class="cm-user-avatar" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
+                                        {{ (row.receiver_name[0] if row.receiver_name else 'R')|upper }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-white">{{ row.receiver_name }}</div>
+                                        <div class="text-muted small">{{ row.receiver_email }}</div>
+                                        <div class="d-flex align-items-center gap-1 mt-1">
+                                            <span class="badge bg-info-subtle text-info extra-small text-uppercase">{{ row.receiver_role }}</span>
+                                            <span class="text-white-50 extra-small">&bull; {{ row.receiver_department or 'N/A' }}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -659,27 +958,27 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="extra-small text-muted mb-1">
+                                <div class="extra-small text-muted mb-1 d-flex align-items-center gap-2">
                                     <span class="cm-online-dot {{ 'online' if row.sender_activity.online_status == 'online' else 'offline' }}"></span>
-                                    <span class="ms-1">{{ row.sender_name.split(' ')[0] }}: {{ row.sender_activity.online_status|title }}</span>
+                                    <span>{{ row.sender_name.split(' ')[0] }}: <strong class="text-white">{{ row.sender_activity.online_status|title }}</strong></span>
                                 </div>
-                                <div class="extra-small text-muted">
+                                <div class="extra-small text-muted d-flex align-items-center gap-2">
                                     <span class="cm-online-dot {{ 'online' if row.receiver_activity.online_status == 'online' else 'offline' }}"></span>
-                                    <span class="ms-1">{{ row.receiver_name.split(' ')[0] }}: {{ row.receiver_activity.online_status|title }}</span>
+                                    <span>{{ row.receiver_name.split(' ')[0] }}: <strong class="text-white">{{ row.receiver_activity.online_status|title }}</strong></span>
                                 </div>
                             </td>
-                            <td>
-                                <span class="badge bg-dark border border-secondary text-info px-2 py-1">
+                            <td class="text-center">
+                                <span class="badge bg-dark border border-secondary text-info px-3 py-2 fw-bold font-monospace" style="font-size: 0.82rem;">
                                     <i class="far fa-comments me-1"></i> {{ row.messages_exchanged }}
                                 </span>
                             </td>
                             <td class="text-end">
-                                <div class="d-inline-flex gap-1">
-                                    <button type="button" class="cm-btn-sm" onclick="openProfileModal({{ row.sender_id }})" title="Inspect Sender">
-                                        <i class="fas fa-user-circle"></i> Sender
+                                <div class="d-inline-flex gap-2">
+                                    <button type="button" class="cm-table-btn" onclick="openProfileModal({{ row.sender_id }})" title="Inspect Sender Profile">
+                                        <i class="fas fa-user-circle text-primary"></i> Sender
                                     </button>
-                                    <button type="button" class="cm-btn-sm" onclick="openProfileModal({{ row.receiver_id }})" title="Inspect Receiver">
-                                        <i class="fas fa-user-circle"></i> Receiver
+                                    <button type="button" class="cm-table-btn" onclick="openProfileModal({{ row.receiver_id }})" title="Inspect Receiver Profile">
+                                        <i class="fas fa-user-circle text-info"></i> Receiver
                                     </button>
                                 </div>
                             </td>
@@ -706,14 +1005,16 @@
                 data-receiver-online="{{ row.receiver_activity.online_status or 'offline' }}"
                 data-search-text="{{ (row.sender_name ~ ' ' ~ row.sender_email ~ ' ' ~ row.receiver_name ~ ' ' ~ row.receiver_email ~ ' ' ~ (row.sender_department or '') ~ ' ' ~ (row.receiver_department or ''))|lower }}"
                 data-messages="{{ row.messages_exchanged or 0 }}"
-                data-sent-at="{{ row.request_sent_at or '' }}">
+                data-sent-at="{{ row.request_sent_at or '' }}"
+                data-sender-name="{{ (row.sender_name or '')|lower }}">
                 
-                <div class="d-flex align-items-center justify-content-between">
+                <!-- Card Header -->
+                <div class="d-flex align-items-center justify-content-between mb-2">
                     <div>
                         {% if row.status == 'accepted' %}
-                            <span class="cm-pill ok"><i class="fas fa-check-circle"></i> Accepted</span>
+                            <span class="cm-pill ok"><i class="fas fa-check-circle"></i> Connected</span>
                         {% elif row.status == 'rejected' %}
-                            <span class="cm-pill danger"><i class="fas fa-times-circle"></i> Rejected</span>
+                            <span class="cm-pill danger"><i class="fas fa-times-circle"></i> Declined</span>
                         {% else %}
                             <span class="cm-pill warn"><i class="fas fa-clock"></i> Pending</span>
                         {% endif %}
@@ -725,9 +1026,10 @@
 
                 <!-- Pathway Node (Sender -> Receiver) -->
                 <div class="cm-pathway-box">
+                    <!-- Sender Node -->
                     <div class="cm-user-node">
                         <div class="d-flex align-items-center gap-2 mb-1">
-                            <div class="cm-user-initial" style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);">
+                            <div class="cm-user-avatar" style="width: 34px; height: 34px; font-size: 0.85rem; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
                                 {{ (row.sender_name[0] if row.sender_name else 'S')|upper }}
                             </div>
                             <div class="overflow-hidden">
@@ -738,20 +1040,22 @@
                         <div class="extra-small text-muted text-truncate">{{ row.sender_department or 'CS' }}</div>
                     </div>
 
-                    <div class="cm-node-arrow">
-                        <span class="badge bg-dark border border-secondary text-info mb-1" style="font-size: 0.68rem;">
+                    <!-- Flow Middle Arrow & Chat Count -->
+                    <div class="cm-node-mid">
+                        <span class="cm-node-msg-badge" title="Messages Exchanged">
                             <i class="far fa-comment-dots"></i> {{ row.messages_exchanged }}
                         </span>
-                        <i class="fas fa-arrow-right text-muted"></i>
+                        <i class="fas fa-arrow-right text-muted small"></i>
                     </div>
 
+                    <!-- Receiver Node -->
                     <div class="cm-user-node text-end">
                         <div class="d-flex align-items-center justify-content-end gap-2 mb-1">
                             <div class="overflow-hidden text-end">
                                 <div class="fw-bold text-white text-truncate small">{{ row.receiver_name }}</div>
                                 <span class="badge bg-info-subtle text-info extra-small text-uppercase">{{ row.receiver_role }}</span>
                             </div>
-                            <div class="cm-user-initial" style="background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);">
+                            <div class="cm-user-avatar" style="width: 34px; height: 34px; font-size: 0.85rem; background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
                                 {{ (row.receiver_name[0] if row.receiver_name else 'R')|upper }}
                             </div>
                         </div>
@@ -759,20 +1063,28 @@
                     </div>
                 </div>
 
-                <!-- Footer inspect actions -->
-                <div class="d-flex align-items-center justify-content-between pt-1">
-                    <div class="d-flex align-items-center gap-2 extra-small text-muted">
-                        <span><span class="cm-online-dot {{ 'online' if row.sender_activity.online_status == 'online' else 'offline' }}"></span> S: {{ row.sender_activity.online_status|title }}</span>
-                        <span><span class="cm-online-dot {{ 'online' if row.receiver_activity.online_status == 'online' else 'offline' }}"></span> R: {{ row.receiver_activity.online_status|title }}</span>
-                    </div>
-                    <div class="d-flex gap-1">
-                        <button type="button" class="cm-btn-sm" onclick="openProfileModal({{ row.sender_id }})">
-                            <i class="fas fa-id-card"></i> Sender
-                        </button>
-                        <button type="button" class="cm-btn-sm" onclick="openProfileModal({{ row.receiver_id }})">
-                            <i class="fas fa-id-card"></i> Receiver
-                        </button>
-                    </div>
+                <!-- Live Presence Strip -->
+                <div class="d-flex align-items-center justify-content-between px-1 py-1 extra-small text-muted">
+                    <span class="d-flex align-items-center gap-1">
+                        <span class="cm-online-dot {{ 'online' if row.sender_activity.online_status == 'online' else 'offline' }}"></span>
+                        {{ row.sender_name.split(' ')[0] }}: <strong class="text-white">{{ row.sender_activity.online_status|title }}</strong>
+                    </span>
+                    <span class="d-flex align-items-center gap-1">
+                        <span class="cm-online-dot {{ 'online' if row.receiver_activity.online_status == 'online' else 'offline' }}"></span>
+                        {{ row.receiver_name.split(' ')[0] }}: <strong class="text-white">{{ row.receiver_activity.online_status|title }}</strong>
+                    </span>
+                </div>
+
+                <!-- Footer inspect actions (Full Width Structured Touch Targets) -->
+                <div class="cm-mobile-actions">
+                    <button type="button" class="cm-mobile-btn" onclick="openProfileModal({{ row.sender_id }})">
+                        <i class="fas fa-user-circle text-primary"></i>
+                        <span>Inspect Initiator</span>
+                    </button>
+                    <button type="button" class="cm-mobile-btn" onclick="openProfileModal({{ row.receiver_id }})">
+                        <i class="fas fa-user-circle text-info"></i>
+                        <span>Inspect Recipient</span>
+                    </button>
                 </div>
             </div>
             {% else %}
@@ -783,10 +1095,16 @@
             {% endfor %}
         </div>
 
+        <!-- No Matches Card -->
         <div id="cmNoMatchesPrompt" class="text-center py-5 d-none">
-            <h5 class="fw-bold text-white mb-1">No Matching Connections Found</h5>
-            <p class="text-muted small">Try modifying your search term or select another status filter.</p>
-            <button type="button" class="btn btn-outline-light rounded-pill px-4 btn-sm" onclick="resetConnectionFilters()">Reset Filters</button>
+            <div class="p-4 rounded-4" style="background: rgba(30, 41, 59, 0.5); border: 1px dashed rgba(255, 255, 255, 0.15); max-width: 480px; margin: 0 auto;">
+                <i class="fas fa-search fs-1 text-muted mb-3 d-block opacity-50"></i>
+                <h5 class="fw-bold text-white mb-1">No Matching Connections Found</h5>
+                <p class="text-muted small mb-3">No link records matched your search query or filter selection.</p>
+                <button type="button" class="btn btn-primary rounded-pill px-4 py-2 btn-sm fw-bold shadow-sm" onclick="resetConnectionFilters()">
+                    <i class="fas fa-undo-alt me-1"></i> Reset Filters
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -808,8 +1126,9 @@
                     Fetching profile credentials...
                 </div>
             </div>
-            <div class="modal-footer border-0 p-3 pt-0">
-                <button type="button" class="btn btn-secondary rounded-pill px-4 btn-sm" data-bs-dismiss="modal">Close</button>
+            <div class="modal-footer border-0 p-3 pt-0 d-flex justify-content-between">
+                <span class="text-muted extra-small">Live verified telemetry from institutional registry</span>
+                <button type="button" class="btn btn-secondary rounded-pill px-4 btn-sm fw-bold" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -823,6 +1142,7 @@ document.addEventListener('DOMContentLoaded', function() {
     animateKpiCounters();
 });
 
+// Smooth Animated KPI Counters
 function animateKpiCounters() {
     document.querySelectorAll('[data-kpi]').forEach((el, index) => {
         const target = parseInt(el.getAttribute('data-kpi')) || 0;
@@ -842,6 +1162,7 @@ function animateKpiCounters() {
     });
 }
 
+// Filter Selection Handler
 function setConnectionFilter(status) {
     cmActiveStatus = status;
 
@@ -851,6 +1172,7 @@ function setConnectionFilter(status) {
     if (status === 'pending') document.getElementById('kpiPending')?.classList.add('active');
     if (status === 'accepted') document.getElementById('kpiAccepted')?.classList.add('active');
     if (status === 'rejected') document.getElementById('kpiRejected')?.classList.add('active');
+    if (status === 'active-chat') document.getElementById('kpiMessages')?.classList.add('active');
 
     // Update Chips
     document.querySelectorAll('#cmStatusChips .cm-chip').forEach(c => {
@@ -860,6 +1182,24 @@ function setConnectionFilter(status) {
     filterConnections();
 }
 
+function handleSearchInput() {
+    const input = document.getElementById('cmSearchInput');
+    const clearBtn = document.getElementById('cmSearchClear');
+    if (clearBtn) {
+        clearBtn.style.display = (input && input.value.trim().length > 0) ? 'block' : 'none';
+    }
+    filterConnections();
+}
+
+function clearSearchInput() {
+    const input = document.getElementById('cmSearchInput');
+    if (input) input.value = '';
+    const clearBtn = document.getElementById('cmSearchClear');
+    if (clearBtn) clearBtn.style.display = 'none';
+    filterConnections();
+}
+
+// Master Filter & Search Function
 function filterConnections() {
     const input = document.getElementById('cmSearchInput');
     cmSearchQuery = (input ? input.value : '').toLowerCase().trim();
@@ -867,26 +1207,31 @@ function filterConnections() {
     const tableRows = document.querySelectorAll('#cmDesktopTableBody .cm-record-row');
     const mobileCards = document.querySelectorAll('#cmMobileFeed .cm-record-card');
     const noMatches = document.getElementById('cmNoMatchesPrompt');
+    const resultsCountEl = document.getElementById('filterResultsCount');
 
     let visibleCount = 0;
+    const totalCount = tableRows.length || mobileCards.length;
 
     function evaluateItem(el) {
         const status = el.getAttribute('data-status') || '';
         const senderOnline = el.getAttribute('data-sender-online') || '';
         const receiverOnline = el.getAttribute('data-receiver-online') || '';
         const searchText = el.getAttribute('data-search-text') || '';
+        const messagesCount = parseInt(el.getAttribute('data-messages')) || 0;
 
-        // Status match
+        // Status match logic
         let statusMatch = false;
         if (cmActiveStatus === 'all') {
             statusMatch = true;
         } else if (cmActiveStatus === 'online') {
             statusMatch = (senderOnline === 'online' || receiverOnline === 'online');
+        } else if (cmActiveStatus === 'active-chat') {
+            statusMatch = (messagesCount > 0);
         } else {
             statusMatch = (status === cmActiveStatus);
         }
 
-        // Search match
+        // Search match logic
         let searchMatch = true;
         if (cmSearchQuery) {
             searchMatch = searchText.includes(cmSearchQuery);
@@ -894,33 +1239,86 @@ function filterConnections() {
 
         const show = statusMatch && searchMatch;
         el.style.display = show ? '' : 'none';
-        if (show) visibleCount++;
         return show;
     }
 
-    tableRows.forEach(evaluateItem);
-    mobileCards.forEach(evaluateItem);
+    tableRows.forEach(row => {
+        if (evaluateItem(row)) visibleCount++;
+    });
+    mobileCards.forEach(card => {
+        evaluateItem(card);
+    });
 
     if (noMatches) {
         noMatches.classList.toggle('d-none', visibleCount > 0);
     }
+
+    if (resultsCountEl) {
+        resultsCountEl.innerHTML = `Showing <strong>${visibleCount}</strong> of ${totalCount} links`;
+    }
+}
+
+// Client-side Sorting
+function applySorting() {
+    const sortVal = document.getElementById('cmSortSelect')?.value || 'recent';
+    const tbody = document.getElementById('cmDesktopTableBody');
+    const mobileFeed = document.getElementById('cmMobileFeed');
+
+    function sortElements(parent, selector) {
+        const items = Array.from(parent.querySelectorAll(selector));
+        items.sort((a, b) => {
+            if (sortVal === 'recent') {
+                return (b.getAttribute('data-sent-at') || '').localeCompare(a.getAttribute('data-sent-at') || '');
+            } else if (sortVal === 'oldest') {
+                return (a.getAttribute('data-sent-at') || '').localeCompare(b.getAttribute('data-sent-at') || '');
+            } else if (sortVal === 'messages') {
+                const mA = parseInt(a.getAttribute('data-messages')) || 0;
+                const mB = parseInt(b.getAttribute('data-messages')) || 0;
+                return mB - mA;
+            } else if (sortVal === 'sender') {
+                return (a.getAttribute('data-sender-name') || '').localeCompare(b.getAttribute('data-sender-name') || '');
+            }
+            return 0;
+        });
+        items.forEach(item => parent.appendChild(item));
+    }
+
+    if (tbody) sortElements(tbody, '.cm-record-row');
+    if (mobileFeed) sortElements(mobileFeed, '.cm-record-card');
 }
 
 function resetConnectionFilters() {
-    cmActiveStatus = 'all';
-    cmSearchQuery = '';
-    const input = document.getElementById('cmSearchInput');
-    if (input) input.value = '';
+    clearSearchInput();
     setConnectionFilter('all');
+    const sortSelect = document.getElementById('cmSortSelect');
+    if (sortSelect) {
+        sortSelect.value = 'recent';
+        applySorting();
+    }
 }
 
+// Refresh & Sync Animation
+function syncLiveFeed() {
+    const icon = document.getElementById('syncIcon');
+    const statusText = document.getElementById('feedSyncTimestamp');
+    if (icon) icon.classList.add('fa-spin');
+    if (statusText) statusText.textContent = 'Syncing network links...';
+
+    setTimeout(() => {
+        if (icon) icon.classList.remove('fa-spin');
+        if (statusText) statusText.textContent = `Sync Status: Updated at ${new Date().toLocaleTimeString()}`;
+        filterConnections();
+    }, 600);
+}
+
+// Profile Drill-down Modal
 async function openProfileModal(userId) {
     const modalEl = document.getElementById('profileModal');
     const body = document.getElementById('profileModalBody');
     const title = document.getElementById('modalUserName');
     
     body.innerHTML = `
-        <div class="text-center py-4 text-muted">
+        <div class="text-center py-5 text-muted">
             <div class="spinner-border spinner-border-sm text-primary me-2"></div>
             Loading profile credentials...
         </div>
@@ -941,19 +1339,28 @@ async function openProfileModal(userId) {
         const user = data.user;
         title.textContent = user.name || 'User Profile';
 
+        // Parse skills into badges
+        let skillsHtml = '<span class="text-muted small">Not specified</span>';
+        if (user.skills && user.skills.trim()) {
+            skillsHtml = user.skills.split(',').map(s => 
+                `<span class="cm-modal-pill-tag">${escapeHtml(s.trim())}</span>`
+            ).join(' ');
+        }
+
         body.innerHTML = `
-            <div class="d-flex align-items-center gap-3 mb-4 p-3 rounded-4" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);">
-                <div class="cm-user-initial" style="width: 52px; height: 52px; font-size: 1.3rem; background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);">
+            <div class="d-flex align-items-center gap-3 mb-4 p-3 rounded-4" style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="cm-user-avatar" style="width: 56px; height: 56px; font-size: 1.4rem; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
                     ${(user.name || 'U').charAt(0).toUpperCase()}
                 </div>
-                <div>
-                    <h5 class="fw-bold text-white mb-0">${escapeHtml(user.name)}</h5>
-                    <div class="text-muted small">${escapeHtml(user.email)}</div>
-                    <div class="d-flex align-items-center gap-2 mt-1">
-                        <span class="badge bg-primary-subtle text-primary extra-small text-uppercase">${escapeHtml(user.role)}</span>
-                        <span class="badge ${user.online_status === 'online' ? 'bg-success' : 'bg-secondary'} extra-small">
-                            ${escapeHtml(user.online_status || 'offline')}
+                <div class="overflow-hidden flex-fill">
+                    <h5 class="fw-bold text-white mb-0 text-truncate">${escapeHtml(user.name)}</h5>
+                    <div class="text-muted small text-truncate">${escapeHtml(user.email)}</div>
+                    <div class="d-flex align-items-center gap-2 mt-2 flex-wrap">
+                        <span class="badge bg-primary-subtle text-primary extra-small text-uppercase fw-bold">${escapeHtml(user.role)}</span>
+                        <span class="badge ${user.online_status === 'online' ? 'bg-success' : 'bg-secondary'} extra-small fw-bold">
+                            <i class="fas fa-circle me-1" style="font-size: 0.55rem;"></i>${escapeHtml((user.online_status || 'offline').toUpperCase())}
                         </span>
+                        ${user.last_login ? `<span class="text-muted extra-small">&bull; Last login: ${escapeHtml(user.last_login)}</span>` : ''}
                     </div>
                 </div>
             </div>
@@ -973,8 +1380,8 @@ async function openProfileModal(userId) {
                 </div>
 
                 <div class="col-12">
-                    <label class="text-muted extra-small text-uppercase fw-bold">Technical Skills</label>
-                    <div class="text-white small">${escapeHtml(user.skills || 'Not specified')}</div>
+                    <label class="text-muted extra-small text-uppercase fw-bold mb-1">Technical Skills &amp; Domain</label>
+                    <div class="d-flex flex-wrap gap-1 mt-1">${skillsHtml}</div>
                 </div>
 
                 <div class="col-12">
@@ -982,16 +1389,16 @@ async function openProfileModal(userId) {
                 </div>
 
                 <div class="col-4 text-center">
-                    <div class="fs-5 fw-bold text-info">${user.total_connections || 0}</div>
-                    <div class="text-muted extra-small">Connections</div>
+                    <div class="fs-4 fw-bold text-info font-monospace">${user.total_connections || 0}</div>
+                    <div class="text-muted extra-small text-uppercase fw-bold">Connections</div>
                 </div>
                 <div class="col-4 text-center">
-                    <div class="fs-5 fw-bold text-primary">${user.total_followers || 0}</div>
-                    <div class="text-muted extra-small">Followers</div>
+                    <div class="fs-4 fw-bold text-primary font-monospace">${user.total_followers || 0}</div>
+                    <div class="text-muted extra-small text-uppercase fw-bold">Followers</div>
                 </div>
                 <div class="col-4 text-center">
-                    <div class="fs-5 fw-bold text-success">${user.messages_exchanged || 0}</div>
-                    <div class="text-muted extra-small">Messages</div>
+                    <div class="fs-4 fw-bold text-success font-monospace">${user.messages_exchanged || 0}</div>
+                    <div class="text-muted extra-small text-uppercase fw-bold">Messages</div>
                 </div>
             </div>
         `;
@@ -1000,6 +1407,7 @@ async function openProfileModal(userId) {
     }
 }
 
+// Export Data to CSV
 function exportConnectionsToCSV() {
     const rows = document.querySelectorAll('#cmDesktopTableBody .cm-record-row');
     if (!rows.length) {
@@ -1070,8 +1478,8 @@ function escapeHtml(text) {
         toast.style.cssText = `
             position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 99999;
             background: #1e293b; color: #ffffff; border-left: 4px solid ${color};
-            padding: 10px 16px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); max-width: 340px;
+            padding: 12px 18px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45); max-width: 360px;
         `;
         toast.textContent = msg;
         document.body.appendChild(toast);
