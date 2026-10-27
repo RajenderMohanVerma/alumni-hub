@@ -1,11 +1,480 @@
 {% extends 'base.html' %}
 
-{% block title %}Opportunity Matrix • Admin Career Portal Management{% endblock %}
+{% block title %}Opportunity Matrix • Institutional Career & Placement Desk • Alumni Hub{% endblock %}
 
 {% block content %}
 <!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
+
+<style>
+/* ========================================================
+   OPPORTUNITY MATRIX & CAREER DESK (MOBILE-FIRST LUXURY)
+   ======================================================== */
+.job-logo-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #4f46e5;
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(99, 102, 241, 0.18) 100%);
+    border: 1.2px solid rgba(79, 70, 229, 0.2);
+    flex-shrink: 0;
+    overflow: hidden;
+}
+.job-logo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* KPI Telemetry Grid */
+.job-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.job-kpi-card {
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 18px;
+    padding: 1.15rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.05);
+    cursor: pointer;
+    text-decoration: none !important;
+}
+.job-kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px -5px rgba(15, 23, 42, 0.12);
+    border-color: #cbd5e1;
+}
+.job-kpi-card.active-kpi {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    background: #fafafa;
+}
+.job-kpi-label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+.job-kpi-val {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 1.65rem;
+    color: #0f172a;
+    line-height: 1;
+}
+.job-kpi-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+/* Horizontal Quick Filter Chips Track */
+.job-chips-track {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0.35rem 0.2rem 0.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.job-chips-track::-webkit-scrollbar {
+    display: none;
+}
+.job-chip-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #ffffff;
+    color: #475569;
+    border: 1.2px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+.job-chip-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+.job-chip-btn.active {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+}
+.job-chip-badge {
+    background: rgba(0, 0, 0, 0.08);
+    color: inherit;
+    font-size: 0.7rem;
+    padding: 0.12rem 0.45rem;
+    border-radius: 999px;
+    font-weight: 800;
+}
+.job-chip-btn.active .job-chip-badge {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+/* Mobile-First Job Cards Grid */
+.job-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.25rem;
+}
+.adm-job-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 1.25rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 18px -4px rgba(15, 23, 42, 0.06);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+.adm-job-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px -8px rgba(15, 23, 42, 0.12);
+    border-color: #cbd5e1;
+}
+.adm-job-card.inactive-card {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    opacity: 0.88;
+}
+.adm-job-card.pending-job-card {
+    border-color: #fde68a;
+    background: linear-gradient(180deg, #fffbeb 0%, #ffffff 35%);
+}
+
+.job-card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin-bottom: 0.85rem;
+}
+.job-card-info {
+    flex-grow: 1;
+    min-width: 0;
+}
+.job-card-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #0f172a;
+    margin-bottom: 0.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.job-card-company {
+    font-size: 0.82rem;
+    color: #64748b;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Badges & Pills */
+.pill-mode-remote { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+.pill-mode-hybrid { background: #eef2ff; color: #4f46e5; border: 1px solid #c7d2fe; }
+.pill-mode-onsite { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+.job-meta-box {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 0.75rem 0.85rem;
+    margin-bottom: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    border: 1px solid #f1f5f9;
+}
+.job-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #475569;
+}
+
+/* Card Action Deck */
+.job-card-actions {
+    margin-top: auto;
+    padding-top: 0.85rem;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.job-action-btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+.job-action-sub-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Custom Action Buttons */
+.job-btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    border-radius: 11px;
+    text-decoration: none !important;
+    border: 1.2px solid transparent;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+.job-btn-inspect {
+    background: #e0f2fe;
+    color: #0284c7 !important;
+    border-color: #bae6fd;
+}
+.job-btn-inspect:hover {
+    background: #0284c7;
+    color: #ffffff !important;
+    border-color: #0369a1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
+}
+
+.job-btn-edit {
+    background: #eef2ff;
+    color: #4f46e5 !important;
+    border-color: #c7d2fe;
+}
+.job-btn-edit:hover {
+    background: #4f46e5;
+    color: #ffffff !important;
+    border-color: #4338ca;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+}
+
+.job-btn-apply {
+    flex-grow: 1;
+    background: #f8fafc;
+    color: #334155 !important;
+    border-color: #e2e8f0;
+    padding: 0.5rem 0.75rem;
+}
+.job-btn-apply:hover {
+    background: #10b981;
+    color: #ffffff !important;
+    border-color: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+}
+
+.job-btn-delete {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1.2px solid #fee2e2;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #fef2f2;
+    color: #ef4444;
+}
+.job-btn-delete:hover {
+    background: #ef4444;
+    color: #ffffff;
+    border-color: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.32);
+}
+
+/* Visibility Switch Pill */
+.job-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+}
+.job-status-active {
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+}
+.job-status-paused {
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+/* View Switcher */
+.view-switch-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.view-switch-btn.active {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+}
+
+/* Toast System */
+#admToastContainer {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+.adm-toast {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    animation: toastIn 0.25s ease-out;
+    pointer-events: auto;
+}
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Mobile Tweaks */
+@media (max-width: 767.98px) {
+    .job-kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.65rem !important;
+    }
+    .job-kpi-card {
+        padding: 0.85rem !important;
+        border-radius: 16px !important;
+    }
+    .job-kpi-val {
+        font-size: 1.35rem !important;
+    }
+    .job-cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.9rem !important;
+    }
+    .adm-job-card {
+        padding: 1rem 0.9rem !important;
+        border-radius: 18px !important;
+    }
+    .job-card-title {
+        font-size: 0.98rem !important;
+    }
+    .job-btn-action {
+        padding: 0.52rem 0.65rem !important;
+        font-size: 0.78rem !important;
+    }
+    #jobsTableWrap, #pendingJobsTableWrap {
+        display: none !important;
+    }
+    #jobsCardsWrap, #pendingJobsCardsWrap {
+        display: grid !important;
+    }
+
+    /* Native Bottom Sheet for Modal on Phones */
+    #jobInspectModal .modal-dialog {
+        margin: 0 !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        transform: translate(0, 100%) !important;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    #jobInspectModal.show .modal-dialog {
+        transform: translate(0, 0) !important;
+    }
+    #jobInspectModal .modal-content {
+        border-radius: 28px 28px 0 0 !important;
+        max-height: 88vh;
+        overflow-y: auto;
+        border-bottom: none !important;
+    }
+    .modal-sheet-drag-handle {
+        width: 44px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.45);
+        border-radius: 10px;
+        margin: 0 auto 10px;
+    }
+    .admin-hero-card {
+        padding: 1.25rem 1rem !important;
+        border-radius: 20px !important;
+    }
+    .admin-hero-title {
+        font-size: 1.5rem !important;
+    }
+    .admin-hero-subtitle {
+        font-size: 0.84rem !important;
+    }
+}
+</style>
 
 <div class="admin-page-wrapper">
     <!-- Ambient Floating Orbs -->
@@ -19,81 +488,147 @@
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
                 <div class="admin-live-badge mb-0">
                     <span class="live-pulse-dot"></span>
-                    <span>OPPORTUNITY DESK • RECRUITMENT & CAREER ENGINE</span>
+                    <span>OPPORTUNITY MATRIX • RECRUITMENT &amp; CAREER ENGINE</span>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-wrap">
                     <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
                         <i class="fas fa-th-large"></i> Command Center
                     </a>
-                    <a href="{{ url_for('admin_add_job') }}" class="btn btn-primary btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1 shadow">
-                        <i class="fas fa-plus-circle"></i> Post New Job
+                    <a href="{{ url_for('admin_add_job') }}" class="btn btn-primary btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2 shadow-sm" style="background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); border: none;">
+                        <i class="fas fa-plus-circle"></i> Post New Vacancy
                     </a>
                 </div>
             </div>
 
             <h1 class="admin-hero-title mb-2">
-                <span class="hero-title-prefix">Enterprise Career</span> <span class="text-holographic-adm">Opportunity Hub</span>
+                <span class="hero-title-prefix">Institutional</span> <span class="text-holographic-adm">Opportunity Desk</span>
             </h1>
-            <p class="admin-hero-subtitle mb-4">
-                Oversee campus recruitment campaigns, inspect corporate referral submissions, approve pending alumni vacancy listings, and monitor placement metrics across global industries.
+            <p class="admin-hero-subtitle mb-3">
+                Comprehensive governance over campus recruitment drives, corporate vacancies, alumni referral pipelines, and student placement analytics.
             </p>
+        </div>
 
-            <!-- Quick Metrics Strip -->
-            <div class="row g-3 pt-2">
-                <div class="col-6 col-md-3">
-                    <div class="admin-hero-stat-box">
-                        <span class="admin-hero-stat-label" style="color: #38bdf8 !important;">Live Postings</span>
-                        <div class="admin-hero-stat-val" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">{{ jobs|length }}</div>
-                        <div class="admin-hero-stat-sub">Active Openings</div>
-                    </div>
+        <!-- 2. Interactive KPI Telemetry Cluster (1-Tap Filters) -->
+        <div class="job-kpi-grid">
+            <div class="job-kpi-card active-kpi" id="kpiCardAll" onclick="filterByChip('all')">
+                <div>
+                    <div class="job-kpi-label">Total Listings</div>
+                    <div class="job-kpi-val" id="statValTotal">{{ stats.total if stats else jobs|length }}</div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="admin-hero-stat-box">
-                        <span class="admin-hero-stat-label" style="color: #fbbf24 !important;">Pending Approvals</span>
-                        <div class="admin-hero-stat-val" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">{{ pending_jobs|length }}</div>
-                        <div class="admin-hero-stat-sub">Awaiting Review</div>
-                    </div>
+                <div class="job-kpi-icon" style="background: rgba(79, 70, 229, 0.12); color: #4f46e5;">
+                    <i class="fas fa-briefcase"></i>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="admin-hero-stat-box">
-                        <span class="admin-hero-stat-label" style="color: #34d399 !important;">Remote Work</span>
-                        <div class="admin-hero-stat-val" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; font-size: clamp(1.15rem, 1.8vw, 1.45rem);">Available</div>
-                        <div class="admin-hero-stat-sub">Global &amp; Hybrid</div>
-                    </div>
+            </div>
+
+            <div class="job-kpi-card" id="kpiCardActive" onclick="filterByChip('active')">
+                <div>
+                    <div class="job-kpi-label">Active &amp; Live</div>
+                    <div class="job-kpi-val text-success" id="statValActive">{{ stats.active if stats else 0 }}</div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="admin-hero-stat-box">
-                        <span class="admin-hero-stat-label" style="color: #c084fc !important;">Status Sync</span>
-                        <div class="admin-hero-stat-val" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; font-size: clamp(1.15rem, 1.8vw, 1.45rem);">Realtime</div>
-                        <div class="admin-hero-stat-sub">Live Database</div>
-                    </div>
+                <div class="job-kpi-icon" style="background: rgba(16, 185, 129, 0.12); color: #059669;">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+            </div>
+
+            <div class="job-kpi-card" id="kpiCardPending" onclick="filterByChip('pending')">
+                <div>
+                    <div class="job-kpi-label">Pending Approval</div>
+                    <div class="job-kpi-val text-warning" id="statValPending">{{ stats.pending if stats else pending_jobs|length }}</div>
+                </div>
+                <div class="job-kpi-icon" style="background: rgba(245, 158, 11, 0.15); color: #d97706;">
+                    <i class="fas fa-hourglass-half {% if stats and stats.pending and stats.pending > 0 %}fa-spin{% endif %}"></i>
+                </div>
+            </div>
+
+            <div class="job-kpi-card" id="kpiCardInactive" onclick="filterByChip('inactive')">
+                <div>
+                    <div class="job-kpi-label">Paused / Closed</div>
+                    <div class="job-kpi-val text-secondary" id="statValInactive">{{ stats.inactive if stats else 0 }}</div>
+                </div>
+                <div class="job-kpi-icon" style="background: rgba(100, 116, 139, 0.12); color: #64748b;">
+                    <i class="fas fa-pause-circle"></i>
                 </div>
             </div>
         </div>
 
-        <!-- 2. Pending Jobs Verification Queue -->
+        <!-- 3. Urgent Pending Approvals Queue (If pending submissions exist) -->
         {% if pending_jobs %}
-        <div class="admin-card mb-4 border-warning border-opacity-50" style="background: #fffdfa;">
+        <div class="admin-card mb-4 border-warning border-opacity-50" id="pendingSection" style="background: linear-gradient(180deg, #fffdf8 0%, #ffffff 40%);">
             <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
                 <div class="d-flex align-items-center gap-2">
-                    <span class="rounded-3 p-2 bg-warning bg-opacity-10 text-warning d-grid place-items-center" style="width: 38px; height: 38px;">
-                        <i class="fas fa-hourglass-half"></i>
+                    <span class="rounded-3 p-2 bg-warning bg-opacity-15 text-warning d-grid place-items-center" style="width: 40px; height: 40px;">
+                        <i class="fas fa-shield-alt"></i>
                     </span>
                     <div>
-                        <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.15rem;">Pending Corporate Approvals</h4>
-                        <p class="text-muted small mb-0">Alumni submissions awaiting administrator authorization before publication.</p>
+                        <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.15rem;">Corporate Approvals Queue</h4>
+                        <p class="text-muted small mb-0">Alumni submissions awaiting administrator authorization before portal publication.</p>
                     </div>
                 </div>
-                <span class="badge bg-warning text-dark fw-bold rounded-pill px-3 py-2">
-                    {{ pending_jobs|length }} Awaiting Review
+                <span class="badge bg-warning text-dark fw-bold rounded-pill px-3 py-2" id="pendingCountBadge">
+                    {{ pending_jobs|length }} Awaiting Authorization
                 </span>
             </div>
 
-            <div class="admin-table-wrapper">
+            <!-- Pending Cards (Mobile View) -->
+            <div class="job-cards-grid d-md-none mb-3" id="pendingJobsCardsWrap">
+                {% for job in pending_jobs %}
+                <div class="adm-job-card pending-job-card" id="pendingCard{{ job.id }}">
+                    <div class="job-card-head">
+                        <div class="job-logo-box">
+                            {% if job.company_logo %}
+                            <img src="{{ job.company_logo }}" alt="{{ job.company }} logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <span style="display: none;">{{ (job.company or 'J')[0]|upper }}</span>
+                            {% else %}
+                            <span>{{ (job.company or 'J')[0]|upper }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="job-card-info">
+                            <div class="d-flex align-items-center justify-content-between gap-1 mb-1">
+                                <span class="badge bg-warning text-dark rounded-pill px-2 py-0 fw-bold" style="font-size: 0.68rem;">
+                                    <i class="fas fa-clock fa-spin me-1"></i>PENDING REVIEW
+                                </span>
+                                <span class="badge bg-light text-secondary border rounded-pill px-2 py-0" style="font-size: 0.68rem;">
+                                    {{ job.category or 'General' }}
+                                </span>
+                            </div>
+                            <div class="job-card-title">{{ job.title }}</div>
+                            <div class="job-card-company">
+                                <i class="far fa-building text-muted"></i> {{ job.company }} &bull;
+                                <i class="fas fa-map-marker-alt text-danger ms-1"></i> {{ job.location or 'Remote' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="job-meta-box">
+                        <div class="job-meta-row">
+                            <span class="text-muted"><i class="fas fa-user-edit me-1"></i> Submitted By:</span>
+                            <span class="fw-bold text-dark">{{ job.posted_by_name or 'Alumni Member' }} ({{ (job.poster_role or 'alumni')|upper }})</span>
+                        </div>
+                        <div class="job-meta-row">
+                            <span class="text-muted"><i class="far fa-calendar-times me-1"></i> Deadline:</span>
+                            <span class="font-monospace text-secondary">{{ job.deadline or 'Open Ended' }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Pending Actions -->
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-sm btn-success rounded-pill fw-bold flex-grow-1 py-2" onclick="approveJob({{ job.id }})">
+                            <i class="fas fa-check-circle me-1"></i> Authorize &amp; Publish
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger rounded-pill fw-bold px-3 py-2" onclick="rejectJobPrompt({{ job.id }})">
+                            <i class="fas fa-times me-1"></i> Reject
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pending Table (Desktop View) -->
+            <div class="admin-table-wrapper d-none d-md-block" id="pendingJobsTableWrap">
                 <table class="admin-table" id="pendingJobTable">
                     <thead>
                         <tr>
-                            <th>Job Information & Company</th>
+                            <th>Job Information &amp; Company</th>
                             <th>Posted By</th>
                             <th>Target Role</th>
                             <th>Application Deadline</th>
@@ -105,11 +640,12 @@
                         <tr id="pendingRow{{ job.id }}">
                             <td>
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="rounded-4 d-grid place-items-center fw-bold text-primary bg-primary bg-opacity-10 border" style="width: 44px; height: 44px; font-size: 1.1rem; flex-shrink: 0;">
+                                    <div class="job-logo-box" style="width: 42px; height: 42px; font-size: 1.1rem;">
                                         {% if job.company_logo %}
-                                        <img src="{{ job.company_logo }}" alt="Logo" class="rounded-4 w-100 h-100 object-fit-cover">
+                                        <img src="{{ job.company_logo }}" alt="Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                        <span style="display: none;">{{ (job.company or 'J')[0]|upper }}</span>
                                         {% else %}
-                                        {{ (job.company or 'J')[0]|upper }}
+                                        <span>{{ (job.company or 'J')[0]|upper }}</span>
                                         {% endif %}
                                     </div>
                                     <div>
@@ -150,77 +686,309 @@
         </div>
         {% endif %}
 
-        <!-- 3. Filter Dock -->
+        <!-- 4. Command Control & Filters Dock -->
         <div class="admin-card p-3 p-md-4 mb-4">
-            <div class="row g-3 align-items-center">
-                <div class="col-12 col-md-5">
-                    <div class="admin-filter-bar mb-0">
+            <div class="d-flex flex-column gap-3">
+                <!-- Row 1: Search & Quick Actions -->
+                <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center justify-content-between gap-3">
+                    <div class="admin-filter-bar mb-0 flex-grow-1 position-relative">
                         <i class="fas fa-search text-muted ps-2"></i>
-                        <input type="text" id="jobSearch" class="admin-filter-input" placeholder="Query jobs by title, company, or domain...">
+                        <input type="text" id="jobSearch" class="admin-filter-input" placeholder="Search by title, company, skills, or location..." autocomplete="off">
+                        <button type="button" id="clearSearchBtn" class="btn btn-link text-muted p-0 position-absolute end-0 top-50 translate-middle-y me-3 d-none" onclick="clearSearchInput()" title="Clear search">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <!-- View Switcher (Cards vs Table) -->
+                        <div class="d-flex align-items-center bg-light p-1 rounded-3 border">
+                            <button type="button" class="view-switch-btn active" id="btnViewCards" onclick="switchJobView('cards')" title="Card View (Mobile Optimized)">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button type="button" class="view-switch-btn" id="btnViewTable" onclick="switchJobView('table')" title="Dense Table View">
+                                <i class="fas fa-table-list"></i>
+                            </button>
+                        </div>
+
+                        <button class="btn btn-outline-secondary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2" onclick="location.reload()" title="Refresh records">
+                            <i class="fas fa-sync-alt"></i> <span class="d-none d-sm-inline">Refresh</span>
+                        </button>
+                        <button class="btn btn-primary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2 shadow-sm" onclick="exportJobsToCSV()" title="Download CSV">
+                            <i class="fas fa-file-csv"></i> <span>Export CSV</span>
+                        </button>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <select class="admin-select" id="roleFilter">
-                        <option value="all">Every Domain</option>
-                        <option value="Technology">Technology</option>
-                        <option value="Design">Design</option>
-                        <option value="Business">Business</option>
-                        <option value="Marketing">Marketing</option>
-                    </select>
+
+                <!-- Row 2: Mobile-First Quick Filter Chips Track -->
+                <div class="job-chips-track">
+                    <button type="button" class="job-chip-btn active" data-filter="all" onclick="filterByChip('all')">
+                        <i class="fas fa-layer-group"></i> All Opportunities <span class="job-chip-badge">{{ jobs|length }}</span>
+                    </button>
+                    <button type="button" class="job-chip-btn" data-filter="active" onclick="filterByChip('active')">
+                        <i class="fas fa-check-circle text-success"></i> Active Only <span class="job-chip-badge">{{ stats.active if stats else 0 }}</span>
+                    </button>
+                    <button type="button" class="job-chip-btn" data-filter="remote" onclick="filterByChip('remote')">
+                        <i class="fas fa-laptop-house text-info"></i> Remote Only
+                    </button>
+                    <button type="button" class="job-chip-btn" data-filter="technology" onclick="filterByChip('Technology')">
+                        <i class="fas fa-code text-primary"></i> Technology
+                    </button>
+                    <button type="button" class="job-chip-btn" data-filter="business" onclick="filterByChip('Business')">
+                        <i class="fas fa-chart-line text-warning"></i> Business &amp; Mgmt
+                    </button>
+                    <button type="button" class="job-chip-btn" data-filter="design" onclick="filterByChip('Design')">
+                        <i class="fas fa-palette text-danger"></i> Design
+                    </button>
+                    <button type="button" class="job-chip-btn" data-filter="inactive" onclick="filterByChip('inactive')">
+                        <i class="fas fa-pause-circle text-secondary"></i> Paused
+                    </button>
                 </div>
-                <div class="col-6 col-md-2">
-                    <select class="admin-select" id="statusFilter">
-                        <option value="all">All States</option>
-                        <option value="active">Active Only</option>
-                        <option value="inactive">Inactive Only</option>
-                    </select>
-                </div>
-                <div class="col-12 col-md-2 text-md-end">
-                    <a href="{{ url_for('admin_add_job') }}" class="admin-btn-pill admin-btn-primary w-100 justify-content-center">
-                        <i class="fas fa-plus"></i> Post Job
-                    </a>
+
+                <!-- Row 3: Secondary Filters & Sort Dropdowns -->
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 pt-2 border-top">
+                    <div class="d-flex align-items-center gap-2 flex-wrap flex-grow-1">
+                        <!-- Category Filter Select -->
+                        <div class="d-flex align-items-center gap-1">
+                            <span class="text-muted extra-small fw-bold text-uppercase" style="font-size: 0.72rem;">Category:</span>
+                            <select id="filterCategorySelect" class="form-select form-select-sm rounded-pill border-secondary border-opacity-25 fw-semibold" style="width: auto; min-width: 135px;" onchange="applyJobFilters()">
+                                <option value="all">All Domains</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Business">Business</option>
+                                <option value="Design">Design</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Finance">Finance</option>
+                            </select>
+                        </div>
+
+                        <!-- Mode Filter Select -->
+                        <div class="d-flex align-items-center gap-1">
+                            <span class="text-muted extra-small fw-bold text-uppercase" style="font-size: 0.72rem;">Work Mode:</span>
+                            <select id="filterModeSelect" class="form-select form-select-sm rounded-pill border-secondary border-opacity-25 fw-semibold" style="width: auto; min-width: 125px;" onchange="applyJobFilters()">
+                                <option value="all">All Modes</option>
+                                <option value="Remote">Remote</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="Onsite">Onsite</option>
+                            </select>
+                        </div>
+
+                        <!-- Status Filter Select -->
+                        <div class="d-flex align-items-center gap-1">
+                            <span class="text-muted extra-small fw-bold text-uppercase" style="font-size: 0.72rem;">Status:</span>
+                            <select id="filterStatusSelect" class="form-select form-select-sm rounded-pill border-secondary border-opacity-25 fw-semibold" style="width: auto; min-width: 125px;" onchange="applyJobFilters()">
+                                <option value="all">All States</option>
+                                <option value="active">Active Only</option>
+                                <option value="inactive">Paused Only</option>
+                            </select>
+                        </div>
+
+                        <!-- Sort Select -->
+                        <div class="d-flex align-items-center gap-1">
+                            <span class="text-muted extra-small fw-bold text-uppercase" style="font-size: 0.72rem;">Sort:</span>
+                            <select id="sortJobSelect" class="form-select form-select-sm rounded-pill border-secondary border-opacity-25 fw-semibold" style="width: auto; min-width: 135px;" onchange="applyJobSorting()">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="title_asc">Title (A-Z)</option>
+                                <option value="company_asc">Company (A-Z)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-bold" id="totalJobsCountBadge">
+                            {{ jobs|length }} Total Records
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 4. Active Job Listings Table -->
+        <!-- 5. Active Job Listings Section -->
         <div class="admin-card">
             <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
                 <div>
-                    <h3 class="fw-bold mb-1" style="font-size: 1.25rem; color: var(--adm-slate-900);">Active Employment Postings</h3>
-                    <p class="text-muted small mb-0">Monitor open vacancies, edit listings, and manage visibility toggles.</p>
+                    <h3 class="fw-bold mb-1" style="font-size: 1.25rem; color: var(--adm-slate-900);">Active Employment Directory</h3>
+                    <p class="text-muted small mb-0">Publish openings, manage visibility switches, and monitor applicant channels.</p>
                 </div>
-                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-bold" id="jobTotalBadge">
-                    {{ jobs|length }} Total Posting{{ 's' if jobs|length != 1 else '' }}
-                </span>
+                <a href="{{ url_for('admin_add_job') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1">
+                    <i class="fas fa-plus"></i> Post Opportunity
+                </a>
             </div>
 
             {% if jobs %}
-            <div class="admin-table-wrapper">
-                <table class="admin-table">
+            <!-- A. CARDS VIEW (Mobile & Tablet Optimized) -->
+            <div id="jobsCardsWrap" class="job-cards-grid">
+                {% for job in jobs %}
+                <div class="adm-job-card job-item-node {% if not job.is_active %}inactive-card{% endif %}"
+                     id="job-card-{{ job.id }}"
+                     data-id="{{ job.id }}"
+                     data-title="{{ (job.title or '')|e }}"
+                     data-company="{{ (job.company or '')|e }}"
+                     data-category="{{ job.category or 'General' }}"
+                     data-mode="{{ job.work_mode or 'Onsite' }}"
+                     data-employment="{{ job.employment_type or 'Full-time' }}"
+                     data-status="{{ 'active' if job.is_active else 'inactive' }}"
+                     data-salary="{{ job.salary or job.ctc_range or 'Disclosed on request' }}"
+                     data-location="{{ job.location or 'Remote' }}"
+                     data-openings="{{ job.openings or '1' }}"
+                     data-apply="{{ job.apply_link or '' }}"
+                     data-deadline="{{ job.deadline or 'Open Ended' }}"
+                     data-skills="{{ job.required_skills or job.skills_required or '' }}"
+                     data-description="{{ (job.description or '')|e }}"
+                     data-created="{{ job.created_at or '' }}">
+
+                    <div>
+                        <!-- Card Head -->
+                        <div class="job-card-head">
+                            <div class="job-logo-box">
+                                {% if job.company_logo %}
+                                <img src="{{ job.company_logo }}" alt="{{ job.company }} logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <span style="display: none;">{{ (job.company or 'J')[0]|upper }}</span>
+                                {% else %}
+                                <span>{{ (job.company or 'J')[0]|upper }}</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="job-card-info">
+                                <div class="d-flex align-items-center justify-content-between gap-1 mb-1">
+                                    <span class="badge bg-light text-secondary border rounded-pill px-2 py-0 fw-bold" style="font-size: 0.68rem;">
+                                        {{ job.category or 'General' }}
+                                    </span>
+                                    
+                                    <span class="job-status-pill {{ 'job-status-active' if job.is_active else 'job-status-paused' }}" id="statusBadgeCard{{ job.id }}">
+                                        <i class="fas {{ 'fa-circle text-success' if job.is_active else 'fa-pause-circle text-secondary' }}" style="font-size: 0.55rem;"></i>
+                                        <span>{{ 'Active' if job.is_active else 'Paused' }}</span>
+                                    </span>
+                                </div>
+
+                                <div class="job-card-title" title="{{ job.title }}">{{ job.title }}</div>
+                                <div class="job-card-company" title="{{ job.company }}">
+                                    <i class="far fa-building"></i> {{ job.company }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Meta Details -->
+                        <div class="job-meta-box">
+                            <div class="job-meta-row">
+                                <span class="text-muted"><i class="fas fa-money-bill-wave text-success me-1"></i> Package / CTC:</span>
+                                <span class="fw-bold font-monospace text-success">{{ job.salary or job.ctc_range or 'Competitive' }}</span>
+                            </div>
+
+                            <div class="job-meta-row">
+                                <span class="text-muted"><i class="fas fa-map-marker-alt text-danger me-1"></i> Location:</span>
+                                <span class="fw-semibold text-dark text-truncate ps-2" style="max-width: 180px;">{{ job.location or 'Remote' }}</span>
+                            </div>
+
+                            <div class="job-meta-row">
+                                <span class="text-muted"><i class="fas fa-briefcase me-1"></i> Type &amp; Mode:</span>
+                                <div class="d-flex align-items-center gap-1">
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-2 py-0" style="font-size: 0.68rem;">
+                                        {{ job.employment_type or 'Full-time' }}
+                                    </span>
+                                    <span class="badge {{ 'pill-mode-remote' if job.work_mode == 'Remote' else ('pill-mode-hybrid' if job.work_mode == 'Hybrid' else 'pill-mode-onsite') }} rounded-pill px-2 py-0" style="font-size: 0.68rem;">
+                                        {{ job.work_mode or 'Onsite' }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="job-meta-row">
+                                <span class="text-muted"><i class="far fa-calendar-alt me-1"></i> Deadline:</span>
+                                <span class="font-monospace text-secondary">{{ job.deadline or 'Open Ended' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Action Deck -->
+                    <div class="job-card-actions">
+                        <!-- Live Visibility Toggle Switch -->
+                        <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light border mb-1">
+                            <span class="small fw-bold text-dark d-flex align-items-center gap-1">
+                                <i class="fas fa-eye text-muted"></i> Portal Visibility:
+                            </span>
+                            <div class="form-check form-switch m-0">
+                                <input class="form-check-input status-toggle-input" type="checkbox" role="switch" data-job-id="{{ job.id }}" {% if job.is_active %}checked{% endif %} style="cursor: pointer; width: 2.3em; height: 1.25em;">
+                            </div>
+                        </div>
+
+                        <!-- Primary Row (Inspect + Edit) -->
+                        <div class="job-action-btn-row">
+                            <button type="button" class="job-btn-action job-btn-inspect" onclick="openJobInspectModal({{ job.id }})" title="Quick Inspect Dossier">
+                                <i class="fas fa-id-card"></i>
+                                <span><span class="d-none d-sm-inline">Quick </span>Inspect</span>
+                            </button>
+
+                            <a href="{{ url_for('admin_edit_job', job_id=job.id) }}" class="job-btn-action job-btn-edit" title="Edit Job Details">
+                                <i class="fas fa-edit"></i>
+                                <span><span class="d-none d-sm-inline">Edit </span>Posting</span>
+                            </a>
+                        </div>
+
+                        <!-- Secondary Row (Apply Link / Share + Delete) -->
+                        <div class="job-action-sub-row">
+                            {% if job.apply_link %}
+                            <a href="{{ job.apply_link }}" target="_blank" rel="noopener noreferrer" class="job-btn-action job-btn-apply" title="Open Application Link">
+                                <i class="fas fa-external-link-alt"></i>
+                                <span>Apply Portal</span>
+                            </a>
+                            {% else %}
+                            <button type="button" class="job-btn-action job-btn-apply" onclick="copyJobShare({{ job.id }}, '{{ job.title|e }}', '{{ job.company|e }}')" title="Share Job Info">
+                                <i class="fas fa-share-alt"></i>
+                                <span>Share Listing</span>
+                            </button>
+                            {% endif %}
+
+                            <!-- Delete Job Action -->
+                            <form action="{{ url_for('admin_delete_job', job_id=job.id) }}" method="POST" onsubmit="return confirm('Permanently remove this job posting ({{ job.title|e }}) from the portal?');" style="margin: 0;">
+                                <button type="submit" class="job-btn-delete" title="Purge Job Listing">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- B. DENSE TABLE VIEW (Desktop Optimized) -->
+            <div id="jobsTableWrap" class="admin-table-wrapper d-none">
+                <table class="admin-table" id="jobsTable">
                     <thead>
                         <tr>
-                            <th>Job Title & Organization</th>
+                            <th>Job Title &amp; Organization</th>
                             <th>Category</th>
-                            <th>Employment & Mode</th>
-                            <th>Package & Location</th>
+                            <th>Employment &amp; Mode</th>
+                            <th>Package &amp; Location</th>
                             <th>Openings</th>
                             <th>Visibility</th>
-                            <th class="text-end">Actions</th>
+                            <th class="text-end">Administrative Controls</th>
                         </tr>
                     </thead>
                     <tbody id="jobTableBody">
                         {% for job in jobs %}
-                        <tr class="job-item-row" data-title="{{ (job.title or '') | lower }}"
-                            data-company="{{ (job.company or '') | lower }}" data-category="{{ job.category }}"
-                            data-status="{{ 'active' if job.is_active else 'inactive' }}">
+                        <tr class="job-item-node" id="job-row-{{ job.id }}"
+                            data-id="{{ job.id }}"
+                            data-title="{{ (job.title or '')|lower }}"
+                            data-company="{{ (job.company or '')|lower }}"
+                            data-category="{{ job.category or 'General' }}"
+                            data-mode="{{ job.work_mode or 'Onsite' }}"
+                            data-employment="{{ job.employment_type or 'Full-time' }}"
+                            data-status="{{ 'active' if job.is_active else 'inactive' }}"
+                            data-salary="{{ job.salary or job.ctc_range or 'Disclosed on request' }}"
+                            data-location="{{ job.location or 'Remote' }}"
+                            data-openings="{{ job.openings or '1' }}"
+                            data-apply="{{ job.apply_link or '' }}"
+                            data-deadline="{{ job.deadline or 'Open Ended' }}"
+                            data-skills="{{ job.required_skills or job.skills_required or '' }}"
+                            data-description="{{ (job.description or '')|e }}"
+                            data-created="{{ job.created_at or '' }}">
                             <td>
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="rounded-4 d-grid place-items-center fw-bold text-primary bg-primary bg-opacity-10 border" style="width: 44px; height: 44px; font-size: 1.1rem; flex-shrink: 0;">
+                                    <div class="job-logo-box" style="width: 42px; height: 42px; font-size: 1.1rem;">
                                         {% if job.company_logo %}
-                                        <img src="{{ job.company_logo }}" alt="Logo" class="rounded-4 w-100 h-100 object-fit-cover">
+                                        <img src="{{ job.company_logo }}" alt="Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                        <span style="display: none;">{{ (job.company or 'J')[0]|upper }}</span>
                                         {% else %}
-                                        {{ (job.company or 'J')[0]|upper }}
+                                        <span>{{ (job.company or 'J')[0]|upper }}</span>
                                         {% endif %}
                                     </div>
                                     <div>
@@ -239,7 +1007,7 @@
                                 </span>
                             </td>
                             <td>
-                                <div class="fw-bold text-success small font-monospace">{{ job.salary or 'Disclosed upon request' }}</div>
+                                <div class="fw-bold text-success small font-monospace">{{ job.salary or job.ctc_range or 'Competitive' }}</div>
                                 <div class="text-muted extra-small" style="font-size: 0.74rem;">
                                     <i class="fas fa-map-marker-alt me-1 text-danger"></i> {{ job.location or 'Remote' }}
                                 </div>
@@ -255,10 +1023,13 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-2 justify-content-end align-items-center">
+                                    <button type="button" class="btn btn-sm btn-outline-info rounded-circle d-grid place-items-center" onclick="openJobInspectModal({{ job.id }})" style="width: 36px; height: 36px;" title="Quick Inspect">
+                                        <i class="fas fa-id-card"></i>
+                                    </button>
                                     <a href="{{ url_for('admin_edit_job', job_id=job.id) }}" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-primary" style="width: 36px; height: 36px;" title="Edit Job Details">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="{{ url_for('admin_delete_job', job_id=job.id) }}" method="POST" onsubmit="return confirm('Permanently remove this job posting from the portal?');" style="display: inline;">
+                                    <form action="{{ url_for('admin_delete_job', job_id=job.id) }}" method="POST" onsubmit="return confirm('Permanently remove this job posting from the portal?');" style="display: inline; margin: 0;">
                                         <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center" style="width: 36px; height: 36px;" title="Delete Job">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
@@ -271,20 +1042,24 @@
                 </table>
             </div>
 
+            <!-- Empty Search Results Placeholder -->
             <div id="noJobResults" class="admin-empty-state d-none py-5">
                 <i class="fas fa-briefcase fa-3x text-muted opacity-50 mb-3 d-block"></i>
                 <h5 class="fw-bold text-dark">No Matching Opportunities Found</h5>
-                <p class="text-muted small">No jobs match your search criteria. Try modifying your filter keywords.</p>
+                <p class="text-muted small mb-3">No vacancy matches your search query or selected filters.</p>
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4 btn-sm fw-bold" onclick="resetAllJobFilters()">
+                    <i class="fas fa-undo me-1"></i> Reset Filters &amp; Search
+                </button>
             </div>
             {% else %}
-            <!-- Empty Jobs -->
-            <div class="admin-empty-state">
+            <!-- Empty Portal Records -->
+            <div class="admin-empty-state py-5">
                 <div class="empty-state-icon">
                     <i class="fas fa-briefcase"></i>
                 </div>
                 <h3 class="fw-bold text-dark mb-2" style="font-family: 'Outfit', sans-serif;">No Job Postings Yet</h3>
                 <p class="text-muted mx-auto mb-4" style="max-width: 480px;">
-                    Your recruitment portal currently has no active vacancy listings. Click below to create your first opportunity listing.
+                    Your recruitment portal currently has no active vacancy listings. Click below to publish your first opportunity listing.
                 </p>
                 <a href="{{ url_for('admin_add_job') }}" class="admin-btn-pill admin-btn-primary">
                     <i class="fas fa-plus"></i> Post Your First Vacancy
@@ -295,58 +1070,301 @@
     </div>
 </div>
 
+<!-- 6. Quick Job Dossier Inspection Modal (Native Bottom Sheet on Phones) -->
+<div class="modal fade" id="jobInspectModal" tabindex="-1" aria-labelledby="jobInspectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 24px; overflow: hidden;">
+            <div class="modal-header border-0 pb-0 pt-3 px-4 position-relative d-flex flex-column align-items-center" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 90px;">
+                <div class="modal-sheet-drag-handle d-md-none"></div>
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4 pt-0 pb-4">
+                <div class="d-flex justify-content-center" style="margin-top: -45px; margin-bottom: 12px;">
+                    <div id="modalJobLogoWrap" class="job-logo-box shadow-lg" style="width: 72px; height: 72px; font-size: 2rem; border-width: 3px; border-color: #ffffff;">
+                        <!-- Logo or Initial -->
+                    </div>
+                </div>
+
+                <div class="text-center mb-3">
+                    <h4 class="fw-bold text-dark mb-1" id="modalJobTitle">Job Title</h4>
+                    <p class="text-muted small fw-semibold mb-2" id="modalJobCompany">Company Name</p>
+                    <div class="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                        <span id="modalJobCategory" class="badge rounded-pill px-3 py-1 fw-bold bg-primary bg-opacity-10 text-primary">CATEGORY</span>
+                        <span id="modalJobMode" class="badge rounded-pill px-3 py-1 fw-bold bg-success bg-opacity-10 text-success">MODE</span>
+                        <span id="modalJobStatus" class="badge rounded-pill px-3 py-1 fw-bold bg-secondary bg-opacity-10 text-secondary">STATUS</span>
+                    </div>
+                </div>
+
+                <!-- Attributes Grid -->
+                <div class="p-3 rounded-4 bg-light mb-3 border">
+                    <div class="row g-2 small">
+                        <div class="col-6 col-sm-3 text-muted">Compensation:</div>
+                        <div class="col-6 col-sm-3 fw-bold font-monospace text-success text-end text-sm-start" id="modalJobSalary">Competitive</div>
+
+                        <div class="col-6 col-sm-3 text-muted">Location:</div>
+                        <div class="col-6 col-sm-3 fw-semibold text-dark text-end text-sm-start text-truncate" id="modalJobLocation">Remote</div>
+
+                        <div class="col-6 col-sm-3 text-muted">Employment Type:</div>
+                        <div class="col-6 col-sm-3 fw-semibold text-dark text-end text-sm-start" id="modalJobEmployment">Full-time</div>
+
+                        <div class="col-6 col-sm-3 text-muted">Openings:</div>
+                        <div class="col-6 col-sm-3 fw-semibold text-dark text-end text-sm-start" id="modalJobOpenings">1</div>
+
+                        <div class="col-6 col-sm-3 text-muted">Application Deadline:</div>
+                        <div class="col-6 col-sm-3 font-monospace text-secondary text-end text-sm-start" id="modalJobDeadline">Open Ended</div>
+
+                        <div class="col-6 col-sm-3 text-muted">Listing ID:</div>
+                        <div class="col-6 col-sm-3 font-monospace text-dark text-end text-sm-start" id="modalJobId">#0</div>
+                    </div>
+                </div>
+
+                <!-- Skills Required -->
+                <div class="mb-3" id="modalSkillsSection">
+                    <h6 class="fw-bold small text-muted text-uppercase mb-2">Required Competencies &amp; Skills:</h6>
+                    <div class="d-flex flex-wrap gap-1" id="modalJobSkills">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- Job Description -->
+                <div class="mb-4">
+                    <h6 class="fw-bold small text-muted text-uppercase mb-2">Job Description &amp; Responsibilities:</h6>
+                    <div class="p-3 rounded-3 bg-white border small text-secondary" id="modalJobDescription" style="max-height: 200px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6;">
+                        <!-- Description -->
+                    </div>
+                </div>
+
+                <!-- Modal Action Footer -->
+                <div class="d-flex gap-2 justify-content-center flex-wrap" id="modalJobActions">
+                    <!-- Dynamic Buttons -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notifications Container -->
+<div id="admToastContainer"></div>
+
 <script>
+// Jobs Dataset & State
+let currentJobsData = [];
+
 document.addEventListener('DOMContentLoaded', function () {
-    // 1. Live Filter Logic
+    extractJobsData();
+    initJobFilterEvents();
+    initStatusToggleSwitches();
+
+    // Auto-activate card view on mobile
+    if (window.innerWidth < 768) {
+        switchJobView('cards');
+    }
+});
+
+// Extract jobs data from server-rendered rows
+function extractJobsData() {
+    const nodes = document.querySelectorAll('.job-item-node');
+    currentJobsData = Array.from(nodes).map(node => ({
+        id: node.dataset.id,
+        title: node.dataset.title,
+        company: node.dataset.company,
+        category: node.dataset.category || 'General',
+        mode: node.dataset.mode || 'Onsite',
+        employment: node.dataset.employment || 'Full-time',
+        status: node.dataset.status || 'active',
+        salary: node.dataset.salary || 'Competitive',
+        location: node.dataset.location || 'Remote',
+        openings: node.dataset.openings || '1',
+        apply: node.dataset.apply || '',
+        deadline: node.dataset.deadline || 'Open Ended',
+        skills: node.dataset.skills || '',
+        description: node.dataset.description || '',
+        created: node.dataset.created || '',
+        cardEl: document.getElementById(`job-card-${node.dataset.id}`),
+        rowEl: document.getElementById(`job-row-${node.dataset.id}`)
+    }));
+}
+
+// Switch View: Cards vs Table
+function switchJobView(mode) {
+    const cardsWrap = document.getElementById('jobsCardsWrap');
+    const tableWrap = document.getElementById('jobsTableWrap');
+    const btnCards = document.getElementById('btnViewCards');
+    const btnTable = document.getElementById('btnViewTable');
+
+    if (mode === 'cards') {
+        if (cardsWrap) cardsWrap.classList.remove('d-none');
+        if (tableWrap) tableWrap.classList.add('d-none');
+        if (btnCards) btnCards.classList.add('active');
+        if (btnTable) btnTable.classList.remove('active');
+    } else {
+        if (cardsWrap) cardsWrap.classList.add('d-none');
+        if (tableWrap) tableWrap.classList.remove('d-none');
+        if (btnCards) btnCards.classList.remove('active');
+        if (btnTable) btnTable.classList.add('active');
+    }
+}
+
+// Filter Engine
+function initJobFilterEvents() {
     const searchInput = document.getElementById('jobSearch');
-    const roleFilter = document.getElementById('roleFilter');
-    const statusFilter = document.getElementById('statusFilter');
-    const rows = document.querySelectorAll('.job-item-row');
-    const noResults = document.getElementById('noJobResults');
-    const totalBadge = document.getElementById('jobTotalBadge');
+    const clearBtn = document.getElementById('clearSearchBtn');
 
-    function filterTable() {
-        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
-        const role = roleFilter ? roleFilter.value : 'all';
-        const status = statusFilter ? statusFilter.value : 'all';
-        let matchCount = 0;
-
-        rows.forEach(row => {
-            const title = row.dataset.title || '';
-            const company = row.dataset.company || '';
-            const category = row.dataset.category || '';
-            const itemStatus = row.dataset.status || '';
-
-            const matchesQuery = query === '' || title.includes(query) || company.includes(query);
-            const matchesRole = role === 'all' || category === role;
-            const matchesStatus = status === 'all' || itemStatus === status;
-
-            if (matchesQuery && matchesRole && matchesStatus) {
-                row.style.display = '';
-                matchCount++;
-            } else {
-                row.style.display = 'none';
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            if (clearBtn) {
+                clearBtn.classList.toggle('d-none', this.value.trim() === '');
             }
+            applyJobFilters();
         });
+    }
+}
 
-        if (totalBadge) totalBadge.textContent = `${matchCount} Opportunities`;
-        if (noResults) {
-            if (matchCount === 0 && rows.length > 0) {
-                noResults.classList.remove('d-none');
-            } else {
-                noResults.classList.add('d-none');
-            }
+function clearSearchInput() {
+    const searchInput = document.getElementById('jobSearch');
+    const clearBtn = document.getElementById('clearSearchBtn');
+    if (searchInput) {
+        searchInput.value = '';
+        if (clearBtn) clearBtn.classList.add('d-none');
+        applyJobFilters();
+        searchInput.focus();
+    }
+}
+
+function filterByChip(filterKey) {
+    const catSelect = document.getElementById('filterCategorySelect');
+    const statusSelect = document.getElementById('filterStatusSelect');
+    const modeSelect = document.getElementById('filterModeSelect');
+
+    // Reset dropdowns
+    if (catSelect) catSelect.value = 'all';
+    if (statusSelect) statusSelect.value = 'all';
+    if (modeSelect) modeSelect.value = 'all';
+
+    if (filterKey === 'active') {
+        if (statusSelect) statusSelect.value = 'active';
+    } else if (filterKey === 'inactive') {
+        if (statusSelect) statusSelect.value = 'inactive';
+    } else if (filterKey === 'remote') {
+        if (modeSelect) modeSelect.value = 'Remote';
+    } else if (filterKey === 'pending') {
+        // Scroll smoothly to pending section if exists
+        const pendingSec = document.getElementById('pendingSection');
+        if (pendingSec) {
+            pendingSec.scrollIntoView({ behavior: 'smooth' });
+            showToast('Showing pending corporate submissions queue', 'info');
+            return;
+        } else {
+            showToast('No pending corporate submissions at this time', 'info');
         }
+    } else if (filterKey !== 'all') {
+        if (catSelect) catSelect.value = filterKey;
     }
 
-    if (searchInput) searchInput.addEventListener('input', filterTable);
-    if (roleFilter) roleFilter.addEventListener('change', filterTable);
-    if (statusFilter) statusFilter.addEventListener('change', filterTable);
+    // Sync chip active state
+    document.querySelectorAll('.job-chip-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === filterKey);
+    });
 
-    // 2. Real-Time Status Toggle
+    // Sync KPI card active state
+    document.querySelectorAll('.job-kpi-card').forEach(card => {
+        card.classList.remove('active-kpi');
+    });
+    if (filterKey === 'all') document.getElementById('kpiCardAll')?.classList.add('active-kpi');
+    if (filterKey === 'active') document.getElementById('kpiCardActive')?.classList.add('active-kpi');
+    if (filterKey === 'inactive') document.getElementById('kpiCardInactive')?.classList.add('active-kpi');
+
+    applyJobFilters();
+}
+
+function applyJobFilters() {
+    const searchInput = document.getElementById('jobSearch');
+    const catSelect = document.getElementById('filterCategorySelect');
+    const statusSelect = document.getElementById('filterStatusSelect');
+    const modeSelect = document.getElementById('filterModeSelect');
+    const badge = document.getElementById('totalJobsCountBadge');
+    const noResults = document.getElementById('noJobResults');
+
+    const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+    const catFilter = catSelect ? catSelect.value : 'all';
+    const statusFilter = statusSelect ? statusSelect.value : 'all';
+    const modeFilter = modeSelect ? modeSelect.value : 'all';
+
+    let matchCount = 0;
+
+    currentJobsData.forEach(item => {
+        let matchesQuery = true;
+        if (query) {
+            const haystack = `${item.title} ${item.company} ${item.category} ${item.location} ${item.skills} ${item.salary}`.toLowerCase();
+            matchesQuery = haystack.includes(query);
+        }
+
+        let matchesCat = (catFilter === 'all' || item.category.toLowerCase() === catFilter.toLowerCase());
+        let matchesStatus = (statusFilter === 'all' || item.status === statusFilter);
+        let matchesMode = (modeFilter === 'all' || item.mode.toLowerCase() === modeFilter.toLowerCase());
+
+        const isVisible = matchesQuery && matchesCat && matchesStatus && matchesMode;
+
+        if (item.cardEl) item.cardEl.style.display = isVisible ? '' : 'none';
+        if (item.rowEl) item.rowEl.style.display = isVisible ? '' : 'none';
+
+        if (isVisible) matchCount++;
+    });
+
+    if (badge) {
+        badge.textContent = `${matchCount} Opportunit${matchCount !== 1 ? 'ies' : 'y'}`;
+    }
+
+    if (noResults) {
+        noResults.classList.toggle('d-none', matchCount > 0);
+    }
+}
+
+function resetAllJobFilters() {
+    clearSearchInput();
+    const catSelect = document.getElementById('filterCategorySelect');
+    const statusSelect = document.getElementById('filterStatusSelect');
+    const modeSelect = document.getElementById('filterModeSelect');
+    if (catSelect) catSelect.value = 'all';
+    if (statusSelect) statusSelect.value = 'all';
+    if (modeSelect) modeSelect.value = 'all';
+
+    document.querySelectorAll('.job-chip-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === 'all');
+    });
+    document.getElementById('kpiCardAll')?.classList.add('active-kpi');
+
+    applyJobFilters();
+}
+
+// Sorting Engine
+function applyJobSorting() {
+    const sortSelect = document.getElementById('sortJobSelect');
+    const mode = sortSelect ? sortSelect.value : 'newest';
+    const cardsWrap = document.getElementById('jobsCardsWrap');
+    const tableBody = document.getElementById('jobTableBody');
+
+    currentJobsData.sort((a, b) => {
+        if (mode === 'newest') return Number(b.id) - Number(a.id);
+        if (mode === 'oldest') return Number(a.id) - Number(b.id);
+        if (mode === 'title_asc') return a.title.localeCompare(b.title);
+        if (mode === 'company_asc') return a.company.localeCompare(b.company);
+        return 0;
+    });
+
+    currentJobsData.forEach(item => {
+        if (cardsWrap && item.cardEl) cardsWrap.appendChild(item.cardEl);
+        if (tableBody && item.rowEl) tableBody.appendChild(item.rowEl);
+    });
+}
+
+// Live Status Toggle Switch
+function initStatusToggleSwitches() {
     document.querySelectorAll('.status-toggle-input').forEach(toggle => {
         toggle.addEventListener('change', async function () {
             const jobId = this.dataset.jobId;
+            const isChecked = this.checked;
+
             try {
                 const response = await fetch(`/api/admin/jobs/toggle/${jobId}`, {
                     method: 'POST',
@@ -354,37 +1372,60 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 const data = await response.json();
                 if (data.success) {
-                    const row = this.closest('tr');
-                    if (row) row.dataset.status = data.new_status ? 'active' : 'inactive';
+                    const newStatus = data.new_status ? 'active' : 'inactive';
+                    showToast(`Job #${jobId} visibility: ${data.new_status ? 'Active' : 'Paused'}`, data.new_status ? 'success' : 'info');
+
+                    // Sync card
+                    const card = document.getElementById(`job-card-${jobId}`);
+                    if (card) {
+                        card.dataset.status = newStatus;
+                        card.classList.toggle('inactive-card', !data.new_status);
+                        const statusBadge = document.getElementById(`statusBadgeCard${jobId}`);
+                        if (statusBadge) {
+                            statusBadge.className = `job-status-pill ${data.new_status ? 'job-status-active' : 'job-status-paused'}`;
+                            statusBadge.innerHTML = `<i class="fas ${data.new_status ? 'fa-circle text-success' : 'fa-pause-circle text-secondary'}" style="font-size: 0.55rem;"></i> <span>${data.new_status ? 'Active' : 'Paused'}</span>`;
+                        }
+                    }
+
+                    // Sync row
+                    const row = document.getElementById(`job-row-${jobId}`);
+                    if (row) row.dataset.status = newStatus;
+
+                    // Update memory state
+                    const found = currentJobsData.find(j => j.id == jobId);
+                    if (found) found.status = newStatus;
                 } else {
-                    this.checked = !this.checked;
+                    this.checked = !isChecked;
                     alert('Error: Unable to update job status.');
                 }
             } catch (err) {
-                this.checked = !this.checked;
+                this.checked = !isChecked;
                 console.error('Job sync failure:', err);
             }
         });
     });
-});
+}
 
-// 3. Approval Handlers
+// Approval & Rejection Handlers (Pending corporate submissions)
 async function approveJob(jobId) {
+    if (!confirm(`Authorize and publish Job Posting #${jobId} to the campus portal?`)) return;
     try {
         const res = await fetch(`/admin/jobs/approve/${jobId}`, { method: 'POST' });
         const data = await res.json();
         if (data.success) {
+            showToast('Job listing approved and published live!', 'success');
             const row = document.getElementById(`pendingRow${jobId}`);
-            if (row) {
-                row.style.transition = 'all 0.3s ease';
-                row.style.opacity = '0';
-                setTimeout(() => {
-                    row.remove();
-                    location.reload();
-                }, 300);
-            }
+            const card = document.getElementById(`pendingCard${jobId}`);
+            [row, card].forEach(el => {
+                if (el) {
+                    el.style.transition = 'all 0.3s ease';
+                    el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 300);
+                }
+            });
+            setTimeout(() => location.reload(), 600);
         } else {
-            alert('Approval failed. Please retry.');
+            alert('Approval failed: ' + (data.message || 'Server error'));
         }
     } catch (e) {
         alert('Server Error: ' + e.message);
@@ -392,7 +1433,7 @@ async function approveJob(jobId) {
 }
 
 async function rejectJobPrompt(jobId) {
-    const reason = prompt('Rejection reason (optional):') ?? '';
+    const reason = prompt('Specify rejection reason (optional):') ?? '';
     try {
         const res = await fetch(`/admin/jobs/reject/${jobId}`, {
             method: 'POST',
@@ -401,18 +1442,151 @@ async function rejectJobPrompt(jobId) {
         });
         const data = await res.json();
         if (data.success) {
+            showToast('Job posting rejected and removed from review queue.', 'danger');
             const row = document.getElementById(`pendingRow${jobId}`);
-            if (row) {
-                row.style.transition = 'all 0.3s ease';
-                row.style.opacity = '0';
-                setTimeout(() => row.remove(), 300);
-            }
+            const card = document.getElementById(`pendingCard${jobId}`);
+            [row, card].forEach(el => {
+                if (el) {
+                    el.style.transition = 'all 0.3s ease';
+                    el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 300);
+                }
+            });
         } else {
             alert('Rejection failed.');
         }
     } catch (e) {
         alert('Server Error: ' + e.message);
     }
+}
+
+// Quick Dossier Inspection Modal
+function openJobInspectModal(jobId) {
+    const job = currentJobsData.find(j => j.id == jobId);
+    if (!job) return;
+
+    document.getElementById('modalJobTitle').textContent = job.title;
+    document.getElementById('modalJobCompany').textContent = job.company;
+    document.getElementById('modalJobCategory').textContent = job.category.toUpperCase();
+    document.getElementById('modalJobMode').textContent = job.mode.toUpperCase();
+    document.getElementById('modalJobSalary').textContent = job.salary;
+    document.getElementById('modalJobLocation').textContent = job.location;
+    document.getElementById('modalJobEmployment').textContent = job.employment;
+    document.getElementById('modalJobOpenings').textContent = job.openings;
+    document.getElementById('modalJobDeadline').textContent = job.deadline;
+    document.getElementById('modalJobId').textContent = `#${job.id}`;
+
+    const statusBadge = document.getElementById('modalJobStatus');
+    if (statusBadge) {
+        statusBadge.textContent = job.status === 'active' ? 'ACTIVE & PUBLISHED' : 'PAUSED';
+        statusBadge.className = `badge rounded-pill px-3 py-1 fw-bold ${job.status === 'active' ? 'bg-success text-white' : 'bg-secondary text-white'}`;
+    }
+
+    // Logo
+    const logoWrap = document.getElementById('modalJobLogoWrap');
+    if (logoWrap) {
+        logoWrap.innerHTML = `<span>${(job.company || 'J').charAt(0).toUpperCase()}</span>`;
+    }
+
+    // Skills
+    const skillsContainer = document.getElementById('modalJobSkills');
+    const skillsSection = document.getElementById('modalSkillsSection');
+    if (job.skills && job.skills.trim()) {
+        if (skillsSection) skillsSection.classList.remove('d-none');
+        const tags = job.skills.split(',').map(s => s.trim()).filter(Boolean);
+        skillsContainer.innerHTML = tags.map(tag => `<span class="badge bg-primary bg-opacity-10 text-primary border rounded-pill px-3 py-1 small fw-semibold">${tag}</span>`).join(' ');
+    } else {
+        if (skillsSection) skillsSection.classList.add('d-none');
+    }
+
+    // Description
+    const descEl = document.getElementById('modalJobDescription');
+    if (descEl) {
+        descEl.textContent = job.description || 'No detailed job description provided.';
+    }
+
+    // Action buttons
+    const actionsBox = document.getElementById('modalJobActions');
+    if (actionsBox) {
+        actionsBox.innerHTML = `
+            <a href="/admin/jobs/edit/${job.id}" class="btn btn-primary rounded-pill px-4 fw-bold">
+                <i class="fas fa-edit me-1"></i> Edit Posting
+            </a>
+            ${job.apply ? `<a href="${job.apply}" target="_blank" rel="noopener" class="btn btn-success rounded-pill px-4 fw-bold"><i class="fas fa-external-link-alt me-1"></i> Apply Link</a>` : ''}
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Close</button>
+        `;
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById('jobInspectModal'));
+    modal.show();
+}
+
+// Share / Copy Job
+function copyJobShare(jobId, title, company) {
+    const text = `Job Opening: ${title} at ${company}. View details on Alumni Hub Portal.`;
+    navigator.clipboard.writeText(text).then(() => {
+        showToast(`Copied job information to clipboard!`, 'info');
+    }).catch(() => {
+        prompt('Copy job info:', text);
+    });
+}
+
+// Client-Side CSV Exporter
+function exportJobsToCSV() {
+    if (!currentJobsData || currentJobsData.length === 0) {
+        alert('No job postings available to export.');
+        return;
+    }
+
+    const headers = ['Listing ID', 'Job Title', 'Company', 'Category', 'Employment Type', 'Work Mode', 'Compensation', 'Location', 'Openings', 'Status', 'Deadline', 'Apply Link'];
+    const rows = currentJobsData.map(j => [
+        j.id,
+        `"${j.title.replace(/"/g, '""')}"`,
+        `"${j.company.replace(/"/g, '""')}"`,
+        `"${j.category.replace(/"/g, '""')}"`,
+        `"${j.employment}"`,
+        `"${j.mode}"`,
+        `"${j.salary.replace(/"/g, '""')}"`,
+        `"${j.location.replace(/"/g, '""')}"`,
+        j.openings,
+        j.status.toUpperCase(),
+        `"${j.deadline}"`,
+        `"${j.apply}"`
+    ]);
+
+    let csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `alumni_hub_jobs_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showToast('Opportunity matrix CSV exported successfully!', 'success');
+}
+
+// Toast Notifications
+function showToast(message, type = 'info') {
+    const container = document.getElementById('admToastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'adm-toast';
+
+    let icon = 'fas fa-info-circle text-info';
+    if (type === 'success') icon = 'fas fa-check-circle text-success';
+    if (type === 'danger') icon = 'fas fa-exclamation-triangle text-danger';
+
+    toast.innerHTML = `<i class="${icon}"></i> <span>${message}</span>`;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.transition = 'all 0.3s ease';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 300);
+    }, 3200);
 }
 </script>
 {% endblock %}
