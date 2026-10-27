@@ -1,43 +1,90 @@
 {% extends "base.html" %}
 
-{% block title %}Messaging Governance • Real-Time Chat & Broadcast Control{% endblock %}
+{% block title %}Messaging Governance & Community Group Desk • Executive Control Console{% endblock %}
 
 {% block content %}
-<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<!-- Google Fonts & Design Tokens -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
 <style>
-    .metric-badge-counter {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: clamp(1.8rem, 3.2vw, 2.3rem);
-        font-weight: 800;
-        line-height: 1;
-        margin-bottom: 4px;
+/* ========================================================
+   MESSAGING GOVERNANCE & COMMUNITY DESK STYLES
+   ======================================================== */
+.mc-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.mc-feed-box {
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 4px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mc-feed-item {
+    background: #ffffff;
+    border: 1.5px solid rgba(2, 132, 199, 0.12);
+    border-radius: 18px;
+    padding: 14px 16px;
+    transition: all 0.2s ease;
+}
+.mc-feed-item:hover {
+    border-color: #38bdf8;
+    box-shadow: 0 8px 24px -6px rgba(2, 132, 199, 0.12);
+    transform: translateY(-1px);
+}
+
+.mc-approval-card {
+    background: #ffffff;
+    border: 1.5px solid rgba(2, 132, 199, 0.14);
+    border-radius: 18px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: all 0.2s ease;
+}
+.mc-approval-card:hover {
+    border-color: var(--adm-blue);
+    box-shadow: 0 8px 20px -6px rgba(15, 23, 42, 0.08);
+}
+
+.mc-lock-card {
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.mc-lock-card.is-locked {
+    border: 2px solid #ef4444 !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%) !important;
+}
+.mc-lock-card.is-active {
+    border: 2px solid #10b981 !important;
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%) !important;
+}
+
+@media (max-width: 767.98px) {
+    .mc-approval-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
     }
-    .msg-feed-container {
-        max-height: 480px;
-        overflow-y: auto;
-        padding-right: 6px;
+    .mc-approval-actions {
+        width: 100%;
+        display: flex;
+        gap: 8px;
     }
-    .msg-feed-card {
-        background: #f8fafc;
-        border: 1px solid var(--adm-slate-200);
-        border-radius: 18px;
-        padding: 16px 18px;
-        transition: all 0.2s ease;
+    .mc-approval-actions button {
+        flex: 1;
     }
-    .msg-feed-card:hover {
-        background: #ffffff;
-        border-color: #38bdf8;
-        box-shadow: 0 8px 20px -6px rgba(2, 132, 199, 0.12);
-    }
-    .suspended-item {
-        background: #fff8f8;
-        border: 1px solid rgba(239, 68, 68, 0.2);
-        border-radius: 16px;
-        padding: 14px 16px;
-    }
+}
 </style>
 
 <div class="admin-page-wrapper">
@@ -52,146 +99,214 @@
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
                 <div class="admin-live-badge mb-0">
                     <span class="live-pulse-dot"></span>
-                    <span>MESSAGING GATEWAY • TELEMETRY & MODERATION CONSOLE</span>
+                    <span>MESSAGING GATEWAY • TELEMETRY & COMMUNITY GOVERNANCE</span>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex flex-wrap gap-2">
                     <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
                         <i class="fas fa-th-large"></i> Command Center
                     </a>
-                    <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="btn btn-success btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1 shadow-sm">
-                        <i class="fab fa-whatsapp"></i> WhatsApp Console
+                    <a href="{{ url_for('community_group') }}" target="_blank" class="btn btn-success btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1 shadow-sm">
+                        <i class="fab fa-whatsapp"></i> Live Community Group
+                    </a>
+                    <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1">
+                        <i class="fas fa-bullhorn"></i> Broadcast Desk
                     </a>
                 </div>
             </div>
 
             <h1 class="admin-hero-title mb-2">
-                <span class="hero-title-prefix">Community Communication</span> <span class="text-holographic-adm">Governance</span>
+                <span class="hero-title-prefix">Institutional</span> <span class="text-holographic-adm">Messaging Governance</span>
             </h1>
             <p class="admin-hero-subtitle mb-4">
-                Real-time supervision over campus discussion channels, emergency global channel freeze protocols, broadcast transmissions, and community moderation sanctions.
+                Real-time supervision over community group channels, emergency global freeze protocols (kills group & 1-on-1 chats), member admissions approval, and public stream redaction.
             </p>
 
             <!-- Telemetry Matrix Counters -->
             <div class="row g-3 pt-2">
-                <div class="col-6 col-md-4">
+                <div class="col-6 col-md-3">
                     <div class="admin-hero-stat-box">
-                        <span class="admin-hero-stat-label" style="color: #38bdf8 !important;">Public Messages</span>
-                        <div class="admin-hero-stat-val metric-badge-counter" id="publicMsgCount" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">--</div>
-                        <div class="admin-hero-stat-sub">Global channel broadcasts</div>
+                        <span class="admin-hero-stat-label" style="color: #38bdf8 !important;">Public / Group</span>
+                        <div class="admin-hero-stat-val mc-counter" id="publicMsgCount" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">--</div>
+                        <div class="admin-hero-stat-sub">Broadcasted entries</div>
                     </div>
                 </div>
-                <div class="col-6 col-md-4">
+                <div class="col-6 col-md-3">
                     <div class="admin-hero-stat-box">
-                        <span class="admin-hero-stat-label" style="color: #fbbf24 !important;">Direct Messages</span>
-                        <div class="admin-hero-stat-val metric-badge-counter" id="privateMsgCount" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">--</div>
-                        <div class="admin-hero-stat-sub">1-on-1 alumni mentorships</div>
+                        <span class="admin-hero-stat-label" style="color: #fbbf24 !important;">Direct 1-on-1</span>
+                        <div class="admin-hero-stat-val mc-counter" id="privateMsgCount" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">--</div>
+                        <div class="admin-hero-stat-sub">Peer-to-peer discussions</div>
                     </div>
                 </div>
-                <div class="col-12 col-md-4">
+                <div class="col-6 col-md-3">
                     <div class="admin-hero-stat-box">
-                        <span class="admin-hero-stat-label" style="color: #34d399 !important;">Active Threads</span>
-                        <div class="admin-hero-stat-val metric-badge-counter" id="conversationCount" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">--</div>
-                        <div class="admin-hero-stat-sub">Established channel networks</div>
+                        <span class="admin-hero-stat-label" style="color: #34d399 !important;">Community Members</span>
+                        <div class="admin-hero-stat-val mc-counter" id="communityMembersCount" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">--</div>
+                        <div class="admin-hero-stat-sub">Approved group participants</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="admin-hero-stat-box">
+                        <span class="admin-hero-stat-label" style="color: #f43f5e !important;">Pending Join Requests</span>
+                        <div class="admin-hero-stat-val mc-counter" id="pendingJoinCount" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">0</div>
+                        <div class="admin-hero-stat-sub">Awaiting admin verification</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 2. Dual Moderation Column (Lock Controller & Sanctions) -->
+        <!-- 2. Dual Moderation Ribbon (Emergency Lock + Community Approvals) -->
         <div class="row g-4 mb-4">
-            <!-- Left: Global Emergency Lock Controller -->
+            <!-- Left: Global Emergency Messaging Lock -->
             <div class="col-12 col-lg-6">
-                <div class="admin-card h-100">
+                <div class="admin-card h-100 mc-lock-card" id="lockCardElement">
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         <div class="d-flex align-items-center gap-2">
-                            <span class="rounded-3 p-2 bg-primary bg-opacity-10 text-primary d-grid place-items-center" style="width: 40px; height: 40px;">
+                            <span class="rounded-3 p-2 bg-primary bg-opacity-10 text-primary d-grid place-items-center" style="width: 42px; height: 42px; font-size: 1.15rem;">
                                 <i class="fas fa-shield-alt"></i>
                             </span>
                             <div>
-                                <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.15rem;">Emergency Channel Lock</h4>
-                                <small class="text-muted">Global messaging kill-switch protocol</small>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.15rem;">Emergency Messaging Lock</h4>
+                                <small class="text-muted">Universal freeze protocol (Group & 1-on-1)</small>
                             </div>
                         </div>
-                        <span id="lockBadge" class="badge rounded-pill px-3 py-2 fw-bold" style="font-size: 0.75rem;">
+                        <span id="lockBadge" class="badge rounded-pill px-3 py-2 fw-bold" style="font-size: 0.78rem;">
                             SYNCING...
                         </span>
                     </div>
 
-                    <div class="p-3 rounded-4 bg-light border mb-3">
+                    <p class="text-muted small mb-3">
+                        When locked, <strong>no student, alumni, or faculty</strong> can send community group messages or private 1-on-1 direct messages. Only administrators retain communication rights.
+                    </p>
+
+                    <div class="p-3 rounded-4 bg-white border mb-3 shadow-sm">
                         <div class="row g-2 text-muted small">
                             <div class="col-6">
                                 <span class="fw-bold d-block text-dark">Locked By:</span>
                                 <span id="lockedByValue" class="font-monospace">-</span>
                             </div>
                             <div class="col-6">
-                                <span class="fw-bold d-block text-dark">Timestamp:</span>
-                                <span id="lockedAtValue" class="font-monospace">N/A</span>
+                                <span class="fw-bold d-block text-dark">Lockdown Timestamp:</span>
+                                <span id="lockedAtValue" class="font-monospace">Normal Operations</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="admin-form-group">
-                        <label class="admin-form-label">Action Reason / Lockdown Note</label>
+                    <div class="admin-form-group mb-3">
+                        <label class="admin-form-label"><i class="fas fa-sticky-note text-primary me-1"></i> Lock Reason / Public Announcement</label>
                         <input type="text" id="lockReason" class="admin-input" placeholder="e.g. Scheduled platform maintenance or code of conduct review...">
                     </div>
 
-                    <div class="d-flex gap-2">
-                        <button id="lockBtn" class="btn btn-danger rounded-pill fw-bold px-4 py-2 flex-fill d-inline-flex align-items-center justify-content-center gap-2" onclick="lockMessaging()">
-                            <i class="fas fa-lock"></i> Freeze Messaging
+                    <div class="d-flex flex-wrap gap-2">
+                        <button id="lockBtn" class="btn btn-danger rounded-pill fw-bold px-4 py-2 flex-fill d-inline-flex align-items-center justify-content-center gap-2 shadow-sm" onclick="lockMessaging()">
+                            <i class="fas fa-lock"></i> <span>Freeze All Messaging</span>
                         </button>
-                        <button id="unlockBtn" class="btn btn-success rounded-pill fw-bold px-4 py-2 flex-fill d-inline-flex align-items-center justify-content-center gap-2" onclick="unlockMessaging()">
-                            <i class="fas fa-lock-open"></i> Restore Operations
+                        <button id="unlockBtn" class="btn btn-success rounded-pill fw-bold px-4 py-2 flex-fill d-inline-flex align-items-center justify-content-center gap-2 shadow-sm" onclick="unlockMessaging()">
+                            <i class="fas fa-lock-open"></i> <span>Restore Operations</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Right: Moderation Sanctions (Suspended Users) -->
+            <!-- Right: Community Group Member Admissions Desk -->
             <div class="col-12 col-lg-6">
                 <div class="admin-card h-100">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
                         <div class="d-flex align-items-center gap-2">
-                            <span class="rounded-3 p-2 bg-danger bg-opacity-10 text-danger d-grid place-items-center" style="width: 40px; height: 40px;">
-                                <i class="fas fa-user-slash"></i>
+                            <span class="rounded-3 p-2 bg-success bg-opacity-10 text-success d-grid place-items-center" style="width: 42px; height: 42px; font-size: 1.15rem;">
+                                <i class="fab fa-whatsapp"></i>
                             </span>
                             <div>
-                                <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.15rem;">Suspended Accounts</h4>
-                                <small class="text-muted">Users restricted from community discussions</small>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.15rem;">Community Admissions</h4>
+                                <small class="text-muted">Verify & approve requests to join group</small>
                             </div>
                         </div>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-bold" onclick="loadSuspendedUsers()">
-                            <i class="fas fa-sync-alt me-1"></i> Refresh
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-bold" onclick="loadCommunityRequests()">
+                                <i class="fas fa-sync-alt me-1"></i> Refresh
+                            </button>
+                            <a href="{{ url_for('community_group') }}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold" title="Open WhatsApp Group Chat">
+                                <i class="fas fa-external-link-alt"></i> Chat
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Filter Pill Bar -->
+                    <div class="d-flex gap-2 mb-3">
+                        <button type="button" class="btn btn-sm btn-dark rounded-pill px-3 fw-bold" id="tabRequestsBtn" onclick="showCommunityTab('requests')">
+                            Pending Requests (<span id="tabPendingBadge">0</span>)
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold" id="tabMembersBtn" onclick="showCommunityTab('members')">
+                            Active Members (<span id="tabMembersBadge">0</span>)
                         </button>
                     </div>
 
-                    <div id="suspendedUsersList" class="d-flex flex-column gap-2" style="max-height: 240px; overflow-y: auto;">
-                        <p class="text-center py-4 text-muted small font-monospace">Scanning restriction registries...</p>
+                    <!-- Container A: Pending Requests List -->
+                    <div id="communityRequestsList" class="d-flex flex-column gap-2" style="max-height: 280px; overflow-y: auto;">
+                        <div class="text-center py-4 text-muted small font-monospace">
+                            <i class="fas fa-circle-notch fa-spin me-1 text-primary"></i> Loading join requests...
+                        </div>
+                    </div>
+
+                    <!-- Container B: Approved Members List (Initially Hidden) -->
+                    <div id="communityMembersList" class="d-flex flex-column gap-2 d-none" style="max-height: 280px; overflow-y: auto;">
+                        <div class="text-center py-4 text-muted small font-monospace">
+                            <i class="fas fa-circle-notch fa-spin me-1 text-primary"></i> Loading member registry...
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 3. Live Public Message Stream & Redaction Desk -->
-        <div class="admin-card">
-            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
-                <div>
-                    <h3 class="fw-bold mb-1 text-dark" style="font-size: 1.25rem;">Live Discussion Stream & Redaction Desk</h3>
-                    <p class="text-muted small mb-0">Audit recent messages in public channels. Delete non-compliant or flagged posts.</p>
-                </div>
-                <div class="d-flex gap-2 align-items-center">
-                    <button id="toggleHiddenBtn" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-2 fw-bold" onclick="toggleViewHidden()">
-                        <i class="fas fa-eye-slash me-1"></i> Show Hidden Messages
-                    </button>
-                    <button class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-bold" onclick="loadPublicMessages()">
-                        <i class="fas fa-sync-alt me-1"></i> Refresh Stream
-                    </button>
+        <!-- 3. Lower Row: Live Discussion Stream & Moderation Sanctions -->
+        <div class="row g-4">
+            <!-- Left: Live Public Message Stream & Redaction Desk -->
+            <div class="col-12 col-lg-8">
+                <div class="admin-card h-100">
+                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4 pb-2 border-bottom">
+                        <div>
+                            <h3 class="fw-bold mb-1 text-dark" style="font-size: 1.2rem;">Live Discussion Stream & Redaction Desk</h3>
+                            <p class="text-muted small mb-0">Audit recent messages in community channels. Delete non-compliant or flagged posts.</p>
+                        </div>
+                        <div class="d-flex gap-2 align-items-center">
+                            <button id="toggleHiddenBtn" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-2 fw-bold" onclick="toggleViewHidden()">
+                                <i class="fas fa-eye-slash me-1"></i> Flagged
+                            </button>
+                            <button class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-bold" onclick="loadPublicMessages()">
+                                <i class="fas fa-sync-alt me-1"></i> Refresh Stream
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Messages Scroll Box -->
+                    <div id="messagesList" class="mc-feed-box d-flex flex-column gap-2">
+                        <div class="text-center py-5 text-muted font-monospace">
+                            <i class="fas fa-circle-notch fa-spin me-2 text-primary"></i> Connecting to community stream...
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Messages Scroll Box -->
-            <div id="messagesList" class="msg-feed-container d-flex flex-column gap-2">
-                <div class="text-center py-5 text-muted font-monospace">
-                    <i class="fas fa-circle-notch fa-spin me-2 text-primary"></i> Connecting to message bus...
+            <!-- Right: Suspended Accounts Desk -->
+            <div class="col-12 col-lg-4">
+                <div class="admin-card h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="rounded-3 p-2 bg-danger bg-opacity-10 text-danger d-grid place-items-center" style="width: 38px; height: 38px;">
+                                <i class="fas fa-user-slash"></i>
+                            </span>
+                            <div>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.05rem;">Sanctioned Users</h4>
+                                <small class="text-muted">Privileges suspended</small>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-bold" onclick="loadSuspendedUsers()">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+
+                    <div id="suspendedUsersList" class="d-flex flex-column gap-2" style="max-height: 400px; overflow-y: auto;">
+                        <p class="text-center py-4 text-muted small font-monospace">Scanning restriction registries...</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -201,15 +316,21 @@
 <script>
 let viewingHidden = false;
 let isLocked = false;
+let currentCommunityTab = 'requests';
 
 document.addEventListener('DOMContentLoaded', () => {
     refreshLockStatus();
     refreshStatistics();
+    loadCommunityRequests();
     loadPublicMessages();
     loadSuspendedUsers();
-    setInterval(() => { refreshStatistics(); refreshLockStatus(); }, 15000);
+    setInterval(() => { 
+        refreshStatistics(); 
+        refreshLockStatus(); 
+    }, 15000);
 });
 
+// Refresh Emergency Lock Status
 function refreshLockStatus() {
     fetch('/api/admin/messaging/status')
     .then(r => r.json())
@@ -218,45 +339,63 @@ function refreshLockStatus() {
         const badge = document.getElementById('lockBadge');
         const lockBtn = document.getElementById('lockBtn');
         const unlockBtn = document.getElementById('unlockBtn');
+        const cardEl = document.getElementById('lockCardElement');
 
         if (isLocked) {
-            badge.className = 'badge rounded-pill bg-danger text-white px-3 py-2 fw-bold';
-            badge.innerHTML = '<i class="fas fa-lock me-1"></i> CHAT LOCKED';
+            badge.className = 'badge rounded-pill bg-danger text-white px-3 py-2 fw-bold shadow-sm';
+            badge.innerHTML = '<i class="fas fa-lock me-1"></i> CHAT FROZEN (LOCKED)';
             lockBtn.disabled = true;
             unlockBtn.disabled = false;
             document.getElementById('lockedByValue').textContent = data.locked_by || 'ADMIN';
-            document.getElementById('lockedAtValue').textContent = data.locked_at ? new Date(data.locked_at).toLocaleTimeString() : 'RECENT';
+            document.getElementById('lockedAtValue').textContent = data.locked_at ? new Date(data.locked_at).toLocaleString() : 'ACTIVE LOCK';
+            if (cardEl) {
+                cardEl.classList.add('is-locked');
+                cardEl.classList.remove('is-active');
+            }
         } else {
-            badge.className = 'badge rounded-pill bg-success bg-opacity-15 text-success border border-success border-opacity-25 px-3 py-2 fw-bold';
+            badge.className = 'badge rounded-pill bg-success text-white px-3 py-2 fw-bold shadow-sm';
             badge.innerHTML = '<i class="fas fa-check-circle me-1"></i> OPERATIONAL';
             lockBtn.disabled = false;
             unlockBtn.disabled = true;
             document.getElementById('lockedByValue').textContent = '-';
-            document.getElementById('lockedAtValue').textContent = 'Normal Activity';
+            document.getElementById('lockedAtValue').textContent = 'Normal Operations';
+            if (cardEl) {
+                cardEl.classList.remove('is-locked');
+                cardEl.classList.add('is-active');
+            }
         }
     })
     .catch(err => console.warn('Lock status notice:', err));
 }
 
+// Lock Messaging
 function lockMessaging() {
     const reason = document.getElementById('lockReason').value.trim();
-    if (!confirm('CONFIRM GLOBAL FREEZE:\n\nLock public messaging across all student and alumni channels?')) return;
+    if (!confirm('CONFIRM GLOBAL MESSAGING FREEZE:\n\nThis will instantly lock ALL public channels, Community Groups, and private 1-on-1 direct chats across all students, alumni, and faculty.\n\nProceed?')) return;
 
     fetch('/api/admin/messaging/lock', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reason })
-    }).then(() => {
+    }).then(r => r.json()).then(res => {
         refreshLockStatus();
         document.getElementById('lockReason').value = '';
+        alert('All messaging channels have been FROZEN successfully.');
     });
 }
 
+// Unlock Messaging
 function unlockMessaging() {
+    if (!confirm('RESTORE MESSAGING OPERATIONS:\n\nAllow students, alumni, and faculty to resume community and private direct messaging?')) return;
+
     fetch('/api/admin/messaging/unlock', { method: 'POST' })
-    .then(() => refreshLockStatus());
+    .then(r => r.json()).then(res => {
+        refreshLockStatus();
+        alert('Messaging system has been restored to OPERATIONAL status.');
+    });
 }
 
+// Refresh Statistics
 function refreshStatistics() {
     fetch('/api/admin/messaging/statistics')
     .then(r => r.json())
@@ -264,26 +403,193 @@ function refreshStatistics() {
         if (data.statistics) {
             document.getElementById('publicMsgCount').textContent = data.statistics.total_public_messages ?? '0';
             document.getElementById('privateMsgCount').textContent = data.statistics.total_private_messages ?? '0';
-            document.getElementById('conversationCount').textContent = data.statistics.total_conversations ?? '0';
+            document.getElementById('communityMembersCount').textContent = data.statistics.community_members_count ?? '0';
+            document.getElementById('pendingJoinCount').textContent = data.statistics.community_pending_count ?? '0';
+            document.getElementById('tabPendingBadge').textContent = data.statistics.community_pending_count ?? '0';
+            document.getElementById('tabMembersBadge').textContent = data.statistics.community_members_count ?? '0';
         }
     })
     .catch(err => console.warn('Telemetry notice:', err));
 }
 
+// Toggle Community Tabs (Requests vs Active Members)
+function showCommunityTab(tab) {
+    currentCommunityTab = tab;
+    const reqBtn = document.getElementById('tabRequestsBtn');
+    const memBtn = document.getElementById('tabMembersBtn');
+    const reqList = document.getElementById('communityRequestsList');
+    const memList = document.getElementById('communityMembersList');
+
+    if (tab === 'requests') {
+        reqBtn.className = 'btn btn-sm btn-dark rounded-pill px-3 fw-bold';
+        memBtn.className = 'btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold';
+        reqList.classList.remove('d-none');
+        memList.classList.add('d-none');
+        loadCommunityRequests();
+    } else {
+        reqBtn.className = 'btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold';
+        memBtn.className = 'btn btn-sm btn-dark rounded-pill px-3 fw-bold';
+        reqList.classList.add('d-none');
+        memList.classList.remove('d-none');
+        loadCommunityMembers();
+    }
+}
+
+// Load Pending Join Requests
+function loadCommunityRequests() {
+    fetch('/api/admin/community-group/requests')
+    .then(r => r.json())
+    .then(data => {
+        const list = document.getElementById('communityRequestsList');
+        if (!data.requests || data.requests.length === 0) {
+            list.innerHTML = '<div class="text-center py-4 text-muted small"><i class="fas fa-check-circle text-success me-1"></i> No pending join requests.</div>';
+            return;
+        }
+
+        list.innerHTML = '';
+        data.requests.forEach(req => {
+            const card = document.createElement('div');
+            card.className = 'mc-approval-card';
+            card.innerHTML = `
+                <div class="d-flex align-items-center gap-3">
+                    <div class="user-avatar-node-wrap" style="width: 38px; height: 38px; border-radius: 50%;">
+                        <div class="avatar-initials-badge avatar-initials-${req.role}" style="font-size: 0.95rem; border-radius: 50%;">
+                            ${(req.name || 'U').charAt(0).toUpperCase()}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark small mb-0">${escapeHtml(req.name)}</div>
+                        <div class="text-muted extra-small font-monospace">${escapeHtml(req.email)} • <span class="badge bg-light text-muted border">${(req.role || 'USER').toUpperCase()}</span></div>
+                        <div class="text-muted extra-small">${new Date(req.requested_at).toLocaleDateString()}</div>
+                    </div>
+                </div>
+                <div class="mc-approval-actions d-flex gap-2">
+                    <button class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-bold extra-small" onclick="approveMember(${req.user_id}, '${escapeHtml(req.name)}')">
+                        <i class="fas fa-check me-1"></i> Approve
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-bold extra-small" onclick="rejectMember(${req.user_id}, '${escapeHtml(req.name)}')">
+                        <i class="fas fa-times me-1"></i> Reject
+                    </button>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    })
+    .catch(err => console.warn('Community requests error:', err));
+}
+
+// Approve Member
+function approveMember(userId, name) {
+    fetch('/api/admin/community-group/approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId })
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.success) {
+            loadCommunityRequests();
+            refreshStatistics();
+        } else {
+            alert(res.message || 'Error approving user');
+        }
+    });
+}
+
+// Reject Member
+function rejectMember(userId, name) {
+    if (!confirm(`Reject join request for ${name}?`)) return;
+
+    fetch('/api/admin/community-group/reject', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId })
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.success) {
+            loadCommunityRequests();
+            refreshStatistics();
+        } else {
+            alert(res.message || 'Error rejecting user');
+        }
+    });
+}
+
+// Load Approved Members
+function loadCommunityMembers() {
+    fetch('/api/admin/community-group/members')
+    .then(r => r.json())
+    .then(data => {
+        const list = document.getElementById('communityMembersList');
+        if (!data.members || data.members.length === 0) {
+            list.innerHTML = '<div class="text-center py-4 text-muted small">No approved community members yet.</div>';
+            return;
+        }
+
+        list.innerHTML = '';
+        data.members.forEach(mem => {
+            const card = document.createElement('div');
+            card.className = 'mc-approval-card';
+            card.innerHTML = `
+                <div class="d-flex align-items-center gap-3">
+                    <div class="user-avatar-node-wrap" style="width: 38px; height: 38px; border-radius: 50%;">
+                        <div class="avatar-initials-badge avatar-initials-${mem.role}" style="font-size: 0.95rem; border-radius: 50%;">
+                            ${(mem.name || 'U').charAt(0).toUpperCase()}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark small mb-0">${escapeHtml(mem.name)}</div>
+                        <div class="text-muted extra-small">${escapeHtml(mem.email)} • <span class="badge bg-light text-muted border">${(mem.role || 'USER').toUpperCase()}</span></div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-bold extra-small" onclick="removeMember(${mem.user_id}, '${escapeHtml(mem.name)}')">
+                        <i class="fas fa-user-minus me-1"></i> Remove
+                    </button>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    })
+    .catch(err => console.warn('Community members error:', err));
+}
+
+// Remove Member
+function removeMember(userId, name) {
+    if (!confirm(`Remove ${name} from the Community Group?`)) return;
+
+    fetch('/api/admin/community-group/remove-member', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId })
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.success) {
+            loadCommunityMembers();
+            refreshStatistics();
+        } else {
+            alert(res.message || 'Error removing member');
+        }
+    });
+}
+
+// Load Public & Community Stream Messages
 function loadPublicMessages() {
     const includeHidden = viewingHidden ? 'true' : 'false';
     fetch(`/api/admin/messaging/public-messages?include_hidden=${includeHidden}&limit=100`)
     .then(r => r.json())
     .then(data => {
         const list = document.getElementById('messagesList');
-        if (!data.messages?.length) {
+        if (!data.messages || data.messages.length === 0) {
             list.innerHTML = '<p class="text-center py-5 text-muted font-monospace">NO_MESSAGES_LOGGED</p>';
             return;
         }
         list.innerHTML = '';
         data.messages.forEach(msg => {
             const card = document.createElement('div');
-            card.className = 'msg-feed-card d-flex align-items-start justify-content-between gap-3';
+            card.className = 'mc-feed-item d-flex align-items-start justify-content-between gap-3';
             card.innerHTML = `
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
@@ -293,7 +599,7 @@ function loadPublicMessages() {
                         </span>
                         ${msg.is_hidden ? '<span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-2" style="font-size: 0.65rem;">[FLAGGED HIDDEN]</span>' : ''}
                     </div>
-                    <div class="text-secondary small" style="line-height: 1.5;">${escapeHtml(msg.content)}</div>
+                    <div class="text-secondary small" style="line-height: 1.5; white-space: pre-wrap;">${escapeHtml(msg.content)}</div>
                 </div>
                 <button class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center flex-shrink-0" style="width: 34px; height: 34px;" title="Redact Message" onclick="deleteMessage(${msg.id})">
                     <i class="fas fa-trash-alt" style="font-size: 0.8rem;"></i>
@@ -307,7 +613,7 @@ function loadPublicMessages() {
 
 function toggleViewHidden() {
     viewingHidden = !viewingHidden;
-    document.getElementById('toggleHiddenBtn').innerHTML = viewingHidden ? '<i class="fas fa-eye me-1"></i> Show Active Only' : '<i class="fas fa-eye-slash me-1"></i> Show Hidden Messages';
+    document.getElementById('toggleHiddenBtn').innerHTML = viewingHidden ? '<i class="fas fa-eye me-1"></i> Show Active Only' : '<i class="fas fa-eye-slash me-1"></i> Flagged';
     loadPublicMessages();
 }
 
@@ -317,30 +623,31 @@ function deleteMessage(id) {
     }
 }
 
+// Suspended Users Handling
 function loadSuspendedUsers() {
     fetch('/api/admin/messaging/suspended-users')
     .then(r => r.json())
     .then(data => {
         const list = document.getElementById('suspendedUsersList');
-        if (!data.users?.length) {
+        if (!data.users || data.users.length === 0) {
             list.innerHTML = '<div class="text-center py-4 text-muted small"><i class="fas fa-check-circle text-success me-1"></i> Zero sanctioned accounts detected.</div>';
             return;
         }
         list.innerHTML = '';
         data.users.forEach(u => {
             const card = document.createElement('div');
-            card.className = 'suspended-item d-flex align-items-center justify-content-between gap-2';
+            card.className = 'mc-approval-card';
             card.innerHTML = `
                 <div class="d-flex align-items-center gap-2">
                     <div class="rounded-circle d-grid place-items-center bg-danger bg-opacity-10 text-danger fw-bold" style="width: 32px; height: 32px; font-size: 0.8rem;">
-                        ${u.name.substring(0, 2).toUpperCase()}
+                        ${(u.name || 'U').substring(0, 2).toUpperCase()}
                     </div>
                     <div>
                         <div class="fw-bold text-dark small mb-0">${escapeHtml(u.name)}</div>
-                        <span class="badge bg-secondary bg-opacity-10 text-secondary" style="font-size: 0.65rem;">${u.role.toUpperCase()}</span>
+                        <span class="badge bg-secondary bg-opacity-10 text-secondary extra-small">${(u.role || 'USER').toUpperCase()}</span>
                     </div>
                 </div>
-                <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold" style="font-size: 0.75rem;" onclick="unsuspendUser(${u.id})">
+                <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold extra-small" onclick="unsuspendUser(${u.id})">
                     <i class="fas fa-undo me-1"></i> Restore
                 </button>
             `;

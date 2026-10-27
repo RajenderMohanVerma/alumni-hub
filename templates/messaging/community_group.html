@@ -1,0 +1,691 @@
+{% extends "base.html" %}
+
+{% block title %}Community Group • Alumni Hub WhatsApp Chat{% endblock %}
+
+{% block content %}
+<!-- Google Fonts & Luxury Tokens -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
+
+<!-- Socket.IO CDN -->
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
+<style>
+/* ========================================================
+   WHATSAPP COMMUNITY GROUP CHAT - HIGH FIDELITY DESIGN
+   ======================================================== */
+:root {
+    --wp-header: #075e54;
+    --wp-header-dark: #054c44;
+    --wp-accent: #25d366;
+    --wp-bg-chat: #efeae2;
+    --wp-bubble-in: #ffffff;
+    --wp-bubble-out: #d9fdd3;
+    --wp-bubble-shadow: 0 1px 1.5px rgba(11, 20, 26, 0.13);
+}
+
+.cg-wrapper {
+    min-height: calc(100vh - 145px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-bottom: 2rem;
+}
+
+.cg-window {
+    width: 100%;
+    max-width: 960px;
+    height: 82vh;
+    min-height: 580px;
+    background: var(--wp-bg-chat);
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 18px 45px -10px rgba(15, 23, 42, 0.18);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+/* Header */
+.cg-header {
+    background: var(--wp-header);
+    color: #ffffff;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+.cg-header-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.cg-header-info {
+    flex-grow: 1;
+    margin-left: 12px;
+    cursor: pointer;
+}
+.cg-header-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.cg-header-subtitle {
+    font-size: 0.76rem;
+    opacity: 0.88;
+    margin: 0;
+}
+
+/* Chat Canvas */
+.cg-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1.5px, transparent 1.5px);
+    background-size: 20px 20px;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* System Banner / Encrypted Notice */
+.cg-system-pill {
+    align-self: center;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    color: #475569;
+    font-weight: 600;
+    text-align: center;
+    max-width: 85%;
+    margin: 6px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.cg-system-pill.locked-pill {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #dc2626;
+}
+
+/* Message Bubbles */
+.cg-bubble {
+    max-width: 82%;
+    padding: 8px 12px 6px 12px;
+    border-radius: 14px;
+    box-shadow: var(--wp-bubble-shadow);
+    position: relative;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    word-break: break-word;
+    animation: bubbleIn 0.15s ease-out;
+}
+@keyframes bubbleIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.cg-bubble.incoming {
+    align-self: flex-start;
+    background: var(--wp-bubble-in);
+    border-bottom-left-radius: 2px;
+}
+.cg-bubble.outgoing {
+    align-self: flex-end;
+    background: var(--wp-bubble-out);
+    border-bottom-right-radius: 2px;
+}
+
+.cg-sender-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.cg-sender-tag.role-student { color: #0284c7; }
+.cg-sender-tag.role-alumni { color: #d97706; }
+.cg-sender-tag.role-faculty { color: #059669; }
+.cg-sender-tag.role-admin { color: #7c3aed; }
+
+.cg-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    font-size: 0.68rem;
+    color: #64748b;
+    margin-top: 2px;
+    user-select: none;
+}
+.cg-meta i {
+    color: #53bdeb; /* double blue check */
+}
+
+/* Input Bar */
+.cg-footer {
+    background: #f0f2f5;
+    padding: 10px 14px;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+.cg-input {
+    flex-grow: 1;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 22px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    max-height: 110px;
+    outline: none;
+    resize: none;
+    line-height: 1.4;
+    transition: border-color 0.2s ease;
+}
+.cg-input:focus {
+    border-color: var(--wp-green);
+}
+.cg-send-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--wp-header);
+    color: #ffffff;
+    border: none;
+    display: grid;
+    place-items: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.cg-send-btn:hover {
+    background: var(--wp-accent);
+    transform: scale(1.05);
+}
+.cg-send-btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Quick Emoji Toolbar */
+.cg-emoji-toolbar {
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.cg-emoji-toolbar::-webkit-scrollbar { display: none; }
+.cg-emoji-btn {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: background 0.15s;
+}
+.cg-emoji-btn:hover {
+    background: #f1f5f9;
+}
+
+/* Non-Approved Overlay Gate */
+.cg-gate-card {
+    background: #ffffff;
+    border-radius: 26px;
+    padding: 36px 28px;
+    text-align: center;
+    max-width: 520px;
+    margin: auto;
+    box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.2);
+    border: 1px solid rgba(2, 132, 199, 0.16);
+}
+.cg-gate-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #25d366 0%, #075e54 100%);
+    color: #ffffff;
+    font-size: 2rem;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 16px auto;
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.35);
+}
+
+@media (max-width: 767.98px) {
+    .cg-window {
+        height: 88vh;
+        border-radius: 0;
+        border-width: 0;
+    }
+    .cg-wrapper {
+        padding: 0 !important;
+    }
+    .cg-bubble {
+        max-width: 88%;
+        font-size: 0.88rem;
+    }
+}
+</style>
+
+<div class="admin-page-wrapper" style="padding-bottom: 2rem;">
+    <!-- Ambient Floating Orbs -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
+
+    <div class="admin-container cg-wrapper">
+        <div class="cg-window">
+            <!-- Header -->
+            <div class="cg-header">
+                <div class="d-flex align-items-center">
+                    <a href="{{ url_for('messages') }}" class="btn btn-link text-white p-0 me-2 d-md-none" title="Back">
+                        <i class="fas fa-arrow-left fs-5"></i>
+                    </a>
+                    <div class="cg-header-avatar">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="cg-header-info">
+                        <div class="cg-header-title">
+                            <span>Alumni Hub Official Community</span>
+                            <i class="fas fa-check-circle text-info" style="font-size: 0.85rem;" title="Verified Institutional Hub"></i>
+                        </div>
+                        <div class="cg-header-subtitle" id="groupSubtitle">
+                            <span>Institutional WhatsApp Group</span> • <span id="memberCountText">Connecting...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    {% if current_user.role == 'admin' %}
+                    <a href="{{ url_for('admin_messaging_control') }}" class="btn btn-warning btn-sm rounded-pill px-3 py-1 fw-bold text-dark d-inline-flex align-items-center gap-1 shadow-sm" style="font-size: 0.78rem;">
+                        <i class="fas fa-shield-alt"></i> Moderation Desk
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('messages') }}" class="btn btn-outline-light btn-sm rounded-circle d-none d-md-grid place-items-center" style="width: 36px; height: 36px;" title="Back to Messages Hub">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>
+            </div>
+
+            {% if membership_status == 'approved' or current_user.role == 'admin' %}
+            <!-- Chat Body -->
+            <div class="cg-body" id="chatBody">
+                <div class="cg-system-pill">
+                    <i class="fas fa-lock text-success me-1"></i> Messages are shared across all approved campus community members.
+                </div>
+
+                <!-- Emergency System Lock Notice -->
+                <div class="cg-system-pill locked-pill d-none" id="lockNoticePill">
+                    <i class="fas fa-lock me-1"></i> <b>System Lockdown:</b> Community messaging is temporarily frozen by Administration.
+                </div>
+
+                <!-- Messages stream container -->
+                <div id="messagesContainer" class="d-flex flex-column gap-2">
+                    <div class="text-center py-5 text-muted small">
+                        <i class="fas fa-circle-notch fa-spin text-success me-1"></i> Loading community messages...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emoji Quick Chips Toolbar -->
+            <div class="cg-emoji-toolbar" id="emojiToolbar">
+                <button type="button" class="cg-emoji-btn" onclick="addEmoji('👋')">👋</button>
+                <button type="button" class="cg-emoji-btn" onclick="addEmoji('🎓')">🎓</button>
+                <button type="button" class="cg-emoji-btn" onclick="addEmoji('💼')">💼</button>
+                <button type="button" class="cg-emoji-btn" onclick="addEmoji('🚀')">🚀</button>
+                <button type="button" class="cg-emoji-btn" onclick="addEmoji('📢')">📢</button>
+                <button type="button" class="cg-emoji-btn" onclick="addEmoji('👍')">👍</button>
+                <button type="button" class="cg-emoji-btn" onclick="addEmoji('❤️')">❤️</button>
+                <button type="button" class="cg-emoji-btn" onclick="addEmoji('🎉')">🎉</button>
+                <button type="button" class="cg-emoji-btn" onclick="addEmoji('🙏')">🙏</button>
+            </div>
+
+            <!-- Input Bar -->
+            <form id="msgForm" class="cg-footer" onsubmit="handleSend(event)">
+                <textarea id="msgInput" class="cg-input" rows="1" placeholder="Type a message to the Community..." onkeydown="handleKey(event)"></textarea>
+                <button type="submit" id="sendBtn" class="cg-send-btn" title="Send Message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+
+            {% elif membership_status == 'pending' %}
+            <!-- Pending Approval Gate -->
+            <div class="d-flex align-items-center justify-content-center h-100 p-4">
+                <div class="cg-gate-card">
+                    <div class="cg-gate-avatar" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="fw-bold mb-2 text-dark">Admission Under Review</h3>
+                    <p class="text-muted small mb-4">
+                        Your request to join the <strong>Alumni Hub Institutional Community Group</strong> has been submitted. An Administrator will verify and approve your membership shortly.
+                    </p>
+                    <div class="p-3 rounded-4 bg-light border mb-4 text-start">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="text-muted extra-small">Request Status:</span>
+                            <span class="badge bg-warning text-dark rounded-pill px-3 py-1 fw-bold">PENDING APPROVAL</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="text-muted extra-small">Applicant:</span>
+                            <span class="fw-bold text-dark small">{{ current_user.name }} ({{ current_user.role|upper }})</span>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" onclick="location.reload()">
+                            <i class="fas fa-sync-alt me-1"></i> Check Status
+                        </button>
+                        <a href="{{ url_for('messages') }}" class="btn btn-primary rounded-pill px-4">
+                            Back to Inbox
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+            <!-- Request Admission Gate -->
+            <div class="d-flex align-items-center justify-content-center h-100 p-4">
+                <div class="cg-gate-card">
+                    <div class="cg-gate-avatar">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="fw-bold mb-2 text-dark">Join Campus Community Group</h3>
+                    <p class="text-muted small mb-4">
+                        Connect, network, and exchange opportunities with all verified students, alumni, and faculty in real-time.
+                    </p>
+                    <div class="p-3 rounded-4 bg-light border mb-4 text-start small text-muted">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="fas fa-shield-alt text-success fs-5"></i>
+                            <span class="fw-bold text-dark">Institutional Gatekeeper Policy:</span>
+                        </div>
+                        Admission is monitored to ensure a safe, spam-free networking environment. All join requests require 1-click Administrator confirmation.
+                    </div>
+                    <button type="button" id="requestJoinBtn" class="btn btn-success btn-lg rounded-pill px-5 fw-bold shadow" onclick="submitJoinRequest()">
+                        <i class="fas fa-user-plus me-2"></i> Request to Join Group
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+const currentUserId = {{ current_user.id }};
+let isMessagingLocked = {{ 'true' if is_locked else 'false' }};
+let socket = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadGroupStatus();
+
+    {% if membership_status == 'approved' or current_user.role == 'admin' %}
+    initSocketConnection();
+    loadMessages();
+    setInterval(loadMessages, 5000); // Live fallback polling
+    {% endif %}
+});
+
+function loadGroupStatus() {
+    fetch('/api/community-group/status')
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            const subtitle = document.getElementById('groupSubtitle');
+            const memberCountText = document.getElementById('memberCountText');
+            if (memberCountText) {
+                memberCountText.textContent = `${data.member_count} participants`;
+            }
+            updateLockUI(data.is_locked);
+        }
+    })
+    .catch(err => console.warn('Group status sync:', err));
+}
+
+function updateLockUI(locked) {
+    isMessagingLocked = locked;
+    const lockPill = document.getElementById('lockNoticePill');
+    const msgInput = document.getElementById('msgInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const emojiBar = document.getElementById('emojiToolbar');
+
+    if (lockPill) lockPill.classList.toggle('d-none', !locked);
+
+    if (locked && {{ 'false' if current_user.role == 'admin' else 'true' }}) {
+        if (msgInput) {
+            msgInput.disabled = true;
+            msgInput.placeholder = '🔒 Community Messaging is frozen by Administrator.';
+        }
+        if (sendBtn) sendBtn.disabled = true;
+        if (emojiBar) emojiBar.style.opacity = '0.4';
+    } else {
+        if (msgInput) {
+            msgInput.disabled = false;
+            msgInput.placeholder = 'Type a message to the Community...';
+        }
+        if (sendBtn) sendBtn.disabled = false;
+        if (emojiBar) emojiBar.style.opacity = '1';
+    }
+}
+
+function initSocketConnection() {
+    try {
+        socket = io();
+        socket.on('connect', () => {
+            socket.emit('join_community_group');
+        });
+        socket.on('receive_community_message', (msg) => {
+            appendMessage(msg, true);
+        });
+        socket.on('system_locked', () => {
+            updateLockUI(true);
+        });
+        socket.on('system_unlocked', () => {
+            updateLockUI(false);
+        });
+    } catch (e) {
+        console.warn('Socket unavailable, using polling fallback');
+    }
+}
+
+function loadMessages() {
+    fetch('/api/community-group/messages')
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            renderMessageList(data.messages);
+            updateLockUI(data.is_locked);
+        }
+    })
+    .catch(err => console.warn('Messages load:', err));
+}
+
+let renderedMessageIds = new Set();
+
+function renderMessageList(messages) {
+    const container = document.getElementById('messagesContainer');
+    if (!container) return;
+
+    if (messages.length === 0) {
+        container.innerHTML = '<div class="text-center py-5 text-muted small">No messages yet. Say hello to the Community! 👋</div>';
+        return;
+    }
+
+    // If initial load or list reset
+    if (renderedMessageIds.size === 0) {
+        container.innerHTML = '';
+        messages.forEach(m => {
+            appendMessage(m, false);
+        });
+        scrollChatToBottom();
+    } else {
+        // Append new incoming
+        messages.forEach(m => {
+            if (!renderedMessageIds.has(m.id)) {
+                appendMessage(m, true);
+            }
+        });
+    }
+}
+
+function appendMessage(msg, shouldScroll = true) {
+    const container = document.getElementById('messagesContainer');
+    if (!container || renderedMessageIds.has(msg.id)) return;
+
+    renderedMessageIds.add(msg.id);
+    const isOwn = (msg.sender_id === currentUserId);
+
+    const timeStr = formatMessageTime(msg.created_at);
+
+    const bubble = document.createElement('div');
+    bubble.className = `cg-bubble ${isOwn ? 'outgoing' : 'incoming'}`;
+    bubble.id = `msg-${msg.id}`;
+
+    let senderTagHtml = '';
+    if (!isOwn) {
+        const roleClass = `role-${(msg.sender_role || 'student').toLowerCase()}`;
+        senderTagHtml = `
+            <div class="cg-sender-tag ${roleClass}">
+                <span>${escapeHtml(msg.sender_name)}</span>
+                <span class="badge bg-light text-muted border extra-small" style="font-size: 0.65rem;">${(msg.sender_role || 'USER').toUpperCase()}</span>
+            </div>
+        `;
+    }
+
+    bubble.innerHTML = `
+        ${senderTagHtml}
+        <div style="white-space: pre-wrap;">${escapeHtml(msg.content)}</div>
+        <div class="cg-meta">
+            <span>${timeStr}</span>
+            ${isOwn ? '<i class="fas fa-check-double"></i>' : ''}
+        </div>
+    `;
+
+    container.appendChild(bubble);
+
+    if (shouldScroll) {
+        scrollChatToBottom();
+    }
+}
+
+function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        handleSend(e);
+    }
+}
+
+function addEmoji(emoji) {
+    const input = document.getElementById('msgInput');
+    if (input) {
+        input.value += emoji;
+        input.focus();
+    }
+}
+
+function handleSend(e) {
+    if (e) e.preventDefault();
+    const input = document.getElementById('msgInput');
+    if (!input) return;
+
+    const content = input.value.trim();
+    if (!content) return;
+
+    if (isMessagingLocked && {{ 'false' if current_user.role == 'admin' else 'true' }}) {
+        alert('Messaging is temporarily frozen by Administrator.');
+        return;
+    }
+
+    input.value = '';
+
+    // Send through API
+    fetch('/api/community-group/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content })
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.success) {
+            appendMessage(res.message, true);
+        } else {
+            alert(res.message || 'Could not send message');
+        }
+    })
+    .catch(err => {
+        alert('Network error transmitting message');
+    });
+}
+
+function submitJoinRequest() {
+    const btn = document.getElementById('requestJoinBtn');
+    if (btn) btn.disabled = true;
+
+    fetch('/api/community-group/join-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.success) {
+            location.reload();
+        } else {
+            alert(res.message || 'Error submitting request');
+            if (btn) btn.disabled = false;
+        }
+    })
+    .catch(err => {
+        alert('Network error');
+        if (btn) btn.disabled = false;
+    });
+}
+
+function scrollChatToBottom() {
+    const body = document.getElementById('chatBody');
+    if (body) {
+        body.scrollTop = body.scrollHeight;
+    }
+}
+
+function formatMessageTime(dateStr) {
+    try {
+        const d = new Date(dateStr);
+        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+        return '';
+    }
+}
+
+function escapeHtml(text) {
+    const d = document.createElement('div');
+    d.textContent = text || '';
+    return d.innerHTML;
+}
+</script>
+{% endblock %}

@@ -217,8 +217,8 @@ def setup_websocket_handlers(socketio):
     @socketio.on('send_private_message')
     def handle_send_private_message(data):
         """Handle sending a private message"""
-        if not current_user.is_authenticated:
-            emit('error', {'message': 'Not authenticated'})
+        if is_messaging_locked() and current_user.role != 'admin':
+            emit('error', {'message': 'Direct 1-on-1 messaging is temporarily locked by administrator.'})
             return
 
         if is_user_suspended(current_user.id):
@@ -485,7 +485,66 @@ def setup_websocket_handlers(socketio):
             'other_user_id': other_user_id
         })
 
-    # Add from flask import request at the top
+    # ==================== COMMUNITY GROUP REALTIME ====================
+
+    @socketio.on('join_community_group')
+    def handle_join_community_group():
+        """Join community group realtime room"""
+        if not current_user.is_authenticated:
+            return
+        join_room('community_group')
+        emit('community_joined', {'user_id': current_user.id, 'name': current_user.name})
+
+    @socketio.on('leave_community_group')
+    def handle_leave_community_group():
+        """Leave community group realtime room"""
+        if not current_user.is_authenticated:
+            return
+        leave_room('community_group')
+
+    @socketio.on('send_community_message')
+    def handle_send_community_message(data):
+        """Send message in community group"""
+        if not current_user.is_authenticated:
+            emit('error', {'message': 'Not authenticated'})
+            return
+
+        if is_messaging_locked() and current_user.role != 'admin':
+            emit('error', {'message': 'Community group messaging is frozen by administrator.'})
+            return
+
+        from database.messaging_db import get_community_member_status, send_community_message
+        if current_user.role != 'admin':
+            status = get_community_member_status(current_user.id)
+            if status != 'approved':
+                emit('error', {'message': 'You must be approved by an administrator to chat in this group.'})
+                return
+
+        if is_user_suspended(current_user.id):
+            emit('error', {'message': 'Your messaging privileges have been suspended'})
+            return
+
+        content = (data.get('content') or '').strip()
+        if not content:
+            emit('error', {'message': 'Message cannot be empty'})
+            return
+
+        msg_id = send_community_message(current_user.id, content)
+        if msg_id:
+            now_iso = datetime.utcnow().isoformat() + 'Z'
+            msg_obj = {
+                'id': msg_id,
+                'sender_id': current_user.id,
+                'sender_name': current_user.name,
+                'sender_role': current_user.role,
+                'sender_pic': current_user.profile_pic,
+                'content': content,
+                'created_at': now_iso
+            }
+            emit('receive_community_message', msg_obj, room='community_group')
+        else:
+            emit('error', {'message': 'Failed to save message'})
+
     @socketio.on('error')
     def handle_error(error):
         """Handle errors"""

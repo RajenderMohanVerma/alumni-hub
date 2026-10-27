@@ -4506,6 +4506,22 @@ def messages():
         return redirect(url_for('home'))
     return render_template('messaging/messages_hub.html')
 
+@app.route('/community-group')
+@login_required
+def community_group():
+    """Official Institutional Community Group Chat (WhatsApp Style)"""
+    from database.messaging_db import get_community_member_status, is_messaging_locked
+    is_admin = (current_user.role == 'admin')
+    membership_status = 'approved' if is_admin else get_community_member_status(current_user.id)
+    lock_status = is_messaging_locked()
+
+    return render_template(
+        'messaging/community_group.html',
+        membership_status=membership_status,
+        is_locked=lock_status,
+        is_admin=is_admin
+    )
+
 @app.route('/faculty/messages')
 @login_required
 def faculty_messages():

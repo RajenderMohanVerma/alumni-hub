@@ -108,6 +108,28 @@ def ensure_messaging_schema(conn=None):
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
         ''',
+        '''
+        CREATE TABLE IF NOT EXISTS community_group_members (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL UNIQUE,
+            status TEXT DEFAULT 'pending',
+            requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            approved_by INTEGER,
+            approved_at TIMESTAMP,
+            FOREIGN KEY(user_id) REFERENCES users(id),
+            FOREIGN KEY(approved_by) REFERENCES users(id)
+        )
+        ''',
+        '''
+        CREATE TABLE IF NOT EXISTS community_group_messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            sender_id INTEGER NOT NULL,
+            content TEXT NOT NULL,
+            is_hidden BOOLEAN DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(sender_id) REFERENCES users(id)
+        )
+        ''',
         # Unlocked by default. INSERT OR IGNORE preserves an admin's lock.
         '''
         INSERT OR IGNORE INTO messaging_lock (id, is_locked)
@@ -661,13 +683,149 @@ def get_messaging_statistics():
         cursor.execute('SELECT COUNT(*) as count FROM conversations')
         conversation_count = cursor.fetchone()['count']
 
+        try:
+            cursor.execute('SELECT COUNT(*) as count FROM community_group_members WHERE status = "approved"')
+            community_members_count = cursor.fetchone()['count']
+            cursor.execute('SELECT COUNT(*) as count FROM community_group_members WHERE status = "pending"')
+            community_pending_count = cursor.fetchone()['count']
+        except Exception:
+            community_members_count = 0
+            community_pending_count = 0
+
         status = get_messaging_lock_status()
 
         return {
             'total_public_messages': public_count,
             'total_private_messages': private_count,
             'total_conversations': conversation_count,
+            'community_members_count': community_members_count,
+            'community_pending_count': community_pending_count,
             'system_locked': status['is_locked'] if status else False,
             'locked_at': status['locked_at'] if status else None,
             'locked_by': status['locked_by'] if status else None
         }
+
+
+# ==================== COMMUNITY GROUP FUNCTIONS ====================
+
+def get_community_member_status(user_id):
+    """Get the community group membership status for a user ('approved', 'pending', 'rejected', or None)"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT status FROM community_group_members WHERE user_id = ?', (user_id,))
+        row = cursor.fetchone()
+        return row['status'] if row else None
+
+
+def request_community_membership(user_id):
+    """User requests to join the community group (sets or resets to pending)"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO community_group_members (user_id, status, requested_at)
+            VALUES (?, 'pending', CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id) DO UPDATE SET status = 'pending', requested_at = CURRENT_TIMESTAMP
+        ''', (user_id,))
+        return True
+
+
+def approve_community_member(user_id, admin_id):
+    """Admin approves a community group join request"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO community_group_members (user_id, status, approved_by, approved_at)
+            VALUES (?, 'approved', ?, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id) DO UPDATE SET 
+                status = 'approved', 
+                approved_by = excluded.approved_by, 
+                approved_at = CURRENT_TIMESTAMP
+        ''', (user_id, admin_id))
+        return True
+
+
+def reject_community_member(user_id, admin_id):
+    """Admin rejects a community group join request"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            UPDATE community_group_members
+            SET status = 'rejected', approved_by = ?, approved_at = CURRENT_TIMESTAMP
+            WHERE user_id = ?
+        ''', (admin_id, user_id))
+        return True
+
+
+def remove_community_member(user_id):
+    """Remove a user from the community group"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM community_group_members WHERE user_id = ?', (user_id,))
+        return True
+
+
+def get_pending_community_requests():
+    """Get list of users awaiting approval to join community group"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT m.id as request_id, m.user_id, m.status, m.requested_at,
+                   u.name, u.email, u.role, u.profile_pic
+            FROM community_group_members m
+            JOIN users u ON m.user_id = u.id
+            WHERE m.status = 'pending'
+            ORDER BY m.requested_at ASC
+        ''')
+        return [dict(row) for row in cursor.fetchall()]
+
+
+def get_approved_community_members():
+    """Get list of approved community group members"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT m.id as membership_id, m.user_id, m.status, m.approved_at,
+                   u.name, u.email, u.role, u.profile_pic
+            FROM community_group_members m
+            JOIN users u ON m.user_id = u.id
+            WHERE m.status = 'approved'
+            ORDER BY u.name ASC
+        ''')
+        return [dict(row) for row in cursor.fetchall()]
+
+
+def send_community_message(sender_id, content):
+    """Send a message to the community group"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO community_group_messages (sender_id, content, created_at)
+            VALUES (?, ?, CURRENT_TIMESTAMP)
+        ''', (sender_id, content))
+        return cursor.lastrowid
+
+
+def get_community_messages(limit=60):
+    """Get recent messages from community group"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT m.id, m.sender_id, m.content, m.created_at, m.is_hidden,
+                   u.name as sender_name, u.role as sender_role, u.profile_pic as sender_pic
+            FROM community_group_messages m
+            JOIN users u ON m.sender_id = u.id
+            WHERE m.is_hidden = 0
+            ORDER BY m.created_at DESC
+            LIMIT ?
+        ''', (limit,))
+        messages = [dict(row) for row in cursor.fetchall()]
+        return messages[::-1]  # Oldest to newest for chat view
+
+
+def delete_community_message(message_id):
+    """Soft delete/hide a community group message"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('UPDATE community_group_messages SET is_hidden = 1 WHERE id = ?', (message_id,))
+        return cursor.rowcount > 0
+

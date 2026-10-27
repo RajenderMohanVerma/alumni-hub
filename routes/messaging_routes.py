@@ -3,7 +3,7 @@ Messaging Routes for Alumni Hub
 Handles all API endpoints for public messages, private messages, search, and admin controls
 """
 
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, request, jsonify, current_app, render_template
 from flask_login import login_required, current_user
 from datetime import datetime
 import json
@@ -23,7 +23,12 @@ from database.messaging_db import (
     search_messages, create_conversation, get_conversation_id,
     get_messaging_statistics,
     # Suspension functions
-    is_user_suspended, suspend_user, unsuspend_user, get_suspended_users
+    is_user_suspended, suspend_user, unsuspend_user, get_suspended_users,
+    # Community group functions
+    get_community_member_status, request_community_membership,
+    approve_community_member, reject_community_member, remove_community_member,
+    get_pending_community_requests, get_approved_community_members,
+    send_community_message, get_community_messages, delete_community_message
 )
 
 messaging_bp = Blueprint('messaging', __name__)
@@ -153,6 +158,12 @@ def send_private_msg():
     data = request.get_json()
     receiver_id = data.get('receiver_id')
     content = data.get('content', '').strip()
+
+    if is_messaging_locked() and current_user.role != 'admin':
+        return jsonify({
+            'success': False,
+            'message': 'Direct 1-on-1 messaging is temporarily locked by administrator.'
+        }), 403
 
     if is_user_suspended(current_user.id):
         return jsonify({
@@ -528,6 +539,14 @@ def lock_msg_system():
     success = lock_messaging(current_user.id, reason)
 
     if success:
+        try:
+            from app import socketio
+            socketio.emit('system_locked', {
+                'locked_by': current_user.name,
+                'locked_at': datetime.utcnow().isoformat()
+            })
+        except Exception:
+            pass
         return jsonify({
             'success': True,
             'message': 'Messaging system locked',
@@ -557,6 +576,14 @@ def unlock_msg_system():
     success = unlock_messaging()
 
     if success:
+        try:
+            from app import socketio
+            socketio.emit('system_unlocked', {
+                'unlocked_by': current_user.name,
+                'unlocked_at': datetime.utcnow().isoformat()
+            })
+        except Exception:
+            pass
         return jsonify({
             'success': True,
             'message': 'Messaging system unlocked'
@@ -688,3 +715,181 @@ def list_suspended_users():
         'success': True,
         'users': users
     }), 200
+
+
+# ==================== COMMUNITY GROUP (WHATSAPP-STYLE) ENDPOINTS ====================
+
+@messaging_bp.route('/community-group/status', methods=['GET'])
+@login_required
+def api_community_group_status():
+    """Get current user's membership status and group telemetry"""
+    is_admin = (current_user.role == 'admin')
+    status = 'approved' if is_admin else get_community_member_status(current_user.id)
+    is_locked = is_messaging_locked()
+    members = get_approved_community_members()
+
+    return jsonify({
+        'success': True,
+        'status': status,
+        'is_locked': is_locked,
+        'member_count': len(members),
+        'user_id': current_user.id,
+        'user_name': current_user.name,
+        'user_role': current_user.role
+    }), 200
+
+
+@messaging_bp.route('/community-group/join-request', methods=['POST'])
+@login_required
+def api_community_group_request():
+    """User requests admission to the institutional community group"""
+    if current_user.role == 'admin':
+        return jsonify({'success': True, 'message': 'Admins have automatic membership', 'status': 'approved'}), 200
+
+    request_community_membership(current_user.id)
+    return jsonify({
+        'success': True,
+        'message': 'Your request has been submitted to Administrators for approval.',
+        'status': 'pending'
+    }), 200
+
+
+@messaging_bp.route('/community-group/messages', methods=['GET', 'POST'])
+@login_required
+def api_community_group_messages():
+    """Fetch or post messages in the community group"""
+    is_admin = (current_user.role == 'admin')
+    membership_status = 'approved' if is_admin else get_community_member_status(current_user.id)
+
+    if membership_status != 'approved':
+        return jsonify({
+            'success': False,
+            'message': 'You must be an approved member to access Community Group messages.',
+            'status': membership_status
+        }), 403
+
+    if request.method == 'POST':
+        # Enforce lock!
+        if is_messaging_locked() and not is_admin:
+            return jsonify({
+                'success': False,
+                'message': 'Community group messaging is temporarily frozen by Administrator.'
+            }), 403
+
+        if is_user_suspended(current_user.id):
+            return jsonify({
+                'success': False,
+                'message': 'Your messaging privileges have been suspended.'
+            }), 403
+
+        data = request.get_json(silent=True) or request.form
+        content = (data.get('content') or '').strip()
+
+        if not content:
+            return jsonify({'success': False, 'message': 'Message content cannot be empty'}), 400
+
+        if len(content) > 5000:
+            return jsonify({'success': False, 'message': 'Message exceeds 5000 character limit'}), 400
+
+        msg_id = send_community_message(current_user.id, content)
+        if msg_id:
+            now_iso = datetime.utcnow().isoformat() + 'Z'
+            msg_obj = {
+                'id': msg_id,
+                'sender_id': current_user.id,
+                'sender_name': current_user.name,
+                'sender_role': current_user.role,
+                'sender_pic': current_user.profile_pic,
+                'content': content,
+                'created_at': now_iso
+            }
+
+            # Broadcast through Socket.IO room if socketio is active
+            try:
+                from app import socketio
+                socketio.emit('receive_community_message', msg_obj, room='community_group')
+            except Exception:
+                pass
+
+            return jsonify({'success': True, 'message': msg_obj}), 201
+        else:
+            return jsonify({'success': False, 'message': 'Failed to record message'}), 500
+
+    # GET request
+    messages = get_community_messages(limit=80)
+    return jsonify({
+        'success': True,
+        'messages': messages,
+        'is_locked': is_messaging_locked()
+    }), 200
+
+
+@messaging_bp.route('/admin/community-group/requests', methods=['GET'])
+@login_required
+def api_admin_community_requests():
+    """Admin retrieves list of pending requests to join community group"""
+    if current_user.role != 'admin':
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+    requests = get_pending_community_requests()
+    return jsonify({'success': True, 'requests': requests}), 200
+
+
+@messaging_bp.route('/admin/community-group/approve', methods=['POST'])
+@login_required
+def api_admin_approve_community_member():
+    """Admin approves user admission to community group"""
+    if current_user.role != 'admin':
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+    data = request.get_json(silent=True) or {}
+    user_id = data.get('user_id')
+    if not user_id:
+        return jsonify({'success': False, 'message': 'user_id is required'}), 400
+
+    approve_community_member(user_id, current_user.id)
+    return jsonify({'success': True, 'message': 'User admitted to community group'}), 200
+
+
+@messaging_bp.route('/admin/community-group/reject', methods=['POST'])
+@login_required
+def api_admin_reject_community_member():
+    """Admin rejects admission request"""
+    if current_user.role != 'admin':
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+    data = request.get_json(silent=True) or {}
+    user_id = data.get('user_id')
+    if not user_id:
+        return jsonify({'success': False, 'message': 'user_id is required'}), 400
+
+    reject_community_member(user_id, current_user.id)
+    return jsonify({'success': True, 'message': 'Request rejected'}), 200
+
+
+@messaging_bp.route('/admin/community-group/remove-member', methods=['POST'])
+@login_required
+def api_admin_remove_community_member():
+    """Admin removes member from community group"""
+    if current_user.role != 'admin':
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+    data = request.get_json(silent=True) or {}
+    user_id = data.get('user_id')
+    if not user_id:
+        return jsonify({'success': False, 'message': 'user_id is required'}), 400
+
+    remove_community_member(user_id)
+    return jsonify({'success': True, 'message': 'Member removed from group'}), 200
+
+
+@messaging_bp.route('/admin/community-group/members', methods=['GET'])
+@login_required
+def api_admin_community_members():
+    """Admin gets list of all approved community members"""
+    if current_user.role != 'admin':
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+    members = get_approved_community_members()
+    return jsonify({'success': True, 'members': members}), 200
+

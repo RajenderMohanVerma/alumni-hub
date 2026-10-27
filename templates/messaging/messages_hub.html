@@ -560,9 +560,23 @@
                 </p>
             </div>
             <div class="d-flex align-items-center gap-2">
+                <a href="{{ url_for('community_group') }}" class="btn btn-success rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2 shadow-sm" style="background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); border: none;">
+                    <i class="fab fa-whatsapp fs-5"></i> <span>Community Group</span>
+                </a>
                 <button type="button" class="btn btn-primary rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2 shadow-sm" style="background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%); border: none;" onclick="openNewChatModal();">
                     <i class="fas fa-plus"></i> New Chat
                 </button>
+            </div>
+        </div>
+
+        <!-- System Lock Alert Banner -->
+        <div id="systemLockAlert" class="alert alert-danger rounded-4 p-3 mb-3 d-none align-items-center gap-3 shadow-sm" style="border: 1.5px solid #ef4444; background: #fff5f5;">
+            <div class="rounded-circle p-2 bg-danger text-white d-grid place-items-center" style="width: 40px; height: 40px; flex-shrink: 0;">
+                <i class="fas fa-lock fs-5"></i>
+            </div>
+            <div>
+                <h6 class="fw-bold text-danger mb-0">Messaging System Frozen by Administration</h6>
+                <p class="text-danger small mb-0 opacity-75">All public discussions, Community Group chats, and private 1-on-1 direct messages are temporarily locked by an administrator.</p>
             </div>
         </div>
 
@@ -785,9 +799,59 @@
                         }
                     }
                 });
+
+                // Listen for admin lock / unlock broadcasts
+                socket.on('system_locked', function () {
+                    applySystemLock(true);
+                });
+
+                socket.on('system_unlocked', function () {
+                    applySystemLock(false);
+                });
             }
         } catch (e) {
             console.warn('Socket init fallback to polling', e);
+        }
+
+        // Check lock status on startup
+        checkSystemLockStatus();
+    }
+
+    function applySystemLock(isLocked) {
+        const alertEl = document.getElementById('systemLockAlert');
+        const inputEl = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        if (alertEl) {
+            if (isLocked) {
+                alertEl.classList.remove('d-none');
+                alertEl.classList.add('d-flex');
+            } else {
+                alertEl.classList.add('d-none');
+                alertEl.classList.remove('d-flex');
+            }
+        }
+
+        if (currentUserRole !== 'admin') {
+            if (inputEl) {
+                inputEl.disabled = isLocked;
+                inputEl.placeholder = isLocked ? 'Messaging is temporarily frozen by administration...' : 'Type your message here...';
+            }
+            if (sendBtn) {
+                sendBtn.disabled = isLocked;
+            }
+        }
+    }
+
+    async function checkSystemLockStatus() {
+        try {
+            const res = await fetch('/api/community-group/status');
+            const data = await res.json();
+            if (data && typeof data.is_locked !== 'undefined') {
+                applySystemLock(data.is_locked);
+            }
+        } catch (e) {
+            // silent fail
         }
     }
 
@@ -1205,6 +1269,8 @@
 
     // Real-Time Background Synchronization
     async function syncRealtime() {
+        checkSystemLockStatus();
+
         if (!activeUserId) {
             loadInbox();
             return;
