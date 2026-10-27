@@ -1461,9 +1461,20 @@ def admin_view_users(role):
         conn = get_db_connection()
         if role == 'all':
             users = conn.execute('SELECT * FROM users ORDER BY id DESC').fetchall()
+        elif role == 'pending':
+            users = conn.execute('SELECT * FROM users WHERE is_approved = 0 ORDER BY created_at DESC').fetchall()
         else:
             users = conn.execute('SELECT * FROM users WHERE role = ? ORDER BY id DESC', (role,)).fetchall()
-        return render_template('admin/admin_view_users.html', users=users, role=role)
+
+        # Compute cluster statistics for interactive metric cards
+        stats = {
+            'total': conn.execute('SELECT COUNT(*) FROM users').fetchone()[0],
+            'student': conn.execute("SELECT COUNT(*) FROM users WHERE role = 'student'").fetchone()[0],
+            'alumni': conn.execute("SELECT COUNT(*) FROM users WHERE role = 'alumni'").fetchone()[0],
+            'faculty': conn.execute("SELECT COUNT(*) FROM users WHERE role = 'faculty'").fetchone()[0],
+            'pending': conn.execute("SELECT COUNT(*) FROM users WHERE is_approved = 0").fetchone()[0],
+        }
+        return render_template('admin/admin_view_users.html', users=users, role=role, stats=stats)
     finally:
         if conn:
             conn.close()
@@ -1479,7 +1490,14 @@ def admin_approve_requests():
         conn = get_db_connection()
         # Fetch pending users (is_approved = 0)
         users = conn.execute('SELECT * FROM users WHERE is_approved = 0 ORDER BY created_at DESC').fetchall()
-        return render_template('admin/admin_view_users.html', users=users, role='pending')
+        stats = {
+            'total': conn.execute('SELECT COUNT(*) FROM users').fetchone()[0],
+            'student': conn.execute("SELECT COUNT(*) FROM users WHERE role = 'student'").fetchone()[0],
+            'alumni': conn.execute("SELECT COUNT(*) FROM users WHERE role = 'alumni'").fetchone()[0],
+            'faculty': conn.execute("SELECT COUNT(*) FROM users WHERE role = 'faculty'").fetchone()[0],
+            'pending': len(users),
+        }
+        return render_template('admin/admin_view_users.html', users=users, role='pending', stats=stats)
     finally:
         if conn:
             conn.close()
@@ -2614,6 +2632,8 @@ def complete_profile(user_id):
 def verify_user(user_id, action):
     """Admin: Verify/Block users"""
     if current_user.role != 'admin':
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.is_json:
+            return jsonify({'success': False, 'message': 'Unauthorized'}), 403
         flash('Unauthorized!', 'danger')
         return redirect(url_for('home'))
 
@@ -2623,19 +2643,28 @@ def verify_user(user_id, action):
 
         if action == 'approve':
             conn.execute('UPDATE users SET is_approved = 1 WHERE id = ?', (user_id,))
-            flash('User verified successfully!', 'success')
+            flash_msg = 'User verified and authorized successfully!'
         elif action == 'block':
             conn.execute('DELETE FROM users WHERE id = ?', (user_id,))
-            flash('User blocked/removed!', 'warning')
+            flash_msg = 'User blocked and purged!'
+        else:
+            flash_msg = 'Action executed'
 
         conn.commit()
-        return redirect(url_for('admin_view_users', role='student'))
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.is_json:
+            return jsonify({'success': True, 'message': flash_msg, 'action': action, 'user_id': user_id})
+
+        flash(flash_msg, 'success' if action == 'approve' else 'warning')
+        return redirect(request.referrer or url_for('admin_view_users', role='all'))
 
     except Exception as e:
         if conn:
             conn.rollback()
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.is_json:
+            return jsonify({'success': False, 'message': str(e)}), 500
         flash(f'Error: {str(e)}', 'danger')
-        return redirect(url_for('admin_dashboard'))
+        return redirect(request.referrer or url_for('admin_dashboard'))
     finally:
         if conn:
             conn.close()

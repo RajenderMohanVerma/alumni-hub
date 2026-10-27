@@ -1,11 +1,290 @@
 {% extends "base.html" %}
 
-{% block title %}Directory Control • Enterprise User Management{% endblock %}
+{% block title %}Directory Control • Enterprise User Management • Alumni Hub{% endblock %}
 
 {% block content %}
 <!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
+
+<style>
+/* ========================================================
+   DIRECTORY MATRIX & ENTERPRISE USER MANAGEMENT (LUXURY)
+   ======================================================== */
+.adm-user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+.adm-user-initials {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #ffffff;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.initials-student { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); }
+.initials-alumni { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+.initials-faculty { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+.initials-admin { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); }
+
+/* Telemetry Mini KPI Cards */
+.adm-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.adm-kpi-card {
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 18px;
+    padding: 1.15rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.05);
+    text-decoration: none !important;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+.adm-kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px -5px rgba(15, 23, 42, 0.12);
+    border-color: #cbd5e1;
+}
+.adm-kpi-card.active-kpi {
+    border-color: var(--adm-primary, #4f46e5);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    background: #fafafa;
+}
+.adm-kpi-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+.adm-kpi-val {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 1.65rem;
+    color: #0f172a;
+    line-height: 1;
+}
+.adm-kpi-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+/* User Card Component (Mobile & Grid View) */
+.user-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+}
+.adm-user-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 1.25rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 18px -4px rgba(15, 23, 42, 0.06);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+.adm-user-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px -8px rgba(15, 23, 42, 0.12);
+    border-color: #cbd5e1;
+}
+.adm-user-card.pending-card {
+    border-color: #fde68a;
+    background: linear-gradient(180deg, #fffbeb 0%, #ffffff 40%);
+}
+.adm-card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin-bottom: 0.85rem;
+}
+.adm-card-info {
+    flex-grow: 1;
+    min-width: 0;
+}
+.adm-card-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #0f172a;
+    margin-bottom: 0.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.adm-card-email {
+    font-size: 0.8rem;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.adm-card-meta {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 0.65rem 0.85rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    border: 1px solid #f1f5f9;
+}
+.adm-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #475569;
+}
+.adm-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+/* View Mode Toggler */
+.view-switch-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.view-switch-btn.active {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+}
+
+/* Custom Badges */
+.badge-role-student { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
+.badge-role-alumni { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
+.badge-role-faculty { background: #d1fae5; color: #059669; border: 1px solid #a7f3d0; }
+.badge-role-admin { background: #ede9fe; color: #7c3aed; border: 1px solid #ddd6fe; }
+
+.badge-status-verified { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+.badge-status-pending { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+
+/* Modal Custom Styling */
+.adm-modal-avatar {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    object-fit: cover;
+}
+.adm-modal-initials {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff;
+    border: 3px solid #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Toast Container */
+#admToastContainer {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+.adm-toast {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    animation: toastIn 0.25s ease-out;
+    pointer-events: auto;
+}
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 767.98px) {
+    .adm-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    .adm-kpi-card {
+        padding: 0.9rem;
+    }
+    .adm-kpi-val {
+        font-size: 1.35rem;
+    }
+    .adm-kpi-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+    .user-cards-grid {
+        grid-template-columns: 1fr;
+    }
+    /* Hide dense table by default on mobile */
+    #usersTableWrap {
+        display: none !important;
+    }
+    #usersCardsWrap {
+        display: grid !important;
+    }
+}
+</style>
 
 <div class="admin-page-wrapper">
     <!-- Ambient Floating Orbs -->
@@ -21,27 +300,33 @@
                     <span class="live-pulse-dot"></span>
                     <span>DIRECTORY MATRIX • ENTERPRISE USER MANAGEMENT</span>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-wrap">
                     <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
                         <i class="fas fa-th-large"></i> Command Center
                     </a>
+                    <a href="{{ url_for('community_group') }}" class="btn btn-success btn-sm rounded-pill px-3 py-1 fw-bold text-white d-inline-flex align-items-center gap-1 shadow-sm" style="background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); border: none;">
+                        <i class="fab fa-whatsapp"></i> Community Group
+                    </a>
                     <a href="{{ url_for('admin_approve_requests') }}" class="btn btn-warning btn-sm rounded-pill px-3 py-1 fw-bold text-dark d-inline-flex align-items-center gap-1 shadow-sm">
-                        <i class="fas fa-user-clock"></i> Approvals
+                        <i class="fas fa-user-clock"></i> Approvals Queue
+                        {% if stats and stats.pending and stats.pending > 0 %}
+                        <span class="badge bg-danger text-white rounded-pill ms-1">{{ stats.pending }}</span>
+                        {% endif %}
                     </a>
                 </div>
             </div>
 
             <h1 class="admin-hero-title mb-2">
-                <span class="hero-title-prefix">Campus Network</span> <span class="text-holographic-adm">User Directory</span>
+                <span class="hero-title-prefix">Institutional</span> <span class="text-holographic-adm">User Directory</span>
             </h1>
-            <p class="admin-hero-subtitle mb-4">
-                Full-spectrum governance over registered students, graduated alumni, and institutional faculty. Filter by classification, verify pending credentials, inspect profiles, and maintain data hygiene.
+            <p class="admin-hero-subtitle mb-3">
+                Full-spectrum governance over registered students, graduated alumni, institutional faculty, and system administrators. Real-time filtering, 1-click approvals, profile dossiers, and credential control.
             </p>
 
-            <!-- Role Quick Filter Tabs in Hero -->
-            <div class="d-flex flex-wrap gap-2 pt-2">
+            <!-- Role Classification Filter Pills in Hero -->
+            <div class="d-flex flex-wrap gap-2 pt-1">
                 <a href="{{ url_for('admin_view_users', role='all') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2 {% if not role or role == 'all' %}btn-primary shadow{% else %}btn-outline-light bg-white bg-opacity-10{% endif %}">
-                    <i class="fas fa-globe"></i> All Records
+                    <i class="fas fa-globe"></i> All Accounts
                 </a>
                 <a href="{{ url_for('admin_view_users', role='student') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2 {% if role == 'student' %}btn-primary shadow{% else %}btn-outline-light bg-white bg-opacity-10{% endif %}">
                     <i class="fas fa-user-graduate text-info"></i> Students
@@ -52,47 +337,296 @@
                 <a href="{{ url_for('admin_view_users', role='faculty') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2 {% if role == 'faculty' %}btn-primary shadow{% else %}btn-outline-light bg-white bg-opacity-10{% endif %}">
                     <i class="fas fa-chalkboard-teacher text-success"></i> Faculty
                 </a>
+                <a href="{{ url_for('admin_view_users', role='pending') }}" class="btn btn-sm rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2 {% if role == 'pending' %}btn-warning text-dark shadow{% else %}btn-outline-light bg-white bg-opacity-10{% endif %}">
+                    <i class="fas fa-clock text-warning"></i> Pending Review
+                    {% if stats and stats.pending and stats.pending > 0 %}
+                    <span class="badge bg-danger text-white rounded-pill">{{ stats.pending }}</span>
+                    {% endif %}
+                </a>
             </div>
         </div>
 
-        <!-- 2. Command Dock (Search & Actions) -->
+        <!-- 2. Telemetry Cluster Stats Deck -->
+        <div class="adm-kpi-grid">
+            <div class="adm-kpi-card {% if role == 'all' %}active-kpi{% endif %}" onclick="filterByRolePill('all')">
+                <div>
+                    <div class="adm-kpi-label">Total Registered</div>
+                    <div class="adm-kpi-val" id="statValTotal">{{ stats.total if stats else users|length }}</div>
+                </div>
+                <div class="adm-kpi-icon" style="background: rgba(79, 70, 229, 0.12); color: #4f46e5;">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+
+            <div class="adm-kpi-card {% if role == 'student' %}active-kpi{% endif %}" onclick="filterByRolePill('student')">
+                <div>
+                    <div class="adm-kpi-label">Students</div>
+                    <div class="adm-kpi-val" id="statValStudent">{{ stats.student if stats else 0 }}</div>
+                </div>
+                <div class="adm-kpi-icon" style="background: rgba(2, 132, 199, 0.12); color: #0284c7;">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+            </div>
+
+            <div class="adm-kpi-card {% if role == 'alumni' %}active-kpi{% endif %}" onclick="filterByRolePill('alumni')">
+                <div>
+                    <div class="adm-kpi-label">Alumni Network</div>
+                    <div class="adm-kpi-val" id="statValAlumni">{{ stats.alumni if stats else 0 }}</div>
+                </div>
+                <div class="adm-kpi-icon" style="background: rgba(217, 119, 6, 0.12); color: #d97706;">
+                    <i class="fas fa-award"></i>
+                </div>
+            </div>
+
+            <div class="adm-kpi-card {% if role == 'faculty' %}active-kpi{% endif %}" onclick="filterByRolePill('faculty')">
+                <div>
+                    <div class="adm-kpi-label">Faculty Staff</div>
+                    <div class="adm-kpi-val" id="statValFaculty">{{ stats.faculty if stats else 0 }}</div>
+                </div>
+                <div class="adm-kpi-icon" style="background: rgba(16, 185, 129, 0.12); color: #059669;">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+            </div>
+
+            <div class="adm-kpi-card {% if role == 'pending' %}active-kpi{% endif %}" onclick="filterByRolePill('pending')">
+                <div>
+                    <div class="adm-kpi-label">Pending Approval</div>
+                    <div class="adm-kpi-val text-warning" id="statValPending">{{ stats.pending if stats else 0 }}</div>
+                </div>
+                <div class="adm-kpi-icon" style="background: rgba(245, 158, 11, 0.15); color: #d97706;">
+                    <i class="fas fa-clock {% if stats and stats.pending and stats.pending > 0 %}fa-spin{% endif %}"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Command Control Dock (Search, Filters, Sort, View Toggle) -->
         <div class="admin-card p-3 p-md-4 mb-4">
-            <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center justify-content-between gap-3">
-                <div class="admin-filter-bar mb-0 flex-grow-1">
-                    <i class="fas fa-search text-muted ps-2"></i>
-                    <input type="text" id="userSearch" class="admin-filter-input" placeholder="Search by name, email, department, or role...">
+            <div class="d-flex flex-column gap-3">
+                <!-- Row 1: Search & Quick Actions -->
+                <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center justify-content-between gap-3">
+                    <div class="admin-filter-bar mb-0 flex-grow-1 position-relative">
+                        <i class="fas fa-search text-muted ps-2"></i>
+                        <input type="text" id="userSearch" class="admin-filter-input" placeholder="Search by name, email, phone, role, company..." autocomplete="off">
+                        <button type="button" id="clearSearchBtn" class="btn btn-link text-muted p-0 position-absolute end-0 top-50 translate-middle-y me-3 d-none" onclick="clearSearchInput()" title="Clear search">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <!-- View Switcher (Cards vs Table) -->
+                        <div class="d-flex align-items-center bg-light p-1 rounded-3 border">
+                            <button type="button" class="view-switch-btn active" id="btnViewCards" onclick="switchView('cards')" title="Card View (Mobile Optimized)">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button type="button" class="view-switch-btn" id="btnViewTable" onclick="switchView('table')" title="Dense Table View">
+                                <i class="fas fa-table-list"></i>
+                            </button>
+                        </div>
+
+                        <button class="btn btn-outline-secondary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2" onclick="location.reload()" title="Refresh records">
+                            <i class="fas fa-sync-alt"></i> <span class="d-none d-sm-inline">Refresh</span>
+                        </button>
+                        <button class="btn btn-primary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2 shadow-sm" onclick="exportUsersToCSV()" title="Download CSV">
+                            <i class="fas fa-file-csv"></i> <span>Export CSV</span>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="d-flex align-items-center gap-2 flex-wrap flex-md-nowrap">
-                    <button class="btn btn-outline-secondary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2 flex-fill" onclick="location.reload()">
-                        <i class="fas fa-sync-alt"></i> <span>Refresh</span>
-                    </button>
-                    <button class="btn btn-primary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2 flex-fill shadow-sm" onclick="window.print()">
-                        <i class="fas fa-print"></i> <span>Export / Print</span>
-                    </button>
+                <!-- Row 2: Secondary Filters & Sort Dropdowns -->
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 pt-2 border-top">
+                    <div class="d-flex align-items-center gap-2 flex-wrap flex-grow-1">
+                        <!-- Role Filter Select -->
+                        <div class="d-flex align-items-center gap-1">
+                            <span class="text-muted extra-small fw-bold text-uppercase" style="font-size: 0.72rem;">Role:</span>
+                            <select id="filterRoleSelect" class="form-select form-select-sm rounded-pill border-secondary border-opacity-25 fw-semibold" style="width: auto; min-width: 130px;" onchange="applyFilters()">
+                                <option value="all">All Roles</option>
+                                <option value="student" {% if role == 'student' %}selected{% endif %}>Student</option>
+                                <option value="alumni" {% if role == 'alumni' %}selected{% endif %}>Alumni</option>
+                                <option value="faculty" {% if role == 'faculty' %}selected{% endif %}>Faculty</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                        </div>
+
+                        <!-- Verification Filter Select -->
+                        <div class="d-flex align-items-center gap-1">
+                            <span class="text-muted extra-small fw-bold text-uppercase" style="font-size: 0.72rem;">Status:</span>
+                            <select id="filterStatusSelect" class="form-select form-select-sm rounded-pill border-secondary border-opacity-25 fw-semibold" style="width: auto; min-width: 140px;" onchange="applyFilters()">
+                                <option value="all" {% if role != 'pending' %}selected{% endif %}>All Statuses</option>
+                                <option value="verified">Active Verified</option>
+                                <option value="pending" {% if role == 'pending' %}selected{% endif %}>Pending Approval</option>
+                            </select>
+                        </div>
+
+                        <!-- Sort Select -->
+                        <div class="d-flex align-items-center gap-1">
+                            <span class="text-muted extra-small fw-bold text-uppercase" style="font-size: 0.72rem;">Sort:</span>
+                            <select id="sortSelect" class="form-select form-select-sm rounded-pill border-secondary border-opacity-25 fw-semibold" style="width: auto; min-width: 140px;" onchange="applySorting()">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="name_asc">Name (A-Z)</option>
+                                <option value="name_desc">Name (Z-A)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-bold" id="totalUsersCount">
+                            {{ users|length }} Total Records
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 3. Main Records Table Card -->
+        <!-- 4. Main Records Container -->
         <div class="admin-card">
             <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
                 <div>
-                    <h3 class="fw-bold mb-1" style="font-size: 1.25rem; color: var(--adm-slate-900);">Enrolled Participants Directory</h3>
-                    <p class="text-muted small mb-0">Showing filtered account records across database clusters.</p>
+                    <h3 class="fw-bold mb-1" style="font-size: 1.22rem; color: var(--adm-slate-900);">Enrolled Participants Directory</h3>
+                    <p class="text-muted small mb-0">Showing active and pending accounts across the institutional database.</p>
                 </div>
-                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-bold" id="totalUsersCount">
-                    {{ users|length }} Total Record{{ 's' if users|length != 1 else '' }}
-                </span>
             </div>
 
             {% if users %}
-            <div class="admin-table-wrapper">
+            <!-- A. CARDS VIEW (Mobile-Optimized & Responsive Grid) -->
+            <div id="usersCardsWrap" class="user-cards-grid">
+                {% for user in users %}
+                <div class="adm-user-card user-row {% if user['is_approved'] == 0 %}pending-card{% endif %}"
+                     id="user-card-{{ user['id'] }}"
+                     data-id="{{ user['id'] }}"
+                     data-name="{{ user['name']|e }}"
+                     data-email="{{ user['email']|e }}"
+                     data-phone="{{ user['phone']|e if user['phone'] else '' }}"
+                     data-role="{{ user['role']|lower }}"
+                     data-approved="{{ 1 if user['is_approved'] else 0 }}"
+                     data-created="{{ user['created_at'] or '' }}"
+                     data-branch="{{ user['branch'] or '' }}"
+                     data-company="{{ user['company'] or '' }}"
+                     data-city="{{ user['city'] or '' }}">
+
+                    <div>
+                        <!-- Card Head -->
+                        <div class="adm-card-head">
+                            <div class="user-avatar-node-wrap">
+                                {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
+                                <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] or 'User' }}" class="adm-user-avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+                                <div class="adm-user-initials initials-{{ user['role'] }}" style="display: none;">
+                                    {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
+                                </div>
+                                {% else %}
+                                <div class="adm-user-initials initials-{{ user['role'] }}">
+                                    {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="adm-card-info">
+                                <div class="d-flex align-items-center justify-content-between gap-1 mb-1">
+                                    <span class="badge badge-role-{{ user['role'] }} rounded-pill px-2 py-1 fw-bold" style="font-size: 0.68rem;">
+                                        {% if user['role'] == 'student' %}<i class="fas fa-user-graduate me-1"></i>STUDENT
+                                        {% elif user['role'] == 'alumni' %}<i class="fas fa-award me-1"></i>ALUMNI
+                                        {% elif user['role'] == 'faculty' %}<i class="fas fa-chalkboard-teacher me-1"></i>FACULTY
+                                        {% else %}<i class="fas fa-shield-alt me-1"></i>ADMIN{% endif %}
+                                    </span>
+
+                                    {% if user['is_approved'] == 0 %}
+                                    <span class="badge badge-status-pending rounded-pill px-2 py-1 fw-bold" style="font-size: 0.68rem;">
+                                        <i class="fas fa-clock fa-spin me-1"></i>PENDING
+                                    </span>
+                                    {% else %}
+                                    <span class="badge badge-status-verified rounded-pill px-2 py-1 fw-bold" style="font-size: 0.68rem;">
+                                        <i class="fas fa-check-circle me-1"></i>VERIFIED
+                                    </span>
+                                    {% endif %}
+                                </div>
+
+                                <div class="adm-card-name" title="{{ user['name'] }}">{{ user['name'] }}</div>
+                                <div class="adm-card-email" title="{{ user['email'] }}">
+                                    <span>{{ user['email'] }}</span>
+                                    <button type="button" class="btn btn-link p-0 text-muted" onclick="copyToClipboard('{{ user['email'] }}')" title="Copy Email">
+                                        <i class="far fa-copy" style="font-size: 0.75rem;"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Meta Details -->
+                        <div class="adm-card-meta">
+                            <div class="adm-meta-row">
+                                <span class="text-muted"><i class="fas fa-hashtag me-1"></i> Account ID:</span>
+                                <span class="fw-bold font-monospace">#{{ user['id'] }}</span>
+                            </div>
+
+                            {% if user['branch'] %}
+                            <div class="adm-meta-row">
+                                <span class="text-muted"><i class="fas fa-graduation-cap me-1"></i> Dept / Branch:</span>
+                                <span class="fw-semibold text-dark">{{ user['branch'] }}</span>
+                            </div>
+                            {% endif %}
+
+                            {% if user['company'] %}
+                            <div class="adm-meta-row">
+                                <span class="text-muted"><i class="fas fa-briefcase me-1"></i> Company:</span>
+                                <span class="fw-semibold text-dark">{{ user['company'] }}</span>
+                            </div>
+                            {% endif %}
+
+                            <div class="adm-meta-row">
+                                <span class="text-muted"><i class="far fa-calendar-alt me-1"></i> Enrolled:</span>
+                                <span class="font-monospace text-secondary">{{ user['created_at'][:10] if user['created_at'] else 'N/A' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Actions -->
+                    <div class="adm-card-actions">
+                        <div class="d-flex align-items-center gap-1">
+                            {% if user['is_approved'] == 0 %}
+                            <button type="button" class="btn btn-sm btn-success rounded-pill px-2 py-1 fw-bold btn-approve-ajax" data-id="{{ user['id'] }}" data-name="{{ user['name'] }}" title="Authorize User">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            {% endif %}
+
+                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-2 py-1 fw-semibold" onclick="openUserInspectModal({{ user['id'] }})" title="Quick Inspection">
+                                <i class="fas fa-id-card me-1"></i> Inspect
+                            </button>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-1">
+                            <!-- Direct Chat -->
+                            <a href="/messages" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-primary" style="width: 34px; height: 34px;" title="Send Direct Message">
+                                <i class="fas fa-comment-dots"></i>
+                            </a>
+
+                            <!-- Full Profile Link -->
+                            <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('profile') }}{% endif %}" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-secondary" style="width: 34px; height: 34px;" title="Full Web Profile">
+                                <i class="fas fa-external-link-alt" style="font-size: 0.75rem;"></i>
+                            </a>
+
+                            <!-- Purge User Safeguard -->
+                            {% if user['email'] != 'alumnihub26@gmail.com' and user['email'] != 'admin@alumnihub.local' and user['role'] != 'admin' %}
+                            <button type="button" class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center btn-purge" data-id="{{ user['id'] }}" data-name="{{ user['name'] }}" style="width: 34px; height: 34px;" title="Purge Account">
+                                <i class="fas fa-trash-alt" style="font-size: 0.8rem;"></i>
+                            </button>
+                            {% else %}
+                            <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-2 py-1" style="font-size: 0.65rem;" title="Root Protection Enabled">
+                                <i class="fas fa-shield-alt text-success"></i>
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- B. DENSE TABLE VIEW (Desktop Optimized) -->
+            <div id="usersTableWrap" class="admin-table-wrapper d-none">
                 <table class="admin-table" id="usersTable">
                     <thead>
                         <tr>
                             <th>User Profile</th>
                             <th>Role Classification</th>
+                            <th>Academic / Work</th>
                             <th>Onboarding Date</th>
                             <th>Verification Status</th>
                             <th class="text-end">Administrative Controls</th>
@@ -100,7 +634,18 @@
                     </thead>
                     <tbody>
                         {% for user in users %}
-                        <tr class="user-row" data-role="{{ user['role']|lower }}">
+                        <tr class="user-row {% if user['is_approved'] == 0 %}table-warning bg-opacity-10{% endif %}"
+                            id="user-row-{{ user['id'] }}"
+                            data-id="{{ user['id'] }}"
+                            data-name="{{ user['name']|e }}"
+                            data-email="{{ user['email']|e }}"
+                            data-phone="{{ user['phone']|e if user['phone'] else '' }}"
+                            data-role="{{ user['role']|lower }}"
+                            data-approved="{{ 1 if user['is_approved'] else 0 }}"
+                            data-created="{{ user['created_at'] or '' }}"
+                            data-branch="{{ user['branch'] or '' }}"
+                            data-company="{{ user['company'] or '' }}"
+                            data-city="{{ user['city'] or '' }}">
                             <td>
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="user-avatar-node-wrap">
@@ -130,6 +675,14 @@
                                 </span>
                             </td>
                             <td>
+                                <div class="small text-dark fw-semibold">
+                                    {{ user['branch'] or user['company'] or 'Campus Member' }}
+                                </div>
+                                {% if user['city'] %}
+                                <div class="extra-small text-muted"><i class="fas fa-map-marker-alt me-1"></i>{{ user['city'] }}</div>
+                                {% endif %}
+                            </td>
+                            <td>
                                 <div class="text-secondary fw-semibold small font-monospace">
                                     <i class="far fa-calendar-alt text-muted me-1"></i> {{ user['created_at'][:10] if user['created_at'] else 'N/A' }}
                                 </div>
@@ -148,24 +701,29 @@
                             <td>
                                 <div class="d-flex gap-2 justify-content-end align-items-center">
                                     {% if user['is_approved'] == 0 %}
-                                    <a href="{{ url_for('verify_user', user_id=user['id'], action='approve') }}" class="btn btn-sm btn-outline-success rounded-pill px-2 py-1 fw-bold" title="Authorize User">
+                                    <button type="button" class="btn btn-sm btn-success rounded-pill px-2 py-1 fw-bold btn-approve-ajax" data-id="{{ user['id'] }}" data-name="{{ user['name'] }}" title="Authorize User">
                                         <i class="fas fa-check"></i> Approve
-                                    </a>
+                                    </button>
                                     {% endif %}
 
-                                    <!-- Profile View -->
-                                    <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% else %}{{ url_for('faculty_profile', user_id=user['id']) }}{% endif %}" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-primary" style="width: 36px; height: 36px;" title="Inspect Profile">
-                                        <i class="fas fa-id-badge"></i>
+                                    <!-- Inspect Modal Button -->
+                                    <button type="button" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-primary" style="width: 36px; height: 36px;" onclick="openUserInspectModal({{ user['id'] }})" title="Quick Inspect Dossier">
+                                        <i class="fas fa-id-card"></i>
+                                    </button>
+
+                                    <!-- Full Profile View -->
+                                    <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('profile') }}{% endif %}" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-secondary" style="width: 36px; height: 36px;" title="Open Profile">
+                                        <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i>
                                     </a>
 
                                     <!-- Account Deletion Safeguard -->
                                     {% if user['email'] != 'alumnihub26@gmail.com' and user['email'] != 'admin@alumnihub.local' and user['role'] != 'admin' %}
-                                    <button class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center btn-purge" data-id="{{ user['id'] }}" data-name="{{ user['name'] }}" style="width: 36px; height: 36px;" title="Purge User">
+                                    <button type="button" class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center btn-purge" data-id="{{ user['id'] }}" data-name="{{ user['name'] }}" style="width: 36px; height: 36px;" title="Purge User">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                     {% else %}
                                     <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-2 py-1" style="font-size: 0.7rem;" title="Root Protection Enabled">
-                                        <i class="fas fa-shield-alt text-success"></i> Protected
+                                        <i class="fas fa-shield-alt text-success"></i>
                                     </span>
                                     {% endif %}
                                 </div>
@@ -176,10 +734,14 @@
                 </table>
             </div>
 
+            <!-- Empty Search Results Placeholder -->
             <div id="noUserResults" class="admin-empty-state d-none py-5">
                 <i class="fas fa-user-slash fa-3x text-muted opacity-50 mb-3 d-block"></i>
                 <h5 class="fw-bold text-dark">No Matching Users Found</h5>
-                <p class="text-muted small">No account matches your current query. Try searching with different terms.</p>
+                <p class="text-muted small mb-3">No account matches your current query or filter combination.</p>
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4 btn-sm fw-bold" onclick="resetAllFilters()">
+                    <i class="fas fa-undo me-1"></i> Reset Filters &amp; Search
+                </button>
             </div>
             {% else %}
             <!-- Empty Classification Records -->
@@ -200,75 +762,473 @@
     </div>
 </div>
 
+<!-- 5. Quick Dossier Inspection Modal -->
+<div class="modal fade" id="userInspectModal" tabindex="-1" aria-labelledby="userInspectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 24px; overflow: hidden;">
+            <div class="modal-header border-0 pb-0 pt-4 px-4 position-relative" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100px;">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4 pt-0 pb-4 text-center">
+                <div class="d-flex justify-content-center" style="margin-top: -45px; margin-bottom: 12px;">
+                    <div id="modalAvatarWrap">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <h4 class="fw-bold text-dark mb-1" id="modalUserName">User Name</h4>
+                <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+                    <span id="modalRoleBadge" class="badge rounded-pill px-3 py-1 fw-bold">ROLE</span>
+                    <span id="modalStatusBadge" class="badge rounded-pill px-3 py-1 fw-bold">STATUS</span>
+                </div>
+
+                <!-- Info Grid -->
+                <div class="p-3 rounded-4 bg-light text-start mb-3 border">
+                    <div class="row g-2 small">
+                        <div class="col-6 text-muted">User ID:</div>
+                        <div class="col-6 fw-bold font-monospace text-dark text-end" id="modalUserId">#0</div>
+
+                        <div class="col-6 text-muted">Email Address:</div>
+                        <div class="col-6 text-end text-truncate" id="modalUserEmail">user@example.com</div>
+
+                        <div class="col-6 text-muted">Phone Number:</div>
+                        <div class="col-6 text-end text-dark fw-semibold" id="modalUserPhone">N/A</div>
+
+                        <div class="col-6 text-muted">Department / Branch:</div>
+                        <div class="col-6 text-end text-dark fw-semibold" id="modalUserBranch">N/A</div>
+
+                        <div class="col-6 text-muted">Company / Org:</div>
+                        <div class="col-6 text-end text-dark fw-semibold" id="modalUserCompany">N/A</div>
+
+                        <div class="col-6 text-muted">Location:</div>
+                        <div class="col-6 text-end text-dark fw-semibold" id="modalUserCity">N/A</div>
+
+                        <div class="col-6 text-muted">Date Registered:</div>
+                        <div class="col-6 text-end font-monospace text-secondary" id="modalUserJoined">N/A</div>
+                    </div>
+                </div>
+
+                <!-- Modal Action Buttons -->
+                <div class="d-flex gap-2 justify-content-center flex-wrap" id="modalActionButtons">
+                    <!-- Dynamic buttons injected via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div id="admToastContainer"></div>
+
 <script>
+// Master Users State
+let currentUsersData = [];
+
 document.addEventListener('DOMContentLoaded', function () {
-    // 1. Live Real-Time Search Filter
+    extractUsersData();
+    initFilterEvents();
+    initApproveHandlers();
+    initPurgeHandlers();
+
+    // Auto-detect mobile and activate Cards View
+    if (window.innerWidth < 768) {
+        switchView('cards');
+    }
+});
+
+// Extract dataset from server-rendered rows
+function extractUsersData() {
+    const rows = document.querySelectorAll('.user-row');
+    currentUsersData = Array.from(rows).map(row => ({
+        id: row.dataset.id,
+        name: row.dataset.name,
+        email: row.dataset.email,
+        phone: row.dataset.phone || 'N/A',
+        role: row.dataset.role,
+        approved: row.dataset.approved === '1',
+        created: row.dataset.created || 'N/A',
+        branch: row.dataset.branch || 'N/A',
+        company: row.dataset.company || 'N/A',
+        city: row.dataset.city || 'N/A',
+        cardEl: document.getElementById(`user-card-${row.dataset.id}`),
+        rowEl: document.getElementById(`user-row-${row.dataset.id}`)
+    }));
+}
+
+// Switch between Card Grid and Dense Table
+function switchView(mode) {
+    const cardsWrap = document.getElementById('usersCardsWrap');
+    const tableWrap = document.getElementById('usersTableWrap');
+    const btnCards = document.getElementById('btnViewCards');
+    const btnTable = document.getElementById('btnViewTable');
+
+    if (mode === 'cards') {
+        if (cardsWrap) cardsWrap.classList.remove('d-none');
+        if (tableWrap) tableWrap.classList.add('d-none');
+        if (btnCards) btnCards.classList.add('active');
+        if (btnTable) btnTable.classList.remove('active');
+    } else {
+        if (cardsWrap) cardsWrap.classList.add('d-none');
+        if (tableWrap) tableWrap.classList.remove('d-none');
+        if (btnCards) btnCards.classList.remove('active');
+        if (btnTable) btnTable.classList.add('active');
+    }
+}
+
+// Live Filter & Search Engine
+function initFilterEvents() {
     const searchInput = document.getElementById('userSearch');
-    const userRows = document.querySelectorAll('.user-row');
-    const noResultsEl = document.getElementById('noUserResults');
-    const counterBadge = document.getElementById('totalUsersCount');
+    const clearBtn = document.getElementById('clearSearchBtn');
 
     if (searchInput) {
         searchInput.addEventListener('input', function () {
-            const query = this.value.toLowerCase().trim();
-            let visibleCount = 0;
-
-            userRows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                if (query === '' || text.includes(query)) {
-                    row.style.display = '';
-                    visibleCount++;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            if (counterBadge) {
-                counterBadge.textContent = `${visibleCount} Record${visibleCount !== 1 ? 's' : ''}`;
+            if (clearBtn) {
+                clearBtn.classList.toggle('d-none', this.value.trim() === '');
             }
-
-            if (noResultsEl) {
-                if (visibleCount === 0 && userRows.length > 0) {
-                    noResultsEl.classList.remove('d-none');
-                } else {
-                    noResultsEl.classList.add('d-none');
-                }
-            }
+            applyFilters();
         });
     }
+}
 
-    // 2. Sweet Purge Handler
-    document.querySelectorAll('.btn-purge').forEach(btn => {
-        btn.addEventListener('click', function () {
+function clearSearchInput() {
+    const searchInput = document.getElementById('userSearch');
+    const clearBtn = document.getElementById('clearSearchBtn');
+    if (searchInput) {
+        searchInput.value = '';
+        if (clearBtn) clearBtn.classList.add('d-none');
+        applyFilters();
+        searchInput.focus();
+    }
+}
+
+function filterByRolePill(targetRole) {
+    const roleSelect = document.getElementById('filterRoleSelect');
+    const statusSelect = document.getElementById('filterStatusSelect');
+
+    if (targetRole === 'pending') {
+        if (roleSelect) roleSelect.value = 'all';
+        if (statusSelect) statusSelect.value = 'pending';
+    } else {
+        if (roleSelect) roleSelect.value = targetRole;
+        if (statusSelect) statusSelect.value = 'all';
+    }
+    applyFilters();
+}
+
+function applyFilters() {
+    const searchInput = document.getElementById('userSearch');
+    const roleSelect = document.getElementById('filterRoleSelect');
+    const statusSelect = document.getElementById('filterStatusSelect');
+    const counterBadge = document.getElementById('totalUsersCount');
+    const noResultsEl = document.getElementById('noUserResults');
+
+    const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+    const roleFilter = roleSelect ? roleSelect.value : 'all';
+    const statusFilter = statusSelect ? statusSelect.value : 'all';
+
+    let visibleCount = 0;
+
+    currentUsersData.forEach(item => {
+        let matchesQuery = true;
+        if (query) {
+            const haystack = `${item.id} ${item.name} ${item.email} ${item.phone} ${item.role} ${item.branch} ${item.company} ${item.city}`.toLowerCase();
+            matchesQuery = haystack.includes(query);
+        }
+
+        let matchesRole = (roleFilter === 'all' || item.role === roleFilter);
+        let matchesStatus = true;
+        if (statusFilter === 'verified') matchesStatus = item.approved;
+        if (statusFilter === 'pending') matchesStatus = !item.approved;
+
+        const isVisible = matchesQuery && matchesRole && matchesStatus;
+
+        if (item.cardEl) item.cardEl.style.display = isVisible ? '' : 'none';
+        if (item.rowEl) item.rowEl.style.display = isVisible ? '' : 'none';
+
+        if (isVisible) visibleCount++;
+    });
+
+    if (counterBadge) {
+        counterBadge.textContent = `${visibleCount} Record${visibleCount !== 1 ? 's' : ''}`;
+    }
+
+    if (noResultsEl) {
+        noResultsEl.classList.toggle('d-none', visibleCount > 0);
+    }
+}
+
+function resetAllFilters() {
+    clearSearchInput();
+    const roleSelect = document.getElementById('filterRoleSelect');
+    const statusSelect = document.getElementById('filterStatusSelect');
+    if (roleSelect) roleSelect.value = 'all';
+    if (statusSelect) statusSelect.value = 'all';
+    applyFilters();
+}
+
+// Sorting
+function applySorting() {
+    const sortSelect = document.getElementById('sortSelect');
+    const mode = sortSelect ? sortSelect.value : 'newest';
+    const cardsWrap = document.getElementById('usersCardsWrap');
+    const tableBody = document.querySelector('#usersTable tbody');
+
+    currentUsersData.sort((a, b) => {
+        if (mode === 'newest') return Number(b.id) - Number(a.id);
+        if (mode === 'oldest') return Number(a.id) - Number(b.id);
+        if (mode === 'name_asc') return a.name.localeCompare(b.name);
+        if (mode === 'name_desc') return b.name.localeCompare(a.name);
+        return 0;
+    });
+
+    currentUsersData.forEach(item => {
+        if (cardsWrap && item.cardEl) cardsWrap.appendChild(item.cardEl);
+        if (tableBody && item.rowEl) tableBody.appendChild(item.rowEl);
+    });
+}
+
+// 1-Click Approve Handler (AJAX)
+function initApproveHandlers() {
+    document.querySelectorAll('.btn-approve-ajax').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
             const id = this.dataset.id;
             const name = this.dataset.name;
 
-            if (confirm(`CONFIRM ACCOUNT PURGE\n\nAre you sure you want to permanently delete user "${name}" (ID: ${id})?\n\nThis will purge all associated profile links and cannot be undone.`)) {
-                document.body.style.cursor = 'wait';
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+            fetch(`/admin/verify-user/${id}/approve`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast(`User "${name}" verified & approved!`, 'success');
+
+                    // Update UI state in card and table
+                    const card = document.getElementById(`user-card-${id}`);
+                    const row = document.getElementById(`user-row-${id}`);
+
+                    if (card) {
+                        card.classList.remove('pending-card');
+                        const statusBadge = card.querySelector('.badge-status-pending');
+                        if (statusBadge) {
+                            statusBadge.className = 'badge badge-status-verified rounded-pill px-2 py-1 fw-bold';
+                            statusBadge.innerHTML = '<i class="fas fa-check-circle me-1"></i>VERIFIED';
+                        }
+                        btn.remove();
+                    }
+
+                    if (row) {
+                        row.classList.remove('table-warning');
+                        const statusPill = row.querySelector('.badge-pending');
+                        if (statusPill) {
+                            statusPill.className = 'admin-badge-pill badge-verified';
+                            statusPill.innerHTML = '<i class="fas fa-check-circle"></i> Active Verified';
+                        }
+                        const tableApproveBtn = row.querySelector('.btn-approve-ajax');
+                        if (tableApproveBtn) tableApproveBtn.remove();
+                    }
+
+                    // Decrement pending counter
+                    const pendingKpi = document.getElementById('statValPending');
+                    if (pendingKpi) {
+                        const cur = parseInt(pendingKpi.textContent) || 1;
+                        pendingKpi.textContent = Math.max(0, cur - 1);
+                    }
+
+                    // Update local state
+                    const found = currentUsersData.find(u => u.id == id);
+                    if (found) found.approved = true;
+                } else {
+                    alert(data.message || 'Approval failed');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Approve';
+                }
+            })
+            .catch(err => {
+                alert('Network error approving user');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check"></i> Approve';
+            });
+        });
+    });
+}
+
+// Purge / Delete User Handler (AJAX)
+function initPurgeHandlers() {
+    document.querySelectorAll('.btn-purge').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const id = this.dataset.id;
+            const name = this.dataset.name;
+
+            if (confirm(`CONFIRM ACCOUNT PURGE\n\nAre you sure you want to permanently delete user "${name}" (ID: #${id})?\n\nThis will purge all associated profile records, applications, and messaging logs and cannot be undone.`)) {
+                btn.disabled = true;
                 fetch(`/api/delete-user/${id}`, { method: 'POST' })
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        const tr = btn.closest('tr');
-                        if (tr) {
-                            tr.style.transition = 'all 0.3s ease';
-                            tr.style.opacity = '0';
-                            tr.style.transform = 'scale(0.95)';
-                            setTimeout(() => {
-                                tr.remove();
-                                const remaining = document.querySelectorAll('.user-row').length;
-                                if (counterBadge) counterBadge.textContent = `${remaining} Records`;
-                            }, 300);
-                        }
+                        showToast(`User "${name}" has been permanently purged.`, 'danger');
+
+                        const card = document.getElementById(`user-card-${id}`);
+                        const row = document.getElementById(`user-row-${id}`);
+
+                        [card, row].forEach(el => {
+                            if (el) {
+                                el.style.transition = 'all 0.3s ease';
+                                el.style.opacity = '0';
+                                el.style.transform = 'scale(0.95)';
+                                setTimeout(() => el.remove(), 300);
+                            }
+                        });
+
+                        // Remove from local dataset
+                        currentUsersData = currentUsersData.filter(u => u.id != id);
+                        applyFilters();
                     } else {
                         alert('Operation Failed: ' + (data.error || 'Server rejected command'));
+                        btn.disabled = false;
                     }
                 })
-                .catch(err => alert('Critical System Error: ' + err.message))
-                .finally(() => document.body.style.cursor = 'default');
+                .catch(err => {
+                    alert('Critical System Error: ' + err.message);
+                    btn.disabled = false;
+                });
             }
         });
     });
-});
+}
+
+// Quick Dossier Inspection Modal
+function openUserInspectModal(userId) {
+    const user = currentUsersData.find(u => u.id == userId);
+    if (!user) return;
+
+    document.getElementById('modalUserName').textContent = user.name;
+    document.getElementById('modalUserId').textContent = `#${user.id}`;
+    document.getElementById('modalUserEmail').textContent = user.email;
+    document.getElementById('modalUserPhone').textContent = user.phone;
+    document.getElementById('modalUserBranch').textContent = user.branch;
+    document.getElementById('modalUserCompany').textContent = user.company;
+    document.getElementById('modalUserCity').textContent = user.city;
+    document.getElementById('modalUserJoined').textContent = user.created;
+
+    // Avatar
+    const avatarWrap = document.getElementById('modalAvatarWrap');
+    if (avatarWrap) {
+        const initials = (user.name || 'U').charAt(0).toUpperCase();
+        avatarWrap.innerHTML = `<div class="adm-modal-initials initials-${user.role}">${initials}</div>`;
+    }
+
+    // Role Badge
+    const roleBadge = document.getElementById('modalRoleBadge');
+    if (roleBadge) {
+        roleBadge.className = `badge badge-role-${user.role} rounded-pill px-3 py-1 fw-bold`;
+        roleBadge.textContent = user.role.toUpperCase();
+    }
+
+    // Status Badge
+    const statusBadge = document.getElementById('modalStatusBadge');
+    if (statusBadge) {
+        if (user.approved) {
+            statusBadge.className = 'badge badge-status-verified rounded-pill px-3 py-1 fw-bold';
+            statusBadge.innerHTML = '<i class="fas fa-check-circle me-1"></i>Active Verified';
+        } else {
+            statusBadge.className = 'badge badge-status-pending rounded-pill px-3 py-1 fw-bold';
+            statusBadge.innerHTML = '<i class="fas fa-clock fa-spin me-1"></i>Pending Review';
+        }
+    }
+
+    // Dynamic Action Buttons
+    const btnBox = document.getElementById('modalActionButtons');
+    if (btnBox) {
+        let profileUrl = `/profile`;
+        if (user.role === 'student') profileUrl = `/student/profile/${user.id}`;
+        if (user.role === 'alumni') profileUrl = `/alumni/profile/${user.id}`;
+        if (user.role === 'faculty') profileUrl = `/faculty/profile/${user.id}`;
+
+        btnBox.innerHTML = `
+            <a href="${profileUrl}" class="btn btn-primary rounded-pill px-4 fw-bold">
+                <i class="fas fa-external-link-alt me-1"></i> Full Profile
+            </a>
+            <a href="/messages" class="btn btn-outline-primary rounded-pill px-3 fw-bold">
+                <i class="fas fa-comment-dots me-1"></i> Message
+            </a>
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-3 fw-bold" onclick="copyToClipboard('${user.email}')">
+                <i class="far fa-copy me-1"></i> Copy Email
+            </button>
+        `;
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById('userInspectModal'));
+    modal.show();
+}
+
+// Client-side CSV Exporter
+function exportUsersToCSV() {
+    if (!currentUsersData || currentUsersData.length === 0) {
+        alert('No user records available to export.');
+        return;
+    }
+
+    const headers = ['Account ID', 'Full Name', 'Email Address', 'Phone Number', 'Role', 'Department/Branch', 'Company', 'City', 'Verification Status', 'Joined Date'];
+    const rows = currentUsersData.map(u => [
+        u.id,
+        `"${u.name.replace(/"/g, '""')}"`,
+        `"${u.email.replace(/"/g, '""')}"`,
+        `"${u.phone.replace(/"/g, '""')}"`,
+        u.role.toUpperCase(),
+        `"${u.branch.replace(/"/g, '""')}"`,
+        `"${u.company.replace(/"/g, '""')}"`,
+        `"${u.city.replace(/"/g, '""')}"`,
+        u.approved ? 'VERIFIED' : 'PENDING',
+        `"${u.created}"`
+    ]);
+
+    let csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `alumni_hub_users_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showToast('User directory CSV exported successfully!', 'success');
+}
+
+// Copy to Clipboard with Toast
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast(`Copied to clipboard: ${text}`, 'info');
+    }).catch(() => {
+        prompt('Copy email manually:', text);
+    });
+}
+
+// Toast Notifications
+function showToast(message, type = 'info') {
+    const container = document.getElementById('admToastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'adm-toast';
+
+    let icon = 'fas fa-info-circle text-info';
+    if (type === 'success') icon = 'fas fa-check-circle text-success';
+    if (type === 'danger') icon = 'fas fa-exclamation-triangle text-danger';
+
+    toast.innerHTML = `<i class="${icon}"></i> <span>${message}</span>`;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.transition = 'all 0.3s ease';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 300);
+    }, 3200);
+}
 </script>
 {% endblock %}
