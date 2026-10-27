@@ -155,7 +155,7 @@
     background: #f8fafc;
     border-radius: 12px;
     padding: 0.65rem 0.85rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
@@ -168,16 +168,17 @@
     justify-content: space-between;
     color: #475569;
 }
+
 /* ========================================================
    ENTERPRISE USER CARD ACTION DOCK & BUTTONS
    ======================================================== */
 .adm-card-action-deck {
     margin-top: auto;
-    padding-top: 0.95rem;
+    padding-top: 0.85rem;
     border-top: 1px solid #f1f5f9;
     display: flex;
     flex-direction: column;
-    gap: 0.55rem;
+    gap: 0.5rem;
 }
 
 /* Approve Banner Button for Pending Users */
@@ -217,7 +218,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.45rem;
-    padding: 0.55rem 0.85rem;
+    padding: 0.55rem 0.75rem;
     font-size: 0.8rem;
     font-weight: 700;
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -290,7 +291,7 @@
     background: #f8fafc;
     color: #334155 !important;
     border-color: #e2e8f0;
-    padding: 0.5rem 0.85rem;
+    padding: 0.5rem 0.75rem;
 }
 .adm-btn-inspect i {
     font-size: 0.85rem;
@@ -345,6 +346,165 @@
     border-radius: 11px;
     border: 1.2px solid #e2e8f0;
     white-space: nowrap;
+}
+
+/* Quick Phone Call Button */
+.btn-quick-call {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+    display: inline-grid;
+    place-items: center;
+    font-size: 0.72rem;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+.btn-quick-call:hover {
+    background: #10b981;
+    color: #ffffff;
+    transform: scale(1.12);
+}
+
+/* ========================================================
+   MOBILE QUICK CHIPS TRACK & MULTI-SELECT
+   ======================================================== */
+.adm-mobile-chips-track {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0.35rem 0.2rem 0.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.adm-mobile-chips-track::-webkit-scrollbar {
+    display: none;
+}
+.adm-chip-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #ffffff;
+    color: #475569;
+    border: 1.2px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+.adm-chip-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+.adm-chip-btn.active {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+}
+.adm-chip-badge {
+    background: rgba(0, 0, 0, 0.08);
+    color: inherit;
+    font-size: 0.7rem;
+    padding: 0.12rem 0.45rem;
+    border-radius: 999px;
+    font-weight: 800;
+}
+.adm-chip-btn.active .adm-chip-badge {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+.adm-chip-btn.chip-pending.active {
+    background: #d97706;
+    border-color: #b45309;
+}
+
+/* Card Selection Mode Checkbox */
+.adm-card-checkbox-wrap {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 5;
+    display: none;
+}
+.selection-mode-active .adm-card-checkbox-wrap {
+    display: block;
+}
+.selection-mode-active .adm-user-card {
+    cursor: pointer;
+    user-select: none;
+}
+.adm-card-checkbox {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    accent-color: #4f46e5;
+}
+
+/* Floating Bulk Action Dock */
+.adm-bulk-bar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(140px);
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    z-index: 9990;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 92vw;
+    width: 480px;
+}
+.adm-bulk-bar.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Scroll To Top FAB */
+.adm-fab-top {
+    position: fixed;
+    bottom: 24px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #0f172a;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.35);
+    display: grid;
+    place-items: center;
+    font-size: 1rem;
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px);
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+.adm-fab-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 /* View Mode Toggler */
@@ -427,24 +587,49 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* ========================================================
+   RESPONSIVE MOBILE BREAKPOINTS (< 768px and < 480px)
+   ======================================================== */
 @media (max-width: 767.98px) {
     .adm-kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.65rem !important;
+    }
+    .adm-kpi-grid .adm-kpi-card:last-child {
+        grid-column: span 2 !important;
     }
     .adm-kpi-card {
-        padding: 0.9rem;
+        padding: 0.85rem !important;
+        border-radius: 16px !important;
     }
     .adm-kpi-val {
-        font-size: 1.35rem;
+        font-size: 1.35rem !important;
     }
     .adm-kpi-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 0.95rem !important;
     }
     .user-cards-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 0.9rem !important;
+    }
+    .adm-user-card {
+        padding: 1rem 0.9rem !important;
+        border-radius: 18px !important;
+    }
+    .adm-card-name {
+        font-size: 0.98rem !important;
+    }
+    .adm-card-email {
+        font-size: 0.76rem !important;
+    }
+    .adm-meta-row {
+        font-size: 0.76rem !important;
+    }
+    .adm-btn-action {
+        padding: 0.52rem 0.65rem !important;
+        font-size: 0.78rem !important;
     }
     /* Hide dense table by default on mobile */
     #usersTableWrap {
@@ -452,6 +637,45 @@
     }
     #usersCardsWrap {
         display: grid !important;
+    }
+
+    /* Native Bottom Sheet for Inspection Modal on Mobile */
+    #userInspectModal .modal-dialog {
+        margin: 0 !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        transform: translate(0, 100%) !important;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    #userInspectModal.show .modal-dialog {
+        transform: translate(0, 0) !important;
+    }
+    #userInspectModal .modal-content {
+        border-radius: 28px 28px 0 0 !important;
+        max-height: 88vh;
+        overflow-y: auto;
+        border-bottom: none !important;
+    }
+    .modal-sheet-drag-handle {
+        width: 44px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.45);
+        border-radius: 10px;
+        margin: 0 auto 10px;
+    }
+    .admin-hero-card {
+        padding: 1.25rem 1rem !important;
+        border-radius: 20px !important;
+    }
+    .admin-hero-title {
+        font-size: 1.5rem !important;
+    }
+    .admin-hero-subtitle {
+        font-size: 0.84rem !important;
     }
 }
 </style>
@@ -518,7 +742,7 @@
 
         <!-- 2. Telemetry Cluster Stats Deck -->
         <div class="adm-kpi-grid">
-            <div class="adm-kpi-card {% if role == 'all' %}active-kpi{% endif %}" onclick="filterByRolePill('all')">
+            <div class="adm-kpi-card {% if role == 'all' %}active-kpi{% endif %}" data-role="all" onclick="filterByRolePill('all')">
                 <div>
                     <div class="adm-kpi-label">Total Registered</div>
                     <div class="adm-kpi-val" id="statValTotal">{{ stats.total if stats else users|length }}</div>
@@ -528,7 +752,7 @@
                 </div>
             </div>
 
-            <div class="adm-kpi-card {% if role == 'student' %}active-kpi{% endif %}" onclick="filterByRolePill('student')">
+            <div class="adm-kpi-card {% if role == 'student' %}active-kpi{% endif %}" data-role="student" onclick="filterByRolePill('student')">
                 <div>
                     <div class="adm-kpi-label">Students</div>
                     <div class="adm-kpi-val" id="statValStudent">{{ stats.student if stats else 0 }}</div>
@@ -538,7 +762,7 @@
                 </div>
             </div>
 
-            <div class="adm-kpi-card {% if role == 'alumni' %}active-kpi{% endif %}" onclick="filterByRolePill('alumni')">
+            <div class="adm-kpi-card {% if role == 'alumni' %}active-kpi{% endif %}" data-role="alumni" onclick="filterByRolePill('alumni')">
                 <div>
                     <div class="adm-kpi-label">Alumni Network</div>
                     <div class="adm-kpi-val" id="statValAlumni">{{ stats.alumni if stats else 0 }}</div>
@@ -548,7 +772,7 @@
                 </div>
             </div>
 
-            <div class="adm-kpi-card {% if role == 'faculty' %}active-kpi{% endif %}" onclick="filterByRolePill('faculty')">
+            <div class="adm-kpi-card {% if role == 'faculty' %}active-kpi{% endif %}" data-role="faculty" onclick="filterByRolePill('faculty')">
                 <div>
                     <div class="adm-kpi-label">Faculty Staff</div>
                     <div class="adm-kpi-val" id="statValFaculty">{{ stats.faculty if stats else 0 }}</div>
@@ -558,7 +782,7 @@
                 </div>
             </div>
 
-            <div class="adm-kpi-card {% if role == 'pending' %}active-kpi{% endif %}" onclick="filterByRolePill('pending')">
+            <div class="adm-kpi-card {% if role == 'pending' %}active-kpi{% endif %}" data-role="pending" onclick="filterByRolePill('pending')">
                 <div>
                     <div class="adm-kpi-label">Pending Approval</div>
                     <div class="adm-kpi-val text-warning" id="statValPending">{{ stats.pending if stats else 0 }}</div>
@@ -569,7 +793,7 @@
             </div>
         </div>
 
-        <!-- 3. Command Control Dock (Search, Filters, Sort, View Toggle) -->
+        <!-- 3. Command Control Dock (Search, Quick Chips, Filters, View Toggle) -->
         <div class="admin-card p-3 p-md-4 mb-4">
             <div class="d-flex flex-column gap-3">
                 <!-- Row 1: Search & Quick Actions -->
@@ -602,7 +826,26 @@
                     </div>
                 </div>
 
-                <!-- Row 2: Secondary Filters & Sort Dropdowns -->
+                <!-- Row 2: Mobile-First Quick Filter Chips Track -->
+                <div class="adm-mobile-chips-track">
+                    <button type="button" class="adm-chip-btn {% if not role or role == 'all' %}active{% endif %}" data-role="all" onclick="filterByRolePill('all')">
+                        <i class="fas fa-layer-group"></i> All <span class="adm-chip-badge">{{ stats.total if stats else users|length }}</span>
+                    </button>
+                    <button type="button" class="adm-chip-btn {% if role == 'student' %}active{% endif %}" data-role="student" onclick="filterByRolePill('student')">
+                        <i class="fas fa-user-graduate"></i> Students <span class="adm-chip-badge">{{ stats.student if stats else 0 }}</span>
+                    </button>
+                    <button type="button" class="adm-chip-btn {% if role == 'alumni' %}active{% endif %}" data-role="alumni" onclick="filterByRolePill('alumni')">
+                        <i class="fas fa-award"></i> Alumni <span class="adm-chip-badge">{{ stats.alumni if stats else 0 }}</span>
+                    </button>
+                    <button type="button" class="adm-chip-btn {% if role == 'faculty' %}active{% endif %}" data-role="faculty" onclick="filterByRolePill('faculty')">
+                        <i class="fas fa-chalkboard-teacher"></i> Faculty <span class="adm-chip-badge">{{ stats.faculty if stats else 0 }}</span>
+                    </button>
+                    <button type="button" class="adm-chip-btn chip-pending {% if role == 'pending' %}active{% endif %}" data-role="pending" onclick="filterByRolePill('pending')">
+                        <i class="fas fa-clock"></i> Pending <span class="adm-chip-badge text-warning">{{ stats.pending if stats else 0 }}</span>
+                    </button>
+                </div>
+
+                <!-- Row 3: Secondary Filters & Sort Dropdowns -->
                 <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 pt-2 border-top">
                     <div class="d-flex align-items-center gap-2 flex-wrap flex-grow-1">
                         <!-- Role Filter Select -->
@@ -655,6 +898,11 @@
                     <h3 class="fw-bold mb-1" style="font-size: 1.22rem; color: var(--adm-slate-900);">Enrolled Participants Directory</h3>
                     <p class="text-muted small mb-0">Showing active and pending accounts across the institutional database.</p>
                 </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 fw-bold" id="btnToggleSelectMode" onclick="toggleSelectMode()">
+                        <i class="fas fa-check-double me-1"></i> Multi-Select
+                    </button>
+                </div>
             </div>
 
             {% if users %}
@@ -672,7 +920,13 @@
                      data-created="{{ user['created_at'] or '' }}"
                      data-branch="{{ user['branch'] or '' }}"
                      data-company="{{ user['company'] or '' }}"
-                     data-city="{{ user['city'] or '' }}">
+                     data-city="{{ user['city'] or '' }}"
+                     onclick="handleCardClick(event, this, '{{ user['id'] }}')">
+
+                    <!-- Selection Checkbox (Active in Multi-Select Mode) -->
+                    <div class="adm-card-checkbox-wrap">
+                        <input type="checkbox" class="adm-card-checkbox" value="{{ user['id'] }}" onchange="handleUserSelection(this)">
+                    </div>
 
                     <div>
                         <!-- Card Head -->
@@ -711,11 +965,20 @@
                                 </div>
 
                                 <div class="adm-card-name" title="{{ user['name'] }}">{{ user['name'] }}</div>
-                                <div class="adm-card-email" title="{{ user['email'] }}">
-                                    <span>{{ user['email'] }}</span>
-                                    <button type="button" class="btn btn-link p-0 text-muted" onclick="copyToClipboard('{{ user['email'] }}')" title="Copy Email">
-                                        <i class="far fa-copy" style="font-size: 0.75rem;"></i>
-                                    </button>
+                                
+                                <div class="d-flex align-items-center justify-content-between gap-2">
+                                    <div class="adm-card-email" title="{{ user['email'] }}">
+                                        <span>{{ user['email'] }}</span>
+                                        <button type="button" class="btn btn-link p-0 text-muted" onclick="copyToClipboard('{{ user['email'] }}')" title="Copy Email">
+                                            <i class="far fa-copy" style="font-size: 0.75rem;"></i>
+                                        </button>
+                                    </div>
+
+                                    {% if user['phone'] %}
+                                    <a href="tel:{{ user['phone'] }}" class="btn-quick-call" title="Call {{ user['name'] }}">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -730,14 +993,14 @@
                             {% if user['branch'] %}
                             <div class="adm-meta-row">
                                 <span class="text-muted"><i class="fas fa-graduation-cap me-1"></i> Dept / Branch:</span>
-                                <span class="fw-semibold text-dark">{{ user['branch'] }}</span>
+                                <span class="fw-semibold text-dark text-truncate ps-2" style="max-width: 180px;">{{ user['branch'] }}</span>
                             </div>
                             {% endif %}
 
                             {% if user['company'] %}
                             <div class="adm-meta-row">
                                 <span class="text-muted"><i class="fas fa-briefcase me-1"></i> Company:</span>
-                                <span class="fw-semibold text-dark">{{ user['company'] }}</span>
+                                <span class="fw-semibold text-dark text-truncate ps-2" style="max-width: 180px;">{{ user['company'] }}</span>
                             </div>
                             {% endif %}
 
@@ -763,13 +1026,13 @@
                             <!-- Direct Chat Button -->
                             <a href="/messages?user_id={{ user['id'] }}" class="adm-btn-action adm-btn-chat" title="Start Direct Chat with {{ user['name']|e }}">
                                 <i class="fas fa-comment-dots"></i>
-                                <span>Direct Chat</span>
+                                <span><span class="d-none d-sm-inline">Direct </span>Chat</span>
                             </a>
 
                             <!-- Full Profile Button -->
                             <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('profile') }}{% endif %}" class="adm-btn-action adm-btn-profile" title="View Full Web Profile">
                                 <i class="fas fa-external-link-alt"></i>
-                                <span>Full Profile</span>
+                                <span><span class="d-none d-sm-inline">Full </span>Profile</span>
                             </a>
                         </div>
 
@@ -778,7 +1041,7 @@
                             <!-- Quick Inspect Dossier Button -->
                             <button type="button" class="adm-btn-action adm-btn-inspect" onclick="openUserInspectModal({{ user['id'] }})" title="Quick Dossier Inspection">
                                 <i class="fas fa-id-card"></i>
-                                <span>Quick Inspect</span>
+                                <span><span class="d-none d-sm-inline">Quick </span>Inspect</span>
                             </button>
 
                             <!-- Account Purge Safeguard -->
@@ -946,11 +1209,36 @@
     </div>
 </div>
 
-<!-- 5. Quick Dossier Inspection Modal -->
+<!-- 5. Floating Bulk Actions Dock (Active when users are selected) -->
+<div id="admBulkBar" class="adm-bulk-bar">
+    <div class="d-flex align-items-center gap-2">
+        <input type="checkbox" id="selectAllCheckbox" class="form-check-input my-0" onchange="toggleSelectAll(this.checked)">
+        <span class="fw-bold small font-monospace" id="selectedCountText">0 Selected</span>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn btn-sm btn-success rounded-pill px-3 fw-bold" onclick="batchApproveSelected()">
+            <i class="fas fa-check-circle me-1"></i> Approve
+        </button>
+        <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold" onclick="batchExportSelected()">
+            <i class="fas fa-file-csv me-1"></i> Export
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-2 fw-bold" onclick="toggleSelectMode(false)" title="Exit Selection Mode">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+
+<!-- 6. Scroll To Top Floating Action Button (FAB) -->
+<button type="button" id="btnScrollTop" class="adm-fab-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- 7. Quick Dossier Inspection Modal (Native Mobile Bottom Sheet on phones) -->
 <div class="modal fade" id="userInspectModal" tabindex="-1" aria-labelledby="userInspectModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 24px; overflow: hidden;">
-            <div class="modal-header border-0 pb-0 pt-4 px-4 position-relative" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100px;">
+            <div class="modal-header border-0 pb-0 pt-3 px-4 position-relative d-flex flex-column align-items-center" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 90px;">
+                <div class="modal-sheet-drag-handle d-md-none"></div>
                 <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body px-4 pt-0 pb-4 text-center">
@@ -1007,6 +1295,8 @@
 <script>
 // Master Users State
 let currentUsersData = [];
+let isSelectMode = false;
+let selectedUserIds = new Set();
 
 document.addEventListener('DOMContentLoaded', function () {
     extractUsersData();
@@ -1096,6 +1386,17 @@ function filterByRolePill(targetRole) {
         if (roleSelect) roleSelect.value = targetRole;
         if (statusSelect) statusSelect.value = 'all';
     }
+
+    // Update Quick Chip buttons
+    document.querySelectorAll('.adm-chip-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.role === targetRole);
+    });
+
+    // Update KPI card active classes
+    document.querySelectorAll('.adm-kpi-card').forEach(card => {
+        card.classList.toggle('active-kpi', card.dataset.role === targetRole);
+    });
+
     applyFilters();
 }
 
@@ -1147,6 +1448,12 @@ function resetAllFilters() {
     const statusSelect = document.getElementById('filterStatusSelect');
     if (roleSelect) roleSelect.value = 'all';
     if (statusSelect) statusSelect.value = 'all';
+    document.querySelectorAll('.adm-chip-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.role === 'all');
+    });
+    document.querySelectorAll('.adm-kpi-card').forEach(card => {
+        card.classList.toggle('active-kpi', card.dataset.role === 'all');
+    });
     applyFilters();
 }
 
@@ -1171,6 +1478,152 @@ function applySorting() {
     });
 }
 
+// Multi-Select & Batch Actions Engine
+function toggleSelectMode(forceState = null) {
+    isSelectMode = forceState !== null ? forceState : !isSelectMode;
+    const body = document.body;
+    const btn = document.getElementById('btnToggleSelectMode');
+    const bulkBar = document.getElementById('admBulkBar');
+
+    body.classList.toggle('selection-mode-active', isSelectMode);
+    if (btn) {
+        btn.classList.toggle('btn-primary', isSelectMode);
+        btn.classList.toggle('btn-outline-primary', !isSelectMode);
+        btn.innerHTML = isSelectMode 
+            ? '<i class="fas fa-check-circle me-1"></i> Exit Select' 
+            : '<i class="fas fa-check-double me-1"></i> Multi-Select';
+    }
+
+    if (!isSelectMode) {
+        selectedUserIds.clear();
+        document.querySelectorAll('.adm-card-checkbox').forEach(cb => cb.checked = false);
+        if (bulkBar) bulkBar.classList.remove('show');
+    }
+}
+
+function handleCardClick(e, cardEl, userId) {
+    if (isSelectMode) {
+        // If clicking on an action button, don't toggle select
+        if (e.target.closest('.adm-card-action-deck') || e.target.closest('a') || e.target.closest('button')) {
+            return;
+        }
+        const cb = cardEl.querySelector('.adm-card-checkbox');
+        if (cb) {
+            cb.checked = !cb.checked;
+            handleUserSelection(cb);
+        }
+    }
+}
+
+function handleUserSelection(checkbox) {
+    const id = checkbox.value;
+    if (checkbox.checked) {
+        selectedUserIds.add(id);
+    } else {
+        selectedUserIds.delete(id);
+    }
+    updateBulkBarState();
+}
+
+function toggleSelectAll(selectAll) {
+    selectedUserIds.clear();
+    document.querySelectorAll('.adm-card-checkbox').forEach(cb => {
+        const card = cb.closest('.user-row');
+        if (card && card.style.display !== 'none') {
+            cb.checked = selectAll;
+            if (selectAll) selectedUserIds.add(cb.value);
+        } else {
+            cb.checked = false;
+        }
+    });
+    updateBulkBarState();
+}
+
+function updateBulkBarState() {
+    const bulkBar = document.getElementById('admBulkBar');
+    const countEl = document.getElementById('selectedCountText');
+    const count = selectedUserIds.size;
+
+    if (countEl) countEl.textContent = `${count} Selected`;
+    if (bulkBar) {
+        if (count > 0 && isSelectMode) {
+            bulkBar.classList.add('show');
+        } else {
+            bulkBar.classList.remove('show');
+        }
+    }
+}
+
+// Batch Approve Selected
+async function batchApproveSelected() {
+    if (selectedUserIds.size === 0) return;
+    const ids = Array.from(selectedUserIds);
+    if (!confirm(`Authorize and verify ${ids.length} selected user account(s)?`)) return;
+
+    let successCount = 0;
+    for (const id of ids) {
+        try {
+            const res = await fetch(`/admin/verify-user/${id}/approve`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            const data = await res.json();
+            if (data.success) {
+                successCount++;
+                const card = document.getElementById(`user-card-${id}`);
+                const row = document.getElementById(`user-row-${id}`);
+                if (card) {
+                    card.classList.remove('pending-card');
+                    const b = card.querySelector('.badge-status-pending');
+                    if (b) {
+                        b.className = 'badge badge-status-verified rounded-pill px-2 py-1 fw-bold';
+                        b.innerHTML = '<i class="fas fa-check-circle me-1"></i>VERIFIED';
+                    }
+                    const approveBanner = card.querySelector('.btn-adm-approve-banner');
+                    if (approveBanner) approveBanner.remove();
+                }
+                const found = currentUsersData.find(u => u.id == id);
+                if (found) found.approved = true;
+            }
+        } catch (e) {
+            console.error('Batch approve error for', id, e);
+        }
+    }
+
+    showToast(`Successfully verified ${successCount} user account(s)!`, 'success');
+    toggleSelectMode(false);
+}
+
+// Batch Export Selected
+function batchExportSelected() {
+    if (selectedUserIds.size === 0) return;
+    const selectedUsers = currentUsersData.filter(u => selectedUserIds.has(String(u.id)));
+
+    const headers = ['Account ID', 'Full Name', 'Email Address', 'Phone Number', 'Role', 'Department/Branch', 'Company', 'City', 'Verification Status', 'Joined Date'];
+    const rows = selectedUsers.map(u => [
+        u.id,
+        `"${u.name.replace(/"/g, '""')}"`,
+        `"${u.email.replace(/"/g, '""')}"`,
+        `"${u.phone.replace(/"/g, '""')}"`,
+        u.role.toUpperCase(),
+        `"${u.branch.replace(/"/g, '""')}"`,
+        `"${u.company.replace(/"/g, '""')}"`,
+        `"${u.city.replace(/"/g, '""')}"`,
+        u.approved ? 'VERIFIED' : 'PENDING',
+        `"${u.created}"`
+    ]);
+
+    let csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `selected_users_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showToast(`Exported ${selectedUsers.length} selected users to CSV!`, 'success');
+}
+
 // 1-Click Approve Handler (AJAX)
 function initApproveHandlers() {
     document.querySelectorAll('.btn-approve-ajax').forEach(btn => {
@@ -1190,7 +1643,6 @@ function initApproveHandlers() {
                 if (data.success) {
                     showToast(`User "${name}" verified & approved!`, 'success');
 
-                    // Update UI state in card and table
                     const card = document.getElementById(`user-card-${id}`);
                     const row = document.getElementById(`user-row-${id}`);
 
@@ -1222,19 +1674,18 @@ function initApproveHandlers() {
                         pendingKpi.textContent = Math.max(0, cur - 1);
                     }
 
-                    // Update local state
                     const found = currentUsersData.find(u => u.id == id);
                     if (found) found.approved = true;
                 } else {
                     alert(data.message || 'Approval failed');
                     btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-check"></i> Approve';
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Approve';
                 }
             })
             .catch(err => {
                 alert('Network error approving user');
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-check"></i> Approve';
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Approve';
             });
         });
     });
@@ -1268,7 +1719,6 @@ function initPurgeHandlers() {
                             }
                         });
 
-                        // Remove from local dataset
                         currentUsersData = currentUsersData.filter(u => u.id != id);
                         applyFilters();
                     } else {
@@ -1414,5 +1864,17 @@ function showToast(message, type = 'info') {
         setTimeout(() => toast.remove(), 300);
     }, 3200);
 }
+
+// Scroll To Top FAB Listener
+window.addEventListener('scroll', function() {
+    const fab = document.getElementById('btnScrollTop');
+    if (fab) {
+        if (window.scrollY > 280) {
+            fab.classList.add('show');
+        } else {
+            fab.classList.remove('show');
+        }
+    }
+});
 </script>
 {% endblock %}
