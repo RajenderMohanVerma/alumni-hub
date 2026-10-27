@@ -1,101 +1,1115 @@
 {% extends "base.html" %}
 
-{% block title %}Announcements - Alumni Hub{% endblock %}
+{% block title %}Campus Announcements &amp; Official Circulars • Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="padding-top: 100px !important;">
-    <div class="d-flex justify-content-between align-items-center mb-5 animate__animated animate__fadeInDown">
-        <div>
-            <h1 class="fw-bold gradient-text display-5 mb-2">Announcements</h1>
-            <p class="lead text-muted">Latest updates, news, and official notices.</p>
+<!-- Google Fonts & Luxury Tokens -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
+
+<style>
+/* ========================================================
+   ANNOUNCEMENTS & OFFICIAL CIRCULARS - MOBILE FIRST ENTERPRISE
+   ======================================================== */
+.ann-page-wrapper {
+    position: relative;
+    padding-top: var(--adm-top-spacing-desktop, 145px) !important;
+    padding-bottom: 3.5rem;
+    padding-inline: 1rem;
+    background-color: var(--adm-bg, #0c1427);
+    min-height: 100vh;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.ann-container {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+/* 1. Header & Hero */
+.ann-hero-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.35);
+}
+.ann-hero-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.ann-pill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.28);
+    color: #60a5fa;
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.ann-hero-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.6rem, 3.2vw, 2.35rem);
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+}
+
+.ann-hero-sub {
+    color: #94a3b8;
+    font-size: clamp(0.88rem, 1.6vw, 1.02rem);
+    max-width: 680px;
+    margin-bottom: 0;
+    line-height: 1.55;
+}
+
+/* 2. Executive KPI Filter Deck */
+.ann-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+}
+.ann-kpi-card {
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    user-select: none;
+}
+.ann-kpi-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(30, 41, 59, 0.75);
+}
+.ann-kpi-card.active {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: #3b82f6;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+}
+.ann-kpi-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+.ann-kpi-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+.ann-kpi-lbl {
+    font-size: 0.74rem;
+    color: #94a3b8;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* 3. Filter Bar & Quick Controls */
+.ann-filter-dock {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 12px 18px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* Search input */
+.ann-search-wrap {
+    position: relative;
+    flex-grow: 1;
+    min-width: 240px;
+}
+.ann-search-input {
+    width: 100%;
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-radius: 50px;
+    padding: 9px 18px 9px 40px;
+    font-size: 0.88rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+.ann-search-input:focus {
+    border-color: #3b82f6;
+    background: rgba(30, 41, 59, 0.95);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+.ann-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    pointer-events: none;
+    font-size: 0.88rem;
+}
+
+/* Horizontal Category Chips */
+.ann-chips-scroller {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 2px 0;
+    max-width: 100%;
+}
+.ann-chips-scroller::-webkit-scrollbar { display: none; }
+
+.ann-chip {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+.ann-chip:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+.ann-chip.active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+}
+
+/* 4. Notice Feed Cards */
+.ann-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ann-card {
+    background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 22px 24px;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+.ann-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Left Accent Strips based on priority */
+.ann-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    border-radius: 4px 0 0 4px;
+}
+.ann-card.cat-urgent::before { background: #ef4444; }
+.ann-card.cat-placement::before { background: #10b981; }
+.ann-card.cat-academic::before { background: #3b82f6; }
+.ann-card.cat-event::before { background: #f59e0b; }
+.ann-card.cat-admin::before { background: #8b5cf6; }
+
+.ann-card-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.ann-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+.ann-tag.tag-urgent { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+.ann-tag.tag-placement { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.ann-tag.tag-academic { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+.ann-tag.tag-event { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.ann-tag.tag-admin { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
+
+.ann-time {
+    font-size: 0.76rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+}
+
+.ann-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.35;
+    margin-bottom: 8px;
+}
+
+.ann-body {
+    color: #cbd5e1;
+    font-size: 0.91rem;
+    line-height: 1.55;
+    margin-bottom: 16px;
+    white-space: pre-line;
+}
+
+.ann-meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+.ann-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.ann-author-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.ann-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.ann-btn-sm {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+}
+.ann-btn-sm:hover {
+    background: rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
+}
+.ann-btn-sm.btn-wa:hover {
+    background: #25d366;
+    color: #ffffff;
+    border-color: #25d366;
+}
+.ann-btn-sm.btn-bookmarked {
+    background: rgba(245, 158, 11, 0.18);
+    border-color: #f59e0b;
+    color: #fbbf24;
+}
+
+/* 5. Attachment Capsule */
+.ann-attachment-box {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    padding: 8px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: #93c5fd;
+    margin-bottom: 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.ann-attachment-box:hover {
+    background: rgba(59, 130, 246, 0.15);
+}
+
+/* 6. Mobile Responsiveness */
+@media (max-width: 767.98px) {
+    .ann-page-wrapper {
+        padding-top: 115px !important;
+        padding-inline: 0.75rem;
+    }
+    .ann-hero-card {
+        padding: 20px 18px;
+        border-radius: 18px;
+        margin-bottom: 16px;
+    }
+    .ann-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+    .ann-kpi-card {
+        padding: 12px 14px;
+        gap: 10px;
+    }
+    .ann-kpi-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1.05rem;
+        border-radius: 10px;
+    }
+    .ann-kpi-num {
+        font-size: 1.2rem;
+    }
+    .ann-card {
+        padding: 18px 16px;
+        border-radius: 16px;
+    }
+    .ann-title {
+        font-size: 1.04rem;
+    }
+    .ann-meta-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .ann-actions-group {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    
+    /* Bottom sheet for modals on mobile */
+    .modal.bottom-sheet-mobile .modal-dialog {
+        margin: 0 !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        max-width: 100% !important;
+        transform: translate(0, 100%) !important;
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .modal.bottom-sheet-mobile.show .modal-dialog {
+        transform: translate(0, 0) !important;
+    }
+    .modal.bottom-sheet-mobile .modal-content {
+        border-radius: 26px 26px 0 0 !important;
+        max-height: 88vh;
+        overflow-y: auto;
+    }
+}
+</style>
+
+<div class="ann-page-wrapper">
+    <!-- Ambient Floating Orbs -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+
+    <div class="ann-container">
+        <!-- 1. Hero Card -->
+        <div class="ann-hero-card">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                <div>
+                    <div class="ann-pill-tag">
+                        <i class="fas fa-bullhorn text-primary"></i>
+                        <span>Campus Official Bulletin &bull; Verified Circulars</span>
+                    </div>
+                    <h1 class="ann-hero-title">Announcements &amp; Circulars</h1>
+                    <p class="ann-hero-sub">
+                        Official academic schedules, placement drives, mentorship masterclasses, and administration directives for all verified campus members.
+                    </p>
+                </div>
+
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    {% if current_user.role in ['admin', 'faculty'] %}
+                    <button type="button" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm d-inline-flex align-items-center gap-2" onclick="openPublishModal()" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none;">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Publish Circular</span>
+                    </button>
+                    {% endif %}
+                    <a href="{{ url_for('community_group') }}" class="btn btn-outline-success rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-2" style="border-color: #25d366; color: #25d366;">
+                        <i class="fab fa-whatsapp"></i>
+                        <span class="d-none d-sm-inline">Live Community</span>
+                    </a>
+                </div>
+            </div>
         </div>
-        {% if current_user.role in ['admin', 'faculty'] %}
-        <button class="btn btn-premium-gradient btn-lg shadow-premium">
-            <i class="fas fa-plus-circle me-2"></i> New Announcement
-        </button>
-        {% endif %}
+
+        <!-- 2. Executive KPI Filter Deck -->
+        <div class="ann-kpi-grid">
+            <div class="ann-kpi-card active" id="kpiAll" onclick="setCategoryFilter('all')">
+                <div class="ann-kpi-icon" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <div>
+                    <div class="ann-kpi-num" id="kpiCountAll">5</div>
+                    <div class="ann-kpi-lbl">All Circulars</div>
+                </div>
+            </div>
+
+            <div class="ann-kpi-card" id="kpiUrgent" onclick="setCategoryFilter('urgent')">
+                <div class="ann-kpi-icon" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div>
+                    <div class="ann-kpi-num" id="kpiCountUrgent">1</div>
+                    <div class="ann-kpi-lbl">Urgent Deadlines</div>
+                </div>
+            </div>
+
+            <div class="ann-kpi-card" id="kpiPlacement" onclick="setCategoryFilter('placement')">
+                <div class="ann-kpi-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div>
+                    <div class="ann-kpi-num" id="kpiCountPlacement">1</div>
+                    <div class="ann-kpi-lbl">Placements</div>
+                </div>
+            </div>
+
+            <div class="ann-kpi-card" id="kpiAcademic" onclick="setCategoryFilter('academic')">
+                <div class="ann-kpi-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <div class="ann-kpi-num" id="kpiCountAcademic">2</div>
+                    <div class="ann-kpi-lbl">Academic &amp; Events</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Filter Dock (Search + Category Chips) -->
+        <div class="ann-filter-dock">
+            <div class="ann-search-wrap">
+                <i class="fas fa-search ann-search-icon"></i>
+                <input type="text" id="annSearchInput" class="ann-search-input" placeholder="Search notices by keyword, title, or department..." oninput="handleSearch()">
+            </div>
+
+            <div class="ann-chips-scroller">
+                <button type="button" class="ann-chip active" data-cat="all" onclick="setCategoryFilter('all')">All Notices</button>
+                <button type="button" class="ann-chip" data-cat="urgent" onclick="setCategoryFilter('urgent')">🚨 Urgent</button>
+                <button type="button" class="ann-chip" data-cat="academic" onclick="setCategoryFilter('academic')">🎓 Academic</button>
+                <button type="button" class="ann-chip" data-cat="placement" onclick="setCategoryFilter('placement')">💼 Placements</button>
+                <button type="button" class="ann-chip" data-cat="event" onclick="setCategoryFilter('event')">🎉 Masterclass</button>
+                <button type="button" class="ann-chip" data-cat="admin" onclick="setCategoryFilter('admin')">🏢 Campus Ops</button>
+                <button type="button" class="ann-chip" data-cat="saved" onclick="setCategoryFilter('saved')">⭐ Saved (<span id="savedCountText">0</span>)</button>
+            </div>
+        </div>
+
+        <!-- 4. Notice Feed Container -->
+        <div class="ann-feed" id="annFeedContainer">
+            <!-- Notices will be dynamically populated & filtered here -->
+        </div>
+
+        <div id="noResultsNotice" class="text-center py-5 d-none">
+            <div class="ann-kpi-icon mx-auto mb-3" style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.05); color: #64748b; font-size: 1.6rem; border-radius: 50%;">
+                <i class="fas fa-search"></i>
+            </div>
+            <h5 class="fw-bold text-white mb-1">No Matching Circulars Found</h5>
+            <p class="text-muted small">Try different search keywords or clear your category filter.</p>
+            <button type="button" class="btn btn-outline-light rounded-pill px-4 btn-sm" onclick="resetFilters()">Reset Filters</button>
+        </div>
     </div>
+</div>
 
-    <!-- Announcements List -->
-    <div class="row g-4">
-        <!-- Notice 1 -->
-        <div class="col-12 animate__animated animate__fadeInUp" style="--delay: 0.1s">
-            <div class="glass-card p-4 border-start border-5 border-danger">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <span class="badge bg-danger mb-2">Important</span>
-                        <h4 class="fw-bold mb-2">Final Year Project Submission Deadline Extended</h4>
-                        <p class="text-muted mb-3">
-                            The deadline for final year project submission has been extended by one week.
-                            Please ensure all documentation is uploaded to the portal by March 15th.
-                        </p>
-                        <div class="d-flex align-items-center text-muted small">
-                            <i class="far fa-user-circle me-2"></i> Dean's Office •
-                            <i class="far fa-clock ms-2 me-2"></i> 2 hours ago
+<!-- 5. Read Full Circular Modal / Mobile Bottom Sheet -->
+<div class="modal fade bottom-sheet-mobile" id="readNoticeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg" style="background: #111827; color: #ffffff; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.12);">
+            <div class="modal-header border-0 pb-0 pt-4 px-4 position-relative">
+                <div class="modal-sheet-drag-handle d-md-none" style="width: 44px; height: 5px; background: rgba(255, 255, 255, 0.25); border-radius: 10px; margin: 0 auto 10px;"></div>
+                <div class="d-flex align-items-center gap-2">
+                    <span id="modalNoticeTag" class="ann-tag tag-urgent">Academic Circular</span>
+                    <span id="modalNoticeTime" class="text-muted small">Just now</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-4" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 pt-3">
+                <h3 class="fw-bold text-white mb-3" id="modalNoticeTitle" style="font-family: 'Outfit', sans-serif;">Notice Title</h3>
+                
+                <div class="p-3 rounded-4 mb-4" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.85rem;">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 text-muted">
+                        <div>
+                            <span class="text-white-50">Issuing Authority:</span>
+                            <strong class="text-white ms-1" id="modalNoticeAuthor">Department of Computer Science</strong>
+                        </div>
+                        <div>
+                            <span class="text-white-50">Circular ID:</span>
+                            <span class="badge bg-dark border text-info font-monospace ms-1" id="modalNoticeId">CIR-2026-081</span>
                         </div>
                     </div>
-                    <div class="dropdown">
-                        <button class="btn btn-link text-muted" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Edit</a></li>
-                            <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                        </ul>
+                </div>
+
+                <div class="ann-body mb-4" id="modalNoticeBody" style="font-size: 0.96rem; line-height: 1.7; color: #e2e8f0;">
+                    Notice content...
+                </div>
+
+                <div id="modalAttachmentSection" class="ann-attachment-box w-100 justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-file-pdf fs-5 text-danger"></i>
+                        <div>
+                            <div class="fw-bold text-white small" id="modalAttachmentName">Guidelines_Document.pdf</div>
+                            <div class="text-muted extra-small">Official Verified Document (1.2 MB)</div>
+                        </div>
                     </div>
+                    <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1" onclick="alert('Downloading attachment document...')">
+                        <i class="fas fa-download me-1"></i> Download
+                    </button>
                 </div>
             </div>
-        </div>
-
-        <!-- Notice 2 -->
-        <div class="col-12 animate__animated animate__fadeInUp" style="--delay: 0.2s">
-            <div class="glass-card p-4 border-start border-5 border-info">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <span class="badge bg-info text-dark mb-2">Event</span>
-                        <h4 class="fw-bold mb-2">Guest Lecture: Cloud Computing Trends</h4>
-                        <p class="text-muted mb-3">
-                            Join us for an insightful session with industry experts on the latest trends in Cloud
-                            Computing.
-                            attendance is mandatory for 3rd year students.
-                        </p>
-                        <div class="d-flex align-items-center text-muted small">
-                            <i class="far fa-user-circle me-2"></i> Prof. Sharma •
-                            <i class="far fa-clock ms-2 me-2"></i> Yesterday
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-link text-muted" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                    </div>
+            <div class="modal-footer border-0 p-4 pt-0 d-flex justify-content-between flex-wrap gap-2">
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-outline-light rounded-pill px-3 btn-sm" onclick="printCurrentNotice()">
+                        <i class="fas fa-print me-1"></i> Print / Save PDF
+                    </button>
+                    <button type="button" class="btn btn-success rounded-pill px-3 btn-sm" id="modalWaShareBtn">
+                        <i class="fab fa-whatsapp me-1"></i> WhatsApp
+                    </button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Notice 3 -->
-        <div class="col-12 animate__animated animate__fadeInUp" style="--delay: 0.3s">
-            <div class="glass-card p-4 border-start border-5 border-success">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <span class="badge bg-success mb-2">General</span>
-                        <h4 class="fw-bold mb-2">Campus Maintenance Schedule</h4>
-                        <p class="text-muted mb-3">
-                            The library server will be down for maintenance this Saturday from 10 AM to 2 PM.
-                        </p>
-                        <div class="d-flex align-items-center text-muted small">
-                            <i class="far fa-user-circle me-2"></i> Admin Dept •
-                            <i class="far fa-clock ms-2 me-2"></i> 2 days ago
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-link text-muted" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                    </div>
-                </div>
+                <button type="button" class="btn btn-secondary rounded-pill px-4 btn-sm" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- 6. Publish New Circular Modal (Faculty & Admin) -->
+<div class="modal fade bottom-sheet-mobile" id="publishNoticeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg" style="background: #111827; color: #ffffff; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.12);">
+            <div class="modal-header border-0 pb-0 pt-4 px-4 position-relative">
+                <div class="modal-sheet-drag-handle d-md-none" style="width: 44px; height: 5px; background: rgba(255, 255, 255, 0.25); border-radius: 10px; margin: 0 auto 10px;"></div>
+                <h4 class="fw-bold text-white mb-0" style="font-family: 'Outfit', sans-serif;">
+                    <i class="fas fa-bullhorn text-primary me-2"></i> Publish Official Circular
+                </h4>
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-4" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form onsubmit="handlePublishNotice(event)" class="modal-body p-4">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label small fw-bold text-white-50">Notice Title *</label>
+                        <input type="text" id="pubTitle" class="form-control rounded-3" style="background: rgba(30, 41, 59, 0.8); border-color: rgba(255, 255, 255, 0.15); color: #ffffff;" placeholder="e.g. Final Year Project Review &amp; Architecture Submission" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-white-50">Category *</label>
+                        <select id="pubCategory" class="form-select rounded-3" style="background: rgba(30, 41, 59, 0.8); border-color: rgba(255, 255, 255, 0.15); color: #ffffff;">
+                            <option value="urgent">🚨 Urgent / Academic Deadline</option>
+                            <option value="academic">🎓 Academic Circular</option>
+                            <option value="placement">💼 Placement &amp; Careers</option>
+                            <option value="event">🎉 Guest Lecture / Masterclass</option>
+                            <option value="admin">🏢 Campus Administration</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-white-50">Issuing Department / Office *</label>
+                        <input type="text" id="pubAuthor" class="form-control rounded-3" style="background: rgba(30, 41, 59, 0.8); border-color: rgba(255, 255, 255, 0.15); color: #ffffff;" value="{{ current_user.name }} ({{ current_user.role|upper }})" required>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label small fw-bold text-white-50">Circular Content / Detailed Instructions *</label>
+                        <textarea id="pubBody" rows="5" class="form-control rounded-3" style="background: rgba(30, 41, 59, 0.8); border-color: rgba(255, 255, 255, 0.15); color: #ffffff;" placeholder="Provide complete guidelines, dates, links, and directives..." required></textarea>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label small fw-bold text-white-50">Attachment Name (Optional)</label>
+                        <input type="text" id="pubAttachment" class="form-control rounded-3" style="background: rgba(30, 41, 59, 0.8); border-color: rgba(255, 255, 255, 0.15); color: #ffffff;" placeholder="e.g. Project_Synopsis_Format.pdf">
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow">
+                        <i class="fas fa-paper-plane me-1"></i> Release Circular
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initial Institutional Announcements Dataset
+const DEFAULT_NOTICES = [
+    {
+        id: "CIR-2026-001",
+        title: "Final Year MCA & BCA Project Architecture Review & Synopsis Submission",
+        category: "urgent",
+        timeAgo: "2 hours ago",
+        dateRaw: "2026-10-27T10:00:00",
+        author: "Dr. Sunil Kapoor (HOD CS)",
+        authorRole: "HOD",
+        body: "All final-year MCA and BCA student teams are hereby notified that the initial System Architecture & Tech Stack Synopsis review will be conducted on Friday.\n\nAll documentation including ER diagrams, component pipelines, and cloud hosting proposals must be uploaded to the portal by Thursday 5:00 PM. Teams failing to submit on time will incur penalties in internal evaluation.",
+        attachment: "Project_Architecture_Guidelines_2026.pdf"
+    },
+    {
+        id: "CIR-2026-002",
+        title: "Campus Placement Drive: Deloitte & TCS Digital Innovation Labs",
+        category: "placement",
+        timeAgo: "5 hours ago",
+        dateRaw: "2026-10-27T08:00:00",
+        author: "Training & Placement Cell",
+        authorRole: "TPO",
+        body: "Deloitte USI and TCS Digital have confirmed campus recruitment schedules for Associate Software Engineers and Cloud Analysts.\n\nEligibility:\n- MCA & B.Tech (CS/IT) 2026 passing batch with 65% aggregate\n- Pre-placement orientation will be held online on Wednesday at 11:00 AM.\n\nStudents must complete verification on their Placement Dashboard before Tuesday midnight.",
+        attachment: "Deloitte_Job_Description_Package.pdf"
+    },
+    {
+        id: "CIR-2026-003",
+        title: "Alumni Masterclass: Cloud Native Scaling with Kubernetes & Microservices",
+        category: "event",
+        timeAgo: "Yesterday",
+        dateRaw: "2026-10-26T15:00:00",
+        author: "Prof. Vikas Rawat (Alumni Relations)",
+        authorRole: "FACULTY",
+        body: "We are thrilled to host distinguished alumnus Rahul Sharma (Senior Software Engineer @ Google, Batch of 2018) for an interactive hands-on seminar.\n\nSession Highlights:\n- Real-world production cluster architecture\n- Observability, zero-downtime rolling deploys\n- Career pathways in distributed systems\n\nVenue: Central Auditorium & Streamed live on Campus Portal.",
+        attachment: "Speaker_Profile_&_Prerequisites.pdf"
+    },
+    {
+        id: "CIR-2026-004",
+        title: "Scholarship & Merit Fellowship Application Window: Academic Year 2026-27",
+        category: "academic",
+        timeAgo: "2 days ago",
+        dateRaw: "2026-10-25T11:00:00",
+        author: "Office of Academic Affairs",
+        authorRole: "DEAN",
+        body: "Applications are invited for the Institutional Merit Cum Need Fellowship for the upcoming academic semester.\n\nEligible students can submit attested copies of previous semester grade sheets and income certificates to the scholarship desk in Block A.",
+        attachment: "Scholarship_Application_Form.pdf"
+    },
+    {
+        id: "CIR-2026-005",
+        title: "Central Infrastructure: Cloud Server & Portal Database Maintenance",
+        category: "admin",
+        timeAgo: "3 days ago",
+        dateRaw: "2026-10-24T18:00:00",
+        author: "IT Operations & Network Center",
+        authorRole: "ADMIN",
+        body: "Please be informed that the campus library portal, internal git repository, and laboratory cloud instances will undergo scheduled maintenance this Sunday between 02:00 AM and 06:00 AM.\n\nInternal services will resume normal operation immediately following security patching.",
+        attachment: null
+    }
+];
+
+let notices = [];
+let currentCategory = 'all';
+let searchQuery = '';
+let savedNoticeIds = new Set();
+let activeModalNotice = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadSavedBookmarks();
+    loadStoredNotices();
+    renderFeed();
+    updateCounts();
+});
+
+function loadSavedBookmarks() {
+    try {
+        const stored = localStorage.getItem('alumni_hub_saved_notices');
+        if (stored) {
+            savedNoticeIds = new Set(JSON.parse(stored));
+        }
+    } catch (e) {
+        savedNoticeIds = new Set();
+    }
+    updateSavedCounter();
+}
+
+function persistSavedBookmarks() {
+    try {
+        localStorage.setItem('alumni_hub_saved_notices', JSON.stringify([...savedNoticeIds]));
+    } catch (e) {}
+    updateSavedCounter();
+}
+
+function updateSavedCounter() {
+    const el = document.getElementById('savedCountText');
+    if (el) el.textContent = savedNoticeIds.size;
+}
+
+function loadStoredNotices() {
+    try {
+        const userNotices = localStorage.getItem('alumni_hub_custom_notices');
+        if (userNotices) {
+            const parsed = JSON.parse(userNotices);
+            notices = [...parsed, ...DEFAULT_NOTICES];
+        } else {
+            notices = [...DEFAULT_NOTICES];
+        }
+    } catch (e) {
+        notices = [...DEFAULT_NOTICES];
+    }
+}
+
+function persistCustomNotices(customList) {
+    try {
+        localStorage.setItem('alumni_hub_custom_notices', JSON.stringify(customList));
+    } catch (e) {}
+}
+
+function updateCounts() {
+    const total = notices.length;
+    const urgent = notices.filter(n => n.category === 'urgent').length;
+    const placement = notices.filter(n => n.category === 'placement').length;
+    const academic = notices.filter(n => n.category === 'academic' || n.category === 'event').length;
+
+    const elTotal = document.getElementById('kpiCountAll');
+    const elUrgent = document.getElementById('kpiCountUrgent');
+    const elPlacement = document.getElementById('kpiCountPlacement');
+    const elAcademic = document.getElementById('kpiCountAcademic');
+
+    if (elTotal) elTotal.textContent = total;
+    if (elUrgent) elUrgent.textContent = urgent;
+    if (elPlacement) elPlacement.textContent = placement;
+    if (elAcademic) elAcademic.textContent = academic;
+}
+
+function setCategoryFilter(cat) {
+    currentCategory = cat;
+
+    // Update KPI card highlights
+    document.querySelectorAll('.ann-kpi-card').forEach(c => c.classList.remove('active'));
+    if (cat === 'all') document.getElementById('kpiAll')?.classList.add('active');
+    if (cat === 'urgent') document.getElementById('kpiUrgent')?.classList.add('active');
+    if (cat === 'placement') document.getElementById('kpiPlacement')?.classList.add('active');
+    if (cat === 'academic' || cat === 'event') document.getElementById('kpiAcademic')?.classList.add('active');
+
+    // Update Chips highlights
+    document.querySelectorAll('.ann-chip').forEach(c => {
+        c.classList.toggle('active', c.dataset.cat === cat);
+    });
+
+    renderFeed();
+}
+
+function handleSearch() {
+    const input = document.getElementById('annSearchInput');
+    searchQuery = (input ? input.value : '').toLowerCase().trim();
+    renderFeed();
+}
+
+function resetFilters() {
+    currentCategory = 'all';
+    searchQuery = '';
+    const input = document.getElementById('annSearchInput');
+    if (input) input.value = '';
+    setCategoryFilter('all');
+}
+
+function renderFeed() {
+    const container = document.getElementById('annFeedContainer');
+    const noResults = document.getElementById('noResultsNotice');
+    if (!container) return;
+
+    let filtered = notices.filter(n => {
+        // Category filter
+        if (currentCategory === 'saved') {
+            if (!savedNoticeIds.has(n.id)) return false;
+        } else if (currentCategory !== 'all') {
+            if (n.category !== currentCategory) return false;
+        }
+
+        // Search Query filter
+        if (searchQuery) {
+            const titleMatch = (n.title || '').toLowerCase().includes(searchQuery);
+            const bodyMatch = (n.body || '').toLowerCase().includes(searchQuery);
+            const authorMatch = (n.author || '').toLowerCase().includes(searchQuery);
+            if (!titleMatch && !bodyMatch && !authorMatch) return false;
+        }
+
+        return true;
+    });
+
+    if (filtered.length === 0) {
+        container.innerHTML = '';
+        if (noResults) noResults.classList.remove('d-none');
+        return;
+    }
+
+    if (noResults) noResults.classList.add('d-none');
+
+    container.innerHTML = filtered.map(n => {
+        const isSaved = savedNoticeIds.has(n.id);
+        const tagInfo = getCategoryTag(n.category);
+        const authorInitial = (n.author || 'A').charAt(0).toUpperCase();
+
+        return `
+            <div class="ann-card cat-${n.category}" id="card-${n.id}">
+                <div class="ann-card-header">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="ann-tag ${tagInfo.className}">${tagInfo.label}</span>
+                        <span class="ann-time"><i class="far fa-clock"></i> ${escapeHtml(n.timeAgo)}</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-1">
+                        <button type="button" class="ann-btn-sm ${isSaved ? 'btn-bookmarked' : ''}" onclick="toggleBookmark('${n.id}')" title="${isSaved ? 'Remove Bookmark' : 'Save Notice'}">
+                            <i class="${isSaved ? 'fas' : 'far'} fa-star"></i>
+                            <span class="d-none d-sm-inline">${isSaved ? 'Saved' : 'Save'}</span>
+                        </button>
+                    </div>
+                </div>
+
+                <h3 class="ann-title">${escapeHtml(n.title)}</h3>
+                <div class="ann-body">${escapeHtml(n.body)}</div>
+
+                ${n.attachment ? `
+                    <div class="ann-attachment-box" onclick="openReadModal('${n.id}')">
+                        <i class="fas fa-file-pdf text-danger"></i>
+                        <span>${escapeHtml(n.attachment)}</span>
+                        <span class="badge bg-light text-dark extra-small ms-1">PDF</span>
+                    </div>
+                ` : ''}
+
+                <div class="ann-meta-bar">
+                    <div class="ann-author">
+                        <div class="ann-author-avatar">${authorInitial}</div>
+                        <div>
+                            <strong class="text-white">${escapeHtml(n.author)}</strong>
+                            <span class="text-muted small">&bull; Institutional Notice</span>
+                        </div>
+                    </div>
+
+                    <div class="ann-actions-group">
+                        <button type="button" class="ann-btn-sm" onclick="openReadModal('${n.id}')">
+                            <i class="fas fa-expand-alt"></i> Read Details
+                        </button>
+                        <button type="button" class="ann-btn-sm btn-wa" onclick="shareNoticeToWhatsApp('${n.id}')">
+                            <i class="fab fa-whatsapp"></i> Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function getCategoryTag(category) {
+    switch (category) {
+        case 'urgent': return { label: '🚨 URGENT DEADLINE', className: 'tag-urgent' };
+        case 'placement': return { label: '💼 PLACEMENT DRIVE', className: 'tag-placement' };
+        case 'academic': return { label: '🎓 ACADEMIC CIRCULAR', className: 'tag-academic' };
+        case 'event': return { label: '🎉 ALUMNI MASTERCLASS', className: 'tag-event' };
+        case 'admin': return { label: '🏢 CAMPUS DIRECTIVE', className: 'tag-admin' };
+        default: return { label: '📢 NOTICE', className: 'tag-academic' };
+    }
+}
+
+function toggleBookmark(id) {
+    if (savedNoticeIds.has(id)) {
+        savedNoticeIds.delete(id);
+    } else {
+        savedNoticeIds.add(id);
+    }
+    persistSavedBookmarks();
+    renderFeed();
+}
+
+function openReadModal(id) {
+    const notice = notices.find(n => n.id === id);
+    if (!notice) return;
+    activeModalNotice = notice;
+
+    const tagInfo = getCategoryTag(notice.category);
+    const tagEl = document.getElementById('modalNoticeTag');
+    if (tagEl) {
+        tagEl.className = `ann-tag ${tagInfo.className}`;
+        tagEl.textContent = tagInfo.label;
+    }
+
+    document.getElementById('modalNoticeTime').textContent = notice.timeAgo;
+    document.getElementById('modalNoticeTitle').textContent = notice.title;
+    document.getElementById('modalNoticeAuthor').textContent = notice.author;
+    document.getElementById('modalNoticeId').textContent = notice.id;
+    document.getElementById('modalNoticeBody').textContent = notice.body;
+
+    const attachSection = document.getElementById('modalAttachmentSection');
+    const attachName = document.getElementById('modalAttachmentName');
+    if (notice.attachment) {
+        attachSection.classList.remove('d-none');
+        attachName.textContent = notice.attachment;
+    } else {
+        attachSection.classList.add('d-none');
+    }
+
+    const waBtn = document.getElementById('modalWaShareBtn');
+    if (waBtn) {
+        waBtn.onclick = () => shareNoticeToWhatsApp(notice.id);
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById('readNoticeModal'));
+    modal.show();
+}
+
+function openPublishModal() {
+    const modal = new bootstrap.Modal(document.getElementById('publishNoticeModal'));
+    modal.show();
+}
+
+function handlePublishNotice(e) {
+    e.preventDefault();
+    const title = document.getElementById('pubTitle').value.trim();
+    const category = document.getElementById('pubCategory').value;
+    const author = document.getElementById('pubAuthor').value.trim();
+    const body = document.getElementById('pubBody').value.trim();
+    const attachment = document.getElementById('pubAttachment').value.trim() || null;
+
+    if (!title || !body) return;
+
+    const newId = `CIR-2026-${String(Math.floor(100 + Math.random() * 900))}`;
+    const newNotice = {
+        id: newId,
+        title: title,
+        category: category,
+        timeAgo: 'Just now',
+        dateRaw: new Date().toISOString(),
+        author: author,
+        body: body,
+        attachment: attachment
+    };
+
+    // Prepend to list
+    notices.unshift(newNotice);
+
+    // Save custom notices in localStorage
+    try {
+        const stored = localStorage.getItem('alumni_hub_custom_notices');
+        const customList = stored ? JSON.parse(stored) : [];
+        customList.unshift(newNotice);
+        persistCustomNotices(customList);
+    } catch (e) {}
+
+    // Close modal & refresh
+    bootstrap.Modal.getInstance(document.getElementById('publishNoticeModal'))?.hide();
+    e.target.reset();
+
+    updateCounts();
+    renderFeed();
+
+    // Smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    alert('Circular published successfully across the Campus Portal! 📢');
+}
+
+function shareNoticeToWhatsApp(id) {
+    const notice = notices.find(n => n.id === id);
+    if (!notice) return;
+
+    const text = `📢 *OFFICIAL CAMPUS CIRCULAR*\n\n📌 *${notice.title}*\n\n🏛 *Department:* ${notice.author}\n\n📄 *Summary:*\n${notice.body.slice(0, 200)}...\n\n🔗 *Full Details & Attachments:* ${window.location.origin}/announcements\n\n*Office of Academic & Alumni Affairs*`;
+
+    const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    window.open(waUrl, '_blank');
+}
+
+function printCurrentNotice() {
+    if (!activeModalNotice) return;
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>${escapeHtml(activeModalNotice.title)} - Official Notice</title>
+            <style>
+                body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 40px; color: #1e293b; }
+                .header { border-bottom: 2px solid #2563eb; padding-bottom: 16px; margin-bottom: 24px; text-align: center; }
+                .logo { font-size: 24px; font-weight: 800; color: #1e40af; text-transform: uppercase; letter-spacing: 1px; }
+                .sub { font-size: 13px; color: #64748b; margin-top: 4px; }
+                .title { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+                .meta { background: #f1f5f9; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; }
+                .content { font-size: 15px; line-height: 1.8; white-space: pre-line; }
+                .footer { margin-top: 50px; border-top: 1px solid #cbd5e1; padding-top: 16px; font-size: 12px; color: #64748b; display: flex; justify-content: space-between; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="logo">Alumni Hub &bull; Institutional Bulletin</div>
+                <div class="sub">Office of Academic, Career &amp; Student Affairs</div>
+            </div>
+            <div class="meta">
+                <strong>Circular ID:</strong> ${activeModalNotice.id} &nbsp;|&nbsp;
+                <strong>Date:</strong> ${new Date().toLocaleDateString()} &nbsp;|&nbsp;
+                <strong>Authority:</strong> ${escapeHtml(activeModalNotice.author)}
+            </div>
+            <h1 class="title">${escapeHtml(activeModalNotice.title)}</h1>
+            <div class="content">${escapeHtml(activeModalNotice.body)}</div>
+            <div class="footer">
+                <span>Verified Official Institutional Circular</span>
+                <span>Alumni Hub Web Portal</span>
+            </div>
+            <script>
+                window.onload = function() { window.print(); }
+            <\/script>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+}
+
+function escapeHtml(text) {
+    const d = document.createElement('div');
+    d.textContent = text || '';
+    return d.innerHTML;
+}
+</script>
 {% endblock %}

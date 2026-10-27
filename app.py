@@ -4732,12 +4732,7 @@ def spotlight():
 @app.route('/announcements')
 @login_required
 def announcements():
-    if current_user.role == 'faculty':
-        return render_template('faculty/announcements.html')
-    if current_user.role == 'admin':
-        return render_template('announcements.html')
-    flash('Access denied!', 'danger')
-    return redirect(url_for('home'))
+    return render_template('announcements.html')
 
 @app.route('/reports')
 @login_required
