@@ -2680,14 +2680,28 @@ def admin_analytics():
     try:
         conn = get_db_connection()
 
-        # Gather statistics
+        # Helper for safe count queries
+        def safe_query_count(sql_stmt, default_val=0):
+            try:
+                res = conn.execute(sql_stmt).fetchone()
+                return res[0] if res else default_val
+            except Exception:
+                return default_val
+
+        # Gather comprehensive platform statistics
         stats = {
-            'total_users': conn.execute("SELECT COUNT(*) FROM users").fetchone()[0],
-            'students': conn.execute("SELECT COUNT(*) FROM users WHERE role='student'").fetchone()[0],
-            'alumni': conn.execute("SELECT COUNT(*) FROM users WHERE role='alumni'").fetchone()[0],
-            'faculty': conn.execute("SELECT COUNT(*) FROM users WHERE role='faculty'").fetchone()[0],
-            'admin': conn.execute("SELECT COUNT(*) FROM users WHERE role='admin'").fetchone()[0],
-            'meet_registrations': conn.execute("SELECT COUNT(*) FROM alumni_meet_registration").fetchone()[0],
+            'total_users': safe_query_count("SELECT COUNT(*) FROM users"),
+            'students': safe_query_count("SELECT COUNT(*) FROM users WHERE role='student'"),
+            'alumni': safe_query_count("SELECT COUNT(*) FROM users WHERE role='alumni'"),
+            'faculty': safe_query_count("SELECT COUNT(*) FROM users WHERE role='faculty'"),
+            'admin': safe_query_count("SELECT COUNT(*) FROM users WHERE role='admin'"),
+            'verified_users': safe_query_count("SELECT COUNT(*) FROM users WHERE is_verified=1"),
+            'meet_registrations': safe_query_count("SELECT COUNT(*) FROM alumni_meet_registration"),
+            'active_jobs': safe_query_count("SELECT COUNT(*) FROM jobs"),
+            'job_applications': safe_query_count("SELECT COUNT(*) FROM job_applications"),
+            'accepted_connections': safe_query_count("SELECT COUNT(*) FROM connection_requests WHERE status='accepted'"),
+            'pending_connections': safe_query_count("SELECT COUNT(*) FROM connection_requests WHERE status='pending'"),
+            'online_users': safe_query_count("SELECT COUNT(*) FROM user_activity WHERE online_status='online'"),
         }
 
         return render_template('admin/admin_analytics.html', stats=stats)

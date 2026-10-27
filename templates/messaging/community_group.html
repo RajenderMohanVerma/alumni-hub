@@ -127,6 +127,94 @@
     gap: 4px;
 }
 
+/* Header Action Buttons - Professional Modern Suite (No circular outline buttons) */
+.cg-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.cg-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 7px 14px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 9px;
+    color: #ffffff !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+    user-select: none;
+}
+
+.cg-action-btn:hover {
+    background: rgba(255, 255, 255, 0.24);
+    border-color: rgba(255, 255, 255, 0.45);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    color: #ffffff !important;
+}
+
+.cg-action-btn:active {
+    transform: translateY(0);
+}
+
+.cg-action-btn i {
+    font-size: 0.85rem;
+    opacity: 0.95;
+}
+
+.cg-action-btn .btn-badge {
+    background: rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1;
+}
+
+.cg-action-btn.cg-btn-mod {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border: 1px solid #fbbf24;
+    color: #111827 !important;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.28);
+}
+
+.cg-action-btn.cg-btn-mod:hover {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: #000000 !important;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+@media (max-width: 640px) {
+    .cg-header-actions {
+        gap: 6px;
+    }
+    .cg-action-btn {
+        padding: 5px 9px;
+        height: 32px;
+        font-size: 0.76rem;
+        gap: 5px;
+        border-radius: 8px;
+    }
+    .cg-action-btn .btn-text-full {
+        display: none;
+    }
+}
+
 /* In-Chat Search Bar Drawer */
 .cg-search-bar {
     background: #ffffff;
@@ -580,20 +668,24 @@
                     </div>
                 </div>
 
-                <div class="d-flex align-items-center gap-2 flex-shrink-0">
-                    <!-- Search In Chat Toggle -->
-                    <button type="button" class="btn btn-outline-light btn-sm rounded-circle d-grid place-items-center" style="width: 36px; height: 36px;" onclick="toggleChatSearch()" title="Search in Chat">
+                <div class="cg-header-actions">
+                    <!-- Search In Chat Button -->
+                    <button type="button" class="cg-action-btn" onclick="toggleChatSearch()" title="Search in Chat">
                         <i class="fas fa-search"></i>
+                        <span class="btn-text-full">Search</span>
                     </button>
 
-                    <!-- Group Info Button -->
-                    <button type="button" class="btn btn-outline-light btn-sm rounded-circle d-grid place-items-center" style="width: 36px; height: 36px;" onclick="openGroupInfoModal()" title="View Group Participants">
-                        <i class="fas fa-info"></i>
+                    <!-- View All Participants Button -->
+                    <button type="button" class="cg-action-btn" onclick="openGroupInfoModal()" title="View All Participants">
+                        <i class="fas fa-users"></i>
+                        <span class="btn-text-full">Participants</span>
+                        <span class="btn-badge" id="headerCountBadge">2</span>
                     </button>
 
                     {% if is_admin %}
-                    <a href="{{ url_for('admin_messaging_control') }}" class="btn btn-warning btn-sm rounded-pill px-3 py-1 fw-bold text-dark d-none d-sm-inline-flex align-items-center gap-1 shadow-sm" style="font-size: 0.78rem;">
-                        <i class="fas fa-shield-alt"></i> Moderation
+                    <a href="{{ url_for('admin_messaging_control') }}" class="cg-action-btn cg-btn-mod" title="Open Moderation & Messaging Control">
+                        <i class="fas fa-shield-alt"></i>
+                        <span class="btn-text-full">Moderation</span>
                     </a>
                     {% endif %}
                 </div>
@@ -825,6 +917,10 @@ function loadGroupStatus() {
             const infoBadge = document.getElementById('infoParticipantsBadge');
             if (infoBadge) {
                 infoBadge.textContent = `${data.member_count} Verified Members`;
+            }
+            const countBadge = document.getElementById('headerCountBadge');
+            if (countBadge) {
+                countBadge.textContent = data.member_count;
             }
             updateLockUI(data.is_locked);
         }

@@ -3,9 +3,430 @@
 {% block title %}Platform Analytics • Ecosystem Intelligence Suite{% endblock %}
 
 {% block content %}
-<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<!-- Google Fonts & Luxury Theme -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+/* -------------------------------------------------------------
+   Admin Analytics Executive Stylesheet
+   Mobile-First • Touch-Optimized • Dark Luxury
+   ------------------------------------------------------------- */
+.admin-page-wrapper {
+    position: relative;
+    min-height: 100vh;
+    background: radial-gradient(circle at 15% 15%, rgba(14, 165, 233, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.06) 0%, transparent 40%),
+                #0b0f17 !important;
+    padding-top: var(--adm-top-spacing-desktop, 145px) !important;
+    padding-bottom: 4rem;
+    overflow-x: hidden;
+    color: #f1f5f9;
+}
+
+@media (max-width: 991.98px) {
+    .admin-page-wrapper {
+        padding-top: var(--adm-top-spacing-mobile, 115px) !important;
+        padding-bottom: 3rem;
+    }
+}
+
+.admin-analytics-container {
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+
+@media (max-width: 576px) {
+    .admin-analytics-container {
+        padding: 0 0.85rem;
+    }
+}
+
+/* Ambient Floating Orbs */
+.admin-ambient-ball {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+}
+.admin-ball-1 {
+    width: 320px;
+    height: 320px;
+    background: linear-gradient(135deg, #0284c7, #38bdf8);
+    top: 10%;
+    left: -50px;
+}
+.admin-ball-2 {
+    width: 280px;
+    height: 280px;
+    background: linear-gradient(135deg, #7c3aed, #c084fc);
+    bottom: 15%;
+    right: -40px;
+}
+.admin-ball-3 {
+    width: 220px;
+    height: 220px;
+    background: linear-gradient(135deg, #10b981, #34d399);
+    top: 55%;
+    left: 45%;
+}
+
+/* Glassmorphic Cards */
+.admin-glass-card {
+    background: rgba(17, 24, 39, 0.72) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 1.25rem;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    position: relative;
+    z-index: 1;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.admin-glass-card:hover {
+    border-color: rgba(56, 189, 248, 0.25) !important;
+}
+
+/* Hero Section */
+.admin-hero-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 1.5rem;
+    padding: 1.85rem 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+    .admin-hero-card {
+        padding: 1.35rem 1.15rem;
+        margin-bottom: 1.5rem;
+        border-radius: 1.25rem;
+    }
+}
+
+.admin-hero-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #34d399);
+}
+
+.admin-hero-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+    .admin-hero-title {
+        font-size: 1.6rem;
+    }
+}
+
+.text-holographic-adm {
+    background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.admin-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.95rem;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 50px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #38bdf8;
+    text-transform: uppercase;
+}
+
+.live-pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #38bdf8;
+    border-radius: 50%;
+    position: relative;
+}
+
+.live-pulse-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: #38bdf8;
+    opacity: 0.7;
+    animation: livePulse 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+
+@keyframes livePulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(2.4); opacity: 0; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+/* 6-Metric High-Altitude KPI Deck */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 1200px) {
+    .kpi-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.kpi-card {
+    background: rgba(17, 24, 39, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.15rem;
+    padding: 1.15rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
+.kpi-accent-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+}
+
+.kpi-icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+}
+
+.kpi-number {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 1.75rem;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+}
+
+@media (max-width: 576px) {
+    .kpi-number {
+        font-size: 1.5rem;
+    }
+}
+
+.kpi-label {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.kpi-meta {
+    font-size: 0.72rem;
+    color: #64748b;
+    margin-top: 0.65rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Accent Colors */
+.accent-blue { background: #0284c7; }
+.accent-amber { background: #f59e0b; }
+.accent-green { background: #10b981; }
+.accent-purple { background: #8b5cf6; }
+.accent-cyan { background: #06b6d4; }
+.accent-rose { background: #f43f5e; }
+
+/* Filter Pill Tabs */
+.analytics-period-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50px;
+    padding: 0.3rem 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.analytics-period-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.period-pill {
+    padding: 0.45rem 1rem;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #94a3b8;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.period-pill.active {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+/* Charts Wrapper */
+.chart-container-box {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
+@media (max-width: 768px) {
+    .chart-container-box {
+        height: 250px;
+    }
+}
+
+/* Density Breakdown Custom Bars */
+.density-item {
+    margin-bottom: 1.25rem;
+    padding: 0.85rem;
+    background: rgba(15, 23, 42, 0.45);
+    border-radius: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.2s ease;
+}
+
+.density-item:hover {
+    background: rgba(15, 23, 42, 0.7);
+}
+
+.density-item:last-child {
+    margin-bottom: 0;
+}
+
+.density-bar-track {
+    height: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 50px;
+    overflow: hidden;
+    position: relative;
+}
+
+.density-bar-fill {
+    height: 100%;
+    border-radius: 50px;
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Segment Action Cards */
+.segment-link-card {
+    padding: 0.95rem 1.15rem;
+    border-radius: 1rem;
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    text-decoration: none;
+    color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.22s ease;
+    margin-bottom: 0.65rem;
+}
+
+.segment-link-card:hover {
+    background: rgba(30, 41, 59, 0.85);
+    border-color: rgba(56, 189, 248, 0.35);
+    color: #ffffff;
+    transform: translateX(4px);
+}
+
+.segment-link-card:last-child {
+    margin-bottom: 0;
+}
+
+/* Print Friendly Overrides */
+@media print {
+    .admin-page-wrapper {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding-top: 10px !important;
+    }
+    .admin-ambient-ball,
+    .analytics-period-bar,
+    .btn-no-print {
+        display: none !important;
+    }
+    .admin-glass-card,
+    .admin-hero-card,
+    .kpi-card {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #cccccc !important;
+        box-shadow: none !important;
+    }
+    .kpi-number,
+    .admin-hero-title {
+        color: #000000 !important;
+    }
+}
+</style>
 
 <div class="admin-page-wrapper">
     <!-- Ambient Floating Orbs -->
@@ -13,221 +434,628 @@
     <div class="admin-ambient-ball admin-ball-2"></div>
     <div class="admin-ambient-ball admin-ball-3"></div>
 
-    <div class="admin-container">
+    <div class="admin-analytics-container">
         <!-- 1. Executive Holographic Hero Terminal -->
         <div class="admin-hero-card">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
                 <div class="admin-live-badge mb-0">
                     <span class="live-pulse-dot"></span>
-                    <span>INTELLIGENCE RADAR • REAL-TIME PLATFORM ANALYTICS</span>
+                    <span>INTELLIGENCE RADAR • REAL-TIME PLATFORM TELEMETRY</span>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex flex-wrap gap-2 btn-no-print">
+                    <button type="button" onclick="window.print()" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
+                        <i class="fas fa-print"></i> <span>Export Report</span>
+                    </button>
                     <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
-                        <i class="fas fa-th-large"></i> Command Center
+                        <i class="fas fa-th-large"></i> <span>Command Center</span>
                     </a>
                     <a href="{{ url_for('admin_stats') }}" class="btn btn-info btn-sm rounded-pill px-3 py-1 fw-bold text-dark d-inline-flex align-items-center gap-1 shadow-sm">
-                        <i class="fas fa-chart-line"></i> Deep Stats
+                        <i class="fas fa-chart-line"></i> <span>Deep Velocity</span>
                     </a>
                 </div>
             </div>
 
-            <h1 class="admin-hero-title mb-2">
-                <span class="hero-title-prefix">Institutional</span> <span class="text-holographic-adm">Analytics & Growth</span>
-            </h1>
-            <p class="admin-hero-subtitle mb-0">
-                High-altitude telemetry over community member demographics, enrollment growth curves, legacy graduate engagement, and active platform utilization.
-            </p>
-        </div>
-
-        <!-- 2. Four VIP Metric Cards -->
-        <div class="row g-3 g-md-4 mb-4">
-            <!-- Total Users -->
-            <div class="col-6 col-lg-3">
-                <div class="admin-stat-node">
-                    <div class="stat-accent-bar bar-blue"></div>
-                    <div>
-                        <div class="stat-icon-wrap" style="background: rgba(2, 132, 199, 0.12); color: #0284c7;">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-number-display">{{ stats['total_users'] }}</div>
-                        <div class="stat-label-text">Total Accounts</div>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
-                        <span>Enrolled Base</span>
-                        <i class="fas fa-arrow-right text-primary"></i>
-                    </div>
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-8">
+                    <h1 class="admin-hero-title mb-2">
+                        <span class="hero-title-prefix">Institutional</span> <span class="text-holographic-adm">Analytics & Telemetry</span>
+                    </h1>
+                    <p class="text-muted small mb-0" style="max-width: 680px; line-height: 1.6;">
+                        High-altitude executive telemetry over active community enrollment, graduated alumni mentoring pipelines, career opportunities, and direct user engagement.
+                    </p>
                 </div>
-            </div>
-
-            <!-- Alumni -->
-            <div class="col-6 col-lg-3">
-                <div class="admin-stat-node">
-                    <div class="stat-accent-bar bar-amber"></div>
-                    <div>
-                        <div class="stat-icon-wrap" style="background: rgba(245, 158, 11, 0.12); color: #d97706;">
-                            <i class="fas fa-award"></i>
-                        </div>
-                        <div class="stat-number-display">{{ stats['alumni'] }}</div>
-                        <div class="stat-label-text">Alumni Network</div>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
-                        <span>Graduated Mentors</span>
-                        <i class="fas fa-arrow-right text-warning"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Students -->
-            <div class="col-6 col-lg-3">
-                <div class="admin-stat-node">
-                    <div class="stat-accent-bar bar-green"></div>
-                    <div>
-                        <div class="stat-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: #059669;">
-                            <i class="fas fa-user-graduate"></i>
-                        </div>
-                        <div class="stat-number-display">{{ stats['students'] }}</div>
-                        <div class="stat-label-text">Active Students</div>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
-                        <span>Undergraduate & PG</span>
-                        <i class="fas fa-arrow-right text-success"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Faculty -->
-            <div class="col-6 col-lg-3">
-                <div class="admin-stat-node">
-                    <div class="stat-accent-bar bar-purple"></div>
-                    <div>
-                        <div class="stat-icon-wrap" style="background: rgba(124, 58, 237, 0.12); color: #7c3aed;">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
-                        <div class="stat-number-display">{{ stats['faculty'] }}</div>
-                        <div class="stat-label-text">Faculty & Guides</div>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
-                        <span>Department Mentors</span>
-                        <i class="fas fa-arrow-right text-purple"></i>
+                <div class="col-12 col-lg-4 mt-3 mt-lg-0 text-lg-end btn-no-print">
+                    <div class="analytics-period-bar d-inline-flex">
+                        <button class="period-pill active" onclick="switchPeriod('all', this)">All-Time</button>
+                        <button class="period-pill" onclick="switchPeriod('term', this)">Current Term</button>
+                        <button class="period-pill" onclick="switchPeriod('month', this)">Last 30 Days</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 3. Demographics Density & Fast Inspection Console -->
-        <div class="row g-4">
-            <!-- Left: Density Breakdown -->
-            <div class="col-12 col-lg-7">
-                <div class="admin-card h-100">
-                    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+        <!-- 2. Six High-Altitude KPI Metric Cards -->
+        <div class="kpi-grid">
+            <!-- 1. Total Registered Base -->
+            <div class="kpi-card">
+                <div class="kpi-accent-bar accent-blue"></div>
+                <div>
+                    <div class="kpi-icon-wrap" style="background: rgba(2, 132, 199, 0.15); color: #38bdf8;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="kpi-number" id="kpiTotalUsers">{{ stats.get('total_users', 0) }}</div>
+                    <div class="kpi-label">Total Accounts</div>
+                </div>
+                <div class="kpi-meta">
+                    <span><i class="fas fa-check-circle text-info me-1"></i>{{ stats.get('verified_users', 0) }} Verified</span>
+                    <a href="{{ url_for('dashboard_admin') }}" class="text-info text-decoration-none"><i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- 2. Verified Alumni -->
+            <div class="kpi-card">
+                <div class="kpi-accent-bar accent-amber"></div>
+                <div>
+                    <div class="kpi-icon-wrap" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="kpi-number" id="kpiAlumni">{{ stats.get('alumni', 0) }}</div>
+                    <div class="kpi-label">Alumni Network</div>
+                </div>
+                <div class="kpi-meta">
+                    <span><i class="fas fa-user-tie text-warning me-1"></i>Mentors & Leads</span>
+                    <a href="{{ url_for('admin_view_users', role='alumni') }}" class="text-warning text-decoration-none"><i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- 3. Active Students -->
+            <div class="kpi-card">
+                <div class="kpi-accent-bar accent-green"></div>
+                <div>
+                    <div class="kpi-icon-wrap" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="kpi-number" id="kpiStudents">{{ stats.get('students', 0) }}</div>
+                    <div class="kpi-label">Active Students</div>
+                </div>
+                <div class="kpi-meta">
+                    <span><i class="fas fa-graduation-cap text-success me-1"></i>UG & PG Learners</span>
+                    <a href="{{ url_for('admin_view_users', role='student') }}" class="text-success text-decoration-none"><i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- 4. Faculty & Mentors -->
+            <div class="kpi-card">
+                <div class="kpi-accent-bar accent-purple"></div>
+                <div>
+                    <div class="kpi-icon-wrap" style="background: rgba(139, 92, 246, 0.15); color: #c084fc;">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="kpi-number" id="kpiFaculty">{{ stats.get('faculty', 0) }}</div>
+                    <div class="kpi-label">Faculty Guides</div>
+                </div>
+                <div class="kpi-meta">
+                    <span><i class="fas fa-shield-alt text-purple me-1"></i>Department Leads</span>
+                    <a href="{{ url_for('admin_view_users', role='faculty') }}" class="text-purple text-decoration-none"><i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- 5. Placement & Opportunities -->
+            <div class="kpi-card">
+                <div class="kpi-accent-bar accent-cyan"></div>
+                <div>
+                    <div class="kpi-icon-wrap" style="background: rgba(6, 182, 212, 0.15); color: #22d3ee;">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="kpi-number" id="kpiJobs">{{ stats.get('active_jobs', 0) }}</div>
+                    <div class="kpi-label">Career Openings</div>
+                </div>
+                <div class="kpi-meta">
+                    <span><i class="fas fa-file-signature text-info me-1"></i>{{ stats.get('job_applications', 0) }} Applied</span>
+                    <a href="{{ url_for('admin_jobs') }}" class="text-info text-decoration-none"><i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- 6. Connected Relationships -->
+            <div class="kpi-card">
+                <div class="kpi-accent-bar accent-rose"></div>
+                <div>
+                    <div class="kpi-icon-wrap" style="background: rgba(244, 63, 94, 0.15); color: #fb7185;">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="kpi-number" id="kpiConnections">{{ stats.get('accepted_connections', 0) }}</div>
+                    <div class="kpi-label">Active Links</div>
+                </div>
+                <div class="kpi-meta">
+                    <span><i class="fas fa-wifi text-rose me-1"></i>{{ stats.get('online_users', 0) }} Online</span>
+                    <a href="{{ url_for('admin_connection_monitor') }}" class="text-danger text-decoration-none"><i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Dual Interactive Charts Matrix -->
+        <div class="row g-4 mb-4">
+            <!-- Left Chart: Demographic Distribution Donut -->
+            <div class="col-12 col-lg-5">
+                <div class="admin-glass-card p-3 p-md-4 h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
                         <div>
-                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.2rem;">Community Density Breakdown</h4>
-                            <p class="text-muted small mb-0">Role percentage distribution across database clusters.</p>
+                            <h5 class="fw-bold mb-1 text-white" style="font-size: 1.15rem;">
+                                <i class="fas fa-chart-pie text-info me-2"></i>Demographic Composition
+                            </h5>
+                            <p class="text-muted small mb-0">Live ratio across institutional accounts.</p>
                         </div>
-                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-bold" style="font-size: 0.75rem;">
-                            Live Edge Sync
+                        <span class="badge bg-info-subtle text-info rounded-pill px-3 py-1 font-monospace extra-small">
+                            {{ stats.get('total_users', 0) }} TOTAL
                         </span>
                     </div>
 
-                    {% set student_pct = (stats['students'] / stats['total_users'] * 100) | int if stats['total_users'] > 0 else 0 %}
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between small fw-bold mb-1 text-dark">
-                            <span><i class="fas fa-user-graduate text-primary me-2"></i> Students Segment</span>
-                            <span class="font-monospace text-primary">{{ stats['students'] }} / {{ stats['total_users'] }} ({{ student_pct }}%)</span>
-                        </div>
-                        <div class="progress" style="height: 10px; border-radius: 50px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: {{ student_pct }}%;"></div>
-                        </div>
+                    <div class="chart-container-box">
+                        <canvas id="demographicsDonutChart"></canvas>
                     </div>
 
-                    {% set alumni_pct = (stats['alumni'] / stats['total_users'] * 100) | int if stats['total_users'] > 0 else 0 %}
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between small fw-bold mb-1 text-dark">
-                            <span><i class="fas fa-award text-warning me-2"></i> Alumni Segment</span>
-                            <span class="font-monospace text-warning">{{ stats['alumni'] }} / {{ stats['total_users'] }} ({{ alumni_pct }}%)</span>
+                    <div class="d-flex justify-content-around text-center mt-3 pt-3 border-top border-secondary border-opacity-25 small">
+                        <div>
+                            <span class="d-inline-block rounded-circle me-1" style="width: 8px; height: 8px; background: #38bdf8;"></span>
+                            <span class="text-muted extra-small">Students</span>
+                            <div class="fw-bold text-white">{{ stats.get('students', 0) }}</div>
                         </div>
-                        <div class="progress" style="height: 10px; border-radius: 50px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ alumni_pct }}%;"></div>
+                        <div>
+                            <span class="d-inline-block rounded-circle me-1" style="width: 8px; height: 8px; background: #fbbf24;"></span>
+                            <span class="text-muted extra-small">Alumni</span>
+                            <div class="fw-bold text-white">{{ stats.get('alumni', 0) }}</div>
                         </div>
-                    </div>
-
-                    {% set faculty_pct = (stats['faculty'] / stats['total_users'] * 100) | int if stats['total_users'] > 0 else 0 %}
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between small fw-bold mb-1 text-dark">
-                            <span><i class="fas fa-chalkboard-teacher text-success me-2"></i> Faculty Segment</span>
-                            <span class="font-monospace text-success">{{ stats['faculty'] }} / {{ stats['total_users'] }} ({{ faculty_pct }}%)</span>
+                        <div>
+                            <span class="d-inline-block rounded-circle me-1" style="width: 8px; height: 8px; background: #34d399;"></span>
+                            <span class="text-muted extra-small">Faculty</span>
+                            <div class="fw-bold text-white">{{ stats.get('faculty', 0) }}</div>
                         </div>
-                        <div class="progress" style="height: 10px; border-radius: 50px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ faculty_pct }}%;"></div>
-                        </div>
-                    </div>
-
-                    {% set admin_pct = (stats['admin'] / stats['total_users'] * 100) | int if stats['total_users'] > 0 else 0 %}
-                    <div class="mb-0">
-                        <div class="d-flex justify-content-between small fw-bold mb-1 text-dark">
-                            <span><i class="fas fa-shield-alt text-purple me-2"></i> Administrative Core</span>
-                            <span class="font-monospace text-purple">{{ stats['admin'] }} / {{ stats['total_users'] }} ({{ admin_pct }}%)</span>
-                        </div>
-                        <div class="progress" style="height: 10px; border-radius: 50px;">
-                            <div class="progress-bar" role="progressbar" style="width: {{ admin_pct }}%; background: #7c3aed;"></div>
+                        <div>
+                            <span class="d-inline-block rounded-circle me-1" style="width: 8px; height: 8px; background: #c084fc;"></span>
+                            <span class="text-muted extra-small">Admin</span>
+                            <div class="fw-bold text-white">{{ stats.get('admin', 0) }}</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right: Segment Inspection Deck -->
+            <!-- Right Chart: Ecosystem Vitality & Engagement Funnel -->
+            <div class="col-12 col-lg-7">
+                <div class="admin-glass-card p-3 p-md-4 h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                        <div>
+                            <h5 class="fw-bold mb-1 text-white" style="font-size: 1.15rem;">
+                                <i class="fas fa-layer-group text-primary me-2"></i>Ecosystem Vitality Radar
+                            </h5>
+                            <p class="text-muted small mb-0">Platform activity density across major functional verticals.</p>
+                        </div>
+                        <div class="btn-group btn-group-sm btn-no-print" role="group">
+                            <button type="button" class="btn btn-outline-secondary active text-white" id="btnChartBar" onclick="setChartType('bar')">Bar</button>
+                            <button type="button" class="btn btn-outline-secondary text-white" id="btnChartPolar" onclick="setChartType('polarArea')">Polar</button>
+                        </div>
+                    </div>
+
+                    <div class="chart-container-box">
+                        <canvas id="ecosystemVitalityChart"></canvas>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between text-muted small mt-3 pt-3 border-top border-secondary border-opacity-25 font-monospace extra-small">
+                        <span><i class="fas fa-sync-alt text-success me-1"></i> Calibrated live from production database</span>
+                        <span class="text-info"><i class="fas fa-signal me-1"></i> Edge Connected</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Community Density Breakdown & Inspection Deck -->
+        <div class="row g-4">
+            <!-- Left: Granular Density Distribution -->
+            <div class="col-12 col-lg-7">
+                <div class="admin-glass-card p-3 p-md-4 h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                        <div>
+                            <h5 class="fw-bold mb-1 text-white" style="font-size: 1.2rem;">
+                                <i class="fas fa-sliders-h text-primary me-2"></i>Community Density Breakdown
+                            </h5>
+                            <p class="text-muted small mb-0">Role percentage distribution & database volume allocation.</p>
+                        </div>
+                        <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 font-monospace extra-small">
+                            LIVE EDGE SYNC
+                        </span>
+                    </div>
+
+                    {% set total_u = stats.get('total_users', 0) %}
+                    {% set student_pct = (stats.get('students', 0) / total_u * 100) | int if total_u > 0 else 0 %}
+                    {% set alumni_pct = (stats.get('alumni', 0) / total_u * 100) | int if total_u > 0 else 0 %}
+                    {% set faculty_pct = (stats.get('faculty', 0) / total_u * 100) | int if total_u > 0 else 0 %}
+                    {% set admin_pct = (stats.get('admin', 0) / total_u * 100) | int if total_u > 0 else 0 %}
+
+                    <!-- Student Item -->
+                    <div class="density-item">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-primary-subtle text-primary p-2 rounded-3"><i class="fas fa-user-graduate"></i></span>
+                                <div>
+                                    <div class="fw-bold text-white small">Students Segment</div>
+                                    <div class="text-muted extra-small">Undergraduate & Post-Graduate Base</div>
+                                </div>
+                            </div>
+                            <div class="text-end font-monospace">
+                                <span class="fw-bold text-primary">{{ stats.get('students', 0) }}</span>
+                                <span class="text-muted extra-small">/ {{ total_u }} ({{ student_pct }}%)</span>
+                            </div>
+                        </div>
+                        <div class="density-bar-track">
+                            <div class="density-bar-fill" style="width: {{ student_pct }}%; background: linear-gradient(90deg, #0284c7, #38bdf8);"></div>
+                        </div>
+                    </div>
+
+                    <!-- Alumni Item -->
+                    <div class="density-item">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-warning-subtle text-warning p-2 rounded-3"><i class="fas fa-award"></i></span>
+                                <div>
+                                    <div class="fw-bold text-white small">Alumni Segment</div>
+                                    <div class="text-muted extra-small">Graduated Industry Mentors & Leaders</div>
+                                </div>
+                            </div>
+                            <div class="text-end font-monospace">
+                                <span class="fw-bold text-warning">{{ stats.get('alumni', 0) }}</span>
+                                <span class="text-muted extra-small">/ {{ total_u }} ({{ alumni_pct }}%)</span>
+                            </div>
+                        </div>
+                        <div class="density-bar-track">
+                            <div class="density-bar-fill" style="width: {{ alumni_pct }}%; background: linear-gradient(90deg, #d97706, #fbbf24);"></div>
+                        </div>
+                    </div>
+
+                    <!-- Faculty Item -->
+                    <div class="density-item">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-success-subtle text-success p-2 rounded-3"><i class="fas fa-chalkboard-teacher"></i></span>
+                                <div>
+                                    <div class="fw-bold text-white small">Faculty Segment</div>
+                                    <div class="text-muted extra-small">Department Mentors, Guides & Advisors</div>
+                                </div>
+                            </div>
+                            <div class="text-end font-monospace">
+                                <span class="fw-bold text-success">{{ stats.get('faculty', 0) }}</span>
+                                <span class="text-muted extra-small">/ {{ total_u }} ({{ faculty_pct }}%)</span>
+                            </div>
+                        </div>
+                        <div class="density-bar-track">
+                            <div class="density-bar-fill" style="width: {{ faculty_pct }}%; background: linear-gradient(90deg, #059669, #34d399);"></div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Item -->
+                    <div class="density-item">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-purple-subtle text-purple p-2 rounded-3" style="background: rgba(139, 92, 246, 0.15); color: #c084fc;"><i class="fas fa-shield-alt"></i></span>
+                                <div>
+                                    <div class="fw-bold text-white small">Administrative Core</div>
+                                    <div class="text-muted extra-small">System Administrators & Moderators</div>
+                                </div>
+                            </div>
+                            <div class="text-end font-monospace">
+                                <span class="fw-bold" style="color: #c084fc;">{{ stats.get('admin', 0) }}</span>
+                                <span class="text-muted extra-small">/ {{ total_u }} ({{ admin_pct }}%)</span>
+                            </div>
+                        </div>
+                        <div class="density-bar-track">
+                            <div class="density-bar-fill" style="width: {{ admin_pct }}%; background: linear-gradient(90deg, #7c3aed, #c084fc);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Segment Inspection Deck & Direct Actions -->
             <div class="col-12 col-lg-5">
-                <div class="admin-card h-100 d-flex flex-column justify-content-between">
+                <div class="admin-glass-card p-3 p-md-4 h-100 d-flex flex-column justify-content-between">
                     <div>
                         <div class="d-flex align-items-center gap-2 mb-3">
-                            <span class="rounded-3 p-2 bg-info bg-opacity-10 text-info d-grid place-items-center" style="width: 38px; height: 38px;">
-                                <i class="fas fa-layer-group"></i>
+                            <span class="rounded-3 p-2 bg-info-subtle text-info d-grid place-items-center" style="width: 38px; height: 38px;">
+                                <i class="fas fa-th-list"></i>
                             </span>
-                            <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.15rem;">Segment Inspection Hub</h4>
+                            <h5 class="fw-bold mb-0 text-white" style="font-size: 1.15rem;">Segment Inspection Hub</h5>
                         </div>
-                        <p class="text-muted small mb-4">Direct access shortcuts to inspect, modify, and audit individual demographic partitions.</p>
+                        <p class="text-muted small mb-3">Direct access shortcuts to inspect, modify, and audit individual demographic partitions.</p>
 
                         <div class="d-flex flex-column gap-2">
-                            <a href="{{ url_for('admin_view_users', role='student') }}" class="p-3 rounded-4 border bg-light text-decoration-none text-dark d-flex align-items-center justify-content-between transition-hover">
+                            <a href="{{ url_for('admin_view_users', role='student') }}" class="segment-link-card">
                                 <div class="d-flex align-items-center gap-3">
-                                    <span class="rounded-3 p-2 bg-primary bg-opacity-10 text-primary"><i class="fas fa-user-graduate"></i></span>
-                                    <span class="fw-bold small">Inspect Student Directory</span>
+                                    <span class="badge bg-primary-subtle text-primary p-2 rounded-3"><i class="fas fa-user-graduate"></i></span>
+                                    <div>
+                                        <div class="fw-bold small">Inspect Student Directory</div>
+                                        <div class="text-muted extra-small">{{ stats.get('students', 0) }} enrolled learners</div>
+                                    </div>
                                 </div>
                                 <i class="fas fa-chevron-right text-muted small"></i>
                             </a>
 
-                            <a href="{{ url_for('admin_view_users', role='alumni') }}" class="p-3 rounded-4 border bg-light text-decoration-none text-dark d-flex align-items-center justify-content-between transition-hover">
+                            <a href="{{ url_for('admin_view_users', role='alumni') }}" class="segment-link-card">
                                 <div class="d-flex align-items-center gap-3">
-                                    <span class="rounded-3 p-2 bg-warning bg-opacity-10 text-warning"><i class="fas fa-user-tie"></i></span>
-                                    <span class="fw-bold small">Inspect Alumni Registry</span>
+                                    <span class="badge bg-warning-subtle text-warning p-2 rounded-3"><i class="fas fa-user-tie"></i></span>
+                                    <div>
+                                        <div class="fw-bold small">Inspect Alumni Registry</div>
+                                        <div class="text-muted extra-small">{{ stats.get('alumni', 0) }} verified graduates</div>
+                                    </div>
                                 </div>
                                 <i class="fas fa-chevron-right text-muted small"></i>
                             </a>
 
-                            <a href="{{ url_for('admin_view_users', role='faculty') }}" class="p-3 rounded-4 border bg-light text-decoration-none text-dark d-flex align-items-center justify-content-between transition-hover">
+                            <a href="{{ url_for('admin_view_users', role='faculty') }}" class="segment-link-card">
                                 <div class="d-flex align-items-center gap-3">
-                                    <span class="rounded-3 p-2 bg-success bg-opacity-10 text-success"><i class="fas fa-chalkboard-teacher"></i></span>
-                                    <span class="fw-bold small">Inspect Faculty Registry</span>
+                                    <span class="badge bg-success-subtle text-success p-2 rounded-3"><i class="fas fa-chalkboard-teacher"></i></span>
+                                    <div>
+                                        <div class="fw-bold small">Inspect Faculty Registry</div>
+                                        <div class="text-muted extra-small">{{ stats.get('faculty', 0) }} guides & professors</div>
+                                    </div>
                                 </div>
                                 <i class="fas fa-chevron-right text-muted small"></i>
                             </a>
 
-                            <a href="{{ url_for('admin_messaging_control') }}" class="p-3 rounded-4 border bg-light text-decoration-none text-dark d-flex align-items-center justify-content-between transition-hover">
+                            <a href="{{ url_for('admin_connection_monitor') }}" class="segment-link-card">
                                 <div class="d-flex align-items-center gap-3">
-                                    <span class="rounded-3 p-2 bg-purple bg-opacity-10 text-purple"><i class="fas fa-broadcast-tower"></i></span>
-                                    <span class="fw-bold small">Broadcast Governance</span>
+                                    <span class="badge bg-danger-subtle text-danger p-2 rounded-3"><i class="fas fa-project-diagram"></i></span>
+                                    <div>
+                                        <div class="fw-bold small">Connection Monitor Radar</div>
+                                        <div class="text-muted extra-small">{{ stats.get('accepted_connections', 0) }} active peer links</div>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-right text-muted small"></i>
+                            </a>
+
+                            <a href="{{ url_for('admin_messaging_control') }}" class="segment-link-card">
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="badge bg-purple-subtle text-purple p-2 rounded-3" style="background: rgba(139, 92, 246, 0.15); color: #c084fc;"><i class="fas fa-broadcast-tower"></i></span>
+                                    <div>
+                                        <div class="fw-bold small">Broadcast & Community Desk</div>
+                                        <div class="text-muted extra-small">Emergency lock & admissions desk</div>
+                                    </div>
                                 </div>
                                 <i class="fas fa-chevron-right text-muted small"></i>
                             </a>
                         </div>
                     </div>
 
-                    <div class="mt-4 pt-3 border-top text-center text-muted small font-monospace">
-                        <i class="fas fa-check-double text-success me-1"></i> Data calibrated directly from production SQLite/Turso.
+                    <div class="mt-4 pt-3 border-top border-secondary border-opacity-25 text-center text-muted small font-monospace extra-small">
+                        <i class="fas fa-shield-alt text-success me-1"></i> Enterprise Grade Telemetry • Encrypted Realtime Shard
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+/* -------------------------------------------------------------
+   Interactive Analytics Engine & Chart Visualizations
+   ------------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+    initDemographicsDonut();
+    initEcosystemVitalityChart('bar');
+    animateKPIValues();
+});
+
+let donutChartInstance = null;
+let vitalityChartInstance = null;
+
+// Raw Stats from Backend
+const analyticsData = {
+    students: Number("{{ stats.get('students', 0) }}"),
+    alumni: Number("{{ stats.get('alumni', 0) }}"),
+    faculty: Number("{{ stats.get('faculty', 0) }}"),
+    admin: Number("{{ stats.get('admin', 0) }}"),
+    total: Number("{{ stats.get('total_users', 0) }}"),
+    jobs: Number("{{ stats.get('active_jobs', 0) }}"),
+    applications: Number("{{ stats.get('job_applications', 0) }}"),
+    connections: Number("{{ stats.get('accepted_connections', 0) }}"),
+    meetRegistrations: Number("{{ stats.get('meet_registrations', 0) }}")
+};
+
+// 1. Demographics Donut Chart
+function initDemographicsDonut() {
+    const ctx = document.getElementById('demographicsDonutChart');
+    if (!ctx) return;
+
+    donutChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Students', 'Alumni', 'Faculty', 'Admin'],
+            datasets: [{
+                data: [
+                    analyticsData.students,
+                    analyticsData.alumni,
+                    analyticsData.faculty,
+                    analyticsData.admin
+                ],
+                backgroundColor: [
+                    '#38bdf8', // Sky Blue
+                    '#fbbf24', // Amber
+                    '#34d399', // Emerald
+                    '#c084fc'  // Purple
+                ],
+                borderColor: '#0f172a',
+                borderWidth: 3,
+                hoverOffset: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#cbd5e1',
+                    borderColor: 'rgba(56, 189, 248, 0.3)',
+                    borderWidth: 1,
+                    padding: 12,
+                    boxPadding: 6,
+                    callbacks: {
+                        label: function(context) {
+                            const val = context.raw || 0;
+                            const total = analyticsData.total || 1;
+                            const pct = Math.round((val / total) * 100);
+                            return ` ${context.label}: ${val} (${pct}%)`;
+                        }
+                    }
+                }
+            },
+            cutout: '72%'
+        }
+    });
+}
+
+// 2. Ecosystem Vitality Chart (Bar / Polar)
+function initEcosystemVitalityChart(chartType = 'bar') {
+    const ctx = document.getElementById('ecosystemVitalityChart');
+    if (!ctx) return;
+
+    if (vitalityChartInstance) {
+        vitalityChartInstance.destroy();
+    }
+
+    const labels = ['Students', 'Alumni', 'Faculty', 'Jobs', 'Job Apps', 'Connections', 'Meet Regs'];
+    const dataVals = [
+        analyticsData.students,
+        analyticsData.alumni,
+        analyticsData.faculty,
+        analyticsData.jobs,
+        analyticsData.applications,
+        analyticsData.connections,
+        analyticsData.meetRegistrations
+    ];
+
+    vitalityChartInstance = new Chart(ctx, {
+        type: chartType,
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Platform Count',
+                data: dataVals,
+                backgroundColor: [
+                    'rgba(56, 189, 248, 0.75)',
+                    'rgba(251, 191, 36, 0.75)',
+                    'rgba(52, 211, 153, 0.75)',
+                    'rgba(34, 211, 238, 0.75)',
+                    'rgba(129, 140, 248, 0.75)',
+                    'rgba(244, 63, 94, 0.75)',
+                    'rgba(192, 132, 252, 0.75)'
+                ],
+                borderColor: [
+                    '#38bdf8',
+                    '#fbbf24',
+                    '#34d399',
+                    '#22d3ee',
+                    '#818cf8',
+                    '#f43f5e',
+                    '#c084fc'
+                ],
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#cbd5e1',
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderWidth: 1,
+                    padding: 10
+                }
+            },
+            scales: chartType === 'bar' ? {
+                x: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.05)'
+                    },
+                    ticks: {
+                        color: '#94a3b8',
+                        font: { size: 11, family: 'Plus Jakarta Sans' }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.05)'
+                    },
+                    ticks: {
+                        color: '#94a3b8',
+                        precision: 0,
+                        font: { size: 11, family: 'JetBrains Mono' }
+                    }
+                }
+            } : undefined
+        }
+    });
+}
+
+function setChartType(type) {
+    document.getElementById('btnChartBar')?.classList.toggle('active', type === 'bar');
+    document.getElementById('btnChartPolar')?.classList.toggle('active', type === 'polarArea');
+    initEcosystemVitalityChart(type);
+}
+
+// 3. Period Filter Simulation
+function switchPeriod(period, btn) {
+    document.querySelectorAll('.period-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Subtle pulse effect on KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+        card.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+            card.style.transform = '';
+        }, 180);
+    });
+}
+
+// 4. Smooth Value Count-up Animation
+function animateKPIValues() {
+    const kpis = [
+        { id: 'kpiTotalUsers', target: analyticsData.total },
+        { id: 'kpiAlumni', target: analyticsData.alumni },
+        { id: 'kpiStudents', target: analyticsData.students },
+        { id: 'kpiFaculty', target: analyticsData.faculty },
+        { id: 'kpiJobs', target: analyticsData.jobs },
+        { id: 'kpiConnections', target: analyticsData.connections }
+    ];
+
+    kpis.forEach(item => {
+        const el = document.getElementById(item.id);
+        if (!el || item.target === 0) return;
+
+        let start = 0;
+        const duration = 800;
+        const stepTime = 25;
+        const steps = duration / stepTime;
+        const increment = item.target / steps;
+
+        const timer = setInterval(() => {
+            start += increment;
+            if (start >= item.target) {
+                el.innerText = item.target;
+                clearInterval(timer);
+            } else {
+                el.innerText = Math.floor(start);
+            }
+        }, stepTime);
+    });
+}
+</script>
 {% endblock %}
