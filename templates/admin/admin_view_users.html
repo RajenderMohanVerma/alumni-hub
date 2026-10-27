@@ -479,33 +479,7 @@
     transform: translateX(-50%) translateY(0);
 }
 
-/* Scroll To Top FAB */
-.adm-fab-top {
-    position: fixed;
-    bottom: 24px;
-    right: 20px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: #0f172a;
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.35);
-    display: grid;
-    place-items: center;
-    font-size: 1rem;
-    z-index: 998;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(16px);
-    transition: all 0.25s ease;
-    cursor: pointer;
-}
-.adm-fab-top.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
+
 
 /* View Mode Toggler */
 .view-switch-btn {
@@ -1228,10 +1202,7 @@
     </div>
 </div>
 
-<!-- 6. Scroll To Top Floating Action Button (FAB) -->
-<button type="button" id="btnScrollTop" class="adm-fab-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Scroll to top">
-    <i class="fas fa-arrow-up"></i>
-</button>
+
 
 <!-- 7. Quick Dossier Inspection Modal (Native Mobile Bottom Sheet on phones) -->
 <div class="modal fade" id="userInspectModal" tabindex="-1" aria-labelledby="userInspectModalLabel" aria-hidden="true">
@@ -1865,16 +1836,6 @@ function showToast(message, type = 'info') {
     }, 3200);
 }
 
-// Scroll To Top FAB Listener
-window.addEventListener('scroll', function() {
-    const fab = document.getElementById('btnScrollTop');
-    if (fab) {
-        if (window.scrollY > 280) {
-            fab.classList.add('show');
-        } else {
-            fab.classList.remove('show');
-        }
-    }
-});
+
 </script>
 {% endblock %}
