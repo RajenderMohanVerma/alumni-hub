@@ -2743,9 +2743,9 @@ def admin_registrations():
             params.append(role_filter)
 
         if search_query:
-            query += ' AND (r.name LIKE ? OR r.email LIKE ?)'
+            query += ' AND (r.name LIKE ? OR r.email LIKE ? OR r.phone LIKE ? OR r.department LIKE ? OR r.enrollment_no LIKE ? OR r.degree LIKE ? OR r.company_name LIKE ?)'
             search_term = f'%{search_query}%'
-            params.extend([search_term, search_term])
+            params.extend([search_term] * 7)
 
         query += ' ORDER BY r.registered_at DESC'
 
@@ -2756,6 +2756,7 @@ def admin_registrations():
             'students': c.execute("SELECT COUNT(*) FROM registration_log WHERE role='student'").fetchone()[0],
             'alumni': c.execute("SELECT COUNT(*) FROM registration_log WHERE role='alumni'").fetchone()[0],
             'faculty': c.execute("SELECT COUNT(*) FROM registration_log WHERE role='faculty'").fetchone()[0],
+            'with_phone': c.execute("SELECT COUNT(*) FROM registration_log WHERE phone IS NOT NULL AND TRIM(phone) != ''").fetchone()[0],
             'total': c.execute("SELECT COUNT(*) FROM registration_log").fetchone()[0],
         }
 

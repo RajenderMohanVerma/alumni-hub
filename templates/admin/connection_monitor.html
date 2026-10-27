@@ -10,14 +10,14 @@
 
 <style>
 /* ========================================================
-   CONNECTION MONITOR - LUXURY MOBILE-FIRST TELEMETRY
+   CONNECTION MONITOR - HIGH VISIBILITY LUXURY TELEMETRY
    ======================================================== */
 .cm-page-wrapper {
     position: relative;
     padding-top: var(--adm-top-spacing-desktop, 145px) !important;
     padding-bottom: 4rem;
-    padding-inline: 1rem;
-    background-color: var(--adm-bg, #0c1427);
+    padding-inline: 1.25rem;
+    background-color: #f8fafc;
     min-height: 100vh;
     box-sizing: border-box;
     overflow-x: hidden;
@@ -25,101 +25,127 @@
 
 .cm-container {
     width: 100%;
-    max-width: 1320px;
+    max-width: 1360px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
 }
 
-/* 1. Hero Card */
-.cm-hero {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.78) 0%, rgba(15, 23, 42, 0.9) 100%);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+/* Ambient Floating Glowing Orbs */
+.cm-ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+}
+.cm-orb-1 {
+    width: 520px;
+    height: 520px;
+    background: #0284c7;
+    top: 60px;
+    left: -120px;
+}
+.cm-orb-2 {
+    width: 460px;
+    height: 460px;
+    background: #7c3aed;
+    top: 35%;
+    right: -100px;
+}
+
+/* 1. Executive Header Card (High Contrast White Surface) */
+.cm-header-card {
+    background: #ffffff;
+    border: 1.5px solid rgba(2, 132, 199, 0.16);
     border-radius: 24px;
-    padding: 26px 30px;
+    padding: clamp(22px, 3.2vw, 32px);
     margin-bottom: 22px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.06);
 }
-.cm-hero::after {
+.cm-header-card::before {
     content: '';
     position: absolute;
-    top: -40%;
-    right: -15%;
-    width: 380px;
-    height: 380px;
-    background: radial-gradient(circle, rgba(14, 165, 233, 0.18) 0%, transparent 70%);
-    pointer-events: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #0284c7, #4f46e5, #7c3aed);
 }
 
-.cm-hero-badge {
+.cm-live-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(14, 165, 233, 0.12);
-    border: 1px solid rgba(14, 165, 233, 0.28);
-    color: #38bdf8;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #059669;
     padding: 6px 14px;
     border-radius: 50px;
-    font-size: 0.76rem;
+    font-size: 0.74rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     margin-bottom: 12px;
+    font-family: 'JetBrains Mono', monospace;
 }
 .cm-radar-dot {
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    background: #22c55e;
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    background: #10b981;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
     animation: cmRadarPulse 1.8s infinite;
 }
 @keyframes cmRadarPulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 9px rgba(34, 197, 94, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 9px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
-.cm-hero-title {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: clamp(1.5rem, 3.2vw, 2.2rem);
-    color: #ffffff;
+.cm-header-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
     line-height: 1.2;
-    margin-bottom: 8px;
-    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    letter-spacing: -0.025em;
 }
-.cm-hero-sub {
-    color: #94a3b8;
-    font-size: clamp(0.85rem, 1.5vw, 0.98rem);
-    max-width: 720px;
+.cm-header-title .text-gradient-blue {
+    background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.cm-header-sub {
+    color: #475569 !important;
+    font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+    max-width: 740px;
     margin-bottom: 0;
     line-height: 1.55;
 }
 
-/* Header Action Buttons (Squircle/Pill Structured, No Naked Circles) */
-.cm-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
+/* Header Action Buttons */
 .cm-action-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 8px 16px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    padding: 9px 18px;
+    height: 42px;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
     border-radius: 12px;
-    color: #f1f5f9 !important;
+    color: #1e293b !important;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
+    font-size: 0.84rem;
+    font-weight: 700;
     text-decoration: none;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -127,29 +153,41 @@
     user-select: none;
 }
 .cm-action-btn:hover {
-    background: rgba(255, 255, 255, 0.18);
-    border-color: rgba(255, 255, 255, 0.35);
-    color: #ffffff !important;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    background: #f8fafc;
+    border-color: #94a3b8;
+    color: #0f172a !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px -2px rgba(15, 23, 42, 0.08);
 }
-.cm-action-btn.btn-primary-glow {
-    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-    border-color: #38bdf8;
+.cm-action-btn.btn-export {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d !important;
+}
+.cm-action-btn.btn-export:hover {
+    background: #dcfce7;
+    border-color: #4ade80;
+    color: #166534 !important;
+}
+.cm-action-btn.btn-glow-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+    border-color: transparent;
     color: #ffffff !important;
     box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
 }
-.cm-action-btn.btn-primary-glow:hover {
-    background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+.cm-action-btn.btn-glow-primary:hover {
+    background: linear-gradient(135deg, #0369a1 0%, #4338ca 100%);
+    color: #ffffff !important;
     box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
+    transform: translateY(-2px);
 }
 
-/* 2. Executive KPI Deck (6 Cards) */
+/* 2. Executive KPI Deck (6 High-Contrast Cards) */
 .cm-kpi-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 14px;
+    margin-bottom: 22px;
 }
 @media (max-width: 1200px) {
     .cm-kpi-grid {
@@ -163,14 +201,13 @@
     }
 }
 
-.cm-kpi {
-    background: rgba(30, 41, 59, 0.6);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+.cm-kpi-card {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
     border-radius: 18px;
-    padding: 16px 14px;
+    padding: 16px 16px;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -178,17 +215,17 @@
     user-select: none;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
 }
-.cm-kpi:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.22);
-    background: rgba(30, 41, 59, 0.85);
-    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.3);
+.cm-kpi-card:hover {
+    transform: translateY(-3px);
+    border-color: #cbd5e1;
+    box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.08);
 }
-.cm-kpi.active {
-    background: rgba(14, 165, 233, 0.16);
-    border-color: #0ea5e9;
-    box-shadow: 0 0 20px rgba(14, 165, 233, 0.28);
+.cm-kpi-card.active {
+    border-color: #0284c7 !important;
+    background: #f0f9ff !important;
+    box-shadow: 0 8px 24px -4px rgba(2, 132, 199, 0.2) !important;
 }
 .cm-kpi-top {
     display: flex;
@@ -196,128 +233,138 @@
     justify-content: space-between;
     gap: 8px;
 }
-.cm-kpi-icon {
+.cm-kpi-icon-wrap {
     width: 38px;
     height: 38px;
-    border-radius: 10px;
+    border-radius: 12px;
     display: grid;
     place-items: center;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     flex-shrink: 0;
 }
-.cm-kpi-tag {
+.cm-kpi-pill {
     font-size: 0.68rem;
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 6px;
-    letter-spacing: 0.03em;
-}
-.cm-kpi-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: clamp(1.4rem, 2.2vw, 1.85rem);
     font-weight: 800;
-    color: #ffffff;
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.04em;
+    font-family: 'JetBrains Mono', monospace;
+}
+.cm-kpi-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.45rem, 2.3vw, 1.95rem);
+    font-weight: 800;
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
     line-height: 1.1;
     margin-bottom: 2px;
 }
-.cm-kpi-label {
+.cm-kpi-desc {
     font-size: 0.72rem;
-    color: #94a3b8;
+    color: #64748b;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
 }
 
-/* Pulse insight strip */
-.cm-pulse-strip {
-    background: rgba(14, 165, 233, 0.08);
-    border: 1px dashed rgba(14, 165, 233, 0.28);
+/* 3. Live Radar Presence Strip */
+.cm-radar-strip {
+    background: #ffffff;
+    border: 1.5px solid #a7f3d0;
+    border-left: 5px solid #10b981;
     border-radius: 16px;
     padding: 12px 18px;
-    margin-bottom: 20px;
-    font-size: 0.85rem;
-    color: #cbd5e1;
+    margin-bottom: 22px;
+    font-size: 0.88rem;
+    color: #1e293b;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 10px;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.05);
 }
-.cm-radar-live-badge {
+.cm-radar-tag {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(34, 197, 94, 0.14);
-    border: 1px solid rgba(34, 197, 94, 0.35);
-    color: #4ade80;
-    font-size: 0.74rem;
-    font-weight: 700;
+    background: #ecfdf5;
+    border: 1px solid #86efac;
+    color: #047857;
+    font-size: 0.72rem;
+    font-weight: 800;
     padding: 3px 10px;
     border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
 }
 
-/* 3. Search & Filter Bar Dock */
+/* 4. Search & Filter Bar Dock */
 .cm-filter-card {
-    background: rgba(15, 23, 42, 0.78);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 16px 20px;
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 22px;
+    padding: 18px 22px;
     margin-bottom: 22px;
-    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px -8px rgba(15, 23, 42, 0.05);
 }
-
-.cm-search-wrapper {
+.cm-search-box {
     position: relative;
     width: 100%;
 }
 .cm-search-icon {
     position: absolute;
     top: 50%;
-    left: 16px;
+    left: 15px;
     transform: translateY(-50%);
     color: #64748b;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     pointer-events: none;
 }
 .cm-search-input {
-    background: rgba(30, 41, 59, 0.85);
-    border: 1.5px solid rgba(255, 255, 255, 0.12);
-    color: #ffffff;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    color: #0f172a;
     border-radius: 12px;
     padding: 10px 40px 10px 42px;
     font-size: 0.88rem;
+    font-weight: 500;
     outline: none;
     width: 100%;
     transition: all 0.2s ease;
 }
 .cm-search-input:focus {
-    border-color: #0ea5e9;
-    background: rgba(30, 41, 59, 0.98);
-    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25);
+    border-color: #0284c7;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
 }
 .cm-search-clear {
     position: absolute;
     top: 50%;
-    right: 14px;
+    right: 12px;
     transform: translateY(-50%);
-    background: transparent;
+    background: #e2e8f0;
     border: none;
-    color: #94a3b8;
-    cursor: pointer;
-    font-size: 0.85rem;
+    color: #475569;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
     display: none;
-    padding: 4px;
+    place-items: center;
+    font-size: 0.72rem;
+    cursor: pointer;
 }
-.cm-search-clear:hover { color: #ffffff; }
+.cm-search-clear:hover {
+    background: #cbd5e1;
+    color: #0f172a;
+}
 
 .cm-select {
-    background: rgba(30, 41, 59, 0.85);
-    border: 1.5px solid rgba(255, 255, 255, 0.12);
-    color: #ffffff;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    color: #0f172a;
     border-radius: 12px;
-    padding: 9px 14px;
-    font-size: 0.85rem;
+    padding: 10px 14px;
+    font-size: 0.88rem;
     font-weight: 600;
     outline: none;
     width: 100%;
@@ -325,92 +372,97 @@
     transition: all 0.2s ease;
 }
 .cm-select:focus {
-    border-color: #0ea5e9;
-    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25);
+    border-color: #0284c7;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
 }
 
 .cm-filter-chips {
     display: flex;
+    align-items: center;
     gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding: 4px 0;
-    -webkit-overflow-scrolling: touch;
+    flex-wrap: wrap;
+    margin-top: 12px;
 }
-.cm-filter-chips::-webkit-scrollbar { display: none; }
-
 .cm-chip {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #94a3b8;
-    padding: 7px 14px;
-    border-radius: 10px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s ease;
-    user-select: none;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    background: #f1f5f9;
+    border: 1.5px solid #e2e8f0;
+    color: #475569;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s ease;
 }
 .cm-chip:hover {
-    background: rgba(255, 255, 255, 0.14);
-    color: #ffffff;
+    background: #e2e8f0;
+    color: #0f172a;
 }
 .cm-chip.active {
-    background: #0ea5e9;
-    border-color: #0ea5e9;
+    background: #0284c7;
+    border-color: #0284c7;
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
 }
-.cm-chip .chip-counter {
-    background: rgba(0, 0, 0, 0.25);
-    padding: 1px 6px;
-    border-radius: 6px;
-    font-size: 0.72rem;
+.cm-chip .chip-count {
+    background: rgba(0, 0, 0, 0.08);
+    color: inherit;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 1px 7px;
+    border-radius: 20px;
     font-family: 'JetBrains Mono', monospace;
 }
+.cm-chip.active .chip-count {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
 
-/* 4. Desktop High-Density Table View */
+/* 5. Desktop High-Density Table (Screen >= 992px) */
 .cm-table-card {
-    background: rgba(30, 41, 59, 0.6);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 14px 32px -4px rgba(0, 0, 0, 0.35);
+    margin-bottom: 22px;
+    box-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.05);
 }
 .cm-table {
-    width: 100%;
     margin-bottom: 0;
-    color: #f1f5f9;
+    width: 100%;
 }
-.cm-table thead th {
-    background: rgba(15, 23, 42, 0.9);
-    color: #94a3b8;
+.cm-table thead {
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+.cm-table th {
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.76rem;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    padding: 14px 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: #475569;
+    padding: 14px 18px;
+    border: none;
+    white-space: nowrap;
 }
-.cm-table tbody td {
-    padding: 16px;
+.cm-table td {
+    padding: 16px 18px;
+    border-bottom: 1px solid #f1f5f9;
     vertical-align: middle;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 0.88rem;
 }
 .cm-table tbody tr {
-    transition: background 0.15s ease;
+    transition: background-color 0.15s ease;
 }
 .cm-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background-color: #f8fafc;
 }
 
-/* User Card in Table & Mobile */
+/* User Brief Item */
 .cm-user-brief {
     display: flex;
     align-items: center;
@@ -419,33 +471,53 @@
 .cm-user-avatar {
     width: 40px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 12px;
     display: grid;
     place-items: center;
     font-weight: 800;
-    font-size: 0.95rem;
     color: #ffffff;
+    font-size: 0.95rem;
     flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+.cm-user-name {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 0.92rem;
+    margin-bottom: 2px;
+}
+.cm-user-email {
+    font-size: 0.78rem;
+    color: #64748b;
 }
 
-/* Status Pills */
-.cm-pill {
+/* Status Badges */
+.cm-status-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 11px;
-    border-radius: 8px;
     font-size: 0.74rem;
-    font-weight: 700;
+    font-weight: 800;
+    padding: 4px 11px;
+    border-radius: 50px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
 }
-.cm-pill.ok { background: rgba(16, 185, 129, 0.16); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); }
-.cm-pill.warn { background: rgba(245, 158, 11, 0.16); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35); }
-.cm-pill.danger { background: rgba(239, 68, 68, 0.16); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.35); }
-.cm-pill.neutral { background: rgba(100, 116, 139, 0.16); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.35); }
+.cm-status-pill.pill-connected {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+}
+.cm-status-pill.pill-pending {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
+}
+.cm-status-pill.pill-declined {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
 
 .cm-online-dot {
     width: 8px;
@@ -453,52 +525,72 @@
     border-radius: 50%;
     display: inline-block;
 }
-.cm-online-dot.online { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
-.cm-online-dot.offline { background: #64748b; }
+.cm-online-dot.online {
+    background: #10b981;
+    box-shadow: 0 0 0 2px #a7f3d0;
+}
+.cm-online-dot.offline {
+    background: #94a3b8;
+}
 
-/* Table Action Buttons (Squircle/Structured) */
-.cm-table-btn {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    color: #e2e8f0;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s ease;
+/* Chat Volume Pill */
+.cm-msg-counter {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    text-decoration: none;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
 }
-.cm-table-btn:hover {
-    background: rgba(255, 255, 255, 0.18);
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.3);
+.cm-msg-counter.has-msgs {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+}
+
+/* Deep Inspect Button */
+.cm-inspect-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    color: #0284c7;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.cm-inspect-btn:hover {
+    background: #f0f9ff;
+    border-color: #0284c7;
+    color: #0369a1;
     transform: translateY(-1px);
 }
 
-/* 5. Mobile Cards View (Screens < 992px) */
+/* 6. Mobile Cards Feed (screens < 992px) */
 .cm-mobile-feed {
     display: none;
     flex-direction: column;
     gap: 14px;
+    margin-bottom: 22px;
 }
 .cm-mobile-card {
-    background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 18px;
-    padding: 16px 18px;
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 16px;
     position: relative;
     overflow: hidden;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.35);
-}
-.cm-mobile-card:hover {
-    border-color: rgba(255, 255, 255, 0.22);
-    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
 }
 .cm-mobile-card::before {
     content: '';
@@ -512,169 +604,210 @@
 .cm-mobile-card.status-pending::before { background: #f59e0b; }
 .cm-mobile-card.status-rejected::before { background: #ef4444; }
 
-.cm-pathway-box {
+.cm-mobile-pathway {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    background: rgba(15, 23, 42, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    padding: 12px 14px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 12px;
     margin: 12px 0;
 }
-.cm-user-node {
-    flex: 1;
-    min-width: 0;
-}
-.cm-node-mid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 4px;
-    flex-shrink: 0;
-}
-.cm-node-msg-badge {
-    background: rgba(14, 165, 233, 0.14);
-    border: 1px solid rgba(14, 165, 233, 0.3);
-    color: #38bdf8;
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 6px;
-    margin-bottom: 3px;
-    font-family: 'JetBrains Mono', monospace;
-}
-
-/* Mobile Action Buttons */
 .cm-mobile-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid #f1f5f9;
 }
 .cm-mobile-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    height: 38px;
+    height: 40px;
     padding: 6px 12px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 10px;
-    color: #ffffff;
-    font-size: 0.78rem;
-    font-weight: 600;
-    text-decoration: none;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    color: #0f172a;
+    font-size: 0.8rem;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.15s ease;
 }
 .cm-mobile-btn:hover {
-    background: rgba(255, 255, 255, 0.18);
-    border-color: rgba(255, 255, 255, 0.28);
-    color: #ffffff;
+    background: #f0f9ff;
+    border-color: #0284c7;
+    color: #0284c7;
 }
 
-/* 6. Modals (Desktop Center & Mobile Bottom Sheet) */
-.cm-modal .modal-content {
-    background: #0f172a;
-    color: #ffffff;
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+/* 7. Pagination Deck (10 Records Per Page System) */
+.cm-pagination-bar {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 14px 22px;
+    margin-top: 10px;
+    box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+.cm-page-info {
+    font-size: 0.86rem;
+    color: #475569;
+    font-weight: 600;
+}
+.cm-page-info strong {
+    color: #0f172a;
+    font-weight: 800;
+}
+
+.cm-page-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.cm-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    color: #334155;
+    font-size: 0.84rem;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+}
+.cm-page-btn:hover:not(:disabled) {
+    background: #e2e8f0;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+.cm-page-btn.active {
+    background: #0284c7 !important;
+    border-color: #0284c7 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+.cm-page-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: #f1f5f9;
+}
+.cm-page-btn.nav-btn {
+    padding: 0 14px;
+}
+
+/* Page Size Selector */
+.cm-page-size-select {
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 6px 10px;
+    border-radius: 10px;
+    outline: none;
+}
+
+/* 8. Profile Intelligence Modal */
+.cm-profile-modal .modal-content {
+    background: #ffffff;
+    color: #0f172a;
+    border-radius: 26px;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.16);
     overflow: hidden;
 }
-.cm-modal .modal-header {
-    background: rgba(30, 41, 59, 0.75);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 16px 22px;
+.cm-profile-modal .modal-header {
+    background: #f8fafc;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding: 18px 24px;
 }
-.cm-modal-pill-tag {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    color: #e2e8f0;
+.cm-pill-tag {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #334155;
     padding: 4px 10px;
     border-radius: 8px;
     font-size: 0.76rem;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 /* Responsive Rules for Small Devices */
 @media (max-width: 991.98px) {
     .cm-page-wrapper {
         padding-top: 115px !important;
-        padding-inline: 0.75rem;
+        padding-inline: 0.85rem;
     }
-    .cm-hero {
+    .cm-header-card {
         padding: 20px 18px;
         border-radius: 20px;
     }
-    .cm-hero-title {
-        font-size: 1.45rem;
-    }
     .cm-table-card {
-        display: none; /* Hide large horizontal table on tablet/phone */
+        display: none;
     }
     .cm-mobile-feed {
-        display: flex; /* Show responsive touch cards on tablet/phone */
+        display: flex;
     }
-    
-    /* Bottom Sheet on Mobile */
-    .modal.bottom-sheet-mobile .modal-dialog {
-        margin: 0 !important;
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        max-width: 100% !important;
-        transform: translate(0, 100%) !important;
-        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    .cm-pagination-bar {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 14px;
     }
-    .modal.bottom-sheet-mobile.show .modal-dialog {
-        transform: translate(0, 0) !important;
-    }
-    .modal.bottom-sheet-mobile .modal-content {
-        border-radius: 26px 26px 0 0 !important;
-        max-height: 88vh;
-        overflow-y: auto;
+    .cm-page-controls {
+        justify-content: center;
     }
 }
 </style>
 
 <div class="cm-page-wrapper">
     <!-- Ambient Floating Orbs -->
-    <div class="admin-ambient-ball admin-ball-1"></div>
-    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="cm-ambient-orb cm-orb-1"></div>
+    <div class="cm-ambient-orb cm-orb-2"></div>
 
     <div class="cm-container">
-        <!-- 1. Hero Card -->
-        <div class="cm-hero">
+        <!-- 1. Executive Header Card -->
+        <div class="cm-header-card">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                 <div>
-                    <div class="cm-hero-badge">
+                    <div class="cm-live-pill">
                         <span class="cm-radar-dot"></span>
-                        <span>Connection Intelligence Core &bull; WebSocket Live</span>
+                        <span>Connection Intelligence Core &bull; Live Telemetry</span>
                     </div>
-                    <h1 class="cm-hero-title">Connection Monitoring Dashboard</h1>
-                    <p class="cm-hero-sub">
-                        Real-time institutional telemetry of student-alumni networking requests, message exchanges, credentials, and live engagement timeline.
+                    <h1 class="cm-header-title">Connection <span class="text-gradient-blue">Monitoring Dashboard</span></h1>
+                    <p class="cm-header-sub">
+                        Real-time institutional oversight of student-alumni networking requests, message exchanges, credentials, and live engagement timeline.
                     </p>
                 </div>
 
-                <div class="cm-header-actions">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
                     <button type="button" class="cm-action-btn" onclick="syncLiveFeed()" id="btnSyncFeed" title="Refresh Telemetry">
                         <i class="fas fa-sync-alt" id="syncIcon"></i>
                         <span>Sync Radar</span>
                     </button>
-                    <button type="button" class="cm-action-btn" onclick="exportConnectionsToCSV()" title="Export Dataset to CSV">
-                        <i class="fas fa-file-csv text-success"></i>
+                    <button type="button" class="cm-action-btn btn-export" onclick="exportConnectionsToCSV()" title="Export Dataset to CSV">
+                        <i class="fas fa-file-csv"></i>
                         <span>Export CSV</span>
                     </button>
-                    <a href="{{ url_for('dashboard_admin') }}" class="cm-action-btn btn-primary-glow" title="Back to Admin Dashboard">
+                    <a href="{{ url_for('dashboard_admin') }}" class="cm-action-btn btn-glow-primary" title="Back to Admin Dashboard">
                         <i class="fas fa-shield-alt"></i>
                         <span>Admin Hub</span>
                     </a>
@@ -692,116 +825,116 @@
             {% set ns.total_messages = ns.total_messages + (row.messages_exchanged or 0) %}
         {% endfor %}
 
-        <!-- 2. Executive KPI Deck (6 Cards) -->
+        <!-- 2. Executive KPI Deck (6 High-Contrast Cards) -->
         <div class="cm-kpi-grid">
             <!-- 1: Total Connections -->
-            <div class="cm-kpi active" id="kpiAll" onclick="setConnectionFilter('all')">
+            <div class="cm-kpi-card active" id="kpiAll" onclick="setConnectionFilter('all')">
                 <div class="cm-kpi-top">
-                    <div class="cm-kpi-icon" style="background: rgba(14, 165, 233, 0.16); color: #38bdf8;">
+                    <div class="cm-kpi-icon-wrap" style="background: #e0f2fe; color: #0284c7;">
                         <i class="fas fa-network-wired"></i>
                     </div>
-                    <span class="cm-kpi-tag" style="background: rgba(14, 165, 233, 0.12); color: #38bdf8;">ALL</span>
+                    <span class="cm-kpi-pill" style="background: #e0f2fe; color: #0284c7;">ALL</span>
                 </div>
                 <div>
-                    <div class="cm-kpi-value" id="kpiCountAll" data-kpi="{{ total_records }}">{{ total_records }}</div>
-                    <div class="cm-kpi-label">Total Connections</div>
+                    <div class="cm-kpi-num" id="kpiCountAll" data-kpi="{{ total_records }}">{{ total_records }}</div>
+                    <div class="cm-kpi-desc">Total Connections</div>
                 </div>
             </div>
 
             <!-- 2: Pending Requests -->
-            <div class="cm-kpi" id="kpiPending" onclick="setConnectionFilter('pending')">
+            <div class="cm-kpi-card" id="kpiPending" onclick="setConnectionFilter('pending')">
                 <div class="cm-kpi-top">
-                    <div class="cm-kpi-icon" style="background: rgba(245, 158, 11, 0.16); color: #fbbf24;">
+                    <div class="cm-kpi-icon-wrap" style="background: #fef3c7; color: #d97706;">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <span class="cm-kpi-tag" style="background: rgba(245, 158, 11, 0.12); color: #fbbf24;">PENDING</span>
+                    <span class="cm-kpi-pill" style="background: #fef3c7; color: #b45309;">PENDING</span>
                 </div>
                 <div>
-                    <div class="cm-kpi-value" id="kpiCountPending" data-kpi="{{ ns.pending }}">{{ ns.pending }}</div>
-                    <div class="cm-kpi-label">Pending Requests</div>
+                    <div class="cm-kpi-num" id="kpiCountPending" data-kpi="{{ ns.pending }}">{{ ns.pending }}</div>
+                    <div class="cm-kpi-desc">Pending Requests</div>
                 </div>
             </div>
 
             <!-- 3: Accepted Links -->
-            <div class="cm-kpi" id="kpiAccepted" onclick="setConnectionFilter('accepted')">
+            <div class="cm-kpi-card" id="kpiAccepted" onclick="setConnectionFilter('accepted')">
                 <div class="cm-kpi-top">
-                    <div class="cm-kpi-icon" style="background: rgba(16, 185, 129, 0.16); color: #34d399;">
+                    <div class="cm-kpi-icon-wrap" style="background: #d1fae5; color: #059669;">
                         <i class="fas fa-check-circle"></i>
                     </div>
-                    <span class="cm-kpi-tag" style="background: rgba(16, 185, 129, 0.12); color: #34d399;">CONNECTED</span>
+                    <span class="cm-kpi-pill" style="background: #d1fae5; color: #047857;">CONNECTED</span>
                 </div>
                 <div>
-                    <div class="cm-kpi-value" id="kpiCountAccepted" data-kpi="{{ ns.accepted }}">{{ ns.accepted }}</div>
-                    <div class="cm-kpi-label">Accepted Links</div>
+                    <div class="cm-kpi-num" id="kpiCountAccepted" data-kpi="{{ ns.accepted }}">{{ ns.accepted }}</div>
+                    <div class="cm-kpi-desc">Accepted Links</div>
                 </div>
             </div>
 
             <!-- 4: Declined Requests -->
-            <div class="cm-kpi" id="kpiRejected" onclick="setConnectionFilter('rejected')">
+            <div class="cm-kpi-card" id="kpiRejected" onclick="setConnectionFilter('rejected')">
                 <div class="cm-kpi-top">
-                    <div class="cm-kpi-icon" style="background: rgba(239, 68, 68, 0.16); color: #f87171;">
+                    <div class="cm-kpi-icon-wrap" style="background: #fee2e2; color: #dc2626;">
                         <i class="fas fa-times-circle"></i>
                     </div>
-                    <span class="cm-kpi-tag" style="background: rgba(239, 68, 68, 0.12); color: #f87171;">DECLINED</span>
+                    <span class="cm-kpi-pill" style="background: #fee2e2; color: #b91c1c;">DECLINED</span>
                 </div>
                 <div>
-                    <div class="cm-kpi-value" id="kpiCountRejected" data-kpi="{{ ns.rejected }}">{{ ns.rejected }}</div>
-                    <div class="cm-kpi-label">Declined Requests</div>
+                    <div class="cm-kpi-num" id="kpiCountRejected" data-kpi="{{ ns.rejected }}">{{ ns.rejected }}</div>
+                    <div class="cm-kpi-desc">Declined Requests</div>
                 </div>
             </div>
 
             <!-- 5: Chat Volume -->
-            <div class="cm-kpi" id="kpiMessages" onclick="setConnectionFilter('active-chat')">
+            <div class="cm-kpi-card" id="kpiMessages" onclick="setConnectionFilter('active-chat')">
                 <div class="cm-kpi-top">
-                    <div class="cm-kpi-icon" style="background: rgba(99, 102, 241, 0.16); color: #a5b4fc;">
+                    <div class="cm-kpi-icon-wrap" style="background: #e0e7ff; color: #4f46e5;">
                         <i class="fas fa-comments"></i>
                     </div>
-                    <span class="cm-kpi-tag" style="background: rgba(99, 102, 241, 0.12); color: #a5b4fc;">VOLUME</span>
+                    <span class="cm-kpi-pill" style="background: #e0e7ff; color: #4338ca;">VOLUME</span>
                 </div>
                 <div>
-                    <div class="cm-kpi-value" id="kpiCountMessages" data-kpi="{{ ns.total_messages }}">{{ ns.total_messages }}</div>
-                    <div class="cm-kpi-label">Messages Exchanged</div>
+                    <div class="cm-kpi-num" id="kpiCountMessages" data-kpi="{{ ns.total_messages }}">{{ ns.total_messages }}</div>
+                    <div class="cm-kpi-desc">Messages Exchanged</div>
                 </div>
             </div>
 
             <!-- 6: Acceptance Health Rate -->
-            <div class="cm-kpi" id="kpiRate" onclick="setConnectionFilter('all')">
+            <div class="cm-kpi-card" id="kpiRate" onclick="setConnectionFilter('all')">
                 <div class="cm-kpi-top">
-                    <div class="cm-kpi-icon" style="background: rgba(168, 85, 247, 0.16); color: #c084fc;">
+                    <div class="cm-kpi-icon-wrap" style="background: #f3e8ff; color: #7c3aed;">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <span class="cm-kpi-tag" style="background: rgba(168, 85, 247, 0.12); color: #c084fc;">HEALTH</span>
+                    <span class="cm-kpi-pill" style="background: #f3e8ff; color: #6d28d9;">HEALTH</span>
                 </div>
                 <div>
                     {% set total_decided = ns.accepted + ns.rejected %}
                     {% set accept_rate = ((ns.accepted / total_decided * 100)|round(1)) if total_decided > 0 else 100.0 %}
-                    <div class="cm-kpi-value" id="kpiCountRate">{{ accept_rate }}%</div>
-                    <div class="cm-kpi-label">Acceptance Rate</div>
+                    <div class="cm-kpi-num" id="kpiCountRate">{{ accept_rate }}%</div>
+                    <div class="cm-kpi-desc">Acceptance Rate</div>
                 </div>
             </div>
         </div>
 
-        <!-- Pulse Strip -->
-        <div class="cm-pulse-strip">
+        <!-- 3. Live Radar Presence Strip -->
+        <div class="cm-radar-strip">
             <div class="d-flex align-items-center gap-2 flex-wrap">
-                <span class="cm-radar-live-badge">
+                <span class="cm-radar-tag">
                     <span class="cm-radar-dot"></span> LIVE TELEMETRY
                 </span>
-                <span>Active Network Radar: <strong class="text-white" id="liveOnlineCount">{{ ns.online }}</strong> participants currently active across monitored nodes.</span>
+                <span>Active Network Radar: <strong class="text-dark fw-bold" id="liveOnlineCount">{{ ns.online }}</strong> participants currently online across active nodes.</span>
             </div>
-            <div class="text-muted small">
-                <span id="feedSyncTimestamp">Sync Status: Operational &bull; Real-time</span>
+            <div class="text-muted small fw-semibold">
+                <span id="feedSyncTimestamp">Sync Status: Operational &bull; Real-time Connected</span>
             </div>
         </div>
 
-        <!-- 3. Search & Filter Bar Dock -->
+        <!-- 4. Search & Filter Bar Dock -->
         <div class="cm-filter-card">
             <div class="row g-3 align-items-center">
                 <!-- Search Input -->
                 <div class="col-12 col-md-6 col-lg-5">
-                    <div class="cm-search-wrapper">
+                    <div class="cm-search-box">
                         <i class="fas fa-search cm-search-icon"></i>
-                        <input type="text" id="cmSearchInput" class="cm-search-input" placeholder="Search by name, email, department, company..." oninput="handleSearchInput()">
+                        <input type="text" id="cmSearchInput" class="cm-search-input" placeholder="Search by name, email, department, role..." oninput="handleSearchInput()">
                         <button type="button" class="cm-search-clear" id="cmSearchClear" onclick="clearSearchInput()" title="Clear Search">
                             <i class="fas fa-times"></i>
                         </button>
@@ -834,30 +967,30 @@
                     <div class="cm-filter-chips" id="cmStatusChips">
                         <button type="button" class="cm-chip active" data-status="all" onclick="setConnectionFilter('all')">
                             <span>All Records</span>
-                            <span class="chip-counter" id="chipCountAll">{{ total_records }}</span>
+                            <span class="chip-count" id="chipCountAll">{{ total_records }}</span>
                         </button>
                         <button type="button" class="cm-chip" data-status="pending" onclick="setConnectionFilter('pending')">
                             <i class="fas fa-clock text-warning"></i>
                             <span>Pending</span>
-                            <span class="chip-counter" id="chipCountPending">{{ ns.pending }}</span>
+                            <span class="chip-count" id="chipCountPending">{{ ns.pending }}</span>
                         </button>
                         <button type="button" class="cm-chip" data-status="accepted" onclick="setConnectionFilter('accepted')">
                             <i class="fas fa-check-circle text-success"></i>
                             <span>Accepted</span>
-                            <span class="chip-counter" id="chipCountAccepted">{{ ns.accepted }}</span>
+                            <span class="chip-count" id="chipCountAccepted">{{ ns.accepted }}</span>
                         </button>
                         <button type="button" class="cm-chip" data-status="rejected" onclick="setConnectionFilter('rejected')">
                             <i class="fas fa-times-circle text-danger"></i>
                             <span>Declined</span>
-                            <span class="chip-counter" id="chipCountRejected">{{ ns.rejected }}</span>
+                            <span class="chip-count" id="chipCountRejected">{{ ns.rejected }}</span>
                         </button>
                         <button type="button" class="cm-chip" data-status="online" onclick="setConnectionFilter('online')">
                             <span class="cm-online-dot online"></span>
                             <span>Active Online</span>
-                            <span class="chip-counter" id="chipCountOnline">{{ ns.online }}</span>
+                            <span class="chip-count" id="chipCountOnline">{{ ns.online }}</span>
                         </button>
                         <button type="button" class="cm-chip" data-status="active-chat" onclick="setConnectionFilter('active-chat')">
-                            <i class="fas fa-comments text-info"></i>
+                            <i class="fas fa-comments text-primary"></i>
                             <span>Active Chats (&gt;0 Msgs)</span>
                         </button>
                     </div>
@@ -865,20 +998,20 @@
             </div>
 
             <!-- Visible Counter Bar -->
-            <div class="d-flex align-items-center justify-content-between pt-2 mt-2 border-top border-secondary border-opacity-25 small text-muted">
+            <div class="d-flex align-items-center justify-content-between pt-3 mt-3 border-top border-slate-200 small text-muted">
                 <div>
-                    <span id="filterResultsCount">Showing <strong>{{ total_records }}</strong> of {{ total_records }} links</span>
+                    <span id="filterResultsCount" class="fw-semibold">Showing <strong>{{ total_records }}</strong> of {{ total_records }} links</span>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-link text-info text-decoration-none p-0 small fw-bold" onclick="resetConnectionFilters()">
+                    <button type="button" class="btn btn-link text-primary text-decoration-none p-0 small fw-bold" onclick="resetConnectionFilters()">
                         <i class="fas fa-undo-alt me-1"></i> Reset Filters
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- 4. Desktop High-Density Table View (screens >= 992px) -->
-        <div class="cm-table-card">
+        <!-- 5. Desktop High-Density Table View (screens >= 992px) -->
+        <div class="cm-table-card" id="connectionTableCard">
             <div class="table-responsive">
                 <table class="table cm-table align-middle">
                     <thead>
@@ -898,23 +1031,23 @@
                             data-status="{{ (row.status or 'pending')|lower }}"
                             data-sender-online="{{ row.sender_activity.online_status or 'offline' }}"
                             data-receiver-online="{{ row.receiver_activity.online_status or 'offline' }}"
-                            data-search-text="{{ (row.sender_name ~ ' ' ~ row.sender_email ~ ' ' ~ row.receiver_name ~ ' ' ~ row.receiver_email ~ ' ' ~ (row.sender_department or '') ~ ' ' ~ (row.receiver_department or ''))|lower }}"
+                            data-search-text="{{ (row.sender_name ~ ' ' ~ row.sender_email ~ ' ' ~ row.receiver_name ~ ' ' ~ row.receiver_email ~ ' ' ~ (row.sender_department or '') ~ ' ' ~ (row.receiver_department or '') ~ ' ' ~ (row.sender_role or '') ~ ' ' ~ (row.receiver_role or ''))|lower }}"
                             data-messages="{{ row.messages_exchanged or 0 }}"
                             data-sent-at="{{ row.request_sent_at or '' }}"
                             data-sender-name="{{ (row.sender_name or '')|lower }}">
                             <td>
                                 <div class="mb-1">
                                     {% if row.status == 'accepted' %}
-                                        <span class="cm-pill ok"><i class="fas fa-check-circle"></i> Connected</span>
+                                        <span class="cm-status-pill pill-connected"><i class="fas fa-check-circle"></i> Connected</span>
                                     {% elif row.status == 'rejected' %}
-                                        <span class="cm-pill danger"><i class="fas fa-times-circle"></i> Declined</span>
+                                        <span class="cm-status-pill pill-declined"><i class="fas fa-times-circle"></i> Declined</span>
                                     {% else %}
-                                        <span class="cm-pill warn"><i class="fas fa-clock"></i> Pending</span>
+                                        <span class="cm-status-pill pill-pending"><i class="fas fa-clock"></i> Pending</span>
                                     {% endif %}
                                 </div>
-                                <div class="text-muted extra-small"><i class="far fa-calendar-alt me-1"></i> Sent: {{ row.request_sent_at or 'N/A' }}</div>
+                                <div class="text-muted extra-small" style="font-size: 0.72rem;"><i class="far fa-calendar-alt me-1"></i> Sent: {{ row.request_sent_at or 'N/A' }}</div>
                                 {% if row.request_accepted_at %}
-                                <div class="text-muted extra-small"><i class="fas fa-handshake me-1 text-success"></i> Linked: {{ row.request_accepted_at }}</div>
+                                <div class="text-success extra-small fw-semibold" style="font-size: 0.72rem;"><i class="fas fa-handshake me-1"></i> Linked: {{ row.request_accepted_at }}</div>
                                 {% endif %}
                             </td>
                             <td>
@@ -923,11 +1056,11 @@
                                         {{ (row.sender_name[0] if row.sender_name else 'S')|upper }}
                                     </div>
                                     <div>
-                                        <div class="fw-bold text-white">{{ row.sender_name }}</div>
-                                        <div class="text-muted small">{{ row.sender_email }}</div>
+                                        <div class="cm-user-name">{{ row.sender_name }}</div>
+                                        <div class="cm-user-email">{{ row.sender_email }}</div>
                                         <div class="d-flex align-items-center gap-1 mt-1">
-                                            <span class="badge bg-primary-subtle text-primary extra-small text-uppercase">{{ row.sender_role }}</span>
-                                            <span class="text-white-50 extra-small">&bull; {{ row.sender_department or 'N/A' }}</span>
+                                            <span class="badge bg-primary-subtle text-primary extra-small text-uppercase fw-bold">{{ row.sender_role }}</span>
+                                            <span class="text-muted extra-small">&bull; {{ row.sender_department or 'N/A' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -938,47 +1071,52 @@
                                         {{ (row.receiver_name[0] if row.receiver_name else 'R')|upper }}
                                     </div>
                                     <div>
-                                        <div class="fw-bold text-white">{{ row.receiver_name }}</div>
-                                        <div class="text-muted small">{{ row.receiver_email }}</div>
+                                        <div class="cm-user-name">{{ row.receiver_name }}</div>
+                                        <div class="cm-user-email">{{ row.receiver_email }}</div>
                                         <div class="d-flex align-items-center gap-1 mt-1">
-                                            <span class="badge bg-info-subtle text-info extra-small text-uppercase">{{ row.receiver_role }}</span>
-                                            <span class="text-white-50 extra-small">&bull; {{ row.receiver_department or 'N/A' }}</span>
+                                            <span class="badge bg-info-subtle text-info extra-small text-uppercase fw-bold">{{ row.receiver_role }}</span>
+                                            <span class="text-muted extra-small">&bull; {{ row.receiver_department or 'N/A' }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <div class="extra-small text-muted mb-1">
-                                    <strong class="text-white-50">{{ row.sender_name.split(' ')[0] }}:</strong>
-                                    {{ row.sender_stats.total_connections }} conns &bull; {{ row.sender_stats.total_followers }} flwrs
-                                </div>
-                                <div class="extra-small text-muted">
-                                    <strong class="text-white-50">{{ row.receiver_name.split(' ')[0] }}:</strong>
-                                    {{ row.receiver_stats.total_connections }} conns &bull; {{ row.receiver_stats.total_followers }} flwrs
+                                <div class="d-flex flex-column gap-1 extra-small">
+                                    <div class="text-muted">
+                                        {{ row.sender_name.split(' ')[0] }}: <strong class="text-dark">{{ row.sender_activity.connections_count or 0 }}</strong> links &bull; <strong class="text-dark">{{ row.sender_activity.followers_count or 0 }}</strong> followers
+                                    </div>
+                                    <div class="text-muted">
+                                        {{ row.receiver_name.split(' ')[0] }}: <strong class="text-dark">{{ row.receiver_activity.connections_count or 0 }}</strong> links &bull; <strong class="text-dark">{{ row.receiver_activity.followers_count or 0 }}</strong> followers
+                                    </div>
                                 </div>
                             </td>
                             <td>
-                                <div class="extra-small text-muted mb-1 d-flex align-items-center gap-2">
-                                    <span class="cm-online-dot {{ 'online' if row.sender_activity.online_status == 'online' else 'offline' }}"></span>
-                                    <span>{{ row.sender_name.split(' ')[0] }}: <strong class="text-white">{{ row.sender_activity.online_status|title }}</strong></span>
-                                </div>
-                                <div class="extra-small text-muted d-flex align-items-center gap-2">
-                                    <span class="cm-online-dot {{ 'online' if row.receiver_activity.online_status == 'online' else 'offline' }}"></span>
-                                    <span>{{ row.receiver_name.split(' ')[0] }}: <strong class="text-white">{{ row.receiver_activity.online_status|title }}</strong></span>
+                                <div class="d-flex flex-column gap-1 extra-small">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="cm-online-dot {{ 'online' if row.sender_activity.online_status == 'online' else 'offline' }}"></span>
+                                        <span class="text-muted">{{ row.sender_name.split(' ')[0] }}:</span>
+                                        <strong class="{{ 'text-success' if row.sender_activity.online_status == 'online' else 'text-muted' }}">{{ row.sender_activity.online_status|title }}</strong>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="cm-online-dot {{ 'online' if row.receiver_activity.online_status == 'online' else 'offline' }}"></span>
+                                        <span class="text-muted">{{ row.receiver_name.split(' ')[0] }}:</span>
+                                        <strong class="{{ 'text-success' if row.receiver_activity.online_status == 'online' else 'text-muted' }}">{{ row.receiver_activity.online_status|title }}</strong>
+                                    </div>
                                 </div>
                             </td>
                             <td class="text-center">
-                                <span class="badge bg-dark border border-secondary text-info px-3 py-2 fw-bold font-monospace" style="font-size: 0.82rem;">
-                                    <i class="far fa-comments me-1"></i> {{ row.messages_exchanged }}
+                                <span class="cm-msg-counter {{ 'has-msgs' if (row.messages_exchanged or 0) > 0 else '' }}">
+                                    <i class="fas fa-comment-dots"></i>
+                                    <span>{{ row.messages_exchanged or 0 }}</span>
                                 </span>
                             </td>
                             <td class="text-end">
-                                <div class="d-inline-flex gap-2">
-                                    <button type="button" class="cm-table-btn" onclick="openProfileModal({{ row.sender_id }})" title="Inspect Sender Profile">
-                                        <i class="fas fa-user-circle text-primary"></i> Sender
+                                <div class="d-flex justify-content-end gap-1">
+                                    <button type="button" class="cm-inspect-btn" onclick="openProfileModal({{ row.sender_id }})" title="Inspect {{ row.sender_name }}">
+                                        <i class="fas fa-id-card"></i> Sender
                                     </button>
-                                    <button type="button" class="cm-table-btn" onclick="openProfileModal({{ row.receiver_id }})" title="Inspect Receiver Profile">
-                                        <i class="fas fa-user-circle text-info"></i> Receiver
+                                    <button type="button" class="cm-inspect-btn" onclick="openProfileModal({{ row.receiver_id }})" title="Inspect {{ row.receiver_name }}">
+                                        <i class="fas fa-id-card"></i> Receiver
                                     </button>
                                 </div>
                             </td>
@@ -987,7 +1125,7 @@
                         <tr>
                             <td colspan="7" class="text-center py-5 text-muted">
                                 <i class="fas fa-network-wired fs-2 mb-2 d-block opacity-25"></i>
-                                No connection activity found for current filters.
+                                No connection records found in the database.
                             </td>
                         </tr>
                         {% endfor %}
@@ -996,66 +1134,66 @@
             </div>
         </div>
 
-        <!-- 5. Mobile Touch Cards Feed (Screens < 992px) -->
+        <!-- 6. Mobile Cards Feed (screens < 992px) -->
         <div class="cm-mobile-feed" id="cmMobileFeed">
             {% for row in records %}
             <div class="cm-mobile-card status-{{ (row.status or 'pending')|lower }} cm-record-card"
                 data-status="{{ (row.status or 'pending')|lower }}"
                 data-sender-online="{{ row.sender_activity.online_status or 'offline' }}"
                 data-receiver-online="{{ row.receiver_activity.online_status or 'offline' }}"
-                data-search-text="{{ (row.sender_name ~ ' ' ~ row.sender_email ~ ' ' ~ row.receiver_name ~ ' ' ~ row.receiver_email ~ ' ' ~ (row.sender_department or '') ~ ' ' ~ (row.receiver_department or ''))|lower }}"
+                data-search-text="{{ (row.sender_name ~ ' ' ~ row.sender_email ~ ' ' ~ row.receiver_name ~ ' ' ~ row.receiver_email ~ ' ' ~ (row.sender_department or '') ~ ' ' ~ (row.receiver_department or '') ~ ' ' ~ (row.sender_role or '') ~ ' ' ~ (row.receiver_role or ''))|lower }}"
                 data-messages="{{ row.messages_exchanged or 0 }}"
                 data-sent-at="{{ row.request_sent_at or '' }}"
                 data-sender-name="{{ (row.sender_name or '')|lower }}">
                 
-                <!-- Card Header -->
+                <!-- Card Head: Status & Timestamp -->
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div>
                         {% if row.status == 'accepted' %}
-                            <span class="cm-pill ok"><i class="fas fa-check-circle"></i> Connected</span>
+                            <span class="cm-status-pill pill-connected"><i class="fas fa-check-circle"></i> Connected</span>
                         {% elif row.status == 'rejected' %}
-                            <span class="cm-pill danger"><i class="fas fa-times-circle"></i> Declined</span>
+                            <span class="cm-status-pill pill-declined"><i class="fas fa-times-circle"></i> Declined</span>
                         {% else %}
-                            <span class="cm-pill warn"><i class="fas fa-clock"></i> Pending</span>
+                            <span class="cm-status-pill pill-pending"><i class="fas fa-clock"></i> Pending</span>
                         {% endif %}
                     </div>
                     <div class="text-muted extra-small">
-                        <i class="far fa-clock me-1"></i> {{ row.request_sent_at or 'N/A' }}
+                        <i class="far fa-clock me-1"></i>{{ row.request_sent_at or 'N/A' }}
                     </div>
                 </div>
 
-                <!-- Pathway Node (Sender -> Receiver) -->
-                <div class="cm-pathway-box">
+                <!-- Pathway Box (Sender -> Flow -> Receiver) -->
+                <div class="cm-mobile-pathway">
                     <!-- Sender Node -->
                     <div class="cm-user-node">
                         <div class="d-flex align-items-center gap-2 mb-1">
-                            <div class="cm-user-avatar" style="width: 34px; height: 34px; font-size: 0.85rem; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
+                            <div class="cm-user-avatar" style="width: 36px; height: 36px; font-size: 0.9rem; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
                                 {{ (row.sender_name[0] if row.sender_name else 'S')|upper }}
                             </div>
                             <div class="overflow-hidden">
-                                <div class="fw-bold text-white text-truncate small">{{ row.sender_name }}</div>
-                                <span class="badge bg-primary-subtle text-primary extra-small text-uppercase">{{ row.sender_role }}</span>
+                                <div class="fw-bold text-dark text-truncate small">{{ row.sender_name }}</div>
+                                <span class="badge bg-primary-subtle text-primary extra-small text-uppercase fw-bold">{{ row.sender_role }}</span>
                             </div>
                         </div>
-                        <div class="extra-small text-muted text-truncate">{{ row.sender_department or 'CS' }}</div>
+                        <div class="extra-small text-muted text-truncate">{{ row.sender_department or 'Student' }}</div>
                     </div>
 
-                    <!-- Flow Middle Arrow & Chat Count -->
-                    <div class="cm-node-mid">
-                        <span class="cm-node-msg-badge" title="Messages Exchanged">
-                            <i class="far fa-comment-dots"></i> {{ row.messages_exchanged }}
+                    <!-- Middle Channel Indicator -->
+                    <div class="d-flex flex-column align-items-center justify-content-center px-2 flex-shrink-0">
+                        <span class="cm-msg-counter {{ 'has-msgs' if (row.messages_exchanged or 0) > 0 else '' }} mb-1" style="font-size: 0.72rem; padding: 2px 7px;">
+                            <i class="fas fa-comment-dots"></i> {{ row.messages_exchanged or 0 }}
                         </span>
-                        <i class="fas fa-arrow-right text-muted small"></i>
+                        <i class="fas fa-arrow-right text-primary opacity-75" style="font-size: 0.85rem;"></i>
                     </div>
 
                     <!-- Receiver Node -->
                     <div class="cm-user-node text-end">
                         <div class="d-flex align-items-center justify-content-end gap-2 mb-1">
                             <div class="overflow-hidden text-end">
-                                <div class="fw-bold text-white text-truncate small">{{ row.receiver_name }}</div>
-                                <span class="badge bg-info-subtle text-info extra-small text-uppercase">{{ row.receiver_role }}</span>
+                                <div class="fw-bold text-dark text-truncate small">{{ row.receiver_name }}</div>
+                                <span class="badge bg-info-subtle text-info extra-small text-uppercase fw-bold">{{ row.receiver_role }}</span>
                             </div>
-                            <div class="cm-user-avatar" style="width: 34px; height: 34px; font-size: 0.85rem; background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
+                            <div class="cm-user-avatar" style="width: 36px; height: 36px; font-size: 0.9rem; background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
                                 {{ (row.receiver_name[0] if row.receiver_name else 'R')|upper }}
                             </div>
                         </div>
@@ -1067,15 +1205,15 @@
                 <div class="d-flex align-items-center justify-content-between px-1 py-1 extra-small text-muted">
                     <span class="d-flex align-items-center gap-1">
                         <span class="cm-online-dot {{ 'online' if row.sender_activity.online_status == 'online' else 'offline' }}"></span>
-                        {{ row.sender_name.split(' ')[0] }}: <strong class="text-white">{{ row.sender_activity.online_status|title }}</strong>
+                        {{ row.sender_name.split(' ')[0] }}: <strong class="text-dark">{{ row.sender_activity.online_status|title }}</strong>
                     </span>
                     <span class="d-flex align-items-center gap-1">
                         <span class="cm-online-dot {{ 'online' if row.receiver_activity.online_status == 'online' else 'offline' }}"></span>
-                        {{ row.receiver_name.split(' ')[0] }}: <strong class="text-white">{{ row.receiver_activity.online_status|title }}</strong>
+                        {{ row.receiver_name.split(' ')[0] }}: <strong class="text-dark">{{ row.receiver_activity.online_status|title }}</strong>
                     </span>
                 </div>
 
-                <!-- Footer inspect actions (Full Width Structured Touch Targets) -->
+                <!-- Footer inspect actions -->
                 <div class="cm-mobile-actions">
                     <button type="button" class="cm-mobile-btn" onclick="openProfileModal({{ row.sender_id }})">
                         <i class="fas fa-user-circle text-primary"></i>
@@ -1095,11 +1233,34 @@
             {% endfor %}
         </div>
 
+        <!-- 7. Interactive Pagination Bar (10 Records Per Page System) -->
+        <div class="cm-pagination-bar" id="cmPaginationBar">
+            <div class="cm-page-info" id="cmPageInfo">
+                Showing <strong>1</strong> to <strong>10</strong> of <strong>{{ total_records }}</strong> links
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2 extra-small text-muted fw-bold">
+                    <span>Show:</span>
+                    <select id="cmPageSizeSelect" class="cm-page-size-select" onchange="changePageSize(this.value)">
+                        <option value="10" selected>10 / page</option>
+                        <option value="25">25 / page</option>
+                        <option value="50">50 / page</option>
+                        <option value="100">100 / page</option>
+                    </select>
+                </div>
+
+                <div class="cm-page-controls" id="cmPaginationControls">
+                    <!-- Populated dynamically via JavaScript -->
+                </div>
+            </div>
+        </div>
+
         <!-- No Matches Card -->
         <div id="cmNoMatchesPrompt" class="text-center py-5 d-none">
-            <div class="p-4 rounded-4" style="background: rgba(30, 41, 59, 0.5); border: 1px dashed rgba(255, 255, 255, 0.15); max-width: 480px; margin: 0 auto;">
-                <i class="fas fa-search fs-1 text-muted mb-3 d-block opacity-50"></i>
-                <h5 class="fw-bold text-white mb-1">No Matching Connections Found</h5>
+            <div class="p-4 rounded-4" style="background: #ffffff; border: 1.5px dashed #cbd5e1; max-width: 480px; margin: 0 auto; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);">
+                <i class="fas fa-search fs-1 text-muted mb-3 d-block opacity-40"></i>
+                <h5 class="fw-bold text-dark mb-1">No Matching Connections Found</h5>
                 <p class="text-muted small mb-3">No link records matched your search query or filter selection.</p>
                 <button type="button" class="btn btn-primary rounded-pill px-4 py-2 btn-sm fw-bold shadow-sm" onclick="resetConnectionFilters()">
                     <i class="fas fa-undo-alt me-1"></i> Reset Filters
@@ -1109,37 +1270,43 @@
     </div>
 </div>
 
-<!-- 6. Profile Intelligence Modal (Mobile Bottom-Sheet / Desktop Modal) -->
-<div class="modal fade bottom-sheet-mobile cm-modal" id="profileModal" tabindex="-1" aria-hidden="true">
+<!-- 8. Profile Intelligence Modal (Clean White High-Contrast) -->
+<div class="modal fade cm-profile-modal" id="profileModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="d-flex align-items-center gap-2">
                     <div class="cm-radar-dot"></div>
-                    <h5 class="modal-title fw-bold text-white mb-0" id="modalUserName">User Profile Intelligence</h5>
+                    <h5 class="modal-title fw-bold text-dark mb-0" id="modalUserName">User Profile Intelligence</h5>
                 </div>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4" id="profileModalBody">
-                <div class="text-center py-4 text-muted">
+                <div class="text-center py-5 text-muted">
                     <div class="spinner-border spinner-border-sm text-primary me-2"></div>
                     Fetching profile credentials...
                 </div>
             </div>
             <div class="modal-footer border-0 p-3 pt-0 d-flex justify-content-between">
-                <span class="text-muted extra-small">Live verified telemetry from institutional registry</span>
-                <button type="button" class="btn btn-secondary rounded-pill px-4 btn-sm fw-bold" data-bs-dismiss="modal">Close</button>
+                <span class="text-muted extra-small">Live verified telemetry from institutional database registry</span>
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4 btn-sm fw-bold" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+// Master State for Filtering & Pagination
 let cmActiveStatus = 'all';
 let cmSearchQuery = '';
+let cmCurrentPage = 1;
+let cmPageSize = 10;
+let cmFilteredRows = [];
+let cmFilteredCards = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     animateKpiCounters();
+    filterConnections();
 });
 
 // Smooth Animated KPI Counters
@@ -1167,7 +1334,7 @@ function setConnectionFilter(status) {
     cmActiveStatus = status;
 
     // Update KPI card highlights
-    document.querySelectorAll('.cm-kpi').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.cm-kpi-card').forEach(c => c.classList.remove('active'));
     if (status === 'all') document.getElementById('kpiAll')?.classList.add('active');
     if (status === 'pending') document.getElementById('kpiPending')?.classList.add('active');
     if (status === 'accepted') document.getElementById('kpiAccepted')?.classList.add('active');
@@ -1179,6 +1346,7 @@ function setConnectionFilter(status) {
         c.classList.toggle('active', c.dataset.status === status);
     });
 
+    cmCurrentPage = 1;
     filterConnections();
 }
 
@@ -1186,8 +1354,9 @@ function handleSearchInput() {
     const input = document.getElementById('cmSearchInput');
     const clearBtn = document.getElementById('cmSearchClear');
     if (clearBtn) {
-        clearBtn.style.display = (input && input.value.trim().length > 0) ? 'block' : 'none';
+        clearBtn.style.display = (input && input.value.trim().length > 0) ? 'grid' : 'none';
     }
+    cmCurrentPage = 1;
     filterConnections();
 }
 
@@ -1196,6 +1365,7 @@ function clearSearchInput() {
     if (input) input.value = '';
     const clearBtn = document.getElementById('cmSearchClear');
     if (clearBtn) clearBtn.style.display = 'none';
+    cmCurrentPage = 1;
     filterConnections();
 }
 
@@ -1209,17 +1379,16 @@ function filterConnections() {
     const noMatches = document.getElementById('cmNoMatchesPrompt');
     const resultsCountEl = document.getElementById('filterResultsCount');
 
-    let visibleCount = 0;
-    const totalCount = tableRows.length || mobileCards.length;
+    cmFilteredRows = [];
+    cmFilteredCards = [];
 
-    function evaluateItem(el) {
+    function evaluateMatch(el) {
         const status = el.getAttribute('data-status') || '';
         const senderOnline = el.getAttribute('data-sender-online') || '';
         const receiverOnline = el.getAttribute('data-receiver-online') || '';
         const searchText = el.getAttribute('data-search-text') || '';
         const messagesCount = parseInt(el.getAttribute('data-messages')) || 0;
 
-        // Status match logic
         let statusMatch = false;
         if (cmActiveStatus === 'all') {
             statusMatch = true;
@@ -1231,31 +1400,156 @@ function filterConnections() {
             statusMatch = (status === cmActiveStatus);
         }
 
-        // Search match logic
         let searchMatch = true;
         if (cmSearchQuery) {
             searchMatch = searchText.includes(cmSearchQuery);
         }
 
-        const show = statusMatch && searchMatch;
-        el.style.display = show ? '' : 'none';
-        return show;
+        return statusMatch && searchMatch;
     }
 
     tableRows.forEach(row => {
-        if (evaluateItem(row)) visibleCount++;
-    });
-    mobileCards.forEach(card => {
-        evaluateItem(card);
+        if (evaluateMatch(row)) {
+            cmFilteredRows.push(row);
+        }
     });
 
+    mobileCards.forEach(card => {
+        if (evaluateMatch(card)) {
+            cmFilteredCards.push(card);
+        }
+    });
+
+    const totalCount = tableRows.length || mobileCards.length;
+    const matchCount = cmFilteredRows.length || cmFilteredCards.length;
+
     if (noMatches) {
-        noMatches.classList.toggle('d-none', visibleCount > 0);
+        noMatches.classList.toggle('d-none', matchCount > 0);
     }
 
     if (resultsCountEl) {
-        resultsCountEl.innerHTML = `Showing <strong>${visibleCount}</strong> of ${totalCount} links`;
+        resultsCountEl.innerHTML = `Showing <strong>${matchCount}</strong> of ${totalCount} links`;
     }
+
+    // Apply 10-Item Pagination
+    renderPagination(matchCount);
+}
+
+// Render Pagination Controls & Display 10 Items Per Page
+function renderPagination(totalMatches) {
+    const totalPages = Math.ceil(totalMatches / cmPageSize) || 1;
+    if (cmCurrentPage > totalPages) cmCurrentPage = totalPages;
+    if (cmCurrentPage < 1) cmCurrentPage = 1;
+
+    const startIndex = (cmCurrentPage - 1) * cmPageSize;
+    const endIndex = Math.min(startIndex + cmPageSize, totalMatches);
+
+    // Update Desktop Rows Visibility
+    const allTableRows = document.querySelectorAll('#cmDesktopTableBody .cm-record-row');
+    allTableRows.forEach(row => row.style.display = 'none');
+    for (let i = startIndex; i < endIndex; i++) {
+        if (cmFilteredRows[i]) {
+            cmFilteredRows[i].style.display = '';
+        }
+    }
+
+    // Update Mobile Cards Visibility
+    const allMobileCards = document.querySelectorAll('#cmMobileFeed .cm-record-card');
+    allMobileCards.forEach(card => card.style.display = 'none');
+    for (let i = startIndex; i < endIndex; i++) {
+        if (cmFilteredCards[i]) {
+            cmFilteredCards[i].style.display = '';
+        }
+    }
+
+    // Update Pagination Text
+    const pageInfoEl = document.getElementById('cmPageInfo');
+    const paginationBar = document.getElementById('cmPaginationBar');
+
+    if (totalMatches === 0) {
+        if (paginationBar) paginationBar.style.display = 'none';
+        return;
+    } else {
+        if (paginationBar) paginationBar.style.display = 'flex';
+    }
+
+    if (pageInfoEl) {
+        pageInfoEl.innerHTML = `Showing <strong>${startIndex + 1}</strong> to <strong>${endIndex}</strong> of <strong>${totalMatches}</strong> connections`;
+    }
+
+    // Render Page Buttons: [ < Previous ] [1] [2] ... [ Next > ]
+    const controls = document.getElementById('cmPaginationControls');
+    if (!controls) return;
+
+    let html = '';
+
+    // Previous Button
+    const prevDisabled = cmCurrentPage === 1 ? 'disabled' : '';
+    html += `<button type="button" class="cm-page-btn nav-btn" ${prevDisabled} onclick="goToPage(${cmCurrentPage - 1})">
+        <i class="fas fa-chevron-left me-1"></i> Prev
+    </button>`;
+
+    // Page Numbers with smart ellipsis
+    if (totalPages <= 7) {
+        for (let p = 1; p <= totalPages; p++) {
+            const activeClass = p === cmCurrentPage ? 'active' : '';
+            html += `<button type="button" class="cm-page-btn ${activeClass}" onclick="goToPage(${p})">${p}</button>`;
+        }
+    } else {
+        // Many pages
+        html += `<button type="button" class="cm-page-btn ${cmCurrentPage === 1 ? 'active' : ''}" onclick="goToPage(1)">1</button>`;
+        
+        let startPage = Math.max(2, cmCurrentPage - 1);
+        let endPage = Math.min(totalPages - 1, cmCurrentPage + 1);
+
+        if (startPage > 2) {
+            html += `<span class="px-1 text-muted">&hellip;</span>`;
+        }
+
+        for (let p = startPage; p <= endPage; p++) {
+            const activeClass = p === cmCurrentPage ? 'active' : '';
+            html += `<button type="button" class="cm-page-btn ${activeClass}" onclick="goToPage(${p})">${p}</button>`;
+        }
+
+        if (endPage < totalPages - 1) {
+            html += `<span class="px-1 text-muted">&hellip;</span>`;
+        }
+
+        html += `<button type="button" class="cm-page-btn ${cmCurrentPage === totalPages ? 'active' : ''}" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+    }
+
+    // Next Button
+    const nextDisabled = cmCurrentPage === totalPages ? 'disabled' : '';
+    html += `<button type="button" class="cm-page-btn nav-btn" ${nextDisabled} onclick="goToPage(${cmCurrentPage + 1})">
+        Next <i class="fas fa-chevron-right ms-1"></i>
+    </button>`;
+
+    controls.innerHTML = html;
+}
+
+// Navigate to specific page with smooth scrolling
+function goToPage(page) {
+    cmCurrentPage = page;
+    const matchCount = cmFilteredRows.length || cmFilteredCards.length;
+    renderPagination(matchCount);
+
+    // Smooth scroll to top of table or feed for ergonomic user experience
+    const target = window.innerWidth >= 992 
+        ? document.getElementById('connectionTableCard')
+        : document.getElementById('cmMobileFeed');
+        
+    if (target) {
+        const top = target.getBoundingClientRect().top + window.scrollY - 150;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    }
+}
+
+// Page Size Selector Handler
+function changePageSize(val) {
+    cmPageSize = parseInt(val) || 10;
+    cmCurrentPage = 1;
+    const matchCount = cmFilteredRows.length || cmFilteredCards.length;
+    renderPagination(matchCount);
 }
 
 // Client-side Sorting
@@ -1285,6 +1579,9 @@ function applySorting() {
 
     if (tbody) sortElements(tbody, '.cm-record-row');
     if (mobileFeed) sortElements(mobileFeed, '.cm-record-card');
+
+    cmCurrentPage = 1;
+    filterConnections();
 }
 
 function resetConnectionFilters() {
@@ -1343,17 +1640,17 @@ async function openProfileModal(userId) {
         let skillsHtml = '<span class="text-muted small">Not specified</span>';
         if (user.skills && user.skills.trim()) {
             skillsHtml = user.skills.split(',').map(s => 
-                `<span class="cm-modal-pill-tag">${escapeHtml(s.trim())}</span>`
+                `<span class="cm-pill-tag">${escapeHtml(s.trim())}</span>`
             ).join(' ');
         }
 
         body.innerHTML = `
-            <div class="d-flex align-items-center gap-3 mb-4 p-3 rounded-4" style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);">
+            <div class="d-flex align-items-center gap-3 mb-4 p-3 rounded-4" style="background: #f8fafc; border: 1.5px solid #e2e8f0;">
                 <div class="cm-user-avatar" style="width: 56px; height: 56px; font-size: 1.4rem; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
                     ${(user.name || 'U').charAt(0).toUpperCase()}
                 </div>
                 <div class="overflow-hidden flex-fill">
-                    <h5 class="fw-bold text-white mb-0 text-truncate">${escapeHtml(user.name)}</h5>
+                    <h5 class="fw-bold text-dark mb-0 text-truncate">${escapeHtml(user.name)}</h5>
                     <div class="text-muted small text-truncate">${escapeHtml(user.email)}</div>
                     <div class="d-flex align-items-center gap-2 mt-2 flex-wrap">
                         <span class="badge bg-primary-subtle text-primary extra-small text-uppercase fw-bold">${escapeHtml(user.role)}</span>
@@ -1366,17 +1663,18 @@ async function openProfileModal(userId) {
             </div>
 
             <div class="row g-3">
-                <div class="col-6 col-md-4">
+                <div class="col-md-6">
                     <label class="text-muted extra-small text-uppercase fw-bold">Department</label>
-                    <div class="text-white small fw-bold">${escapeHtml(user.department || 'N/A')}</div>
+                    <div class="text-dark fw-semibold small">${escapeHtml(user.department || 'Not specified')}</div>
                 </div>
-                <div class="col-6 col-md-4">
-                    <label class="text-muted extra-small text-uppercase fw-bold">Current Company</label>
-                    <div class="text-white small fw-bold">${escapeHtml(user.current_company || 'N/A')}</div>
+                <div class="col-md-6">
+                    <label class="text-muted extra-small text-uppercase fw-bold">Batch / Graduation</label>
+                    <div class="text-dark fw-semibold small">${escapeHtml(user.graduation_year || 'Not specified')}</div>
                 </div>
-                <div class="col-6 col-md-4">
-                    <label class="text-muted extra-small text-uppercase fw-bold">Passing Year / Sem</label>
-                    <div class="text-white small fw-bold">${escapeHtml(String(user.passing_year || 'N/A'))}</div>
+
+                <div class="col-12">
+                    <label class="text-muted extra-small text-uppercase fw-bold">Current Company / Institution</label>
+                    <div class="text-dark fw-semibold small">${escapeHtml(user.company || 'Not specified')}</div>
                 </div>
 
                 <div class="col-12">
@@ -1385,7 +1683,7 @@ async function openProfileModal(userId) {
                 </div>
 
                 <div class="col-12">
-                    <hr style="border-color: rgba(255, 255, 255, 0.1);">
+                    <hr class="my-2 border-slate-200">
                 </div>
 
                 <div class="col-4 text-center">
@@ -1402,8 +1700,8 @@ async function openProfileModal(userId) {
                 </div>
             </div>
         `;
-    } catch (e) {
-        body.innerHTML = `<div class="alert alert-danger mb-0">Error communicating with server.</div>`;
+    } catch (err) {
+        body.innerHTML = `<div class="alert alert-danger mb-0">Failed to load user intelligence: ${escapeHtml(err.message)}</div>`;
     }
 }
 
@@ -1411,79 +1709,104 @@ async function openProfileModal(userId) {
 function exportConnectionsToCSV() {
     const rows = document.querySelectorAll('#cmDesktopTableBody .cm-record-row');
     if (!rows.length) {
-        alert('No records available to export.');
+        showFeedbackToast('No connections to export.', '#ef4444');
         return;
     }
 
-    let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Status,Sent At,Sender Name,Sender Email,Receiver Name,Receiver Email,Messages Exchanged\n";
+    let csv = ['Link ID,Initiator,Initiator Role,Recipient,Recipient Role,Status,Sent At,Messages'];
+    
+    rows.forEach((r, idx) => {
+        if (r.style.display !== 'none') {
+            const senderName = r.querySelector('.cm-user-brief .cm-user-name')?.textContent.trim() || '';
+            const senderRole = r.querySelector('.badge.bg-primary-subtle')?.textContent.trim() || '';
+            const receiverBrief = r.querySelectorAll('.cm-user-brief')[1];
+            const receiverName = receiverBrief ? receiverBrief.querySelector('.cm-user-name')?.textContent.trim() : '';
+            const receiverRole = receiverBrief ? receiverBrief.querySelector('.badge')?.textContent.trim() : '';
+            const status = r.getAttribute('data-status') || '';
+            const sentAt = r.getAttribute('data-sent-at') || '';
+            const messages = r.getAttribute('data-messages') || '0';
 
-    rows.forEach(r => {
-        const status = r.getAttribute('data-status') || '';
-        const sentAt = r.getAttribute('data-sent-at') || '';
-        const messages = r.getAttribute('data-messages') || '0';
-        const cells = r.querySelectorAll('td');
-        if (cells.length >= 3) {
-            const senderName = (cells[1].querySelector('.fw-bold')?.textContent || '').replace(/,/g, '');
-            const senderEmail = (cells[1].querySelector('.text-muted')?.textContent || '').replace(/,/g, '');
-            const receiverName = (cells[2].querySelector('.fw-bold')?.textContent || '').replace(/,/g, '');
-            const receiverEmail = (cells[2].querySelector('.text-muted')?.textContent || '').replace(/,/g, '');
-            csvContent += `"${status}","${sentAt}","${senderName}","${senderEmail}","${receiverName}","${receiverEmail}",${messages}\n`;
+            csv.push(`"${idx+1}","${escapeCsv(senderName)}","${escapeCsv(senderRole)}","${escapeCsv(receiverName)}","${escapeCsv(receiverRole)}","${status}","${sentAt}","${messages}"`);
         }
     });
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `connection_monitor_report_${new Date().toISOString().slice(0, 10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const blob = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `connection_telemetry_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    showFeedbackToast('Connections exported successfully as CSV!', '#10b981');
+}
+
+function escapeCsv(text) {
+    return (text || '').replace(/"/g, '""');
 }
 
 function escapeHtml(text) {
-    const d = document.createElement('div');
-    d.textContent = text || '';
-    return d.innerHTML;
+    if (!text) return '';
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function showFeedbackToast(msg, color = '#10b981') {
+    let toast = document.getElementById('cmToast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'cmToast';
+        toast.style.cssText = `
+            position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 99999;
+            background: #0f172a; color: #ffffff; border-left: 4px solid ${color};
+            padding: 12px 18px; border-radius: 12px; font-weight: 700; font-size: 0.85rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); max-width: 360px;
+        `;
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+    } else {
+        toast.style.borderLeftColor = color;
+        toast.textContent = msg;
+        toast.style.display = 'block';
+    }
+
+    setTimeout(() => {
+        if (toast) toast.style.display = 'none';
+    }, 3200);
 }
 
 // ===== REAL-TIME SOCKET.IO ENGINE =====
 (function initMonitorSocket() {
     if (typeof io === 'undefined') return;
-    const socket = io({ transports: ['websocket', 'polling'] });
+    try {
+        const socket = io({ transports: ['websocket', 'polling'] });
 
-    socket.on('admin_connection_activity', function (data) {
-        // Increment total KPI
-        const elTotal = document.getElementById('kpiCountAll');
-        if (elTotal) elTotal.textContent = (parseInt(elTotal.textContent) || 0) + 1;
+        socket.on('admin_connection_activity', function (data) {
+            const elTotal = document.getElementById('kpiCountAll');
+            if (elTotal) elTotal.textContent = (parseInt(elTotal.textContent) || 0) + 1;
 
-        if (data.event === 'new_request') {
-            const elPending = document.getElementById('kpiCountPending');
-            if (elPending) elPending.textContent = (parseInt(elPending.textContent) || 0) + 1;
-            showMonitorToast(`🔔 New Connection Request: ${data.sender_name} → ${data.receiver_name}`, 'info');
-        } else if (data.event === 'accepted') {
-            const elAccepted = document.getElementById('kpiCountAccepted');
-            if (elAccepted) elAccepted.textContent = (parseInt(elAccepted.textContent) || 0) + 1;
-            showMonitorToast(`✅ Connection Accepted: ${data.sender_name} ↔ ${data.receiver_name}`, 'success');
-        } else if (data.event === 'rejected') {
-            const elRejected = document.getElementById('kpiCountRejected');
-            if (elRejected) elRejected.textContent = (parseInt(elRejected.textContent) || 0) + 1;
-            showMonitorToast(`❌ Request Declined: ${data.receiver_name} declined ${data.sender_name}`, 'danger');
-        }
-    });
-
-    function showMonitorToast(msg, type) {
-        const color = type === 'success' ? '#10b981' : type === 'danger' ? '#ef4444' : '#0ea5e9';
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 99999;
-            background: #1e293b; color: #ffffff; border-left: 4px solid ${color};
-            padding: 12px 18px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45); max-width: 360px;
-        `;
-        toast.textContent = msg;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 4500);
+            if (data.event === 'new_request') {
+                const elPending = document.getElementById('kpiCountPending');
+                if (elPending) elPending.textContent = (parseInt(elPending.textContent) || 0) + 1;
+                showFeedbackToast(`🔔 New Connection Request: ${data.sender_name || 'User'} → ${data.receiver_name || 'User'}`, '#0284c7');
+            } else if (data.event === 'accepted') {
+                const elAccepted = document.getElementById('kpiCountAccepted');
+                if (elAccepted) elAccepted.textContent = (parseInt(elAccepted.textContent) || 0) + 1;
+                showFeedbackToast(`✅ Connection Accepted: ${data.sender_name || 'User'} ↔ ${data.receiver_name || 'User'}`, '#10b981');
+            } else if (data.event === 'rejected') {
+                const elRejected = document.getElementById('kpiCountRejected');
+                if (elRejected) elRejected.textContent = (parseInt(elRejected.textContent) || 0) + 1;
+                showFeedbackToast(`❌ Request Declined: ${data.receiver_name || 'User'} declined ${data.sender_name || 'User'}`, '#ef4444');
+            }
+        });
+    } catch (e) {
+        console.warn('Socket.IO monitor could not connect:', e);
     }
 })();
 </script>
