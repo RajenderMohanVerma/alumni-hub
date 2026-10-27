@@ -24,6 +24,12 @@
     --adm-card-bg: #ffffff;
     --adm-card-border: rgba(2, 132, 199, 0.16);
     --adm-card-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.06);
+
+    /* Standardized Header-to-Content Spacing System */
+    --adm-top-spacing-desktop: 118px;
+    --adm-top-spacing-tablet: 104px;
+    --adm-top-spacing-mobile: 82px;
+    --adm-top-spacing-small: 80px;
 }
 
 body {
@@ -33,13 +39,19 @@ body {
     overflow-x: hidden;
 }
 
-/* Page Layout Wrapper */
-.admin-page-wrapper {
+/* Page Layout Wrapper - Uniform Spacing Across All 15 Admin Pages */
+.admin-page-wrapper,
+.admin-dashboard-wrapper,
+.connection-monitor-page {
     min-height: 100vh;
     position: relative;
-    padding: clamp(105px, 10vw, 130px) 1.25rem 4.5rem 1.25rem;
+    padding-top: var(--adm-top-spacing-desktop) !important;
+    padding-bottom: 4.5rem;
+    padding-inline: 1.25rem;
     background-color: var(--adm-bg);
     overflow-x: clip;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 /* Ambient Floating Glow Balls */
@@ -566,10 +578,65 @@ h1.admin-hero-title {
     background: #94a3b8;
 }
 
-/* Responsive & Mobile Ergonomics */
+/* Interactive & Professional Micro-Interactions */
+.admin-card,
+.stat-card,
+.admin-hero-card,
+.action-card {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.admin-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px -12px rgba(15, 23, 42, 0.09);
+}
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px -10px rgba(2, 132, 199, 0.15);
+}
+.admin-card:active,
+.stat-card:active,
+.action-card:active {
+    transform: translateY(0);
+}
+
+/* Horizontal Touch-Scrollable Filter Chips for Mobile */
+.admin-filter-scroll {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 4px;
+}
+.admin-filter-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Responsive Table Wrapper Touch Momentum */
+.admin-table-wrapper,
+.table-responsive {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    position: relative;
+    border-radius: 16px;
+}
+.admin-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+.admin-table tbody tr:hover {
+    background-color: rgba(2, 132, 199, 0.04) !important;
+}
+
+/* Responsive & Mobile Ergonomics - Synchronized Spacing */
 @media (max-width: 991.98px) {
-    .admin-page-wrapper {
-        padding: clamp(90px, 12vw, 115px) 1rem 3.5rem 1rem;
+    .admin-page-wrapper,
+    .admin-dashboard-wrapper,
+    .connection-monitor-page {
+        padding-top: var(--adm-top-spacing-tablet) !important;
+        padding-inline: 1rem !important;
+        padding-bottom: 3.5rem;
     }
     .admin-hero-card {
         padding: 26px 20px;
@@ -581,8 +648,12 @@ h1.admin-hero-title {
 }
 
 @media (max-width: 768px) {
-    .admin-page-wrapper {
-        padding: 95px 12px 3rem 12px !important;
+    .admin-page-wrapper,
+    .admin-dashboard-wrapper,
+    .connection-monitor-page {
+        padding-top: var(--adm-top-spacing-mobile) !important;
+        padding-inline: 12px !important;
+        padding-bottom: 3rem;
     }
     .admin-header-box {
         padding: 20px 16px;
@@ -638,8 +709,12 @@ h1.admin-hero-title {
 }
 
 @media (max-width: 575.98px) {
-    .admin-page-wrapper {
-        padding: 85px 8px 2.5rem 8px !important;
+    .admin-page-wrapper,
+    .admin-dashboard-wrapper,
+    .connection-monitor-page {
+        padding-top: var(--adm-top-spacing-small) !important;
+        padding-inline: 10px !important;
+        padding-bottom: 2.5rem;
     }
     .admin-hero-card {
         padding: 18px 14px;

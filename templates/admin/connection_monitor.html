@@ -4,6 +4,7 @@
 {% block content %}
 <!-- Socket.IO CDN (must load before inline socket code) -->
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 <style>
     :root {
         --cm-surface: #ffffff;
@@ -18,7 +19,6 @@
     }
 
     .connection-monitor-page {
-        padding-top: clamp(105px, 10vw, 130px);
         padding-bottom: 3rem;
         position: relative;
     }
