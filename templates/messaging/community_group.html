@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Campus Community Group • Official WhatsApp Chat{% endblock %}
+{% block title %}Campus Community Group • Official WhatsApp Chat • Alumni Hub{% endblock %}
 
 {% block content %}
 <!-- Google Fonts & Luxury Tokens -->
@@ -12,16 +12,18 @@
 
 <style>
 /* ========================================================
-   WHATSAPP COMMUNITY GROUP CHAT - ENTERPRISE LEVEL
+   WHATSAPP COMMUNITY GROUP CHAT - MOBILE FIRST ENTERPRISE
    ======================================================== */
 :root {
     --wp-header: #075e54;
     --wp-header-dark: #054c44;
     --wp-accent: #25d366;
+    --wp-accent-dark: #128c7e;
     --wp-bg-chat: #efeae2;
     --wp-bubble-in: #ffffff;
     --wp-bubble-out: #d9fdd3;
-    --wp-bubble-shadow: 0 1px 2px rgba(11, 20, 26, 0.12);
+    --wp-bubble-shadow: 0 1.5px 3px rgba(11, 20, 26, 0.13);
+    --wp-reply-bg: rgba(0, 0, 0, 0.05);
 }
 
 .cg-page-wrapper {
@@ -38,10 +40,10 @@
 
 .cg-outer-box {
     width: 100%;
-    max-width: 980px;
+    max-width: 960px;
     margin: 0 auto;
     height: calc(100vh - 175px);
-    min-height: 520px;
+    min-height: 540px;
     display: flex;
     flex-direction: column;
 }
@@ -54,12 +56,12 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.38);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     position: relative;
 }
 
-/* Header */
+/* 1. Header */
 .cg-header {
     background: var(--wp-header);
     color: #ffffff;
@@ -67,31 +69,43 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
-    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
+    z-index: 20;
     flex-shrink: 0;
 }
+.cg-header-main {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    user-select: none;
+    border-radius: 12px;
+    padding: 2px 6px;
+    transition: background 0.15s ease;
+}
+.cg-header-main:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
 .cg-header-avatar {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
     display: grid;
     place-items: center;
     color: #ffffff;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     flex-shrink: 0;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
 .cg-header-info {
-    flex-grow: 1;
     margin-left: 12px;
     overflow: hidden;
 }
 .cg-header-title {
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
-    font-size: 1.02rem;
+    font-size: 1.05rem;
     margin: 0;
     line-height: 1.2;
     display: flex;
@@ -103,55 +117,103 @@
 }
 .cg-header-subtitle {
     font-size: 0.74rem;
-    opacity: 0.88;
+    opacity: 0.9;
     margin: 0;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
-/* Chat Body */
+/* In-Chat Search Bar Drawer */
+.cg-search-bar {
+    background: #ffffff;
+    border-bottom: 1px solid #cbd5e1;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    z-index: 15;
+}
+.cg-search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 0.88rem;
+    color: #1e293b;
+    background: transparent;
+}
+
+/* 2. Chat Body with authentic doodle wallpaper background */
 .cg-body {
     flex-grow: 1;
     overflow-y: auto;
-    padding: 14px 16px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1.5px, transparent 1.5px);
-    background-size: 22px 22px;
+    background-image: 
+        radial-gradient(rgba(0, 0, 0, 0.04) 1.5px, transparent 1.5px),
+        linear-gradient(135deg, rgba(239, 234, 226, 0.94) 0%, rgba(229, 221, 213, 0.94) 100%);
+    background-size: 22px 22px, 100% 100%;
     -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    position: relative;
 }
 
-/* System Banner / Encrypted Notice */
+/* System Pills & Date Badges */
 .cg-system-pill {
     align-self: center;
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(0, 0, 0, 0.08);
-    padding: 4px 14px;
+    padding: 5px 16px;
     border-radius: 50px;
     font-size: 0.72rem;
     color: #475569;
     font-weight: 600;
     text-align: center;
     max-width: 90%;
-    margin: 4px 0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    margin: 6px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 .cg-system-pill.locked-pill {
     background: #fef2f2;
     border-color: #fecaca;
     color: #dc2626;
+    animation: pulseLock 2s infinite;
+}
+@keyframes pulseLock {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
 }
 
-/* Message Rows & Bubbles */
+.cg-date-divider {
+    align-self: center;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 3px 12px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    color: #64748b;
+    font-weight: 700;
+    margin: 10px 0 4px 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* 3. Messages & WhatsApp Bubbles */
 .cg-msg-row {
     display: flex;
     align-items: flex-end;
     gap: 8px;
-    margin-bottom: 2px;
-    animation: bubbleIn 0.15s ease-out;
+    margin-bottom: 3px;
+    animation: bubbleIn 0.16s ease-out;
+    position: relative;
 }
 .cg-msg-row.outgoing {
     justify-content: flex-end;
@@ -161,22 +223,23 @@
 }
 
 @keyframes bubbleIn {
-    from { opacity: 0; transform: translateY(4px); }
+    from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .cg-msg-avatar {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: grid;
     place-items: center;
-    font-size: 0.75rem;
-    font-weight: 700;
+    font-size: 0.8rem;
+    font-weight: 800;
     color: #ffffff;
     flex-shrink: 0;
     overflow: hidden;
     margin-bottom: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 }
 .cg-msg-avatar img {
     width: 100%;
@@ -189,15 +252,16 @@
 .cg-msg-avatar.role-admin { background: #7c3aed; }
 
 .cg-bubble {
-    max-width: 80%;
+    max-width: 82%;
     min-width: 120px;
-    padding: 6px 12px 4px 12px;
+    padding: 7px 12px 5px 12px;
     border-radius: 12px;
     box-shadow: var(--wp-bubble-shadow);
     position: relative;
     font-size: 0.91rem;
     line-height: 1.42;
     word-break: break-word;
+    transition: background 0.15s ease;
 }
 .cg-bubble.incoming {
     background: var(--wp-bubble-in);
@@ -209,14 +273,18 @@
     border-bottom-right-radius: 3px;
     color: #111827;
 }
+.cg-bubble:hover .cg-bubble-actions-btn {
+    opacity: 1;
+}
 
 .cg-sender-tag {
-    font-size: 0.74rem;
+    font-size: 0.76rem;
     font-weight: 700;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
     display: flex;
     align-items: center;
     gap: 6px;
+    line-height: 1.2;
 }
 .cg-sender-tag.role-student { color: #0284c7; }
 .cg-sender-tag.role-alumni { color: #d97706; }
@@ -228,16 +296,67 @@
     align-items: center;
     justify-content: flex-end;
     gap: 4px;
-    font-size: 0.66rem;
+    font-size: 0.67rem;
     color: #64748b;
-    margin-top: 2px;
+    margin-top: 3px;
     user-select: none;
 }
 .cg-meta i {
     color: #53bdeb; /* double blue check */
 }
 
-/* Quick Emoji Toolbar */
+/* Bubble Hover Action Menu Button */
+.cg-bubble-actions-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    opacity: 0;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    font-size: 0.68rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Quoted Reply Preview Inside Bubble */
+.cg-quoted-box {
+    background: rgba(0, 0, 0, 0.05);
+    border-left: 3px solid var(--wp-accent-dark);
+    border-radius: 6px;
+    padding: 4px 8px;
+    margin-bottom: 6px;
+    font-size: 0.78rem;
+    color: #334155;
+    line-height: 1.3;
+}
+.cg-quoted-author {
+    font-weight: 700;
+    color: var(--wp-accent-dark);
+    font-size: 0.74rem;
+    margin-bottom: 1px;
+}
+
+/* 4. Active Reply Bar (Above Input) */
+.cg-reply-dock {
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.82rem;
+    border-left: 4px solid var(--wp-accent-dark);
+}
+
+/* 5. Quick Emoji Toolbar */
 .cg-emoji-toolbar {
     background: #ffffff;
     border-top: 1px solid #e2e8f0;
@@ -256,14 +375,15 @@
     font-size: 1.25rem;
     cursor: pointer;
     padding: 2px 6px;
-    border-radius: 6px;
-    transition: background 0.15s;
+    border-radius: 8px;
+    transition: all 0.15s;
 }
 .cg-emoji-btn:hover {
     background: #f1f5f9;
+    transform: scale(1.15);
 }
 
-/* Input Bar */
+/* 6. Footer & Message Composer */
 .cg-footer {
     background: #f0f2f5;
     padding: 8px 12px;
@@ -277,32 +397,33 @@
     flex-grow: 1;
     background: #ffffff;
     border: 1px solid #cbd5e1;
-    border-radius: 20px;
-    padding: 8px 16px;
+    border-radius: 22px;
+    padding: 9px 16px;
     font-size: 0.94rem;
-    max-height: 100px;
+    max-height: 110px;
     outline: none;
     resize: none;
     line-height: 1.4;
     transition: border-color 0.2s ease;
+    font-family: inherit;
 }
 .cg-input:focus {
     border-color: var(--wp-accent);
 }
 .cg-send-btn {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: var(--wp-header);
     color: #ffffff;
     border: none;
     display: grid;
     place-items: center;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     flex-shrink: 0;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
 }
 .cg-send-btn:hover {
     background: var(--wp-accent);
@@ -314,38 +435,62 @@
     transform: none;
 }
 
-/* Admission Gates */
+/* Floating Scroll to Bottom Button */
+.cg-scroll-btn {
+    position: absolute;
+    bottom: 80px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    color: #475569;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    border: 1px solid #e2e8f0;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+.cg-scroll-btn:hover {
+    transform: translateY(-2px);
+    color: var(--wp-header);
+}
+
+/* 7. Admission Gate Cards (Pending or Non-Member) */
 .cg-gate-card {
     background: #ffffff;
-    border-radius: 22px;
-    padding: 32px 24px;
+    border-radius: 24px;
+    padding: 36px 24px;
     text-align: center;
-    max-width: 500px;
+    max-width: 520px;
     margin: auto;
-    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(2, 132, 199, 0.16);
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(2, 132, 199, 0.18);
 }
 .cg-gate-avatar {
-    width: 68px;
-    height: 68px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
     background: linear-gradient(135deg, #25d366 0%, #075e54 100%);
     color: #ffffff;
-    font-size: 1.85rem;
+    font-size: 2rem;
     display: grid;
     place-items: center;
     margin: 0 auto 16px auto;
-    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
 }
 
+/* 8. Mobile Phone Specific Styles */
 @media (max-width: 767.98px) {
     .cg-page-wrapper {
-        padding-top: 125px !important;
+        padding-top: 115px !important;
         padding-bottom: 0 !important;
         padding-inline: 0 !important;
     }
     .cg-outer-box {
-        height: calc(100vh - 125px);
+        height: calc(100dvh - 115px);
         min-height: auto;
     }
     .cg-window {
@@ -355,6 +500,55 @@
     .cg-bubble {
         max-width: 88%;
         font-size: 0.88rem;
+    }
+    .cg-header {
+        padding: 8px 12px;
+    }
+    .cg-header-avatar {
+        width: 38px;
+        height: 38px;
+        font-size: 1.15rem;
+    }
+    .cg-header-title {
+        font-size: 0.98rem;
+    }
+    .cg-footer {
+        padding: 6px 8px;
+    }
+    .cg-scroll-btn {
+        bottom: 74px;
+        right: 14px;
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Modal Sheet on Phone */
+    #groupInfoModal .modal-dialog {
+        margin: 0 !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        transform: translate(0, 100%) !important;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    #groupInfoModal.show .modal-dialog {
+        transform: translate(0, 0) !important;
+    }
+    #groupInfoModal .modal-content {
+        border-radius: 28px 28px 0 0 !important;
+        max-height: 86vh;
+        overflow-y: auto;
+        border-bottom: none !important;
+    }
+    .modal-sheet-drag-handle {
+        width: 44px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.45);
+        border-radius: 10px;
+        margin: 0 auto 10px;
     }
 }
 </style>
@@ -368,8 +562,8 @@
         <div class="cg-window">
             <!-- Header -->
             <div class="cg-header">
-                <div class="d-flex align-items-center overflow-hidden">
-                    <a href="{{ url_for('messages') }}" class="btn btn-link text-white p-0 me-2 d-md-none" title="Back">
+                <div class="cg-header-main" onclick="openGroupInfoModal()" title="Tap for Group Details &amp; Participants">
+                    <a href="{{ url_for('messages') }}" class="btn btn-link text-white p-0 me-2 d-md-none" onclick="event.stopPropagation();" title="Back to Inbox">
                         <i class="fas fa-arrow-left fs-5"></i>
                     </a>
                     <div class="cg-header-avatar">
@@ -381,28 +575,45 @@
                             <i class="fas fa-check-circle text-info" style="font-size: 0.85rem;" title="Verified Institutional Hub"></i>
                         </div>
                         <div class="cg-header-subtitle" id="groupSubtitle">
-                            <span>Institutional WhatsApp Group</span> • <span id="memberCountText">Connecting...</span>
+                            <span>Institutional Hub</span> &bull; <span id="memberCountText">Loading...</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                    <!-- Search In Chat Toggle -->
+                    <button type="button" class="btn btn-outline-light btn-sm rounded-circle d-grid place-items-center" style="width: 36px; height: 36px;" onclick="toggleChatSearch()" title="Search in Chat">
+                        <i class="fas fa-search"></i>
+                    </button>
+
+                    <!-- Group Info Button -->
+                    <button type="button" class="btn btn-outline-light btn-sm rounded-circle d-grid place-items-center" style="width: 36px; height: 36px;" onclick="openGroupInfoModal()" title="View Group Participants">
+                        <i class="fas fa-info"></i>
+                    </button>
+
                     {% if is_admin %}
-                    <a href="{{ url_for('admin_messaging_control') }}" class="btn btn-warning btn-sm rounded-pill px-3 py-1 fw-bold text-dark d-inline-flex align-items-center gap-1 shadow-sm" style="font-size: 0.78rem;">
-                        <i class="fas fa-shield-alt"></i> Moderation Desk
+                    <a href="{{ url_for('admin_messaging_control') }}" class="btn btn-warning btn-sm rounded-pill px-3 py-1 fw-bold text-dark d-none d-sm-inline-flex align-items-center gap-1 shadow-sm" style="font-size: 0.78rem;">
+                        <i class="fas fa-shield-alt"></i> Moderation
                     </a>
                     {% endif %}
-                    <a href="{{ url_for('messages') }}" class="btn btn-outline-light btn-sm rounded-circle d-none d-md-grid place-items-center" style="width: 36px; height: 36px;" title="Back to Messages Hub">
-                        <i class="fas fa-arrow-left"></i>
-                    </a>
                 </div>
+            </div>
+
+            <!-- In-Chat Search Bar Drawer (Collapsible) -->
+            <div class="cg-search-bar d-none" id="chatSearchBar">
+                <i class="fas fa-search text-muted"></i>
+                <input type="text" id="chatSearchInput" class="cg-search-input" placeholder="Search messages in community chat..." oninput="filterChatMessages()">
+                <span id="searchMatchCount" class="badge bg-light text-secondary border small">0 found</span>
+                <button type="button" class="btn btn-link text-muted p-0" onclick="toggleChatSearch()">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
 
             {% if membership_status == 'approved' or is_admin %}
             <!-- Chat Body -->
-            <div class="cg-body" id="chatBody">
+            <div class="cg-body" id="chatBody" onscroll="handleChatScroll()">
                 <div class="cg-system-pill">
-                    <i class="fas fa-lock text-success me-1"></i> Messages are end-to-end moderated across approved alumni, faculty, and students.
+                    <i class="fas fa-lock text-success me-1"></i> Messages are real-time &amp; end-to-end moderated across approved members.
                 </div>
 
                 <!-- Emergency System Lock Notice -->
@@ -416,6 +627,22 @@
                         <i class="fas fa-circle-notch fa-spin text-success me-1"></i> Loading community messages...
                     </div>
                 </div>
+
+                <!-- Floating Scroll-To-Bottom Button -->
+                <button type="button" id="scrollToBottomBtn" class="cg-scroll-btn d-none" onclick="scrollChatToBottom(false)" title="Scroll to latest">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+
+            <!-- Active Reply Dock Preview (If user clicked reply) -->
+            <div id="replyDock" class="cg-reply-dock d-none">
+                <div class="flex-grow-1 overflow-hidden">
+                    <div class="fw-bold text-success extra-small" id="replyAuthor">Replying to User</div>
+                    <div class="text-truncate text-muted small" id="replySnippet">Message content</div>
+                </div>
+                <button type="button" class="btn btn-link text-muted p-0" onclick="cancelReply()">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
 
             <!-- Emoji Quick Chips Toolbar -->
@@ -429,6 +656,7 @@
                 <button type="button" class="cg-emoji-btn" onclick="addEmoji('❤️')">❤️</button>
                 <button type="button" class="cg-emoji-btn" onclick="addEmoji('🎉')">🎉</button>
                 <button type="button" class="cg-emoji-btn" onclick="addEmoji('🙏')">🙏</button>
+                <button type="button" class="cg-emoji-btn" onclick="addEmoji('💯')">💯</button>
             </div>
 
             <!-- Input Bar -->
@@ -444,25 +672,27 @@
             <div class="d-flex align-items-center justify-content-center h-100 p-4">
                 <div class="cg-gate-card">
                     <div class="cg-gate-avatar" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
-                        <i class="fas fa-clock"></i>
+                        <i class="fas fa-clock fa-spin"></i>
                     </div>
                     <h3 class="fw-bold mb-2 text-dark">Admission Under Review</h3>
                     <p class="text-muted small mb-4">
-                        Your request to join the <strong>Alumni Hub Institutional Community Group</strong> has been submitted. An Administrator will verify and approve your membership shortly.
+                        Your request to join the <strong>Alumni Hub Institutional Community Group</strong> has been submitted. An Administrator will review and approve your membership shortly.
                     </p>
                     <div class="p-3 rounded-4 bg-light border mb-4 text-start">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <span class="text-muted extra-small">Request Status:</span>
-                            <span class="badge bg-warning text-dark rounded-pill px-3 py-1 fw-bold">PENDING APPROVAL</span>
+                            <span class="badge bg-warning text-dark rounded-pill px-3 py-1 fw-bold">
+                                <i class="fas fa-hourglass-half me-1"></i> PENDING APPROVAL
+                            </span>
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
                             <span class="text-muted extra-small">Applicant:</span>
                             <span class="fw-bold text-dark small">{{ current_user.name }} ({{ current_user.role|upper }})</span>
                         </div>
                     </div>
-                    <div class="d-flex gap-2 justify-content-center">
+                    <div class="d-flex gap-2 justify-content-center flex-wrap">
                         <button type="button" class="btn btn-outline-secondary rounded-pill px-4" onclick="location.reload()">
-                            <i class="fas fa-sync-alt me-1"></i> Check Status
+                            <i class="fas fa-sync-alt me-1"></i> Check Status Now
                         </button>
                         <a href="{{ url_for('messages') }}" class="btn btn-primary rounded-pill px-4">
                             Back to Inbox
@@ -499,6 +729,54 @@
     </div>
 </div>
 
+<!-- 9. WhatsApp Group Info Modal / Bottom Sheet -->
+<div class="modal fade" id="groupInfoModal" tabindex="-1" aria-labelledby="groupInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 24px; overflow: hidden;">
+            <div class="modal-header border-0 pb-0 pt-3 px-4 position-relative d-flex flex-column align-items-center" style="background: linear-gradient(135deg, #075e54 0%, #128c7e 100%); min-height: 90px;">
+                <div class="modal-sheet-drag-handle d-md-none"></div>
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4 pt-0 pb-4">
+                <div class="d-flex justify-content-center" style="margin-top: -45px; margin-bottom: 12px;">
+                    <div class="cg-header-avatar shadow-lg" style="width: 76px; height: 76px; font-size: 2.2rem; border: 3px solid #ffffff;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+
+                <div class="text-center mb-3">
+                    <h4 class="fw-bold text-dark mb-1">Campus Official Community</h4>
+                    <p class="text-muted small fw-semibold mb-2">Institutional WhatsApp Group &bull; Verified Hub</p>
+                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 fw-bold" id="infoParticipantsBadge">
+                        Loading participants...
+                    </span>
+                </div>
+
+                <!-- Group Description -->
+                <div class="p-3 rounded-4 bg-light border mb-3 text-secondary small">
+                    <div class="fw-bold text-dark mb-1"><i class="fas fa-info-circle text-primary me-1"></i> Group Purpose &amp; Decorum:</div>
+                    Official channel for campus announcements, job referrals, mentorship discussions, and academic collaborations. Zero tolerance for spam or unprofessional conduct.
+                </div>
+
+                <!-- Search Member Input -->
+                <div class="mb-2">
+                    <input type="text" id="memberSearchInput" class="form-control form-control-sm rounded-pill px-3" placeholder="Search members by name or role..." oninput="filterGroupMembers()">
+                </div>
+
+                <!-- Participants List Container -->
+                <div style="max-height: 240px; overflow-y: auto;" id="membersListContainer">
+                    <div class="text-center py-3 text-muted small">
+                        <i class="fas fa-circle-notch fa-spin text-success me-1"></i> Loading participants...
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 p-3 pt-0 justify-content-center">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4 btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 const currentUserId = Number({{ current_user.id }});
 const isAdminUser = {{ 'true' if is_admin else 'false' }};
@@ -506,6 +784,9 @@ let isMessagingLocked = {{ 'true' if is_locked else 'false' }};
 let socket = null;
 let renderedMessageIds = new Set();
 let pollIntervalTimer = null;
+let currentReplyTo = null;
+let allCommunityMembers = [];
+let lastMessageDate = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     loadGroupStatus();
@@ -515,11 +796,11 @@ document.addEventListener('DOMContentLoaded', function() {
     loadMessages();
     pollIntervalTimer = setInterval(loadMessages, 3500); // 3.5s real-time fallback polling
     {% elif membership_status == 'pending' %}
-    // Auto-check if admin approved membership every 5 seconds
-    setInterval(checkApprovalStatus, 5000);
+    setInterval(checkApprovalStatus, 4500);
     {% endif %}
 });
 
+// Auto-check approval for pending applicants
 function checkApprovalStatus() {
     fetch('/api/community-group/status')
     .then(r => r.json())
@@ -531,6 +812,7 @@ function checkApprovalStatus() {
     .catch(() => {});
 }
 
+// Group status & lock check
 function loadGroupStatus() {
     fetch('/api/community-group/status')
     .then(r => r.json())
@@ -539,6 +821,10 @@ function loadGroupStatus() {
             const memberCountText = document.getElementById('memberCountText');
             if (memberCountText) {
                 memberCountText.textContent = `${data.member_count} participants`;
+            }
+            const infoBadge = document.getElementById('infoParticipantsBadge');
+            if (infoBadge) {
+                infoBadge.textContent = `${data.member_count} Verified Members`;
             }
             updateLockUI(data.is_locked);
         }
@@ -561,7 +847,7 @@ function updateLockUI(locked) {
             msgInput.placeholder = '🔒 Community Messaging is frozen by Administrator.';
         }
         if (sendBtn) sendBtn.disabled = true;
-        if (emojiBar) emojiBar.style.opacity = '0.4';
+        if (emojiBar) emojiBar.style.opacity = '0.35';
     } else {
         if (msgInput) {
             msgInput.disabled = false;
@@ -572,6 +858,7 @@ function updateLockUI(locked) {
     }
 }
 
+// Socket.IO
 function initSocketConnection() {
     try {
         if (typeof io !== 'undefined') {
@@ -581,6 +868,14 @@ function initSocketConnection() {
             });
             socket.on('receive_community_message', (msg) => {
                 appendMessage(msg, true);
+            });
+            socket.on('community_message_deleted', (data) => {
+                const el = document.getElementById(`msg-${data.message_id}`);
+                if (el) {
+                    el.style.transition = 'all 0.3s ease';
+                    el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 300);
+                }
             });
             socket.on('system_locked', () => {
                 updateLockUI(true);
@@ -594,6 +889,7 @@ function initSocketConnection() {
     }
 }
 
+// Load messages via HTTP
 function loadMessages() {
     fetch('/api/community-group/messages')
     .then(r => r.json())
@@ -617,11 +913,11 @@ function renderMessageList(messages) {
         return;
     }
 
-    // Clear empty or loading placeholder if present
     const emptyNotice = container.querySelector('.text-muted.small');
     if (emptyNotice && (emptyNotice.textContent.includes('Loading') || emptyNotice.textContent.includes('No messages yet'))) {
         container.innerHTML = '';
         renderedMessageIds.clear();
+        lastMessageDate = null;
     }
 
     const wasEmpty = (renderedMessageIds.size === 0);
@@ -636,11 +932,21 @@ function renderMessageList(messages) {
     }
 }
 
+// Append a single message bubble
 function appendMessage(msg, shouldScroll = true) {
     const container = document.getElementById('messagesContainer');
     if (!container || !msg || !msg.id || renderedMessageIds.has(msg.id)) return;
 
-    // Remove empty notice if any
+    // Check date divider
+    const msgDateStr = getDateKey(msg.created_at);
+    if (msgDateStr !== lastMessageDate) {
+        lastMessageDate = msgDateStr;
+        const dateDivider = document.createElement('div');
+        dateDivider.className = 'cg-date-divider';
+        dateDivider.textContent = formatDateDivider(msg.created_at);
+        container.appendChild(dateDivider);
+    }
+
     const emptyNotice = container.querySelector('.text-muted.small');
     if (emptyNotice) emptyNotice.remove();
 
@@ -653,6 +959,8 @@ function appendMessage(msg, shouldScroll = true) {
     const row = document.createElement('div');
     row.className = `cg-msg-row ${isOwn ? 'outgoing' : 'incoming'}`;
     row.id = `msg-${msg.id}`;
+    row.dataset.content = (msg.content || '').toLowerCase();
+    row.dataset.sender = (msg.sender_name || '').toLowerCase();
 
     let avatarHtml = '';
     let senderTagHtml = '';
@@ -672,10 +980,26 @@ function appendMessage(msg, shouldScroll = true) {
         `;
     }
 
+    // Action button inside bubble (Copy / Reply / Delete)
+    const canDelete = isOwn || isAdminUser;
+    const actionsBtnHtml = `
+        <div class="dropdown position-absolute" style="top: 4px; right: 4px;">
+            <button type="button" class="cg-bubble-actions-btn" data-bs-toggle="dropdown" aria-expanded="false" title="Options">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 py-1" style="font-size: 0.8rem; border-radius: 12px; min-width: 140px;">
+                <li><a class="dropdown-item py-1" href="javascript:void(0)" onclick="setReplyMessage('${escapeHtml(msg.sender_name)}', '${escapeHtml(msg.content).slice(0, 50)}')"><i class="fas fa-reply text-primary me-2"></i> Reply</a></li>
+                <li><a class="dropdown-item py-1" href="javascript:void(0)" onclick="copyMessageText('${escapeHtml(msg.content)}')"><i class="fas fa-copy text-secondary me-2"></i> Copy</a></li>
+                ${canDelete ? `<li><hr class="dropdown-divider my-1"></li><li><a class="dropdown-item py-1 text-danger" href="javascript:void(0)" onclick="deleteCommunityMessage(${msg.id})"><i class="fas fa-trash-alt me-2"></i> Delete</a></li>` : ''}
+            </ul>
+        </div>
+    `;
+
     const bubbleHtml = `
-        <div class="cg-bubble ${isOwn ? 'outgoing' : 'incoming'}">
+        <div class="cg-bubble ${isOwn ? 'outgoing' : 'incoming'} position-relative">
+            ${actionsBtnHtml}
             ${senderTagHtml}
-            <div style="white-space: pre-wrap;">${escapeHtml(msg.content)}</div>
+            <div style="white-space: pre-wrap; padding-right: 14px;">${escapeHtml(msg.content)}</div>
             <div class="cg-meta">
                 <span>${timeStr}</span>
                 ${isOwn ? '<i class="fas fa-check-double"></i>' : ''}
@@ -696,6 +1020,53 @@ function appendMessage(msg, shouldScroll = true) {
     }
 }
 
+// Reply system
+function setReplyMessage(author, snippet) {
+    currentReplyTo = { author, snippet };
+    const dock = document.getElementById('replyDock');
+    const authorEl = document.getElementById('replyAuthor');
+    const snippetEl = document.getElementById('replySnippet');
+    if (dock && authorEl && snippetEl) {
+        authorEl.textContent = `Replying to ${author}`;
+        snippetEl.textContent = snippet;
+        dock.classList.remove('d-none');
+    }
+    const input = document.getElementById('msgInput');
+    if (input) input.focus();
+}
+
+function cancelReply() {
+    currentReplyTo = null;
+    const dock = document.getElementById('replyDock');
+    if (dock) dock.classList.add('d-none');
+}
+
+// Copy message text
+function copyMessageText(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Message copied to clipboard!');
+    }).catch(() => {
+        prompt('Copy text:', text);
+    });
+}
+
+// Delete message
+function deleteCommunityMessage(messageId) {
+    if (!confirm('Delete this message for everyone in the Community?')) return;
+    fetch(`/api/community-group/messages/${messageId}`, { method: 'DELETE' })
+    .then(r => r.json())
+    .then(res => {
+        if (res.success) {
+            const el = document.getElementById(`msg-${messageId}`);
+            if (el) el.remove();
+        } else {
+            alert(res.message || 'Error deleting message');
+        }
+    })
+    .catch(() => alert('Network error'));
+}
+
+// Handle Send
 function handleKey(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
@@ -705,7 +1076,7 @@ function handleKey(e) {
 
 function autoGrowInput(el) {
     el.style.height = 'auto';
-    el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+    el.style.height = Math.min(el.scrollHeight, 110) + 'px';
 }
 
 function addEmoji(emoji) {
@@ -723,8 +1094,13 @@ function handleSend(e) {
     const sendBtn = document.getElementById('sendBtn');
     if (!input) return;
 
-    const content = input.value.trim();
+    let content = input.value.trim();
     if (!content) return;
+
+    if (currentReplyTo) {
+        content = `[Replying to ${currentReplyTo.author}: "${currentReplyTo.snippet}..."]\n` + content;
+        cancelReply();
+    }
 
     if (isMessagingLocked && !isAdminUser) {
         alert('Messaging is temporarily frozen by Administrator.');
@@ -737,7 +1113,6 @@ function handleSend(e) {
 
     if (sendBtn) sendBtn.disabled = true;
 
-    // Send through API
     fetch('/api/community-group/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -783,6 +1158,7 @@ function submitJoinRequest() {
     });
 }
 
+// Scroll & Chat position
 function scrollChatToBottom(instant = false) {
     const body = document.getElementById('chatBody');
     if (!body) return;
@@ -791,23 +1167,159 @@ function scrollChatToBottom(instant = false) {
             top: body.scrollHeight,
             behavior: instant ? 'auto' : 'smooth'
         });
-    }, 50);
+    }, 40);
 }
 
-// Robust date parser supporting ISO and SQLite timestamp strings
+function handleChatScroll() {
+    const body = document.getElementById('chatBody');
+    const scrollBtn = document.getElementById('scrollToBottomBtn');
+    if (!body || !scrollBtn) return;
+    const isScrolledUp = (body.scrollHeight - body.scrollTop - body.clientHeight) > 160;
+    scrollBtn.classList.toggle('d-none', !isScrolledUp);
+}
+
+// In-Chat Search Drawer
+function toggleChatSearch() {
+    const searchBar = document.getElementById('chatSearchBar');
+    const searchInput = document.getElementById('chatSearchInput');
+    if (!searchBar) return;
+    const isHidden = searchBar.classList.contains('d-none');
+    searchBar.classList.toggle('d-none', !isHidden);
+    if (isHidden && searchInput) {
+        searchInput.focus();
+    } else if (!isHidden) {
+        if (searchInput) searchInput.value = '';
+        filterChatMessages();
+    }
+}
+
+function filterChatMessages() {
+    const input = document.getElementById('chatSearchInput');
+    const countBadge = document.getElementById('searchMatchCount');
+    const query = (input ? input.value : '').toLowerCase().trim();
+    const rows = document.querySelectorAll('.cg-msg-row');
+    let matches = 0;
+
+    rows.forEach(row => {
+        if (!query) {
+            row.style.opacity = '1';
+            row.style.background = 'transparent';
+        } else {
+            const content = row.dataset.content || '';
+            const sender = row.dataset.sender || '';
+            if (content.includes(query) || sender.includes(query)) {
+                row.style.opacity = '1';
+                row.style.background = 'rgba(254, 240, 138, 0.4)';
+                row.style.borderRadius = '8px';
+                matches++;
+            } else {
+                row.style.opacity = '0.35';
+                row.style.background = 'transparent';
+            }
+        }
+    });
+
+    if (countBadge) countBadge.textContent = `${matches} found`;
+}
+
+// Group Info Sheet / Participants Roster
+function openGroupInfoModal() {
+    const modal = new bootstrap.Modal(document.getElementById('groupInfoModal'));
+    modal.show();
+    loadGroupMembersList();
+}
+
+function loadGroupMembersList() {
+    const container = document.getElementById('membersListContainer');
+    if (!container) return;
+
+    fetch('/api/community-group/members')
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            allCommunityMembers = data.members || [];
+            renderMembersRoster(allCommunityMembers);
+        } else {
+            container.innerHTML = '<div class="text-center py-3 text-muted small">Only approved members can view the roster.</div>';
+        }
+    })
+    .catch(() => {
+        container.innerHTML = '<div class="text-center py-3 text-danger small">Error loading participants.</div>';
+    });
+}
+
+function renderMembersRoster(members) {
+    const container = document.getElementById('membersListContainer');
+    if (!container) return;
+
+    if (!members || members.length === 0) {
+        container.innerHTML = '<div class="text-center py-3 text-muted small">No participants found.</div>';
+        return;
+    }
+
+    container.innerHTML = members.map(m => {
+        const initials = (m.name || 'U').charAt(0).toUpperCase();
+        const role = (m.role || 'student').toLowerCase();
+        return `
+            <div class="d-flex align-items-center justify-content-between p-2 rounded-3 border-bottom group-member-item" data-name="${(m.name || '').toLowerCase()}" data-role="${role}">
+                <div class="d-flex align-items-center gap-2 overflow-hidden">
+                    <div class="cg-msg-avatar role-${role}" style="width: 36px; height: 36px; font-size: 0.9rem;">
+                        ${m.profile_pic && m.profile_pic !== 'default.jpg' && !m.profile_pic.includes('default') ? `<img src="${m.profile_pic}" alt="${escapeHtml(m.name)}" onerror="this.parentElement.innerHTML='${initials}'">` : initials}
+                    </div>
+                    <div class="overflow-hidden">
+                        <div class="fw-bold text-dark small text-truncate">${escapeHtml(m.name)}</div>
+                        <span class="badge bg-light text-secondary border extra-small" style="font-size: 0.65rem;">${role.toUpperCase()}</span>
+                    </div>
+                </div>
+                ${Number(m.user_id) !== Number(currentUserId) ? `
+                    <a href="/messages?user_id=${m.user_id}" class="btn btn-sm btn-outline-success rounded-pill px-2 py-0 fw-semibold" style="font-size: 0.72rem;">
+                        <i class="far fa-comment-dots me-1"></i> Message
+                    </a>
+                ` : '<span class="badge bg-secondary bg-opacity-10 text-secondary extra-small">You</span>'}
+            </div>
+        `;
+    }).join('');
+}
+
+function filterGroupMembers() {
+    const input = document.getElementById('memberSearchInput');
+    const q = (input ? input.value : '').toLowerCase().trim();
+    document.querySelectorAll('.group-member-item').forEach(el => {
+        const name = el.dataset.name || '';
+        const role = el.dataset.role || '';
+        el.style.display = (!q || name.includes(q) || role.includes(q)) ? 'flex' : 'none';
+    });
+}
+
+// Helpers
 function parseIsoDate(isoStr) {
     if (!isoStr) return new Date();
     if (isoStr instanceof Date) return isoStr;
     let s = String(isoStr).trim();
     if (!s) return new Date();
-    if (!s.includes('T') && s.includes(' ')) {
-        s = s.replace(' ', 'T');
-    }
-    if (!s.endsWith('Z') && !/[+-]\d{2}:?\d{2}$/.test(s)) {
-        s += 'Z';
-    }
+    if (!s.includes('T') && s.includes(' ')) s = s.replace(' ', 'T');
+    if (!s.endsWith('Z') && !/[+-]\d{2}:?\d{2}$/.test(s)) s += 'Z';
     const d = new Date(s);
     return isNaN(d.getTime()) ? new Date() : d;
+}
+
+function getDateKey(dateStr) {
+    try {
+        const d = parseIsoDate(dateStr);
+        return d.toISOString().slice(0, 10);
+    } catch { return 'today'; }
+}
+
+function formatDateDivider(dateStr) {
+    try {
+        const d = parseIsoDate(dateStr);
+        const today = new Date();
+        if (d.toDateString() === today.toDateString()) return 'Today';
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+        if (d.toDateString() === yesterday.toDateString()) return 'Yesterday';
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    } catch { return 'Earlier'; }
 }
 
 function formatMessageTime(dateStr) {
@@ -821,9 +1333,7 @@ function formatMessageTime(dateStr) {
         const strH = String(hours).padStart(2, '0');
         const strM = String(minutes).padStart(2, '0');
         return `${strH}:${strM} ${ampm}`;
-    } catch (e) {
-        return '';
-    }
+    } catch { return ''; }
 }
 
 function escapeHtml(text) {

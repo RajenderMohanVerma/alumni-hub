@@ -824,6 +824,44 @@ def api_community_group_messages():
     }), 200
 
 
+@messaging_bp.route('/community-group/messages/<int:message_id>', methods=['DELETE'])
+@login_required
+def api_delete_community_msg(message_id):
+    """Delete a community group message (author or admin only)"""
+    is_admin = (current_user.role == 'admin')
+
+    if not is_admin:
+        from database.messaging_db import get_db_connection as get_msg_db
+        with get_msg_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT sender_id FROM community_group_messages WHERE id = ?', (message_id,))
+            row = cursor.fetchone()
+            if not row or row['sender_id'] != current_user.id:
+                return jsonify({'success': False, 'message': 'Unauthorized to delete this message'}), 403
+
+    success = delete_community_message(message_id)
+    if success:
+        try:
+            from app import socketio
+            socketio.emit('community_message_deleted', {'message_id': message_id}, room='community_group')
+        except Exception:
+            pass
+        return jsonify({'success': True}), 200
+    return jsonify({'success': False, 'message': 'Message not found'}), 404
+
+
+@messaging_bp.route('/community-group/members', methods=['GET'])
+@login_required
+def api_community_members_list():
+    """Approved members list for Group Info roster"""
+    status = get_community_member_status(current_user.id)
+    if status != 'approved' and current_user.role != 'admin':
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+    members = get_approved_community_members()
+    return jsonify({'success': True, 'members': members}), 200
+
+
 @messaging_bp.route('/admin/community-group/requests', methods=['GET'])
 @login_required
 def api_admin_community_requests():
