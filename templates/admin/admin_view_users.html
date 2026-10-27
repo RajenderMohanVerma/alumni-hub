@@ -168,13 +168,183 @@
     justify-content: space-between;
     color: #475569;
 }
-.adm-card-actions {
+/* ========================================================
+   ENTERPRISE USER CARD ACTION DOCK & BUTTONS
+   ======================================================== */
+.adm-card-action-deck {
+    margin-top: auto;
+    padding-top: 0.95rem;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+/* Approve Banner Button for Pending Users */
+.btn-adm-approve-banner {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff !important;
+    border: none;
+    font-weight: 700;
+    font-size: 0.82rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 0.5rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid #f1f5f9;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.28);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-adm-approve-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.42);
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+/* Primary Row: 2 Balanced Equal Columns */
+.adm-action-btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+/* Base Action Button */
+.adm-btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    border-radius: 11px;
+    text-decoration: none !important;
+    border: 1.2px solid transparent;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    line-height: 1.2;
+    box-sizing: border-box;
+}
+
+/* Direct Chat Button (Emerald / Mint Luxury) */
+.adm-btn-chat {
+    background: #ecfdf5;
+    color: #059669 !important;
+    border-color: #a7f3d0;
+}
+.adm-btn-chat i {
+    font-size: 0.88rem;
+    color: #10b981;
+    transition: transform 0.2s ease;
+}
+.adm-btn-chat:hover {
+    background: #10b981;
+    color: #ffffff !important;
+    border-color: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.32);
+}
+.adm-btn-chat:hover i {
+    color: #ffffff;
+    transform: scale(1.15);
+}
+
+/* Full Profile Button (Indigo Luxury) */
+.adm-btn-profile {
+    background: #eef2ff;
+    color: #4f46e5 !important;
+    border-color: #c7d2fe;
+}
+.adm-btn-profile i {
+    font-size: 0.82rem;
+    color: #6366f1;
+    transition: transform 0.2s ease;
+}
+.adm-btn-profile:hover {
+    background: #4f46e5;
+    color: #ffffff !important;
+    border-color: #4338ca;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.32);
+}
+.adm-btn-profile:hover i {
+    color: #ffffff;
+    transform: scale(1.15) translate(1px, -1px);
+}
+
+/* Secondary Sub-Row */
+.adm-action-sub-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Quick Inspect Button */
+.adm-btn-inspect {
+    flex-grow: 1;
+    background: #f8fafc;
+    color: #334155 !important;
+    border-color: #e2e8f0;
+    padding: 0.5rem 0.85rem;
+}
+.adm-btn-inspect i {
+    font-size: 0.85rem;
+    color: #0284c7;
+    transition: transform 0.2s ease;
+}
+.adm-btn-inspect:hover {
+    background: #0284c7;
+    color: #ffffff !important;
+    border-color: #0369a1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.28);
+}
+.adm-btn-inspect:hover i {
+    color: #ffffff;
+    transform: scale(1.15);
+}
+
+/* Purge / Trash Icon Button */
+.adm-btn-action-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1.2px solid #fee2e2;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #fef2f2;
+    color: #ef4444;
+}
+.adm-btn-action-icon:hover {
+    background: #ef4444;
+    color: #ffffff;
+    border-color: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.32);
+}
+
+/* Protected Pill */
+.adm-protected-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 0.45rem 0.7rem;
+    border-radius: 11px;
+    border: 1.2px solid #e2e8f0;
+    white-space: nowrap;
 }
 
 /* View Mode Toggler */
@@ -578,39 +748,48 @@
                         </div>
                     </div>
 
-                    <!-- Card Actions -->
-                    <div class="adm-card-actions">
-                        <div class="d-flex align-items-center gap-1">
-                            {% if user['is_approved'] == 0 %}
-                            <button type="button" class="btn btn-sm btn-success rounded-pill px-2 py-1 fw-bold btn-approve-ajax" data-id="{{ user['id'] }}" data-name="{{ user['name'] }}" title="Authorize User">
-                                <i class="fas fa-check"></i> Approve
-                            </button>
-                            {% endif %}
+                    <!-- Card Action Deck -->
+                    <div class="adm-card-action-deck">
+                        {% if user['is_approved'] == 0 %}
+                        <!-- Approve Action Banner (Only for Pending) -->
+                        <button type="button" class="btn-adm-approve-banner btn-approve-ajax" data-id="{{ user['id'] }}" data-name="{{ user['name']|e }}" title="Authorize User">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Approve &amp; Authorize</span>
+                        </button>
+                        {% endif %}
 
-                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-2 py-1 fw-semibold" onclick="openUserInspectModal({{ user['id'] }})" title="Quick Inspection">
-                                <i class="fas fa-id-card me-1"></i> Inspect
-                            </button>
+                        <!-- Primary Action Buttons (2 Equal Columns) -->
+                        <div class="adm-action-btn-row">
+                            <!-- Direct Chat Button -->
+                            <a href="/messages?user_id={{ user['id'] }}" class="adm-btn-action adm-btn-chat" title="Start Direct Chat with {{ user['name']|e }}">
+                                <i class="fas fa-comment-dots"></i>
+                                <span>Direct Chat</span>
+                            </a>
+
+                            <!-- Full Profile Button -->
+                            <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('profile') }}{% endif %}" class="adm-btn-action adm-btn-profile" title="View Full Web Profile">
+                                <i class="fas fa-external-link-alt"></i>
+                                <span>Full Profile</span>
+                            </a>
                         </div>
 
-                        <div class="d-flex align-items-center gap-1">
-                            <!-- Direct Chat -->
-                            <a href="/messages" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-primary" style="width: 34px; height: 34px;" title="Send Direct Message">
-                                <i class="fas fa-comment-dots"></i>
-                            </a>
+                        <!-- Secondary Utilities Row (Quick Inspect + Delete/Protect) -->
+                        <div class="adm-action-sub-row">
+                            <!-- Quick Inspect Dossier Button -->
+                            <button type="button" class="adm-btn-action adm-btn-inspect" onclick="openUserInspectModal({{ user['id'] }})" title="Quick Dossier Inspection">
+                                <i class="fas fa-id-card"></i>
+                                <span>Quick Inspect</span>
+                            </button>
 
-                            <!-- Full Profile Link -->
-                            <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('profile') }}{% endif %}" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-secondary" style="width: 34px; height: 34px;" title="Full Web Profile">
-                                <i class="fas fa-external-link-alt" style="font-size: 0.75rem;"></i>
-                            </a>
-
-                            <!-- Purge User Safeguard -->
+                            <!-- Account Purge Safeguard -->
                             {% if user['email'] != 'alumnihub26@gmail.com' and user['email'] != 'admin@alumnihub.local' and user['role'] != 'admin' %}
-                            <button type="button" class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center btn-purge" data-id="{{ user['id'] }}" data-name="{{ user['name'] }}" style="width: 34px; height: 34px;" title="Purge Account">
-                                <i class="fas fa-trash-alt" style="font-size: 0.8rem;"></i>
+                            <button type="button" class="adm-btn-action-icon btn-purge" data-id="{{ user['id'] }}" data-name="{{ user['name']|e }}" title="Purge Account">
+                                <i class="fas fa-trash-alt"></i>
                             </button>
                             {% else %}
-                            <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-2 py-1" style="font-size: 0.65rem;" title="Root Protection Enabled">
+                            <span class="adm-protected-pill" title="Protected System Account">
                                 <i class="fas fa-shield-alt text-success"></i>
+                                <span>Protected</span>
                             </span>
                             {% endif %}
                         </div>
@@ -701,28 +880,33 @@
                             <td>
                                 <div class="d-flex gap-2 justify-content-end align-items-center">
                                     {% if user['is_approved'] == 0 %}
-                                    <button type="button" class="btn btn-sm btn-success rounded-pill px-2 py-1 fw-bold btn-approve-ajax" data-id="{{ user['id'] }}" data-name="{{ user['name'] }}" title="Authorize User">
-                                        <i class="fas fa-check"></i> Approve
+                                    <button type="button" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-bold btn-approve-ajax" data-id="{{ user['id'] }}" data-name="{{ user['name']|e }}" title="Authorize User">
+                                        <i class="fas fa-check-circle me-1"></i> Approve
                                     </button>
                                     {% endif %}
 
-                                    <!-- Inspect Modal Button -->
-                                    <button type="button" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-primary" style="width: 36px; height: 36px;" onclick="openUserInspectModal({{ user['id'] }})" title="Quick Inspect Dossier">
-                                        <i class="fas fa-id-card"></i>
+                                    <!-- Direct Chat -->
+                                    <a href="/messages?user_id={{ user['id'] }}" class="btn btn-sm btn-outline-success rounded-pill px-2 py-1 fw-bold d-inline-flex align-items-center gap-1" title="Direct Chat with {{ user['name']|e }}">
+                                        <i class="fas fa-comment-dots"></i> <span class="d-none d-xl-inline">Chat</span>
+                                    </a>
+
+                                    <!-- Quick Inspect -->
+                                    <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-2 py-1 fw-bold d-inline-flex align-items-center gap-1" onclick="openUserInspectModal({{ user['id'] }})" title="Quick Inspect Dossier">
+                                        <i class="fas fa-id-card"></i> <span class="d-none d-xl-inline">Inspect</span>
                                     </button>
 
-                                    <!-- Full Profile View -->
-                                    <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('profile') }}{% endif %}" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-secondary" style="width: 36px; height: 36px;" title="Open Profile">
-                                        <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i>
+                                    <!-- Full Profile -->
+                                    <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('profile') }}{% endif %}" class="btn btn-sm btn-outline-secondary rounded-pill px-2 py-1 fw-bold d-inline-flex align-items-center gap-1" title="Full Web Profile">
+                                        <i class="fas fa-external-link-alt" style="font-size: 0.75rem;"></i> <span class="d-none d-xl-inline">Profile</span>
                                     </a>
 
                                     <!-- Account Deletion Safeguard -->
                                     {% if user['email'] != 'alumnihub26@gmail.com' and user['email'] != 'admin@alumnihub.local' and user['role'] != 'admin' %}
-                                    <button type="button" class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center btn-purge" data-id="{{ user['id'] }}" data-name="{{ user['name'] }}" style="width: 36px; height: 36px;" title="Purge User">
-                                        <i class="fas fa-trash-alt"></i>
+                                    <button type="button" class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center btn-purge" data-id="{{ user['id'] }}" data-name="{{ user['name']|e }}" style="width: 32px; height: 32px; flex-shrink: 0;" title="Purge Account">
+                                        <i class="fas fa-trash-alt" style="font-size: 0.75rem;"></i>
                                     </button>
                                     {% else %}
-                                    <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-2 py-1" style="font-size: 0.7rem;" title="Root Protection Enabled">
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-2 py-1" style="font-size: 0.65rem;" title="Root Protection Enabled">
                                         <i class="fas fa-shield-alt text-success"></i>
                                     </span>
                                     {% endif %}
@@ -1150,13 +1334,13 @@ function openUserInspectModal(userId) {
         if (user.role === 'faculty') profileUrl = `/faculty/profile/${user.id}`;
 
         btnBox.innerHTML = `
-            <a href="${profileUrl}" class="btn btn-primary rounded-pill px-4 fw-bold">
-                <i class="fas fa-external-link-alt me-1"></i> Full Profile
+            <a href="${profileUrl}" class="adm-btn-action adm-btn-profile px-4 py-2" style="font-size: 0.85rem;">
+                <i class="fas fa-external-link-alt me-1"></i> Full Web Profile
             </a>
-            <a href="/messages" class="btn btn-outline-primary rounded-pill px-3 fw-bold">
-                <i class="fas fa-comment-dots me-1"></i> Message
+            <a href="/messages?user_id=${user.id}" class="adm-btn-action adm-btn-chat px-4 py-2" style="font-size: 0.85rem;">
+                <i class="fas fa-comment-dots me-1"></i> Direct Chat
             </a>
-            <button type="button" class="btn btn-outline-secondary rounded-pill px-3 fw-bold" onclick="copyToClipboard('${user.email}')">
+            <button type="button" class="adm-btn-action adm-btn-inspect px-3 py-2" onclick="copyToClipboard('${user.email}')" style="font-size: 0.85rem;">
                 <i class="far fa-copy me-1"></i> Copy Email
             </button>
         `;
