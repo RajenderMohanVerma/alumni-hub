@@ -38,7 +38,7 @@ messaging_bp = Blueprint('messaging', __name__)
 
 def require_admin():
     """Check if user is admin"""
-    if not current_user.is_authenticated or current_user.role != 'admin':
+    if not current_user.is_authenticated or str(getattr(current_user, 'role', '')).strip().lower() not in ['admin', 'superadmin', 'super admin']:
         return False
     return True
 
@@ -723,7 +723,7 @@ def list_suspended_users():
 @login_required
 def api_community_group_status():
     """Get current user's membership status and group telemetry"""
-    is_admin = (current_user.role == 'admin')
+    is_admin = require_admin()
     status = 'approved' if is_admin else get_community_member_status(current_user.id)
     is_locked = is_messaging_locked()
     members = get_approved_community_members()
@@ -743,7 +743,7 @@ def api_community_group_status():
 @login_required
 def api_community_group_request():
     """User requests admission to the institutional community group"""
-    if current_user.role == 'admin':
+    if require_admin():
         return jsonify({'success': True, 'message': 'Admins have automatic membership', 'status': 'approved'}), 200
 
     request_community_membership(current_user.id)
@@ -758,7 +758,7 @@ def api_community_group_request():
 @login_required
 def api_community_group_messages():
     """Fetch or post messages in the community group"""
-    is_admin = (current_user.role == 'admin')
+    is_admin = require_admin()
     membership_status = 'approved' if is_admin else get_community_member_status(current_user.id)
 
     if membership_status != 'approved':

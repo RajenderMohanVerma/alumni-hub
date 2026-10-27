@@ -4511,7 +4511,7 @@ def messages():
 def community_group():
     """Official Institutional Community Group Chat (WhatsApp Style)"""
     from database.messaging_db import get_community_member_status, is_messaging_locked
-    is_admin = (current_user.role == 'admin')
+    is_admin = (str(current_user.role).strip().lower() in ['admin', 'superadmin', 'super admin'])
     membership_status = 'approved' if is_admin else get_community_member_status(current_user.id)
     lock_status = is_messaging_locked()
 

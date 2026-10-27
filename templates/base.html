@@ -545,6 +545,13 @@
                             </li>
                             <li class="nav-menu-heading">COMMUNICATIONS &amp; BROADCAST</li>
                             <li>
+                                <a class="dropdown-item nav-menu-link" href="{{ url_for('community_group') }}">
+                                    <span class="nav-menu-icon icon-emerald" style="background: rgba(37, 211, 102, 0.15); color: #25d366;"><i class="fas fa-users"></i></span>
+                                    <span class="nav-menu-copy"><strong>Community Group</strong><small>Live campus WhatsApp group chat</small></span>
+                                    <i class="fas fa-arrow-up-right-from-square nav-menu-arrow"></i>
+                                </a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item nav-menu-link" href="{{ url_for('admin_whatsapp_broadcast') }}">
                                     <span class="nav-menu-icon icon-green"><i class="fa-brands fa-whatsapp"></i></span>
                                     <span class="nav-menu-copy"><strong>WhatsApp Broadcast</strong><small>Send bulk community alerts</small></span>
@@ -763,14 +770,17 @@
                 <div class="mobile-quick-actions">
                     {% if current_user.role == 'alumni' %}
                     <a href="/alumni/dashboard" class="action-btn"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="/community-group" class="action-btn" style="color: #25d366;"><i class="fab fa-whatsapp"></i> Community</a>
                     <a href="/messages" class="action-btn"><i class="fas fa-comment-alt"></i> Messages</a>
                     <a href="/alumni/network" class="action-btn"><i class="fas fa-network-wired"></i> Network</a>
                     {% elif current_user.role == 'student' %}
                     <a href="/student/dashboard" class="action-btn"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="/community-group" class="action-btn" style="color: #25d366;"><i class="fab fa-whatsapp"></i> Community</a>
                     <a href="/messages" class="action-btn"><i class="fas fa-comment-alt"></i> Messages</a>
                     <a href="/network" class="action-btn"><i class="fas fa-users"></i> Directory</a>
                     {% elif current_user.role == 'faculty' %}
                     <a href="/faculty/dashboard" class="action-btn"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="/community-group" class="action-btn" style="color: #25d366;"><i class="fab fa-whatsapp"></i> Community</a>
                     <a href="/messages" class="action-btn"><i class="fas fa-comment-alt"></i> Messages</a>
                     <a href="/network" class="action-btn"><i class="fas fa-users"></i> Directory</a>
                     {% endif %}
@@ -893,6 +903,14 @@
                         <span class="adm-head-title">Communications &amp; Broadcast</span>
                     </div>
                     <div class="adm-drawer-group-box">
+                        <a href="{{ url_for('community_group') }}" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-emerald" style="background: rgba(37, 211, 102, 0.15); color: #25d366;"><i class="fas fa-users"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Campus Community Group</span>
+                                <span class="adm-row-sub">Live WhatsApp institutional chat</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
                         <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="adm-drawer-row adm-drawer-link">
                             <span class="adm-row-bullet bullet-emerald"><i class="fa-brands fa-whatsapp"></i></span>
                             <div class="adm-row-content">
