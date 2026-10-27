@@ -3,7 +3,9 @@
 
 {% block content %}
 <!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}?v=2.3">
 
 <style>
@@ -51,6 +53,7 @@
         z-index: 0;
         animation: floatOrb 22s infinite alternate ease-in-out;
     }
+
     .admin-ball-1 {
         width: clamp(260px, 40vw, 500px);
         height: clamp(260px, 40vw, 500px);
@@ -58,6 +61,7 @@
         top: -60px;
         left: -80px;
     }
+
     .admin-ball-2 {
         width: clamp(240px, 35vw, 440px);
         height: clamp(240px, 35vw, 440px);
@@ -66,6 +70,7 @@
         right: -80px;
         animation-delay: -7s;
     }
+
     .admin-ball-3 {
         width: clamp(220px, 30vw, 380px);
         height: clamp(220px, 30vw, 380px);
@@ -76,8 +81,13 @@
     }
 
     @keyframes floatOrb {
-        0% { transform: translate(0, 0) scale(1); }
-        100% { transform: translate(45px, 30px) scale(1.08); }
+        0% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        100% {
+            transform: translate(45px, 30px) scale(1.08);
+        }
     }
 
     .admin-container {
@@ -106,6 +116,7 @@
             opacity: 0;
             transform: translateY(20px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
@@ -162,6 +173,7 @@
         margin-bottom: 12px;
         box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
     }
+
     .admin-live-badge span {
         color: #34d399 !important;
     }
@@ -175,10 +187,19 @@
         animation: livePulse 2s infinite;
         vertical-align: middle;
     }
+
     @keyframes livePulse {
-        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-        70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        0% {
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        }
+
+        70% {
+            box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        }
     }
 
     .admin-hero-title,
@@ -222,6 +243,7 @@
         -webkit-backdrop-filter: blur(8px);
         transition: all 0.25s ease;
     }
+
     .admin-hero-card .btn-outline-light:hover {
         color: #0b1329 !important;
         background: #ffffff !important;
@@ -305,10 +327,22 @@
         right: 0;
         height: 4px;
     }
-    .strip-blue { background: linear-gradient(90deg, #0284c7, #38bdf8); }
-    .strip-amber { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-    .strip-green { background: linear-gradient(90deg, #10b981, #34d399); }
-    .strip-purple { background: linear-gradient(90deg, #7c3aed, #a855f7); }
+
+    .strip-blue {
+        background: linear-gradient(90deg, #0284c7, #38bdf8);
+    }
+
+    .strip-amber {
+        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    }
+
+    .strip-green {
+        background: linear-gradient(90deg, #10b981, #34d399);
+    }
+
+    .strip-purple {
+        background: linear-gradient(90deg, #7c3aed, #a855f7);
+    }
 
     .matrix-icon-wrap {
         width: 48px;
@@ -320,6 +354,7 @@
         margin-bottom: 12px;
         transition: transform 0.35s ease;
     }
+
     .admin-matrix-card:hover .matrix-icon-wrap {
         transform: scale(1.1) rotate(6deg);
     }
@@ -348,6 +383,7 @@
         overflow: hidden;
         margin-top: 12px;
     }
+
     .matrix-progress-fill {
         height: 100%;
         border-radius: 50px;
@@ -395,6 +431,7 @@
         flex-shrink: 0;
         transition: transform 0.3s ease;
     }
+
     .action-deck-tile:hover .deck-tile-icon {
         transform: scale(1.12);
     }
@@ -406,6 +443,7 @@
         margin-bottom: 2px;
         line-height: 1.2;
     }
+
     .deck-tile-sub {
         font-size: 0.76rem;
         color: #64748b;
@@ -467,23 +505,79 @@
     .command-search-wrap {
         display: flex;
         align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 12px;
         background: #f8fafc;
         border: 1.5px solid #e2e8f0;
-        border-radius: 18px;
-        padding: 6px 12px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        border-radius: 20px;
+        padding: 8px 12px;
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03);
+        width: 100%;
+        box-sizing: border-box;
+        flex-wrap: wrap;
     }
+
+    .command-search-field {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1 1 320px;
+        min-width: 240px;
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 14px;
+        padding: 8px 14px;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        box-sizing: border-box;
+    }
+    .command-search-field:focus-within {
+        border-color: #0284c7;
+        box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
     .command-search-input {
         border: none;
         outline: none;
         background: transparent;
-        font-size: 16px !important; /* Prevent iOS Safari auto-zoom */
+        font-size: 0.92rem;
         font-weight: 500;
         color: #0f172a;
-        min-width: 170px;
+        width: 100%;
+        min-width: 0;
+        padding: 0;
     }
+    .command-search-input::placeholder {
+        color: #64748b;
+        font-weight: 500;
+        opacity: 0.85;
+    }
+
+    .btn-clear-search {
+        background: none;
+        border: none;
+        color: #94a3b8;
+        padding: 0 4px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.15s ease, transform 0.15s ease;
+        flex-shrink: 0;
+    }
+    .btn-clear-search:hover {
+        color: #ef4444;
+        transform: scale(1.15);
+    }
+
+    .command-filters-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        flex-shrink: 0;
+    }
+
     .command-role-select,
     .command-sort-select,
     .command-date-input {
@@ -491,18 +585,27 @@
         outline: none;
         background: #ffffff;
         border-radius: 12px;
-        padding: 6px 12px;
-        font-size: 14px;
+        padding: 8px 12px;
+        font-size: 0.85rem;
         font-weight: 700;
         color: #334155;
         cursor: pointer;
         transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        height: 42px;
+        box-sizing: border-box;
     }
+
     .command-role-select:focus,
     .command-sort-select:focus,
     .command-date-input:focus {
         border-color: #0284c7;
         box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .command-date-wrap {
+        display: flex;
+        align-items: center;
+        gap: 4px;
     }
 
     /* Executive Pagination Controller */
@@ -518,19 +621,23 @@
         border-radius: 18px;
         border: 1.5px solid #e2e8f0;
     }
+
     .pagination-info {
         font-size: 0.86rem;
         color: #64748b;
         font-weight: 600;
     }
+
     .pagination-info strong {
         color: #0f172a;
     }
+
     .pagination-controls {
         display: flex;
         align-items: center;
         gap: 6px;
     }
+
     .pagination-nav-btn {
         width: 38px;
         height: 38px;
@@ -545,6 +652,7 @@
         cursor: pointer;
         transition: all 0.2s ease;
     }
+
     .pagination-nav-btn:hover:not(:disabled) {
         background: #0284c7;
         color: #ffffff;
@@ -552,17 +660,20 @@
         box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
         transform: translateY(-1px);
     }
+
     .pagination-nav-btn:disabled {
         opacity: 0.4;
         cursor: not-allowed;
         background: #f1f5f9;
         border-color: #e2e8f0;
     }
+
     .pagination-numbers {
         display: flex;
         align-items: center;
         gap: 5px;
     }
+
     .page-number-btn {
         min-width: 38px;
         height: 38px;
@@ -578,16 +689,19 @@
         cursor: pointer;
         transition: all 0.2s ease;
     }
+
     .page-number-btn:hover {
         background: #f1f5f9;
         border-color: #94a3b8;
     }
+
     .page-number-btn.active {
         background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
         color: #ffffff;
         border-color: transparent;
         box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
     }
+
     .page-ellipsis {
         min-width: 24px;
         text-align: center;
@@ -609,6 +723,7 @@
         border-spacing: 0;
         margin-bottom: 0;
     }
+
     .vip-table thead th {
         background: #f8fafc;
         padding: 14px 18px;
@@ -619,12 +734,15 @@
         color: #64748b;
         border-bottom: 1px solid #e2e8f0;
     }
+
     .vip-table tbody tr {
         transition: background-color 0.2s ease;
     }
+
     .vip-table tbody tr:hover {
         background-color: #f8fafc;
     }
+
     .vip-table tbody td {
         padding: 16px 18px;
         vertical-align: middle;
@@ -642,14 +760,236 @@
     .mobile-user-card {
         background: #ffffff;
         border: 1.5px solid #e2e8f0;
-        border-radius: 20px;
-        padding: 16px;
-        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+        border-radius: 18px;
+        padding: 14px;
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
         transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        box-sizing: border-box;
     }
+
     .mobile-user-card:hover {
         border-color: #38bdf8;
         box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12);
+    }
+
+    .user-name-heading {
+        font-size: 0.98rem;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.3;
+    }
+
+    .user-email-wrap {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 2px;
+        max-width: 100%;
+    }
+
+    .user-email-text {
+        font-size: 0.74rem;
+        color: #64748b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background: transparent;
+        padding: 0;
+        line-height: 1.2;
+    }
+
+    .btn-copy-email {
+        background: none;
+        border: none;
+        color: #94a3b8;
+        padding: 0 4px;
+        font-size: 0.74rem;
+        cursor: pointer;
+        transition: color 0.15s ease, transform 0.15s ease;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-copy-email:hover,
+    .btn-copy-email:active {
+        color: #0284c7;
+        transform: scale(1.15);
+    }
+
+    .adm-chips-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .adm-meta-chip {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #475569;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 3px 8px;
+        white-space: nowrap;
+        line-height: 1.3;
+    }
+
+    .card-date-badge {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #64748b;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 50px;
+        padding: 2px 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+    }
+
+    /* Role Quick Chips Filter */
+    .quick-role-chips {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 4px 2px 8px 2px;
+        margin-top: 0.65rem;
+    }
+
+    .quick-role-chips::-webkit-scrollbar {
+        display: none;
+    }
+
+    .role-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        border: 1.5px solid #e2e8f0;
+        background: #ffffff;
+        color: #475569;
+        cursor: pointer;
+        transition: all 0.18s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .role-chip:hover {
+        border-color: #cbd5e1;
+        background: #f8fafc;
+    }
+
+    .role-chip.active {
+        background: #0f172a;
+        color: #ffffff;
+        border-color: #0f172a;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+    }
+
+    .role-chip.chip-student.active {
+        background: #0284c7;
+        border-color: #0284c7;
+    }
+
+    .role-chip.chip-alumni.active {
+        background: #d97706;
+        border-color: #d97706;
+    }
+
+    .role-chip.chip-faculty.active {
+        background: #059669;
+        border-color: #059669;
+    }
+
+    .role-chip.chip-admin.active {
+        background: #7c3aed;
+        border-color: #7c3aed;
+    }
+
+    /* Directory View Mode Toggle */
+    .dir-view-toggle {
+        display: inline-flex;
+        align-items: center;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        border-radius: 50px;
+        padding: 3px;
+        gap: 2px;
+    }
+
+    .dir-view-btn {
+        border: none;
+        background: transparent;
+        border-radius: 50px;
+        padding: 4px 12px;
+        font-size: 0.74rem;
+        font-weight: 700;
+        color: #64748b;
+        cursor: pointer;
+        transition: all 0.18s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+    }
+
+    .dir-view-btn.active {
+        background: #ffffff;
+        color: #0f172a;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    }
+
+    /* Swipeable Table for Mobile */
+    .table-scroll-hint {
+        padding: 8px 12px;
+        border-radius: 12px;
+        background: rgba(2, 132, 199, 0.08);
+        border: 1px dashed rgba(2, 132, 199, 0.35);
+        color: #0284c7;
+        font-size: 0.74rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .action-btn-wa {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+        border-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .action-btn-wa:hover {
+        background: #10b981;
+        color: #ffffff;
+    }
+
+    .action-btn-mail {
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        border-color: rgba(99, 102, 241, 0.2);
+    }
+
+    .action-btn-mail:hover {
+        background: #6366f1;
+        color: #ffffff;
     }
 
     .user-avatar-node-wrap {
@@ -679,14 +1019,17 @@
         background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
         box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
     }
+
     .avatar-initials-alumni {
         background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
     }
+
     .avatar-initials-faculty {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
     }
+
     .avatar-initials-admin {
         background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
         box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
@@ -710,11 +1053,28 @@
         display: inline-flex;
         align-items: center;
         gap: 5px;
+        white-space: nowrap;
     }
-    .role-tag-student { background: rgba(2, 132, 199, 0.1); color: #0284c7; }
-    .role-tag-alumni { background: rgba(245, 158, 11, 0.1); color: #d97706; }
-    .role-tag-faculty { background: rgba(16, 185, 129, 0.1); color: #059669; }
-    .role-tag-admin { background: rgba(124, 58, 237, 0.1); color: #7c3aed; }
+
+    .role-tag-student {
+        background: rgba(2, 132, 199, 0.1);
+        color: #0284c7;
+    }
+
+    .role-tag-alumni {
+        background: rgba(245, 158, 11, 0.1);
+        color: #d97706;
+    }
+
+    .role-tag-faculty {
+        background: rgba(16, 185, 129, 0.1);
+        color: #059669;
+    }
+
+    .role-tag-admin {
+        background: rgba(124, 58, 237, 0.1);
+        color: #7c3aed;
+    }
 
     .action-icon-btn {
         width: 38px;
@@ -728,20 +1088,24 @@
         text-decoration: none;
         cursor: pointer;
     }
+
     .action-btn-view {
         background: rgba(2, 132, 199, 0.1);
         color: #0284c7;
         border-color: rgba(2, 132, 199, 0.2);
     }
+
     .action-btn-view:hover {
         background: #0284c7;
         color: #ffffff;
     }
+
     .action-btn-delete {
         background: rgba(239, 68, 68, 0.1);
         color: #ef4444;
         border-color: rgba(239, 68, 68, 0.2);
     }
+
     .action-btn-delete:hover {
         background: #ef4444;
         color: #ffffff;
@@ -767,6 +1131,7 @@
         justify-content: space-between;
         transition: all 0.25s ease;
     }
+
     .export-card-node:hover {
         transform: translateY(-4px);
         border-color: #38bdf8;
@@ -780,9 +1145,11 @@
         .admin-dashboard-wrapper {
             padding-inline: 1rem;
         }
+
         .action-deck-grid {
             grid-template-columns: repeat(2, 1fr);
         }
+
         .admin-clock-box {
             max-width: 100%;
             margin-top: 1rem;
@@ -808,30 +1175,59 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 0.75rem;
         }
+
         .action-deck-tile {
             padding: 14px 12px;
             gap: 10px;
             flex-direction: column;
             text-align: center;
         }
+
         .deck-tile-icon {
             width: 44px;
             height: 44px;
             font-size: 1.15rem;
         }
+
         .deck-tile-title {
             font-size: 0.88rem;
         }
+
         .deck-tile-sub {
             display: none;
         }
 
-        /* Table Switch to Mobile Cards */
+        /* Table Switch to Mobile Cards / Scrollable Table Mode */
         .vip-table-container {
             display: none;
         }
+
+        .vip-table-container.force-show-table {
+            display: block !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            border-radius: 16px;
+            border: 1.5px solid #e2e8f0;
+            margin-bottom: 1rem;
+            background: #ffffff;
+        }
+
+        .vip-table-container.force-show-table .vip-table {
+            min-width: 660px !important;
+        }
+
+        .vip-table-container.force-show-table th,
+        .vip-table-container.force-show-table td {
+            white-space: nowrap !important;
+            padding: 10px 12px !important;
+        }
+
         .mobile-users-grid {
             display: flex;
+        }
+
+        .mobile-users-grid.force-hide-cards {
+            display: none !important;
         }
 
         .command-search-wrap {
@@ -839,18 +1235,57 @@
             flex-direction: column;
             align-items: stretch;
             border-radius: 20px;
-            padding: 10px 14px;
-            gap: 8px;
+            padding: 10px;
+            gap: 10px;
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
         }
+
+        .command-search-field {
+            width: 100%;
+            flex: 1 1 auto;
+            min-width: 100%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            background: #f8fafc;
+        }
+
         .command-search-input {
             width: 100%;
-            min-width: 100%;
+            min-width: 0;
+            font-size: 15px !important;
         }
+
+        .command-filters-group {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
         .command-role-select,
         .command-sort-select,
+        .command-date-wrap,
         .command-date-input {
             width: 100%;
-            font-size: 16px !important; /* Prevent iOS Safari auto-zoom */
+            font-size: 0.82rem !important;
+            padding: 8px 10px !important;
+            height: 42px !important;
+            border-radius: 12px !important;
+        }
+
+        .command-date-wrap {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 480px) {
+            .command-filters-group {
+                grid-template-columns: 1fr;
+            }
+            .command-date-wrap {
+                grid-column: span 1;
+            }
         }
 
         .directory-pagination-bar {
@@ -860,11 +1295,13 @@
             padding: 14px 10px;
             gap: 12px;
         }
+
         .pagination-controls {
             flex-wrap: wrap;
             justify-content: center;
             gap: 4px;
         }
+
         .pagination-nav-btn,
         .page-number-btn {
             min-width: 36px;
@@ -876,13 +1313,16 @@
         .export-vip-module {
             padding: 20px 16px;
         }
+
         #exportTabs {
             width: 100%;
             justify-content: stretch;
         }
+
         #exportTabs .nav-item {
             flex: 1;
         }
+
         #exportTabs .nav-link {
             width: 100%;
             text-align: center;
@@ -895,17 +1335,21 @@
         .admin-dashboard-wrapper {
             padding-inline: 10px !important;
         }
+
         .admin-matrix-card {
             padding: 16px 14px;
         }
+
         .matrix-num {
             font-size: 1.85rem;
         }
+
         .matrix-icon-wrap {
             width: 42px;
             height: 42px;
             font-size: 1.15rem;
         }
+
         .action-deck-grid {
             grid-template-columns: repeat(2, 1fr);
             gap: 0.65rem;
@@ -936,24 +1380,32 @@
                     </div>
 
                     <h1 class="admin-hero-title" style="color: #ffffff !important;">
-                        <span class="hero-title-prefix" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);">Welcome Back,</span> <span class="text-holographic-adm" id="typingName">{{ current_user.name }}</span>
+                        <span class="hero-title-prefix"
+                            style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);">Welcome
+                            Back,</span> <span class="text-holographic-adm" id="typingName">{{ current_user.name
+                            }}</span>
                     </h1>
                     <p class="admin-hero-subtitle">
-                        Complete campus ecosystem administration. Monitor community enrollments, approve credentials, oversee recruitment drives, and inspect real-time platform metrics.
+                        Complete campus ecosystem administration. Monitor community enrollments, approve credentials,
+                        oversee recruitment drives, and inspect real-time platform metrics.
                     </p>
 
                     <!-- Quick Executive Action Buttons -->
                     <div class="d-flex flex-wrap gap-2 pt-1">
-                        <a href="{{ url_for('admin_messaging_control') }}" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm d-inline-flex align-items-center gap-2">
+                        <a href="{{ url_for('admin_messaging_control') }}"
+                            class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm d-inline-flex align-items-center gap-2">
                             <i class="fas fa-bullhorn"></i> Send Broadcast
                         </a>
-                        <a href="{{ url_for('admin_approve_requests') }}" class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2">
+                        <a href="{{ url_for('admin_approve_requests') }}"
+                            class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2">
                             <i class="fas fa-user-check"></i> Pending Approvals
                         </a>
-                        <a href="{{ url_for('admin_jobs') }}" class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2">
+                        <a href="{{ url_for('admin_jobs') }}"
+                            class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2">
                             <i class="fas fa-briefcase"></i> Job Matrix
                         </a>
-                        <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="btn btn-success rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1 shadow-sm">
+                        <a href="{{ url_for('admin_whatsapp_broadcast') }}"
+                            class="btn btn-success rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1 shadow-sm">
                             <i class="fab fa-whatsapp"></i> WhatsApp
                         </a>
                     </div>
@@ -963,10 +1415,13 @@
                 <div class="col-lg-4 text-lg-end">
                     <div class="admin-clock-box d-inline-block">
                         <div class="d-flex align-items-center justify-content-between mb-2">
-                            <small class="text-info fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 1px;">
+                            <small class="text-info fw-bold text-uppercase"
+                                style="font-size: 0.72rem; letter-spacing: 1px;">
                                 <i class="fas fa-satellite-dish me-1"></i> System Time
                             </small>
-                            <span class="badge rounded-pill bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-2 py-0" style="font-size: 0.68rem;">
+                            <span
+                                class="badge rounded-pill bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-2 py-0"
+                                style="font-size: 0.68rem;">
                                 ACTIVE
                             </span>
                         </div>
@@ -975,8 +1430,10 @@
 
                         <div class="d-flex flex-column gap-1 pt-2 border-top border-secondary border-opacity-25">
                             <div class="d-flex align-items-center justify-content-between">
-                                <span class="system-pill-stat"><i class="fas fa-database text-info"></i> Turso / SQLite</span>
-                                <span class="system-pill-stat"><i class="fas fa-lock text-warning"></i> 256-Bit SSL</span>
+                                <span class="system-pill-stat"><i class="fas fa-database text-info"></i> Turso /
+                                    SQLite</span>
+                                <span class="system-pill-stat"><i class="fas fa-lock text-warning"></i> 256-Bit
+                                    SSL</span>
                             </div>
                         </div>
                     </div>
@@ -990,7 +1447,8 @@
         <div class="row g-3 g-md-4 mb-4">
             <!-- Students -->
             <div class="col-6 col-lg-3">
-                <div class="admin-matrix-card" onclick="window.location.href='{{ url_for('admin_view_users', role='student') }}'">
+                <div class="admin-matrix-card"
+                    onclick="window.location.href='{{ url_for('admin_view_users', role='student') }}'">
                     <div class="card-accent-strip strip-blue"></div>
                     <div>
                         <div class="matrix-icon-wrap" style="background: rgba(2, 132, 199, 0.12); color: #0284c7;">
@@ -1000,7 +1458,8 @@
                         <div class="matrix-title">Students</div>
                     </div>
                     <div>
-                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
+                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2"
+                            style="font-size: 0.75rem;">
                             <span>Active Learners</span>
                             <i class="fas fa-arrow-right text-primary"></i>
                         </div>
@@ -1013,7 +1472,8 @@
 
             <!-- Alumni -->
             <div class="col-6 col-lg-3">
-                <div class="admin-matrix-card" onclick="window.location.href='{{ url_for('admin_view_users', role='alumni') }}'">
+                <div class="admin-matrix-card"
+                    onclick="window.location.href='{{ url_for('admin_view_users', role='alumni') }}'">
                     <div class="card-accent-strip strip-amber"></div>
                     <div>
                         <div class="matrix-icon-wrap" style="background: rgba(245, 158, 11, 0.12); color: #d97706;">
@@ -1023,7 +1483,8 @@
                         <div class="matrix-title">Alumni</div>
                     </div>
                     <div>
-                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
+                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2"
+                            style="font-size: 0.75rem;">
                             <span>Graduates &amp; Mentors</span>
                             <i class="fas fa-arrow-right text-warning"></i>
                         </div>
@@ -1036,7 +1497,8 @@
 
             <!-- Faculty -->
             <div class="col-6 col-lg-3">
-                <div class="admin-matrix-card" onclick="window.location.href='{{ url_for('admin_view_users', role='faculty') }}'">
+                <div class="admin-matrix-card"
+                    onclick="window.location.href='{{ url_for('admin_view_users', role='faculty') }}'">
                     <div class="card-accent-strip strip-green"></div>
                     <div>
                         <div class="matrix-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: #059669;">
@@ -1046,7 +1508,8 @@
                         <div class="matrix-title">Faculty</div>
                     </div>
                     <div>
-                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
+                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2"
+                            style="font-size: 0.75rem;">
                             <span>Guides &amp; HODs</span>
                             <i class="fas fa-arrow-right text-success"></i>
                         </div>
@@ -1069,7 +1532,8 @@
                         <div class="matrix-title">Event Registrations</div>
                     </div>
                     <div>
-                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2" style="font-size: 0.75rem;">
+                        <div class="d-flex align-items-center justify-content-between text-muted small mt-2"
+                            style="font-size: 0.75rem;">
                             <span>Reunions &amp; Meets</span>
                             <i class="fas fa-arrow-right text-purple"></i>
                         </div>
@@ -1177,21 +1641,18 @@
                         <h4 class="analytics-title">
                             <i class="fas fa-chart-line text-primary"></i> 5-Year User Growth Trajectory
                         </h4>
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-1 fw-bold small">
+                        <span
+                            class="badge rounded-pill bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-1 fw-bold small">
                             <i class="fas fa-sync-alt fa-spin me-1"></i> Live Real-Time Feed
                         </span>
                     </div>
 
                     <!-- Hidden Data Holder for Chart.js Script -->
-                    <div id="chart-data" 
-                         data-years='{{ chart_data.years | tojson }}'
-                         data-students-growth='{{ chart_data.students | tojson }}'
-                         data-alumni-growth='{{ chart_data.alumni | tojson }}'
-                         data-faculty-growth='{{ chart_data.faculty | tojson }}' 
-                         data-students='{{ s_count }}'
-                         data-alumni='{{ a_count }}' 
-                         data-faculty='{{ f_count }}' 
-                         style="display: none;"></div>
+                    <div id="chart-data" data-years='{{ chart_data.years | tojson }}'
+                        data-students-growth='{{ chart_data.students | tojson }}'
+                        data-alumni-growth='{{ chart_data.alumni | tojson }}'
+                        data-faculty-growth='{{ chart_data.faculty | tojson }}' data-students='{{ s_count }}'
+                        data-alumni='{{ a_count }}' data-faculty='{{ f_count }}' style="display: none;"></div>
 
                     <div style="position: relative; height: clamp(230px, 45vw, 320px); width: 100%;">
                         <canvas id="growthChart"></canvas>
@@ -1237,45 +1698,94 @@
              ======================================================== -->
         <div class="directory-vip-module" id="userDirectoryModule">
             <div class="directory-top-bar">
-                <div>
-                    <h3 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: clamp(1.35rem, 3.5vw, 1.6rem); color: #0f172a;">
-                        <i class="fas fa-id-card-alt text-primary me-2"></i> User Directory &amp; Governance
-                    </h3>
-                    <p class="text-muted small mb-0">Search, filter by role or date, and inspect registered campus members across batches.</p>
+                <div
+                    class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between w-100 gap-2 mb-2">
+                    <div>
+                        <h3 class="fw-bold mb-1"
+                            style="font-family: 'Outfit'; font-size: clamp(1.35rem, 3.5vw, 1.6rem); color: #0f172a;">
+                            <i class="fas fa-id-card-alt text-primary me-2"></i> User Directory &amp; Governance
+                        </h3>
+                        <p class="text-muted small mb-0">Search, filter by role or date, and inspect registered campus
+                            members across batches.</p>
+                    </div>
+
+                    <!-- View Switcher (Cards vs Scrollable Table) -->
+                    <div class="dir-view-toggle ms-sm-auto" id="dirViewToggle" title="Toggle Display Mode">
+                        <button type="button" class="dir-view-btn active" id="btnViewCards"
+                            onclick="setDirectoryViewMode('cards')">
+                            <i class="fas fa-grip-vertical"></i> Cards
+                        </button>
+                        <button type="button" class="dir-view-btn" id="btnViewTable"
+                            onclick="setDirectoryViewMode('table')">
+                            <i class="fas fa-table-list"></i> Table <span class="d-none d-md-inline">(Swipe ⇄)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick 1-Tap Role Chips Filter -->
+                <div class="quick-role-chips w-100" id="quickRoleChips">
+                    <button type="button" class="role-chip active" data-role="all">All ({{ users|length }})</button>
+                    <button type="button" class="role-chip chip-student" data-role="student"><i
+                            class="fas fa-user-graduate"></i> Students ({{ s_count }})</button>
+                    <button type="button" class="role-chip chip-alumni" data-role="alumni"><i
+                            class="fas fa-user-tie"></i> Alumni ({{ a_count }})</button>
+                    <button type="button" class="role-chip chip-faculty" data-role="faculty"><i
+                            class="fas fa-chalkboard-teacher"></i> Faculty ({{ f_count }})</button>
+                    <button type="button" class="role-chip chip-admin" data-role="admin"><i
+                            class="fas fa-shield-alt"></i> Admins</button>
                 </div>
 
                 <!-- Search & Filters Toolbar -->
-                <div class="command-search-wrap">
-                    <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
+                <div class="command-search-wrap w-100">
+                    <div class="command-search-field">
                         <i class="fas fa-search text-muted ms-1"></i>
-                        <input type="text" id="userSearch" class="command-search-input" placeholder="Search name, email, department...">
-                    </div>
-
-                    <!-- Role Filter -->
-                    <select id="roleFilter" class="command-role-select" title="Filter by Role">
-                        <option value="all">All Roles</option>
-                        <option value="student">Students</option>
-                        <option value="alumni">Alumni</option>
-                        <option value="faculty">Faculty</option>
-                        <option value="admin">Admins</option>
-                    </select>
-
-                    <!-- Date Filter Picker -->
-                    <div class="d-flex align-items-center gap-1">
-                        <input type="date" id="dateFilter" class="command-date-input" title="Filter by Joined/Login Date">
-                        <button type="button" id="clearDateBtn" class="btn btn-sm btn-light border text-muted px-2 py-1 rounded-3 d-none" title="Clear Date" style="font-size: 0.72rem;">
+                        <input type="text" id="userSearch" class="command-search-input"
+                            placeholder="Search name, email, department..." autocomplete="off">
+                        <button type="button" id="clearSearchBtn" class="btn-clear-search d-none" title="Clear Search">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
 
-                    <!-- Sort Order Dropdown -->
-                    <select id="sortFilter" class="command-sort-select" title="Sort Order">
-                        <option value="date-desc">Newest First</option>
-                        <option value="date-asc">Oldest First</option>
-                        <option value="name-asc">Name (A-Z)</option>
-                        <option value="name-desc">Name (Z-A)</option>
-                    </select>
+                    <div class="command-filters-group">
+                        <!-- Role Filter -->
+                        <select id="roleFilter" class="command-role-select" title="Filter by Role">
+                            <option value="all">All Roles</option>
+                            <option value="student">Students</option>
+                            <option value="alumni">Alumni</option>
+                            <option value="faculty">Faculty</option>
+                            <option value="admin">Admins</option>
+                        </select>
+
+                        <!-- Date Filter Picker -->
+                        <div class="command-date-wrap">
+                            <input type="date" id="dateFilter" class="command-date-input"
+                                title="Filter by Joined/Login Date">
+                            <button type="button" id="clearDateBtn"
+                                class="btn btn-sm btn-light border text-muted px-2 py-1 rounded-3 d-none" title="Clear Date"
+                                style="font-size: 0.72rem;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+
+                        <!-- Sort Order Dropdown -->
+                        <select id="sortFilter" class="command-sort-select" title="Sort Order">
+                            <option value="date-desc">Newest First</option>
+                            <option value="date-asc">Oldest First</option>
+                            <option value="name-asc">Name (A-Z)</option>
+                            <option value="name-desc">Name (Z-A)</option>
+                        </select>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Table Scroll Hint for Mobile Horizontal Swipe -->
+            <div class="table-scroll-hint d-none" id="tableScrollHint">
+                <span class="d-inline-flex align-items-center gap-2">
+                    <i class="fas fa-arrows-left-right text-primary"></i>
+                    <span>Swipe table left &amp; right to see all member columns</span>
+                </span>
+                <span class="badge bg-primary text-white rounded-pill px-2 py-1" style="font-size: 0.65rem;">SWIPE
+                    ⇄</span>
             </div>
 
             <!-- Desktop View: Table Container -->
@@ -1292,8 +1802,7 @@
                     </thead>
                     <tbody id="usersTableBody">
                         {% for user in users %}
-                        <tr class="user-row" 
-                            data-role="{{ user['role'] }}"
+                        <tr class="user-row" data-role="{{ user['role'] }}"
                             data-date="{{ user['created_at'][:10] if user['created_at'] else '' }}"
                             data-datetime="{{ user['created_at'] or '' }}"
                             data-name="{{ (user['name'] or '') | lower }}"
@@ -1302,9 +1811,15 @@
                             <td>
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="user-avatar-node-wrap">
-                                        {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
-                                        <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] or 'User' }}" class="avatar-image-node" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                                        <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}" style="display: none;">
+                                        {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or
+                                        user['profile_pic'].startswith('data:image/') or
+                                        user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg'
+                                        %}
+                                        <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] or 'User' }}"
+                                            class="avatar-image-node"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+                                        <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}"
+                                            style="display: none;">
                                             {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
                                         </div>
                                         {% else %}
@@ -1315,23 +1830,29 @@
                                     </div>
                                     <div class="min-w-0">
                                         <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
-                                           class="fw-bold text-dark text-decoration-none d-block hover-primary text-truncate" style="font-size: 0.95rem;">
+                                            class="fw-bold text-dark text-decoration-none d-block hover-primary text-truncate"
+                                            style="font-size: 0.95rem;">
                                             {{ (user['name']|title) if user['name'] else 'Unknown User' }}
                                         </a>
-                                        <code class="text-muted text-break" style="font-size: 0.76rem;">{{ user['email'] }}</code>
+                                        <code class="text-muted text-break"
+                                            style="font-size: 0.76rem;">{{ user['email'] }}</code>
                                     </div>
                                 </div>
                             </td>
 
                             <td>
                                 {% if user['role'] == 'student' %}
-                                <span class="role-badge-tag role-tag-student"><i class="fas fa-user-graduate"></i> Student</span>
+                                <span class="role-badge-tag role-tag-student"><i class="fas fa-user-graduate"></i>
+                                    Student</span>
                                 {% elif user['role'] == 'alumni' %}
-                                <span class="role-badge-tag role-tag-alumni"><i class="fas fa-user-tie"></i> Alumni</span>
+                                <span class="role-badge-tag role-tag-alumni"><i class="fas fa-user-tie"></i>
+                                    Alumni</span>
                                 {% elif user['role'] == 'faculty' %}
-                                <span class="role-badge-tag role-tag-faculty"><i class="fas fa-chalkboard-teacher"></i> Faculty</span>
+                                <span class="role-badge-tag role-tag-faculty"><i class="fas fa-chalkboard-teacher"></i>
+                                    Faculty</span>
                                 {% else %}
-                                <span class="role-badge-tag role-tag-admin"><i class="fas fa-shield-alt"></i> Admin</span>
+                                <span class="role-badge-tag role-tag-admin"><i class="fas fa-shield-alt"></i>
+                                    Admin</span>
                                 {% endif %}
                             </td>
 
@@ -1350,29 +1871,35 @@
 
                             <td>
                                 <div class="d-flex flex-column gap-1">
-                                    <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1 small fw-bold d-inline-flex align-items-center gap-1" style="width: fit-content; font-size: 0.72rem;">
+                                    <span
+                                        class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1 small fw-bold d-inline-flex align-items-center gap-1"
+                                        style="width: fit-content; font-size: 0.72rem;">
                                         <i class="fas fa-check-circle"></i> Verified
                                     </span>
-                                    <small class="text-muted d-inline-flex align-items-center gap-1" style="font-size: 0.74rem;">
-                                        <i class="far fa-calendar-alt text-primary"></i> {{ user['created_at'][:10] if user['created_at'] else 'N/A' }}
+                                    <small class="text-muted d-inline-flex align-items-center gap-1"
+                                        style="font-size: 0.74rem;">
+                                        <i class="far fa-calendar-alt text-primary"></i> {{ user['created_at'][:10] if
+                                        user['created_at'] else 'N/A' }}
                                     </small>
                                 </div>
                             </td>
 
                             <td>
                                 <div class="d-flex align-items-center justify-content-end gap-2">
-                                    {% if user['email'] == 'alumnihub26@gmail.com' or user['email'] == 'admin@alumnihub.local' %}
-                                    <span class="badge bg-light text-secondary border rounded-pill px-3 py-1 small fw-bold">
+                                    {% if user['email'] == 'alumnihub26@gmail.com' or user['email'] ==
+                                    'admin@alumnihub.local' %}
+                                    <span
+                                        class="badge bg-light text-secondary border rounded-pill px-3 py-1 small fw-bold">
                                         <i class="fas fa-lock me-1"></i> PROTECTED
                                     </span>
                                     {% else %}
                                     <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
-                                       class="action-icon-btn action-btn-view" title="View Member Profile">
+                                        class="action-icon-btn action-btn-view" title="View Member Profile">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <button class="action-icon-btn action-btn-delete"
-                                            onclick="confirmDelete('{{ user.id }}', '{{ user.name }}', this)"
-                                            title="Delete Member Account">
+                                        onclick="confirmDelete('{{ user.id }}', '{{ user.name }}', this)"
+                                        title="Delete Member Account">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                     {% endif %}
@@ -1387,83 +1914,124 @@
             <!-- Mobile View: User Cards (Zero horizontal scroll on phones) -->
             <div class="mobile-users-grid" id="mobileUsersGrid">
                 {% for user in users %}
-                <div class="mobile-user-card user-row" 
-                     data-role="{{ user['role'] }}"
-                     data-date="{{ user['created_at'][:10] if user['created_at'] else '' }}"
-                     data-datetime="{{ user['created_at'] or '' }}"
-                     data-name="{{ (user['name'] or '') | lower }}"
-                     data-email="{{ (user['email'] or '') | lower }}"
-                     data-dept="{{ (user['department'] or '') | lower }}">
-                    <div class="d-flex align-items-start justify-content-between mb-2">
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="user-avatar-node-wrap">
-                                {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
-                                <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] or 'User' }}" class="avatar-image-node" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                                <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}" style="display: none;">
-                                    {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
-                                </div>
-                                {% else %}
-                                <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}">
-                                    {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="min-w-0">
-                                <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
-                                   class="fw-bold text-dark text-decoration-none d-block hover-primary text-truncate" style="font-size: 0.96rem;">
-                                    {{ (user['name']|title) if user['name'] else 'Unknown User' }}
-                                </a>
-                                <code class="text-muted text-break" style="font-size: 0.76rem;">{{ user['email'] }}</code>
-                            </div>
-                        </div>
+                <div class="mobile-user-card user-row" data-role="{{ user['role'] }}"
+                    data-date="{{ user['created_at'][:10] if user['created_at'] else '' }}"
+                    data-datetime="{{ user['created_at'] or '' }}" data-name="{{ (user['name'] or '') | lower }}"
+                    data-email="{{ (user['email'] or '') | lower }}"
+                    data-dept="{{ (user['department'] or '') | lower }}">
 
-                        {% if user['role'] == 'student' %}
-                        <span class="role-badge-tag role-tag-student"><i class="fas fa-user-graduate"></i> Student</span>
-                        {% elif user['role'] == 'alumni' %}
-                        <span class="role-badge-tag role-tag-alumni"><i class="fas fa-user-tie"></i> Alumni</span>
-                        {% elif user['role'] == 'faculty' %}
-                        <span class="role-badge-tag role-tag-faculty"><i class="fas fa-chalkboard-teacher"></i> Faculty</span>
-                        {% else %}
-                        <span class="role-badge-tag role-tag-admin"><i class="fas fa-shield-alt"></i> Admin</span>
-                        {% endif %}
-                    </div>
-
-                    <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-2">
+                    <!-- 1. Top Bar: Role Tag + Joined Date -->
+                    <div
+                        class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom border-light-subtle">
                         <div>
-                            <div class="fw-semibold small text-dark" style="font-size: 0.82rem;">{{ user['department'] or 'Not specified' }}</div>
-                            <div class="d-flex align-items-center gap-2 mt-1">
-                                <small class="text-muted" style="font-size: 0.72rem;">
-                                    {% if user['role'] == 'student' and user['batch_info'] %}
-                                    Semester {{ user['batch_info'] }}
-                                    {% elif user['role'] == 'alumni' and user['batch_info'] %}
-                                    Class of {{ user['batch_info'] }}
-                                    {% else %}
-                                    Academic Staff
-                                    {% endif %}
-                                </small>
-                                <span class="badge bg-light text-secondary border px-2 py-1" style="font-size: 0.7rem;">
-                                    <i class="far fa-calendar-alt text-primary me-1"></i> {{ user['created_at'][:10] if user['created_at'] else 'N/A' }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center gap-2">
-                            {% if user['email'] == 'alumnihub26@gmail.com' or user['email'] == 'admin@alumnihub.local' %}
-                            <span class="badge bg-light text-secondary border rounded-pill px-2 py-1 small fw-bold" style="font-size: 0.7rem;">
-                                <i class="fas fa-lock me-1"></i> PROTECTED
-                            </span>
+                            {% if user['role'] == 'student' %}
+                            <span class="role-badge-tag role-tag-student"><i class="fas fa-user-graduate"></i>
+                                Student</span>
+                            {% elif user['role'] == 'alumni' %}
+                            <span class="role-badge-tag role-tag-alumni"><i class="fas fa-user-tie"></i> Alumni</span>
+                            {% elif user['role'] == 'faculty' %}
+                            <span class="role-badge-tag role-tag-faculty"><i class="fas fa-chalkboard-teacher"></i>
+                                Faculty</span>
                             {% else %}
-                            <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
-                               class="action-icon-btn action-btn-view" title="View Profile">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <button class="action-icon-btn action-btn-delete"
-                                    onclick="confirmDelete('{{ user.id }}', '{{ user.name }}', this)"
-                                    title="Delete Member">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <span class="role-badge-tag role-tag-admin"><i class="fas fa-shield-alt"></i> Admin</span>
                             {% endif %}
                         </div>
+
+                        <span class="card-date-badge">
+                            <i class="far fa-calendar-alt text-primary"></i> {{ user['created_at'][:10] if
+                            user['created_at'] else 'N/A' }}
+                        </span>
+                    </div>
+
+                    <!-- 2. User Identity Row: Avatar + Name + Email -->
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <div class="user-avatar-node-wrap" style="width: 44px; height: 44px; flex-shrink: 0;">
+                            {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or
+                            user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and
+                            user['profile_pic'] != 'default.jpg' %}
+                            <img src="{{ user['profile_pic'] }}" alt="{{ user['name'] or 'User' }}"
+                                class="avatar-image-node"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+                            <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}"
+                                style="display: none;">
+                                {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
+                            </div>
+                            {% else %}
+                            <div class="avatar-initials-badge avatar-initials-{{ user['role'] }}">
+                                {{ (user['name']|trim)[0]|upper if user['name'] else 'U' }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="min-w-0 flex-grow-1" style="overflow: hidden;">
+                            <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
+                                class="text-dark text-decoration-none d-block hover-primary user-name-heading"
+                                title="{{ user['name'] }}">
+                                {{ (user['name']|title) if user['name'] else 'Unknown User' }}
+                            </a>
+                            <div class="user-email-wrap">
+                                <code class="user-email-text" title="{{ user['email'] }}">{{ user['email'] }}</code>
+                                <button type="button" class="btn-copy-email"
+                                    onclick="copyUserEmail('{{ user['email'] }}', this)" title="Copy email address">
+                                    <i class="far fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Metadata Chips: Department & Batch/Semester -->
+                    <div class="adm-chips-wrap mb-2 pb-1">
+                        <span class="adm-meta-chip">
+                            <i class="fas fa-building text-primary me-1"></i> {{ user['department'] or 'General Campus'
+                            }}
+                        </span>
+                        <span class="adm-meta-chip">
+                            {% if user['role'] == 'student' and user['batch_info'] %}
+                            <i class="fas fa-graduation-cap text-info me-1"></i> Semester {{ user['batch_info'] }}
+                            {% elif user['role'] == 'alumni' and user['batch_info'] %}
+                            <i class="fas fa-award text-warning me-1"></i> Class of {{ user['batch_info'] }}
+                            {% else %}
+                            <i class="fas fa-briefcase text-success me-1"></i> Academic Staff
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <!-- 4. Action Row -->
+                    <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-1">
+                        {% if user['email'] == 'alumnihub26@gmail.com' or user['email'] == 'admin@alumnihub.local' %}
+                        <span class="badge bg-light text-secondary border rounded-pill px-3 py-1 small fw-bold"
+                            style="font-size: 0.72rem;">
+                            <i class="fas fa-shield-halved text-warning me-1"></i> Protected Admin
+                        </span>
+                        <a href="{{ url_for('admin_profile', user_id=user['id']) }}"
+                            class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 fw-bold"
+                            style="font-size: 0.76rem;">
+                            <i class="fas fa-user-gear me-1"></i> Console
+                        </a>
+                        {% else %}
+                        <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
+                            class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1 shadow-sm"
+                            style="font-size: 0.78rem;">
+                            <i class="fas fa-eye"></i> View Profile
+                        </a>
+
+                        <div class="d-flex align-items-center gap-2">
+                            {% if user['phone'] %}
+                            <a href="https://wa.me/{{ user['phone']|replace('+', '')|replace(' ', '') }}"
+                                target="_blank" class="action-icon-btn action-btn-wa" title="WhatsApp Message">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            {% endif %}
+                            <a href="mailto:{{ user['email'] }}" class="action-icon-btn action-btn-mail"
+                                title="Send Email">
+                                <i class="far fa-envelope"></i>
+                            </a>
+                            <button class="action-icon-btn action-btn-delete"
+                                onclick="confirmDelete('{{ user.id }}', '{{ user.name }}', this)" title="Delete Member">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}
@@ -1473,8 +2041,10 @@
             <div id="noUserResults" class="text-center py-5 d-none">
                 <div class="mb-2 text-muted" style="font-size: 2.5rem;"><i class="fas fa-user-slash"></i></div>
                 <h5 class="fw-bold text-dark">No Members Found</h5>
-                <p class="text-muted small">No registered members matched your search or filter criteria. Try adjusting your search query, role, or date filter.</p>
-                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 mt-1" id="resetFiltersBtn">
+                <p class="text-muted small">No registered members matched your search or filter criteria. Try adjusting
+                    your search query, role, or date filter.</p>
+                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 mt-1"
+                    id="resetFiltersBtn">
                     <i class="fas fa-rotate-left me-1"></i> Reset Filters
                 </button>
             </div>
@@ -1482,16 +2052,19 @@
             <!-- Executive Pagination Controller (12 Per Page) -->
             <div class="directory-pagination-bar" id="directoryPaginationBar">
                 <div class="pagination-info">
-                    Showing <strong id="pageRangeText">1-12</strong> of <strong id="totalCountText">{{ users|length }}</strong> members
+                    Showing <strong id="pageRangeText">1-12</strong> of <strong id="totalCountText">{{ users|length
+                        }}</strong> members
                 </div>
                 <div class="pagination-controls">
-                    <button type="button" class="pagination-nav-btn" id="prevPageBtn" title="Previous 12 Members" aria-label="Previous Page">
+                    <button type="button" class="pagination-nav-btn" id="prevPageBtn" title="Previous 12 Members"
+                        aria-label="Previous Page">
                         <i class="fas fa-chevron-left"></i>
                     </button>
                     <div class="pagination-numbers" id="paginationNumbers">
                         <!-- Dynamic page numbers like 1, 2, 3 injected here -->
                     </div>
-                    <button type="button" class="pagination-nav-btn" id="nextPageBtn" title="Next 12 Members" aria-label="Next Page">
+                    <button type="button" class="pagination-nav-btn" id="nextPageBtn" title="Next 12 Members"
+                        aria-label="Next Page">
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
@@ -1504,21 +2077,25 @@
         <div class="export-vip-module">
             <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
                 <div>
-                    <h3 class="fw-bold mb-1" style="font-family: 'Outfit'; font-size: clamp(1.25rem, 3vw, 1.5rem); color: #0f172a;">
+                    <h3 class="fw-bold mb-1"
+                        style="font-family: 'Outfit'; font-size: clamp(1.25rem, 3vw, 1.5rem); color: #0f172a;">
                         <i class="fas fa-server text-warning me-2"></i> Data Export &amp; Backup Center
                     </h3>
-                    <p class="text-muted small mb-0">Export live database tables, user records, and snapshots for administrative archival.</p>
+                    <p class="text-muted small mb-0">Export live database tables, user records, and snapshots for
+                        administrative archival.</p>
                 </div>
 
                 <!-- Tab switcher -->
                 <ul class="nav nav-pills bg-light rounded-pill p-1 border" id="exportTabs" role="tablist">
                     <li class="nav-item">
-                        <button class="nav-link active rounded-pill px-3 px-sm-4 py-1 small fw-bold" data-bs-toggle="pill" data-bs-target="#csvExports">
+                        <button class="nav-link active rounded-pill px-3 px-sm-4 py-1 small fw-bold"
+                            data-bs-toggle="pill" data-bs-target="#csvExports">
                             <i class="fas fa-file-csv me-1"></i> CSV Spreadsheets
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link rounded-pill px-3 px-sm-4 py-1 small fw-bold" data-bs-toggle="pill" data-bs-target="#dbExports">
+                        <button class="nav-link rounded-pill px-3 px-sm-4 py-1 small fw-bold" data-bs-toggle="pill"
+                            data-bs-target="#dbExports">
                             <i class="fas fa-database me-1"></i> Database Backups
                         </button>
                     </li>
@@ -1533,15 +2110,18 @@
                             <div class="export-card-node">
                                 <div>
                                     <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <div class="badge rounded-pill bg-primary bg-opacity-10 text-primary fw-bold small">
+                                        <div
+                                            class="badge rounded-pill bg-primary bg-opacity-10 text-primary fw-bold small">
                                             <i class="fas fa-user-graduate me-1"></i> Students
                                         </div>
                                         <small class="text-muted fw-bold">.CSV Format</small>
                                     </div>
                                     <h5 class="fw-bold text-dark mb-1">Student Registry</h5>
-                                    <p class="text-muted small mb-3">Academic metrics, enrolled courses, branches, and verified contact points.</p>
+                                    <p class="text-muted small mb-3">Academic metrics, enrolled courses, branches, and
+                                        verified contact points.</p>
                                 </div>
-                                <button class="btn btn-outline-primary rounded-pill w-100 py-2 fw-bold small" onclick="downloadData('student', 'csv')">
+                                <button class="btn btn-outline-primary rounded-pill w-100 py-2 fw-bold small"
+                                    onclick="downloadData('student', 'csv')">
                                     <i class="fas fa-download me-1"></i> Download Students CSV
                                 </button>
                             </div>
@@ -1551,15 +2131,18 @@
                             <div class="export-card-node">
                                 <div>
                                     <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <div class="badge rounded-pill bg-warning bg-opacity-10 text-warning-emphasis fw-bold small">
+                                        <div
+                                            class="badge rounded-pill bg-warning bg-opacity-10 text-warning-emphasis fw-bold small">
                                             <i class="fas fa-user-tie me-1"></i> Alumni
                                         </div>
                                         <small class="text-muted fw-bold">.CSV Format</small>
                                     </div>
                                     <h5 class="fw-bold text-dark mb-1">Alumni Directory</h5>
-                                    <p class="text-muted small mb-3">Graduation batches, company designations, career profiles, and contact links.</p>
+                                    <p class="text-muted small mb-3">Graduation batches, company designations, career
+                                        profiles, and contact links.</p>
                                 </div>
-                                <button class="btn btn-outline-warning rounded-pill w-100 py-2 fw-bold small text-dark" onclick="downloadData('alumni', 'csv')">
+                                <button class="btn btn-outline-warning rounded-pill w-100 py-2 fw-bold small text-dark"
+                                    onclick="downloadData('alumni', 'csv')">
                                     <i class="fas fa-download me-1"></i> Download Alumni CSV
                                 </button>
                             </div>
@@ -1569,15 +2152,18 @@
                             <div class="export-card-node">
                                 <div>
                                     <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <div class="badge rounded-pill bg-success bg-opacity-10 text-success fw-bold small">
+                                        <div
+                                            class="badge rounded-pill bg-success bg-opacity-10 text-success fw-bold small">
                                             <i class="fas fa-users me-1"></i> Master
                                         </div>
                                         <small class="text-muted fw-bold">.CSV Format</small>
                                     </div>
                                     <h5 class="fw-bold text-dark mb-1">Omni-Registry Master</h5>
-                                    <p class="text-muted small mb-3">Complete combined list of all registered accounts across all roles.</p>
+                                    <p class="text-muted small mb-3">Complete combined list of all registered accounts
+                                        across all roles.</p>
                                 </div>
-                                <button class="btn btn-outline-success rounded-pill w-100 py-2 fw-bold small" onclick="downloadData('all', 'csv')">
+                                <button class="btn btn-outline-success rounded-pill w-100 py-2 fw-bold small"
+                                    onclick="downloadData('all', 'csv')">
                                     <i class="fas fa-download me-1"></i> Download Master CSV
                                 </button>
                             </div>
@@ -1595,12 +2181,15 @@
                                         <div class="badge rounded-pill bg-info bg-opacity-10 text-info fw-bold small">
                                             <i class="fas fa-database me-1"></i> Primary DB
                                         </div>
-                                        <span class="badge bg-danger rounded-pill px-2 py-1" style="font-size: 0.65rem;">RESTRICTED</span>
+                                        <span class="badge bg-danger rounded-pill px-2 py-1"
+                                            style="font-size: 0.65rem;">RESTRICTED</span>
                                     </div>
                                     <h5 class="fw-bold text-dark mb-1">Primary Database (college_pro.db)</h5>
-                                    <p class="text-muted small mb-3">Complete relational database snapshot containing tables, schemas, relations, and system logs.</p>
+                                    <p class="text-muted small mb-3">Complete relational database snapshot containing
+                                        tables, schemas, relations, and system logs.</p>
                                 </div>
-                                <button class="btn btn-outline-info rounded-pill w-100 py-2 fw-bold small" onclick="downloadData('college_pro', 'db')">
+                                <button class="btn btn-outline-info rounded-pill w-100 py-2 fw-bold small"
+                                    onclick="downloadData('college_pro', 'db')">
                                     <i class="fas fa-database me-1"></i> Download college_pro.db
                                 </button>
                             </div>
@@ -1613,12 +2202,15 @@
                                         <div class="badge rounded-pill bg-dark bg-opacity-10 text-dark fw-bold small">
                                             <i class="fas fa-shield-halved me-1"></i> Secondary DB
                                         </div>
-                                        <span class="badge bg-warning text-dark rounded-pill px-2 py-1" style="font-size: 0.65rem;">ENCRYPTED</span>
+                                        <span class="badge bg-warning text-dark rounded-pill px-2 py-1"
+                                            style="font-size: 0.65rem;">ENCRYPTED</span>
                                     </div>
                                     <h5 class="fw-bold text-dark mb-1">Secondary Database (alumni.db)</h5>
-                                    <p class="text-muted small mb-3">Dedicated storage segment for alumni profile nodes, mentorship links, and encrypted career histories.</p>
+                                    <p class="text-muted small mb-3">Dedicated storage segment for alumni profile nodes,
+                                        mentorship links, and encrypted career histories.</p>
                                 </div>
-                                <button class="btn btn-outline-dark rounded-pill w-100 py-2 fw-bold small" onclick="downloadData('alumni', 'db')">
+                                <button class="btn btn-outline-dark rounded-pill w-100 py-2 fw-bold small"
+                                    onclick="downloadData('alumni', 'db')">
                                     <i class="fas fa-database me-1"></i> Download alumni.db
                                 </button>
                             </div>
@@ -1637,473 +2229,590 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // 1. Digital Clock & Live Date
-    function updateLiveClock() {
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
+    document.addEventListener('DOMContentLoaded', function () {
+        // 1. Digital Clock & Live Date
+        function updateLiveClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
 
-        const clockEl = document.getElementById('dynamicClock');
-        const dateEl = document.getElementById('dynamicDate');
+            const clockEl = document.getElementById('dynamicClock');
+            const dateEl = document.getElementById('dynamicDate');
 
-        if (clockEl) clockEl.textContent = timeStr;
-        if (dateEl) dateEl.textContent = dateStr;
-    }
-    setInterval(updateLiveClock, 1000);
-    updateLiveClock();
+            if (clockEl) clockEl.textContent = timeStr;
+            if (dateEl) dateEl.textContent = dateStr;
+        }
+        setInterval(updateLiveClock, 1000);
+        updateLiveClock();
 
-    // 2. Interactive Network Canvas
-    const canvas = document.getElementById('networkCanvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let particles = [];
+        // 2. Interactive Network Canvas
+        const canvas = document.getElementById('networkCanvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let particles = [];
 
-        function initCanvas() {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            particles = [];
-            const count = Math.min(30, Math.floor(canvas.width / 35));
-            for (let i = 0; i < count; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.4,
-                    vy: (Math.random() - 0.5) * 0.4,
-                    size: Math.random() * 2 + 1
+            function initCanvas() {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+                particles = [];
+                const count = Math.min(30, Math.floor(canvas.width / 35));
+                for (let i = 0; i < count; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * 0.4,
+                        vy: (Math.random() - 0.5) * 0.4,
+                        size: Math.random() * 2 + 1
+                    });
+                }
+            }
+
+            function animateCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
+                ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
+
+                particles.forEach((p, index) => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    for (let j = index + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                        if (dist < 90) {
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                        }
+                    }
                 });
+                requestAnimationFrame(animateCanvas);
+            }
+
+            initCanvas();
+            animateCanvas();
+            window.addEventListener('resize', initCanvas);
+        }
+
+        // 3. Chart.js Graphs Initialization
+        const chartDataEl = document.getElementById('chart-data');
+        if (chartDataEl) {
+            try {
+                const years = JSON.parse(chartDataEl.dataset.years || '[]');
+                const studentsGrowth = JSON.parse(chartDataEl.dataset.studentsGrowth || '[]');
+                const alumniGrowth = JSON.parse(chartDataEl.dataset.alumniGrowth || '[]');
+                const facultyGrowth = JSON.parse(chartDataEl.dataset.facultyGrowth || '[]');
+
+                const sTotal = parseInt(chartDataEl.dataset.students || '0');
+                const aTotal = parseInt(chartDataEl.dataset.alumni || '0');
+                const fTotal = parseInt(chartDataEl.dataset.faculty || '0');
+
+                // Line Chart: 5-Year User Growth
+                const ctxGrowth = document.getElementById('growthChart');
+                if (ctxGrowth) {
+                    new Chart(ctxGrowth, {
+                        type: 'line',
+                        data: {
+                            labels: years,
+                            datasets: [
+                                {
+                                    label: 'Students',
+                                    data: studentsGrowth,
+                                    borderColor: '#0284c7',
+                                    backgroundColor: 'rgba(2, 132, 199, 0.08)',
+                                    fill: true,
+                                    tension: 0.38,
+                                    borderWidth: 3,
+                                    pointRadius: 4,
+                                    pointHoverRadius: 6,
+                                    pointBackgroundColor: '#0284c7'
+                                },
+                                {
+                                    label: 'Alumni',
+                                    data: alumniGrowth,
+                                    borderColor: '#f59e0b',
+                                    backgroundColor: 'rgba(245, 158, 11, 0.08)',
+                                    fill: true,
+                                    tension: 0.38,
+                                    borderWidth: 3,
+                                    pointRadius: 4,
+                                    pointHoverRadius: 6,
+                                    pointBackgroundColor: '#f59e0b'
+                                },
+                                {
+                                    label: 'Faculty',
+                                    data: facultyGrowth,
+                                    borderColor: '#10b981',
+                                    backgroundColor: 'rgba(16, 185, 129, 0.08)',
+                                    fill: true,
+                                    tension: 0.38,
+                                    borderWidth: 3,
+                                    pointRadius: 4,
+                                    pointHoverRadius: 6,
+                                    pointBackgroundColor: '#10b981'
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                    labels: {
+                                        font: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold', size: 12 },
+                                        color: '#475569',
+                                        usePointStyle: true,
+                                        padding: 14
+                                    }
+                                },
+                                tooltip: {
+                                    padding: 12,
+                                    cornerRadius: 10,
+                                    titleFont: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold' },
+                                    bodyFont: { family: "'Plus Jakarta Sans', sans-serif" }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    grid: { display: false },
+                                    ticks: { font: { family: "'Plus Jakarta Sans', sans-serif", weight: '600' }, color: '#64748b' }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: '#f1f5f9' },
+                                    ticks: { font: { family: "'Plus Jakarta Sans', sans-serif", weight: '600' }, color: '#64748b' }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Doughnut Chart: Role Ratio
+                const ctxUser = document.getElementById('userChart');
+                if (ctxUser) {
+                    new Chart(ctxUser, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Students', 'Alumni', 'Faculty'],
+                            datasets: [{
+                                data: [sTotal, aTotal, fTotal],
+                                backgroundColor: ['#0284c7', '#f59e0b', '#10b981'],
+                                borderWidth: 3,
+                                borderColor: '#ffffff',
+                                hoverOffset: 12
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '72%',
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        font: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold', size: 12 },
+                                        color: '#475569',
+                                        padding: 12,
+                                        usePointStyle: true
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            } catch (e) {
+                console.warn('Charts initialization notice:', e);
             }
         }
 
-        function animateCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
-            ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
+        // 4. Live Directory Filter, Date Search, Sorting & Pagination (12 Per Page)
+        const userSearchInput = document.getElementById('userSearch');
+        const roleFilterSelect = document.getElementById('roleFilter');
+        const dateFilterInput = document.getElementById('dateFilter');
+        const clearDateBtn = document.getElementById('clearDateBtn');
+        const sortFilterSelect = document.getElementById('sortFilter');
+        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
 
-            particles.forEach((p, index) => {
-                p.x += p.vx;
-                p.y += p.vy;
+        const tableBody = document.getElementById('usersTableBody');
+        const mobileGrid = document.getElementById('mobileUsersGrid');
+        const noUserResultsEl = document.getElementById('noUserResults');
+        const paginationBar = document.getElementById('directoryPaginationBar');
+        const pageRangeText = document.getElementById('pageRangeText');
+        const totalCountText = document.getElementById('totalCountText');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const paginationNumbers = document.getElementById('paginationNumbers');
 
-                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        const PAGE_SIZE = 12;
+        let currentPage = 1;
 
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
+        // Cache initial row and card arrays
+        const tableRows = tableBody ? Array.from(tableBody.querySelectorAll('.user-row')) : [];
+        const mobileCards = mobileGrid ? Array.from(mobileGrid.querySelectorAll('.mobile-user-card')) : [];
 
-                for (let j = index + 1; j < particles.length; j++) {
-                    const p2 = particles[j];
-                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 90) {
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
+        function updateDirectoryView(resetToFirstPage = false) {
+            if (resetToFirstPage) {
+                currentPage = 1;
+            }
+
+            const query = (userSearchInput ? userSearchInput.value : '').toLowerCase().trim();
+            const selectedRole = roleFilterSelect ? roleFilterSelect.value : 'all';
+            const selectedDate = dateFilterInput ? dateFilterInput.value : '';
+            const selectedSort = sortFilterSelect ? sortFilterSelect.value : 'date-desc';
+
+            // Toggle clear date button visibility
+            if (clearDateBtn) {
+                clearDateBtn.classList.toggle('d-none', !selectedDate);
+            }
+
+            // Matching helper
+            function itemMatches(el) {
+                const rowRole = el.dataset.role || '';
+                const rowDate = el.dataset.date || '';
+                const name = el.dataset.name || '';
+                const email = el.dataset.email || '';
+                const dept = el.dataset.dept || '';
+                const allText = (name + ' ' + email + ' ' + dept + ' ' + el.innerText).toLowerCase();
+
+                const matchesQuery = query === '' || allText.includes(query);
+                const matchesRole = selectedRole === 'all' || rowRole === selectedRole;
+                const matchesDate = selectedDate === '' || rowDate === selectedDate;
+
+                return matchesQuery && matchesRole && matchesDate;
+            }
+
+            // Filter arrays
+            let matchedTableRows = tableRows.filter(itemMatches);
+            let matchedMobileCards = mobileCards.filter(itemMatches);
+
+            // Sorting helper
+            function sortItems(a, b) {
+                if (selectedSort === 'date-desc') {
+                    return (b.dataset.datetime || '').localeCompare(a.dataset.datetime || '');
+                } else if (selectedSort === 'date-asc') {
+                    return (a.dataset.datetime || '').localeCompare(b.dataset.datetime || '');
+                } else if (selectedSort === 'name-asc') {
+                    return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+                } else if (selectedSort === 'name-desc') {
+                    return (b.dataset.name || '').localeCompare(a.dataset.name || '');
+                }
+                return 0;
+            }
+
+            matchedTableRows.sort(sortItems);
+            matchedMobileCards.sort(sortItems);
+
+            // Re-append to DOM container in sorted order so DOM order matches visual sort
+            if (tableBody) {
+                matchedTableRows.forEach(row => tableBody.appendChild(row));
+            }
+            if (mobileGrid) {
+                matchedMobileCards.forEach(card => mobileGrid.appendChild(card));
+            }
+
+            const totalFiltered = matchedTableRows.length;
+            const totalPages = Math.ceil(totalFiltered / PAGE_SIZE) || 1;
+
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            const startIndex = (currentPage - 1) * PAGE_SIZE;
+            const endIndex = Math.min(startIndex + PAGE_SIZE, totalFiltered);
+
+            // Hide all table rows first, then display current page slice
+            tableRows.forEach(row => { row.style.display = 'none'; });
+            for (let i = startIndex; i < endIndex; i++) {
+                if (matchedTableRows[i]) matchedTableRows[i].style.display = '';
+            }
+
+            // Hide all mobile cards first, then display current page slice
+            mobileCards.forEach(card => { card.style.display = 'none'; });
+            for (let i = startIndex; i < endIndex; i++) {
+                if (matchedMobileCards[i]) matchedMobileCards[i].style.display = '';
+            }
+
+            // Update range and total count labels
+            if (pageRangeText) {
+                pageRangeText.textContent = totalFiltered > 0 ? `${startIndex + 1}-${endIndex}` : '0-0';
+            }
+            if (totalCountText) {
+                totalCountText.textContent = totalFiltered;
+            }
+
+            // Show/hide no results notice & pagination bar
+            if (noUserResultsEl) {
+                noUserResultsEl.classList.toggle('d-none', totalFiltered > 0);
+            }
+            if (paginationBar) {
+                paginationBar.classList.toggle('d-none', totalFiltered === 0);
+            }
+
+            // Update navigation arrows
+            if (prevPageBtn) {
+                prevPageBtn.disabled = currentPage <= 1;
+            }
+            if (nextPageBtn) {
+                nextPageBtn.disabled = currentPage >= totalPages;
+            }
+
+            // Render page number buttons
+            renderPaginationButtons(totalPages);
+        }
+
+        function renderPaginationButtons(totalPages) {
+            if (!paginationNumbers) return;
+            paginationNumbers.innerHTML = '';
+
+            if (totalPages <= 1) return;
+
+            // Determine which page numbers to show
+            let pages = [];
+            if (totalPages <= 5) {
+                for (let i = 1; i <= totalPages; i++) pages.push(i);
+            } else {
+                if (currentPage <= 3) {
+                    pages = [1, 2, 3, 4, '...', totalPages];
+                } else if (currentPage >= totalPages - 2) {
+                    pages = [1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+                } else {
+                    pages = [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+                }
+            }
+
+            pages.forEach(p => {
+                if (p === '...') {
+                    const el = document.createElement('span');
+                    el.className = 'page-ellipsis';
+                    el.textContent = '...';
+                    paginationNumbers.appendChild(el);
+                } else {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'page-number-btn' + (p === currentPage ? ' active' : '');
+                    btn.textContent = p;
+                    btn.title = `Go to page ${p}`;
+                    btn.addEventListener('click', () => {
+                        currentPage = p;
+                        updateDirectoryView(false);
+                        smoothScrollToDirectory();
+                    });
+                    paginationNumbers.appendChild(btn);
                 }
             });
-            requestAnimationFrame(animateCanvas);
         }
 
-        initCanvas();
-        animateCanvas();
-        window.addEventListener('resize', initCanvas);
-    }
-
-    // 3. Chart.js Graphs Initialization
-    const chartDataEl = document.getElementById('chart-data');
-    if (chartDataEl) {
-        try {
-            const years = JSON.parse(chartDataEl.dataset.years || '[]');
-            const studentsGrowth = JSON.parse(chartDataEl.dataset.studentsGrowth || '[]');
-            const alumniGrowth = JSON.parse(chartDataEl.dataset.alumniGrowth || '[]');
-            const facultyGrowth = JSON.parse(chartDataEl.dataset.facultyGrowth || '[]');
-
-            const sTotal = parseInt(chartDataEl.dataset.students || '0');
-            const aTotal = parseInt(chartDataEl.dataset.alumni || '0');
-            const fTotal = parseInt(chartDataEl.dataset.faculty || '0');
-
-            // Line Chart: 5-Year User Growth
-            const ctxGrowth = document.getElementById('growthChart');
-            if (ctxGrowth) {
-                new Chart(ctxGrowth, {
-                    type: 'line',
-                    data: {
-                        labels: years,
-                        datasets: [
-                            {
-                                label: 'Students',
-                                data: studentsGrowth,
-                                borderColor: '#0284c7',
-                                backgroundColor: 'rgba(2, 132, 199, 0.08)',
-                                fill: true,
-                                tension: 0.38,
-                                borderWidth: 3,
-                                pointRadius: 4,
-                                pointHoverRadius: 6,
-                                pointBackgroundColor: '#0284c7'
-                            },
-                            {
-                                label: 'Alumni',
-                                data: alumniGrowth,
-                                borderColor: '#f59e0b',
-                                backgroundColor: 'rgba(245, 158, 11, 0.08)',
-                                fill: true,
-                                tension: 0.38,
-                                borderWidth: 3,
-                                pointRadius: 4,
-                                pointHoverRadius: 6,
-                                pointBackgroundColor: '#f59e0b'
-                            },
-                            {
-                                label: 'Faculty',
-                                data: facultyGrowth,
-                                borderColor: '#10b981',
-                                backgroundColor: 'rgba(16, 185, 129, 0.08)',
-                                fill: true,
-                                tension: 0.38,
-                                borderWidth: 3,
-                                pointRadius: 4,
-                                pointHoverRadius: 6,
-                                pointBackgroundColor: '#10b981'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                                labels: {
-                                    font: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold', size: 12 },
-                                    color: '#475569',
-                                    usePointStyle: true,
-                                    padding: 14
-                                }
-                            },
-                            tooltip: {
-                                padding: 12,
-                                cornerRadius: 10,
-                                titleFont: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold' },
-                                bodyFont: { family: "'Plus Jakarta Sans', sans-serif" }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                grid: { display: false },
-                                ticks: { font: { family: "'Plus Jakarta Sans', sans-serif", weight: '600' }, color: '#64748b' }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                grid: { color: '#f1f5f9' },
-                                ticks: { font: { family: "'Plus Jakarta Sans', sans-serif", weight: '600' }, color: '#64748b' }
-                            }
-                        }
-                    }
-                });
+        function smoothScrollToDirectory() {
+            const mod = document.getElementById('userDirectoryModule');
+            if (mod) {
+                const yOffset = -90; // offset for sticky navbar
+                const y = mod.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
             }
-
-            // Doughnut Chart: Role Ratio
-            const ctxUser = document.getElementById('userChart');
-            if (ctxUser) {
-                new Chart(ctxUser, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Students', 'Alumni', 'Faculty'],
-                        datasets: [{
-                            data: [sTotal, aTotal, fTotal],
-                            backgroundColor: ['#0284c7', '#f59e0b', '#10b981'],
-                            borderWidth: 3,
-                            borderColor: '#ffffff',
-                            hoverOffset: 12
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '72%',
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    font: { family: "'Plus Jakarta Sans', sans-serif", weight: 'bold', size: 12 },
-                                    color: '#475569',
-                                    padding: 12,
-                                    usePointStyle: true
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        } catch (e) {
-            console.warn('Charts initialization notice:', e);
-        }
-    }
-
-    // 4. Live Directory Filter, Date Search, Sorting & Pagination (12 Per Page)
-    const userSearchInput = document.getElementById('userSearch');
-    const roleFilterSelect = document.getElementById('roleFilter');
-    const dateFilterInput = document.getElementById('dateFilter');
-    const clearDateBtn = document.getElementById('clearDateBtn');
-    const sortFilterSelect = document.getElementById('sortFilter');
-    const resetFiltersBtn = document.getElementById('resetFiltersBtn');
-
-    const tableBody = document.getElementById('usersTableBody');
-    const mobileGrid = document.getElementById('mobileUsersGrid');
-    const noUserResultsEl = document.getElementById('noUserResults');
-    const paginationBar = document.getElementById('directoryPaginationBar');
-    const pageRangeText = document.getElementById('pageRangeText');
-    const totalCountText = document.getElementById('totalCountText');
-    const prevPageBtn = document.getElementById('prevPageBtn');
-    const nextPageBtn = document.getElementById('nextPageBtn');
-    const paginationNumbers = document.getElementById('paginationNumbers');
-
-    const PAGE_SIZE = 12;
-    let currentPage = 1;
-
-    // Cache initial row and card arrays
-    const tableRows = tableBody ? Array.from(tableBody.querySelectorAll('.user-row')) : [];
-    const mobileCards = mobileGrid ? Array.from(mobileGrid.querySelectorAll('.mobile-user-card')) : [];
-
-    function updateDirectoryView(resetToFirstPage = false) {
-        if (resetToFirstPage) {
-            currentPage = 1;
         }
 
-        const query = (userSearchInput ? userSearchInput.value : '').toLowerCase().trim();
-        const selectedRole = roleFilterSelect ? roleFilterSelect.value : 'all';
-        const selectedDate = dateFilterInput ? dateFilterInput.value : '';
-        const selectedSort = sortFilterSelect ? sortFilterSelect.value : 'date-desc';
-
-        // Toggle clear date button visibility
-        if (clearDateBtn) {
-            clearDateBtn.classList.toggle('d-none', !selectedDate);
-        }
-
-        // Matching helper
-        function itemMatches(el) {
-            const rowRole = el.dataset.role || '';
-            const rowDate = el.dataset.date || '';
-            const name = el.dataset.name || '';
-            const email = el.dataset.email || '';
-            const dept = el.dataset.dept || '';
-            const allText = (name + ' ' + email + ' ' + dept + ' ' + el.innerText).toLowerCase();
-
-            const matchesQuery = query === '' || allText.includes(query);
-            const matchesRole = selectedRole === 'all' || rowRole === selectedRole;
-            const matchesDate = selectedDate === '' || rowDate === selectedDate;
-
-            return matchesQuery && matchesRole && matchesDate;
-        }
-
-        // Filter arrays
-        let matchedTableRows = tableRows.filter(itemMatches);
-        let matchedMobileCards = mobileCards.filter(itemMatches);
-
-        // Sorting helper
-        function sortItems(a, b) {
-            if (selectedSort === 'date-desc') {
-                return (b.dataset.datetime || '').localeCompare(a.dataset.datetime || '');
-            } else if (selectedSort === 'date-asc') {
-                return (a.dataset.datetime || '').localeCompare(b.dataset.datetime || '');
-            } else if (selectedSort === 'name-asc') {
-                return (a.dataset.name || '').localeCompare(b.dataset.name || '');
-            } else if (selectedSort === 'name-desc') {
-                return (b.dataset.name || '').localeCompare(a.dataset.name || '');
-            }
-            return 0;
-        }
-
-        matchedTableRows.sort(sortItems);
-        matchedMobileCards.sort(sortItems);
-
-        // Re-append to DOM container in sorted order so DOM order matches visual sort
-        if (tableBody) {
-            matchedTableRows.forEach(row => tableBody.appendChild(row));
-        }
-        if (mobileGrid) {
-            matchedMobileCards.forEach(card => mobileGrid.appendChild(card));
-        }
-
-        const totalFiltered = matchedTableRows.length;
-        const totalPages = Math.ceil(totalFiltered / PAGE_SIZE) || 1;
-
-        if (currentPage > totalPages) currentPage = totalPages;
-        if (currentPage < 1) currentPage = 1;
-
-        const startIndex = (currentPage - 1) * PAGE_SIZE;
-        const endIndex = Math.min(startIndex + PAGE_SIZE, totalFiltered);
-
-        // Hide all table rows first, then display current page slice
-        tableRows.forEach(row => { row.style.display = 'none'; });
-        for (let i = startIndex; i < endIndex; i++) {
-            if (matchedTableRows[i]) matchedTableRows[i].style.display = '';
-        }
-
-        // Hide all mobile cards first, then display current page slice
-        mobileCards.forEach(card => { card.style.display = 'none'; });
-        for (let i = startIndex; i < endIndex; i++) {
-            if (matchedMobileCards[i]) matchedMobileCards[i].style.display = '';
-        }
-
-        // Update range and total count labels
-        if (pageRangeText) {
-            pageRangeText.textContent = totalFiltered > 0 ? `${startIndex + 1}-${endIndex}` : '0-0';
-        }
-        if (totalCountText) {
-            totalCountText.textContent = totalFiltered;
-        }
-
-        // Show/hide no results notice & pagination bar
-        if (noUserResultsEl) {
-            noUserResultsEl.classList.toggle('d-none', totalFiltered > 0);
-        }
-        if (paginationBar) {
-            paginationBar.classList.toggle('d-none', totalFiltered === 0);
-        }
-
-        // Update navigation arrows
         if (prevPageBtn) {
-            prevPageBtn.disabled = currentPage <= 1;
-        }
-        if (nextPageBtn) {
-            nextPageBtn.disabled = currentPage >= totalPages;
-        }
-
-        // Render page number buttons
-        renderPaginationButtons(totalPages);
-    }
-
-    function renderPaginationButtons(totalPages) {
-        if (!paginationNumbers) return;
-        paginationNumbers.innerHTML = '';
-
-        if (totalPages <= 1) return;
-
-        // Determine which page numbers to show
-        let pages = [];
-        if (totalPages <= 5) {
-            for (let i = 1; i <= totalPages; i++) pages.push(i);
-        } else {
-            if (currentPage <= 3) {
-                pages = [1, 2, 3, 4, '...', totalPages];
-            } else if (currentPage >= totalPages - 2) {
-                pages = [1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
-            } else {
-                pages = [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
-            }
-        }
-
-        pages.forEach(p => {
-            if (p === '...') {
-                const el = document.createElement('span');
-                el.className = 'page-ellipsis';
-                el.textContent = '...';
-                paginationNumbers.appendChild(el);
-            } else {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'page-number-btn' + (p === currentPage ? ' active' : '');
-                btn.textContent = p;
-                btn.title = `Go to page ${p}`;
-                btn.addEventListener('click', () => {
-                    currentPage = p;
+            prevPageBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
                     updateDirectoryView(false);
                     smoothScrollToDirectory();
-                });
-                paginationNumbers.appendChild(btn);
-            }
-        });
-    }
+                }
+            });
+        }
 
-    function smoothScrollToDirectory() {
-        const mod = document.getElementById('userDirectoryModule');
-        if (mod) {
-            const yOffset = -90; // offset for sticky navbar
-            const y = mod.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            window.scrollTo({ top: y, behavior: 'smooth' });
+        if (nextPageBtn) {
+            nextPageBtn.addEventListener('click', () => {
+                currentPage++;
+                updateDirectoryView(false);
+                smoothScrollToDirectory();
+            });
+        }
+
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+
+        if (userSearchInput) {
+            userSearchInput.addEventListener('input', () => {
+                if (clearSearchBtn) {
+                    clearSearchBtn.classList.toggle('d-none', !userSearchInput.value);
+                }
+                updateDirectoryView(true);
+            });
+        }
+
+        if (clearSearchBtn && userSearchInput) {
+            clearSearchBtn.addEventListener('click', () => {
+                userSearchInput.value = '';
+                clearSearchBtn.classList.add('d-none');
+                updateDirectoryView(true);
+                userSearchInput.focus();
+            });
+        }
+
+        if (roleFilterSelect) roleFilterSelect.addEventListener('change', () => updateDirectoryView(true));
+        if (dateFilterInput) dateFilterInput.addEventListener('change', () => updateDirectoryView(true));
+        if (sortFilterSelect) sortFilterSelect.addEventListener('change', () => updateDirectoryView(false));
+
+        if (clearDateBtn) {
+            clearDateBtn.addEventListener('click', () => {
+                if (dateFilterInput) dateFilterInput.value = '';
+                updateDirectoryView(true);
+            });
+        }
+
+        // Quick 1-Tap Role Chips synchronization
+        const roleChips = document.querySelectorAll('.quick-role-chips .role-chip');
+        if (roleChips.length > 0 && roleFilterSelect) {
+            roleChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const role = chip.dataset.role;
+                    roleChips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    roleFilterSelect.value = role;
+                    updateDirectoryView(true);
+                });
+            });
+
+            // Sync dropdown change back to chips
+            roleFilterSelect.addEventListener('change', () => {
+                const val = roleFilterSelect.value;
+                roleChips.forEach(c => {
+                    c.classList.toggle('active', c.dataset.role === val);
+                });
+            });
+        }
+
+        if (resetFiltersBtn) {
+            resetFiltersBtn.addEventListener('click', () => {
+                if (userSearchInput) userSearchInput.value = '';
+                if (clearSearchBtn) clearSearchBtn.classList.add('d-none');
+                if (roleFilterSelect) roleFilterSelect.value = 'all';
+                if (dateFilterInput) dateFilterInput.value = '';
+                if (sortFilterSelect) sortFilterSelect.value = 'date-desc';
+                if (roleChips) {
+                    roleChips.forEach(c => c.classList.toggle('active', c.dataset.role === 'all'));
+                }
+                updateDirectoryView(true);
+            });
+        }
+
+        // Restore saved view mode preference (Cards vs Swipeable Table)
+        const savedMode = localStorage.getItem('admin_dir_view_mode');
+        if (savedMode === 'table') {
+            setDirectoryViewMode('table');
+        }
+
+        // Initial render call
+        updateDirectoryView(true);
+    });
+
+    // 5. Mobile Directory View Mode Controller (Cards vs Swipeable Table)
+    function setDirectoryViewMode(mode) {
+        const tableContainer = document.querySelector('.vip-table-container');
+        const mobileGrid = document.getElementById('mobileUsersGrid');
+        const btnCards = document.getElementById('btnViewCards');
+        const btnTable = document.getElementById('btnViewTable');
+        const hint = document.getElementById('tableScrollHint');
+
+        if (mode === 'table') {
+            if (tableContainer) tableContainer.classList.add('force-show-table');
+            if (mobileGrid) mobileGrid.classList.add('force-hide-cards');
+            if (btnCards) btnCards.classList.remove('active');
+            if (btnTable) btnTable.classList.add('active');
+            if (hint) hint.classList.remove('d-none');
+            try { localStorage.setItem('admin_dir_view_mode', 'table'); } catch (e) { }
+        } else {
+            if (tableContainer) tableContainer.classList.remove('force-show-table');
+            if (mobileGrid) mobileGrid.classList.remove('force-hide-cards');
+            if (btnCards) btnCards.classList.add('active');
+            if (btnTable) btnTable.classList.remove('active');
+            if (hint) hint.classList.add('d-none');
+            try { localStorage.setItem('admin_dir_view_mode', 'cards'); } catch (e) { }
         }
     }
 
-    if (prevPageBtn) {
-        prevPageBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                updateDirectoryView(false);
-                smoothScrollToDirectory();
-            }
-        });
+    // 6. 1-Tap Quick Email Copy Helper
+    function copyUserEmail(email, btn) {
+        if (!email) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(email).then(() => {
+                showCopyFeedback(btn);
+            }).catch(() => {
+                fallbackCopy(email, btn);
+            });
+        } else {
+            fallbackCopy(email, btn);
+        }
     }
 
-    if (nextPageBtn) {
-        nextPageBtn.addEventListener('click', () => {
-            currentPage++;
-            updateDirectoryView(false);
-            smoothScrollToDirectory();
-        });
+    function showCopyFeedback(btn) {
+        const origHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check text-success"></i>';
+        btn.classList.add('text-success');
+        setTimeout(() => {
+            btn.innerHTML = origHtml;
+            btn.classList.remove('text-success');
+        }, 1200);
     }
 
-    if (userSearchInput) userSearchInput.addEventListener('input', () => updateDirectoryView(true));
-    if (roleFilterSelect) roleFilterSelect.addEventListener('change', () => updateDirectoryView(true));
-    if (dateFilterInput) dateFilterInput.addEventListener('change', () => updateDirectoryView(true));
-    if (sortFilterSelect) sortFilterSelect.addEventListener('change', () => updateDirectoryView(false));
-
-    if (clearDateBtn) {
-        clearDateBtn.addEventListener('click', () => {
-            if (dateFilterInput) dateFilterInput.value = '';
-            updateDirectoryView(true);
-        });
+    function fallbackCopy(text, btn) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try {
+            document.execCommand('copy');
+            showCopyFeedback(btn);
+        } catch (err) {
+            alert('Email: ' + text);
+        }
+        document.body.removeChild(ta);
     }
 
-    if (resetFiltersBtn) {
-        resetFiltersBtn.addEventListener('click', () => {
-            if (userSearchInput) userSearchInput.value = '';
-            if (roleFilterSelect) roleFilterSelect.value = 'all';
-            if (dateFilterInput) dateFilterInput.value = '';
-            if (sortFilterSelect) sortFilterSelect.value = 'date-desc';
-            updateDirectoryView(true);
-        });
-    }
+    // 7. User Account Deletion Handler
+    function confirmDelete(id, name, btn) {
+        if (confirm(`Are you sure you want to delete member: "${name}"? This action cannot be undone.`)) {
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
 
-    // Initial render call
-    updateDirectoryView(true);
-});
-
-// 5. User Account Deletion Handler
-function confirmDelete(id, name, btn) {
-    if (confirm(`Are you sure you want to delete member: "${name}"? This action cannot be undone.`)) {
-        const originalHtml = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        btn.disabled = true;
-
-        fetch(`/api/delete-user/${id}`, { method: 'POST' })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    btn.innerHTML = '<i class="fas fa-check"></i>';
-                    btn.classList.remove('action-btn-delete');
-                    btn.classList.add('btn-success');
-                    setTimeout(() => location.reload(), 800);
-                } else {
-                    alert('❌ Delete failed: ' + (data.error || 'Unknown error'));
+            fetch(`/api/delete-user/${id}`, { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        btn.innerHTML = '<i class="fas fa-check"></i>';
+                        btn.classList.remove('action-btn-delete');
+                        btn.classList.add('btn-success');
+                        setTimeout(() => location.reload(), 800);
+                    } else {
+                        alert('❌ Delete failed: ' + (data.error || 'Unknown error'));
+                        btn.innerHTML = originalHtml;
+                        btn.disabled = false;
+                    }
+                })
+                .catch(() => {
+                    alert('❌ Connection Error: Unable to reach deletion service.');
                     btn.innerHTML = originalHtml;
                     btn.disabled = false;
-                }
-            })
-            .catch(() => {
-                alert('❌ Connection Error: Unable to reach deletion service.');
-                btn.innerHTML = originalHtml;
-                btn.disabled = false;
-            });
+                });
+        }
     }
-}
 
-// 6. CSV & Database Downloads
-function downloadData(category, type) {
-    const endpoint = type === 'csv' ? `/api/download-csv/${category}` : `/api/download-db/${category}`;
-    window.location.href = endpoint;
-}
+    // 8. CSV & Database Downloads
+    function downloadData(category, type) {
+        const endpoint = type === 'csv' ? `/api/download-csv/${category}` : `/api/download-db/${category}`;
+        window.location.href = endpoint;
+    }
 </script>
 {% endblock %}

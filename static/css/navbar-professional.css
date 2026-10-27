@@ -1506,12 +1506,22 @@
 }
 
 /* ===== CONSISTENT PUBLIC / AUTH NAVIGATION ===== */
+#mainNavbar .navbar-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.75rem !important;
+    position: relative !important;
+    flex-wrap: nowrap !important;
+}
+
 #mainNavbar .navbar-collapse {
     display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0.6rem;
     min-width: 0;
+    flex: 1 1 auto;
 }
 
 #mainNavbar .public-nav-links {
@@ -1532,8 +1542,16 @@
 }
 
 #mainNavbar .role-nav-links {
-    width: 100%;
-    justify-content: flex-end;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    margin-left: auto !important;
+    gap: 0.28rem !important;
+    list-style: none !important;
+    margin-bottom: 0 !important;
+    padding-left: 0 !important;
+    flex-wrap: nowrap !important;
+    min-width: 0 !important;
 }
 
 #mainNavbar .nav-auth-actions {
@@ -1596,8 +1614,9 @@
 }
 
 #mainNavbar .navbar-brand.brand-premium {
-    flex: 0 0 auto;
-    margin-right: 1rem;
+    flex: 0 0 auto !important;
+    margin-right: 1.25rem !important;
+    white-space: nowrap !important;
 }
 
 #mainNavbar .custom-toggler {
@@ -1608,13 +1627,30 @@
     display: none;
 }
 
+/* Responsive Desktop Optimization (1200px - 1400px) */
+@media (max-width: 1400px) and (min-width: 1200px) {
+    #mainNavbar .navbar-container { padding-inline: 1rem !important; gap: 0.4rem !important; }
+    #mainNavbar .navbar-brand.brand-premium { gap: 0.45rem !important; margin-right: 0.85rem !important; }
+    #mainNavbar .role-nav-links { gap: 0.25rem !important; }
+    #mainNavbar .nav-admin-btn { padding: 0.32rem 0.6rem !important; font-size: 0.8rem !important; gap: 5px !important; }
+    #mainNavbar .admin-user-pill { padding: 3px 10px 3px 3px !important; }
+    #mainNavbar .admin-user-pill .user-name { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+/* Responsive Medium Desktop / Laptop Optimization (992px - 1199px) */
 @media (max-width: 1199px) and (min-width: 992px) {
-    #mainNavbar .navbar-container { padding-inline: 0.9rem; }
-    #mainNavbar .navbar-brand.brand-premium { gap: 0.55rem; margin-right: 0.35rem; }
-    #mainNavbar .brand-logo-container { width: 38px; height: 38px; font-size: 1.2rem; }
-    #mainNavbar .brand-text-premium { font-size: 1.18rem; }
+    #mainNavbar .navbar-container { padding-inline: 0.65rem !important; gap: 0.35rem !important; }
+    #mainNavbar .navbar-brand.brand-premium { gap: 0.35rem !important; margin-right: 0.65rem !important; }
+    #mainNavbar .brand-logo-container { width: 36px !important; height: 36px !important; font-size: 1.15rem; }
+    #mainNavbar .brand-text-premium { font-size: 1.15rem !important; }
+    #mainNavbar .admin-brand-tag, #mainNavbar .admin-brand-badge { font-size: 0.58rem !important; padding: 0.14rem 0.4rem !important; letter-spacing: 0.04em !important; }
     #mainNavbar .public-nav-links .nav-pill-link { gap: 0.35rem; padding-inline: 0.5rem !important; font-size: 0.83rem; }
     #mainNavbar .nav-auth-login, #mainNavbar .nav-auth-register { padding-inline: 0.7rem; font-size: 0.82rem; }
+    #mainNavbar .role-nav-links { gap: 0.2rem !important; }
+    #mainNavbar .nav-admin-btn { padding: 0.3rem 0.52rem !important; font-size: 0.78rem !important; gap: 4px !important; }
+    #mainNavbar .admin-user-pill { padding: 3px 8px 3px 3px !important; gap: 5px !important; }
+    #mainNavbar .admin-user-pill .user-name { max-width: 75px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #mainNavbar .admin-user-pill-tag { font-size: 0.58rem !important; padding: 0.15rem 0.35rem !important; }
 }
 
 @media (max-width: 991px) {
@@ -1860,40 +1896,39 @@
     gap: 0.45rem;
 }
 
+.admin-brand-tag,
 .admin-brand-badge {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 5px !important;
-    font-size: 0.65rem !important;
+    gap: 4px !important;
+    font-size: 0.64rem !important;
     font-weight: 800 !important;
-    letter-spacing: 0.12em !important;
-    padding: 0.24rem 0.65rem !important;
-    border-radius: 8px !important;
-    background: #0f172a !important; /* High-contrast obsidian slate */
-    color: #ffffff !important; /* Crisp pure white */
-    border: 1.5px solid rgba(245, 158, 11, 0.85) !important; /* Rich amber border */
-    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
-    line-height: 1.1 !important;
+    letter-spacing: 0.08em !important;
+    padding: 0.16rem 0.5rem !important;
+    border-radius: 6px !important;
+    background: #0f172a !important; /* Obsidian slate */
+    color: #fbbf24 !important; /* Amber gold */
+    border: 1px solid rgba(251, 191, 36, 0.4) !important;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.15) !important;
+    line-height: 1.2 !important;
     text-transform: uppercase !important;
     vertical-align: middle;
+    white-space: nowrap;
 }
 
+.admin-brand-tag i,
 .admin-brand-badge i {
     color: #fbbf24 !important;
-    font-size: 0.72rem !important;
-    filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.8)) !important;
+    font-size: 0.65rem !important;
 }
 
-.admin-brand-badge span {
-    color: #ffffff !important;
-    font-weight: 800 !important;
-}
-
+[data-bs-theme="dark"] .admin-brand-tag,
 [data-bs-theme="dark"] .admin-brand-badge,
+.premium-theme .admin-brand-tag,
 .premium-theme .admin-brand-badge {
-    background: #0f172a !important;
-    color: #ffffff !important;
-    border: 1.5px solid #f59e0b !important;
+    background: #0b1329 !important;
+    color: #fbbf24 !important;
+    border-color: rgba(251, 191, 36, 0.6) !important;
 }
 
 .admin-custom-toggler {
@@ -1909,58 +1944,147 @@
     box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2) !important;
 }
 
-/* --- Unified Tactical Admin Nav Buttons --- */
-.nav-admin-pill {
+/* ===== HIGH-CONTRAST COMPACT ADMIN BUTTONS (Close Together & Crystal Clear) ===== */
+.nav-admin-btn {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 8px !important;
-    padding: 0.45rem 1.05rem !important;
+    gap: 6px !important;
+    padding: 0.35rem 0.7rem !important;
     border-radius: 50px !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 0.83rem !important;
     font-weight: 700 !important;
-    font-size: 0.88rem !important;
     letter-spacing: 0.01em !important;
-    background: #ffffff !important;
+    background: #f1f5f9 !important;
     border: 1.5px solid #cbd5e1 !important;
-    color: #1e293b !important;
-    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05) !important;
-    transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    cursor: pointer !important;
+    color: #0f172a !important; /* Bold, high-contrast dark text */
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+    transition: all 0.16s ease !important;
     text-decoration: none !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
 }
 
-.nav-admin-pill i {
-    font-size: 0.92rem !important;
-    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+.nav-admin-btn i {
+    font-size: 0.86rem !important;
+    transition: transform 0.16s ease !important;
 }
 
-.nav-admin-pill:hover {
-    background: #f0f9ff !important;
+.nav-admin-btn span {
+    color: #0f172a !important; /* Force black text */
+    font-weight: 700 !important;
+}
+
+.nav-admin-btn:hover {
+    background: #e0f2fe !important;
     color: #0284c7 !important;
-    border-color: #0284c7 !important;
-    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2) !important;
-    transform: translateY(-1.5px) !important;
-}
-
-.nav-admin-pill:hover i {
-    transform: scale(1.18) !important;
-}
-
-.nav-admin-pill.active {
-    background: linear-gradient(135deg, #0b1329 0%, #1e293b 100%) !important;
-    color: #ffffff !important;
     border-color: #38bdf8 !important;
-    box-shadow: 0 4px 18px rgba(11, 19, 41, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 3px 10px rgba(2, 132, 199, 0.18) !important;
     transform: translateY(-1px) !important;
 }
 
-.nav-admin-pill.active i {
-    color: #38bdf8 !important;
-    text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+.nav-admin-btn:hover span {
+    color: #0284c7 !important;
 }
 
-.nav-admin-pill.active span {
+.nav-admin-btn:hover i {
+    transform: scale(1.12) !important;
+}
+
+.nav-admin-btn.active {
+    background: #0f172a !important; /* High contrast black pill */
     color: #ffffff !important;
+    border-color: #0f172a !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25) !important;
+}
+
+.nav-admin-btn.active span {
+    color: #ffffff !important;
+}
+
+.nav-admin-btn.active i {
+    color: #38bdf8 !important;
+}
+
+/* Guard against theme overrides */
+.premium-theme .nav-admin-btn,
+body.premium-theme #mainNavbar .nav-admin-btn {
+    color: #0f172a !important;
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+}
+
+.premium-theme .nav-admin-btn span,
+body.premium-theme #mainNavbar .nav-admin-btn span {
+    color: #0f172a !important;
+}
+
+.premium-theme .nav-admin-btn.active,
+body.premium-theme #mainNavbar .nav-admin-btn.active {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+}
+
+.premium-theme .nav-admin-btn.active span,
+body.premium-theme #mainNavbar .nav-admin-btn.active span {
+    color: #ffffff !important;
+}
+
+.premium-theme .nav-admin-btn.active i,
+body.premium-theme #mainNavbar .nav-admin-btn.active i {
+    color: #38bdf8 !important;
+}
+
+/* Backward compatibility for nav-admin-pill if referenced elsewhere */
+.nav-admin-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 0.36rem 0.75rem !important;
+    border-radius: 50px !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 0.82rem !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #1e293b !important;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05) !important;
+    transition: all 0.16s ease !important;
+    text-decoration: none !important;
+}
+
+/* --- Admin Utility Download Icon Button --- */
+.btn-admin-utility-icon {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    color: #0284c7 !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer !important;
+}
+
+.btn-admin-utility-icon:hover {
+    background: #f0f9ff !important;
+    color: #0369a1 !important;
+    border-color: #38bdf8 !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.22) !important;
+}
+
+[data-bs-theme="dark"] .btn-admin-utility-icon,
+.premium-theme .btn-admin-utility-icon {
+    background: #0f172a !important;
+    border-color: rgba(56, 189, 248, 0.3) !important;
+    color: #38bdf8 !important;
 }
 
 /* --- Zero-Lag Instant Admin Dropdowns --- */
@@ -1989,9 +2113,10 @@
     }
 }
 
-/* Instant Hover Trigger on Desktop */
+/* Instant Hover Trigger on Desktop for both regular and capsule dropdowns */
 @media (min-width: 992px) {
-    .navbar-nav .nav-item.dropdown:hover > .dropdown-menu.nav-admin-dropdown-menu {
+    .navbar-nav .nav-item.dropdown:hover > .dropdown-menu.nav-admin-dropdown-menu,
+    .admin-nav-capsule .dropdown:hover > .dropdown-menu.nav-admin-dropdown-menu {
         display: block !important;
         opacity: 1 !important;
         visibility: visible !important;
@@ -2152,6 +2277,18 @@
     border-color: #0284c7 !important;
     box-shadow: 0 6px 20px rgba(2, 132, 199, 0.25) !important;
     transform: translateY(-2px) !important;
+}
+
+.admin-user-pill .user-name {
+    font-size: 0.84rem !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .admin-user-avatar-ring {

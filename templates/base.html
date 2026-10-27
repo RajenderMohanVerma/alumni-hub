@@ -73,7 +73,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=2.3">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar-professional.css') }}?v=2.3">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar-professional.css') }}?v=2.4">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/social_pages.css') }}?v=2.3">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}?v=2.3">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}?v=2.3">
@@ -187,13 +187,13 @@
                 <div class="brand-meta-group">
                     <strong class="brand-text-premium brand-animate-rtl">ALUMNI HUB</strong>
                     {% if current_user.is_authenticated and current_user.role == 'admin' %}
-                    <span class="admin-brand-badge"><i class="fas fa-shield-halved"></i> <span>CONSOLE</span></span>
+                    <span class="admin-brand-tag" title="Enterprise Admin Portal"><i class="fas fa-shield-alt"></i> ADMIN</span>
                     {% endif %}
                 </div>
             </a>
 
             <!-- Mobile App Download Quick Button -->
-            <button class="btn-pwa-mobile-pill d-none" id="pwaMobileHeaderBtn" type="button" title="Download Alumni Hub App" aria-label="Download App">
+            <button class="btn-pwa-mobile-pill d-none d-lg-none" id="pwaMobileHeaderBtn" type="button" title="Download Alumni Hub App" aria-label="Download App">
                 <i class="fas fa-cloud-arrow-down"></i>
             </button>
 
@@ -448,22 +448,23 @@
 
                     {% elif current_user.role == 'admin' %}
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link nav-admin-pill {% if request.endpoint == 'dashboard_admin' %}active{% endif %}"
+                        <a class="nav-link nav-pill-link nav-admin-btn {% if request.endpoint == 'dashboard_admin' %}active{% endif %}"
                             href="{{ url_for('dashboard_admin') }}" id="navAdminDashboard">
                             <i class="fas fa-gauge-high text-primary"></i> <span>Dashboard</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link nav-admin-pill {% if request.endpoint == 'messages' or request.path.startswith('/messages') %}active{% endif %}" href="/messages" id="navAdminMessages">
+                        <a class="nav-link nav-pill-link nav-admin-btn {% if request.endpoint == 'messages' or request.path.startswith('/messages') %}active{% endif %}"
+                            href="/messages" id="navAdminMessages">
                             <i class="fas fa-comments text-info"></i> <span>Messages</span>
                         </a>
                     </li>
 
                     <!-- Users Directory Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link nav-pill-link nav-admin-pill dropdown-toggle {% if 'admin_view_users' in request.endpoint|default('') or 'admin_approve' in request.endpoint|default('') %}active{% endif %}" href="#" id="usersDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link nav-pill-link nav-admin-btn dropdown-toggle {% if 'admin_view_users' in request.endpoint|default('') or 'admin_approve' in request.endpoint|default('') %}active{% endif %}"
+                            href="#" id="usersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-users-gear text-success"></i> <span>Directory</span>
                         </a>
                         <ul class="dropdown-menu shadow-premium border-0 nav-admin-dropdown-menu" aria-labelledby="usersDropdown">
@@ -517,8 +518,8 @@
 
                     <!-- System Operations Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link nav-pill-link nav-admin-pill dropdown-toggle {% if 'jobs' in request.endpoint|default('') or 'whatsapp' in request.endpoint|default('') or 'messaging_control' in request.endpoint|default('') or 'connection_monitor' in request.endpoint|default('') or 'analytics' in request.endpoint|default('') or 'registrations' in request.endpoint|default('') or 'reports' in request.endpoint|default('') or 'stats' in request.endpoint|default('') %}active{% endif %}" href="#" id="systemDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link nav-pill-link nav-admin-btn dropdown-toggle {% if 'jobs' in request.endpoint|default('') or 'whatsapp' in request.endpoint|default('') or 'messaging_control' in request.endpoint|default('') or 'connection_monitor' in request.endpoint|default('') or 'analytics' in request.endpoint|default('') or 'registrations' in request.endpoint|default('') or 'reports' in request.endpoint|default('') or 'stats' in request.endpoint|default('') %}active{% endif %}"
+                            href="#" id="systemDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-shield-halved text-warning"></i> <span>System Control</span>
                         </a>
                         <ul class="dropdown-menu shadow-premium border-0 nav-system-menu nav-admin-dropdown-menu"
@@ -613,9 +614,15 @@
 
                     <!-- PWA Download Button for Authenticated Users -->
                     <li class="nav-item d-none d-md-flex align-items-center me-1">
+                        {% if current_user.role == 'admin' %}
+                        <button class="btn btn-admin-utility-icon d-none" id="pwaNavInstallBtnAuth" type="button" title="Download Alumni Hub App" aria-label="Download App">
+                            <i class="fas fa-cloud-arrow-down"></i>
+                        </button>
+                        {% else %}
                         <button class="btn btn-sm btn-pwa-install d-none" id="pwaNavInstallBtnAuth" type="button" title="Download Alumni Hub App">
                             <i class="fas fa-cloud-arrow-down me-1"></i> <span>Download App</span>
                         </button>
+                        {% endif %}
                     </li>
 
                     <!-- User Profile Dropdown -->
@@ -1618,6 +1625,13 @@
             transition: transform 0.2s ease;
         }
 
+        @media (min-width: 992px) {
+            .btn-pwa-mobile-pill,
+            #pwaMobileHeaderBtn {
+                display: none !important;
+            }
+        }
+
         .btn-pwa-mobile-pill:active {
             transform: scale(0.92);
         }
@@ -1989,7 +2003,7 @@
                 if (isStandalone) return;
                 if (pwaNavInstallBtnPublic) pwaNavInstallBtnPublic.classList.remove('d-none');
                 if (pwaNavInstallBtnAuth) pwaNavInstallBtnAuth.classList.remove('d-none');
-                if (pwaMobileHeaderBtn) pwaMobileHeaderBtn.classList.remove('d-none');
+                if (pwaMobileHeaderBtn && window.innerWidth < 992) pwaMobileHeaderBtn.classList.remove('d-none');
                 if (pwaMobileDrawerCard) pwaMobileDrawerCard.classList.remove('d-none');
             }
 

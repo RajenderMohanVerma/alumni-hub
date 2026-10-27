@@ -1691,7 +1691,7 @@ def dashboard_admin():
         # Fetch users with their profile data (department, batch/pass_year)
         users_query = """
             SELECT 
-                u.id, u.name, u.email, u.role, u.created_at, u.profile_pic,
+                u.id, u.name, u.email, u.phone, u.role, u.created_at, u.profile_pic,
                 COALESCE(s.department, a.department, f.department, 'N/A') as department,
                 COALESCE(s.semester, a.pass_year, NULL) as batch_info,
                 u.role as user_role
