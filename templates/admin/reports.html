@@ -1,0 +1,1096 @@
+{% extends "base.html" %}
+
+{% block title %}Incident Tickets & System Reports • Admin Compliance Console{% endblock %}
+
+{% block content %}
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
+
+<style>
+    /* Executive Reports & Ticket Desk Styling */
+    .admin-metrics-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .report-stat-card {
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.16);
+        border-radius: 24px;
+        padding: 1.4rem 1.5rem;
+        box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .report-stat-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--card-accent, #0284c7);
+        border-radius: 24px 24px 0 0;
+    }
+
+    .report-stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px -10px rgba(2, 132, 199, 0.18);
+        border-color: rgba(2, 132, 199, 0.35);
+    }
+
+    .stat-icon-wrapper {
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        font-size: 1.45rem;
+        flex-shrink: 0;
+    }
+
+    .stat-accent-danger { --card-accent: #ef4444; }
+    .stat-accent-danger .stat-icon-wrapper { background: #fee2e2; color: #dc2626; }
+
+    .stat-accent-warning { --card-accent: #f59e0b; }
+    .stat-accent-warning .stat-icon-wrapper { background: #fef3c7; color: #d97706; }
+
+    .stat-accent-success { --card-accent: #10b981; }
+    .stat-accent-success .stat-icon-wrapper { background: #d1fae5; color: #059669; }
+
+    .stat-accent-blue { --card-accent: #0284c7; }
+    .stat-accent-blue .stat-icon-wrapper { background: #e0f2fe; color: #0284c7; }
+
+    .stat-meta-number {
+        font-family: 'Outfit', sans-serif;
+        font-size: 2.1rem;
+        font-weight: 800;
+        line-height: 1;
+        color: #0f172a;
+        margin-bottom: 4px;
+    }
+
+    .stat-meta-label {
+        font-size: 0.85rem;
+        color: #64748b;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    /* Filters & Search Toolbar */
+    .report-toolbar-card {
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.14);
+        border-radius: 24px;
+        padding: 1.25rem 1.5rem;
+        box-shadow: 0 10px 30px -8px rgba(15, 23, 42, 0.05);
+        margin-bottom: 1.75rem;
+    }
+
+    .status-tab-btn {
+        border: none;
+        background: #f1f5f9;
+        color: #475569;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 700;
+        font-size: 0.84rem;
+        padding: 8px 16px;
+        border-radius: 999px;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .status-tab-btn:hover {
+        background: #e2e8f0;
+        color: #0f172a;
+    }
+
+    .status-tab-btn.active {
+        background: linear-gradient(135deg, #0284c7, #2563eb);
+        color: #ffffff !important;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    }
+
+    .status-tab-btn.active .badge {
+        background: rgba(255, 255, 255, 0.25) !important;
+        color: #ffffff !important;
+    }
+
+    .report-search-group {
+        position: relative;
+        min-width: 260px;
+    }
+
+    .report-search-group input {
+        border-radius: 999px;
+        padding-left: 38px;
+        font-size: 0.88rem;
+        border: 1.5px solid #cbd5e1;
+        transition: all 0.2s ease;
+    }
+
+    .report-search-group input:focus {
+        border-color: #0284c7;
+        box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .report-search-icon {
+        position: absolute;
+        top: 50%;
+        left: 14px;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 0.85rem;
+        pointer-events: none;
+    }
+
+    /* Ticket Table Badges */
+    .tkt-num-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.82rem;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 8px;
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        color: #0284c7;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s ease;
+    }
+
+    .tkt-num-badge:hover {
+        background: #e0f2fe;
+        border-color: #0284c7;
+    }
+
+    .badge-priority-high {
+        background: #fee2e2;
+        color: #dc2626;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        font-size: 0.72rem;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 3px 8px;
+    }
+
+    .badge-priority-med {
+        background: #fef3c7;
+        color: #b45309;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        font-size: 0.72rem;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 3px 8px;
+    }
+
+    .badge-priority-low {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+        font-size: 0.72rem;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 3px 8px;
+    }
+
+    /* Status Pills */
+    .badge-tkt-pending {
+        background: rgba(239, 68, 68, 0.12);
+        color: #dc2626;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        font-weight: 700;
+        font-size: 0.76rem;
+        padding: 4px 10px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .badge-tkt-progress {
+        background: rgba(245, 158, 11, 0.12);
+        color: #d97706;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        font-weight: 700;
+        font-size: 0.76rem;
+        padding: 4px 10px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .badge-tkt-resolved {
+        background: rgba(16, 185, 129, 0.12);
+        color: #059669;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        font-weight: 700;
+        font-size: 0.76rem;
+        padding: 4px 10px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .live-pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #10b981;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        animation: tktPulse 1.8s infinite;
+        display: inline-block;
+    }
+
+    @keyframes tktPulse {
+        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Modal Styling */
+    .modal-content-luxury {
+        background: #ffffff;
+        border-radius: 28px;
+        border: 2px solid rgba(2, 132, 199, 0.2);
+        box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.35);
+        overflow: hidden;
+    }
+
+    .modal-header-luxury {
+        background: linear-gradient(135deg, #0b1329 0%, #1e293b 100%);
+        color: #ffffff;
+        padding: 20px 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 768px) {
+        .admin-metrics-row {
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+        }
+        .report-stat-card {
+            padding: 1rem;
+            border-radius: 18px;
+            gap: 0.75rem;
+        }
+        .stat-icon-wrapper {
+            width: 42px;
+            height: 42px;
+            font-size: 1.15rem;
+            border-radius: 12px;
+        }
+        .stat-meta-number {
+            font-size: 1.6rem;
+        }
+        .stat-meta-label {
+            font-size: 0.75rem;
+        }
+        .report-toolbar-card {
+            padding: 1rem;
+            border-radius: 18px;
+        }
+        .report-search-group {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="admin-page-wrapper">
+    <!-- Ambient Floating Orbs -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
+
+    <div class="admin-container">
+        <!-- 1. Executive Holographic Hero Terminal -->
+        <div class="admin-hero-card mb-4">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div class="admin-live-badge mb-0">
+                    <span class="live-pulse-dot"></span>
+                    <span>TICKET DESK • REAL-TIME INCIDENT RESOLUTION</span>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 rounded-pill px-3 py-1 font-monospace small" id="liveSyncStatus">
+                        <i class="fas fa-check-circle text-success me-1"></i> Live Sync Active
+                    </span>
+                    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
+                        <i class="fas fa-th-large"></i> Command Center
+                    </a>
+                </div>
+            </div>
+
+            <h1 class="admin-hero-title mb-2">
+                <span class="hero-title-prefix">System Incident &</span> <span class="text-holographic-adm">Support Tickets</span>
+            </h1>
+            <p class="admin-hero-subtitle mb-4">
+                Real-time queue of community issue reports, authentication disputes, mentorship tickets, and contact inquiries.
+            </p>
+
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <span class="badge rounded-pill px-3 py-2 fw-bold font-monospace shadow-sm" style="background: rgba(239, 68, 68, 0.25); color: #fee2e2 !important; border: 1.5px solid rgba(248, 113, 113, 0.65); font-size: 0.8rem; letter-spacing: 0.5px;">
+                    <i class="fas fa-bolt text-danger me-1"></i> Live Ingestion Engine
+                </span>
+                <span class="badge rounded-pill px-3 py-2 fw-bold font-monospace shadow-sm" style="background: rgba(16, 185, 129, 0.25); color: #d1fae5 !important; border: 1.5px solid rgba(52, 211, 153, 0.65); font-size: 0.8rem; letter-spacing: 0.5px;">
+                    <i class="fas fa-shield-halved text-success me-1"></i> Audit Compliance Active
+                </span>
+                <button type="button" class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-bold ms-auto" id="btnManualSync">
+                    <i class="fas fa-sync-alt me-1" id="syncSpinner"></i> Sync Now
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. Dynamic Live Statistics Row -->
+        <div class="admin-metrics-row">
+            <!-- Pending Tickets -->
+            <div class="report-stat-card stat-accent-danger">
+                <div class="stat-icon-wrapper">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div>
+                    <div class="stat-meta-number" id="statPending">{{ pending_count }}</div>
+                    <div class="stat-meta-label">Pending Action</div>
+                </div>
+            </div>
+
+            <!-- In Progress -->
+            <div class="report-stat-card stat-accent-warning">
+                <div class="stat-icon-wrapper">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <div>
+                    <div class="stat-meta-number" id="statProgress">{{ in_progress_count }}</div>
+                    <div class="stat-meta-label">In Investigation</div>
+                </div>
+            </div>
+
+            <!-- Resolved -->
+            <div class="report-stat-card stat-accent-success">
+                <div class="stat-icon-wrapper">
+                    <i class="fas fa-check-double"></i>
+                </div>
+                <div>
+                    <div class="stat-meta-number" id="statResolved">{{ resolved_count }}</div>
+                    <div class="stat-meta-label">Resolved Issues</div>
+                </div>
+            </div>
+
+            <!-- Total Submissions -->
+            <div class="report-stat-card stat-accent-blue">
+                <div class="stat-icon-wrapper">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <div>
+                    <div class="stat-meta-number" id="statTotal">{{ total_count }}</div>
+                    <div class="stat-meta-label">Total Submissions</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Toolbar: Filter Tabs & Search Bar -->
+        <div class="report-toolbar-card">
+            <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center justify-content-between gap-3">
+                <!-- Status Filter Tabs -->
+                <div class="d-flex flex-wrap gap-2" id="statusFilterTabs">
+                    <button type="button" class="status-tab-btn active" data-status="all">
+                        All Tickets <span class="badge bg-secondary rounded-pill ms-1" id="tabCountAll">{{ total_count }}</span>
+                    </button>
+                    <button type="button" class="status-tab-btn" data-status="Pending">
+                        <i class="fas fa-clock text-danger me-1"></i> Pending <span class="badge bg-danger rounded-pill ms-1" id="tabCountPending">{{ pending_count }}</span>
+                    </button>
+                    <button type="button" class="status-tab-btn" data-status="In Progress">
+                        <i class="fas fa-sync text-warning me-1"></i> In Progress <span class="badge bg-warning text-dark rounded-pill ms-1" id="tabCountProgress">{{ in_progress_count }}</span>
+                    </button>
+                    <button type="button" class="status-tab-btn" data-status="Resolved">
+                        <i class="fas fa-check-circle text-success me-1"></i> Resolved <span class="badge bg-success rounded-pill ms-1" id="tabCountResolved">{{ resolved_count }}</span>
+                    </button>
+                </div>
+
+                <!-- Search Input & Category Dropdown -->
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <div class="report-search-group">
+                        <i class="fas fa-search report-search-icon"></i>
+                        <input type="text" class="form-control form-control-sm" id="ticketSearchInput" placeholder="Search ticket #, name, email...">
+                    </div>
+
+                    <select class="form-select form-select-sm rounded-pill" id="categoryFilterSelect" style="width: auto; min-width: 160px; font-weight: 600;">
+                        <option value="all">All Categories</option>
+                        <option value="Bug Report">Bug Report</option>
+                        <option value="Account Access">Account Access</option>
+                        <option value="Contact Inquiry">Contact Inquiry</option>
+                        <option value="Mentorship">Mentorship</option>
+                        <option value="Job Posting">Job Posting</option>
+                        <option value="General Feedback">General Feedback</option>
+                    </select>
+
+                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold" id="btnExportCsv" title="Export Log to CSV">
+                        <i class="fas fa-file-csv me-1"></i> Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Dynamic Tickets Table Card -->
+        <div class="admin-card">
+            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
+                <div>
+                    <h3 class="fw-bold mb-1 text-dark" style="font-size: 1.25rem;">
+                        <i class="fas fa-stream text-primary me-2"></i> Active Incident Queue
+                    </h3>
+                    <p class="text-muted small mb-0">Real-time submissions sorted by urgency and recency. Click any ticket to triage or resolve.</p>
+                </div>
+                <div class="text-muted small font-monospace">
+                    <span id="showingCount">{{ total_count }}</span> tickets visible
+                </div>
+            </div>
+
+            <div class="admin-table-wrapper">
+                <table class="admin-table" id="ticketsTable">
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Reporter</th>
+                            <th>Category</th>
+                            <th>Subject &amp; Details</th>
+                            <th>Priority</th>
+                            <th>Submitted On</th>
+                            <th>Status</th>
+                            <th class="text-end">Intervene</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ticketsTableBody">
+                        {% for t in tickets %}
+                        <tr id="row-{{ t.id }}" 
+                            data-ticket-id="{{ t.id }}"
+                            data-status="{{ t.status }}"
+                            data-category="{{ t.category }}"
+                            data-search="{{ t.ticket_num }} {{ t.reporter_name }} {{ t.reporter_email }} {{ t.subject }} {{ t.description }}">
+                            <td>
+                                <span class="tkt-num-badge" onclick="copyTicketNum('{{ t.ticket_num }}')" title="Click to copy">
+                                    <i class="far fa-copy text-muted"></i> {{ t.ticket_num }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark small mb-0">{{ t.reporter_name }}</div>
+                                <div class="d-flex align-items-center gap-1 mt-1">
+                                    <span class="admin-badge-pill badge-{{ t.reporter_role|lower }}" style="font-size: 0.65rem; padding: 2px 7px;">
+                                        {{ t.reporter_role|upper }}
+                                    </span>
+                                    <a href="mailto:{{ t.reporter_email }}" class="text-muted small text-decoration-none" title="Email: {{ t.reporter_email }}">
+                                        <i class="fas fa-envelope ms-1"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-light text-primary border rounded-pill px-3 py-1 font-monospace small">
+                                    {{ t.category }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark small mb-0" style="max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    {{ t.subject }}
+                                </div>
+                                <div class="text-secondary small" style="max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    {{ t.description }}
+                                </div>
+                            </td>
+                            <td>
+                                {% if t.priority == 'High' or t.priority == 'Urgent' %}
+                                <span class="badge-priority-high"><i class="fas fa-fire me-1"></i> High</span>
+                                {% elif t.priority == 'Medium' %}
+                                <span class="badge-priority-med">Medium</span>
+                                {% else %}
+                                <span class="badge-priority-low">Low</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="text-muted small font-monospace">{{ t.created_at[:16] if t.created_at else 'Recent' }}</span>
+                            </td>
+                            <td>
+                                {% if t.status == 'Pending' %}
+                                <span class="badge-tkt-pending">
+                                    <i class="fas fa-clock fa-spin"></i> Pending
+                                </span>
+                                {% elif t.status == 'In Progress' %}
+                                <span class="badge-tkt-progress">
+                                    <i class="fas fa-spinner fa-spin"></i> In Progress
+                                </span>
+                                {% else %}
+                                <span class="badge-tkt-resolved">
+                                    <i class="fas fa-check-circle"></i> {{ t.status }}
+                                </span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end">
+                                <div class="d-flex gap-2 justify-content-end align-items-center">
+                                    <!-- View Details Button -->
+                                    <button type="button" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-primary" 
+                                            style="width: 34px; height: 34px;" 
+                                            title="View Details"
+                                            onclick="openTicketModalById({{ t.id }})">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+
+                                    <!-- Quick 1-Click Resolve -->
+                                    {% if t.status != 'Resolved' %}
+                                    <button type="button" class="btn btn-sm btn-outline-success rounded-circle d-grid place-items-center" 
+                                            style="width: 34px; height: 34px;" 
+                                            title="1-Click Resolve"
+                                            onclick="quickResolveTicket({{ t.id }})">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    {% endif %}
+
+                                    <!-- Delete Button -->
+                                    <button type="button" class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center" 
+                                            style="width: 34px; height: 34px;" 
+                                            title="Delete Ticket"
+                                            onclick="deleteTicket({{ t.id }})">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr id="emptyTableRow">
+                            <td colspan="8" class="text-center py-5">
+                                <div class="py-4">
+                                    <div class="stat-icon-wrapper mx-auto mb-3" style="width: 64px; height: 64px; background: rgba(2, 132, 199, 0.1); color: #0284c7; border-radius: 20px;">
+                                        <i class="fas fa-check-double fa-2x"></i>
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-1">Incident Queue Clear</h5>
+                                    <p class="text-muted small mb-3">No active tickets or issue reports. Real user submissions will appear here live as they arrive.</p>
+                                    <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-4" onclick="fetchLiveTickets(true)">
+                                        <i class="fas fa-sync-alt me-1"></i> Refresh Queue
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Zero Search Results State -->
+            <div id="noSearchResults" class="text-center py-5 d-none">
+                <i class="fas fa-search fa-2x text-muted mb-3 opacity-50"></i>
+                <h5 class="fw-bold text-dark mb-1">No Matching Tickets Found</h5>
+                <p class="text-muted small">Try tweaking your search keyword or switching category / status tabs.</p>
+                <button type="button" class="btn btn-sm btn-primary rounded-pill px-4" onclick="resetFilters()">Reset Filters</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =======================================================
+     TICKET DETAIL & INTERVENTION MODAL
+     ======================================================= -->
+<div class="modal fade" id="ticketDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-content-luxury">
+            <div class="modal-header modal-header-luxury">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="badge bg-primary bg-opacity-25 text-white border border-white border-opacity-25 font-monospace fw-bold px-3 py-1" id="modalTicketNum">#TKT-XXXX</span>
+                    <h5 class="modal-title fw-bold mb-0 text-white" id="modalSubject">Ticket Details</h5>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <!-- Metadata Row -->
+                <div class="row g-3 p-3 bg-light rounded-4 mb-4 border">
+                    <div class="col-md-4">
+                        <small class="text-muted d-block">Reporter Name</small>
+                        <strong class="text-dark" id="modalReporterName">--</strong>
+                        <span class="admin-badge-pill ms-1" id="modalReporterRole" style="font-size: 0.65rem;">--</span>
+                    </div>
+                    <div class="col-md-4">
+                        <small class="text-muted d-block">Reporter Email</small>
+                        <a href="#" class="text-primary fw-bold small text-decoration-none" id="modalReporterEmail">--</a>
+                    </div>
+                    <div class="col-md-4">
+                        <small class="text-muted d-block">Category &amp; Priority</small>
+                        <span id="modalCategory" class="badge bg-light text-primary border rounded-pill">--</span>
+                        <span id="modalPriority" class="ms-1">--</span>
+                    </div>
+                </div>
+
+                <!-- Full Report Message Description -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">
+                        <i class="fas fa-file-alt text-primary me-1"></i> Full Description / Inquiry
+                    </label>
+                    <div class="p-3 rounded-3 bg-white border text-dark" style="line-height: 1.7; font-size: 0.95rem; white-space: pre-wrap;" id="modalDescription">--</div>
+                </div>
+
+                <!-- Admin Action & Resolution Form -->
+                <div class="p-4 rounded-4 bg-light border">
+                    <h6 class="fw-bold mb-3 text-dark">
+                        <i class="fas fa-user-shield text-primary me-2"></i> Administrative Intervention
+                    </h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Update Triage Status</label>
+                            <select class="form-select" id="modalStatusSelect">
+                                <option value="Pending">🔴 Pending (Action Required)</option>
+                                <option value="In Progress">🟡 In Progress (Investigating)</option>
+                                <option value="Resolved">🟢 Resolved (Completed)</option>
+                                <option value="Closed">⚪ Closed (Archived)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Audit Trail</label>
+                            <div class="small text-muted p-2 rounded bg-white border font-monospace" id="modalAuditTrail">
+                                Not resolved yet.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-dark">Internal Admin Notes / Action Taken</label>
+                            <textarea class="form-control" id="modalAdminNotes" rows="2" placeholder="Record steps taken, internal reference numbers, or resolution details..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light px-4 py-3">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary rounded-pill px-4 shadow-sm" id="btnSaveTicketModal">
+                    <i class="fas fa-save me-1"></i> Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =======================================================
+     REAL-TIME CLIENT CONTROLLER SCRIPT
+     ======================================================= -->
+<script>
+    let activeTickets = {{ tickets|tojson }};
+    let currentFilterStatus = 'all';
+    let currentFilterCategory = 'all';
+    let currentSearchTerm = '';
+    let currentModalTicketId = null;
+    let detailModalInstance = null;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        detailModalInstance = new bootstrap.Modal(document.getElementById('ticketDetailModal'));
+
+        // Bind Search & Filters
+        document.getElementById('ticketSearchInput').addEventListener('input', function (e) {
+            currentSearchTerm = e.target.value.toLowerCase().trim();
+            filterAndRenderRows();
+        });
+
+        document.getElementById('categoryFilterSelect').addEventListener('change', function (e) {
+            currentFilterCategory = e.target.value;
+            filterAndRenderRows();
+        });
+
+        document.querySelectorAll('#statusFilterTabs .status-tab-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('#statusFilterTabs .status-tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilterStatus = this.getAttribute('data-status');
+                filterAndRenderRows();
+            });
+        });
+
+        // Manual Sync Button
+        document.getElementById('btnManualSync').addEventListener('click', function () {
+            fetchLiveTickets(true);
+        });
+
+        // Modal Save Button
+        document.getElementById('btnSaveTicketModal').addEventListener('click', function () {
+            if (!currentModalTicketId) return;
+            const newStatus = document.getElementById('modalStatusSelect').value;
+            const adminNotes = document.getElementById('modalAdminNotes').value.trim();
+            updateTicketStatus(currentModalTicketId, newStatus, adminNotes);
+        });
+
+        // CSV Export
+        document.getElementById('btnExportCsv').addEventListener('click', exportToCsv);
+
+        // Real-Time Polling: Check for updates every 12 seconds
+        setInterval(function () {
+            fetchLiveTickets(false);
+        }, 12000);
+    });
+
+    // Filter and Render Rows on Client-Side
+    function filterAndRenderRows() {
+        let visibleCount = 0;
+        const rows = document.querySelectorAll('#ticketsTableBody tr[data-ticket-id]');
+        
+        rows.forEach(row => {
+            const status = row.getAttribute('data-status');
+            const category = row.getAttribute('data-category');
+            const searchText = row.getAttribute('data-search').toLowerCase();
+
+            const matchStatus = (currentFilterStatus === 'all' || status === currentFilterStatus);
+            const matchCategory = (currentFilterCategory === 'all' || category === currentFilterCategory);
+            const matchSearch = (!currentSearchTerm || searchText.includes(currentSearchTerm));
+
+            if (matchStatus && matchCategory && matchSearch) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        document.getElementById('showingCount').textContent = visibleCount;
+        const noResultsEl = document.getElementById('noSearchResults');
+        const tableWrapper = document.querySelector('.admin-table-wrapper');
+
+        if (visibleCount === 0 && rows.length > 0) {
+            noResultsEl.classList.remove('d-none');
+        } else {
+            noResultsEl.classList.add('d-none');
+        }
+    }
+
+    function resetFilters() {
+        currentFilterStatus = 'all';
+        currentFilterCategory = 'all';
+        currentSearchTerm = '';
+        document.getElementById('ticketSearchInput').value = '';
+        document.getElementById('categoryFilterSelect').value = 'all';
+        document.querySelectorAll('#statusFilterTabs .status-tab-btn').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-status') === 'all');
+        });
+        filterAndRenderRows();
+    }
+
+    // Fetch Live Tickets via Background Poll
+    function fetchLiveTickets(isManual) {
+        const syncSpinner = document.getElementById('syncSpinner');
+        if (syncSpinner) syncSpinner.classList.add('fa-spin');
+
+        fetch('/api/admin/reports/live')
+            .then(res => res.json())
+            .then(data => {
+                if (syncSpinner) syncSpinner.classList.remove('fa-spin');
+                if (data.success) {
+                    // Update stats
+                    document.getElementById('statTotal').textContent = data.total_count;
+                    document.getElementById('statPending').textContent = data.pending_count;
+                    document.getElementById('statProgress').textContent = data.in_progress_count;
+                    document.getElementById('statResolved').textContent = data.resolved_count;
+
+                    // Tab counts
+                    document.getElementById('tabCountAll').textContent = data.total_count;
+                    document.getElementById('tabCountPending').textContent = data.pending_count;
+                    document.getElementById('tabCountProgress').textContent = data.in_progress_count;
+                    document.getElementById('tabCountResolved').textContent = data.resolved_count;
+
+                    // Check if tickets changed in any way (new ticket, status changed, deleted)
+                    const oldJson = JSON.stringify(activeTickets);
+                    const newJson = JSON.stringify(data.tickets);
+                    const hasChanged = (oldJson !== newJson);
+
+                    if (hasChanged || isManual) {
+                        const prevCount = activeTickets.length;
+                        activeTickets = data.tickets;
+                        renderFullTable(data.tickets);
+
+                        if (data.tickets.length > prevCount) {
+                            flashSyncStatus(`+${data.tickets.length - prevCount} New Report Received!`);
+                        } else if (isManual) {
+                            flashSyncStatus('Queue Synchronized');
+                        }
+                    }
+                }
+            })
+            .catch(err => {
+                if (syncSpinner) syncSpinner.classList.remove('fa-spin');
+                console.warn('Real-time sync polling error:', err);
+            });
+    }
+
+    function flashSyncStatus(msg) {
+        const statusEl = document.getElementById('liveSyncStatus');
+        if (!statusEl) return;
+        const originalHtml = statusEl.innerHTML;
+        statusEl.innerHTML = `<i class="fas fa-bell text-warning me-1"></i> ${msg}`;
+        setTimeout(() => {
+            statusEl.innerHTML = originalHtml;
+        }, 3500);
+    }
+
+    // Helper to immediately update KPI counters from activeTickets
+    function updateStatCounters() {
+        const total = activeTickets.length;
+        const pending = activeTickets.filter(t => t.status === 'Pending').length;
+        const progress = activeTickets.filter(t => t.status === 'In Progress').length;
+        const resolved = activeTickets.filter(t => t.status === 'Resolved').length;
+
+        document.getElementById('statTotal').textContent = total;
+        document.getElementById('statPending').textContent = pending;
+        document.getElementById('statProgress').textContent = progress;
+        document.getElementById('statResolved').textContent = resolved;
+
+        document.getElementById('tabCountAll').textContent = total;
+        document.getElementById('tabCountPending').textContent = pending;
+        document.getElementById('tabCountProgress').textContent = progress;
+        document.getElementById('tabCountResolved').textContent = resolved;
+    }
+
+    // Render Table completely on ticket list updates
+    function renderFullTable(tickets) {
+        const tbody = document.getElementById('ticketsTableBody');
+        if (!tickets || tickets.length === 0) {
+            tbody.innerHTML = `
+                <tr id="emptyTableRow">
+                    <td colspan="8" class="text-center py-5">
+                        <div class="py-4">
+                            <div class="stat-icon-wrapper mx-auto mb-3" style="width: 64px; height: 64px; background: rgba(2, 132, 199, 0.1); color: #0284c7; border-radius: 20px;">
+                                <i class="fas fa-check-double fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-1">Incident Queue Clear</h5>
+                            <p class="text-muted small mb-3">No active tickets or issue reports. Real user submissions will appear here live as they arrive.</p>
+                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-4" onclick="fetchLiveTickets(true)">
+                                <i class="fas fa-sync-alt me-1"></i> Refresh Queue
+                            </button>
+                        </div>
+                    </td>
+                </tr>`;
+            filterAndRenderRows();
+            return;
+        }
+
+        let html = '';
+        tickets.forEach(t => {
+            const priorityBadge = (t.priority === 'High' || t.priority === 'Urgent') 
+                ? '<span class="badge-priority-high"><i class="fas fa-fire me-1"></i> High</span>'
+                : (t.priority === 'Medium' ? '<span class="badge-priority-med">Medium</span>' : '<span class="badge-priority-low">Low</span>');
+
+            const statusBadge = (t.status === 'Pending')
+                ? '<span class="badge-tkt-pending"><i class="fas fa-clock fa-spin"></i> Pending</span>'
+                : (t.status === 'In Progress' ? '<span class="badge-tkt-progress"><i class="fas fa-spinner fa-spin"></i> In Progress</span>' : `<span class="badge-tkt-resolved"><i class="fas fa-check-circle"></i> ${t.status}</span>`);
+
+            const resolveBtn = (t.status !== 'Resolved')
+                ? `<button type="button" class="btn btn-sm btn-outline-success rounded-circle d-grid place-items-center" style="width: 34px; height: 34px;" title="1-Click Resolve" onclick="quickResolveTicket(${t.id})"><i class="fas fa-check"></i></button>`
+                : '';
+
+            const dateSnippet = t.created_at ? t.created_at.substring(0, 16) : 'Recent';
+
+            html += `
+                <tr id="row-${t.id}" 
+                    data-ticket-id="${t.id}"
+                    data-status="${t.status}"
+                    data-category="${t.category}"
+                    data-search="${t.ticket_num} ${t.reporter_name} ${t.reporter_email} ${t.subject} ${t.description}">
+                    <td>
+                        <span class="tkt-num-badge" onclick="copyTicketNum('${t.ticket_num}')" title="Click to copy">
+                            <i class="far fa-copy text-muted"></i> ${t.ticket_num}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="fw-bold text-dark small mb-0">${t.reporter_name}</div>
+                        <div class="d-flex align-items-center gap-1 mt-1">
+                            <span class="admin-badge-pill badge-${(t.reporter_role||'guest').toLowerCase()}" style="font-size: 0.65rem; padding: 2px 7px;">
+                                ${(t.reporter_role||'GUEST').toUpperCase()}
+                            </span>
+                            <a href="mailto:${t.reporter_email}" class="text-muted small text-decoration-none">
+                                <i class="fas fa-envelope ms-1"></i>
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge bg-light text-primary border rounded-pill px-3 py-1 font-monospace small">
+                            ${t.category}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="fw-bold text-dark small mb-0" style="max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            ${t.subject}
+                        </div>
+                        <div class="text-secondary small" style="max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            ${t.description}
+                        </div>
+                    </td>
+                    <td>${priorityBadge}</td>
+                    <td><span class="text-muted small font-monospace">${dateSnippet}</span></td>
+                    <td>${statusBadge}</td>
+                    <td class="text-end">
+                        <div class="d-flex gap-2 justify-content-end align-items-center">
+                            <button type="button" class="btn btn-sm btn-light border rounded-circle d-grid place-items-center text-primary" style="width: 34px; height: 34px;" title="View Details" onclick="openTicketModalById(${t.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${resolveBtn}
+                            <button type="button" class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center" style="width: 34px; height: 34px;" title="Delete Ticket" onclick="deleteTicket(${t.id})">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        });
+
+        tbody.innerHTML = html;
+        filterAndRenderRows();
+    }
+
+    // Modal Interaction by ID
+    function openTicketModalById(id) {
+        const ticket = activeTickets.find(t => t.id == id);
+        if (ticket) {
+            openTicketModal(ticket);
+        }
+    }
+
+    // Modal Display
+    function openTicketModal(ticket) {
+        currentModalTicketId = ticket.id;
+        document.getElementById('modalTicketNum').textContent = ticket.ticket_num;
+        document.getElementById('modalSubject').textContent = ticket.subject;
+        document.getElementById('modalReporterName').textContent = ticket.reporter_name;
+        document.getElementById('modalReporterRole').textContent = (ticket.reporter_role || 'Guest').toUpperCase();
+        document.getElementById('modalReporterRole').className = `admin-badge-pill badge-${(ticket.reporter_role||'guest').toLowerCase()} ms-1`;
+        
+        const emailLink = document.getElementById('modalReporterEmail');
+        emailLink.textContent = ticket.reporter_email;
+        emailLink.setAttribute('href', `mailto:${ticket.reporter_email}?subject=Re: [${ticket.ticket_num}] ${ticket.subject}`);
+
+        document.getElementById('modalCategory').textContent = ticket.category;
+        
+        const prioBadge = document.getElementById('modalPriority');
+        if (ticket.priority === 'High' || ticket.priority === 'Urgent') {
+            prioBadge.className = 'badge-priority-high';
+            prioBadge.innerHTML = '<i class="fas fa-fire me-1"></i> High';
+        } else if (ticket.priority === 'Medium') {
+            prioBadge.className = 'badge-priority-med';
+            prioBadge.textContent = 'Medium';
+        } else {
+            prioBadge.className = 'badge-priority-low';
+            prioBadge.textContent = 'Low';
+        }
+
+        document.getElementById('modalDescription').textContent = ticket.description;
+        document.getElementById('modalStatusSelect').value = ticket.status || 'Pending';
+        document.getElementById('modalAdminNotes').value = ticket.admin_notes || '';
+
+        const auditTrail = document.getElementById('modalAuditTrail');
+        if (ticket.resolved_by && ticket.resolved_at) {
+            auditTrail.innerHTML = `<i class="fas fa-check-circle text-success me-1"></i> Resolved by <strong>${ticket.resolved_by}</strong> on ${ticket.resolved_at}`;
+        } else {
+            auditTrail.innerHTML = `<i class="fas fa-info-circle text-muted me-1"></i> Not resolved yet • Created: ${ticket.created_at || 'Recent'}`;
+        }
+
+        detailModalInstance.show();
+    }
+
+    // Update Status Action with Optimistic UI
+    function updateTicketStatus(ticketId, newStatus, adminNotes) {
+        const localTkt = activeTickets.find(t => t.id == ticketId);
+        if (localTkt) {
+            localTkt.status = newStatus;
+            if (adminNotes) localTkt.admin_notes = adminNotes;
+            if (newStatus === 'Resolved' || newStatus === 'Closed') {
+                localTkt.resolved_by = 'Administrator';
+                localTkt.resolved_at = new Date().toLocaleString();
+            } else {
+                localTkt.resolved_by = null;
+                localTkt.resolved_at = null;
+            }
+            renderFullTable(activeTickets);
+            updateStatCounters();
+        }
+
+        fetch(`/api/admin/reports/${ticketId}/status`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: newStatus, admin_notes: adminNotes })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                if (detailModalInstance) detailModalInstance.hide();
+                flashSyncStatus(`Ticket #${localTkt ? localTkt.ticket_num : ticketId} marked as ${newStatus}`);
+                fetchLiveTickets(true);
+            } else {
+                alert('Error updating ticket: ' + (data.error || 'Server error'));
+                fetchLiveTickets(true);
+            }
+        })
+        .catch(err => {
+            console.error('Update status error:', err);
+            alert('Failed to update ticket status.');
+            fetchLiveTickets(true);
+    }
+
+    // Quick 1-Click Resolve Action
+    function quickResolveTicket(ticketId) {
+        if (!confirm('Mark this incident ticket as Resolved?')) return;
+        updateTicketStatus(ticketId, 'Resolved', 'Resolved via Quick 1-Click Action');
+    }
+
+    // Delete Ticket Action
+    function deleteTicket(ticketId) {
+        if (!confirm('Are you sure you want to permanently delete this report log?')) return;
+        fetch(`/api/admin/reports/${ticketId}/delete`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const row = document.getElementById(`row-${ticketId}`);
+                if (row) row.remove();
+                fetchLiveTickets(true);
+            } else {
+                alert('Error deleting ticket: ' + (data.error || 'Server error'));
+            }
+        })
+        .catch(err => {
+            console.error('Delete ticket error:', err);
+            alert('Failed to delete ticket.');
+        });
+    }
+
+    // Copy Ticket Number to Clipboard
+    function copyTicketNum(num) {
+        navigator.clipboard.writeText(num).then(() => {
+            flashSyncStatus(`Copied ${num} to clipboard`);
+        }).catch(() => {});
+    }
+
+    // Export Table to CSV
+    function exportToCsv() {
+        if (!activeTickets || activeTickets.length === 0) {
+            alert('No tickets available to export.');
+            return;
+        }
+
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "Ticket ID,Reporter Name,Reporter Email,Role,Category,Priority,Status,Created At,Resolved By,Resolved At,Description\n";
+
+        activeTickets.forEach(t => {
+            const desc = (t.description || '').replace(/"/g, '""').replace(/\n/g, ' ');
+            csvContent += `"${t.ticket_num}","${t.reporter_name}","${t.reporter_email}","${t.reporter_role}","${t.category}","${t.priority}","${t.status}","${t.created_at}","${t.resolved_by || ''}","${t.resolved_at || ''}","${desc}"\n`;
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `AlumniHub_Incident_Report_${new Date().toISOString().slice(0, 10)}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+{% endblock %}

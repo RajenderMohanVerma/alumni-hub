@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Administrator Profile • Platform Root Authority{% endblock %}
+
+{% block content %}
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
+
+<div class="admin-page-wrapper">
+    <!-- Ambient Floating Orbs -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
+
+    <div class="admin-container">
+        <!-- 1. Executive Holographic Hero Terminal -->
+        <div class="admin-hero-card">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div class="admin-live-badge mb-0">
+                    <span class="live-pulse-dot"></span>
+                    <span>ROOT AUTHORITY • SUPER ADMINISTRATOR PROFILE</span>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
+                        <i class="fas fa-th-large"></i> Command Center
+                    </a>
+                    <a href="{{ url_for('edit_admin_profile', user_id=user['id']) }}" class="btn btn-primary btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1 shadow">
+                        <i class="fas fa-user-edit"></i> Edit Credentials
+                    </a>
+                </div>
+            </div>
+
+            <h1 class="admin-hero-title mb-2">
+                <span class="hero-title-prefix">Institutional</span> <span class="text-holographic-adm">Administrator Profile</span>
+            </h1>
+            <p class="admin-hero-subtitle mb-0">
+                Primary system administrator identity node with full ecosystem governance, role permissions, and database manipulation authority.
+            </p>
+        </div>
+
+        <!-- 2. Profile Details Grid -->
+        <div class="row g-4">
+            <!-- Left Identity Column -->
+            <div class="col-12 col-lg-4">
+                <div class="admin-card text-center h-100">
+                    <div class="position-relative d-inline-block mx-auto mb-3" style="width: 140px; height: 140px;">
+                        {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
+                        <img src="{{ user['profile_pic'] }}" alt="Admin" class="rounded-circle border border-3 border-primary shadow" style="width: 140px; height: 140px; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+                        <div class="rounded-circle fw-bold text-white shadow-lg mx-auto border border-3 border-primary" style="display: none; width: 140px; height: 140px; place-items: center; background: linear-gradient(135deg, #0284c7 0%, #7c3aed 100%); font-size: 3.2rem; font-family: 'Outfit', sans-serif;">
+                            {{ (user['name']|trim)[0]|upper if user['name'] else 'A' }}
+                        </div>
+                        {% else %}
+                        <div class="rounded-circle d-grid place-items-center fw-bold text-white shadow-lg mx-auto border border-3 border-primary" style="width: 140px; height: 140px; background: linear-gradient(135deg, #0284c7 0%, #7c3aed 100%); font-size: 3.2rem; font-family: 'Outfit', sans-serif;">
+                            {{ (user['name']|trim)[0]|upper if user['name'] else 'A' }}
+                        </div>
+                        {% endif %}
+                        <span class="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-2" title="System Online" style="width: 16px; height: 16px;"></span>
+                    </div>
+
+                    <h3 class="fw-bold mb-1 text-dark">{{ user['name'] }}</h3>
+                    <div class="text-primary font-monospace small fw-bold mb-2">@{{ user['email'].split('@')[0] if user['email'] else 'admin' }}</div>
+                    <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2 fw-bold font-monospace mb-4">
+                        <i class="fas fa-crown me-1 text-warning"></i> SUPER ADMINISTRATOR
+                    </span>
+
+                    <div class="text-start d-flex flex-column gap-2 p-3 rounded-4 bg-light border mb-4">
+                        <div class="d-flex justify-content-between small">
+                            <span class="text-muted fw-bold">Ecosystem Role:</span>
+                            <span class="text-dark fw-bold font-monospace">Super Administrator</span>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <span class="text-muted fw-bold">Permission Scope:</span>
+                            <span class="text-success fw-bold font-monospace">All Nodes (Full Access)</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column gap-2">
+                        <a href="{{ url_for('edit_admin_profile', user_id=user['id']) }}" class="admin-btn-pill admin-btn-primary justify-content-center">
+                            <i class="fas fa-user-edit"></i> Edit Admin Profile
+                        </a>
+                        <a href="{{ url_for('change_password') }}" class="admin-btn-pill admin-btn-outline justify-content-center">
+                            <i class="fas fa-key"></i> Change Password
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Information & Fast Actions Column -->
+            <div class="col-12 col-lg-8">
+                <div class="admin-card h-100">
+                    <div class="d-flex align-items-center gap-2 mb-4 pb-2 border-bottom">
+                        <span class="rounded-3 p-2 bg-primary bg-opacity-10 text-primary d-grid place-items-center" style="width: 38px; height: 38px;">
+                            <i class="fas fa-id-card"></i>
+                        </span>
+                        <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.2rem;">Account Credentials & Contact Metadata</h4>
+                    </div>
+
+                    <div class="row g-3 mb-5">
+                        <div class="col-12 col-md-6">
+                            <div class="p-3 rounded-4 bg-light border">
+                                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">Full Registered Name</small>
+                                <div class="fw-bold text-dark fs-6 mt-1">{{ user['name'] }}</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="p-3 rounded-4 bg-light border">
+                                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">System Root Handle</small>
+                                <div class="fw-bold text-dark fs-6 mt-1 font-monospace">{{ user['email'].split('@')[0] if user['email'] else 'admin' }}</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="p-3 rounded-4 bg-light border">
+                                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">Primary Administrative Email</small>
+                                <div class="fw-bold text-dark fs-6 mt-1 font-monospace text-truncate">{{ user['email'] }}</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="p-3 rounded-4 bg-light border">
+                                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">Telephone Contact</small>
+                                <div class="fw-bold text-dark fs-6 mt-1 font-monospace">{{ user['phone'] if user['phone'] else 'Not Provided' }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fast Administrative Shortcuts -->
+                    <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                        <span class="rounded-3 p-2 bg-info bg-opacity-10 text-info d-grid place-items-center" style="width: 38px; height: 38px;">
+                            <i class="fas fa-th-large"></i>
+                        </span>
+                        <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.2rem;">Operational Shortcuts</h4>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <a href="{{ url_for('admin_view_users', role='all') }}" class="p-3 rounded-4 border bg-light text-decoration-none text-dark d-flex align-items-center gap-3 transition-hover h-100">
+                                <span class="rounded-3 p-2 bg-primary bg-opacity-10 text-primary"><i class="fas fa-users"></i></span>
+                                <div>
+                                    <div class="fw-bold small">User Directory</div>
+                                    <div class="text-muted extra-small" style="font-size: 0.72rem;">Manage accounts & classifications</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <a href="{{ url_for('admin_analytics') }}" class="p-3 rounded-4 border bg-light text-decoration-none text-dark d-flex align-items-center gap-3 transition-hover h-100">
+                                <span class="rounded-3 p-2 bg-warning bg-opacity-10 text-warning"><i class="fas fa-chart-line"></i></span>
+                                <div>
+                                    <div class="fw-bold small">System Analytics</div>
+                                    <div class="text-muted extra-small" style="font-size: 0.72rem;">Telemetry & growth reports</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <a href="{{ url_for('reports') }}" class="p-3 rounded-4 border bg-light text-decoration-none text-dark d-flex align-items-center gap-3 transition-hover h-100">
+                                <span class="rounded-3 p-2 bg-danger bg-opacity-10 text-danger"><i class="fas fa-ticket-alt"></i></span>
+                                <div>
+                                    <div class="fw-bold small">Support Tickets</div>
+                                    <div class="text-muted extra-small" style="font-size: 0.72rem;">Audit issues & user inquiries</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <a href="{{ url_for('dashboard_admin') }}" class="p-3 rounded-4 border bg-light text-decoration-none text-dark d-flex align-items-center gap-3 transition-hover h-100">
+                                <span class="rounded-3 p-2 bg-success bg-opacity-10 text-success"><i class="fas fa-tachometer-alt"></i></span>
+                                <div>
+                                    <div class="fw-bold small">Admin Dashboard</div>
+                                    <div class="text-muted extra-small" style="font-size: 0.72rem;">Return to primary overview</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

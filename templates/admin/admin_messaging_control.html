@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+
+{% block title %}Messaging Governance • Real-Time Chat & Broadcast Control{% endblock %}
+
+{% block content %}
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
+
+<style>
+    .metric-badge-counter {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: clamp(1.8rem, 3.2vw, 2.3rem);
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 4px;
+    }
+    .msg-feed-container {
+        max-height: 480px;
+        overflow-y: auto;
+        padding-right: 6px;
+    }
+    .msg-feed-card {
+        background: #f8fafc;
+        border: 1px solid var(--adm-slate-200);
+        border-radius: 18px;
+        padding: 16px 18px;
+        transition: all 0.2s ease;
+    }
+    .msg-feed-card:hover {
+        background: #ffffff;
+        border-color: #38bdf8;
+        box-shadow: 0 8px 20px -6px rgba(2, 132, 199, 0.12);
+    }
+    .suspended-item {
+        background: #fff8f8;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        border-radius: 16px;
+        padding: 14px 16px;
+    }
+</style>
+
+<div class="admin-page-wrapper">
+    <!-- Ambient Floating Orbs -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
+
+    <div class="admin-container">
+        <!-- 1. Executive Holographic Hero Terminal -->
+        <div class="admin-hero-card">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div class="admin-live-badge mb-0">
+                    <span class="live-pulse-dot"></span>
+                    <span>MESSAGING GATEWAY • TELEMETRY & MODERATION CONSOLE</span>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2">
+                        <i class="fas fa-th-large"></i> Command Center
+                    </a>
+                    <a href="{{ url_for('admin_whatsapp_broadcast') }}" class="btn btn-success btn-sm rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1 shadow-sm">
+                        <i class="fab fa-whatsapp"></i> WhatsApp Console
+                    </a>
+                </div>
+            </div>
+
+            <h1 class="admin-hero-title mb-2">
+                <span class="hero-title-prefix">Community Communication</span> <span class="text-holographic-adm">Governance</span>
+            </h1>
+            <p class="admin-hero-subtitle mb-4">
+                Real-time supervision over campus discussion channels, emergency global channel freeze protocols, broadcast transmissions, and community moderation sanctions.
+            </p>
+
+            <!-- Telemetry Matrix Counters -->
+            <div class="row g-3 pt-2">
+                <div class="col-6 col-md-4">
+                    <div class="admin-hero-stat-box">
+                        <span class="admin-hero-stat-label" style="color: #38bdf8 !important;">Public Messages</span>
+                        <div class="admin-hero-stat-val metric-badge-counter" id="publicMsgCount" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">--</div>
+                        <div class="admin-hero-stat-sub">Global channel broadcasts</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="admin-hero-stat-box">
+                        <span class="admin-hero-stat-label" style="color: #fbbf24 !important;">Direct Messages</span>
+                        <div class="admin-hero-stat-val metric-badge-counter" id="privateMsgCount" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">--</div>
+                        <div class="admin-hero-stat-sub">1-on-1 alumni mentorships</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="admin-hero-stat-box">
+                        <span class="admin-hero-stat-label" style="color: #34d399 !important;">Active Threads</span>
+                        <div class="admin-hero-stat-val metric-badge-counter" id="conversationCount" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">--</div>
+                        <div class="admin-hero-stat-sub">Established channel networks</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Dual Moderation Column (Lock Controller & Sanctions) -->
+        <div class="row g-4 mb-4">
+            <!-- Left: Global Emergency Lock Controller -->
+            <div class="col-12 col-lg-6">
+                <div class="admin-card h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="rounded-3 p-2 bg-primary bg-opacity-10 text-primary d-grid place-items-center" style="width: 40px; height: 40px;">
+                                <i class="fas fa-shield-alt"></i>
+                            </span>
+                            <div>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.15rem;">Emergency Channel Lock</h4>
+                                <small class="text-muted">Global messaging kill-switch protocol</small>
+                            </div>
+                        </div>
+                        <span id="lockBadge" class="badge rounded-pill px-3 py-2 fw-bold" style="font-size: 0.75rem;">
+                            SYNCING...
+                        </span>
+                    </div>
+
+                    <div class="p-3 rounded-4 bg-light border mb-3">
+                        <div class="row g-2 text-muted small">
+                            <div class="col-6">
+                                <span class="fw-bold d-block text-dark">Locked By:</span>
+                                <span id="lockedByValue" class="font-monospace">-</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="fw-bold d-block text-dark">Timestamp:</span>
+                                <span id="lockedAtValue" class="font-monospace">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label class="admin-form-label">Action Reason / Lockdown Note</label>
+                        <input type="text" id="lockReason" class="admin-input" placeholder="e.g. Scheduled platform maintenance or code of conduct review...">
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button id="lockBtn" class="btn btn-danger rounded-pill fw-bold px-4 py-2 flex-fill d-inline-flex align-items-center justify-content-center gap-2" onclick="lockMessaging()">
+                            <i class="fas fa-lock"></i> Freeze Messaging
+                        </button>
+                        <button id="unlockBtn" class="btn btn-success rounded-pill fw-bold px-4 py-2 flex-fill d-inline-flex align-items-center justify-content-center gap-2" onclick="unlockMessaging()">
+                            <i class="fas fa-lock-open"></i> Restore Operations
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Moderation Sanctions (Suspended Users) -->
+            <div class="col-12 col-lg-6">
+                <div class="admin-card h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="rounded-3 p-2 bg-danger bg-opacity-10 text-danger d-grid place-items-center" style="width: 40px; height: 40px;">
+                                <i class="fas fa-user-slash"></i>
+                            </span>
+                            <div>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-size: 1.15rem;">Suspended Accounts</h4>
+                                <small class="text-muted">Users restricted from community discussions</small>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-bold" onclick="loadSuspendedUsers()">
+                            <i class="fas fa-sync-alt me-1"></i> Refresh
+                        </button>
+                    </div>
+
+                    <div id="suspendedUsersList" class="d-flex flex-column gap-2" style="max-height: 240px; overflow-y: auto;">
+                        <p class="text-center py-4 text-muted small font-monospace">Scanning restriction registries...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Live Public Message Stream & Redaction Desk -->
+        <div class="admin-card">
+            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
+                <div>
+                    <h3 class="fw-bold mb-1 text-dark" style="font-size: 1.25rem;">Live Discussion Stream & Redaction Desk</h3>
+                    <p class="text-muted small mb-0">Audit recent messages in public channels. Delete non-compliant or flagged posts.</p>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                    <button id="toggleHiddenBtn" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-2 fw-bold" onclick="toggleViewHidden()">
+                        <i class="fas fa-eye-slash me-1"></i> Show Hidden Messages
+                    </button>
+                    <button class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-bold" onclick="loadPublicMessages()">
+                        <i class="fas fa-sync-alt me-1"></i> Refresh Stream
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Scroll Box -->
+            <div id="messagesList" class="msg-feed-container d-flex flex-column gap-2">
+                <div class="text-center py-5 text-muted font-monospace">
+                    <i class="fas fa-circle-notch fa-spin me-2 text-primary"></i> Connecting to message bus...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let viewingHidden = false;
+let isLocked = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+    refreshLockStatus();
+    refreshStatistics();
+    loadPublicMessages();
+    loadSuspendedUsers();
+    setInterval(() => { refreshStatistics(); refreshLockStatus(); }, 15000);
+});
+
+function refreshLockStatus() {
+    fetch('/api/admin/messaging/status')
+    .then(r => r.json())
+    .then(data => {
+        isLocked = data.is_locked;
+        const badge = document.getElementById('lockBadge');
+        const lockBtn = document.getElementById('lockBtn');
+        const unlockBtn = document.getElementById('unlockBtn');
+
+        if (isLocked) {
+            badge.className = 'badge rounded-pill bg-danger text-white px-3 py-2 fw-bold';
+            badge.innerHTML = '<i class="fas fa-lock me-1"></i> CHAT LOCKED';
+            lockBtn.disabled = true;
+            unlockBtn.disabled = false;
+            document.getElementById('lockedByValue').textContent = data.locked_by || 'ADMIN';
+            document.getElementById('lockedAtValue').textContent = data.locked_at ? new Date(data.locked_at).toLocaleTimeString() : 'RECENT';
+        } else {
+            badge.className = 'badge rounded-pill bg-success bg-opacity-15 text-success border border-success border-opacity-25 px-3 py-2 fw-bold';
+            badge.innerHTML = '<i class="fas fa-check-circle me-1"></i> OPERATIONAL';
+            lockBtn.disabled = false;
+            unlockBtn.disabled = true;
+            document.getElementById('lockedByValue').textContent = '-';
+            document.getElementById('lockedAtValue').textContent = 'Normal Activity';
+        }
+    })
+    .catch(err => console.warn('Lock status notice:', err));
+}
+
+function lockMessaging() {
+    const reason = document.getElementById('lockReason').value.trim();
+    if (!confirm('CONFIRM GLOBAL FREEZE:\n\nLock public messaging across all student and alumni channels?')) return;
+
+    fetch('/api/admin/messaging/lock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reason })
+    }).then(() => {
+        refreshLockStatus();
+        document.getElementById('lockReason').value = '';
+    });
+}
+
+function unlockMessaging() {
+    fetch('/api/admin/messaging/unlock', { method: 'POST' })
+    .then(() => refreshLockStatus());
+}
+
+function refreshStatistics() {
+    fetch('/api/admin/messaging/statistics')
+    .then(r => r.json())
+    .then(data => {
+        if (data.statistics) {
+            document.getElementById('publicMsgCount').textContent = data.statistics.total_public_messages ?? '0';
+            document.getElementById('privateMsgCount').textContent = data.statistics.total_private_messages ?? '0';
+            document.getElementById('conversationCount').textContent = data.statistics.total_conversations ?? '0';
+        }
+    })
+    .catch(err => console.warn('Telemetry notice:', err));
+}
+
+function loadPublicMessages() {
+    const includeHidden = viewingHidden ? 'true' : 'false';
+    fetch(`/api/admin/messaging/public-messages?include_hidden=${includeHidden}&limit=100`)
+    .then(r => r.json())
+    .then(data => {
+        const list = document.getElementById('messagesList');
+        if (!data.messages?.length) {
+            list.innerHTML = '<p class="text-center py-5 text-muted font-monospace">NO_MESSAGES_LOGGED</p>';
+            return;
+        }
+        list.innerHTML = '';
+        data.messages.forEach(msg => {
+            const card = document.createElement('div');
+            card.className = 'msg-feed-card d-flex align-items-start justify-content-between gap-3';
+            card.innerHTML = `
+                <div class="flex-grow-1">
+                    <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                        <span class="fw-bold text-dark" style="font-size: 0.95rem;">${escapeHtml(msg.name)}</span>
+                        <span class="text-muted extra-small font-monospace" style="font-size: 0.75rem;">
+                            ${new Date(msg.created_at).toLocaleString()}
+                        </span>
+                        ${msg.is_hidden ? '<span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-2" style="font-size: 0.65rem;">[FLAGGED HIDDEN]</span>' : ''}
+                    </div>
+                    <div class="text-secondary small" style="line-height: 1.5;">${escapeHtml(msg.content)}</div>
+                </div>
+                <button class="btn btn-sm btn-outline-danger rounded-circle d-grid place-items-center flex-shrink-0" style="width: 34px; height: 34px;" title="Redact Message" onclick="deleteMessage(${msg.id})">
+                    <i class="fas fa-trash-alt" style="font-size: 0.8rem;"></i>
+                </button>
+            `;
+            list.appendChild(card);
+        });
+    })
+    .catch(err => console.warn('Messages stream error:', err));
+}
+
+function toggleViewHidden() {
+    viewingHidden = !viewingHidden;
+    document.getElementById('toggleHiddenBtn').innerHTML = viewingHidden ? '<i class="fas fa-eye me-1"></i> Show Active Only' : '<i class="fas fa-eye-slash me-1"></i> Show Hidden Messages';
+    loadPublicMessages();
+}
+
+function deleteMessage(id) {
+    if (confirm('REDACT MESSAGE:\n\nPermanently remove this entry from public community channels?')) {
+        fetch(`/api/messages/public/${id}`, { method: 'DELETE' }).then(() => loadPublicMessages());
+    }
+}
+
+function loadSuspendedUsers() {
+    fetch('/api/admin/messaging/suspended-users')
+    .then(r => r.json())
+    .then(data => {
+        const list = document.getElementById('suspendedUsersList');
+        if (!data.users?.length) {
+            list.innerHTML = '<div class="text-center py-4 text-muted small"><i class="fas fa-check-circle text-success me-1"></i> Zero sanctioned accounts detected.</div>';
+            return;
+        }
+        list.innerHTML = '';
+        data.users.forEach(u => {
+            const card = document.createElement('div');
+            card.className = 'suspended-item d-flex align-items-center justify-content-between gap-2';
+            card.innerHTML = `
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle d-grid place-items-center bg-danger bg-opacity-10 text-danger fw-bold" style="width: 32px; height: 32px; font-size: 0.8rem;">
+                        ${u.name.substring(0, 2).toUpperCase()}
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark small mb-0">${escapeHtml(u.name)}</div>
+                        <span class="badge bg-secondary bg-opacity-10 text-secondary" style="font-size: 0.65rem;">${u.role.toUpperCase()}</span>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold" style="font-size: 0.75rem;" onclick="unsuspendUser(${u.id})">
+                    <i class="fas fa-undo me-1"></i> Restore
+                </button>
+            `;
+            list.appendChild(card);
+        });
+    })
+    .catch(err => console.warn('Suspended users fetch notice:', err));
+}
+
+function unsuspendUser(id) {
+    fetch('/api/admin/messaging/unsuspend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: id })
+    }).then(() => loadSuspendedUsers());
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text || '';
+    return div.innerHTML;
+}
+</script>
+{% endblock %}
