@@ -506,18 +506,20 @@ a:hover {
 [data-theme="light"] .theme-icon-sun { display: none !important; }
 
 /* --------------------------------------------------------------------------
-   8. Modern Footer System - Executive & Home-Aligned VIP Aesthetic
+   8. Modern Footer System - Vibrant Royal Ocean Theme (Inspired by Get Started Free)
    -------------------------------------------------------------------------- */
 .footer-custom {
-    background: radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.07) 0%, transparent 40%),
-                #070d1d !important;
-    color: #94a3b8 !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: radial-gradient(circle at 18% 12%, rgba(14, 165, 233, 0.25) 0%, transparent 48%),
+                radial-gradient(circle at 82% 88%, rgba(29, 78, 216, 0.26) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(2, 132, 199, 0.12) 0%, transparent 60%),
+                linear-gradient(175deg, #071f3f 0%, #061833 45%, #030e20 100%) !important;
+    color: #cbd5e1 !important;
+    border-top: 1.5px solid rgba(56, 189, 248, 0.35);
     position: relative;
     padding-top: 0;
     overflow: hidden;
     font-family: 'Plus Jakarta Sans', sans-serif;
+    box-shadow: 0 -15px 40px -10px rgba(2, 132, 199, 0.2);
 }
 
 .footer-custom::before {
@@ -526,42 +528,44 @@ a:hover {
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #0284c7 0%, #38bdf8 35%, #818cf8 70%, #c084fc 100%);
-    z-index: 2;
+    height: 3.5px;
+    background: linear-gradient(90deg, #38bdf8 0%, #0284c7 25%, #0ea5e9 50%, #1d4ed8 75%, #38bdf8 100%);
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.7);
+    z-index: 5;
 }
 
 /* Ambient glow accents */
 .footer-ambient-glow {
     position: absolute;
-    width: 380px;
-    height: 380px;
+    width: 420px;
+    height: 420px;
     border-radius: 50%;
     pointer-events: none;
-    filter: blur(100px);
-    opacity: 0.12;
+    filter: blur(110px);
+    opacity: 0.22;
     z-index: 1;
 }
 .footer-ambient-glow.top-left {
-    top: -100px;
+    top: -120px;
     left: -100px;
     background: #0284c7;
 }
 .footer-ambient-glow.bottom-right {
-    bottom: -100px;
+    bottom: -120px;
     right: -100px;
-    background: #8b5cf6;
+    background: #1d4ed8;
 }
 
 /* Footer Marquee Ticker */
 .footer-marquee {
-    background: linear-gradient(90deg, rgba(2, 132, 199, 0.08) 0%, rgba(139, 92, 246, 0.08) 50%, rgba(16, 185, 129, 0.08) 100%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 0.85rem 0;
+    background: linear-gradient(90deg, rgba(2, 132, 199, 0.18) 0%, rgba(14, 165, 233, 0.24) 50%, rgba(29, 78, 216, 0.18) 100%);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.25);
+    padding: 0.9rem 0;
     overflow: hidden;
-    color: #e2e8f0;
+    color: #f0f9ff;
     position: relative;
     z-index: 2;
+    backdrop-filter: blur(14px);
 }
 
 .footer-marquee:hover .marquee-inner {
@@ -587,10 +591,10 @@ a:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    padding: 0.32rem 0.85rem;
-    border-radius: 99px;
-    font-size: 0.82rem;
-    font-weight: 600;
+    padding: 0.38rem 0.95rem;
+    border-radius: 50px;
+    font-size: 0.83rem;
+    font-weight: 700;
     letter-spacing: 0.2px;
     backdrop-filter: blur(8px);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -599,46 +603,46 @@ a:hover {
     transform: translateY(-2px);
 }
 .ticker-badge.tb-cyan {
-    background: rgba(2, 132, 199, 0.18);
-    color: #38bdf8;
-    border: 1px solid rgba(56, 189, 248, 0.4);
-    box-shadow: 0 2px 10px rgba(2, 132, 199, 0.2);
+    background: rgba(2, 132, 199, 0.25);
+    color: #e0f2fe;
+    border: 1px solid rgba(56, 189, 248, 0.55);
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
 }
 .ticker-badge.tb-amber {
-    background: rgba(245, 158, 11, 0.18);
-    color: #fbbf24;
-    border: 1px solid rgba(251, 191, 36, 0.4);
-    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.2);
+    background: rgba(245, 158, 11, 0.22);
+    color: #fef3c7;
+    border: 1px solid rgba(251, 191, 36, 0.5);
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
 }
 .ticker-badge.tb-emerald {
-    background: rgba(16, 185, 129, 0.18);
-    color: #34d399;
-    border: 1px solid rgba(52, 211, 153, 0.4);
-    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.2);
+    background: rgba(16, 185, 129, 0.22);
+    color: #d1fae5;
+    border: 1px solid rgba(52, 211, 153, 0.5);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
 }
 .ticker-badge.tb-indigo {
-    background: rgba(99, 102, 241, 0.18);
-    color: #a5b4fc;
-    border: 1px solid rgba(129, 140, 248, 0.4);
-    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.2);
+    background: rgba(99, 102, 241, 0.25);
+    color: #e0e7ff;
+    border: 1px solid rgba(129, 140, 248, 0.5);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
 }
 .ticker-badge.tb-purple {
-    background: rgba(168, 85, 247, 0.18);
-    color: #c084fc;
-    border: 1px solid rgba(192, 132, 252, 0.4);
-    box-shadow: 0 2px 10px rgba(168, 85, 247, 0.2);
+    background: rgba(168, 85, 247, 0.22);
+    color: #f3e8ff;
+    border: 1px solid rgba(192, 132, 252, 0.5);
+    box-shadow: 0 4px 14px rgba(168, 85, 247, 0.25);
 }
 .ticker-badge.tb-rose {
-    background: rgba(244, 63, 94, 0.18);
-    color: #fb7185;
-    border: 1px solid rgba(251, 113, 133, 0.4);
-    box-shadow: 0 2px 10px rgba(244, 63, 94, 0.2);
+    background: rgba(244, 63, 94, 0.22);
+    color: #ffe4e6;
+    border: 1px solid rgba(251, 113, 133, 0.5);
+    box-shadow: 0 4px 14px rgba(244, 63, 94, 0.25);
 }
 .ticker-badge.tb-green {
-    background: rgba(34, 197, 94, 0.18);
-    color: #4ade80;
-    border: 1px solid rgba(74, 222, 128, 0.4);
-    box-shadow: 0 2px 10px rgba(34, 197, 94, 0.2);
+    background: rgba(34, 197, 94, 0.22);
+    color: #dcfce7;
+    border: 1px solid rgba(74, 222, 128, 0.5);
+    box-shadow: 0 4px 14px rgba(34, 197, 94, 0.25);
 }
 
 @keyframes footerMarqueeScroll {
@@ -665,7 +669,7 @@ a:hover {
 }
 
 .footer-text {
-    color: #94a3b8;
+    color: #cbd5e1;
     font-size: 0.88rem;
     line-height: 1.65;
 }
@@ -674,28 +678,30 @@ a:hover {
 .footer-pill-badge {
     display: inline-flex;
     align-items: center;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 0.32rem 0.7rem;
-    border-radius: 99px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 0.35rem 0.85rem;
+    border-radius: 50px;
     letter-spacing: 0.2px;
 }
 .footer-pill-badge.badge-portal {
-    background: rgba(2, 132, 199, 0.12);
+    background: rgba(14, 165, 233, 0.18);
     color: #38bdf8;
-    border: 1px solid rgba(56, 189, 248, 0.28);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    box-shadow: 0 2px 10px rgba(2, 132, 199, 0.2);
 }
 .footer-pill-badge.badge-live {
-    background: rgba(16, 185, 129, 0.12);
+    background: rgba(16, 185, 129, 0.18);
     color: #34d399;
-    border: 1px solid rgba(52, 211, 153, 0.28);
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.2);
 }
 .live-dot {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: #10b981;
-    box-shadow: 0 0 6px #10b981;
+    box-shadow: 0 0 8px #10b981;
     display: inline-block;
     animation: livePulse 2s infinite ease-in-out;
 }
@@ -706,22 +712,25 @@ a:hover {
 
 /* Campus Snippet Card */
 .footer-campus-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    padding: 0.85rem 1rem;
-    margin-top: 0.85rem;
-    backdrop-filter: blur(10px);
-    transition: border-color 0.25s ease;
+    background: linear-gradient(145deg, rgba(14, 165, 233, 0.1) 0%, rgba(15, 23, 42, 0.5) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.28);
+    border-radius: 18px;
+    padding: 0.95rem 1.15rem;
+    margin-top: 1rem;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12);
+    transition: all 0.3s ease;
 }
 .footer-campus-card:hover {
-    border-color: rgba(56, 189, 248, 0.25);
+    border-color: rgba(56, 189, 248, 0.55);
+    box-shadow: 0 10px 30px rgba(2, 132, 199, 0.22);
+    transform: translateY(-2px);
 }
 .footer-map-action {
     color: #38bdf8;
-    font-size: 0.76rem;
+    font-size: 0.78rem;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     transition: all 0.2s ease;
 }
 .footer-map-action:hover {
@@ -729,8 +738,8 @@ a:hover {
     text-decoration: underline;
 }
 .footer-contact-mini {
-    color: #94a3b8;
-    font-size: 0.76rem;
+    color: #cbd5e1;
+    font-size: 0.78rem;
     text-decoration: none;
     transition: color 0.2s ease;
 }
@@ -742,8 +751,8 @@ a:hover {
 .footer-column-title {
     color: #ffffff !important;
     font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
+    font-weight: 800;
+    font-size: 1.08rem;
     margin-bottom: 1.15rem;
     display: flex;
     align-items: center;
@@ -751,10 +760,11 @@ a:hover {
     letter-spacing: -0.01em;
 }
 .title-accent-dot {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #0284c7, #38bdf8);
+    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    box-shadow: 0 0 8px #38bdf8;
     display: inline-block;
 }
 .footer-nav-list {
@@ -766,49 +776,51 @@ a:hover {
     margin-bottom: 0.45rem;
 }
 .footer-nav-link {
-    color: #94a3b8 !important;
+    color: #cbd5e1 !important;
     font-size: 0.88rem;
     text-decoration: none;
     padding: 0.3rem 0;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    font-weight: 500;
     transition: all 0.25s ease;
 }
 .footer-nav-link i {
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     color: #38bdf8;
     transition: transform 0.25s ease, color 0.25s ease;
 }
 .footer-nav-link:hover {
     color: #ffffff !important;
-    transform: translateX(4px);
+    transform: translateX(5px);
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
 }
 .footer-nav-link:hover i {
     transform: translateX(2px);
-    color: #0284c7;
+    color: #7dd3fc;
 }
 
 /* ========================================================
-   LEAD ARCHITECT & DEVELOPER SHOWCASE VIP CARD (Vibrant Aurora)
+   LEAD ARCHITECT & DEVELOPER SHOWCASE VIP CARD (Get Started Free Inspired Theme)
    ======================================================== */
 .footer-dev-card {
-    background: radial-gradient(circle at 10% 15%, rgba(2, 132, 199, 0.22) 0%, transparent 45%),
-                radial-gradient(circle at 90% 85%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
-                linear-gradient(145deg, #0d1527 0%, #090e1c 100%) !important;
-    border: 1.5px solid rgba(56, 189, 248, 0.35) !important;
-    border-radius: 22px;
-    padding: 1.45rem 1.55rem;
+    background: radial-gradient(circle at 10% 15%, rgba(14, 165, 233, 0.32) 0%, transparent 55%),
+                radial-gradient(circle at 90% 85%, rgba(29, 78, 216, 0.28) 0%, transparent 55%),
+                linear-gradient(145deg, #0c274e 0%, #071935 60%, #041024 100%) !important;
+    border: 1.5px solid rgba(56, 189, 248, 0.45) !important;
+    border-radius: 24px;
+    padding: 1.6rem 1.65rem;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.6), 0 0 35px -5px rgba(2, 132, 199, 0.25) !important;
-    backdrop-filter: blur(16px);
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6), 0 0 35px -5px rgba(2, 132, 199, 0.4) !important;
+    backdrop-filter: blur(18px);
     transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 .footer-dev-card:hover {
     transform: translateY(-5px);
-    border-color: rgba(56, 189, 248, 0.6) !important;
-    box-shadow: 0 26px 56px -12px rgba(2, 132, 199, 0.4), 0 0 45px -5px rgba(139, 92, 246, 0.35) !important;
+    border-color: rgba(56, 189, 248, 0.75) !important;
+    box-shadow: 0 25px 60px -10px rgba(2, 132, 199, 0.55), 0 0 50px 0 rgba(14, 165, 233, 0.4) !important;
 }
 
 .dev-accent-bar {
@@ -817,7 +829,8 @@ a:hover {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #0284c7 0%, #38bdf8 20%, #8b5cf6 45%, #ec4899 70%, #f59e0b 90%, #10b981 100%) !important;
+    background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 25%, #0284c7 50%, #1d4ed8 75%, #38bdf8 100%) !important;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
     transition: height 0.3s ease;
 }
 .footer-dev-card:hover .dev-accent-bar {
@@ -825,36 +838,36 @@ a:hover {
 }
 
 .dev-avatar-box {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, #0284c7 0%, #7c3aed 100%) !important;
-    border: 2px solid rgba(56, 189, 248, 0.5);
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 40%, #1d4ed8 100%) !important;
+    border: 2px solid rgba(255, 255, 255, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     flex-shrink: 0;
-    box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
+    box-shadow: 0 8px 24px rgba(2, 132, 199, 0.55);
 }
 .dev-monogram {
     color: #ffffff;
     font-weight: 800;
     font-family: 'Outfit', sans-serif;
-    font-size: 1.15rem;
+    font-size: 1.22rem;
     letter-spacing: 0.5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 .dev-status-indicator {
     position: absolute;
     bottom: -2px;
     right: -2px;
-    width: 12px;
-    height: 12px;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
     background: #10b981;
-    border: 2px solid #0f172a;
-    box-shadow: 0 0 10px #10b981, 0 0 18px rgba(16, 185, 129, 0.8);
+    border: 2px solid #071935;
+    box-shadow: 0 0 10px #10b981, 0 0 18px rgba(16, 185, 129, 0.85);
     animation: pulseStatus 2s infinite ease-in-out;
 }
 
@@ -862,86 +875,87 @@ a:hover {
 .footer-dev-card h6,
 .dev-name {
     font-family: 'Outfit', sans-serif !important;
-    font-size: 1.18rem !important;
+    font-size: 1.22rem !important;
     font-weight: 800 !important;
     color: #ffffff !important;
     letter-spacing: -0.01em !important;
-    text-shadow: 0 2px 10px rgba(56, 189, 248, 0.4) !important;
+    text-shadow: 0 2px 14px rgba(56, 189, 248, 0.5) !important;
 }
 .dev-verified-badge {
     color: #38bdf8 !important;
-    font-size: 1rem !important;
-    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
+    font-size: 1.05rem !important;
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.8));
 }
 .dev-role-label {
-    color: #cbd5e1 !important;
-    font-size: 0.78rem !important;
+    color: #bae6fd !important;
+    font-size: 0.8rem !important;
     font-weight: 500 !important;
     display: block !important;
 }
 .dev-badge-tag {
-    background: linear-gradient(135deg, rgba(2, 132, 199, 0.2) 0%, rgba(139, 92, 246, 0.25) 100%) !important;
+    background: rgba(14, 165, 233, 0.22) !important;
     color: #38bdf8 !important;
-    border: 1px solid rgba(56, 189, 248, 0.45) !important;
-    font-size: 0.72rem !important;
+    border: 1px solid rgba(56, 189, 248, 0.55) !important;
+    font-size: 0.74rem !important;
     font-weight: 700 !important;
-    padding: 0.35rem 0.75rem !important;
-    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+    border-radius: 50px !important;
+    padding: 0.38rem 0.85rem !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
 }
 
-/* Three Main CTAs with rich vibrant buttons */
+/* Three Main CTAs with rich vibrant buttons inspired by Get Started Free */
 .dev-cta-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.42rem;
-    padding: 0.48rem 0.95rem;
-    border-radius: 12px;
-    font-size: 0.78rem;
+    gap: 0.45rem;
+    padding: 0.55rem 1.15rem;
+    border-radius: 50px;
+    font-size: 0.82rem;
     font-weight: 700;
     text-decoration: none;
     transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
 }
 .dev-cta-btn.btn-portfolio {
-    background: linear-gradient(135deg, #0284c7 0%, #6366f1 100%) !important;
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 40%, #1d4ed8 100%) !important;
     color: #ffffff !important;
-    border: 1.5px solid rgba(56, 189, 248, 0.5) !important;
-    box-shadow: 0 4px 18px rgba(2, 132, 199, 0.45) !important;
+    border: none !important;
+    box-shadow: 0 8px 22px rgba(2, 132, 199, 0.45) !important;
 }
 .dev-cta-btn.btn-portfolio:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 26px rgba(2, 132, 199, 0.65), 0 0 20px rgba(99, 102, 241, 0.4) !important;
+    transform: translateY(-2px) scale(1.03) !important;
+    box-shadow: 0 12px 28px rgba(2, 132, 199, 0.65) !important;
     color: #ffffff !important;
 }
 .dev-cta-btn.btn-email {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.18) 0%, rgba(99, 102, 241, 0.25) 100%) !important;
-    color: #e0e7ff !important;
-    border: 1.5px solid rgba(168, 85, 247, 0.45) !important;
-    box-shadow: 0 4px 14px rgba(139, 92, 246, 0.2) !important;
+    background: #0f1f3a !important;
+    color: #ffffff !important;
+    border: 1.5px solid rgba(56, 189, 248, 0.4) !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25) !important;
 }
 .dev-cta-btn.btn-email:hover {
-    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%) !important;
+    background: #172a4d !important;
+    border-color: #38bdf8 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 22px rgba(56, 189, 248, 0.4) !important;
     color: #ffffff !important;
-    border-color: #a855f7 !important;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.55) !important;
 }
 .dev-cta-btn.btn-whatsapp {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(5, 150, 105, 0.25) 100%) !important;
-    color: #6ee7b7 !important;
-    border: 1.5px solid rgba(52, 211, 153, 0.45) !important;
-    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2) !important;
+    background: #0d2a24 !important;
+    color: #4ade80 !important;
+    border: 1.5px solid rgba(52, 211, 153, 0.4) !important;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25) !important;
 }
 .dev-cta-btn.btn-whatsapp:hover {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
     color: #ffffff !important;
     border-color: #34d399 !important;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.55) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 22px rgba(16, 185, 129, 0.55) !important;
 }
 
 .dev-section-subtitle {
-    color: #94a3b8 !important;
-    font-size: 0.72rem !important;
+    color: #7dd3fc !important;
+    font-size: 0.74rem !important;
     text-transform: uppercase !important;
     letter-spacing: 0.08em !important;
     font-weight: 800 !important;
@@ -950,7 +964,7 @@ a:hover {
     gap: 6px;
 }
 
-/* Social Buttons - Vibrant resting brand styles */
+/* Social Buttons - Pill Shape & Royal Glass */
 .dev-social-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -962,14 +976,14 @@ a:hover {
     justify-content: center;
     gap: 0.45rem;
     padding: 0.52rem 0.6rem;
-    border-radius: 11px;
+    border-radius: 50px;
     font-size: 0.77rem;
     font-weight: 700;
     text-decoration: none;
     transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
 }
 .dev-social-btn i {
-    font-size: 1rem;
+    font-size: 0.95rem;
     transition: transform 0.25s ease;
 }
 .dev-social-btn:hover i {
@@ -977,8 +991,8 @@ a:hover {
 }
 
 .dev-social-btn.social-linkedin {
-    background: rgba(10, 102, 194, 0.15);
-    border: 1.5px solid rgba(10, 102, 194, 0.4);
+    background: rgba(10, 102, 194, 0.2);
+    border: 1.5px solid rgba(10, 102, 194, 0.45);
     color: #60a5fa !important;
 }
 .dev-social-btn.social-linkedin:hover {
@@ -990,8 +1004,8 @@ a:hover {
 }
 
 .dev-social-btn.social-github {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.09);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
     color: #f1f5f9 !important;
 }
 .dev-social-btn.social-github:hover {
@@ -1003,8 +1017,8 @@ a:hover {
 }
 
 .dev-social-btn.social-instagram {
-    background: rgba(225, 48, 108, 0.15);
-    border: 1.5px solid rgba(225, 48, 108, 0.4);
+    background: rgba(225, 48, 108, 0.18);
+    border: 1.5px solid rgba(225, 48, 108, 0.45);
     color: #f472b6 !important;
 }
 .dev-social-btn.social-instagram:hover {
@@ -1016,8 +1030,8 @@ a:hover {
 }
 
 .dev-social-btn.social-x {
-    background: rgba(56, 189, 248, 0.12);
-    border: 1.5px solid rgba(56, 189, 248, 0.35);
+    background: rgba(56, 189, 248, 0.16);
+    border: 1.5px solid rgba(56, 189, 248, 0.4);
     color: #38bdf8 !important;
 }
 .dev-social-btn.social-x:hover {
@@ -1025,10 +1039,10 @@ a:hover {
     color: #38bdf8 !important;
     border-color: #38bdf8 !important;
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(56, 189, 248, 0.45);
+    box-shadow: 0 8px 24px rgba(56, 189, 248, 0.5);
 }
 
-/* Competitive Programming Grid - Rich Colorful Badges */
+/* Competitive Programming Grid - Rich Colorful Badges in Pill Shape */
 .dev-coding-grid {
     display: flex;
     flex-wrap: wrap;
@@ -1038,9 +1052,9 @@ a:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 10px;
-    font-size: 0.76rem;
+    padding: 0.42rem 0.9rem;
+    border-radius: 50px;
+    font-size: 0.78rem;
     font-weight: 700;
     text-decoration: none;
     transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
@@ -1054,9 +1068,9 @@ a:hover {
 }
 
 .dev-coding-pill.pill-leetcode {
-    background: rgba(255, 161, 22, 0.15);
+    background: rgba(255, 161, 22, 0.18);
     color: #fbbf24 !important;
-    border: 1.5px solid rgba(255, 161, 22, 0.45);
+    border: 1.5px solid rgba(255, 161, 22, 0.5);
 }
 .dev-coding-pill.pill-leetcode:hover {
     background: linear-gradient(135deg, #ffa116, #ea580c) !important;
@@ -1067,9 +1081,9 @@ a:hover {
 }
 
 .dev-coding-pill.pill-gfg {
-    background: rgba(46, 164, 79, 0.15);
+    background: rgba(46, 164, 79, 0.18);
     color: #34d399 !important;
-    border: 1.5px solid rgba(46, 164, 79, 0.45);
+    border: 1.5px solid rgba(46, 164, 79, 0.5);
 }
 .dev-coding-pill.pill-gfg:hover {
     background: linear-gradient(135deg, #2ea44f, #059669) !important;
@@ -1080,9 +1094,9 @@ a:hover {
 }
 
 .dev-coding-pill.pill-hackerrank {
-    background: rgba(0, 234, 100, 0.15);
+    background: rgba(0, 234, 100, 0.18);
     color: #4ade80 !important;
-    border: 1.5px solid rgba(0, 234, 100, 0.4);
+    border: 1.5px solid rgba(0, 234, 100, 0.45);
 }
 .dev-coding-pill.pill-hackerrank:hover {
     background: linear-gradient(135deg, #00ea64, #10b981) !important;
@@ -1093,9 +1107,9 @@ a:hover {
 }
 
 .dev-coding-pill.pill-codechef {
-    background: rgba(212, 163, 115, 0.18);
+    background: rgba(212, 163, 115, 0.2);
     color: #fdba74 !important;
-    border: 1.5px solid rgba(212, 163, 115, 0.45);
+    border: 1.5px solid rgba(212, 163, 115, 0.5);
 }
 .dev-coding-pill.pill-codechef:hover {
     background: linear-gradient(135deg, #d4a373, #9a3412) !important;
@@ -1107,9 +1121,9 @@ a:hover {
 
 /* Footer Bottom Bar */
 .footer-bottom {
-    background-color: #050a16 !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
-    padding: 1.15rem 0;
+    background-color: #030c1b !important;
+    border-top: 1px solid rgba(56, 189, 248, 0.22);
+    padding: 1.25rem 0;
     font-size: 0.86rem;
     color: #94a3b8;
     position: relative;
@@ -1124,6 +1138,7 @@ a:hover {
     color: #38bdf8;
     text-decoration: none;
     font-weight: 700;
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
     transition: all 0.2s ease;
 }
 .dev-credit-link:hover {
@@ -1131,12 +1146,13 @@ a:hover {
     text-decoration: underline;
 }
 .footer-security-badge {
-    background: rgba(255, 255, 255, 0.04);
-    color: #94a3b8;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    font-size: 0.72rem;
-    padding: 0.36rem 0.75rem;
-    font-weight: 500;
+    background: rgba(14, 165, 233, 0.1);
+    color: #bae6fd;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 50px;
+    font-size: 0.74rem;
+    padding: 0.4rem 0.85rem;
+    font-weight: 600;
 }
 
 /* --------------------------------------------------------------------------
