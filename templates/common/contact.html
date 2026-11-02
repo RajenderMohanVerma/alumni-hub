@@ -5,15 +5,17 @@
 {% block content %}
 <!-- Premium Fonts & CSS -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}?v=3.0">
 
 <style>
     /* ========================================================
-       CONTACT PAGE - LUXURY EXECUTIVE & MOBILE-FIRST STYLING
+       CONTACT PAGE - LUXURY EXECUTIVE & MULTI-DEVICE STYLING
+       (Desktop, Laptop, Tablet & Mobile Phone Optimization)
        ======================================================== */
     :root {
         --contact-blue: #0284c7;
         --contact-blue-dark: #0369a1;
+        --contact-cyan: #38bdf8;
         --contact-green: #10b981;
         --contact-amber: #f59e0b;
         --contact-purple: #8b5cf6;
@@ -27,14 +29,30 @@
         position: relative;
         overflow-x: hidden;
         width: 100%;
+        background-color: #f8fafc;
     }
 
-    /* Hero Responsive Modernization */
+    /* Ambient Hero Mesh */
+    .mesh-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.45;
+    }
+
+    /* ========================================================
+       1. HERO SECTION (Spacious Navbar Clearance & Glow)
+       ======================================================== */
     .contact-hero {
         position: relative;
         overflow: hidden;
-        padding: 135px 16px clamp(40px, 7vw, 65px);
-        background: radial-gradient(circle at 50% 20%, rgba(2, 132, 199, 0.18) 0%, rgba(15, 23, 42, 0.98) 70%), #0b1329;
+        padding: 145px 16px clamp(45px, 7vw, 75px);
+        background: radial-gradient(circle at 50% 15%, rgba(2, 132, 199, 0.22) 0%, rgba(15, 23, 42, 0.98) 75%), #080f24;
+        color: #ffffff;
     }
 
     .contact-hero .hero-network-badge {
@@ -42,39 +60,58 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         color: #ffffff;
         font-weight: 700;
-        font-size: clamp(0.74rem, 2.5vw, 0.84rem);
-        letter-spacing: 0.5px;
-        padding: 6px 16px;
+        font-size: clamp(0.74rem, 2.5vw, 0.82rem);
+        letter-spacing: 0.6px;
+        padding: 7px 18px;
         border-radius: 999px;
-        margin-bottom: 14px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        margin-bottom: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         max-width: 95%;
-        white-space: normal;
         text-align: center;
+    }
+
+    .live-pulse-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #10b981;
+        box-shadow: 0 0 10px #10b981, 0 0 18px rgba(16, 185, 129, 0.6);
+        display: inline-block;
+        animation: pulseStatus 2s infinite ease-in-out;
+    }
+    @keyframes pulseStatus {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(0.85); opacity: 0.5; }
     }
 
     .contact-hero .hero-title {
         font-family: 'Outfit', sans-serif;
-        font-size: clamp(2.1rem, 7vw, 3.8rem);
+        font-size: clamp(2.3rem, 7vw, 4rem);
         font-weight: 800;
         line-height: 1.15;
-        letter-spacing: -0.03em;
-        margin-bottom: 14px;
+        letter-spacing: -0.035em;
+        margin-bottom: 16px;
+    }
+
+    .text-holographic {
+        background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
     .contact-hero .hero-subtitle {
-        font-size: clamp(0.92rem, 2.8vw, 1.15rem);
-        max-width: 680px;
-        line-height: 1.6;
-        color: rgba(255, 255, 255, 0.78);
-        margin-bottom: 24px;
-        padding: 0 8px;
+        font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+        max-width: 720px;
+        line-height: 1.65;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 28px;
+        padding: 0 12px;
     }
 
     .contact-hero-ctas {
@@ -85,12 +122,66 @@
         flex-wrap: wrap;
     }
 
-    /* VIP Contact Cards (Desktop & Mobile) */
+    /* ========================================================
+       2. TRUST & SLA KPI STRIP
+       ======================================================== */
+    .sla-kpi-deck {
+        margin-top: -30px;
+        position: relative;
+        z-index: 3;
+        margin-bottom: 2.5rem;
+    }
+    .sla-kpi-card {
+        background: #ffffff;
+        border: 1.5px solid rgba(2, 132, 199, 0.16);
+        border-radius: 18px;
+        padding: 16px 20px;
+        box-shadow: 0 12px 30px -8px rgba(15, 23, 42, 0.08);
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        height: 100%;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .sla-kpi-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 36px -10px rgba(2, 132, 199, 0.18);
+        border-color: rgba(2, 132, 199, 0.35);
+    }
+    .sla-kpi-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: rgba(2, 132, 199, 0.1);
+        color: #0284c7;
+        display: grid;
+        place-items: center;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+    .sla-kpi-title {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #0f172a;
+        margin-bottom: 2px;
+        line-height: 1.2;
+    }
+    .sla-kpi-desc {
+        color: #64748b;
+        font-size: 0.78rem;
+        margin-bottom: 0;
+        line-height: 1.35;
+    }
+
+    /* ========================================================
+       3. 4 VIP QUICK CONTACT ACTION CARDS
+       ======================================================== */
     .contact-vip-card {
         background: #ffffff;
         border: 1.5px solid var(--contact-border);
         border-radius: 22px;
-        padding: clamp(16px, 3.5vw, 24px);
+        padding: clamp(18px, 3.5vw, 24px);
         position: relative;
         overflow: hidden;
         transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
@@ -126,7 +217,7 @@
         border-color: rgba(139, 92, 246, 0.5);
     }
 
-    /* Glowing Top Accent Bar */
+    /* Top Accent Neon Bar */
     .contact-accent-bar {
         position: absolute;
         top: 0;
@@ -141,14 +232,14 @@
     .contact-vip-card.accent-amber .contact-accent-bar { background: linear-gradient(90deg, #d97706, #fbbf24); }
     .contact-vip-card.accent-purple .contact-accent-bar { background: linear-gradient(90deg, #7c3aed, #c084fc); }
 
-    /* Modern Icon Box */
+    /* Animated Icon Box */
     .contact-icon-box {
-        width: clamp(42px, 8vw, 52px);
-        height: clamp(42px, 8vw, 52px);
+        width: clamp(44px, 8vw, 52px);
+        height: clamp(44px, 8vw, 52px);
         border-radius: 14px;
         display: grid;
         place-items: center;
-        font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+        font-size: clamp(1.15rem, 2.5vw, 1.35rem);
         background: #f0f9ff;
         color: #0284c7;
         margin-bottom: 12px;
@@ -169,7 +260,7 @@
     .contact-vip-card.accent-purple .contact-icon-box { background: #f5f3ff; color: #7c3aed; }
     .contact-vip-card.accent-purple:hover .contact-icon-box { background: #7c3aed; color: #ffffff; }
 
-    /* VIP Card Typography */
+    /* Card Typography */
     .contact-card-title {
         font-family: 'Outfit', sans-serif;
         color: var(--contact-dark);
@@ -189,10 +280,10 @@
 
     /* Action Badges */
     .contact-action-badge {
-        font-size: clamp(0.72rem, 1.8vw, 0.82rem);
+        font-size: clamp(0.74rem, 1.8vw, 0.84rem);
         font-weight: 700;
         border-radius: 999px;
-        padding: 6px 14px;
+        padding: 7px 16px;
         text-decoration: none;
         display: inline-flex;
         align-items: center;
@@ -202,16 +293,29 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
     .contact-action-badge:hover {
-        transform: translateY(-1px);
-        filter: brightness(1.05);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     }
 
-    /* Swipeable / Mobile-Safe Topic Selector Strip */
+    /* ========================================================
+       4. INTERACTIVE FORM STYLING
+       ======================================================== */
+    .contact-form-card {
+        background: #ffffff;
+        border: 2px solid rgba(2, 132, 199, 0.2);
+        border-radius: 26px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.08);
+    }
+
+    /* Topic Selector Strip */
     .topic-strip-wrapper {
         position: relative;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1.35rem;
     }
 
     .topic-pills-strip {
@@ -220,10 +324,10 @@
         overflow-x: auto;
         padding: 4px 2px 10px 2px;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Firefox */
+        scrollbar-width: none;
     }
     .topic-pills-strip::-webkit-scrollbar {
-        display: none; /* Chrome, Safari */
+        display: none;
     }
 
     .topic-pill {
@@ -257,7 +361,7 @@
         box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35) !important;
     }
 
-    /* Mobile Form Inputs (Strictly 16px font-size to prevent iOS Safari auto-zoom) */
+    /* Mobile Form Inputs (Strictly 16px to prevent iOS auto-zoom) */
     .contact-input-group {
         border-radius: 14px;
         overflow: hidden;
@@ -274,7 +378,7 @@
     .contact-input-group .form-select {
         border: none;
         padding: 0.72rem 1rem;
-        font-size: 16px !important; /* iOS zoom prevention */
+        font-size: 16px !important;
         background: transparent;
         font-weight: 500;
         color: #0f172a;
@@ -301,12 +405,12 @@
         border-radius: 14px;
         border: 1.5px solid #e2e8f0;
         padding: 0.85rem 1rem;
-        font-size: 16px !important; /* iOS zoom prevention */
+        font-size: 16px !important;
         transition: all 0.25s ease;
         background: #ffffff;
         font-weight: 500;
         color: #0f172a;
-        min-height: 120px;
+        min-height: 125px;
     }
     #contactMessageInput:focus {
         border-color: #0284c7;
@@ -314,81 +418,30 @@
         outline: none;
     }
 
-    /* High-Touch Mobile CTA Buttons */
-    .btn-cta-primary {
-        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 40%, #1d4ed8 100%) !important;
-        color: #ffffff !important;
-        border: none !important;
-        font-weight: 700 !important;
-        border-radius: 50px !important;
-        box-shadow: 0 8px 22px rgba(2, 132, 199, 0.35) !important;
-        display: inline-flex;
+    /* WhatsApp Direct Contact Strip */
+    .whatsapp-instant-banner {
+        background: rgba(16, 185, 129, 0.08);
+        border: 1px dashed rgba(16, 185, 129, 0.4);
+        border-radius: 14px;
+        padding: 12px 16px;
+        display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 8px;
-        text-decoration: none;
-        transition: all 0.25s ease;
-        min-height: 50px;
-        padding: 12px 24px;
-        touch-action: manipulation;
-    }
-    .btn-cta-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 28px rgba(2, 132, 199, 0.45) !important;
-        color: #ffffff !important;
-    }
-    .btn-cta-primary:active {
-        transform: scale(0.98);
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 14px;
     }
 
-    .btn-cta-dark {
-        background: #0f172a !important;
-        color: #ffffff !important;
-        border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
-        font-weight: 700 !important;
-        border-radius: 50px !important;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        text-decoration: none;
-        transition: all 0.25s ease;
-        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15) !important;
-        min-height: 48px;
-        padding: 10px 20px;
-        touch-action: manipulation;
+    /* ========================================================
+       5. DEPARTMENT DESKS & CAMPUS LOCATION
+       ======================================================== */
+    .campus-desk-card {
+        background: #ffffff;
+        border: 2px solid rgba(139, 92, 246, 0.22);
+        border-radius: 26px;
+        box-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.08);
+        position: relative;
+        overflow: hidden;
     }
-    .btn-cta-dark:hover {
-        background: #1e293b !important;
-        color: #38bdf8 !important;
-        border-color: #38bdf8 !important;
-        transform: translateY(-2px);
-    }
-
-    .btn-cta-outline {
-        background: #ffffff !important;
-        color: #0f172a !important;
-        border: 1.5px solid #cbd5e1 !important;
-        font-weight: 700 !important;
-        border-radius: 50px !important;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        text-decoration: none;
-        transition: all 0.25s ease;
-        min-height: 48px;
-        padding: 10px 20px;
-        touch-action: manipulation;
-    }
-    .btn-cta-outline:hover {
-        background: #f8fafc !important;
-        border-color: #0284c7 !important;
-        color: #0284c7 !important;
-        transform: translateY(-2px);
-    }
-
-    /* Department Cards */
     .dept-card {
         background: #f8fafc;
         border: 1.5px solid #e2e8f0;
@@ -436,7 +489,7 @@
         color: #0284c7 !important;
     }
 
-    /* Bottom Service CTA Card */
+    /* Service CTA Card */
     .service-cta-card {
         background: radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.1) 0%, rgba(248, 250, 252, 0.98) 75%), #ffffff;
         border: 2px solid rgba(2, 132, 199, 0.22);
@@ -446,11 +499,35 @@
     }
 
     /* ========================================================
-       MEDIA QUERIES - PHONE SCREEN PERFECTION (<= 768px)
+       6. TABLET & LAPTOP SCREEN TUNING (768px to 1024px)
        ======================================================== */
-    @media (max-width: 768px) {
+    @media (min-width: 768px) and (max-width: 1024px) {
         .contact-hero {
-            padding: 100px 14px 35px !important;
+            padding: 135px 20px 50px !important;
+        }
+        .contact-hero .hero-title {
+            font-size: 2.8rem !important;
+        }
+        .contact-quick-col {
+            margin-bottom: 16px;
+        }
+        .contact-vip-card {
+            padding: 20px 18px !important;
+        }
+        .contact-form-card {
+            padding: 28px 22px !important;
+        }
+        .campus-desk-card {
+            padding: 28px 22px !important;
+        }
+    }
+
+    /* ========================================================
+       7. MOBILE PHONE SCREEN PERFECTION (<= 767.98px)
+       ======================================================== */
+    @media (max-width: 767.98px) {
+        .contact-hero {
+            padding: 120px 14px 40px !important;
         }
 
         .contact-hero .hero-title {
@@ -459,21 +536,39 @@
 
         .contact-hero .hero-subtitle {
             font-size: 0.9rem !important;
-            line-height: 1.5 !important;
+            line-height: 1.55 !important;
+            margin-bottom: 20px !important;
         }
 
         .contact-hero-ctas {
             flex-direction: column !important;
             width: 100% !important;
-            max-width: 320px;
+            max-width: 330px;
             margin: 0 auto;
         }
 
         .contact-hero-ctas .btn {
             width: 100% !important;
+            min-height: 48px;
         }
 
-        /* 2x2 Grid for Mobile Contact Cards */
+        .sla-kpi-deck {
+            margin-top: 10px;
+            margin-bottom: 1.75rem;
+        }
+        .sla-kpi-card {
+            padding: 12px 14px !important;
+        }
+        .sla-kpi-icon {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 1.1rem !important;
+        }
+        .sla-kpi-title {
+            font-size: 0.95rem !important;
+        }
+
+        /* 2x2 Grid for Mobile Quick Contact Cards */
         .contact-quick-col {
             padding-left: 6px !important;
             padding-right: 6px !important;
@@ -510,7 +605,7 @@
 
         .contact-action-badge {
             font-size: 0.72rem !important;
-            padding: 5px 10px !important;
+            padding: 6px 10px !important;
             width: 100% !important;
             justify-content: center !important;
             text-align: center;
@@ -518,7 +613,7 @@
 
         /* Form Card Mobile Padding */
         .contact-form-card {
-            padding: 20px 14px !important;
+            padding: 22px 14px !important;
             border-radius: 20px !important;
         }
 
@@ -529,6 +624,12 @@
 
         .contact-form-header h3 {
             font-size: 1.35rem !important;
+        }
+
+        .campus-desk-card {
+            padding: 22px 14px !important;
+            border-radius: 20px !important;
+            margin-top: 1.5rem;
         }
 
         /* Department Cards on Mobile */
@@ -553,10 +654,18 @@
             width: 100% !important;
         }
 
+        .whatsapp-instant-banner {
+            flex-direction: column !important;
+            text-align: center !important;
+        }
+        .whatsapp-instant-banner .btn {
+            width: 100% !important;
+        }
+
         /* Community Bottom CTA */
         .service-cta-card {
             border-radius: 20px !important;
-            padding: 24px 16px !important;
+            padding: 26px 16px !important;
         }
 
         .service-cta-card .display-6 {
@@ -564,7 +673,7 @@
         }
 
         .service-cta-card p {
-            font-size: 0.9rem !important;
+            font-size: 0.88rem !important;
         }
 
         .service-cta-card .d-flex {
@@ -580,7 +689,7 @@
 
     @media (max-width: 400px) {
         .contact-hero .hero-title {
-            font-size: 1.85rem !important;
+            font-size: 1.95rem !important;
         }
 
         .contact-card-title {
@@ -589,7 +698,7 @@
 
         .contact-action-badge {
             font-size: 0.68rem !important;
-            padding: 4px 8px !important;
+            padding: 5px 8px !important;
         }
 
         .contact-input-group .form-control,
@@ -600,7 +709,7 @@
 </style>
 
 <div class="contact-wrapper home-wrapper">
-    <!-- Animated Mesh Background -->
+    <!-- Animated Liquid Mesh Background -->
     <div class="mesh-background">
         <div class="mesh-ball ball-1"></div>
         <div class="mesh-ball ball-2"></div>
@@ -619,8 +728,8 @@
             <div class="mx-auto" style="max-width: 820px;">
                 <!-- Glowing Live Support Pill -->
                 <div class="hero-network-badge mx-auto">
-                    <span class="live-pulse-dot" style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #22c55e;"></span>
-                    <span>24/7 CAMPUS &amp; ALUMNI DESK</span>
+                    <span class="live-pulse-dot"></span>
+                    <span>24/7 CAMPUS &amp; ALUMNI DESK • ACTIVE</span>
                 </div>
 
                 <h1 class="hero-title text-white">
@@ -633,10 +742,13 @@
 
                 <div class="contact-hero-ctas">
                     <a href="#contact-form-section" class="btn btn-cta-primary">
-                        <i class="fas fa-paper-plane me-1"></i> Send Message
+                        <i class="fas fa-paper-plane me-1"></i> Send Instant Inquiry
                     </a>
-                    <a href="#quick-info" class="btn btn-cta-dark">
-                        <i class="fas fa-map-marker-alt me-1 text-info"></i> Campus &amp; Help Desk
+                    <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer" class="btn btn-cta-dark" style="background: rgba(16, 185, 129, 0.15) !important; border-color: rgba(16, 185, 129, 0.4) !important; color: #34d399 !important;">
+                        <i class="fab fa-whatsapp me-1 text-success"></i> WhatsApp Quick Desk
+                    </a>
+                    <a href="#quick-info" class="btn btn-cta-outline" style="background: rgba(255, 255, 255, 0.08) !important; color: #ffffff !important; border-color: rgba(255, 255, 255, 0.25) !important;">
+                        <i class="fas fa-map-location-dot me-1 text-info"></i> Campus &amp; Help Desk
                     </a>
                 </div>
             </div>
@@ -651,6 +763,7 @@
                 <span>⏱️ Response within 24 Hours</span>
                 <span>✉️ alumnihub26@gmail.com</span>
                 <span>📞 +91 7348619567</span>
+                <span>💬 WhatsApp Live Desk</span>
                 <span>🎓 15,000+ Alumni Network</span>
                 <span>💼 Placement &amp; Mentorship Desk</span>
                 <span>📍 JIMS Rohini Sector-5 Campus</span>
@@ -661,9 +774,51 @@
 
     <!-- Main Container -->
     <div class="container py-4 py-md-5" id="quick-info">
+
+        <!-- ========================================================
+             2. TRUST & SLA KPI STRIP (Desktop & Mobile)
+             ======================================================== -->
+        <div class="row g-3 g-md-4 sla-kpi-deck">
+            <div class="col-6 col-lg-3">
+                <div class="sla-kpi-card">
+                    <div class="sla-kpi-icon"><i class="fas fa-bolt text-warning"></i></div>
+                    <div>
+                        <div class="sla-kpi-title">&lt; 24h SLA</div>
+                        <p class="sla-kpi-desc">Fast Ticket Response</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="sla-kpi-card">
+                    <div class="sla-kpi-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;"><i class="fas fa-shield-halved"></i></div>
+                    <div>
+                        <div class="sla-kpi-title">100% Verified</div>
+                        <p class="sla-kpi-desc">Official Academic Desk</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="sla-kpi-card">
+                    <div class="sla-kpi-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;"><i class="fas fa-university"></i></div>
+                    <div>
+                        <div class="sla-kpi-title">JIMS Rohini</div>
+                        <p class="sla-kpi-desc">Institutional Partner</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="sla-kpi-card">
+                    <div class="sla-kpi-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;"><i class="fas fa-headset"></i></div>
+                    <div>
+                        <div class="sla-kpi-title">Multi-Channel</div>
+                        <p class="sla-kpi-desc">Form, Mail &amp; WhatsApp</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- ========================================================
-             2. 4 VIP QUICK CONTACT CARDS (Responsive 2x2 on Mobile!)
+             3. 4 VIP QUICK CONTACT CARDS (Responsive Grid)
              ======================================================== -->
         <div class="row g-2 g-md-4 mb-4 mb-md-5">
             <!-- Card 1: Campus Location -->
@@ -678,7 +833,7 @@
                         </p>
                     </div>
                     <div>
-                        <a href="https://maps.google.com/?q=Jagan+Institute+of+Management+Studies+Rohini" target="_blank" class="contact-action-badge bg-light text-primary border">
+                        <a href="https://maps.app.goo.gl/3BiLNAGwhh4jS9na8" target="_blank" rel="noopener noreferrer" class="contact-action-badge bg-light text-primary border">
                             <i class="fas fa-location-arrow"></i> <span>Directions</span>
                         </a>
                     </div>
@@ -723,34 +878,34 @@
                 </div>
             </div>
 
-            <!-- Card 4: Office Hours -->
+            <!-- Card 4: WhatsApp Live Chat Desk -->
             <div class="col-6 col-lg-3 contact-quick-col">
                 <div class="contact-vip-card accent-purple">
-                    <div class="contact-accent-bar"></div>
+                    <div class="contact-accent-bar" style="background: linear-gradient(90deg, #10b981, #34d399);"></div>
                     <div>
-                        <div class="contact-icon-box"><i class="fas fa-clock"></i></div>
-                        <h4 class="contact-card-title">Office Hours</h4>
+                        <div class="contact-icon-box" style="background: #ecfdf5; color: #059669;"><i class="fab fa-whatsapp"></i></div>
+                        <h4 class="contact-card-title">WhatsApp Desk</h4>
                         <p class="contact-card-desc">
-                            Mon – Fri: 9am – 5pm<br>Sat: 9am – 2pm
+                            Fastest support &amp; guidance response
                         </p>
                     </div>
                     <div>
-                        <span class="contact-action-badge bg-light text-purple border" style="color: #7c3aed;">
-                            <i class="fas fa-check-circle text-success"></i> <span>Active Desk</span>
-                        </span>
+                        <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer" class="contact-action-badge bg-light text-success border">
+                            <i class="fab fa-whatsapp"></i> <span>Chat Live</span>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- ========================================================
-             3. CONTACT FORM & CAMPUS INTERACTION CARDS
+             4. CONTACT FORM & CAMPUS INTERACTION CARDS
              ======================================================== -->
         <div class="row g-4 my-2 my-md-4" id="contact-form-section">
             
-            <!-- Left: Interactive Contact Form -->
+            <!-- Left: Interactive Contact Form (col-lg-7) -->
             <div class="col-lg-7">
-                <div class="contact-vip-card contact-form-card p-4 p-md-5 h-100">
+                <div class="contact-form-card p-4 p-md-5 h-100">
                     <div class="contact-accent-bar"></div>
                     
                     <!-- Form Header -->
@@ -789,6 +944,9 @@
                             </span>
                             <span class="topic-pill" data-topic="Host Workshop / Speaker Session">
                                 <i class="fas fa-chalkboard-teacher"></i> Speaker / Event
+                            </span>
+                            <span class="topic-pill" data-topic="Technical Account Assistance">
+                                <i class="fas fa-wrench"></i> Technical Help
                             </span>
                             <span class="topic-pill" data-topic="General Portal Feedback">
                                 <i class="fas fa-comments"></i> General
@@ -859,10 +1017,22 @@
                                 <button type="submit" class="btn btn-cta-primary w-100 shadow-sm" id="contactSubmitBtn">
                                     <i class="fas fa-paper-plane me-2"></i> Submit Inquiry Now
                                 </button>
+                                
+                                <!-- WhatsApp Instant Alternative Strip -->
+                                <div class="whatsapp-instant-banner">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="fab fa-whatsapp text-success" style="font-size: 1.25rem;"></i>
+                                        <span class="small text-dark fw-semibold">Prefer instant chat? Connect directly on WhatsApp:</span>
+                                    </div>
+                                    <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success rounded-pill px-3 fw-bold">
+                                        <i class="fab fa-whatsapp me-1"></i> WhatsApp
+                                    </a>
+                                </div>
+
                                 <div class="text-center mt-2">
                                     <small class="text-muted" style="font-size: 0.78rem;">
                                         <i class="fas fa-shield-halved me-1 text-success"></i> 
-                                        Secured transmission directly into Admin Support Console.
+                                        Secured 256-bit transmission directly into Admin Support Console.
                                     </small>
                                 </div>
                             </div>
@@ -871,13 +1041,13 @@
                 </div>
             </div>
 
-            <!-- Right: Campus Location & Department Desks -->
+            <!-- Right: Campus Location & Department Desks (col-lg-5) -->
             <div class="col-lg-5">
-                <div class="contact-vip-card accent-purple p-4 p-md-5 h-100 d-flex flex-column">
-                    <div class="contact-accent-bar"></div>
+                <div class="campus-desk-card p-4 p-md-5 h-100 d-flex flex-column">
+                    <div class="contact-accent-bar" style="background: linear-gradient(90deg, #7c3aed, #c084fc);"></div>
                     
                     <div class="d-flex align-items-center gap-3 mb-3">
-                        <div class="contact-icon-box m-0" style="width: 48px; height: 48px; font-size: 1.25rem;">
+                        <div class="contact-icon-box m-0" style="width: 48px; height: 48px; font-size: 1.25rem; background: #f5f3ff; color: #7c3aed;">
                             <i class="fas fa-university"></i>
                         </div>
                         <div>
@@ -891,16 +1061,16 @@
                     </div>
 
                     <p class="text-muted small mb-3" style="line-height: 1.6; font-size: 0.88rem;">
-                        Institutional Area, Sector 5, Rohini. Easily accessible via Rithala Metro Station (Red Line) and outer ring road.
+                        Institutional Area, Sector 5, Rohini. Easily accessible via Rithala Metro Station (Red Line) and Outer Ring Road.
                     </p>
 
                     <!-- Responsive Google Map Embed -->
-                    <div class="rounded-4 overflow-hidden border mb-3 flex-grow-1 shadow-sm" style="min-height: 190px; max-height: 250px;">
+                    <div class="rounded-4 overflow-hidden border mb-3 flex-grow-1 shadow-sm" style="min-height: 200px; max-height: 250px;">
                         <iframe 
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3499.7891391740924!2d77.10648831508215!3d28.71092898238711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d06f8c7b8e19b%3A0x6b8c9d4b6c8a7e0!2sJagan%20Institute%20of%20Management%20Studies%20(JIMS)!5e0!3m2!1sen!2sin!4v1650000000000!5m2!1sen!2sin" 
                             width="100%" 
                             height="100%" 
-                            style="border:0; min-height: 190px;" 
+                            style="border:0; min-height: 200px;" 
                             allowfullscreen="" 
                             loading="lazy" 
                             referrerpolicy="no-referrer-when-downgrade"
@@ -933,15 +1103,27 @@
                                 Call
                             </a>
                         </div>
+
+                        <div class="dept-card d-flex align-items-center justify-content-between">
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark small">
+                                    <i class="fab fa-whatsapp text-success me-2"></i> Technical &amp; Portal Desk
+                                </h6>
+                                <small class="text-muted" style="font-size: 0.78rem;">Rajender Mohan Verma • Support</small>
+                            </div>
+                            <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">
+                                Chat
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Action Buttons -->
                     <div class="d-flex card-button-row gap-2">
-                        <a href="https://maps.google.com/?q=Jagan+Institute+of+Management+Studies+Rohini" target="_blank" class="btn btn-cta-outline flex-fill text-center">
+                        <a href="https://maps.app.goo.gl/3BiLNAGwhh4jS9na8" target="_blank" rel="noopener noreferrer" class="btn btn-cta-outline flex-fill text-center">
                             <i class="fas fa-directions me-1 text-primary"></i> Directions
                         </a>
                         <a href="tel:+917348619567" class="btn btn-cta-dark flex-fill text-center">
-                            <i class="fas fa-phone-alt me-1 text-info"></i> Reception
+                            <i class="fas fa-phone-alt me-1 text-info"></i> Helpline
                         </a>
                     </div>
                 </div>
@@ -949,7 +1131,7 @@
         </div>
 
         <!-- ========================================================
-             4. FREQUENTLY ASKED QUESTIONS (Mobile-Friendly Accordion)
+             5. FREQUENTLY ASKED QUESTIONS (Mobile-Friendly Accordion)
              ======================================================== -->
         <div class="faq-section py-3 my-4 my-md-5">
             <div class="text-center mb-4">
@@ -1028,7 +1210,7 @@
         </div>
 
         <!-- ========================================================
-             5. BOTTOM COMMUNITY CTA BANNER (High Contrast & Responsive)
+             6. BOTTOM COMMUNITY CTA BANNER (High Contrast & Responsive)
              ======================================================== -->
         <div class="row justify-content-center my-4 my-md-5">
             <div class="col-lg-10 text-center">
