@@ -133,7 +133,8 @@ body.dark-mode {
 /* --------------------------------------------------------------------------
    2. Global Typography & Core Resets
    -------------------------------------------------------------------------- */
-html, body {
+html,
+body {
     max-width: 100% !important;
     overflow-x: hidden !important;
     position: relative;
@@ -149,8 +150,18 @@ body {
     width: 100% !important;
 }
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
     color: var(--text-primary) !important;
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
@@ -261,10 +272,21 @@ a:hover {
 }
 
 /* Accent Color Variations */
-.accent-green::before { background: var(--accent-green) !important; }
-.accent-amber::before { background: var(--accent-amber) !important; }
-.accent-purple::before { background: var(--accent-purple) !important; }
-.accent-blue::before { background: var(--accent-blue) !important; }
+.accent-green::before {
+    background: var(--accent-green) !important;
+}
+
+.accent-amber::before {
+    background: var(--accent-amber) !important;
+}
+
+.accent-purple::before {
+    background: var(--accent-purple) !important;
+}
+
+.accent-blue::before {
+    background: var(--accent-blue) !important;
+}
 
 /* Icon Squircle Chips */
 .icon-chip,
@@ -445,7 +467,7 @@ a:hover {
 
 .nav-pill-link:hover:not(.nav-admin-pill),
 .nav-pill-link.active:not(.nav-admin-pill),
-.nav-item.dropdown.show > .nav-pill-link:not(.nav-admin-pill) {
+.nav-item.dropdown.show>.nav-pill-link:not(.nav-admin-pill) {
     color: #0284c7 !important;
     background-color: #f1f5f9 !important;
     border-color: #e2e8f0 !important;
@@ -500,19 +522,115 @@ a:hover {
     display: none !important;
 }
 
-[data-theme="dark"] .theme-icon-moon { display: none !important; }
-[data-theme="dark"] .theme-icon-sun { display: none !important; }
-[data-theme="light"] .theme-icon-moon { display: none !important; }
-[data-theme="light"] .theme-icon-sun { display: none !important; }
+[data-theme="dark"] .theme-icon-moon {
+    display: none !important;
+}
+
+[data-theme="dark"] .theme-icon-sun {
+    display: none !important;
+}
+
+[data-theme="light"] .theme-icon-moon {
+    display: none !important;
+}
+
+[data-theme="light"] .theme-icon-sun {
+    display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   7.5 Global Modern CTA Buttons (Get Started Free Inspired Aesthetic)
+   -------------------------------------------------------------------------- */
+.btn-cta-primary {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 40%, #1d4ed8 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-weight: 700 !important;
+    border-radius: 50px !important;
+    box-shadow: 0 8px 24px rgba(2, 132, 199, 0.45) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    text-decoration: none !important;
+    transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+    min-height: 48px;
+    padding: 12px 26px;
+    font-size: 0.95rem;
+    touch-action: manipulation;
+}
+
+.btn-cta-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 28px rgba(2, 132, 199, 0.65) !important;
+    color: #ffffff !important;
+}
+
+.btn-cta-primary i {
+    color: #ffffff !important;
+}
+
+.btn-cta-dark {
+    background: #0f1d35 !important;
+    color: #ffffff !important;
+    border: 1.5px solid rgba(56, 189, 248, 0.35) !important;
+    font-weight: 700 !important;
+    border-radius: 50px !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    text-decoration: none !important;
+    transition: all 0.25s ease !important;
+    min-height: 48px;
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    touch-action: manipulation;
+}
+
+.btn-cta-dark:hover {
+    background: #172a4d !important;
+    border-color: #38bdf8 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(56, 189, 248, 0.35) !important;
+    color: #ffffff !important;
+}
+
+.btn-cta-outline {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(8px) !important;
+    font-weight: 700 !important;
+    border-radius: 50px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    text-decoration: none !important;
+    transition: all 0.25s ease !important;
+    min-height: 48px;
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    touch-action: manipulation;
+}
+
+.btn-cta-outline:hover {
+    background: rgba(255, 255, 255, 0.16) !important;
+    border-color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    color: #ffffff !important;
+}
 
 /* --------------------------------------------------------------------------
    8. Modern Footer System - Vibrant Royal Ocean Theme (Inspired by Get Started Free)
    -------------------------------------------------------------------------- */
 .footer-custom {
     background: radial-gradient(circle at 18% 12%, rgba(14, 165, 233, 0.25) 0%, transparent 48%),
-                radial-gradient(circle at 82% 88%, rgba(29, 78, 216, 0.26) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(2, 132, 199, 0.12) 0%, transparent 60%),
-                linear-gradient(175deg, #071f3f 0%, #061833 45%, #030e20 100%) !important;
+        radial-gradient(circle at 82% 88%, rgba(29, 78, 216, 0.26) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(2, 132, 199, 0.12) 0%, transparent 60%),
+        linear-gradient(175deg, #071f3f 0%, #061833 45%, #030e20 100%) !important;
     color: #cbd5e1 !important;
     border-top: 1.5px solid rgba(56, 189, 248, 0.35);
     position: relative;
@@ -545,11 +663,13 @@ a:hover {
     opacity: 0.22;
     z-index: 1;
 }
+
 .footer-ambient-glow.top-left {
     top: -120px;
     left: -100px;
     background: #0284c7;
 }
+
 .footer-ambient-glow.bottom-right {
     bottom: -120px;
     right: -100px;
@@ -575,7 +695,7 @@ a:hover {
 .marquee-inner {
     display: flex;
     gap: 1.85rem;
-    animation: footerMarqueeScroll 22s linear infinite;
+    animation: footerMarqueeScroll 20s linear infinite;
     white-space: nowrap;
     padding: 0 1rem;
 }
@@ -599,45 +719,53 @@ a:hover {
     backdrop-filter: blur(8px);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .ticker-badge:hover {
     transform: translateY(-2px);
 }
+
 .ticker-badge.tb-cyan {
     background: rgba(2, 132, 199, 0.25);
     color: #e0f2fe;
     border: 1px solid rgba(56, 189, 248, 0.55);
     box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
 }
+
 .ticker-badge.tb-amber {
     background: rgba(245, 158, 11, 0.22);
     color: #fef3c7;
     border: 1px solid rgba(251, 191, 36, 0.5);
     box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
 }
+
 .ticker-badge.tb-emerald {
     background: rgba(16, 185, 129, 0.22);
     color: #d1fae5;
     border: 1px solid rgba(52, 211, 153, 0.5);
     box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
 }
+
 .ticker-badge.tb-indigo {
     background: rgba(99, 102, 241, 0.25);
     color: #e0e7ff;
     border: 1px solid rgba(129, 140, 248, 0.5);
     box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
 }
+
 .ticker-badge.tb-purple {
     background: rgba(168, 85, 247, 0.22);
     color: #f3e8ff;
     border: 1px solid rgba(192, 132, 252, 0.5);
     box-shadow: 0 4px 14px rgba(168, 85, 247, 0.25);
 }
+
 .ticker-badge.tb-rose {
     background: rgba(244, 63, 94, 0.22);
     color: #ffe4e6;
     border: 1px solid rgba(251, 113, 133, 0.5);
     box-shadow: 0 4px 14px rgba(244, 63, 94, 0.25);
 }
+
 .ticker-badge.tb-green {
     background: rgba(34, 197, 94, 0.22);
     color: #dcfce7;
@@ -646,8 +774,13 @@ a:hover {
 }
 
 @keyframes footerMarqueeScroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 /* Footer Main Content */
@@ -684,18 +817,21 @@ a:hover {
     border-radius: 50px;
     letter-spacing: 0.2px;
 }
+
 .footer-pill-badge.badge-portal {
     background: rgba(14, 165, 233, 0.18);
     color: #38bdf8;
     border: 1px solid rgba(56, 189, 248, 0.4);
     box-shadow: 0 2px 10px rgba(2, 132, 199, 0.2);
 }
+
 .footer-pill-badge.badge-live {
     background: rgba(16, 185, 129, 0.18);
     color: #34d399;
     border: 1px solid rgba(52, 211, 153, 0.4);
     box-shadow: 0 2px 10px rgba(16, 185, 129, 0.2);
 }
+
 .live-dot {
     width: 7px;
     height: 7px;
@@ -705,9 +841,19 @@ a:hover {
     display: inline-block;
     animation: livePulse 2s infinite ease-in-out;
 }
+
 @keyframes livePulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.85); }
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.85);
+    }
 }
 
 /* Campus Snippet Card */
@@ -721,11 +867,13 @@ a:hover {
     box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12);
     transition: all 0.3s ease;
 }
+
 .footer-campus-card:hover {
     border-color: rgba(56, 189, 248, 0.55);
     box-shadow: 0 10px 30px rgba(2, 132, 199, 0.22);
     transform: translateY(-2px);
 }
+
 .footer-map-action {
     color: #38bdf8;
     font-size: 0.78rem;
@@ -733,16 +881,19 @@ a:hover {
     font-weight: 700;
     transition: all 0.2s ease;
 }
+
 .footer-map-action:hover {
     color: #7dd3fc;
     text-decoration: underline;
 }
+
 .footer-contact-mini {
     color: #cbd5e1;
     font-size: 0.78rem;
     text-decoration: none;
     transition: color 0.2s ease;
 }
+
 .footer-contact-mini:hover {
     color: #ffffff;
 }
@@ -759,6 +910,7 @@ a:hover {
     gap: 0.5rem;
     letter-spacing: -0.01em;
 }
+
 .title-accent-dot {
     width: 8px;
     height: 8px;
@@ -767,14 +919,17 @@ a:hover {
     box-shadow: 0 0 8px #38bdf8;
     display: inline-block;
 }
+
 .footer-nav-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
+
 .footer-nav-list li {
     margin-bottom: 0.45rem;
 }
+
 .footer-nav-link {
     color: #cbd5e1 !important;
     font-size: 0.88rem;
@@ -786,16 +941,19 @@ a:hover {
     font-weight: 500;
     transition: all 0.25s ease;
 }
+
 .footer-nav-link i {
     font-size: 0.72rem;
     color: #38bdf8;
     transition: transform 0.25s ease, color 0.25s ease;
 }
+
 .footer-nav-link:hover {
     color: #ffffff !important;
     transform: translateX(5px);
     text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
 }
+
 .footer-nav-link:hover i {
     transform: translateX(2px);
     color: #7dd3fc;
@@ -806,8 +964,8 @@ a:hover {
    ======================================================== */
 .footer-dev-card {
     background: radial-gradient(circle at 10% 15%, rgba(14, 165, 233, 0.32) 0%, transparent 55%),
-                radial-gradient(circle at 90% 85%, rgba(29, 78, 216, 0.28) 0%, transparent 55%),
-                linear-gradient(145deg, #0c274e 0%, #071935 60%, #041024 100%) !important;
+        radial-gradient(circle at 90% 85%, rgba(29, 78, 216, 0.28) 0%, transparent 55%),
+        linear-gradient(145deg, #0c274e 0%, #071935 60%, #041024 100%) !important;
     border: 1.5px solid rgba(56, 189, 248, 0.45) !important;
     border-radius: 24px;
     padding: 1.6rem 1.65rem;
@@ -817,6 +975,7 @@ a:hover {
     backdrop-filter: blur(18px);
     transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
+
 .footer-dev-card:hover {
     transform: translateY(-5px);
     border-color: rgba(56, 189, 248, 0.75) !important;
@@ -833,6 +992,7 @@ a:hover {
     box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
     transition: height 0.3s ease;
 }
+
 .footer-dev-card:hover .dev-accent-bar {
     height: 6px;
 }
@@ -850,6 +1010,7 @@ a:hover {
     flex-shrink: 0;
     box-shadow: 0 8px 24px rgba(2, 132, 199, 0.55);
 }
+
 .dev-monogram {
     color: #ffffff;
     font-weight: 800;
@@ -858,6 +1019,7 @@ a:hover {
     letter-spacing: 0.5px;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
+
 .dev-status-indicator {
     position: absolute;
     bottom: -2px;
@@ -881,17 +1043,20 @@ a:hover {
     letter-spacing: -0.01em !important;
     text-shadow: 0 2px 14px rgba(56, 189, 248, 0.5) !important;
 }
+
 .dev-verified-badge {
     color: #38bdf8 !important;
     font-size: 1.05rem !important;
     filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.8));
 }
+
 .dev-role-label {
     color: #bae6fd !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     display: block !important;
 }
+
 .dev-badge-tag {
     background: rgba(14, 165, 233, 0.22) !important;
     color: #38bdf8 !important;
@@ -915,23 +1080,27 @@ a:hover {
     text-decoration: none;
     transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
 }
+
 .dev-cta-btn.btn-portfolio {
     background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 40%, #1d4ed8 100%) !important;
     color: #ffffff !important;
     border: none !important;
     box-shadow: 0 8px 22px rgba(2, 132, 199, 0.45) !important;
 }
+
 .dev-cta-btn.btn-portfolio:hover {
     transform: translateY(-2px) scale(1.03) !important;
     box-shadow: 0 12px 28px rgba(2, 132, 199, 0.65) !important;
     color: #ffffff !important;
 }
+
 .dev-cta-btn.btn-email {
     background: #0f1f3a !important;
     color: #ffffff !important;
     border: 1.5px solid rgba(56, 189, 248, 0.4) !important;
     box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25) !important;
 }
+
 .dev-cta-btn.btn-email:hover {
     background: #172a4d !important;
     border-color: #38bdf8 !important;
@@ -939,12 +1108,14 @@ a:hover {
     box-shadow: 0 8px 22px rgba(56, 189, 248, 0.4) !important;
     color: #ffffff !important;
 }
+
 .dev-cta-btn.btn-whatsapp {
     background: #0d2a24 !important;
     color: #4ade80 !important;
     border: 1.5px solid rgba(52, 211, 153, 0.4) !important;
     box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25) !important;
 }
+
 .dev-cta-btn.btn-whatsapp:hover {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
     color: #ffffff !important;
@@ -970,6 +1141,7 @@ a:hover {
     grid-template-columns: repeat(4, 1fr);
     gap: 0.55rem;
 }
+
 .dev-social-btn {
     display: inline-flex;
     align-items: center;
@@ -982,10 +1154,12 @@ a:hover {
     text-decoration: none;
     transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
 }
+
 .dev-social-btn i {
     font-size: 0.95rem;
     transition: transform 0.25s ease;
 }
+
 .dev-social-btn:hover i {
     transform: scale(1.18);
 }
@@ -995,6 +1169,7 @@ a:hover {
     border: 1.5px solid rgba(10, 102, 194, 0.45);
     color: #60a5fa !important;
 }
+
 .dev-social-btn.social-linkedin:hover {
     background: linear-gradient(135deg, #0a66c2 0%, #0077b5 100%) !important;
     color: #ffffff !important;
@@ -1008,6 +1183,7 @@ a:hover {
     border: 1.5px solid rgba(255, 255, 255, 0.25);
     color: #f1f5f9 !important;
 }
+
 .dev-social-btn.social-github:hover {
     background: #ffffff !important;
     color: #0f172a !important;
@@ -1021,6 +1197,7 @@ a:hover {
     border: 1.5px solid rgba(225, 48, 108, 0.45);
     color: #f472b6 !important;
 }
+
 .dev-social-btn.social-instagram:hover {
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%) !important;
     color: #ffffff !important;
@@ -1034,6 +1211,7 @@ a:hover {
     border: 1.5px solid rgba(56, 189, 248, 0.4);
     color: #38bdf8 !important;
 }
+
 .dev-social-btn.social-x:hover {
     background: #000000 !important;
     color: #38bdf8 !important;
@@ -1048,6 +1226,7 @@ a:hover {
     flex-wrap: wrap;
     gap: 0.5rem;
 }
+
 .dev-coding-pill {
     display: inline-flex;
     align-items: center;
@@ -1059,10 +1238,12 @@ a:hover {
     text-decoration: none;
     transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
 }
+
 .dev-coding-pill i {
     font-size: 0.88rem;
     transition: transform 0.2s ease;
 }
+
 .dev-coding-pill:hover i {
     transform: scale(1.15);
 }
@@ -1072,6 +1253,7 @@ a:hover {
     color: #fbbf24 !important;
     border: 1.5px solid rgba(255, 161, 22, 0.5);
 }
+
 .dev-coding-pill.pill-leetcode:hover {
     background: linear-gradient(135deg, #ffa116, #ea580c) !important;
     color: #000000 !important;
@@ -1085,6 +1267,7 @@ a:hover {
     color: #34d399 !important;
     border: 1.5px solid rgba(46, 164, 79, 0.5);
 }
+
 .dev-coding-pill.pill-gfg:hover {
     background: linear-gradient(135deg, #2ea44f, #059669) !important;
     color: #ffffff !important;
@@ -1098,6 +1281,7 @@ a:hover {
     color: #4ade80 !important;
     border: 1.5px solid rgba(0, 234, 100, 0.45);
 }
+
 .dev-coding-pill.pill-hackerrank:hover {
     background: linear-gradient(135deg, #00ea64, #10b981) !important;
     color: #052e16 !important;
@@ -1111,6 +1295,7 @@ a:hover {
     color: #fdba74 !important;
     border: 1.5px solid rgba(212, 163, 115, 0.5);
 }
+
 .dev-coding-pill.pill-codechef:hover {
     background: linear-gradient(135deg, #d4a373, #9a3412) !important;
     color: #ffffff !important;
@@ -1129,11 +1314,13 @@ a:hover {
     position: relative;
     z-index: 2;
 }
+
 .footer-bottom-text {
     margin-bottom: 0;
     font-size: 0.85rem;
     color: #94a3b8;
 }
+
 .dev-credit-link {
     color: #38bdf8;
     text-decoration: none;
@@ -1141,10 +1328,12 @@ a:hover {
     text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
     transition: all 0.2s ease;
 }
+
 .dev-credit-link:hover {
     color: #ffffff;
     text-decoration: underline;
 }
+
 .footer-security-badge {
     background: rgba(14, 165, 233, 0.1);
     color: #bae6fd;
@@ -1313,6 +1502,7 @@ a:hover {
 }
 
 @media (max-width: 768px) {
+
     /* Prevent massive background orbs from pushing horizontal scroll */
     .mesh-ball,
     .blob,
@@ -1329,13 +1519,14 @@ a:hover {
     }
 
     /* Fixed top padding for pages without hero banners */
-    .main-wrapper > div:first-child:not(.hero-premium):not(.glass-hero):not(.home-wrapper):not(.hero-section):not(.hero-wrap):not(.dashboard-wrapper) {
+    .main-wrapper>div:first-child:not(.hero-premium):not(.glass-hero):not(.home-wrapper):not(.hero-section):not(.hero-wrap):not(.dashboard-wrapper) {
         padding-top: 20px;
     }
 }
 
 /* 7.2 RESPONSIVE CONTAINERS, GRIDS & FLUID TYPOGRAPHY */
 @media (max-width: 991.98px) {
+
     .container,
     .container-fluid {
         padding-left: 14px !important;
@@ -1357,14 +1548,42 @@ a:hover {
 }
 
 @media (max-width: 767.98px) {
+
     /* Fluid Mobile Typography */
-    .display-1 { font-size: clamp(2rem, 7.5vw, 2.75rem) !important; line-height: 1.15 !important; }
-    .display-2 { font-size: clamp(1.85rem, 7vw, 2.4rem) !important; line-height: 1.18 !important; }
-    .display-3 { font-size: clamp(1.65rem, 6.2vw, 2.15rem) !important; line-height: 1.2 !important; }
-    .display-4 { font-size: clamp(1.45rem, 5.5vw, 1.95rem) !important; line-height: 1.25 !important; }
-    h1, .h1 { font-size: clamp(1.4rem, 5vw, 1.85rem) !important; }
-    h2, .h2 { font-size: clamp(1.22rem, 4.4vw, 1.55rem) !important; }
-    h3, .h3 { font-size: clamp(1.08rem, 3.8vw, 1.35rem) !important; }
+    .display-1 {
+        font-size: clamp(2rem, 7.5vw, 2.75rem) !important;
+        line-height: 1.15 !important;
+    }
+
+    .display-2 {
+        font-size: clamp(1.85rem, 7vw, 2.4rem) !important;
+        line-height: 1.18 !important;
+    }
+
+    .display-3 {
+        font-size: clamp(1.65rem, 6.2vw, 2.15rem) !important;
+        line-height: 1.2 !important;
+    }
+
+    .display-4 {
+        font-size: clamp(1.45rem, 5.5vw, 1.95rem) !important;
+        line-height: 1.25 !important;
+    }
+
+    h1,
+    .h1 {
+        font-size: clamp(1.4rem, 5vw, 1.85rem) !important;
+    }
+
+    h2,
+    .h2 {
+        font-size: clamp(1.22rem, 4.4vw, 1.55rem) !important;
+    }
+
+    h3,
+    .h3 {
+        font-size: clamp(1.08rem, 3.8vw, 1.35rem) !important;
+    }
 
     /* Universal Cards and Spacing */
     .card,
@@ -1385,7 +1604,7 @@ a:hover {
         margin-right: -6px !important;
     }
 
-    .row > * {
+    .row>* {
         padding-left: 6px !important;
         padding-right: 6px !important;
         max-width: 100% !important;
@@ -1430,6 +1649,7 @@ a:hover {
     .navbar-floating {
         padding: 0.5rem 0.5rem !important;
     }
+
     .navbar-floating .navbar-container {
         padding: 0.5rem 0.85rem !important;
         border-radius: 16px !important;
@@ -1437,15 +1657,18 @@ a:hover {
         width: 100% !important;
         max-width: 100% !important;
     }
+
     .brand-logo-container {
         width: 38px !important;
         height: 38px !important;
         font-size: 1.15rem !important;
         border-radius: 10px !important;
     }
+
     .brand-text-premium {
         font-size: 1.05rem !important;
     }
+
     .custom-toggler {
         width: 40px !important;
         height: 40px !important;
@@ -1458,11 +1681,13 @@ a:hover {
     .brand-text-premium {
         font-size: 0.92rem !important;
     }
+
     .brand-logo-container {
         width: 34px !important;
         height: 34px !important;
         font-size: 1rem !important;
     }
+
     .nav-mobile-register {
         display: none !important;
     }
@@ -1473,38 +1698,48 @@ a:hover {
     .footer-content {
         padding: 36px 0 20px !important;
     }
+
     .footer-section {
         margin-bottom: 1.5rem !important;
     }
+
     .footer-dev-card {
         padding: 1.15rem 1rem !important;
         margin-top: 0.5rem;
     }
+
     .dev-social-grid {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 0.45rem !important;
     }
+
     .dev-cta-btn {
         flex: 1 1 calc(50% - 0.38rem);
         justify-content: center !important;
     }
+
     .dev-cta-btn.btn-portfolio {
         flex: 1 1 100% !important;
     }
+
     .footer-bottom {
         padding: 1.15rem 0 !important;
         text-align: center !important;
     }
-    .footer-bottom .row > div {
+
+    .footer-bottom .row>div {
         text-align: center !important;
     }
+
     .footer-marquee {
         padding: 0.65rem 0 !important;
     }
+
     .marquee-inner {
         gap: 1.75rem !important;
         animation-duration: 18s !important;
     }
+
     .marquee-inner span {
         font-size: 0.78rem !important;
         gap: 0.35rem !important;
@@ -1513,6 +1748,7 @@ a:hover {
 
 /* 7.4 COMMON & PUBLIC PAGES (Home, About, Services, Events, Contact, FAQ, Legal) */
 @media (max-width: 768px) {
+
     .hero-premium,
     .glass-hero {
         padding: 95px 14px 40px !important;
@@ -1546,6 +1782,7 @@ a:hover {
 
 /* 7.5 STUDENT & ALUMNI PORTALS (Dashboards, Network, Mentorship, Jobs, Profile) */
 @media (max-width: 768px) {
+
     .dashboard-wrapper,
     .dashboard-container {
         padding-left: 0 !important;
@@ -1636,6 +1873,7 @@ a:hover {
 
 /* 7.7 ADMIN CONTROL CENTER (Terminal, Analytics, Stats, User Management, Tables) */
 @media (max-width: 991.98px) {
+
     .admin-container,
     .user-container,
     .analytics-container,
@@ -1818,6 +2056,7 @@ a:hover {
 }
 
 @media (max-width: 768px) {
+
     table.table,
     table.premium-table,
     table.job-table-premium,
@@ -1847,6 +2086,7 @@ a:hover {
 }
 
 @media (max-width: 991.98px) {
+
     .student-hero-section,
     .alumni-hero-section,
     .profile-hero-extreme,
@@ -1896,6 +2136,7 @@ a:hover {
 }
 
 @media (max-width: 767.98px) {
+
     .student-hero-section,
     .alumni-hero-section,
     .profile-hero-extreme {
@@ -1976,13 +2217,14 @@ a:hover {
 }
 
 /* 3. Standard Non-Hero Container Pages */
-.main-wrapper > .container:first-child,
-.main-wrapper > div:first-child:not(.hero-premium):not(.glass-hero):not(.home-wrapper):not(.events-wrapper):not(.contact-wrapper):not(.auth-page-wrapper):not(.register-page-wrapper):not(.forgot-page-wrapper):not(.otp-page-wrapper):not(.reset-page-wrapper):not(.password-page-wrapper):not(.dashboard-wrapper):not(.student-hero-section):not(.alumni-hero-section) {
+.main-wrapper>.container:first-child,
+.main-wrapper>div:first-child:not(.hero-premium):not(.glass-hero):not(.home-wrapper):not(.events-wrapper):not(.contact-wrapper):not(.auth-page-wrapper):not(.register-page-wrapper):not(.forgot-page-wrapper):not(.otp-page-wrapper):not(.reset-page-wrapper):not(.password-page-wrapper):not(.dashboard-wrapper):not(.student-hero-section):not(.alumni-hero-section) {
     padding-top: var(--nav-header-offset-desktop) !important;
 }
 
 /* 4. Phone Screen Uniform Alignment (<= 768px) */
 @media (max-width: 768px) {
+
     .hero-premium,
     .contact-hero,
     .events-hero,
@@ -2000,9 +2242,8 @@ a:hover {
         padding-top: var(--nav-header-offset-mobile) !important;
     }
 
-    .main-wrapper > .container:first-child,
-    .main-wrapper > div:first-child:not(.hero-premium):not(.glass-hero):not(.home-wrapper):not(.events-wrapper):not(.contact-wrapper):not(.auth-page-wrapper):not(.register-page-wrapper):not(.forgot-page-wrapper):not(.otp-page-wrapper):not(.reset-page-wrapper):not(.password-page-wrapper):not(.dashboard-wrapper):not(.student-hero-section):not(.alumni-hero-section) {
+    .main-wrapper>.container:first-child,
+    .main-wrapper>div:first-child:not(.hero-premium):not(.glass-hero):not(.home-wrapper):not(.events-wrapper):not(.contact-wrapper):not(.auth-page-wrapper):not(.register-page-wrapper):not(.forgot-page-wrapper):not(.otp-page-wrapper):not(.reset-page-wrapper):not(.password-page-wrapper):not(.dashboard-wrapper):not(.student-hero-section):not(.alumni-hero-section) {
         padding-top: var(--nav-header-offset-mobile) !important;
     }
 }
-

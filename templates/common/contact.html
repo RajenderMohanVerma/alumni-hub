@@ -122,6 +122,84 @@
         flex-wrap: wrap;
     }
 
+    .btn-cta-primary {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 40%, #1d4ed8 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        box-shadow: 0 8px 24px rgba(2, 132, 199, 0.45) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        text-decoration: none !important;
+        transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+        min-height: 48px;
+        padding: 12px 26px;
+        font-size: 0.95rem;
+        touch-action: manipulation;
+    }
+    .btn-cta-primary:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 12px 28px rgba(2, 132, 199, 0.65) !important;
+        color: #ffffff !important;
+    }
+    .btn-cta-primary i {
+        color: #ffffff !important;
+    }
+
+    .btn-cta-dark {
+        background: #0f1d35 !important;
+        color: #ffffff !important;
+        border: 1.5px solid rgba(56, 189, 248, 0.35) !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        text-decoration: none !important;
+        transition: all 0.25s ease !important;
+        min-height: 48px;
+        padding: 12px 24px;
+        font-size: 0.95rem;
+        touch-action: manipulation;
+    }
+    .btn-cta-dark:hover {
+        background: #172a4d !important;
+        border-color: #38bdf8 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 20px rgba(56, 189, 248, 0.35) !important;
+        color: #ffffff !important;
+    }
+
+    .btn-cta-outline {
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: #ffffff !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+        backdrop-filter: blur(8px) !important;
+        font-weight: 700 !important;
+        border-radius: 50px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        text-decoration: none !important;
+        transition: all 0.25s ease !important;
+        min-height: 48px;
+        padding: 12px 24px;
+        font-size: 0.95rem;
+        touch-action: manipulation;
+    }
+    .btn-cta-outline:hover {
+        background: rgba(255, 255, 255, 0.16) !important;
+        border-color: #ffffff !important;
+        transform: translateY(-2px) !important;
+        color: #ffffff !important;
+    }
+
     /* ========================================================
        2. TRUST & SLA KPI STRIP
        ======================================================== */
@@ -454,6 +532,59 @@
         border-color: rgba(2, 132, 199, 0.4);
         box-shadow: 0 8px 20px -4px rgba(2, 132, 199, 0.12);
         transform: translateY(-1px);
+    }
+
+    /* Campus View Switcher & Image Showcase */
+    .campus-view-wrapper {
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1.5px solid #e2e8f0;
+        background: #0f172a;
+        position: relative;
+    }
+    .campus-img-box {
+        position: relative;
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    .campus-img-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.4s ease;
+    }
+    .campus-img-box:hover img {
+        transform: scale(1.04);
+    }
+    .campus-img-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.75) 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 12px 14px;
+        color: #ffffff;
+    }
+    .campus-view-tab-btn {
+        font-size: 0.76rem;
+        font-weight: 700;
+        padding: 5px 13px;
+        border-radius: 50px;
+        border: 1.5px solid #cbd5e1;
+        background: #f1f5f9;
+        color: #475569;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .campus-view-tab-btn.active {
+        background: #0284c7;
+        color: #ffffff;
+        border-color: #0284c7;
+        box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
     }
 
     /* FAQ Accordion Styling */
@@ -1044,15 +1175,15 @@
             <!-- Right: Campus Location & Department Desks (col-lg-5) -->
             <div class="col-lg-5">
                 <div class="campus-desk-card p-4 p-md-5 h-100 d-flex flex-column">
-                    <div class="contact-accent-bar" style="background: linear-gradient(90deg, #7c3aed, #c084fc);"></div>
+                    <div class="contact-accent-bar" style="background: linear-gradient(90deg, #0284c7, #38bdf8);"></div>
                     
                     <div class="d-flex align-items-center gap-3 mb-3">
-                        <div class="contact-icon-box m-0" style="width: 48px; height: 48px; font-size: 1.25rem; background: #f5f3ff; color: #7c3aed;">
+                        <div class="contact-icon-box m-0" style="width: 50px; height: 50px; font-size: 1.35rem; background: rgba(2, 132, 199, 0.1); color: #0284c7;">
                             <i class="fas fa-university"></i>
                         </div>
                         <div>
-                            <span class="badge rounded-pill bg-purple bg-opacity-10 text-purple px-3 py-1 fw-bold small" style="color: #7c3aed; background: #f5f3ff;">
-                                CAMPUS &amp; DESKS
+                            <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-1 fw-bold small">
+                                <i class="fas fa-building-columns me-1"></i> CAMPUS &amp; DESKS
                             </span>
                             <h3 class="fw-bold mb-0 mt-1" style="font-family: 'Outfit'; color: #0f172a; font-size: 1.55rem;">
                                 Visit JIMS Rohini
@@ -1060,22 +1191,85 @@
                         </div>
                     </div>
 
-                    <p class="text-muted small mb-3" style="line-height: 1.6; font-size: 0.88rem;">
-                        Institutional Area, Sector 5, Rohini. Easily accessible via Rithala Metro Station (Red Line) and Outer Ring Road.
-                    </p>
+                    <!-- Official Institutional Identity Strip -->
+                    <div class="bg-light rounded-3 p-3 border mb-3">
+                        <div class="fw-bold text-dark d-flex align-items-center gap-2 mb-1" style="font-size: 0.95rem;">
+                            <i class="fas fa-certificate text-primary"></i>
+                            <span>Jagan Institute of Management Studies (JIMS)</span>
+                        </div>
+                        <p class="text-muted small mb-0" style="line-height: 1.5; font-size: 0.84rem;">
+                            <i class="fas fa-location-dot text-danger me-1"></i> 3, Institutional Area, Sector-5, Rohini, New Delhi, Delhi 110085
+                        </p>
+                    </div>
 
-                    <!-- Responsive Google Map Embed -->
-                    <div class="rounded-4 overflow-hidden border mb-3 flex-grow-1 shadow-sm" style="min-height: 200px; max-height: 250px;">
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3499.7891391740924!2d77.10648831508215!3d28.71092898238711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d06f8c7b8e19b%3A0x6b8c9d4b6c8a7e0!2sJagan%20Institute%20of%20Management%20Studies%20(JIMS)!5e0!3m2!1sen!2sin!4v1650000000000!5m2!1sen!2sin" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0; min-height: 200px;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade"
-                            title="Campus Map">
-                        </iframe>
+                    <!-- View Selector: Photo View vs Live Google Map -->
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="small fw-bold text-secondary text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.05em;">
+                            <i class="fas fa-eye text-primary me-1"></i> Campus Explorer
+                        </span>
+                        <div class="d-flex gap-1">
+                            <button type="button" class="campus-view-tab-btn active" id="tabBtnCampusImg" onclick="switchCampusView('img')">
+                                <i class="fas fa-image me-1"></i> Campus View
+                            </button>
+                            <button type="button" class="campus-view-tab-btn" id="tabBtnCampusMap" onclick="switchCampusView('map')">
+                                <i class="fas fa-map-marked-alt me-1"></i> Live Map
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Campus Showcase Container -->
+                    <div class="campus-view-wrapper mb-3 shadow-sm">
+                        <!-- View A: Campus Location Image (Default) -->
+                        <div id="campusImageView" class="campus-img-box">
+                            <a href="https://maps.app.goo.gl/3BiLNAGwhh4jS9na8" target="_blank" rel="noopener noreferrer" class="d-block w-100 h-100 text-decoration-none">
+                                <img src="{{ url_for('static', filename='images/location_img.png') }}" 
+                                     alt="JIMS Rohini Sector-5 Campus" 
+                                     class="img-fluid"
+                                     onerror="this.src='/static/images/icons/app-logo.png'">
+                                <div class="campus-img-overlay">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <span class="badge bg-dark bg-opacity-75 text-white border border-light border-opacity-25 px-2 py-1 rounded-pill small">
+                                            <i class="fas fa-shield-halved text-success me-1"></i> JIMS Sector-5 Campus
+                                        </span>
+                                        <span class="badge bg-primary text-white rounded-pill px-2 py-1 small">
+                                            <i class="fas fa-arrow-up-right-from-square me-1"></i> GPS Ready
+                                        </span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-end">
+                                        <small class="text-white-50" style="font-size: 0.75rem;">
+                                            <i class="fas fa-hand-pointer me-1"></i> Tap anywhere to open instant directions in Google Maps
+                                        </small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- View B: Interactive Google Map -->
+                        <div id="campusMapView" style="display: none; height: 220px; width: 100%;">
+                            <iframe 
+                                src="https://maps.google.com/maps?q=Jagan+Institute+of+Management+Studies+Sector+5+Rohini+Delhi&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                                width="100%" 
+                                height="100%" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="JIMS Rohini Campus Google Map">
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Transit & Accessibility Chips -->
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <span class="badge bg-light text-dark border px-2 py-1" style="font-size: 0.74rem;">
+                            <i class="fas fa-train-subway text-danger me-1"></i> Rithala Metro (Red Line) - 1.2 KM
+                        </span>
+                        <span class="badge bg-light text-dark border px-2 py-1" style="font-size: 0.74rem;">
+                            <i class="fas fa-road text-primary me-1"></i> Outer Ring Road
+                        </span>
+                        <span class="badge bg-light text-dark border px-2 py-1" style="font-size: 0.74rem;">
+                            <i class="fas fa-clock text-success me-1"></i> Mon-Sat: 9 AM - 5:30 PM
+                        </span>
                     </div>
 
                     <!-- Direct Department Directory Cards -->
@@ -1119,11 +1313,11 @@
 
                     <!-- Action Buttons -->
                     <div class="d-flex card-button-row gap-2">
-                        <a href="https://maps.app.goo.gl/3BiLNAGwhh4jS9na8" target="_blank" rel="noopener noreferrer" class="btn btn-cta-outline flex-fill text-center">
-                            <i class="fas fa-directions me-1 text-primary"></i> Directions
+                        <a href="https://maps.app.goo.gl/3BiLNAGwhh4jS9na8" target="_blank" rel="noopener noreferrer" class="btn btn-cta-outline flex-fill text-center" style="background: rgba(2, 132, 199, 0.08) !important; color: #0284c7 !important; border-color: rgba(2, 132, 199, 0.3) !important;">
+                            <i class="fas fa-diamond-turn-right me-1 text-primary"></i> Get Directions
                         </a>
                         <a href="tel:+917348619567" class="btn btn-cta-dark flex-fill text-center">
-                            <i class="fas fa-phone-alt me-1 text-info"></i> Helpline
+                            <i class="fas fa-phone-alt me-1 text-info"></i> Campus Helpline
                         </a>
                     </div>
                 </div>
@@ -1258,6 +1452,26 @@
      CLIENT CONTROLLER SCRIPT (Topic autofill, counter, loading)
      ======================================================== -->
 <script>
+window.switchCampusView = function(view) {
+    const imgView = document.getElementById('campusImageView');
+    const mapView = document.getElementById('campusMapView');
+    const tabImg = document.getElementById('tabBtnCampusImg');
+    const tabMap = document.getElementById('tabBtnCampusMap');
+    if (!imgView || !mapView) return;
+    
+    if (view === 'map') {
+        imgView.style.display = 'none';
+        mapView.style.display = 'block';
+        if (tabMap) tabMap.classList.add('active');
+        if (tabImg) tabImg.classList.remove('active');
+    } else {
+        imgView.style.display = 'block';
+        mapView.style.display = 'none';
+        if (tabImg) tabImg.classList.add('active');
+        if (tabMap) tabMap.classList.remove('active');
+    }
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     // 1. Topic Pills Selector -> Auto-populate Subject Input
     const pills = document.querySelectorAll('.topic-pill');
