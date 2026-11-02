@@ -57,7 +57,7 @@
         rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -77,7 +77,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/social_pages.css') }}?v=2.3">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}?v=2.3">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}?v=2.3">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme-system.css') }}?v=2.3">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme-system.css') }}?v=2.5">
 
 
     <style>
@@ -1145,158 +1145,253 @@
     </main>
 
     <!-- ===== FOOTER ===== -->
-    <footer class="footer-custom">
-        <!-- Footer Marquee -->
+    <footer class="footer-custom" id="mainFooter">
+        <!-- Ambient Background Glows -->
+        <div class="footer-ambient-glow top-left"></div>
+        <div class="footer-ambient-glow bottom-right"></div>
+
+        <!-- 1. Footer Marquee Ticker -->
         <div class="footer-marquee">
             <div class="marquee-inner">
                 <span><i class="fas fa-graduation-cap text-info me-1"></i> 480+ Verified Alumni</span>
                 <span><i class="fas fa-briefcase text-warning me-1"></i> 160+ Career Opportunities</span>
-                <span><i class="fas fa-handshake text-success me-1"></i> 1-on-1 Mentorship</span>
-                <span><i class="fas fa-globe text-primary me-1"></i> 25+ Global Chapters</span>
-                <span><i class="fas fa-award text-info me-1"></i> Institutional Excellence</span>
+                <span><i class="fab fa-whatsapp text-success me-1"></i> Community Group Chat Active</span>
+                <span><i class="fas fa-handshake text-primary me-1"></i> 1-on-1 Mentorship Network</span>
+                <span><i class="fas fa-building-columns text-info me-1"></i> JIMS Rohini Academic Excellence</span>
+                <span><i class="fas fa-shield-halved text-success me-1"></i> SSL 256-Bit Encrypted Data</span>
+                <span><i class="fas fa-code text-warning me-1"></i> Architected by Rajender Mohan Verma</span>
+                <!-- Loop duplicates for continuous marquee -->
                 <span><i class="fas fa-graduation-cap text-info me-1"></i> 480+ Verified Alumni</span>
                 <span><i class="fas fa-briefcase text-warning me-1"></i> 160+ Career Opportunities</span>
-                <span><i class="fas fa-handshake text-success me-1"></i> 1-on-1 Mentorship</span>
+                <span><i class="fab fa-whatsapp text-success me-1"></i> Community Group Chat Active</span>
+                <span><i class="fas fa-handshake text-primary me-1"></i> 1-on-1 Mentorship Network</span>
+                <span><i class="fas fa-building-columns text-info me-1"></i> JIMS Rohini Academic Excellence</span>
+                <span><i class="fas fa-shield-halved text-success me-1"></i> SSL 256-Bit Encrypted Data</span>
+                <span><i class="fas fa-code text-warning me-1"></i> Architected by Rajender Mohan Verma</span>
             </div>
         </div>
 
-        <!-- Footer Content -->
+        <!-- 2. Footer Main Grid Content -->
         <div class="footer-content">
             <div class="container">
-                <div class="row g-4">
-                    <!-- Column 1: Brand & Community -->
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <div class="row g-4 g-lg-5">
+                    <!-- Column 1: Brand & Institutional Identity (col-lg-3 col-md-6) -->
+                    <div class="col-lg-3 col-md-6" data-aos="fade-up">
                         <div class="footer-section">
                             <div class="d-flex align-items-center gap-2 mb-3">
                                 <div class="brand-logo-container"
-                                    style="width: 38px; height: 38px;">
-                                    <img src="{{ url_for('static', filename='images/icons/app-logo.png') }}" alt="Alumni Hub Logo" class="brand-app-logo">
+                                    style="width: 42px; height: 42px; border-radius: 12px; background: rgba(2, 132, 199, 0.15); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(56, 189, 248, 0.3);">
+                                    <img src="{{ url_for('static', filename='images/icons/app-logo.png') }}" alt="Alumni Hub Logo" class="brand-app-logo" style="width: 28px; height: 28px; object-fit: contain;">
                                 </div>
-                                <h5 class="footer-title mb-0" style="font-size: 1.25rem;">ALUMNI HUB</h5>
+                                <div>
+                                    <h5 class="footer-title mb-0" style="font-size: 1.25rem;">
+                                        ALUMNI <span style="background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">HUB</span>
+                                    </h5>
+                                    <small style="color: #64748b; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600;">Institutional Portal</small>
+                                </div>
                             </div>
                             <p class="footer-text mb-3">
-                                The official institutional portal connecting students, distinguished alumni, and faculty
-                                guides for collaborative career growth and lifelong academic excellence.
+                                The official institutional portal connecting students, distinguished alumni, and faculty guides for collaborative career growth and lifelong academic excellence.
                             </p>
+                            
                             <div class="d-flex flex-wrap gap-2 mb-3">
-                                <span class="badge rounded-pill"
-                                    style="background: rgba(2, 132, 199, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 0.72rem; padding: 0.38rem 0.75rem;">Verified
-                                    Platform</span>
-                                <span class="badge rounded-pill"
-                                    style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); font-size: 0.72rem; padding: 0.38rem 0.75rem;">Mentorship
-                                    Network</span>
+                                <span class="footer-pill-badge badge-portal">
+                                    <i class="fas fa-check-circle me-1"></i> Verified Portal
+                                </span>
+                                <span class="footer-pill-badge badge-live">
+                                    <span class="live-dot me-1"></span> Live Network
+                                </span>
                             </div>
-                            <div class="social-links-container">
-                                <div class="social-links-grid">
-                                    <a href="#" class="social-icon-btn"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
-                                    <a href="#" class="social-icon-btn"><i class="fab fa-github"></i> GitHub</a>
-                                    <a href="#" class="social-icon-btn"><i class="fab fa-instagram"></i> Instagram</a>
-                                    <a href="#" class="social-icon-btn"><i class="fab fa-facebook-f"></i> Facebook</a>
+
+                            <!-- Campus Location Snippet Card -->
+                            <div class="footer-campus-card">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <i class="fas fa-university text-info"></i>
+                                    <span class="fw-semibold text-white" style="font-size: 0.82rem;">JIMS Rohini Campus</span>
+                                </div>
+                                <p class="mb-2 text-muted" style="font-size: 0.78rem; line-height: 1.45;">
+                                    Institutional Area, Sector-5, Rohini, Delhi 110085
+                                </p>
+                                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 pt-1 border-top border-secondary border-opacity-25">
+                                    <a href="https://maps.app.goo.gl/3BiLNAGwhh4jS9na8" target="_blank" rel="noopener noreferrer" class="footer-map-action">
+                                        <i class="fas fa-map-location-dot text-danger me-1"></i> View Google Map <i class="fas fa-arrow-up-right-from-square ms-1" style="font-size: 0.68rem;"></i>
+                                    </a>
+                                    <a href="mailto:alumnihub26@gmail.com" class="footer-contact-mini">
+                                        <i class="fas fa-envelope text-info me-1"></i> Support Email
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Column 2: Platform Links -->
-                    <div class="col-lg-2 col-md-6 col-6" data-aos="fade-up" data-aos-delay="100">
+                    <!-- Column 2: Platform Links (col-lg-2 col-md-3 col-6) -->
+                    <div class="col-lg-2 col-md-3 col-6" data-aos="fade-up" data-aos-delay="100">
                         <div class="footer-section ps-lg-2">
-                            <h5 class="footer-title">Platform</h5>
-                            <ul class="footer-links">
-                                <li><a href="/" class="footer-link"><i class="fas fa-chevron-right"></i> Home</a></li>
-                                <li><a href="/about" class="footer-link"><i class="fas fa-chevron-right"></i> About
-                                        Us</a></li>
-                                <li><a href="/services" class="footer-link"><i class="fas fa-chevron-right"></i>
-                                        Services</a></li>
-                                <li><a href="/events" class="footer-link"><i class="fas fa-chevron-right"></i>
-                                        Events</a></li>
-                                <li><a href="/jobs" class="footer-link"><i class="fas fa-chevron-right"></i> Career
-                                        Board</a></li>
-                                <li><a href="/contact" class="footer-link"><i class="fas fa-chevron-right"></i> Contact
-                                        Us</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Column 3: Resources & Legal -->
-                    <div class="col-lg-3 col-md-6 col-6" data-aos="fade-up" data-aos-delay="200">
-                        <div class="footer-section ps-lg-2">
-                            <h5 class="footer-title">Resources</h5>
-                            <ul class="footer-links">
-                                <li><a href="{{ url_for('privacy_policy') }}" class="footer-link"><i
-                                            class="fas fa-chevron-right"></i> Privacy Policy</a></li>
-                                <li><a href="{{ url_for('terms_conditions') }}" class="footer-link"><i
-                                            class="fas fa-chevron-right"></i> Terms of Use</a></li>
-                                <li><a href="{{ url_for('faq') }}" class="footer-link"><i
-                                            class="fas fa-chevron-right"></i> Help &amp; FAQs</a></li>
-                                <li><a href="{{ url_for('report_issue') }}" class="footer-link"><i
-                                            class="fas fa-chevron-right"></i> Report an Issue</a></li>
-                                <li><a href="/donate" class="footer-link"><i class="fas fa-chevron-right"></i> Alumni
-                                        Giving</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Column 4: Campus Location -->
-                    <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <div class="footer-section">
-                            <h5 class="footer-title">
-                                <i class="fas fa-map-location-dot text-info"></i> Campus Location
+                            <h5 class="footer-column-title">
+                                <span class="title-accent-dot"></span> Platform
                             </h5>
-                            <div class="map-container mb-3" id="mapContainer" title="Click to open in Google Maps">
-                                <a href="https://maps.app.goo.gl/3BiLNAGwhh4jS9na8" target="_blank"
-                                    class="d-block w-100 h-100 text-decoration-none">
-                                    <img src="{{ url_for('static', filename='images/location_img.png') }}"
-                                        alt="JIMS Rohini Location"
-                                        style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
-                                    <div class="map-overlay">
-                                        <div class="map-overlay-text text-black">
-                                            <i class="fas fa-arrow-up-right-from-square"></i> View Google Maps
-                                        </div>
+                            <ul class="footer-nav-list">
+                                <li><a href="/" class="footer-nav-link"><i class="fas fa-chevron-right"></i> Home</a></li>
+                                <li><a href="/about" class="footer-nav-link"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                                <li><a href="/services" class="footer-nav-link"><i class="fas fa-chevron-right"></i> Services</a></li>
+                                <li><a href="/events" class="footer-nav-link"><i class="fas fa-chevron-right"></i> Events</a></li>
+                                <li><a href="/jobs" class="footer-nav-link"><i class="fas fa-chevron-right"></i> Career Board</a></li>
+                                <li>
+                                    <a href="/community-group" class="footer-nav-link d-inline-flex align-items-center gap-1">
+                                        <i class="fas fa-chevron-right"></i> Community Chat
+                                        <span class="badge bg-success text-white py-0 px-1 rounded-pill" style="font-size: 0.65rem;">NEW</span>
+                                    </a>
+                                </li>
+                                <li><a href="/contact" class="footer-nav-link"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Resources & Trust (col-lg-2 col-md-3 col-6) -->
+                    <div class="col-lg-2 col-md-3 col-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="footer-section ps-lg-1">
+                            <h5 class="footer-column-title">
+                                <span class="title-accent-dot"></span> Resources
+                            </h5>
+                            <ul class="footer-nav-list">
+                                <li><a href="{{ url_for('faq') }}" class="footer-nav-link"><i class="fas fa-chevron-right"></i> Help &amp; FAQs</a></li>
+                                <li><a href="{{ url_for('report_issue') }}" class="footer-nav-link"><i class="fas fa-chevron-right"></i> Report Issue</a></li>
+                                <li><a href="{{ url_for('privacy_policy') }}" class="footer-nav-link"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                                <li><a href="{{ url_for('terms_conditions') }}" class="footer-nav-link"><i class="fas fa-chevron-right"></i> Terms of Use</a></li>
+                                <li><a href="/donate" class="footer-nav-link"><i class="fas fa-chevron-right"></i> Alumni Giving</a></li>
+                                <li>
+                                    <span class="footer-nav-link text-muted pe-none">
+                                        <i class="fas fa-circle-check text-success"></i> System Online
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Column 4: Lead Architect & Developer Showcase (col-lg-5 col-md-12) -->
+                    <div class="col-lg-5 col-md-12" data-aos="fade-up" data-aos-delay="300">
+                        <div class="footer-dev-card">
+                            <div class="dev-accent-bar"></div>
+                            
+                            <!-- Profile Header -->
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="dev-avatar-box">
+                                        <span class="dev-monogram">RM</span>
+                                        <span class="dev-status-indicator" title="Active Developer"></span>
                                     </div>
+                                    <div>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <h6 class="dev-name mb-0">Rajender Mohan Verma</h6>
+                                            <span class="dev-verified-badge" title="Lead Architect & Developer">
+                                                <i class="fas fa-check-circle"></i>
+                                            </span>
+                                        </div>
+                                        <span class="dev-role-label">Lead Developer &amp; Platform Architect</span>
+                                    </div>
+                                </div>
+                                <span class="badge rounded-pill dev-badge-tag">
+                                    <i class="fas fa-code me-1 text-info"></i> Full Stack
+                                </span>
+                            </div>
+
+                            <!-- Direct Quick Action CTAs -->
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <a href="https://rajender-portfolio.vercel.app/" target="_blank" rel="noopener noreferrer" class="dev-cta-btn btn-portfolio">
+                                    <i class="fas fa-globe me-1"></i> Visit Portfolio <i class="fas fa-arrow-up-right-from-square ms-1" style="font-size: 0.72rem;"></i>
+                                </a>
+                                <a href="mailto:rajendramohan7800@gmail.com" class="dev-cta-btn btn-email">
+                                    <i class="fas fa-envelope me-1 text-info"></i> Email Me
+                                </a>
+                                <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer" class="dev-cta-btn btn-whatsapp">
+                                    <i class="fab fa-whatsapp me-1 text-success"></i> WhatsApp
                                 </a>
                             </div>
-                            <p class="footer-text mb-1" style="font-size: 0.86rem; line-height: 1.45;">
-                                <i class="fas fa-location-dot text-danger me-1"></i> Jagan Institute of Management
-                                Studies (JIMS), Rohini, Institutional Area, Delhi 110085
-                            </p>
-                            <p class="footer-text mb-1" style="font-size: 0.82rem; color: #64748b;">
-                                <i class="fas fa-envelope text-info me-1"></i> <a href="mailto:alumnihub26@gmail.com"
-                                    class="text-decoration-none text-muted">alumnihub26@gmail.com</a>
-                            </p>
-                            <p class="footer-text mb-0" style="font-size: 0.82rem; color: #64748b;">
-                                <i class="fas fa-phone-alt text-success me-1"></i> <a href="tel:+917348619567"
-                                    class="text-decoration-none text-muted">+91 7348619567</a>
-                            </p>
+
+                            <!-- Social Profiles Grid (LinkedIn, GitHub, Instagram, X (Twitter) replacing Facebook) -->
+                            <div class="mb-3">
+                                <div class="dev-section-subtitle mb-2">
+                                    <i class="fas fa-share-nodes text-primary me-1"></i> Social Network
+                                </div>
+                                <div class="dev-social-grid">
+                                    <a href="https://www.linkedin.com/in/rajender-mohan-verma-10418432a/" target="_blank" rel="noopener noreferrer" class="dev-social-btn social-linkedin" title="LinkedIn Profile">
+                                        <i class="fab fa-linkedin-in"></i>
+                                        <span>LinkedIn</span>
+                                    </a>
+                                    <a href="https://github.com/RajenderMohanVerma" target="_blank" rel="noopener noreferrer" class="dev-social-btn social-github" title="GitHub Profile">
+                                        <i class="fab fa-github"></i>
+                                        <span>GitHub</span>
+                                    </a>
+                                    <a href="https://www.instagram.com/rajender_maurya.01/" target="_blank" rel="noopener noreferrer" class="dev-social-btn social-instagram" title="Instagram Profile">
+                                        <i class="fab fa-instagram"></i>
+                                        <span>Instagram</span>
+                                    </a>
+                                    <a href="https://x.com/Rajendermv7800" target="_blank" rel="noopener noreferrer" class="dev-social-btn social-x" title="X (Twitter) Profile">
+                                        <i class="fab fa-x-twitter"></i>
+                                        <span>X (Twitter)</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Competitive Programming & Problem Solving Profiles -->
+                            <div>
+                                <div class="dev-section-subtitle mb-2">
+                                    <i class="fas fa-laptop-code text-warning me-1"></i> Coding &amp; Development Profiles
+                                </div>
+                                <div class="dev-coding-grid">
+                                    <a href="https://leetcode.com/u/rajendramohan734/" target="_blank" rel="noopener noreferrer" class="dev-coding-pill pill-leetcode" title="LeetCode Profile">
+                                        <i class="fas fa-code"></i> LeetCode
+                                    </a>
+                                    <a href="https://www.geeksforgeeks.org/profile/rajendramohan734" target="_blank" rel="noopener noreferrer" class="dev-coding-pill pill-gfg" title="GeeksforGeeks Profile">
+                                        <i class="fas fa-laptop-code"></i> GeeksforGeeks
+                                    </a>
+                                    <a href="https://www.hackerrank.com/profile/rajendramohan734" target="_blank" rel="noopener noreferrer" class="dev-coding-pill pill-hackerrank" title="HackerRank Profile">
+                                        <i class="fab fa-hackerrank"></i> HackerRank
+                                    </a>
+                                    <a href="https://www.codechef.com/users/rajender_9567" target="_blank" rel="noopener noreferrer" class="dev-coding-pill pill-codechef" title="CodeChef Profile">
+                                        <i class="fas fa-terminal"></i> CodeChef
+                                    </a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Footer Bottom -->
+        <!-- 3. Footer Bottom Bar -->
         <div class="footer-bottom">
             <div class="container">
-                <div class="row align-items-center gy-2">
-                    <div class="col-md-5 text-center text-md-start">
-                        <p class="footer-bottom-text">
-                            &copy; 2026 ALUMNI HUB. All rights reserved.
+                <div class="row align-items-center gy-3">
+                    <div class="col-lg-4 col-md-6 text-center text-md-start">
+                        <p class="footer-bottom-text mb-0">
+                            &copy; 2026 <strong class="text-white">ALUMNI HUB</strong>. All rights reserved.
                         </p>
                     </div>
-                    <div class="col-md-3 text-center">
-                        <span class="badge rounded-pill"
-                            style="background: rgba(255, 255, 255, 0.06); color: #94a3b8; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.72rem; padding: 0.35rem 0.75rem;">
-                            <i class="fas fa-shield-halved text-success me-1"></i> SSL 256-Bit Encrypted
-                        </span>
-                    </div>
-                    <div class="col-md-4 text-center text-md-end">
-                        <p class="footer-bottom-text">
-                            Crafted with <i class="fas fa-heart text-danger"></i> for Academic Excellence
+                    <div class="col-lg-4 col-md-6 text-center">
+                        <p class="footer-bottom-text mb-0">
+                            Designed &amp; Developed with <i class="fas fa-heart text-danger"></i> by
+                            <a href="https://rajender-portfolio.vercel.app/" target="_blank" rel="noopener noreferrer" class="dev-credit-link">
+                                Rajender Mohan Verma
+                            </a>
                         </p>
+                    </div>
+                    <div class="col-lg-4 col-md-12 text-center text-lg-end">
+                        <div class="d-inline-flex align-items-center gap-2 flex-wrap justify-content-center justify-content-lg-end">
+                            <span class="badge rounded-pill footer-security-badge">
+                                <i class="fas fa-shield-halved text-success me-1"></i> SSL 256-Bit Encrypted
+                            </span>
+                            <span class="badge rounded-pill footer-security-badge">
+                                <i class="fas fa-building-columns text-info me-1"></i> JIMS Rohini
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
+
 
     <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop" title="Go to top">
