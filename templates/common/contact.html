@@ -851,6 +851,91 @@
             padding: 0.6rem 0.75rem !important;
         }
     }
+    /* Template Pulse Glow */
+    @keyframes pulseMessageGlow {
+        0% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.4); border-color: #0284c7; }
+        50% { box-shadow: 0 0 0 6px rgba(2, 132, 199, 0.2); border-color: #38bdf8; }
+        100% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0); border-color: #e2e8f0; }
+    }
+    .template-pulse {
+        animation: pulseMessageGlow 0.6s ease;
+    }
+
+    /* Live Desk Operating Status Pill */
+    .live-desk-status-pill {
+        background: #ecfdf5;
+        border: 1.2px solid #a7f3d0;
+        color: #047857;
+        font-size: 0.78rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 6px 14px;
+        border-radius: 50px;
+        margin-bottom: 1.15rem;
+        transition: all 0.25s ease;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
+    }
+    .status-pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #10b981;
+        display: inline-block;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        animation: pulseLiveDot 1.8s infinite;
+        flex-shrink: 0;
+    }
+    @keyframes pulseLiveDot {
+        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* 1-Click Copy Mini Button */
+    .btn-copy-mini {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        color: #64748b;
+        border-radius: 8px;
+        padding: 3px 8px;
+        font-size: 0.72rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.18s ease;
+        line-height: 1.2;
+    }
+    .btn-copy-mini:hover {
+        background: #f0f9ff;
+        border-color: #7dd3fc;
+        color: #0284c7;
+        transform: translateY(-1px);
+    }
+    .btn-copy-mini:active {
+        transform: scale(0.95);
+    }
+    .btn-copy-mini.copied {
+        background: #ecfdf5 !important;
+        border-color: #a7f3d0 !important;
+        color: #059669 !important;
+    }
+
+    /* Interactive Topic Pills Active Glow */
+    .topic-pill {
+        cursor: pointer;
+        transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .topic-pill.active {
+        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%) !important;
+        color: #ffffff !important;
+        border-color: transparent !important;
+        box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35) !important;
+        transform: translateY(-1px);
+    }
+
 </style>
 
 <div class="contact-wrapper home-wrapper">
@@ -997,9 +1082,14 @@
                         </p>
                     </div>
                     <div>
-                        <a href="tel:+917348619567" class="contact-action-badge bg-light text-success border">
-                            <i class="fas fa-phone"></i> <span>Call Now</span>
-                        </a>
+                        <div class="d-flex align-items-center gap-1">
+                            <a href="tel:+917348619567" class="contact-action-badge bg-light text-success border">
+                                <i class="fas fa-phone"></i> <span>Call Now</span>
+                            </a>
+                            <button type="button" class="btn-copy-mini" onclick="copyContactDetail('+917348619567', this)" title="Copy Phone Number">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1016,9 +1106,14 @@
                         </p>
                     </div>
                     <div>
-                        <a href="mailto:alumnihub26@gmail.com" class="contact-action-badge bg-light text-warning-emphasis border">
-                            <i class="fas fa-envelope"></i> <span>Write Mail</span>
-                        </a>
+                        <div class="d-flex align-items-center gap-1">
+                            <a href="mailto:alumnihub26@gmail.com" class="contact-action-badge bg-light text-warning-emphasis border">
+                                <i class="fas fa-envelope"></i> <span>Write Mail</span>
+                            </a>
+                            <button type="button" class="btn-copy-mini" onclick="copyContactDetail('alumnihub26@gmail.com', this)" title="Copy Email Address">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1068,34 +1163,58 @@
                         </div>
                     </div>
 
-                    <!-- Swipeable Topic Selector Strip -->
+                    <!-- Live Desk Operating Hours Status Indicator -->
+                    <div class="live-desk-status-pill" id="liveDeskStatusPill">
+                        <span class="status-pulse-dot" id="liveDeskPulse"></span>
+                        <span id="liveDeskText">Checking Campus Desk Status...</span>
+                    </div>
+
+                    <!-- Swipeable Topic Selector Strip (Autofills Subject, Role & Message) -->
                     <div class="topic-strip-wrapper">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-1">
                             <label class="form-label fw-bold text-dark small mb-0 d-flex align-items-center gap-1">
-                                <i class="fas fa-bolt text-warning"></i> Quick Topic (Tap to autofill):
+                                <i class="fas fa-bolt text-warning"></i> Quick Topic (Tap to autofill message &amp; details):
                             </label>
                             <small class="text-muted d-md-none" style="font-size: 0.72rem;">Swipe &rarr;</small>
                         </div>
                         
                         <div class="topic-pills-strip" id="topicPillsContainer">
-                            <span class="topic-pill active" data-topic="Mentorship & Guidance Request">
+                            <button type="button" class="topic-pill active" 
+                                data-topic="Mentorship &amp; Career Guidance Request" 
+                                data-role="Student" 
+                                data-msg="Hello Alumni Relations &amp; Mentorship Cell,&#10;&#10;I am writing to seek mentorship and career guidance from experienced alumni in my field of study. I would appreciate assistance with industry insights, resume review, and interview preparation.&#10;&#10;Kindly guide me on how to connect with relevant mentors on Alumni Hub.&#10;&#10;Thank you!">
                                 <i class="fas fa-user-graduate"></i> Mentorship
-                            </span>
-                            <span class="topic-pill" data-topic="Alumni Directory Verification">
+                            </button>
+                            <button type="button" class="topic-pill" 
+                                data-topic="Alumni Directory Verification &amp; Account Access" 
+                                data-role="Alumni" 
+                                data-msg="Dear Alumni Support Desk,&#10;&#10;I have registered my profile on Alumni Hub and would like to request verification of my alumni status. Please verify my graduation year, degree, and campus records so I can access the full alumni directory, mentorship features, and official community perks.&#10;&#10;Looking forward to your confirmation.&#10;&#10;Best regards,">
                                 <i class="fas fa-id-card"></i> Verification
-                            </span>
-                            <span class="topic-pill" data-topic="Hiring / Job Posting Opportunity">
+                            </button>
+                            <button type="button" class="topic-pill" 
+                                data-topic="Job &amp; Internship Posting Opportunity" 
+                                data-role="Employer / Recruiter" 
+                                data-msg="Dear Placement &amp; Corporate Relations Team,&#10;&#10;Our organization is currently looking for talented students and graduates from JIMS Rohini for exciting job and internship opportunities. We would like to collaborate with the Alumni Hub placement desk to share job descriptions and connect with qualified candidates.&#10;&#10;Please share the next steps to post vacancies or schedule a placement drive.&#10;&#10;Sincerely,">
                                 <i class="fas fa-briefcase"></i> Job Posting
-                            </span>
-                            <span class="topic-pill" data-topic="Host Workshop / Speaker Session">
+                            </button>
+                            <button type="button" class="topic-pill" 
+                                data-topic="Proposal to Host Tech Workshop / Guest Speaker Session" 
+                                data-role="Alumni" 
+                                data-msg="Greetings Alumni Hub &amp; Events Committee,&#10;&#10;I am interested in contributing back to the campus community by hosting an interactive technical workshop / guest speaker session for students. My areas of expertise include modern software engineering, cloud architectures, and industry leadership.&#10;&#10;Please let me know potential dates and prerequisites for organizing this event.&#10;&#10;Warm regards,">
                                 <i class="fas fa-chalkboard-teacher"></i> Speaker / Event
-                            </span>
-                            <span class="topic-pill" data-topic="Technical Account Assistance">
+                            </button>
+                            <button type="button" class="topic-pill" 
+                                data-topic="Technical Account Assistance &amp; Login Help" 
+                                data-role="Other Inquiry" 
+                                data-msg="Hello Alumni Hub Technical Support,&#10;&#10;I am encountering an issue while accessing my Alumni Hub portal (e.g., login authentication, profile updates, or password reset). Could you please look into my account details and assist me with resolving this?&#10;&#10;Thank you for your prompt assistance!">
                                 <i class="fas fa-wrench"></i> Technical Help
-                            </span>
-                            <span class="topic-pill" data-topic="General Portal Feedback">
+                            </button>
+                            <button type="button" class="topic-pill" 
+                                data-topic="General Campus &amp; Community Feedback" 
+                                data-role="Other Inquiry" 
+                                data-msg="Hello Alumni Hub Team,&#10;&#10;I am writing to share general feedback and suggestions regarding the Alumni Hub platform. I appreciate the initiative to bring alumni, faculty, and students together and have a few ideas to share to enhance user engagement.&#10;&#10;Best wishes for the community!">
                                 <i class="fas fa-comments"></i> General
-                            </span>
+                            </button>
                         </div>
                     </div>
 
@@ -1127,7 +1246,7 @@
                                 <label class="form-label fw-bold text-dark small">Role / Affiliation</label>
                                 <div class="input-group contact-input-group">
                                     <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
-                                    <select name="role_type" class="form-select">
+                                    <select name="role_type" id="roleSelect" class="form-select">
                                         <option value="Student">🎓 Current Student</option>
                                         <option value="Alumni">💼 Verified Alumni</option>
                                         <option value="Faculty">🏛️ Faculty Member</option>
@@ -1149,11 +1268,21 @@
 
                             <!-- Message Textarea -->
                             <div class="col-12">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <label class="form-label fw-bold text-dark small mb-0">Your Message <span class="text-danger">*</span></label>
-                                    <span class="badge bg-light text-muted border rounded-pill px-2 py-1 small" id="charCounterBadge" style="font-size: 0.75rem;">0 / 1000</span>
+                                <div class="d-flex justify-content-between align-items-center mb-1 flex-wrap gap-1">
+                                    <label class="form-label fw-bold text-dark small mb-0 d-flex align-items-center gap-2">
+                                        <span>Your Message <span class="text-danger">*</span></span>
+                                        <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-2 py-0 d-none" id="templateNoticeBadge" style="font-size: 0.68rem;">
+                                            <i class="fas fa-check-circle me-1"></i> Template Loaded
+                                        </span>
+                                    </label>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button type="button" class="btn btn-sm btn-link text-muted p-0 text-decoration-none d-none" id="clearMessageBtn" style="font-size: 0.74rem;">
+                                            <i class="fas fa-rotate-left me-1"></i> Clear Message
+                                        </button>
+                                        <span class="badge bg-light text-muted border rounded-pill px-2 py-1 small" id="charCounterBadge" style="font-size: 0.75rem;">0 / 1000</span>
+                                    </div>
                                 </div>
-                                <textarea name="message" id="contactMessageInput" class="form-control" rows="4" maxlength="1000" 
+                                <textarea name="message" id="contactMessageInput" class="form-control" rows="5" maxlength="1000" 
                                           placeholder="Describe your inquiry, request, or proposal in detail..." required></textarea>
                             </div>
 
@@ -1211,9 +1340,14 @@
                             <i class="fas fa-certificate text-primary"></i>
                             <span>Jagan Institute of Management Studies (JIMS)</span>
                         </div>
-                        <p class="text-muted small mb-0" style="line-height: 1.5; font-size: 0.84rem;">
-                            <i class="fas fa-location-dot text-danger me-1"></i> 3, Institutional Area, Sector-5, Rohini, New Delhi, Delhi 110085
-                        </p>
+                        <div class="d-flex align-items-center justify-content-between gap-2">
+                            <p class="text-muted small mb-0" style="line-height: 1.5; font-size: 0.84rem;">
+                                <i class="fas fa-location-dot text-danger me-1"></i> 3, Institutional Area, Sector-5, Rohini, New Delhi, Delhi 110085
+                            </p>
+                            <button type="button" class="btn-copy-mini" onclick="copyContactDetail('3, Institutional Area, Sector-5, Rohini, New Delhi, Delhi 110085', this)" title="Copy Address">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- View Selector: Photo View vs Live Google Map -->
@@ -1486,41 +1620,164 @@ window.switchCampusView = function(view) {
     }
 };
 
+// 1-Click Clipboard Copy with Feedback
+window.copyContactDetail = function(text, btn) {
+    if (!text || !btn) return;
+    const origHtml = btn.innerHTML;
+    navigator.clipboard.writeText(text).then(() => {
+        btn.innerHTML = '<i class="fas fa-check text-success"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.innerHTML = origHtml;
+            btn.classList.remove('copied');
+        }, 1500);
+    }).catch(() => {
+        btn.innerHTML = '<i class="fas fa-check text-success"></i>';
+        setTimeout(() => { btn.innerHTML = origHtml; }, 1500);
+    });
+};
+
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Topic Pills Selector -> Auto-populate Subject Input
+    // 1. Topic Pills Selector -> Auto-populate Subject, Role & Message Textarea
     const pills = document.querySelectorAll('.topic-pill');
     const subjectInput = document.getElementById('contactSubjectInput');
+    const roleSelect = document.getElementById('roleSelect');
+    const msgInput = document.getElementById('contactMessageInput');
+    const charBadge = document.getElementById('charCounterBadge');
+    const templateNotice = document.getElementById('templateNoticeBadge');
+    const clearBtn = document.getElementById('clearMessageBtn');
     
-    pills.forEach(pill => {
-        pill.addEventListener('click', function() {
-            pills.forEach(p => p.classList.remove('active'));
-            this.classList.add('active');
-            const topic = this.getAttribute('data-topic');
-            if (subjectInput) {
-                subjectInput.value = topic;
-                subjectInput.focus();
+    function applyTopicTemplate(pill, animate = true) {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        
+        const topic = pill.getAttribute('data-topic') || '';
+        const role = pill.getAttribute('data-role') || '';
+        const msg = pill.getAttribute('data-msg') || '';
+        
+        if (subjectInput && topic) {
+            subjectInput.value = topic;
+        }
+        
+        if (roleSelect && role) {
+            for (let i = 0; i < roleSelect.options.length; i++) {
+                if (roleSelect.options[i].value === role || roleSelect.options[i].text.includes(role)) {
+                    roleSelect.selectedIndex = i;
+                    break;
+                }
             }
+        }
+        
+        if (msgInput && msg) {
+            msgInput.value = msg;
+            if (animate) {
+                msgInput.classList.remove('template-pulse');
+                void msgInput.offsetWidth; // Trigger reflow
+                msgInput.classList.add('template-pulse');
+                setTimeout(() => msgInput.classList.remove('template-pulse'), 650);
+            }
+            if (templateNotice) templateNotice.classList.remove('d-none');
+            if (clearBtn) clearBtn.classList.remove('d-none');
+            updateCharCounter();
+        }
+    }
+
+    pills.forEach(pill => {
+        pill.addEventListener('click', function(e) {
+            e.preventDefault();
+            applyTopicTemplate(this, true);
         });
     });
 
+    // Clear Message Button Handler
+    if (clearBtn && msgInput) {
+        clearBtn.addEventListener('click', function() {
+            msgInput.value = '';
+            if (templateNotice) templateNotice.classList.add('d-none');
+            clearBtn.classList.add('d-none');
+            updateCharCounter();
+            msgInput.focus();
+        });
+    }
+
     // 2. Live Character Counter for Message
-    const msgInput = document.getElementById('contactMessageInput');
-    const charBadge = document.getElementById('charCounterBadge');
-    if (msgInput && charBadge) {
+    function updateCharCounter() {
+        if (!msgInput || !charBadge) return;
+        const current = msgInput.value.length;
+        charBadge.textContent = `${current} / 1000`;
+        if (current >= 900) {
+            charBadge.className = 'badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2 py-1 small';
+        } else if (current >= 500) {
+            charBadge.className = 'badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-2 py-1 small';
+        } else {
+            charBadge.className = 'badge bg-light text-muted border rounded-pill px-2 py-1 small';
+        }
+    }
+
+    if (msgInput) {
         msgInput.addEventListener('input', function() {
-            const current = this.value.length;
-            charBadge.textContent = `${current} / 1000`;
-            if (current >= 900) {
-                charBadge.className = 'badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2 py-1 small';
-            } else if (current >= 500) {
-                charBadge.className = 'badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-2 py-1 small';
-            } else {
-                charBadge.className = 'badge bg-light text-muted border rounded-pill px-2 py-1 small';
+            updateCharCounter();
+            if (clearBtn) {
+                clearBtn.classList.toggle('d-none', this.value.length === 0);
             }
         });
     }
 
-    // 3. Submit Button Loading State
+    // Pre-populate with default active pill on first load if message is currently empty
+    const initialActivePill = document.querySelector('.topic-pill.active');
+    if (initialActivePill && msgInput && msgInput.value.trim() === '') {
+        applyTopicTemplate(initialActivePill, false);
+    }
+
+    // 3. Live Campus Desk Operating Hours Checker (Mon-Sat 9:00 AM - 5:30 PM IST)
+    function updateCampusDeskStatus() {
+        const statusPill = document.getElementById('liveDeskStatusPill');
+        const statusText = document.getElementById('liveDeskText');
+        const statusPulse = document.getElementById('liveDeskPulse');
+        if (!statusPill || !statusText) return;
+
+        try {
+            // Get current IST time
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const istDate = new Date(utc + (3600000 * 5.5)); // UTC + 5:30
+            
+            const day = istDate.getDay(); // 0 = Sunday, 1 = Monday ... 6 = Saturday
+            const hour = istDate.getHours();
+            const minute = istDate.getMinutes();
+            const totalMinutes = hour * 60 + minute;
+            
+            const openMinutes = 9 * 60; // 9:00 AM
+            const closeMinutes = 17 * 60 + 30; // 5:30 PM
+
+            const isOpen = (day >= 1 && day <= 6) && (totalMinutes >= openMinutes && totalMinutes < closeMinutes);
+
+            if (isOpen) {
+                statusPill.style.background = '#ecfdf5';
+                statusPill.style.borderColor = '#a7f3d0';
+                statusPill.style.color = '#047857';
+                if (statusPulse) {
+                    statusPulse.style.background = '#10b981';
+                    statusPulse.style.boxShadow = '0 0 0 0 rgba(16, 185, 129, 0.7)';
+                }
+                statusText.innerHTML = '🟢 <strong>Campus Desk Open Now</strong> &bull; Mon - Sat: 9:00 AM - 5:30 PM IST (Fast Turnaround)';
+            } else {
+                statusPill.style.background = '#f8fafc';
+                statusPill.style.borderColor = '#e2e8f0';
+                statusPill.style.color = '#475569';
+                if (statusPulse) {
+                    statusPulse.style.background = '#f59e0b';
+                    statusPulse.style.boxShadow = '0 0 0 0 rgba(245, 158, 11, 0.7)';
+                }
+                statusText.innerHTML = '🌙 <strong>Campus Desk Offline</strong> &bull; Reopens 9:00 AM IST (Inquiries actively queued)';
+            }
+        } catch(e) {
+            statusText.textContent = '📍 Campus Desk Available: Mon - Sat 9:00 AM - 5:30 PM IST';
+        }
+    }
+    updateCampusDeskStatus();
+
+    // 4. Submit Button Loading State
     const contactForm = document.getElementById('contactForm');
     const submitBtn = document.getElementById('contactSubmitBtn');
     if (contactForm && submitBtn) {
@@ -1529,7 +1786,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = `
                     <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    <span>Sending your inquiry...</span>
+                    <span>Submitting your inquiry to Desk...</span>
                 `;
             }
         });
