@@ -1647,28 +1647,147 @@ a:hover {
     transform: translateY(-2px);
 }
 
-/* Footer Social Icons */
-.footer-social-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(14, 165, 233, 0.15);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #7dd3fc !important;
-    font-size: 0.82rem;
-    transition: all 0.25s ease;
-    text-decoration: none;
+/* ========================================================
+   FOOTER CAMPUS CONNECT & SOCIAL ICONS PERFECTION
+   ======================================================== */
+.footer-social-strip {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 0.6rem;
+    padding-top: 0.75rem !important;
 }
 
-.footer-social-icon:hover {
+.footer-social-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.social-live-pulse {
+    width: 6px;
+    height: 6px;
     background: #0ea5e9;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 8px #0ea5e9;
+    animation: socialPulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes socialPulseGlow {
+    0%, 100% { opacity: 0.5; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.25); box-shadow: 0 0 12px #38bdf8; }
+}
+
+/* Base Social Icon Circular Button with Highest Specificity to override .footer-section a */
+.footer-section a.footer-social-icon,
+.footer-social-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    border-radius: 50% !important;
+    background: rgba(15, 23, 42, 0.75) !important;
+    border: 1.5px solid rgba(56, 189, 248, 0.35) !important;
+    color: #94a3b8 !important;
+    text-decoration: none !important;
+    margin: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+    vertical-align: middle !important;
+    opacity: 1 !important;
+    transition: all 0.28s cubic-bezier(0.2, 0, 0, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    backdrop-filter: blur(8px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Ensure the FontAwesome glyph inside is 100% dead-centered and properly sized */
+.footer-section a.footer-social-icon i,
+.footer-social-icon i {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    font-size: 0.95rem !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1), color 0.25s ease !important;
+}
+
+/* Individual Resting Brand Subtle Accents */
+.footer-section a.footer-social-icon.icon-linkedin i,
+.footer-social-icon.icon-linkedin i {
+    color: #38bdf8 !important;
+}
+.footer-section a.footer-social-icon.icon-github i,
+.footer-social-icon.icon-github i {
+    color: #cbd5e1 !important;
+}
+.footer-section a.footer-social-icon.icon-instagram i,
+.footer-social-icon.icon-instagram i {
+    color: #f472b6 !important;
+}
+.footer-section a.footer-social-icon.icon-x i,
+.footer-social-icon.icon-x i {
+    color: #f8fafc !important;
+}
+
+/* Individual Brand Hover States */
+.footer-section a.footer-social-icon.icon-linkedin:hover,
+.footer-social-icon.icon-linkedin:hover {
+    background: #0077b5 !important;
+    border-color: #38bdf8 !important;
     color: #ffffff !important;
-    border-color: #38bdf8;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.5);
+    transform: translateY(-3px) scale(1.08) !important;
+    box-shadow: 0 6px 20px rgba(0, 119, 181, 0.6) !important;
+}
+
+.footer-section a.footer-social-icon.icon-github:hover,
+.footer-social-icon.icon-github:hover {
+    background: #24292e !important;
+    border-color: #94a3b8 !important;
+    color: #ffffff !important;
+    transform: translateY(-3px) scale(1.08) !important;
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25) !important;
+}
+
+.footer-section a.footer-social-icon.icon-instagram:hover,
+.footer-social-icon.icon-instagram:hover {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%) !important;
+    border-color: #f43f5e !important;
+    color: #ffffff !important;
+    transform: translateY(-3px) scale(1.08) !important;
+    box-shadow: 0 6px 20px rgba(214, 36, 159, 0.6) !important;
+}
+
+.footer-section a.footer-social-icon.icon-x:hover,
+.footer-social-icon.icon-x:hover {
+    background: #000000 !important;
+    border-color: #38bdf8 !important;
+    color: #ffffff !important;
+    transform: translateY(-3px) scale(1.08) !important;
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.45) !important;
+}
+
+.footer-section a.footer-social-icon:hover i,
+.footer-social-icon:hover i {
+    transform: scale(1.18) !important;
+    color: #ffffff !important;
+}
+
+.footer-section a.footer-social-icon:active,
+.footer-social-icon:active {
+    transform: scale(0.92) !important;
 }
 
 /* Ambient glow center */
@@ -1756,6 +1875,13 @@ a:hover {
     }
     .footer-nav-link i {
         font-size: 0.68rem;
+    }
+    .footer-social-strip {
+        justify-content: center !important;
+        gap: 0.65rem !important;
+    }
+    .footer-social-icons-group {
+        justify-content: center !important;
     }
 }
 
