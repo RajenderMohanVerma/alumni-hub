@@ -1144,14 +1144,15 @@
         {% block content %}{% endblock %}
     </main>
 
-        <!-- ===== FOOTER ===== -->
+        <!-- ===== ENHANCED MODERN & MOBILE-FRIENDLY FOOTER ===== -->
     <footer class="footer-custom" id="mainFooter">
         <!-- Ambient Background Glows -->
         <div class="footer-ambient-glow top-left"></div>
         <div class="footer-ambient-glow bottom-right"></div>
+        <div class="footer-ambient-glow center-mid"></div>
 
-        <!-- 1. Footer Marquee Ticker -->
-        <div class="footer-marquee">
+        <!-- 1. Interactive Footer Marquee Ticker -->
+        <div class="footer-marquee" title="Live Academic & Network Telemetry">
             <div class="marquee-inner">
                 <span class="ticker-badge tb-cyan"><i class="fas fa-graduation-cap"></i> 480+ Verified Alumni</span>
                 <span class="ticker-badge tb-amber"><i class="fas fa-briefcase"></i> 160+ Career Opportunities</span>
@@ -1169,29 +1170,33 @@
             </div>
         </div>
 
-        <!-- 2. Footer Main Grid Content -->
+        <!-- 2. Main Footer Grid Content -->
         <div class="footer-content">
             <div class="container">
-                <div class="row g-4 g-lg-5">
-                    <!-- Column 1: Brand & Institutional Identity (col-lg-4 col-md-6) -->
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                        <div class="footer-section">
-                            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="row g-4 g-lg-5 align-items-start">
+                    
+                    <!-- Column 1: Institutional Identity & Campus Hub (col-lg-4 col-md-12) -->
+                    <div class="col-lg-4 col-md-12" data-aos="fade-up">
+                        <div class="footer-section footer-brand-col">
+                            <!-- Brand Heading & Logo -->
+                            <a href="{{ url_for('home') }}" class="d-inline-flex align-items-center gap-2 mb-3 text-decoration-none">
                                 <div class="brand-logo-container"
                                     style="width: 44px; height: 44px; border-radius: 12px; background: rgba(2, 132, 199, 0.2); display: flex; align-items: center; justify-content: center; border: 1.5px solid rgba(56, 189, 248, 0.45); box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);">
                                     <img src="{{ url_for('static', filename='images/icons/app-logo.png') }}" alt="Alumni Hub Logo" class="brand-app-logo" style="width: 30px; height: 30px; object-fit: contain;">
                                 </div>
                                 <div>
                                     <h5 class="footer-title mb-0" style="font-size: 1.3rem;">
-                                        ALUMNI <span style="background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">HUB</span>
+                                        ALUMNI <span class="text-gradient-cyan">HUB</span>
                                     </h5>
-                                    <small style="color: #94a3b8; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 700;">Institutional Portal</small>
+                                    <span class="footer-portal-subtitle">Institutional Portal • JIMS Rohini</span>
                                 </div>
-                            </div>
-                            <p class="footer-text mb-3" style="font-size: 0.88rem; line-height: 1.65; color: #cbd5e1;">
+                            </a>
+
+                            <p class="footer-text mb-3">
                                 The premier institutional alumni platform empowering students, distinguished graduates, and faculty guides for collaborative career growth and lifelong academic excellence.
                             </p>
                             
+                            <!-- Status Badges -->
                             <div class="d-flex flex-wrap gap-2 mb-3">
                                 <span class="footer-pill-badge badge-portal">
                                     <i class="fas fa-check-circle me-1"></i> Verified Portal
@@ -1199,20 +1204,28 @@
                                 <span class="footer-pill-badge badge-live">
                                     <span class="live-dot me-1"></span> Live Network
                                 </span>
+                                <span class="footer-pill-badge badge-edu">
+                                    <i class="fas fa-building-columns me-1"></i> NAAC 'A' Grade Hub
+                                </span>
                             </div>
 
-                            <!-- Campus Location Snippet Card -->
+                            <!-- Interactive Campus Location Snippet Card -->
                             <div class="footer-campus-card">
-                                <div class="d-flex align-items-center gap-2 mb-1">
-                                    <i class="fas fa-university text-info"></i>
-                                    <span class="fw-semibold text-white" style="font-size: 0.84rem;">JIMS Rohini Sector-5 Campus</span>
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="campus-icon-wrap">
+                                            <i class="fas fa-university text-info"></i>
+                                        </div>
+                                        <span class="fw-bold text-white campus-title">JIMS Rohini Sector-5 Campus</span>
+                                    </div>
+                                    <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30 rounded-pill px-2 py-0 small" style="font-size: 0.68rem;">DELHI</span>
                                 </div>
-                                <p class="mb-2" style="font-size: 0.8rem; line-height: 1.45; color: #cbd5e1;">
+                                <p class="campus-address mb-2">
                                     Institutional Area, Sector-5, Rohini, New Delhi, Delhi 110085
                                 </p>
-                                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 pt-1" style="border-top: 1px solid rgba(56, 189, 248, 0.22);">
+                                <div class="campus-actions d-flex align-items-center justify-content-between flex-wrap gap-2 pt-2">
                                     <a href="https://maps.google.com/?q=Jagan+Institute+of+Management+Studies+JIMS+Sector+5+Rohini+Delhi" target="_blank" rel="noopener noreferrer" class="footer-map-action">
-                                        <i class="fas fa-map-location-dot text-danger me-1"></i> View Google Map <i class="fas fa-arrow-up-right-from-square ms-1" style="font-size: 0.68rem;"></i>
+                                        <i class="fas fa-map-location-dot text-danger me-1"></i> View on Google Maps <i class="fas fa-arrow-up-right-from-square ms-1" style="font-size: 0.68rem;"></i>
                                     </a>
                                     <a href="mailto:alumnihub26@gmail.com" class="footer-contact-mini">
                                         <i class="fas fa-envelope text-info me-1"></i> Support Desk
@@ -1222,105 +1235,130 @@
                         </div>
                     </div>
 
-                    <!-- Column 2: Platform Links (col-lg-2 col-md-3 col-6) -->
-                    <div class="col-lg-2 col-md-3 col-6" data-aos="fade-up" data-aos-delay="100">
-                        <div class="footer-section ps-lg-2">
-                            <h5 class="footer-column-title">
-                                <span class="title-accent-dot"></span> Platform
-                            </h5>
-                            <ul class="footer-nav-list">
-                                <li><a href="{{ url_for('home') }}" class="footer-nav-link"><i class="fas fa-home text-info"></i> Home</a></li>
-                                <li><a href="{{ url_for('about') }}" class="footer-nav-link"><i class="fas fa-circle-info text-primary"></i> About Us</a></li>
-                                <li><a href="{{ url_for('services') }}" class="footer-nav-link"><i class="fas fa-layer-group text-warning"></i> Services</a></li>
-                                <li><a href="{{ url_for('events') }}" class="footer-nav-link"><i class="fas fa-calendar-days text-success"></i> Events</a></li>
-                                <li><a href="{{ url_for('list_jobs') }}" class="footer-nav-link"><i class="fas fa-briefcase text-info"></i> Career Board</a></li>
-                                <li>
-                                    <a href="{{ url_for('community_group') }}" class="footer-nav-link d-inline-flex align-items-center gap-1">
-                                        <i class="fab fa-whatsapp text-success"></i> Community
-                                        <span class="badge bg-success text-white py-0 px-1 rounded-pill" style="font-size: 0.62rem;">NEW</span>
-                                    </a>
-                                </li>
-                                <li><a href="{{ url_for('contact') }}" class="footer-nav-link"><i class="fas fa-paper-plane text-info"></i> Contact Us</a></li>
-                            </ul>
+                    <!-- Middle Section: Platform & Resources (Responsive 2-column on mobile) -->
+                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="100">
+                        <div class="row g-3 g-sm-4">
+                            <!-- Sub-Column 1: Platform Links -->
+                            <div class="col-6 col-sm-6">
+                                <div class="footer-section">
+                                    <h5 class="footer-column-title">
+                                        <span class="title-accent-dot"></span> Platform
+                                    </h5>
+                                    <ul class="footer-nav-list">
+                                        <li><a href="{{ url_for('home') }}" class="footer-nav-link"><i class="fas fa-home text-info"></i> Home</a></li>
+                                        <li><a href="{{ url_for('about') }}" class="footer-nav-link"><i class="fas fa-circle-info text-primary"></i> About Us</a></li>
+                                        <li><a href="{{ url_for('services') }}" class="footer-nav-link"><i class="fas fa-layer-group text-warning"></i> Services</a></li>
+                                        <li><a href="{{ url_for('events') }}" class="footer-nav-link"><i class="fas fa-calendar-days text-success"></i> Events</a></li>
+                                        <li><a href="{{ url_for('list_jobs') }}" class="footer-nav-link"><i class="fas fa-briefcase text-info"></i> Career Hub</a></li>
+                                        <li>
+                                            <a href="{{ url_for('community_group') }}" class="footer-nav-link d-inline-flex align-items-center gap-1">
+                                                <i class="fab fa-whatsapp text-success"></i> Community
+                                                <span class="badge bg-success text-white py-0 px-1 rounded-pill nav-badge-new">NEW</span>
+                                            </a>
+                                        </li>
+                                        <li><a href="{{ url_for('contact') }}" class="footer-nav-link"><i class="fas fa-paper-plane text-info"></i> Contact Us</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Sub-Column 2: Resources & Trust -->
+                            <div class="col-6 col-sm-6">
+                                <div class="footer-section">
+                                    <h5 class="footer-column-title">
+                                        <span class="title-accent-dot dot-purple"></span> Resources
+                                    </h5>
+                                    <ul class="footer-nav-list">
+                                        <li><a href="{{ url_for('faq') }}" class="footer-nav-link"><i class="fas fa-circle-question text-info"></i> Help &amp; FAQs</a></li>
+                                        <li><a href="{{ url_for('report_issue') }}" class="footer-nav-link"><i class="fas fa-triangle-exclamation text-warning"></i> Report Issue</a></li>
+                                        <li><a href="{{ url_for('privacy_policy') }}" class="footer-nav-link"><i class="fas fa-shield-halved text-success"></i> Privacy Policy</a></li>
+                                        <li><a href="{{ url_for('terms_conditions') }}" class="footer-nav-link"><i class="fas fa-file-contract text-primary"></i> Terms of Use</a></li>
+                                        <li><a href="{{ url_for('mentorship') }}" class="footer-nav-link"><i class="fas fa-hand-holding-heart text-danger"></i> Alumni Giving</a></li>
+                                        <li>
+                                            <span class="footer-nav-link pe-none text-success" style="color: #34d399 !important;">
+                                                <i class="fas fa-circle-check text-success"></i> Systems Live
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Column 3: Resources & Trust (col-lg-2 col-md-3 col-6) -->
-                    <div class="col-lg-2 col-md-3 col-6" data-aos="fade-up" data-aos-delay="200">
-                        <div class="footer-section ps-lg-1">
+                    <!-- Column 4: Official Helpdesk & Quick Touch Action Center (col-lg-4 col-md-6 col-12) -->
+                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="200">
+                        <div class="footer-section footer-helpdesk-col">
                             <h5 class="footer-column-title">
-                                <span class="title-accent-dot"></span> Resources
-                            </h5>
-                            <ul class="footer-nav-list">
-                                <li><a href="{{ url_for('faq') }}" class="footer-nav-link"><i class="fas fa-circle-question text-info"></i> Help &amp; FAQs</a></li>
-                                <li><a href="{{ url_for('report_issue') }}" class="footer-nav-link"><i class="fas fa-triangle-exclamation text-warning"></i> Report Issue</a></li>
-                                <li><a href="{{ url_for('privacy_policy') }}" class="footer-nav-link"><i class="fas fa-shield-halved text-success"></i> Privacy Policy</a></li>
-                                <li><a href="{{ url_for('terms_conditions') }}" class="footer-nav-link"><i class="fas fa-file-contract text-primary"></i> Terms of Use</a></li>
-                                <li><a href="{{ url_for('mentorship') }}" class="footer-nav-link"><i class="fas fa-hand-holding-heart text-danger"></i> Alumni Giving</a></li>
-                                <li>
-                                    <span class="footer-nav-link pe-none" style="color: #34d399 !important;">
-                                        <i class="fas fa-circle-check text-success"></i> Operational
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Column 4: Campus Helpdesk & Quick Connect (col-lg-4 col-md-6) -->
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <div class="footer-section">
-                            <h5 class="footer-column-title">
-                                <span class="title-accent-dot"></span> Campus Desk
+                                <span class="title-accent-dot dot-emerald"></span> Official Helpdesk
                             </h5>
                             
-                            <div class="footer-campus-card mt-0 mb-3" style="background: rgba(14, 165, 233, 0.08); border-color: rgba(56, 189, 248, 0.35);">
-                                <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom border-secondary border-opacity-25">
+                            <!-- Helpdesk Contact Info Card -->
+                            <div class="footer-campus-card footer-desk-card mt-0 mb-3">
+                                <!-- Phone -->
+                                <a href="tel:+917348619567" class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom border-secondary border-opacity-25 text-decoration-none group-hover">
                                     <div class="d-flex align-items-center gap-2">
-                                        <div class="contact-icon-mini" style="width: 32px; height: 32px; border-radius: 8px; background: rgba(56, 189, 248, 0.2); display: flex; align-items: center; justify-content: center; color: #38bdf8;">
-                                            <i class="fas fa-phone-volume" style="font-size: 0.85rem;"></i>
+                                        <div class="contact-icon-mini icon-phone">
+                                            <i class="fas fa-phone-volume"></i>
                                         </div>
                                         <div>
-                                            <small class="text-white-50 d-block" style="font-size: 0.72rem;">Helpline Desk</small>
-                                            <strong class="text-white" style="font-size: 0.86rem;">+91 7348619567</strong>
+                                            <small class="text-white-50 d-block desk-label">Helpline Desk (Voice &amp; WhatsApp)</small>
+                                            <strong class="text-white desk-value">+91 7348619567</strong>
                                         </div>
                                     </div>
                                     <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 rounded-pill px-2 py-1 small">
                                         <span class="live-dot me-1"></span> Active
                                     </span>
-                                </div>
+                                </a>
                                 
-                                <div class="d-flex align-items-center gap-2 mb-2">
-                                    <div class="contact-icon-mini" style="width: 32px; height: 32px; border-radius: 8px; background: rgba(139, 92, 246, 0.2); display: flex; align-items: center; justify-content: center; color: #c084fc;">
-                                        <i class="fas fa-envelope" style="font-size: 0.85rem;"></i>
+                                <!-- Email -->
+                                <a href="mailto:alumnihub26@gmail.com" class="d-flex align-items-center gap-2 mb-2 text-decoration-none group-hover">
+                                    <div class="contact-icon-mini icon-mail">
+                                        <i class="fas fa-envelope"></i>
                                     </div>
                                     <div>
-                                        <small class="text-white-50 d-block" style="font-size: 0.72rem;">Official Desk Email</small>
-                                        <strong class="text-white" style="font-size: 0.86rem;">alumnihub26@gmail.com</strong>
+                                        <small class="text-white-50 d-block desk-label">Official Support Desk</small>
+                                        <strong class="text-white desk-value">alumnihub26@gmail.com</strong>
                                     </div>
-                                </div>
+                                </a>
 
-                                <div class="d-flex align-items-center gap-2 pt-1 text-white-50 small" style="font-size: 0.78rem;">
+                                <!-- Hours -->
+                                <div class="d-flex align-items-center gap-2 pt-1 text-white-50 small desk-timing">
                                     <i class="fas fa-clock text-warning"></i>
-                                    <span>Mon - Sat: 9:00 AM - 5:30 PM IST</span>
+                                    <span>Mon – Sat: 9:00 AM – 5:30 PM IST</span>
                                 </div>
                             </div>
 
-                            <!-- Direct Action Buttons -->
-                            <div class="d-flex flex-column gap-2">
-                                <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer" class="dev-cta-btn btn-portfolio justify-content-center text-center w-100">
-                                    <i class="fab fa-whatsapp me-2"></i> WhatsApp Community Chat
+                            <!-- Mobile & Desktop Interactive Touch CTA Buttons -->
+                            <div class="d-flex flex-column gap-2 mb-3">
+                                <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer" class="footer-action-cta cta-whatsapp">
+                                    <i class="fab fa-whatsapp me-2" style="font-size: 1.15rem;"></i>
+                                    <span>WhatsApp Community Desk</span>
+                                    <i class="fas fa-arrow-up-right-from-square ms-auto" style="font-size: 0.74rem;"></i>
                                 </a>
-                                <a href="{{ url_for('contact') }}" class="dev-cta-btn btn-email justify-content-center text-center w-100">
-                                    <i class="fas fa-paper-plane me-2 text-info"></i> Contact Campus Desk
+                                <a href="{{ url_for('contact') }}" class="footer-action-cta cta-contact">
+                                    <i class="fas fa-paper-plane me-2 text-info"></i>
+                                    <span>Contact Campus &amp; Help Desk</span>
+                                    <i class="fas fa-chevron-right ms-auto" style="font-size: 0.74rem;"></i>
                                 </a>
+                            </div>
+
+                            <!-- Quick Social Strip -->
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 pt-1">
+                                <small class="text-white-50 small" style="font-size: 0.76rem; font-weight: 600;">Campus Connect:</small>
+                                <div class="d-flex align-items-center gap-2">
+                                    <a href="https://www.linkedin.com/in/rajender-mohan-verma-10418432a/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="https://github.com/RajenderMohanVerma" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+                                    <a href="https://www.instagram.com/rajender_maurya.01/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+                                    <a href="https://x.com/Rajendermv7800" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
 
-        <!-- 3. Footer Bottom Bar -->
+        <!-- 3. Redesigned Mobile-Optimized Footer Bottom Bar -->
         <div class="footer-bottom">
             <div class="container">
                 <div class="row align-items-center gy-3">
