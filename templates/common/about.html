@@ -867,6 +867,102 @@
         align-items: center;
         gap: 5px;
     }
+
+    /* Mobile-First Responsive Optimizations for Founder Card & VIP Modal */
+    .founder-badge-title {
+        font-size: 0.78rem;
+        padding: 0.32rem 0.85rem;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+    }
+    .founder-name-text {
+        font-size: 1.85rem;
+    }
+    .founder-role-sub {
+        font-size: 0.95rem;
+    }
+    .founder-bio-text {
+        font-size: 0.92rem;
+        line-height: 1.6;
+    }
+    .founder-chip-badge {
+        font-size: 0.75rem;
+        padding: 0.28rem 0.65rem;
+    }
+
+    @media (max-width: 767.98px) {
+        .founder-executive-card {
+            padding: 1.25rem 1rem !important;
+            border-radius: 20px !important;
+        }
+        .founder-photo-ring img {
+            width: 120px !important;
+            height: 120px !important;
+        }
+        .founder-crown-badge {
+            width: 34px !important;
+            height: 34px !important;
+            font-size: 0.85rem !important;
+        }
+        .founder-badge-title {
+            font-size: 0.72rem !important;
+            padding: 0.25rem 0.65rem !important;
+            letter-spacing: 0.2px !important;
+        }
+        .founder-name-text {
+            font-size: 1.45rem !important;
+            line-height: 1.25;
+        }
+        .founder-role-sub {
+            font-size: 0.84rem !important;
+        }
+        .founder-bio-text {
+            font-size: 0.86rem !important;
+            line-height: 1.5 !important;
+        }
+        .founder-chip-badge {
+            font-size: 0.7rem !important;
+            padding: 0.22rem 0.5rem !important;
+        }
+        .footer-dev-card {
+            padding: 1.25rem 1rem !important;
+            border-radius: 20px !important;
+        }
+        .dev-avatar-box {
+            width: 44px !important;
+            height: 44px !important;
+        }
+        .dev-monogram {
+            font-size: 1.05rem !important;
+        }
+        .dev-name {
+            font-size: 1.15rem !important;
+        }
+        .dev-role-label {
+            font-size: 0.78rem !important;
+        }
+        .dev-badge-tag {
+            font-size: 0.68rem !important;
+            padding: 0.25rem 0.6rem !important;
+        }
+        .dev-cta-btn {
+            font-size: 0.76rem !important;
+            padding: 0.45rem 0.85rem !important;
+        }
+        .dev-social-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 0.45rem !important;
+        }
+        .dev-social-btn {
+            padding: 0.45rem 0.5rem !important;
+            font-size: 0.74rem !important;
+        }
+        .dev-coding-pill {
+            padding: 0.35rem 0.7rem !important;
+            font-size: 0.72rem !important;
+        }
+    }
+
 </style>
 
 <div class="home-wrapper">
@@ -1037,135 +1133,107 @@
 
             <div class="row g-4 justify-content-center">
                 <!-- ========================================================
-                     FEATURED FOUNDER SPOTLIGHT (Executive VIP Redesign)
+                     FEATURED FOUNDER SPOTLIGHT (Concise & Mobile-Friendly)
                      ======================================================== -->
                 <div class="col-12 col-lg-10 col-xl-9 mx-auto mb-4 reveal-fade">
-                    <div class="founder-executive-card p-4 p-md-5">
+                    <div class="founder-executive-card p-3 p-sm-4 p-md-5">
                         <div class="founder-executive-accent"></div>
-
-                        <div class="row align-items-center g-4">
+                        
+                        <div class="row align-items-center g-3 g-md-4">
                             <!-- Left: Founder Portrait with Gradient Ring & Crown -->
                             <div class="col-md-4 text-center">
                                 <div class="founder-photo-ring">
                                     <img src="{{ url_for('static', filename='images/team/rajender.jpeg') }}"
                                         alt="Rajender Mohan Verma"
-                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Rajender+Verma&background=0284c7&color=fff&size=160';">
+                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Rajender+Verma&background=0284c7&color=fff&size=155';">
                                     <span class="founder-crown-badge" title="Lead Platform Architect & Founder">
                                         <i class="fas fa-crown"></i>
                                     </span>
                                 </div>
-                                <div class="mt-2 pt-1 text-center">
-                                    <span
-                                        class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-30 rounded-pill px-3 py-1 fw-semibold small">
+                                <div class="mt-2 text-center">
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-30 rounded-pill px-2 py-1 fw-semibold small" style="font-size: 0.74rem;">
                                         <span class="live-dot me-1"></span> Active Creator
                                     </span>
                                 </div>
                             </div>
-
+                            
                             <!-- Right: Details, Badges & Action Buttons -->
                             <div class="col-md-8 text-center text-md-start">
-                                <!-- Top Badges Row -->
-                                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                                    <div class="d-inline-flex align-items-center gap-2">
-                                        <span
-                                            class="badge px-3 py-2 text-white fw-bold d-inline-flex align-items-center gap-2 shadow-sm"
-                                            style="background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%); border-radius: 50px; font-size: 0.85rem; letter-spacing: 0.5px;">
-                                            <i class="fas fa-crown text-warning"></i> FOUNDER &amp; LEAD ARCHITECT
-                                        </span>
-                                        <span
-                                            class="badge bg-light text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold d-none d-sm-inline-flex align-items-center gap-1">
-                                            <i class="fas fa-graduation-cap text-primary"></i> MCA Core Lead
-                                        </span>
-                                    </div>
-                                    <button type="button" class="vip-pulse-pill" data-bs-toggle="modal"
+                                <!-- Top Badges Row: Fits comfortably on any mobile device -->
+                                <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
+                                    <span class="badge founder-badge-title text-white fw-bold d-inline-flex align-items-center gap-1 shadow-sm"
+                                        style="background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%); border-radius: 50px;">
+                                        <i class="fas fa-crown text-warning"></i> FOUNDER &amp; ARCHITECT
+                                    </span>
+                                    <button type="button" 
+                                        class="btn btn-sm text-white rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1 fw-bold"
+                                        style="background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #7c3aed 100%); border: none; font-size: 0.76rem;"
+                                        data-bs-toggle="modal" 
                                         data-bs-target="#rajenderProfileModal"
                                         title="Click to view Developer VIP Profiles">
-                                        <i class="fas fa-sparkles text-warning"></i> <span>Developer VIP Hub</span> <i
-                                            class="fas fa-arrow-up-right-from-square" style="font-size: 0.72rem;"></i>
+                                        <i class="fas fa-sparkles text-warning"></i> VIP Showcase ↗
                                     </button>
                                 </div>
 
                                 <!-- Name & Role Headline -->
-                                <div
-                                    class="d-flex align-items-center gap-2 justify-content-center justify-content-md-start mb-1">
-                                    <h3 class="mb-0 fw-800"
-                                        style="font-size: 2rem; color: #0f172a; letter-spacing: -0.5px;">Rajender Mohan
-                                        Verma</h3>
-                                    <span title="Verified Creator" style="color: #0284c7; font-size: 1.35rem;">
+                                <div class="d-flex align-items-center gap-2 justify-content-center justify-content-md-start mb-1">
+                                    <h3 class="mb-0 fw-800 founder-name-text" style="color: #0f172a; letter-spacing: -0.5px;">Rajender Mohan Verma</h3>
+                                    <span title="Verified Creator" style="color: #0284c7; font-size: 1.15rem;">
                                         <i class="fas fa-circle-check"></i>
                                     </span>
                                 </div>
-                                <p class="mb-2 fw-bold"
-                                    style="color: #0284c7; font-size: 0.98rem; letter-spacing: 0.2px;">
-                                    Lead System Architect &amp; Core Platform Creator • JIMS Rohini
+                                <p class="mb-2 fw-bold founder-role-sub" style="color: #0284c7;">
+                                    Full-Stack Architect &amp; Core Lead • JIMS Rohini
                                 </p>
-
-                                <!-- Bio -->
-                                <p class="mb-3" style="font-size: 0.98rem; line-height: 1.65; color: #475569;">
-                                    Full-stack architect &amp; community visionary. Conceived, designed, and engineered
-                                    <strong>Alumni Hub</strong> from scratch to empower institutional networking through
-                                    modern web technologies, real-time message sockets, high-concurrency role-based
-                                    architecture, and automated career hubs.
+                                
+                                <!-- Bio (Short, punchy & clean) -->
+                                <p class="mb-3 founder-bio-text" style="color: #475569;">
+                                    Conceived and engineered <strong>Alumni Hub</strong> to empower university networking through modern full-stack web architecture, real-time message sockets, and career mentorship.
                                 </p>
 
                                 <!-- Core Domain Badges -->
-                                <div
-                                    class="d-flex flex-wrap gap-2 mb-3 justify-content-center justify-content-md-start">
-                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-xs"
-                                        style="font-size: 0.78rem;">
+                                <div class="d-flex flex-wrap gap-1 mb-3 justify-content-center justify-content-md-start">
+                                    <span class="badge bg-white text-dark border rounded-pill shadow-xs founder-chip-badge">
                                         <i class="fas fa-layer-group text-primary me-1"></i> Full-Stack System
                                     </span>
-                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-xs"
-                                        style="font-size: 0.78rem;">
-                                        <i class="fas fa-database text-success me-1"></i> Schema &amp; APIs
+                                    <span class="badge bg-white text-dark border rounded-pill shadow-xs founder-chip-badge">
+                                        <i class="fas fa-database text-success me-1"></i> APIs &amp; Sockets
                                     </span>
-                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-xs"
-                                        style="font-size: 0.78rem;">
-                                        <i class="fas fa-bolt text-warning me-1"></i> Real-time Telemetry
-                                    </span>
-                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-xs"
-                                        style="font-size: 0.78rem;">
-                                        <i class="fas fa-shield-halved text-danger me-1"></i> 2FA &amp; Security
+                                    <span class="badge bg-white text-dark border rounded-pill shadow-xs founder-chip-badge">
+                                        <i class="fas fa-shield-halved text-danger me-1"></i> 2FA Security
                                     </span>
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div
-                                    class="d-flex flex-wrap gap-2 justify-content-center justify-content-md-start pt-1">
-                                    <button type="button"
-                                        class="btn text-white rounded-pill px-4 py-2 shadow-sm d-inline-flex align-items-center gap-2"
-                                        style="background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #7c3aed 100%) !important; border: none; font-weight: 700; box-shadow: 0 4px 18px rgba(37, 99, 235, 0.45) !important;"
-                                        data-bs-toggle="modal" data-bs-target="#rajenderProfileModal">
-                                        <i class="fas fa-id-card-clip fa-lg text-warning"></i> <span>Developer VIP
-                                            Showcase</span> <i class="fas fa-sparkles text-warning ms-1"></i>
+                                <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-md-start pt-1">
+                                    <button type="button" 
+                                        class="btn btn-sm text-white rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1 fw-bold" 
+                                        style="background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #7c3aed 100%) !important; border: none; font-size: 0.82rem;"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#rajenderProfileModal">
+                                        <i class="fas fa-id-card-clip text-warning"></i> <span>Developer VIP Showcase</span> <i class="fas fa-sparkles text-warning ms-1"></i>
                                     </button>
-                                    <a href="https://rajender-portfolio.vercel.app/" target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="btn btn-outline-primary rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2"
-                                        style="font-weight: 600;">
-                                        <i class="fas fa-globe"></i> Portfolio <i
-                                            class="fas fa-arrow-up-right-from-square" style="font-size: 0.7rem;"></i>
+                                    <a href="https://rajender-portfolio.vercel.app/" target="_blank" rel="noopener noreferrer"
+                                        class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-weight: 600; font-size: 0.82rem;">
+                                        <i class="fas fa-globe"></i> Portfolio
                                     </a>
-                                    <a href="https://www.linkedin.com/in/rajender-mohan-verma-10418432a/"
-                                        target="_blank" rel="noopener noreferrer"
-                                        class="btn btn-primary rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2"
-                                        style="background: #0077b5; border-color: #0077b5; font-weight: 600;">
+                                    <a href="https://www.linkedin.com/in/rajender-mohan-verma-10418432a/" target="_blank" rel="noopener noreferrer"
+                                        class="btn btn-sm btn-primary rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                        style="background: #0077b5; border-color: #0077b5; font-size: 0.82rem;">
                                         <i class="fab fa-linkedin-in"></i> LinkedIn
                                     </a>
-                                    <a href="https://github.com/RajenderMohanVerma" target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="btn btn-dark rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2"
-                                        style="background: #0f172a; border-color: #0f172a; font-weight: 600;">
+                                    <a href="https://github.com/RajenderMohanVerma" target="_blank" rel="noopener noreferrer"
+                                        class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                        style="background: #0f172a; border-color: #0f172a; font-size: 0.82rem;">
                                         <i class="fab fa-github"></i> GitHub
                                     </a>
                                     <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer"
-                                        class="btn btn-success rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2"
-                                        style="background: #16a34a; border-color: #16a34a; font-weight: 600;">
+                                        class="btn btn-sm btn-success rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                        style="background: #16a34a; border-color: #16a34a; font-size: 0.82rem;">
                                         <i class="fab fa-whatsapp"></i> WhatsApp
                                     </a>
                                     <a href="mailto:rajendramohan7800@gmail.com"
-                                        class="btn btn-outline-danger rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2"
-                                        style="font-weight: 600;">
+                                        class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
                                         <i class="fas fa-envelope"></i> Email Me
                                     </a>
                                 </div>
