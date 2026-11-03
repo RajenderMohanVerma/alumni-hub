@@ -580,6 +580,388 @@
         border: 2px solid rgba(2, 132, 199, 0.22);
         box-shadow: 0 24px 50px -12px rgba(15, 23, 42, 0.08);
     }
+
+    /* =======================================================
+       REDESIGNED FAQ & INTERACTIVE ACCORDION STYLES
+       ======================================================= */
+    .faq-luxury-card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.98) 100%);
+        border: 1.5px solid rgba(2, 132, 199, 0.16);
+        border-radius: 32px;
+        box-shadow: 0 24px 60px -15px rgba(2, 132, 199, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .faq-search-box-wrap {
+        max-width: 580px;
+        position: relative;
+    }
+
+    .faq-search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .faq-search-icon {
+        position: absolute;
+        left: 18px;
+        color: #0284c7;
+        font-size: 1rem;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .faq-search-input {
+        width: 100%;
+        padding: 13px 44px 13px 48px !important;
+        border-radius: 99px !important;
+        border: 2px solid rgba(2, 132, 199, 0.22) !important;
+        background: #ffffff !important;
+        font-size: 0.94rem !important;
+        color: #0f172a !important;
+        box-shadow: 0 8px 24px -6px rgba(2, 132, 199, 0.12) !important;
+        transition: all 0.25s ease !important;
+    }
+
+    .faq-search-input:focus {
+        border-color: #0284c7 !important;
+        box-shadow: 0 10px 28px -4px rgba(2, 132, 199, 0.25) !important;
+        outline: none !important;
+    }
+
+    .faq-search-clear {
+        position: absolute;
+        right: 14px;
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        font-size: 0.95rem;
+        padding: 4px;
+        cursor: pointer;
+        transition: color 0.2s;
+        z-index: 2;
+    }
+
+    .faq-search-clear:hover {
+        color: #ef4444;
+    }
+
+    /* Category Filter Chips */
+    .faq-filter-chips-wrap {
+        overflow-x: auto;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .faq-filter-chips-wrap::-webkit-scrollbar {
+        display: none;
+    }
+
+    .faq-filter-chip {
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        background: #ffffff;
+        color: #64748b;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 600;
+        font-size: 0.82rem;
+        padding: 7px 15px;
+        border-radius: 50px;
+        transition: all 0.22s ease;
+        white-space: nowrap;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+
+    .faq-filter-chip:hover {
+        background: #f1f5f9;
+        color: #0f172a;
+        transform: translateY(-1px);
+    }
+
+    .faq-filter-chip.active {
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        border-color: #0284c7;
+        color: #ffffff;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    }
+
+    .faq-filter-chip .chip-count {
+        background: rgba(255, 255, 255, 0.25);
+        color: inherit;
+        font-size: 0.72rem;
+        padding: 1px 7px;
+        border-radius: 50px;
+        margin-left: 6px;
+        font-weight: 700;
+    }
+
+    /* Redesigned Modern FAQ Card Items */
+    .faq-modern-card {
+        background: #ffffff;
+        border: 1.5px solid rgba(226, 232, 240, 0.85);
+        border-radius: 20px !important;
+        margin-bottom: 1rem;
+        transition: all 0.28s cubic-bezier(0.2, 0, 0, 1);
+        overflow: hidden;
+        box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+        position: relative;
+    }
+
+    .faq-modern-card:hover {
+        border-color: rgba(2, 132, 199, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px -4px rgba(2, 132, 199, 0.12);
+    }
+
+    .faq-modern-card.border-active {
+        border-color: #0284c7 !important;
+        box-shadow: 0 12px 30px -5px rgba(2, 132, 199, 0.16) !important;
+    }
+
+    /* Accordion Button Overrides */
+    .faq-accordion-btn {
+        width: 100%;
+        background: transparent !important;
+        border: none !important;
+        padding: 1.15rem 1.35rem !important;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+        box-shadow: none !important;
+        outline: none !important;
+        color: #0f172a !important;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+
+    .faq-accordion-btn::after {
+        display: none !important; /* Hide default bootstrap chevron */
+    }
+
+    .faq-icon-bubble {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.08rem;
+        transition: transform 0.25s ease;
+    }
+
+    .faq-modern-card:hover .faq-icon-bubble {
+        transform: scale(1.08);
+    }
+
+    .bubble-blue {
+        background: linear-gradient(135deg, rgba(2, 132, 199, 0.12) 0%, rgba(56, 189, 248, 0.22) 100%);
+        color: #0284c7;
+        border: 1px solid rgba(2, 132, 199, 0.25);
+    }
+
+    .bubble-green {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.22) 100%);
+        color: #059669;
+        border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .bubble-amber {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.22) 100%);
+        color: #d97706;
+        border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .bubble-purple {
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(192, 132, 252, 0.22) 100%);
+        color: #7c3aed;
+        border: 1px solid rgba(139, 92, 246, 0.25);
+    }
+
+    .bubble-rose {
+        background: linear-gradient(135deg, rgba(225, 29, 72, 0.12) 0%, rgba(251, 113, 133, 0.22) 100%);
+        color: #e11d48;
+        border: 1px solid rgba(225, 29, 72, 0.25);
+    }
+
+    .bubble-cyan {
+        background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(34, 211, 238, 0.22) 100%);
+        color: #0891b2;
+        border: 1px solid rgba(6, 182, 212, 0.25);
+    }
+
+    .faq-kicker-tag {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 3px;
+        display: inline-block;
+    }
+
+    .faq-question-text {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        font-size: 1.02rem;
+        line-height: 1.35;
+        color: #0f172a;
+        margin: 0;
+        transition: color 0.2s ease;
+    }
+
+    .faq-modern-card:hover .faq-question-text {
+        color: #0284c7;
+    }
+
+    /* Custom Toggle Chevron Badge */
+    .faq-toggle-circle {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        min-height: 32px;
+        border-radius: 50%;
+        background: #f1f5f9;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.78rem;
+        transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+        margin-left: auto;
+    }
+
+    .faq-accordion-btn:not(.collapsed) .faq-toggle-circle {
+        transform: rotate(180deg);
+        background: #0284c7;
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+    }
+
+    /* Accordion Body & Answer Box */
+    .faq-body-container {
+        padding: 0 1.35rem 1.35rem;
+    }
+
+    .faq-highlight-panel {
+        background: linear-gradient(135deg, rgba(240, 249, 255, 0.7) 0%, rgba(248, 250, 252, 0.9) 100%);
+        border-left: 3.5px solid #0284c7;
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .panel-green {
+        border-left-color: #10b981;
+        background: linear-gradient(135deg, rgba(236, 253, 245, 0.7) 0%, rgba(248, 250, 252, 0.9) 100%);
+    }
+
+    .panel-amber {
+        border-left-color: #f59e0b;
+        background: linear-gradient(135deg, rgba(254, 243, 199, 0.6) 0%, rgba(248, 250, 252, 0.9) 100%);
+    }
+
+    .panel-purple {
+        border-left-color: #8b5cf6;
+        background: linear-gradient(135deg, rgba(245, 243, 255, 0.7) 0%, rgba(248, 250, 252, 0.9) 100%);
+    }
+
+    .panel-rose {
+        border-left-color: #f43f5e;
+        background: linear-gradient(135deg, rgba(255, 241, 242, 0.7) 0%, rgba(248, 250, 252, 0.9) 100%);
+    }
+
+    .panel-cyan {
+        border-left-color: #06b6d4;
+        background: linear-gradient(135deg, rgba(236, 254, 255, 0.7) 0%, rgba(248, 250, 252, 0.9) 100%);
+    }
+
+    .faq-answer-text {
+        font-size: 0.94rem;
+        line-height: 1.7;
+        color: #334155;
+        margin-bottom: 0.65rem;
+    }
+
+    /* Bottom Helpdesk Banner */
+    .faq-support-strip {
+        background: linear-gradient(135deg, #0b1f3d 0%, #07152b 100%);
+        border: 1.5px solid rgba(56, 189, 248, 0.35);
+        border-radius: 22px;
+        box-shadow: 0 16px 36px -8px rgba(3, 10, 24, 0.4);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .faq-support-icon-circle {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+        min-height: 46px;
+        border-radius: 14px;
+        background: rgba(14, 165, 233, 0.2);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #38bdf8;
+        font-size: 1.25rem;
+    }
+
+    @media (max-width: 767.98px) {
+        .faq-luxury-card {
+            padding: 1.5rem 1rem !important;
+            border-radius: 24px;
+        }
+        .faq-accordion-btn {
+            padding: 1rem 0.95rem !important;
+            gap: 0.75rem;
+        }
+        .faq-icon-bubble {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            min-height: 36px;
+            font-size: 0.92rem;
+            border-radius: 10px;
+        }
+        .faq-question-text {
+            font-size: 0.92rem;
+            line-height: 1.35;
+        }
+        .faq-kicker-tag {
+            font-size: 0.65rem;
+        }
+        .faq-toggle-circle {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            min-height: 28px;
+            font-size: 0.7rem;
+        }
+        .faq-body-container {
+            padding: 0 0.95rem 1rem;
+        }
+        .faq-highlight-panel {
+            padding: 0.85rem 1rem;
+        }
+        .faq-answer-text {
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+        .faq-filter-chip {
+            font-size: 0.76rem;
+            padding: 5px 12px;
+        }
+    }
+
 </style>
 
 <div class="home-wrapper">
@@ -1337,113 +1719,376 @@
         </div>
 
         <!-- =======================================================
-             FREQUENTLY ASKED QUESTIONS (SEARCHABLE ACCORDION)
+             FREQUENTLY ASKED QUESTIONS (REDESIGNED LUXURY & INTERACTIVE CONTAINER)
              ======================================================= -->
-        <div class="my-5 py-4">
-            <div class="text-center mb-5 reveal-fade">
-                <div class="community-stats-kicker justify-content-center mb-2"><span></span> TRANSPARENCY</div>
-                <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
-                    Frequently Asked <span style="color: #0284c7;">Questions</span>
-                </h2>
-                <p class="mx-auto text-muted" style="max-width: 650px; font-size: 1rem; line-height: 1.6;">
-                    Have questions about services, costs, or how to get involved? Find instant answers below.
-                </p>
-            </div>
+        <div class="my-5 py-3" id="services-faq-section">
+            <div class="faq-luxury-card p-4 p-md-5 reveal-fade">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <div class="community-stats-kicker justify-content-center mb-2">
+                        <span class="beacon-dot"></span> 24/7 TRANSPARENCY &amp; ASSISTANCE
+                    </div>
+                    <h2 class="display-5 fw-bold mb-3" style="color: #0f172a; font-family: 'Outfit', sans-serif;">
+                        Frequently Asked <span class="text-holographic" style="-webkit-text-fill-color: #0284c7; color: #0284c7;">Questions</span>
+                    </h2>
+                    <p class="mx-auto text-muted" style="max-width: 660px; font-size: 1rem; line-height: 1.65;">
+                        Have questions about service access, 100% free student benefits, alumni mentor vetting, or career opportunities? Find verified answers instantly below.
+                    </p>
+                </div>
 
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="accordion border-0" id="servicesFaqAccordion">
+                <!-- Live Search Bar -->
+                <div class="faq-search-box-wrap mx-auto mb-3">
+                    <div class="faq-search-bar">
+                        <i class="fas fa-search faq-search-icon"></i>
+                        <input type="text" id="faqSearchInput" class="form-control faq-search-input"
+                            placeholder="Search questions (e.g. free, mentor, job, council, app)..."
+                            autocomplete="off">
+                        <button type="button" id="faqSearchClearBtn" class="faq-search-clear" style="display: none;"
+                            title="Clear search">
+                            <i class="fas fa-circle-xmark"></i>
+                        </button>
+                    </div>
+                </div>
 
-                        <!-- FAQ 1 -->
-                        <div class="service-vip-card accent-blue p-0 mb-3 overflow-hidden">
-                            <div class="accordion-item border-0">
-                                <h2 class="accordion-header" id="srvFaqHead1">
-                                    <button class="accordion-button fw-bold collapsed py-3" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#srvFaqCol1" aria-expanded="false"
-                                        style="background: transparent; color: #172a42; font-size: 1.05rem;">
-                                        Are Alumni Hub services free for current students and graduates?
-                                    </button>
-                                </h2>
-                                <div id="srvFaqCol1" class="accordion-collapse collapse"
-                                    data-bs-parent="#servicesFaqAccordion">
-                                    <div class="accordion-body text-muted pt-0"
-                                        style="font-size: 0.95rem; line-height: 1.7;">
-                                        <strong>Yes, 100% free.</strong> Alumni Hub is an official university initiative
-                                        funded by the department. There are zero subscription charges, hidden fees, or
-                                        premium paywalls for students or alumni.
+                <!-- Category Filter Chips -->
+                <div class="faq-filter-chips-wrap d-flex align-items-center justify-content-center flex-wrap gap-2 mb-4">
+                    <button type="button" class="faq-filter-chip active" data-faq-filter="all">
+                        <i class="fas fa-layer-group me-1"></i> All Questions <span class="chip-count">6</span>
+                    </button>
+                    <button type="button" class="faq-filter-chip" data-faq-filter="access">
+                        <i class="fas fa-gift text-primary me-1"></i> Free Access
+                    </button>
+                    <button type="button" class="faq-filter-chip" data-faq-filter="mentorship">
+                        <i class="fas fa-user-shield text-success me-1"></i> Mentor Vetting
+                    </button>
+                    <button type="button" class="faq-filter-chip" data-faq-filter="careers">
+                        <i class="fas fa-briefcase text-warning me-1"></i> Jobs &amp; Hiring
+                    </button>
+                    <button type="button" class="faq-filter-chip" data-faq-filter="leadership">
+                        <i class="fas fa-crown text-purple me-1" style="color: #8b5cf6;"></i> Executive Council
+                    </button>
+                    <button type="button" class="faq-filter-chip" data-faq-filter="platform">
+                        <i class="fas fa-shield-halved text-info me-1"></i> App &amp; Security
+                    </button>
+                </div>
+
+                <!-- Accordion Items List -->
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10 col-xl-9">
+                        <div class="accordion border-0" id="servicesFaqAccordion">
+
+                            <!-- FAQ 1: Free Access -->
+                            <div class="faq-modern-card" data-faq-category="access" data-faq-keywords="free student graduate cost charge fee paywall zero subscription">
+                                <div class="accordion-item border-0">
+                                    <h3 class="accordion-header" id="srvFaqHead1">
+                                        <button class="faq-accordion-btn collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#srvFaqCol1" aria-expanded="false"
+                                            aria-controls="srvFaqCol1">
+                                            <div class="faq-icon-bubble bubble-blue">
+                                                <i class="fas fa-gift"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <span class="faq-kicker-tag text-primary">100% FREE INITIATIVE</span>
+                                                <h4 class="faq-question-text">Are Alumni Hub services free for current students and graduates?</h4>
+                                            </div>
+                                            <div class="faq-toggle-circle">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                        </button>
+                                    </h3>
+                                    <div id="srvFaqCol1" class="accordion-collapse collapse"
+                                        data-bs-parent="#servicesFaqAccordion">
+                                        <div class="faq-body-container">
+                                            <div class="faq-highlight-panel">
+                                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                                                    <span class="badge bg-success bg-opacity-15 text-success rounded-pill px-2 py-1 small fw-bold">
+                                                        <i class="fas fa-circle-check me-1"></i> Zero Charges Guaranteed
+                                                    </span>
+                                                    <span class="badge bg-primary bg-opacity-15 text-primary rounded-pill px-2 py-1 small fw-semibold">
+                                                        University Funded
+                                                    </span>
+                                                </div>
+                                                <p class="faq-answer-text">
+                                                    <strong>Yes, 100% free forever.</strong> Alumni Hub is an official campus initiative fully funded and supported by the department. There are zero subscription charges, no hidden fees, and no premium paywalls for students, alumni, or faculty members.
+                                                </p>
+                                                <div class="pt-1">
+                                                    <a href="{{ url_for('register') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                                                        <i class="fas fa-user-plus"></i> Register Free Account <i class="fas fa-arrow-right ms-1" style="font-size: 0.7rem;"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- FAQ 2 -->
-                        <div class="service-vip-card accent-green p-0 mb-3 overflow-hidden">
-                            <div class="accordion-item border-0">
-                                <h2 class="accordion-header" id="srvFaqHead2">
-                                    <button class="accordion-button fw-bold collapsed py-3" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#srvFaqCol2" aria-expanded="false"
-                                        style="background: transparent; color: #172a42; font-size: 1.05rem;">
-                                        How are alumni mentors vetted before connecting with students?
-                                    </button>
-                                </h2>
-                                <div id="srvFaqCol2" class="accordion-collapse collapse"
-                                    data-bs-parent="#servicesFaqAccordion">
-                                    <div class="accordion-body text-muted pt-0"
-                                        style="font-size: 0.95rem; line-height: 1.7;">
-                                        Every alumni profile undergoes rigorous verification against university
-                                        convocation rosters, LinkedIn credentials, and OTP verification. Only
-                                        authenticated graduates are granted mentoring privileges.
+                            <!-- FAQ 2: Mentor Vetting -->
+                            <div class="faq-modern-card" data-faq-category="mentorship" data-faq-keywords="mentor vetting verification verify authentic credential convocation security safety">
+                                <div class="accordion-item border-0">
+                                    <h3 class="accordion-header" id="srvFaqHead2">
+                                        <button class="faq-accordion-btn collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#srvFaqCol2" aria-expanded="false"
+                                            aria-controls="srvFaqCol2">
+                                            <div class="faq-icon-bubble bubble-green">
+                                                <i class="fas fa-user-shield"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <span class="faq-kicker-tag text-success">VERIFICATION &amp; TRUST</span>
+                                                <h4 class="faq-question-text">How are alumni mentors vetted before connecting with students?</h4>
+                                            </div>
+                                            <div class="faq-toggle-circle">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                        </button>
+                                    </h3>
+                                    <div id="srvFaqCol2" class="accordion-collapse collapse"
+                                        data-bs-parent="#servicesFaqAccordion">
+                                        <div class="faq-body-container">
+                                            <div class="faq-highlight-panel panel-green">
+                                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                                                    <span class="badge bg-success bg-opacity-15 text-success rounded-pill px-2 py-1 small fw-bold">
+                                                        <i class="fas fa-shield-halved me-1"></i> Multi-Step Vetting
+                                                    </span>
+                                                    <span class="badge bg-dark bg-opacity-10 text-dark rounded-pill px-2 py-1 small fw-semibold">
+                                                        OTP &amp; LinkedIn Verified
+                                                    </span>
+                                                </div>
+                                                <p class="faq-answer-text">
+                                                    Every alumni profile undergoes rigorous verification against official university convocation rosters, LinkedIn credentials, and 2FA OTP verification. Only authenticated graduates are granted mentoring privileges to guarantee genuine career advice and student security.
+                                                </p>
+                                                <div class="pt-1">
+                                                    <a href="{{ url_for('network') }}" class="btn btn-sm btn-success rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                                                        <i class="fas fa-users-viewfinder"></i> Explore Verified Mentors <i class="fas fa-arrow-right ms-1" style="font-size: 0.7rem;"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- FAQ 3 -->
-                        <div class="service-vip-card accent-amber p-0 mb-3 overflow-hidden">
-                            <div class="accordion-item border-0">
-                                <h2 class="accordion-header" id="srvFaqHead3">
-                                    <button class="accordion-button fw-bold collapsed py-3" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#srvFaqCol3" aria-expanded="false"
-                                        style="background: transparent; color: #172a42; font-size: 1.05rem;">
-                                        Can companies and recruiters post job vacancies directly?
-                                    </button>
-                                </h2>
-                                <div id="srvFaqCol3" class="accordion-collapse collapse"
-                                    data-bs-parent="#servicesFaqAccordion">
-                                    <div class="accordion-body text-muted pt-0"
-                                        style="font-size: 0.95rem; line-height: 1.7;">
-                                        Yes. Verified alumni and authorized corporate partners can submit postings
-                                        through our Career Portal. The placement committee reviews each listing to
-                                        verify compensation authenticity before publishing.
+                            <!-- FAQ 3: Jobs & Recruiting -->
+                            <div class="faq-modern-card" data-faq-category="careers" data-faq-keywords="jobs vacancy vacancies hiring recruit company recruiter placement career referral">
+                                <div class="accordion-item border-0">
+                                    <h3 class="accordion-header" id="srvFaqHead3">
+                                        <button class="faq-accordion-btn collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#srvFaqCol3" aria-expanded="false"
+                                            aria-controls="srvFaqCol3">
+                                            <div class="faq-icon-bubble bubble-amber">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <span class="faq-kicker-tag text-warning">TALENT SOURCING</span>
+                                                <h4 class="faq-question-text">Can companies and recruiters post job vacancies directly?</h4>
+                                            </div>
+                                            <div class="faq-toggle-circle">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                        </button>
+                                    </h3>
+                                    <div id="srvFaqCol3" class="accordion-collapse collapse"
+                                        data-bs-parent="#servicesFaqAccordion">
+                                        <div class="faq-body-container">
+                                            <div class="faq-highlight-panel panel-amber">
+                                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                                                    <span class="badge bg-warning bg-opacity-20 text-dark rounded-pill px-2 py-1 small fw-bold">
+                                                        <i class="fas fa-building-circle-check me-1"></i> Committee Approved
+                                                    </span>
+                                                    <span class="badge bg-primary bg-opacity-15 text-primary rounded-pill px-2 py-1 small fw-semibold">
+                                                        Zero Sourcing Fees
+                                                    </span>
+                                                </div>
+                                                <p class="faq-answer-text">
+                                                    <strong>Yes.</strong> Verified alumni and authorized corporate partners can submit postings through our Career Portal. The placement committee reviews each listing to verify compensation authenticity, roles, and validity before publishing it to the community.
+                                                </p>
+                                                <div class="pt-1">
+                                                    <a href="{{ url_for('list_jobs') }}" class="btn btn-sm btn-warning rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1 text-dark fw-bold" style="font-size: 0.82rem;">
+                                                        <i class="fas fa-magnifying-glass"></i> View Career Openings <i class="fas fa-arrow-right ms-1" style="font-size: 0.7rem;"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- FAQ 4: Executive Council -->
+                            <div class="faq-modern-card" data-faq-category="leadership" data-faq-keywords="senior executive council pitch venture leadership founder c-suite advisory">
+                                <div class="accordion-item border-0">
+                                    <h3 class="accordion-header" id="srvFaqHead4">
+                                        <button class="faq-accordion-btn collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#srvFaqCol4" aria-expanded="false"
+                                            aria-controls="srvFaqCol4">
+                                            <div class="faq-icon-bubble bubble-purple">
+                                                <i class="fas fa-crown"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <span class="faq-kicker-tag" style="color: #7c3aed;">EXECUTIVE COUNCIL</span>
+                                                <h4 class="faq-question-text">How can senior alumni join the Executive Council or pitch ventures?</h4>
+                                            </div>
+                                            <div class="faq-toggle-circle">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                        </button>
+                                    </h3>
+                                    <div id="srvFaqCol4" class="accordion-collapse collapse"
+                                        data-bs-parent="#servicesFaqAccordion">
+                                        <div class="faq-body-container">
+                                            <div class="faq-highlight-panel panel-purple">
+                                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                                                    <span class="badge bg-purple bg-opacity-15 text-purple rounded-pill px-2 py-1 small fw-bold" style="background: #f5f3ff; color: #7c3aed;">
+                                                        <i class="fas fa-chess-queen me-1"></i> Dean's Advisory Committee
+                                                    </span>
+                                                    <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-2 py-1 small fw-semibold">
+                                                        Venture Mentorship
+                                                    </span>
+                                                </div>
+                                                <p class="faq-answer-text">
+                                                    Alumni who hold leadership, founder, or C-suite positions can submit an inquiry through our Contact Desk or email <code>alumnihub26@gmail.com</code>. The Dean's Advisory Committee coordinates executive participation and student startup incubation.
+                                                </p>
+                                                <div class="pt-1">
+                                                    <a href="mailto:alumnihub26@gmail.com" class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem; background: #6b21a8; border-color: #6b21a8;">
+                                                        <i class="fas fa-envelope"></i> Email Executive Desk <i class="fas fa-arrow-up-right-from-square ms-1" style="font-size: 0.68rem;"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FAQ 5: Mobile App & PWA -->
+                            <div class="faq-modern-card" data-faq-category="platform" data-faq-keywords="mobile phone app android ios install progressive web app pwa download responsive">
+                                <div class="accordion-item border-0">
+                                    <h3 class="accordion-header" id="srvFaqHead5">
+                                        <button class="faq-accordion-btn collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#srvFaqCol5" aria-expanded="false"
+                                            aria-controls="srvFaqCol5">
+                                            <div class="faq-icon-bubble bubble-rose">
+                                                <i class="fas fa-mobile-screen-button"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <span class="faq-kicker-tag text-danger">PWA MOBILE APP &amp; SECURITY</span>
+                                                <h4 class="faq-question-text">Can I access Alumni Hub on my mobile phone or install it as an app?</h4>
+                                            </div>
+                                            <div class="faq-toggle-circle">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                        </button>
+                                    </h3>
+                                    <div id="srvFaqCol5" class="accordion-collapse collapse"
+                                        data-bs-parent="#servicesFaqAccordion">
+                                        <div class="faq-body-container">
+                                            <div class="faq-highlight-panel panel-rose">
+                                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                                                    <span class="badge bg-danger bg-opacity-15 text-danger rounded-pill px-2 py-1 small fw-bold">
+                                                        <i class="fas fa-bolt me-1"></i> Progressive Web App (PWA)
+                                                    </span>
+                                                    <span class="badge bg-success bg-opacity-15 text-success rounded-pill px-2 py-1 small fw-semibold">
+                                                        SSL 256-Bit Encrypted
+                                                    </span>
+                                                </div>
+                                                <p class="faq-answer-text">
+                                                    <strong>Yes!</strong> Alumni Hub is fully responsive and optimized as a Progressive Web App (PWA). You can open it in Chrome, Safari, or Edge on any mobile device and tap <strong>"Add to Home Screen"</strong> or click the <em>Download App</em> button in the header for a native, fast mobile experience.
+                                                </p>
+                                                <div class="pt-1">
+                                                    <a href="{{ url_for('contact') }}" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                                                        <i class="fas fa-circle-question"></i> Help With Mobile Setup <i class="fas fa-arrow-right ms-1" style="font-size: 0.7rem;"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FAQ 6: Reunions & Chapter Gatherings -->
+                            <div class="faq-modern-card" data-faq-category="platform" data-faq-keywords="reunion campus meet chapter alumni day annual gathering batch meetup">
+                                <div class="accordion-item border-0">
+                                    <h3 class="accordion-header" id="srvFaqHead6">
+                                        <button class="faq-accordion-btn collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#srvFaqCol6" aria-expanded="false"
+                                            aria-controls="srvFaqCol6">
+                                            <div class="faq-icon-bubble bubble-cyan">
+                                                <i class="fas fa-calendar-star"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <span class="faq-kicker-tag text-info">EVENTS &amp; CHAPTERS</span>
+                                                <h4 class="faq-question-text">How can alumni organize batch reunions or campus chapter meets?</h4>
+                                            </div>
+                                            <div class="faq-toggle-circle">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                        </button>
+                                    </h3>
+                                    <div id="srvFaqCol6" class="accordion-collapse collapse"
+                                        data-bs-parent="#servicesFaqAccordion">
+                                        <div class="faq-body-container">
+                                            <div class="faq-highlight-panel panel-cyan">
+                                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                                                    <span class="badge bg-info bg-opacity-20 text-info rounded-pill px-2 py-1 small fw-bold">
+                                                        <i class="fas fa-landmark me-1"></i> Campus Coordination Desk
+                                                    </span>
+                                                    <span class="badge bg-dark bg-opacity-10 text-dark rounded-pill px-2 py-1 small fw-semibold">
+                                                        Auditorium &amp; Badge Support
+                                                    </span>
+                                                </div>
+                                                <p class="faq-answer-text">
+                                                    Alumni can organize class reunions, departmental meetups, or city chapters through the Events Portal. Our campus team assists with auditorium bookings, alumni pass badges, and event promotions to make your homecoming memorable.
+                                                </p>
+                                                <div class="pt-1">
+                                                    <a href="{{ url_for('events') }}" class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                                                        <i class="fas fa-calendar-days"></i> Browse Campus Events <i class="fas fa-arrow-right ms-1" style="font-size: 0.7rem;"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <!-- FAQ 4 -->
-                        <div class="service-vip-card accent-purple p-0 mb-3 overflow-hidden">
-                            <div class="accordion-item border-0">
-                                <h2 class="accordion-header" id="srvFaqHead4">
-                                    <button class="accordion-button fw-bold collapsed py-3" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#srvFaqCol4" aria-expanded="false"
-                                        style="background: transparent; color: #172a42; font-size: 1.05rem;">
-                                        How can senior alumni join the Executive Council or pitch ventures?
-                                    </button>
-                                </h2>
-                                <div id="srvFaqCol4" class="accordion-collapse collapse"
-                                    data-bs-parent="#servicesFaqAccordion">
-                                    <div class="accordion-body text-muted pt-0"
-                                        style="font-size: 0.95rem; line-height: 1.7;">
-                                        Alumni who hold leadership, founder, or C-suite positions can submit an inquiry
-                                        through our Contact Desk or email <code>alumnihub26@gmail.com</code>. The Dean's
-                                        Advisory Committee coordinates executive participation.
+                        <!-- No Matching Search Results State -->
+                        <div id="faqNoMatchBox" class="text-center py-5" style="display: none;">
+                            <div class="mb-3">
+                                <i class="fas fa-magnifying-glass-chart" style="font-size: 2.8rem; color: #94a3b8;"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-1">No matching questions found</h5>
+                            <p class="text-muted small mb-3">We couldn't find questions matching your search term. Try another keyword or reset the filter.</p>
+                            <button type="button" id="faqResetBtn" class="btn btn-sm btn-primary rounded-pill px-4 py-2 fw-semibold">
+                                <i class="fas fa-rotate-left me-1"></i> View All Questions
+                            </button>
+                        </div>
+
+                        <!-- Still Have Questions? Interactive Helpdesk Banner -->
+                        <div class="faq-support-strip p-3 p-md-4 mt-4">
+                            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 text-center text-md-start">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="faq-support-icon-circle flex-shrink-0">
+                                        <i class="fas fa-headset"></i>
                                     </div>
+                                    <div>
+                                        <h5 class="fw-bold mb-1 text-white" style="font-size: 1.05rem;">Still have questions or need custom guidance?</h5>
+                                        <p class="text-white-50 small mb-0">Our student-alumni campus coordinators and help desk team are available 24/7.</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center">
+                                    <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer"
+                                        class="btn btn-sm btn-success rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1 shadow-sm" style="font-size: 0.85rem;">
+                                        <i class="fab fa-whatsapp"></i> <span>WhatsApp Helpdesk</span>
+                                    </a>
+                                    <a href="{{ url_for('contact') }}"
+                                        class="btn btn-sm btn-outline-light rounded-pill px-3 py-2 fw-semibold d-inline-flex align-items-center gap-1" style="font-size: 0.85rem; border-color: rgba(255,255,255,0.4);">
+                                        <i class="fas fa-paper-plane"></i> <span>Contact Desk</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -1574,6 +2219,100 @@
             roleSelect.addEventListener('change', updateFinder);
             if (goalSelect) goalSelect.addEventListener('change', updateFinder);
         }
+
+        // 3. FAQ Live Search & Category Filtering
+        const faqSearchInput = document.getElementById('faqSearchInput');
+        const faqSearchClearBtn = document.getElementById('faqSearchClearBtn');
+        const faqFilterChips = document.querySelectorAll('.faq-filter-chip');
+        const faqCards = document.querySelectorAll('.faq-modern-card');
+        const faqNoMatchBox = document.getElementById('faqNoMatchBox');
+        const faqResetBtn = document.getElementById('faqResetBtn');
+
+        let currentCategory = 'all';
+
+        function filterFaqItems() {
+            const query = faqSearchInput ? faqSearchInput.value.toLowerCase().trim() : '';
+            let visibleCount = 0;
+
+            if (faqSearchClearBtn) {
+                faqSearchClearBtn.style.display = query.length > 0 ? 'inline-block' : 'none';
+            }
+
+            faqCards.forEach(card => {
+                const category = card.getAttribute('data-faq-category');
+                const keywords = card.getAttribute('data-faq-keywords') || '';
+                const questionText = card.querySelector('.faq-question-text')?.textContent.toLowerCase() || '';
+                const answerText = card.querySelector('.faq-answer-text')?.textContent.toLowerCase() || '';
+
+                const matchesCategory = (currentCategory === 'all' || category === currentCategory);
+                const matchesQuery = query === '' || 
+                    questionText.includes(query) || 
+                    answerText.includes(query) || 
+                    keywords.includes(query);
+
+                if (matchesCategory && matchesQuery) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeInUp 0.3s ease forwards';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (faqNoMatchBox) {
+                faqNoMatchBox.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+        }
+
+        if (faqSearchInput) {
+            faqSearchInput.addEventListener('input', filterFaqItems);
+        }
+
+        if (faqSearchClearBtn) {
+            faqSearchClearBtn.addEventListener('click', function() {
+                faqSearchInput.value = '';
+                filterFaqItems();
+                faqSearchInput.focus();
+            });
+        }
+
+        if (faqFilterChips.length > 0) {
+            faqFilterChips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    faqFilterChips.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.getAttribute('data-faq-filter') || 'all';
+                    filterFaqItems();
+                });
+            });
+        }
+
+        if (faqResetBtn) {
+            faqResetBtn.addEventListener('click', function() {
+                if (faqSearchInput) faqSearchInput.value = '';
+                currentCategory = 'all';
+                faqFilterChips.forEach(c => c.classList.remove('active'));
+                const allChip = document.querySelector('.faq-filter-chip[data-faq-filter="all"]');
+                if (allChip) allChip.classList.add('active');
+                filterFaqItems();
+            });
+        }
+
+        // Active border toggle on open accordion
+        const faqAccordions = document.querySelectorAll('.faq-accordion-btn');
+        faqAccordions.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.faq-modern-card');
+                setTimeout(() => {
+                    if (!this.classList.contains('collapsed')) {
+                        card.classList.add('border-active');
+                    } else {
+                        card.classList.remove('border-active');
+                    }
+                }, 200);
+            });
+        });
+
     });
 </script>
 {% endblock %}
