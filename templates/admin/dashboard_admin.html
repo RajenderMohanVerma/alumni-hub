@@ -754,107 +754,266 @@
     .mobile-users-grid {
         display: none;
         flex-direction: column;
-        gap: 12px;
+        gap: 14px;
+        width: 100%;
+        max-width: 100%;
     }
 
     .mobile-user-card {
         background: #ffffff;
         border: 1.5px solid #e2e8f0;
-        border-radius: 18px;
-        padding: 14px;
-        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
-        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        border-radius: 20px;
+        padding: 16px;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+        transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
         position: relative;
         overflow: hidden;
         width: 100%;
+        max-width: 100%;
         box-sizing: border-box;
     }
 
     .mobile-user-card:hover {
         border-color: #38bdf8;
-        box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12);
+        box-shadow: 0 10px 28px rgba(2, 132, 199, 0.12);
+        transform: translateY(-2px);
+    }
+
+    .mobile-user-card:active {
+        transform: scale(0.995);
+    }
+
+    /* Top Accent Stripe matching User Role */
+    .mobile-user-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3.5px;
+    }
+    .mobile-user-card[data-role="student"]::before {
+        background: linear-gradient(90deg, #0284c7 0%, #38bdf8 100%);
+    }
+    .mobile-user-card[data-role="alumni"]::before {
+        background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+    }
+    .mobile-user-card[data-role="faculty"]::before {
+        background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+    }
+    .mobile-user-card[data-role="admin"]::before {
+        background: linear-gradient(90deg, #7c3aed 0%, #a855f7 100%);
+    }
+
+    /* 1. Card Header: Role Badge (Left) + Registration Date (Right) */
+    .user-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f1f5f9;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .card-date-badge {
+        font-size: 0.73rem;
+        font-weight: 600;
+        color: #64748b;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 50px;
+        padding: 4px 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+
+    /* 2. User Identity Row: Squircle Avatar + Name + Interactive Email Capsule */
+    .user-identity-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .user-avatar-node-wrap {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        position: relative;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .user-identity-text {
+        min-width: 0;
+        flex: 1 1 auto;
+        overflow: hidden;
     }
 
     .user-name-heading {
-        font-size: 0.98rem;
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.02rem;
         font-weight: 700;
+        color: #0f172a;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         line-height: 1.3;
+        margin-bottom: 4px;
+        display: block;
+        text-decoration: none;
+        transition: color 0.15s ease;
     }
 
-    .user-email-wrap {
-        display: flex;
+    .user-name-heading:hover {
+        color: #0284c7;
+    }
+
+    /* Interactive 1-Tap Copy Email Capsule */
+    .user-email-capsule {
+        display: inline-flex;
         align-items: center;
-        gap: 4px;
-        margin-top: 2px;
+        gap: 6px;
         max-width: 100%;
+        min-width: 0;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 2.5px 8px;
+        cursor: pointer;
+        transition: all 0.18s ease;
+        user-select: all;
+    }
+
+    .user-email-capsule:hover,
+    .user-email-capsule:active {
+        background: #f0f9ff;
+        border-color: #7dd3fc;
+        transform: translateY(-1px);
+    }
+
+    .user-email-capsule i.fa-envelope {
+        font-size: 0.72rem;
+        color: #94a3b8;
+        flex-shrink: 0;
     }
 
     .user-email-text {
+        font-family: 'JetBrains Mono', monospace;
         font-size: 0.74rem;
-        color: #64748b;
+        color: #475569;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        background: transparent;
-        padding: 0;
-        line-height: 1.2;
+        min-width: 0;
+        display: block;
+        line-height: 1.3;
     }
 
     .btn-copy-email {
         background: none;
         border: none;
         color: #94a3b8;
-        padding: 0 4px;
-        font-size: 0.74rem;
+        padding: 0;
+        margin-left: 2px;
+        font-size: 0.72rem;
         cursor: pointer;
-        transition: color 0.15s ease, transform 0.15s ease;
+        transition: all 0.15s ease;
         flex-shrink: 0;
         display: inline-flex;
         align-items: center;
         justify-content: center;
     }
 
-    .btn-copy-email:hover,
-    .btn-copy-email:active {
+    .user-email-capsule:hover .btn-copy-email {
         color: #0284c7;
         transform: scale(1.15);
     }
 
+    /* 3. Metadata Chips */
     .adm-chips-wrap {
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
+        margin-bottom: 12px;
+        width: 100%;
     }
 
     .adm-meta-chip {
         display: inline-flex;
         align-items: center;
-        font-size: 0.72rem;
+        font-size: 0.73rem;
         font-weight: 600;
         color: #475569;
         background: #f8fafc;
         border: 1px solid #e2e8f0;
         border-radius: 8px;
-        padding: 3px 8px;
+        padding: 4px 9px;
         white-space: nowrap;
         line-height: 1.3;
+        transition: background-color 0.15s ease, border-color 0.15s ease;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
-    .card-date-badge {
-        font-size: 0.72rem;
-        font-weight: 600;
-        color: #64748b;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
+    .adm-meta-chip:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+    }
+
+    /* 4. Action Row */
+    .user-action-dock {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding-top: 12px;
+        border-top: 1px solid #f1f5f9;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .btn-view-profile-pill {
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        color: #ffffff !important;
         border-radius: 50px;
-        padding: 2px 8px;
+        padding: 7px 16px;
+        font-size: 0.8rem;
+        font-weight: 700;
         display: inline-flex;
         align-items: center;
-        gap: 4px;
+        gap: 6px;
+        text-decoration: none !important;
+        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         white-space: nowrap;
+    }
+
+    .btn-view-profile-pill:hover {
+        background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+        box-shadow: 0 6px 18px rgba(2, 132, 199, 0.38);
+        transform: translateY(-1px);
+    }
+
+    .btn-view-profile-pill:active {
+        transform: scale(0.97);
+    }
+
+    .user-tool-suite {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: auto;
     }
 
     /* Role Quick Chips Filter */
@@ -1052,28 +1211,35 @@
         border-radius: 50px;
         display: inline-flex;
         align-items: center;
-        gap: 5px;
+        gap: 6px;
         white-space: nowrap;
+        line-height: 1.3;
+        flex-shrink: 0;
+        letter-spacing: 0.02em;
     }
 
     .role-tag-student {
-        background: rgba(2, 132, 199, 0.1);
-        color: #0284c7;
+        background: #eff6ff;
+        color: #1d4ed8;
+        border: 1px solid #bfdbfe;
     }
 
     .role-tag-alumni {
-        background: rgba(245, 158, 11, 0.1);
-        color: #d97706;
+        background: #fef3c7;
+        color: #b45309;
+        border: 1px solid #fde68a;
     }
 
     .role-tag-faculty {
-        background: rgba(16, 185, 129, 0.1);
-        color: #059669;
+        background: #ecfdf5;
+        color: #047857;
+        border: 1px solid #a7f3d0;
     }
 
     .role-tag-admin {
-        background: rgba(124, 58, 237, 0.1);
-        color: #7c3aed;
+        background: #f5f3ff;
+        color: #6d28d9;
+        border: 1px solid #ddd6fe;
     }
 
     .action-icon-btn {
@@ -1824,14 +1990,14 @@
                                         </div>
                                         {% endif %}
                                     </div>
-                                    <div class="min-w-0">
+                                    <div class="min-w-0" style="max-width: 240px;">
                                         <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
                                             class="fw-bold text-dark text-decoration-none d-block hover-primary text-truncate"
                                             style="font-size: 0.95rem;">
                                             {{ (user['name']|title) if user['name'] else 'Unknown User' }}
                                         </a>
-                                        <code class="text-muted text-break"
-                                            style="font-size: 0.76rem;">{{ user['email'] }}</code>
+                                        <code class="text-muted text-truncate d-block"
+                                            style="font-size: 0.76rem;" title="{{ user['email'] }}">{{ user['email'] }}</code>
                                     </div>
                                 </div>
                             </td>
@@ -1916,32 +2082,28 @@
                     data-email="{{ (user['email'] or '') | lower }}"
                     data-dept="{{ (user['department'] or '') | lower }}">
 
-                    <!-- 1. Top Bar: Role Tag + Joined Date -->
-                    <div
-                        class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom border-light-subtle">
-                        <div>
+                    <!-- 1. Top Bar: Role Tag + Joined Date (Separate row, immune to overflow) -->
+                    <div class="user-card-header">
+                        <span class="role-badge-tag role-tag-{{ user['role'] }}">
                             {% if user['role'] == 'student' %}
-                            <span class="role-badge-tag role-tag-student"><i class="fas fa-user-graduate"></i>
-                                Student</span>
+                            <i class="fas fa-user-graduate"></i> Student
                             {% elif user['role'] == 'alumni' %}
-                            <span class="role-badge-tag role-tag-alumni"><i class="fas fa-user-tie"></i> Alumni</span>
+                            <i class="fas fa-user-tie"></i> Alumni
                             {% elif user['role'] == 'faculty' %}
-                            <span class="role-badge-tag role-tag-faculty"><i class="fas fa-chalkboard-teacher"></i>
-                                Faculty</span>
+                            <i class="fas fa-chalkboard-teacher"></i> Faculty
                             {% else %}
-                            <span class="role-badge-tag role-tag-admin"><i class="fas fa-shield-alt"></i> Admin</span>
+                            <i class="fas fa-shield-alt"></i> Admin
                             {% endif %}
-                        </div>
+                        </span>
 
-                        <span class="card-date-badge">
-                            <i class="far fa-calendar-alt text-primary"></i> {{ user['created_at'][:10] if
-                            user['created_at'] else 'N/A' }}
+                        <span class="card-date-badge" title="Registered Date">
+                            <i class="far fa-calendar-alt text-primary"></i> {{ user['created_at'][:10] if user['created_at'] else 'N/A' }}
                         </span>
                     </div>
 
-                    <!-- 2. User Identity Row: Avatar + Name + Email -->
-                    <div class="d-flex align-items-center gap-3 mb-2">
-                        <div class="user-avatar-node-wrap" style="width: 44px; height: 44px; flex-shrink: 0;">
+                    <!-- 2. User Identity Row: Avatar + Name + Interactive 1-Tap Copy Email -->
+                    <div class="user-identity-box">
+                        <div class="user-avatar-node-wrap">
                             {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or
                             user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and
                             user['profile_pic'] != 'default.jpg' %}
@@ -1959,16 +2121,16 @@
                             {% endif %}
                         </div>
 
-                        <div class="min-w-0 flex-grow-1" style="overflow: hidden;">
+                        <div class="user-identity-text">
                             <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
-                                class="text-dark text-decoration-none d-block hover-primary user-name-heading"
+                                class="user-name-heading"
                                 title="{{ user['name'] }}">
                                 {{ (user['name']|title) if user['name'] else 'Unknown User' }}
                             </a>
-                            <div class="user-email-wrap">
-                                <code class="user-email-text" title="{{ user['email'] }}">{{ user['email'] }}</code>
-                                <button type="button" class="btn-copy-email"
-                                    onclick="copyUserEmail('{{ user['email'] }}', this)" title="Copy email address">
+                            <div class="user-email-capsule" onclick="copyUserEmail('{{ user['email'] }}', this.querySelector('.btn-copy-email'))" title="Tap to copy email">
+                                <i class="far fa-envelope"></i>
+                                <span class="user-email-text">{{ user['email'] }}</span>
+                                <button type="button" class="btn-copy-email" aria-label="Copy email address">
                                     <i class="far fa-copy"></i>
                                 </button>
                             </div>
@@ -1976,10 +2138,9 @@
                     </div>
 
                     <!-- 3. Metadata Chips: Department & Batch/Semester -->
-                    <div class="adm-chips-wrap mb-2 pb-1">
+                    <div class="adm-chips-wrap">
                         <span class="adm-meta-chip">
-                            <i class="fas fa-building text-primary me-1"></i> {{ user['department'] or 'General Campus'
-                            }}
+                            <i class="fas fa-building text-primary me-1"></i> {{ user['department'] or 'General Campus' }}
                         </span>
                         <span class="adm-meta-chip">
                             {% if user['role'] == 'student' and user['batch_info'] %}
@@ -1990,10 +2151,15 @@
                             <i class="fas fa-briefcase text-success me-1"></i> Academic Staff
                             {% endif %}
                         </span>
+                        {% if user['phone'] %}
+                        <a href="tel:{{ user['phone'] }}" class="adm-meta-chip text-decoration-none" title="Call Member">
+                            <i class="fas fa-phone-alt text-success me-1"></i> {{ user['phone'] }}
+                        </a>
+                        {% endif %}
                     </div>
 
                     <!-- 4. Action Row -->
-                    <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-1">
+                    <div class="user-action-dock">
                         {% if user['email'] == 'alumnihub26@gmail.com' or user['email'] == 'admin@alumnihub.local' %}
                         <span class="badge bg-light text-secondary border rounded-pill px-3 py-1 small fw-bold"
                             style="font-size: 0.72rem;">
@@ -2006,12 +2172,11 @@
                         </a>
                         {% else %}
                         <a href="{% if user['role'] == 'student' %}{{ url_for('student_profile', user_id=user['id']) }}{% elif user['role'] == 'alumni' %}{{ url_for('alumni_profile', user_id=user['id']) }}{% elif user['role'] == 'faculty' %}{{ url_for('faculty_profile', user_id=user['id']) }}{% else %}{{ url_for('admin_profile', user_id=user['id']) }}{% endif %}"
-                            class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1 shadow-sm"
-                            style="font-size: 0.78rem;">
+                            class="btn-view-profile-pill">
                             <i class="fas fa-eye"></i> View Profile
                         </a>
 
-                        <div class="d-flex align-items-center gap-2">
+                        <div class="user-tool-suite">
                             {% if user['phone'] %}
                             <a href="https://wa.me/{{ user['phone']|replace('+', '')|replace(' ', '') }}"
                                 target="_blank" class="action-icon-btn action-btn-wa" title="WhatsApp Message">
@@ -2019,11 +2184,11 @@
                             </a>
                             {% endif %}
                             <a href="mailto:{{ user['email'] }}" class="action-icon-btn action-btn-mail"
-                                title="Send Email">
+                                title="Send Direct Email">
                                 <i class="far fa-envelope"></i>
                             </a>
-                            <button class="action-icon-btn action-btn-delete"
-                                onclick="confirmDelete('{{ user.id }}', '{{ user.name }}', this)" title="Delete Member">
+                            <button type="button" class="action-icon-btn action-btn-delete"
+                                onclick="confirmDelete('{{ user.id }}', '{{ user.name }}', this)" title="Delete Member Account">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
@@ -2750,13 +2915,23 @@
     }
 
     function showCopyFeedback(btn) {
+        if (!btn) return;
         const origHtml = btn.innerHTML;
         btn.innerHTML = '<i class="fas fa-check text-success"></i>';
         btn.classList.add('text-success');
+        const capsule = btn.closest('.user-email-capsule');
+        if (capsule) {
+            capsule.classList.add('border-success');
+            capsule.style.borderColor = '#10b981';
+        }
         setTimeout(() => {
             btn.innerHTML = origHtml;
             btn.classList.remove('text-success');
-        }, 1200);
+            if (capsule) {
+                capsule.classList.remove('border-success');
+                capsule.style.borderColor = '';
+            }
+        }, 1400);
     }
 
     function fallbackCopy(text, btn) {
