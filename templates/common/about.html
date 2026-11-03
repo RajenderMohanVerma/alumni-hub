@@ -32,6 +32,7 @@
         border-color: rgba(124, 58, 237, 0.26);
         box-shadow: 0 18px 42px -10px rgba(124, 58, 237, 0.16), 0 0 0 1px rgba(124, 58, 237, 0.08);
     }
+
     .founder-spotlight-card.accent-purple:hover {
         box-shadow: 0 28px 60px -10px rgba(124, 58, 237, 0.26), 0 0 0 2px rgba(124, 58, 237, 0.38);
     }
@@ -41,6 +42,7 @@
         border-color: rgba(2, 132, 199, 0.26);
         box-shadow: 0 18px 42px -10px rgba(2, 132, 199, 0.16), 0 0 0 1px rgba(2, 132, 199, 0.08);
     }
+
     .founder-spotlight-card.accent-blue:hover {
         box-shadow: 0 28px 60px -10px rgba(2, 132, 199, 0.26), 0 0 0 2px rgba(2, 132, 199, 0.38);
     }
@@ -50,6 +52,7 @@
         border-color: rgba(16, 185, 129, 0.26);
         box-shadow: 0 18px 42px -10px rgba(16, 185, 129, 0.16), 0 0 0 1px rgba(16, 185, 129, 0.08);
     }
+
     .founder-spotlight-card.accent-green:hover {
         box-shadow: 0 28px 60px -10px rgba(16, 185, 129, 0.26), 0 0 0 2px rgba(16, 185, 129, 0.38);
     }
@@ -59,6 +62,7 @@
         border-color: rgba(245, 158, 11, 0.28);
         box-shadow: 0 18px 42px -10px rgba(245, 158, 11, 0.16), 0 0 0 1px rgba(245, 158, 11, 0.08);
     }
+
     .founder-spotlight-card.accent-amber:hover {
         box-shadow: 0 28px 60px -10px rgba(245, 158, 11, 0.26), 0 0 0 2px rgba(245, 158, 11, 0.38);
     }
@@ -68,6 +72,7 @@
         border-color: rgba(225, 29, 72, 0.26);
         box-shadow: 0 18px 42px -10px rgba(225, 29, 72, 0.16), 0 0 0 1px rgba(225, 29, 72, 0.08);
     }
+
     .founder-spotlight-card.accent-rose:hover {
         box-shadow: 0 28px 60px -10px rgba(225, 29, 72, 0.26), 0 0 0 2px rgba(225, 29, 72, 0.38);
     }
@@ -134,13 +139,12 @@
         bottom: 25px;
         width: 4px;
         transform: translateX(-50%);
-        background: linear-gradient(180deg, 
-            #0284c7 0%, 
-            #10b981 25%, 
-            #f59e0b 50%, 
-            #8b5cf6 75%, 
-            #06b6d4 100%
-        );
+        background: linear-gradient(180deg,
+                #0284c7 0%,
+                #10b981 25%,
+                #f59e0b 50%,
+                #8b5cf6 75%,
+                #06b6d4 100%);
         border-radius: 99px;
         box-shadow: 0 0 16px rgba(2, 132, 199, 0.4);
         z-index: 1;
@@ -161,10 +165,23 @@
     }
 
     @keyframes timelineLaser {
-        0% { top: 0%; opacity: 0; }
-        15% { opacity: 1; }
-        85% { opacity: 1; }
-        100% { top: 96%; opacity: 0; }
+        0% {
+            top: 0%;
+            opacity: 0;
+        }
+
+        15% {
+            opacity: 1;
+        }
+
+        85% {
+            opacity: 1;
+        }
+
+        100% {
+            top: 96%;
+            opacity: 0;
+        }
     }
 
     /* Timeline Row Item */
@@ -220,17 +237,53 @@
     }
 
     /* Node Color Specific Variants */
-    .roadmap-timeline-item.accent-green .roadmap-node-badge { border-color: #10b981; color: #10b981; box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.15), 0 8px 22px rgba(16, 185, 129, 0.22); }
-    .roadmap-timeline-item.accent-green:hover .roadmap-node-badge { background: #10b981; color: #fff; box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.28), 0 12px 30px rgba(16, 185, 129, 0.38); }
+    .roadmap-timeline-item.accent-green .roadmap-node-badge {
+        border-color: #10b981;
+        color: #10b981;
+        box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.15), 0 8px 22px rgba(16, 185, 129, 0.22);
+    }
 
-    .roadmap-timeline-item.accent-amber .roadmap-node-badge { border-color: #f59e0b; color: #f59e0b; box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.15), 0 8px 22px rgba(245, 158, 11, 0.22); }
-    .roadmap-timeline-item.accent-amber:hover .roadmap-node-badge { background: #f59e0b; color: #fff; box-shadow: 0 0 0 8px rgba(245, 158, 11, 0.28), 0 12px 30px rgba(245, 158, 11, 0.38); }
+    .roadmap-timeline-item.accent-green:hover .roadmap-node-badge {
+        background: #10b981;
+        color: #fff;
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.28), 0 12px 30px rgba(16, 185, 129, 0.38);
+    }
 
-    .roadmap-timeline-item.accent-purple .roadmap-node-badge { border-color: #8b5cf6; color: #8b5cf6; box-shadow: 0 0 0 5px rgba(139, 92, 246, 0.15), 0 8px 22px rgba(139, 92, 246, 0.22); }
-    .roadmap-timeline-item.accent-purple:hover .roadmap-node-badge { background: #8b5cf6; color: #fff; box-shadow: 0 0 0 8px rgba(139, 92, 246, 0.28), 0 12px 30px rgba(139, 92, 246, 0.38); }
+    .roadmap-timeline-item.accent-amber .roadmap-node-badge {
+        border-color: #f59e0b;
+        color: #f59e0b;
+        box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.15), 0 8px 22px rgba(245, 158, 11, 0.22);
+    }
 
-    .roadmap-timeline-item.accent-cyan .roadmap-node-badge { border-color: #06b6d4; color: #06b6d4; box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.15), 0 8px 22px rgba(6, 182, 212, 0.22); }
-    .roadmap-timeline-item.accent-cyan:hover .roadmap-node-badge { background: #06b6d4; color: #fff; box-shadow: 0 0 0 8px rgba(6, 182, 212, 0.28), 0 12px 30px rgba(6, 182, 212, 0.38); }
+    .roadmap-timeline-item.accent-amber:hover .roadmap-node-badge {
+        background: #f59e0b;
+        color: #fff;
+        box-shadow: 0 0 0 8px rgba(245, 158, 11, 0.28), 0 12px 30px rgba(245, 158, 11, 0.38);
+    }
+
+    .roadmap-timeline-item.accent-purple .roadmap-node-badge {
+        border-color: #8b5cf6;
+        color: #8b5cf6;
+        box-shadow: 0 0 0 5px rgba(139, 92, 246, 0.15), 0 8px 22px rgba(139, 92, 246, 0.22);
+    }
+
+    .roadmap-timeline-item.accent-purple:hover .roadmap-node-badge {
+        background: #8b5cf6;
+        color: #fff;
+        box-shadow: 0 0 0 8px rgba(139, 92, 246, 0.28), 0 12px 30px rgba(139, 92, 246, 0.38);
+    }
+
+    .roadmap-timeline-item.accent-cyan .roadmap-node-badge {
+        border-color: #06b6d4;
+        color: #06b6d4;
+        box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.15), 0 8px 22px rgba(6, 182, 212, 0.22);
+    }
+
+    .roadmap-timeline-item.accent-cyan:hover .roadmap-node-badge {
+        background: #06b6d4;
+        color: #fff;
+        box-shadow: 0 0 0 8px rgba(6, 182, 212, 0.28), 0 12px 30px rgba(6, 182, 212, 0.38);
+    }
 
     /* Pulse wave around current node */
     .roadmap-node-badge::before {
@@ -244,9 +297,20 @@
     }
 
     @keyframes rippleBeacon {
-        0% { transform: scale(0.9); opacity: 0.8; }
-        60% { transform: scale(1.5); opacity: 0; }
-        100% { transform: scale(1.6); opacity: 0; }
+        0% {
+            transform: scale(0.9);
+            opacity: 0.8;
+        }
+
+        60% {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+
+        100% {
+            transform: scale(1.6);
+            opacity: 0;
+        }
     }
 
     /* Roadmap Card Container */
@@ -273,14 +337,17 @@
         box-shadow: 0 20px 42px -10px rgba(16, 185, 129, 0.2), 0 0 0 1px rgba(16, 185, 129, 0.25);
         border-color: rgba(16, 185, 129, 0.4);
     }
+
     .roadmap-timeline-item.accent-amber .roadmap-card:hover {
         box-shadow: 0 20px 42px -10px rgba(245, 158, 11, 0.2), 0 0 0 1px rgba(245, 158, 11, 0.25);
         border-color: rgba(245, 158, 11, 0.4);
     }
+
     .roadmap-timeline-item.accent-purple .roadmap-card:hover {
         box-shadow: 0 20px 42px -10px rgba(139, 92, 246, 0.2), 0 0 0 1px rgba(139, 92, 246, 0.25);
         border-color: rgba(139, 92, 246, 0.4);
     }
+
     .roadmap-timeline-item.accent-cyan .roadmap-card:hover {
         box-shadow: 0 20px 42px -10px rgba(6, 182, 212, 0.2), 0 0 0 1px rgba(6, 182, 212, 0.25);
         border-color: rgba(6, 182, 212, 0.4);
@@ -296,13 +363,26 @@
         background: linear-gradient(90deg, #0284c7, #38bdf8);
         transition: height 0.3s ease;
     }
+
     .roadmap-card:hover .roadmap-card-bar {
         height: 5px;
     }
-    .roadmap-timeline-item.accent-green .roadmap-card-bar { background: linear-gradient(90deg, #059669, #34d399); }
-    .roadmap-timeline-item.accent-amber .roadmap-card-bar { background: linear-gradient(90deg, #d97706, #fbbf24); }
-    .roadmap-timeline-item.accent-purple .roadmap-card-bar { background: linear-gradient(90deg, #7c3aed, #c084fc); }
-    .roadmap-timeline-item.accent-cyan .roadmap-card-bar { background: linear-gradient(90deg, #0891b2, #22d3ee); }
+
+    .roadmap-timeline-item.accent-green .roadmap-card-bar {
+        background: linear-gradient(90deg, #059669, #34d399);
+    }
+
+    .roadmap-timeline-item.accent-amber .roadmap-card-bar {
+        background: linear-gradient(90deg, #d97706, #fbbf24);
+    }
+
+    .roadmap-timeline-item.accent-purple .roadmap-card-bar {
+        background: linear-gradient(90deg, #7c3aed, #c084fc);
+    }
+
+    .roadmap-timeline-item.accent-cyan .roadmap-card-bar {
+        background: linear-gradient(90deg, #0891b2, #22d3ee);
+    }
 
     /* Animated Icon Box in Card */
     .roadmap-icon-box {
@@ -323,17 +403,45 @@
         color: #ffffff;
     }
 
-    .roadmap-timeline-item.accent-green .roadmap-icon-box { background: #ecfdf5; color: #059669; }
-    .roadmap-timeline-item.accent-green .roadmap-card:hover .roadmap-icon-box { background: #059669; color: #fff; }
+    .roadmap-timeline-item.accent-green .roadmap-icon-box {
+        background: #ecfdf5;
+        color: #059669;
+    }
 
-    .roadmap-timeline-item.accent-amber .roadmap-icon-box { background: #fffbeb; color: #d97706; }
-    .roadmap-timeline-item.accent-amber .roadmap-card:hover .roadmap-icon-box { background: #d97706; color: #fff; }
+    .roadmap-timeline-item.accent-green .roadmap-card:hover .roadmap-icon-box {
+        background: #059669;
+        color: #fff;
+    }
 
-    .roadmap-timeline-item.accent-purple .roadmap-icon-box { background: #f5f3ff; color: #7c3aed; }
-    .roadmap-timeline-item.accent-purple .roadmap-card:hover .roadmap-icon-box { background: #7c3aed; color: #fff; }
+    .roadmap-timeline-item.accent-amber .roadmap-icon-box {
+        background: #fffbeb;
+        color: #d97706;
+    }
 
-    .roadmap-timeline-item.accent-cyan .roadmap-icon-box { background: #ecfeff; color: #0891b2; }
-    .roadmap-timeline-item.accent-cyan .roadmap-card:hover .roadmap-icon-box { background: #0891b2; color: #fff; }
+    .roadmap-timeline-item.accent-amber .roadmap-card:hover .roadmap-icon-box {
+        background: #d97706;
+        color: #fff;
+    }
+
+    .roadmap-timeline-item.accent-purple .roadmap-icon-box {
+        background: #f5f3ff;
+        color: #7c3aed;
+    }
+
+    .roadmap-timeline-item.accent-purple .roadmap-card:hover .roadmap-icon-box {
+        background: #7c3aed;
+        color: #fff;
+    }
+
+    .roadmap-timeline-item.accent-cyan .roadmap-icon-box {
+        background: #ecfeff;
+        color: #0891b2;
+    }
+
+    .roadmap-timeline-item.accent-cyan .roadmap-card:hover .roadmap-icon-box {
+        background: #0891b2;
+        color: #fff;
+    }
 
     /* Shimmer Sweep Effect across Card */
     .roadmap-card::after {
@@ -343,14 +451,12 @@
         left: -50%;
         width: 200%;
         height: 200%;
-        background: linear-gradient(
-            60deg,
-            transparent 0%,
-            transparent 45%,
-            rgba(255, 255, 255, 0.65) 50%,
-            transparent 55%,
-            transparent 100%
-        );
+        background: linear-gradient(60deg,
+                transparent 0%,
+                transparent 45%,
+                rgba(255, 255, 255, 0.65) 50%,
+                transparent 55%,
+                transparent 100%);
         transform: rotate(25deg) translateY(-100%);
         transition: transform 0.8s ease;
         pointer-events: none;
@@ -374,9 +480,20 @@
     }
 
     @keyframes beaconGlow {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-        70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        }
+
+        70% {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+        }
+
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        }
     }
 
     /* Small Directional Connector Arrow from card to center node */
@@ -392,20 +509,35 @@
         z-index: 2;
         transition: border-color 0.35s ease;
     }
+
     .roadmap-timeline-item.item-left .roadmap-card-arrow {
         right: -8px;
     }
+
     .roadmap-timeline-item.item-right .roadmap-card-arrow {
         left: -8px;
         transform: rotate(-135deg);
     }
+
     .roadmap-card:hover .roadmap-card-arrow {
         border-color: rgba(2, 132, 199, 0.4);
     }
-    .roadmap-timeline-item.accent-green .roadmap-card:hover .roadmap-card-arrow { border-color: rgba(16, 185, 129, 0.4); }
-    .roadmap-timeline-item.accent-amber .roadmap-card:hover .roadmap-card-arrow { border-color: rgba(245, 158, 11, 0.4); }
-    .roadmap-timeline-item.accent-purple .roadmap-card:hover .roadmap-card-arrow { border-color: rgba(139, 92, 246, 0.4); }
-    .roadmap-timeline-item.accent-cyan .roadmap-card:hover .roadmap-card-arrow { border-color: rgba(6, 182, 212, 0.4); }
+
+    .roadmap-timeline-item.accent-green .roadmap-card:hover .roadmap-card-arrow {
+        border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .roadmap-timeline-item.accent-amber .roadmap-card:hover .roadmap-card-arrow {
+        border-color: rgba(245, 158, 11, 0.4);
+    }
+
+    .roadmap-timeline-item.accent-purple .roadmap-card:hover .roadmap-card-arrow {
+        border-color: rgba(139, 92, 246, 0.4);
+    }
+
+    .roadmap-timeline-item.accent-cyan .roadmap-card:hover .roadmap-card-arrow {
+        border-color: rgba(6, 182, 212, 0.4);
+    }
 
     /* Responsive adjustments for Tablets & Phones (< 992px) */
     @media (max-width: 991.98px) {
@@ -413,10 +545,12 @@
             left: 26px;
             transform: none;
         }
+
         .roadmap-timeline-laser {
             left: 26px;
             transform: none;
         }
+
         .roadmap-node-badge {
             left: 26px;
             width: 44px;
@@ -424,23 +558,314 @@
             font-size: 0.85rem;
             transform: translate(-50%, -50%);
         }
+
         .roadmap-timeline-item:hover .roadmap-node-badge {
             transform: translate(-50%, -50%) scale(1.12);
         }
+
         .roadmap-timeline-item.item-left,
         .roadmap-timeline-item.item-right {
             justify-content: flex-start;
             padding-left: 64px;
         }
+
         .roadmap-card {
             width: 100%;
             padding: 20px;
         }
+
         .roadmap-card-arrow {
             left: -8px !important;
             right: auto !important;
             transform: rotate(-135deg) !important;
         }
+    }
+
+    /* =======================================================
+       RAJENDER MOHAN VERMA - EXECUTIVE SPOTLIGHT & VIP MODAL STYLES
+       ======================================================= */
+    .founder-executive-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 249, 255, 0.96) 50%, rgba(238, 242, 255, 0.98) 100%) !important;
+        border: 2px solid rgba(2, 132, 199, 0.3) !important;
+        border-radius: 28px !important;
+        box-shadow: 0 20px 50px -12px rgba(2, 132, 199, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.8) inset !important;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.35s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .founder-executive-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 28px 65px -10px rgba(2, 132, 199, 0.3), 0 0 0 2px rgba(56, 189, 248, 0.5) !important;
+    }
+
+    .founder-executive-accent {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #0284c7 0%, #38bdf8 25%, #6366f1 50%, #ec4899 75%, #0284c7 100%);
+        background-size: 200% 100%;
+        animation: accentGlow 4s linear infinite;
+        box-shadow: 0 2px 14px rgba(2, 132, 199, 0.45);
+    }
+
+    @keyframes accentGlow {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .founder-photo-ring {
+        position: relative;
+        display: inline-block;
+        padding: 6px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #6366f1 100%);
+        box-shadow: 0 12px 30px rgba(2, 132, 199, 0.35);
+        transition: transform 0.3s ease;
+    }
+
+    .founder-photo-ring:hover {
+        transform: scale(1.03);
+    }
+
+    .founder-photo-ring img {
+        width: 155px;
+        height: 155px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid #ffffff;
+        display: block;
+    }
+
+    .founder-crown-badge {
+        position: absolute;
+        bottom: 4px;
+        right: 4px;
+        width: 42px;
+        height: 42px;
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: #ffffff;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        box-shadow: 0 4px 16px rgba(245, 158, 11, 0.6);
+        border: 3.5px solid #ffffff;
+        font-size: 1.05rem;
+    }
+
+    .vip-pulse-pill {
+        background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #7c3aed 100%);
+        color: #ffffff !important;
+        font-weight: 700;
+        border: none;
+        border-radius: 50px;
+        padding: 8px 18px;
+        box-shadow: 0 4px 18px rgba(14, 165, 233, 0.4);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+
+    .vip-pulse-pill:hover {
+        transform: scale(1.04);
+        box-shadow: 0 6px 24px rgba(37, 99, 235, 0.55);
+        color: #ffffff !important;
+    }
+
+    /* Modal VIP Glassmorphic Card */
+    .vip-modal-box {
+        background: radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.32) 0%, transparent 50%),
+            radial-gradient(circle at 90% 90%, rgba(124, 58, 237, 0.28) 0%, transparent 50%),
+            linear-gradient(145deg, #091c38 0%, #061429 55%, #030a16 100%) !important;
+        border: 1.5px solid rgba(56, 189, 248, 0.45) !important;
+        border-radius: 28px !important;
+        box-shadow: 0 30px 80px -10px rgba(0, 0, 0, 0.85), 0 0 50px -5px rgba(2, 132, 199, 0.4) !important;
+        padding: 2.2rem 2.2rem 1.8rem 2.2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .vip-modal-header-avatar {
+        width: 74px;
+        height: 74px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+        border: 2px solid rgba(56, 189, 248, 0.6);
+        box-shadow: 0 0 20px rgba(14, 165, 233, 0.45);
+        position: relative;
+        overflow: visible;
+        flex-shrink: 0;
+    }
+
+    .vip-modal-header-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 18px;
+    }
+
+    .vip-status-dot-pulse {
+        position: absolute;
+        bottom: -3px;
+        right: -3px;
+        width: 16px;
+        height: 16px;
+        background: #10b981;
+        border: 3px solid #061429;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #10b981;
+    }
+
+    .vip-cta-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 10px;
+    }
+
+    .vip-primary-btn {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #1d4ed8 100%);
+        color: #ffffff !important;
+        font-weight: 700;
+        font-size: 0.92rem;
+        border-radius: 14px;
+        padding: 10px 16px;
+        border: 1px solid rgba(125, 211, 252, 0.4);
+        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.25s ease;
+    }
+
+    .vip-primary-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 22px rgba(2, 132, 199, 0.6);
+        color: #ffffff !important;
+    }
+
+    .vip-secondary-btn {
+        background: rgba(15, 23, 42, 0.65);
+        color: #f1f5f9 !important;
+        font-weight: 600;
+        font-size: 0.92rem;
+        border-radius: 14px;
+        padding: 10px 16px;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.25s ease;
+    }
+
+    .vip-secondary-btn:hover {
+        background: rgba(30, 41, 59, 0.85);
+        border-color: rgba(56, 189, 248, 0.5);
+        transform: translateY(-2px);
+        color: #ffffff !important;
+    }
+
+    .vip-network-card {
+        background: rgba(15, 23, 42, 0.55);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        border-radius: 14px;
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #f8fafc !important;
+        text-decoration: none;
+        transition: all 0.25s ease;
+    }
+
+    .vip-network-card:hover {
+        background: rgba(14, 165, 233, 0.15);
+        border-color: rgba(56, 189, 248, 0.6);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        color: #ffffff !important;
+    }
+
+    .vip-coding-card {
+        background: rgba(15, 23, 42, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-decoration: none;
+        transition: all 0.25s ease;
+    }
+
+    .vip-coding-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    }
+
+    .vip-coding-card.card-leetcode {
+        border-color: rgba(251, 146, 60, 0.35);
+    }
+
+    .vip-coding-card.card-leetcode:hover {
+        background: rgba(251, 146, 60, 0.15);
+        border-color: rgba(251, 146, 60, 0.7);
+    }
+
+    .vip-coding-card.card-gfg {
+        border-color: rgba(52, 211, 153, 0.35);
+    }
+
+    .vip-coding-card.card-gfg:hover {
+        background: rgba(52, 211, 153, 0.15);
+        border-color: rgba(52, 211, 153, 0.7);
+    }
+
+    .vip-coding-card.card-hackerrank {
+        border-color: rgba(74, 222, 128, 0.35);
+    }
+
+    .vip-coding-card.card-hackerrank:hover {
+        background: rgba(74, 222, 128, 0.15);
+        border-color: rgba(74, 222, 128, 0.7);
+    }
+
+    .vip-coding-card.card-codechef {
+        border-color: rgba(245, 158, 11, 0.35);
+    }
+
+    .vip-coding-card.card-codechef:hover {
+        background: rgba(245, 158, 11, 0.15);
+        border-color: rgba(245, 158, 11, 0.7);
+    }
+
+    .vip-tech-pill {
+        background: rgba(56, 189, 248, 0.1);
+        color: #7dd3fc;
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        border-radius: 50px;
+        padding: 4px 12px;
+        font-size: 0.76rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
     }
 </style>
 
@@ -603,7 +1028,8 @@
                 <div class="community-stats-kicker justify-content-center mb-2"><span></span> LEADERSHIP</div>
                 <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">Meet Our
                     <span class="text-holographic" style="-webkit-text-fill-color: #0284c7; color: #0284c7;">Dream
-                        Team</span></h2>
+                        Team</span>
+                </h2>
                 <p class="mx-auto" style="color: #64748b; max-width: 650px; font-size: 1rem; line-height: 1.6;">
                     Passionate individuals driving the vision, engineering, and community excellence of Alumni Hub.
                 </p>
@@ -611,84 +1037,135 @@
 
             <div class="row g-4 justify-content-center">
                 <!-- ========================================================
-                     FEATURED FOUNDER SPOTLIGHT (Single in Row, Unique & Interactive)
+                     FEATURED FOUNDER SPOTLIGHT (Executive VIP Redesign)
                      ======================================================== -->
                 <div class="col-12 col-lg-10 col-xl-9 mx-auto mb-4 reveal-fade">
-                    <div class="founder-spotlight-card home-card accent-blue p-4 p-md-5">
-                        <div class="founder-accent-bar"></div>
+                    <div class="founder-executive-card p-4 p-md-5">
+                        <div class="founder-executive-accent"></div>
+
                         <div class="row align-items-center g-4">
+                            <!-- Left: Founder Portrait with Gradient Ring & Crown -->
                             <div class="col-md-4 text-center">
-                                <div class="founder-avatar-wrap">
+                                <div class="founder-photo-ring">
                                     <img src="{{ url_for('static', filename='images/team/rajender.jpeg') }}"
-                                        alt="Rajender Mohan Verma" class="rounded-circle founder-avatar-img shadow-sm"
-                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Rajender+Verma&background=0284c7&color=fff&size=150';">
-                                    <span class="founder-badge-crown" title="Founder & Lead Architect">
+                                        alt="Rajender Mohan Verma"
+                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Rajender+Verma&background=0284c7&color=fff&size=160';">
+                                    <span class="founder-crown-badge" title="Lead Platform Architect & Founder">
                                         <i class="fas fa-crown"></i>
                                     </span>
                                 </div>
-                            </div>
-                            <div class="col-md-8 text-center text-md-start">
-                                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                                    <span class="badge px-3 py-2 text-white fw-bold d-inline-flex align-items-center gap-2"
-                                        style="background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%); border-radius: 50px; font-size: 0.85rem; letter-spacing: 0.5px;">
-                                        <i class="fas fa-star text-warning"></i> FOUNDER &amp; LEAD ARCHITECT
+                                <div class="mt-2 pt-1 text-center">
+                                    <span
+                                        class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-30 rounded-pill px-3 py-1 fw-semibold small">
+                                        <span class="live-dot me-1"></span> Active Creator
                                     </span>
-                                    <button type="button" 
-                                        class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1 shadow-sm" 
-                                        style="cursor: pointer; transition: all 0.2s ease;" 
-                                        data-bs-toggle="modal" 
+                                </div>
+                            </div>
+
+                            <!-- Right: Details, Badges & Action Buttons -->
+                            <div class="col-md-8 text-center text-md-start">
+                                <!-- Top Badges Row -->
+                                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                                    <div class="d-inline-flex align-items-center gap-2">
+                                        <span
+                                            class="badge px-3 py-2 text-white fw-bold d-inline-flex align-items-center gap-2 shadow-sm"
+                                            style="background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%); border-radius: 50px; font-size: 0.85rem; letter-spacing: 0.5px;">
+                                            <i class="fas fa-crown text-warning"></i> FOUNDER &amp; LEAD ARCHITECT
+                                        </span>
+                                        <span
+                                            class="badge bg-light text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold d-none d-sm-inline-flex align-items-center gap-1">
+                                            <i class="fas fa-graduation-cap text-primary"></i> MCA Core Lead
+                                        </span>
+                                    </div>
+                                    <button type="button" class="vip-pulse-pill" data-bs-toggle="modal"
                                         data-bs-target="#rajenderProfileModal"
                                         title="Click to view Developer VIP Profiles">
-                                        <i class="fas fa-sparkles text-warning me-1"></i> Developer VIP Showcase ↗
+                                        <i class="fas fa-sparkles text-warning"></i> <span>Developer VIP Hub</span> <i
+                                            class="fas fa-arrow-up-right-from-square" style="font-size: 0.72rem;"></i>
                                     </button>
                                 </div>
-                                <h3 class="home-card-title mb-2 fw-800"
-                                    style="font-size: 1.85rem; color: #0f172a; letter-spacing: -0.5px;">Rajender Mohan
-                                    Verma</h3>
-                                <p class="home-card-text mb-3"
-                                    style="font-size: 1.02rem; line-height: 1.65; color: #475569;">
-                                    Full-stack architect &amp; community visionary. Conceived and engineered Alumni Hub
-                                    from the ground up to empower university networking through modern web technologies,
-                                    real-time message sockets, and high-concurrency role-based architecture.
+
+                                <!-- Name & Role Headline -->
+                                <div
+                                    class="d-flex align-items-center gap-2 justify-content-center justify-content-md-start mb-1">
+                                    <h3 class="mb-0 fw-800"
+                                        style="font-size: 2rem; color: #0f172a; letter-spacing: -0.5px;">Rajender Mohan
+                                        Verma</h3>
+                                    <span title="Verified Creator" style="color: #0284c7; font-size: 1.35rem;">
+                                        <i class="fas fa-circle-check"></i>
+                                    </span>
+                                </div>
+                                <p class="mb-2 fw-bold"
+                                    style="color: #0284c7; font-size: 0.98rem; letter-spacing: 0.2px;">
+                                    Lead System Architect &amp; Core Platform Creator • JIMS Rohini
+                                </p>
+
+                                <!-- Bio -->
+                                <p class="mb-3" style="font-size: 0.98rem; line-height: 1.65; color: #475569;">
+                                    Full-stack architect &amp; community visionary. Conceived, designed, and engineered
+                                    <strong>Alumni Hub</strong> from scratch to empower institutional networking through
+                                    modern web technologies, real-time message sockets, high-concurrency role-based
+                                    architecture, and automated career hubs.
                                 </p>
 
                                 <!-- Core Domain Badges -->
                                 <div
                                     class="d-flex flex-wrap gap-2 mb-3 justify-content-center justify-content-md-start">
-                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill small"><i
-                                            class="fas fa-layer-group text-primary me-1"></i> Full-Stack System</span>
-                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill small"><i
-                                            class="fas fa-database text-success me-1"></i> Schema &amp; APIs</span>
-                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill small"><i
-                                            class="fas fa-bolt text-warning me-1"></i> Real-time Telemetry</span>
-                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill small"><i
-                                            class="fas fa-graduation-cap text-info me-1"></i> MCA Core Lead</span>
+                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-xs"
+                                        style="font-size: 0.78rem;">
+                                        <i class="fas fa-layer-group text-primary me-1"></i> Full-Stack System
+                                    </span>
+                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-xs"
+                                        style="font-size: 0.78rem;">
+                                        <i class="fas fa-database text-success me-1"></i> Schema &amp; APIs
+                                    </span>
+                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-xs"
+                                        style="font-size: 0.78rem;">
+                                        <i class="fas fa-bolt text-warning me-1"></i> Real-time Telemetry
+                                    </span>
+                                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-xs"
+                                        style="font-size: 0.78rem;">
+                                        <i class="fas fa-shield-halved text-danger me-1"></i> 2FA &amp; Security
+                                    </span>
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-md-start">
-                                    <button type="button" 
-                                        class="btn btn-sm text-white rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2" 
-                                        style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 40%, #1d4ed8 100%) !important; border: none; font-weight: 700; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4) !important;"
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#rajenderProfileModal">
-                                        <i class="fas fa-id-card-clip"></i> <span>Developer VIP Showcase</span> <i class="fas fa-sparkles text-warning ms-1"></i>
+                                <div
+                                    class="d-flex flex-wrap gap-2 justify-content-center justify-content-md-start pt-1">
+                                    <button type="button"
+                                        class="btn text-white rounded-pill px-4 py-2 shadow-sm d-inline-flex align-items-center gap-2"
+                                        style="background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #7c3aed 100%) !important; border: none; font-weight: 700; box-shadow: 0 4px 18px rgba(37, 99, 235, 0.45) !important;"
+                                        data-bs-toggle="modal" data-bs-target="#rajenderProfileModal">
+                                        <i class="fas fa-id-card-clip fa-lg text-warning"></i> <span>Developer VIP
+                                            Showcase</span> <i class="fas fa-sparkles text-warning ms-1"></i>
                                     </button>
                                     <a href="https://rajender-portfolio.vercel.app/" target="_blank"
-                                        class="btn btn-sm btn-outline-primary rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2" style="font-weight: 600;">
-                                        <i class="fas fa-globe"></i> Portfolio
+                                        rel="noopener noreferrer"
+                                        class="btn btn-outline-primary rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2"
+                                        style="font-weight: 600;">
+                                        <i class="fas fa-globe"></i> Portfolio <i
+                                            class="fas fa-arrow-up-right-from-square" style="font-size: 0.7rem;"></i>
                                     </a>
                                     <a href="https://www.linkedin.com/in/rajender-mohan-verma-10418432a/"
-                                        target="_blank"
-                                        class="btn btn-sm btn-primary rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2">
+                                        target="_blank" rel="noopener noreferrer"
+                                        class="btn btn-primary rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2"
+                                        style="background: #0077b5; border-color: #0077b5; font-weight: 600;">
                                         <i class="fab fa-linkedin-in"></i> LinkedIn
                                     </a>
                                     <a href="https://github.com/RajenderMohanVerma" target="_blank"
-                                        class="btn btn-sm btn-dark rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2">
+                                        rel="noopener noreferrer"
+                                        class="btn btn-dark rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2"
+                                        style="background: #0f172a; border-color: #0f172a; font-weight: 600;">
                                         <i class="fab fa-github"></i> GitHub
                                     </a>
+                                    <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer"
+                                        class="btn btn-success rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2"
+                                        style="background: #16a34a; border-color: #16a34a; font-weight: 600;">
+                                        <i class="fab fa-whatsapp"></i> WhatsApp
+                                    </a>
                                     <a href="mailto:rajendramohan7800@gmail.com"
-                                        class="btn btn-sm btn-outline-danger rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2">
+                                        class="btn btn-outline-danger rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2"
+                                        style="font-weight: 600;">
                                         <i class="fas fa-envelope"></i> Email Me
                                     </a>
                                 </div>
@@ -702,53 +1179,75 @@
                      ======================================================== -->
                 <!-- Line 1, Card 1: Harshita Vasuja (Operations & Program Lead) -->
                 <div class="col-12 col-lg-6 reveal-fade" style="animation-delay: 0.1s;">
-                    <div class="founder-spotlight-card home-card accent-purple p-4 p-md-4 h-100 d-flex flex-column justify-content-between">
-                        <div class="founder-accent-bar" style="background: linear-gradient(90deg, #7c3aed 0%, #a855f7 50%, #ec4899 100%);"></div>
+                    <div
+                        class="founder-spotlight-card home-card accent-purple p-4 p-md-4 h-100 d-flex flex-column justify-content-between">
+                        <div class="founder-accent-bar"
+                            style="background: linear-gradient(90deg, #7c3aed 0%, #a855f7 50%, #ec4899 100%);"></div>
                         <div>
-                            <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-3 gap-md-4 mb-3">
+                            <div
+                                class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-3 gap-md-4 mb-3">
                                 <div class="founder-avatar-wrap flex-shrink-0 text-center">
                                     <img src="{{ url_for('static', filename='images/team/harshita.jpeg') }}"
                                         alt="Harshita Vasuja" class="rounded-circle founder-avatar-img shadow-sm"
                                         style="width: 125px; height: 125px; border-color: #f5f3ff;"
                                         onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Harshita+Vasuja&background=7c3aed&color=fff&size=125';">
-                                    <span class="founder-badge-crown" style="width: 34px; height: 34px; font-size: 0.82rem; background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);" title="Operations & Program Lead">
+                                    <span class="founder-badge-crown"
+                                        style="width: 34px; height: 34px; font-size: 0.82rem; background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);"
+                                        title="Operations & Program Lead">
                                         <i class="fas fa-briefcase"></i>
                                     </span>
                                 </div>
                                 <div class="flex-grow-1 text-center text-sm-start">
                                     <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
-                                        <span class="badge px-3 py-1 text-white fw-bold d-inline-flex align-items-center gap-1"
+                                        <span
+                                            class="badge px-3 py-1 text-white fw-bold d-inline-flex align-items-center gap-1"
                                             style="background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%); border-radius: 50px; font-size: 0.78rem; letter-spacing: 0.5px;">
                                             <i class="fas fa-award text-warning"></i> OPERATIONS &amp; PROGRAM LEAD
                                         </span>
-                                        <span class="badge rounded-pill px-3 py-1 small fw-bold" style="background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe;">
+                                        <span class="badge rounded-pill px-3 py-1 small fw-bold"
+                                            style="background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe;">
                                             <i class="fas fa-university me-1" style="color: #7c3aed;"></i> Core Lead
                                         </span>
                                     </div>
-                                    <h3 class="home-card-title mb-1 fw-800" style="font-size: 1.45rem; color: #0f172a; letter-spacing: -0.5px;">Harshita Vasuja</h3>
-                                    <p class="home-card-text mb-0" style="font-size: 0.9rem; line-height: 1.55; color: #475569;">
-                                        Drives strategic university initiatives, cross-department coordination, program governance, and community workflows to deliver an elevated networking experience.
+                                    <h3 class="home-card-title mb-1 fw-800"
+                                        style="font-size: 1.45rem; color: #0f172a; letter-spacing: -0.5px;">Harshita
+                                        Vasuja</h3>
+                                    <p class="home-card-text mb-0"
+                                        style="font-size: 0.9rem; line-height: 1.55; color: #475569;">
+                                        Drives strategic university initiatives, cross-department coordination, program
+                                        governance, and community workflows to deliver an elevated networking
+                                        experience.
                                     </p>
                                 </div>
                             </div>
 
                             <!-- Domain Badges -->
                             <div class="d-flex flex-wrap gap-1 mb-3 justify-content-center justify-content-sm-start">
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-tasks text-purple me-1"></i> Program Management</span>
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-handshake text-primary me-1"></i> Partnerships</span>
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-sitemap text-success me-1"></i> Coordination</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-tasks text-purple me-1"></i> Program Management</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-handshake text-primary me-1"></i> Partnerships</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-sitemap text-success me-1"></i> Coordination</span>
                             </div>
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-sm-start pt-3 border-top border-light-subtle">
-                            <a href="#" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="background: #7c3aed; border-color: #7c3aed; font-size: 0.82rem;">
+                        <div
+                            class="d-flex flex-wrap gap-2 justify-content-center justify-content-sm-start pt-3 border-top border-light-subtle">
+                            <a href="#" target="_blank"
+                                class="btn btn-sm btn-primary rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                style="background: #7c3aed; border-color: #7c3aed; font-size: 0.82rem;">
                                 <i class="fab fa-linkedin-in"></i> LinkedIn
                             </a>
-                            <a href="#" target="_blank" class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                            <a href="#" target="_blank"
+                                class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fab fa-github"></i> GitHub
                             </a>
-                            <a href="mailto:harshita@alumnihub.com" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                            <a href="mailto:harshita@alumnihub.com"
+                                class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fas fa-envelope"></i> Contact
                             </a>
                         </div>
@@ -757,53 +1256,75 @@
 
                 <!-- Line 1, Card 2: Aru Sehgal (Technical Architect) -->
                 <div class="col-12 col-lg-6 reveal-fade" style="animation-delay: 0.15s;">
-                    <div class="founder-spotlight-card home-card accent-blue p-4 p-md-4 h-100 d-flex flex-column justify-content-between">
-                        <div class="founder-accent-bar" style="background: linear-gradient(90deg, #0284c7 0%, #06b6d4 50%, #3b82f6 100%);"></div>
+                    <div
+                        class="founder-spotlight-card home-card accent-blue p-4 p-md-4 h-100 d-flex flex-column justify-content-between">
+                        <div class="founder-accent-bar"
+                            style="background: linear-gradient(90deg, #0284c7 0%, #06b6d4 50%, #3b82f6 100%);"></div>
                         <div>
-                            <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-3 gap-md-4 mb-3">
+                            <div
+                                class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-3 gap-md-4 mb-3">
                                 <div class="founder-avatar-wrap flex-shrink-0 text-center">
-                                    <img src="{{ url_for('static', filename='images/team/aru.jpeg') }}"
-                                        alt="Aru Sehgal" class="rounded-circle founder-avatar-img shadow-sm"
+                                    <img src="{{ url_for('static', filename='images/team/aru.jpeg') }}" alt="Aru Sehgal"
+                                        class="rounded-circle founder-avatar-img shadow-sm"
                                         style="width: 125px; height: 125px; border-color: #edf4f7;"
                                         onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Aru+Sehgal&background=0284c7&color=fff&size=125';">
-                                    <span class="founder-badge-crown" style="width: 34px; height: 34px; font-size: 0.82rem; background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);" title="Technical Architect">
+                                    <span class="founder-badge-crown"
+                                        style="width: 34px; height: 34px; font-size: 0.82rem; background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);"
+                                        title="Technical Architect">
                                         <i class="fas fa-code"></i>
                                     </span>
                                 </div>
                                 <div class="flex-grow-1 text-center text-sm-start">
                                     <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
-                                        <span class="badge px-3 py-1 text-white fw-bold d-inline-flex align-items-center gap-1"
+                                        <span
+                                            class="badge px-3 py-1 text-white fw-bold d-inline-flex align-items-center gap-1"
                                             style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border-radius: 50px; font-size: 0.78rem; letter-spacing: 0.5px;">
                                             <i class="fas fa-microchip text-warning"></i> TECHNICAL ARCHITECT
                                         </span>
-                                        <span class="badge rounded-pill px-3 py-1 small fw-bold" style="background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd;">
+                                        <span class="badge rounded-pill px-3 py-1 small fw-bold"
+                                            style="background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd;">
                                             <i class="fas fa-server me-1" style="color: #0284c7;"></i> Core Eng
                                         </span>
                                     </div>
-                                    <h3 class="home-card-title mb-1 fw-800" style="font-size: 1.45rem; color: #0f172a; letter-spacing: -0.5px;">Aru Sehgal</h3>
-                                    <p class="home-card-text mb-0" style="font-size: 0.9rem; line-height: 1.55; color: #475569;">
-                                        Leads system scalability, API micro-endpoints, database caching layers, and cloud infrastructure to ensure seamless, real-time performance across all touchpoints.
+                                    <h3 class="home-card-title mb-1 fw-800"
+                                        style="font-size: 1.45rem; color: #0f172a; letter-spacing: -0.5px;">Aru Sehgal
+                                    </h3>
+                                    <p class="home-card-text mb-0"
+                                        style="font-size: 0.9rem; line-height: 1.55; color: #475569;">
+                                        Leads system scalability, API micro-endpoints, database caching layers, and
+                                        cloud infrastructure to ensure seamless, real-time performance across all
+                                        touchpoints.
                                     </p>
                                 </div>
                             </div>
 
                             <!-- Domain Badges -->
                             <div class="d-flex flex-wrap gap-1 mb-3 justify-content-center justify-content-sm-start">
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-cubes text-primary me-1"></i> Architecture</span>
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-bolt text-warning me-1"></i> Micro-APIs</span>
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-shield-alt text-success me-1"></i> Cloud Security</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-cubes text-primary me-1"></i> Architecture</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-bolt text-warning me-1"></i> Micro-APIs</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-shield-alt text-success me-1"></i> Cloud Security</span>
                             </div>
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-sm-start pt-3 border-top border-light-subtle">
-                            <a href="#" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                        <div
+                            class="d-flex flex-wrap gap-2 justify-content-center justify-content-sm-start pt-3 border-top border-light-subtle">
+                            <a href="#" target="_blank"
+                                class="btn btn-sm btn-primary rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fab fa-linkedin-in"></i> LinkedIn
                             </a>
-                            <a href="#" target="_blank" class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                            <a href="#" target="_blank"
+                                class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fab fa-github"></i> GitHub
                             </a>
-                            <a href="mailto:aru@alumnihub.com" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                            <a href="mailto:aru@alumnihub.com"
+                                class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fas fa-envelope"></i> Contact
                             </a>
                         </div>
@@ -812,53 +1333,75 @@
 
                 <!-- Line 2, Card 1: Shekhar Maurya (Operations Lead) -->
                 <div class="col-12 col-lg-6 reveal-fade" style="animation-delay: 0.2s;">
-                    <div class="founder-spotlight-card home-card accent-green p-4 p-md-4 h-100 d-flex flex-column justify-content-between">
-                        <div class="founder-accent-bar" style="background: linear-gradient(90deg, #059669 0%, #10b981 50%, #34d399 100%);"></div>
+                    <div
+                        class="founder-spotlight-card home-card accent-green p-4 p-md-4 h-100 d-flex flex-column justify-content-between">
+                        <div class="founder-accent-bar"
+                            style="background: linear-gradient(90deg, #059669 0%, #10b981 50%, #34d399 100%);"></div>
                         <div>
-                            <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-3 gap-md-4 mb-3">
+                            <div
+                                class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-3 gap-md-4 mb-3">
                                 <div class="founder-avatar-wrap flex-shrink-0 text-center">
                                     <img src="{{ url_for('static', filename='images/team/shekhar_maurya.jpg') }}"
                                         alt="Shekhar Maurya" class="rounded-circle founder-avatar-img shadow-sm"
                                         style="width: 125px; height: 125px; border-color: #ecfdf5;"
                                         onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Shekhar+Maurya&background=059669&color=fff&size=125';">
-                                    <span class="founder-badge-crown" style="width: 34px; height: 34px; font-size: 0.82rem; background: linear-gradient(135deg, #059669 0%, #10b981 100%);" title="Operations Lead">
+                                    <span class="founder-badge-crown"
+                                        style="width: 34px; height: 34px; font-size: 0.82rem; background: linear-gradient(135deg, #059669 0%, #10b981 100%);"
+                                        title="Operations Lead">
                                         <i class="fas fa-cog"></i>
                                     </span>
                                 </div>
                                 <div class="flex-grow-1 text-center text-sm-start">
                                     <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
-                                        <span class="badge px-3 py-1 text-white fw-bold d-inline-flex align-items-center gap-1"
+                                        <span
+                                            class="badge px-3 py-1 text-white fw-bold d-inline-flex align-items-center gap-1"
                                             style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border-radius: 50px; font-size: 0.78rem; letter-spacing: 0.5px;">
                                             <i class="fas fa-cogs text-warning"></i> OPERATIONS LEAD
                                         </span>
-                                        <span class="badge rounded-pill px-3 py-1 small fw-bold" style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;">
+                                        <span class="badge rounded-pill px-3 py-1 small fw-bold"
+                                            style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;">
                                             <i class="fas fa-check-circle me-1" style="color: #059669;"></i> Operations
                                         </span>
                                     </div>
-                                    <h3 class="home-card-title mb-1 fw-800" style="font-size: 1.45rem; color: #0f172a; letter-spacing: -0.5px;">Shekhar Maurya</h3>
-                                    <p class="home-card-text mb-0" style="font-size: 0.9rem; line-height: 1.55; color: #475569;">
-                                        Expert in operations, process automation, and student-alumni program execution. Ensures frictionless community workflows, event logistics, and platform resource management.
+                                    <h3 class="home-card-title mb-1 fw-800"
+                                        style="font-size: 1.45rem; color: #0f172a; letter-spacing: -0.5px;">Shekhar
+                                        Maurya</h3>
+                                    <p class="home-card-text mb-0"
+                                        style="font-size: 0.9rem; line-height: 1.55; color: #475569;">
+                                        Expert in operations, process automation, and student-alumni program execution.
+                                        Ensures frictionless community workflows, event logistics, and platform resource
+                                        management.
                                     </p>
                                 </div>
                             </div>
 
                             <!-- Domain Badges -->
                             <div class="d-flex flex-wrap gap-1 mb-3 justify-content-center justify-content-sm-start">
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-project-diagram text-success me-1"></i> Automation</span>
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-calendar-alt text-primary me-1"></i> Event Logistics</span>
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-users-cog text-info me-1"></i> Resources</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-project-diagram text-success me-1"></i> Automation</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-calendar-alt text-primary me-1"></i> Event Logistics</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-users-cog text-info me-1"></i> Resources</span>
                             </div>
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-sm-start pt-3 border-top border-light-subtle">
-                            <a href="#" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                        <div
+                            class="d-flex flex-wrap gap-2 justify-content-center justify-content-sm-start pt-3 border-top border-light-subtle">
+                            <a href="#" target="_blank"
+                                class="btn btn-sm btn-success rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fab fa-linkedin-in"></i> LinkedIn
                             </a>
-                            <a href="#" target="_blank" class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                            <a href="#" target="_blank"
+                                class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fab fa-github"></i> GitHub
                             </a>
-                            <a href="mailto:shekhar@alumnihub.com" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                            <a href="mailto:shekhar@alumnihub.com"
+                                class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fas fa-envelope"></i> Contact
                             </a>
                         </div>
@@ -867,53 +1410,75 @@
 
                 <!-- Line 2, Card 2: Anushka Singh (Community Manager) -->
                 <div class="col-12 col-lg-6 reveal-fade" style="animation-delay: 0.25s;">
-                    <div class="founder-spotlight-card home-card accent-amber p-4 p-md-4 h-100 d-flex flex-column justify-content-between">
-                        <div class="founder-accent-bar" style="background: linear-gradient(90deg, #d97706 0%, #f59e0b 50%, #fbbf24 100%);"></div>
+                    <div
+                        class="founder-spotlight-card home-card accent-amber p-4 p-md-4 h-100 d-flex flex-column justify-content-between">
+                        <div class="founder-accent-bar"
+                            style="background: linear-gradient(90deg, #d97706 0%, #f59e0b 50%, #fbbf24 100%);"></div>
                         <div>
-                            <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-3 gap-md-4 mb-3">
+                            <div
+                                class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-3 gap-md-4 mb-3">
                                 <div class="founder-avatar-wrap flex-shrink-0 text-center">
                                     <img src="{{ url_for('static', filename='images/team/anushka_singh.jpg') }}"
                                         alt="Anushka Singh" class="rounded-circle founder-avatar-img shadow-sm"
                                         style="width: 125px; height: 125px; border-color: #fffbeb;"
                                         onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Anushka+Singh&background=d97706&color=fff&size=125';">
-                                    <span class="founder-badge-crown" style="width: 34px; height: 34px; font-size: 0.82rem; background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);" title="Community Manager">
+                                    <span class="founder-badge-crown"
+                                        style="width: 34px; height: 34px; font-size: 0.82rem; background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);"
+                                        title="Community Manager">
                                         <i class="fas fa-users"></i>
                                     </span>
                                 </div>
                                 <div class="flex-grow-1 text-center text-sm-start">
                                     <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
-                                        <span class="badge px-3 py-1 text-white fw-bold d-inline-flex align-items-center gap-1"
+                                        <span
+                                            class="badge px-3 py-1 text-white fw-bold d-inline-flex align-items-center gap-1"
                                             style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%); border-radius: 50px; font-size: 0.78rem; letter-spacing: 0.5px;">
                                             <i class="fas fa-heart text-warning"></i> COMMUNITY MANAGER
                                         </span>
-                                        <span class="badge rounded-pill px-3 py-1 small fw-bold" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a;">
+                                        <span class="badge rounded-pill px-3 py-1 small fw-bold"
+                                            style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a;">
                                             <i class="fas fa-user-friends me-1" style="color: #d97706;"></i> Community
                                         </span>
                                     </div>
-                                    <h3 class="home-card-title mb-1 fw-800" style="font-size: 1.45rem; color: #0f172a; letter-spacing: -0.5px;">Anushka Singh</h3>
-                                    <p class="home-card-text mb-0" style="font-size: 0.9rem; line-height: 1.55; color: #475569;">
-                                        Fosters vibrant community engagement, organizes student-alumni virtual roundtables, mentorship drives, and leads member onboarding across various university departments.
+                                    <h3 class="home-card-title mb-1 fw-800"
+                                        style="font-size: 1.45rem; color: #0f172a; letter-spacing: -0.5px;">Anushka
+                                        Singh</h3>
+                                    <p class="home-card-text mb-0"
+                                        style="font-size: 0.9rem; line-height: 1.55; color: #475569;">
+                                        Fosters vibrant community engagement, organizes student-alumni virtual
+                                        roundtables, mentorship drives, and leads member onboarding across various
+                                        university departments.
                                     </p>
                                 </div>
                             </div>
 
                             <!-- Domain Badges -->
                             <div class="d-flex flex-wrap gap-1 mb-3 justify-content-center justify-content-sm-start">
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-comments text-warning me-1"></i> Engagement</span>
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-user-graduate text-primary me-1"></i> Mentorship</span>
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-microphone-alt text-info me-1"></i> Moderation</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-comments text-warning me-1"></i> Engagement</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-user-graduate text-primary me-1"></i> Mentorship</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-microphone-alt text-info me-1"></i> Moderation</span>
                             </div>
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-sm-start pt-3 border-top border-light-subtle">
-                            <a href="#" target="_blank" class="btn btn-sm btn-warning rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1 text-dark fw-bold" style="font-size: 0.82rem;">
+                        <div
+                            class="d-flex flex-wrap gap-2 justify-content-center justify-content-sm-start pt-3 border-top border-light-subtle">
+                            <a href="#" target="_blank"
+                                class="btn btn-sm btn-warning rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1 text-dark fw-bold"
+                                style="font-size: 0.82rem;">
                                 <i class="fab fa-linkedin-in"></i> LinkedIn
                             </a>
-                            <a href="#" target="_blank" class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                            <a href="#" target="_blank"
+                                class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fab fa-github"></i> GitHub
                             </a>
-                            <a href="mailto:anushka@alumnihub.com" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                            <a href="mailto:anushka@alumnihub.com"
+                                class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fas fa-envelope"></i> Contact
                             </a>
                         </div>
@@ -922,53 +1487,74 @@
 
                 <!-- Line 3, Card 1: Karuna Singh (Marketing & Outreach Lead) (Centered on last line) -->
                 <div class="col-12 col-lg-6 mx-auto reveal-fade" style="animation-delay: 0.3s;">
-                    <div class="founder-spotlight-card home-card accent-rose p-4 p-md-4 h-100 d-flex flex-column justify-content-between">
-                        <div class="founder-accent-bar" style="background: linear-gradient(90deg, #e11d48 0%, #f43f5e 50%, #fb7185 100%);"></div>
+                    <div
+                        class="founder-spotlight-card home-card accent-rose p-4 p-md-4 h-100 d-flex flex-column justify-content-between">
+                        <div class="founder-accent-bar"
+                            style="background: linear-gradient(90deg, #e11d48 0%, #f43f5e 50%, #fb7185 100%);"></div>
                         <div>
-                            <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-3 gap-md-4 mb-3">
+                            <div
+                                class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-3 gap-md-4 mb-3">
                                 <div class="founder-avatar-wrap flex-shrink-0 text-center">
-                                    <img src="{{ url_for('static', filename='images/team/karuna_singh.jpg') }}"
+                                    <img src="{{ url_for('static', filename='images/team/karuna.jpg') }}"
                                         alt="Karuna Singh" class="rounded-circle founder-avatar-img shadow-sm"
                                         style="width: 125px; height: 125px; border-color: #fff1f2;"
                                         onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Karuna+Singh&background=e11d48&color=fff&size=125';">
-                                    <span class="founder-badge-crown" style="width: 34px; height: 34px; font-size: 0.82rem; background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);" title="Marketing Lead">
+                                    <span class="founder-badge-crown"
+                                        style="width: 34px; height: 34px; font-size: 0.82rem; background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);"
+                                        title="Marketing Lead">
                                         <i class="fas fa-bullhorn"></i>
                                     </span>
                                 </div>
                                 <div class="flex-grow-1 text-center text-sm-start">
                                     <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
-                                        <span class="badge px-3 py-1 text-white fw-bold d-inline-flex align-items-center gap-1"
+                                        <span
+                                            class="badge px-3 py-1 text-white fw-bold d-inline-flex align-items-center gap-1"
                                             style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); border-radius: 50px; font-size: 0.78rem; letter-spacing: 0.5px;">
                                             <i class="fas fa-bullhorn text-warning"></i> MARKETING &amp; OUTREACH LEAD
                                         </span>
-                                        <span class="badge rounded-pill px-3 py-1 small fw-bold" style="background: #fff1f2; color: #be123c; border: 1px solid #fecdd3;">
+                                        <span class="badge rounded-pill px-3 py-1 small fw-bold"
+                                            style="background: #fff1f2; color: #be123c; border: 1px solid #fecdd3;">
                                             <i class="fas fa-chart-line me-1" style="color: #e11d48;"></i> Media
                                         </span>
                                     </div>
-                                    <h3 class="home-card-title mb-1 fw-800" style="font-size: 1.45rem; color: #0f172a; letter-spacing: -0.5px;">Karuna Singh</h3>
-                                    <p class="home-card-text mb-0" style="font-size: 0.9rem; line-height: 1.55; color: #475569;">
-                                        Spearheads brand outreach campaigns, social storytelling, alumni success spotlights, and creative digital media to expand Alumni Hub's reach worldwide.
+                                    <h3 class="home-card-title mb-1 fw-800"
+                                        style="font-size: 1.45rem; color: #0f172a; letter-spacing: -0.5px;">Karuna Singh
+                                    </h3>
+                                    <p class="home-card-text mb-0"
+                                        style="font-size: 0.9rem; line-height: 1.55; color: #475569;">
+                                        Spearheads brand outreach campaigns, social storytelling, alumni success
+                                        spotlights, and creative digital media to expand Alumni Hub's reach worldwide.
                                     </p>
                                 </div>
                             </div>
 
                             <!-- Domain Badges -->
                             <div class="d-flex flex-wrap gap-1 mb-3 justify-content-center justify-content-sm-start">
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-hashtag text-danger me-1"></i> Brand Story</span>
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-share-alt text-primary me-1"></i> Outreach</span>
-                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i class="fas fa-star text-warning me-1"></i> Spotlights</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-hashtag text-danger me-1"></i> Brand Story</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-share-alt text-primary me-1"></i> Outreach</span>
+                                <span class="badge bg-white text-dark border px-2 py-1 rounded-pill small"><i
+                                        class="fas fa-star text-warning me-1"></i> Spotlights</span>
                             </div>
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-sm-start pt-3 border-top border-light-subtle">
-                            <a href="#" target="_blank" class="btn btn-sm btn-danger rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                        <div
+                            class="d-flex flex-wrap gap-2 justify-content-center justify-content-sm-start pt-3 border-top border-light-subtle">
+                            <a href="#" target="_blank"
+                                class="btn btn-sm btn-danger rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fab fa-linkedin-in"></i> LinkedIn
                             </a>
-                            <a href="#" target="_blank" class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                            <a href="#" target="_blank"
+                                class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fab fa-github"></i> GitHub
                             </a>
-                            <a href="mailto:karuna@alumnihub.com" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" style="font-size: 0.82rem;">
+                            <a href="mailto:karuna@alumnihub.com"
+                                class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1"
+                                style="font-size: 0.82rem;">
                                 <i class="fas fa-envelope"></i> Contact
                             </a>
                         </div>
@@ -982,7 +1568,8 @@
             <div class="text-center mb-5 reveal-fade">
                 <div class="community-stats-kicker justify-content-center mb-2"><span></span> OUR JOURNEY</div>
                 <h2 class="display-5 fw-bold mb-3" style="color: #172a42; font-family: 'Outfit', sans-serif;">
-                    Milestones &amp; <span class="text-holographic" style="-webkit-text-fill-color: #0284c7; color: #0284c7;">Achievements</span>
+                    Milestones &amp; <span class="text-holographic"
+                        style="-webkit-text-fill-color: #0284c7; color: #0284c7;">Achievements</span>
                 </h2>
                 <p class="mx-auto" style="color: #64748b; max-width: 650px; font-size: 1rem; line-height: 1.6;">
                     The evolution of Alumni Hub from a student initiative into an all-in-one campus-wide network.
@@ -1001,10 +1588,12 @@
                         <div class="roadmap-card-bar"></div>
                         <div class="roadmap-card-arrow"></div>
                         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                            <span class="badge bg-light text-primary border border-primary-subtle rounded-pill px-3 py-1 small fw-bold">
+                            <span
+                                class="badge bg-light text-primary border border-primary-subtle rounded-pill px-3 py-1 small fw-bold">
                                 <span class="beacon-dot"></span> PHASE 01 • INITIATION
                             </span>
-                            <span class="step-badge fw-bold" style="font-size: 0.85rem; color: #0284c7; background: #e0f2fe; padding: 4px 12px; border-radius: 50px;">
+                            <span class="step-badge fw-bold"
+                                style="font-size: 0.85rem; color: #0284c7; background: #e0f2fe; padding: 4px 12px; border-radius: 50px;">
                                 <i class="far fa-calendar-alt me-1"></i> June 2026
                             </span>
                         </div>
@@ -1013,16 +1602,23 @@
                                 <i class="fas fa-flag"></i>
                             </div>
                             <div>
-                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">Project Initiation</h4>
-                                <p class="home-card-text mb-0" style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
-                                    Conceived the system architecture of Alumni Hub with core university team formation, stakeholder requirements mapping, and user journey discovery.
+                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">
+                                    Project Initiation</h4>
+                                <p class="home-card-text mb-0"
+                                    style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
+                                    Conceived the system architecture of Alumni Hub with core university team formation,
+                                    stakeholder requirements mapping, and user journey discovery.
                                 </p>
                             </div>
                         </div>
                         <div class="d-flex flex-wrap gap-1 pt-2 border-top border-light-subtle">
-                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-drafting-compass text-primary me-1"></i> System Architecture</span>
-                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-users text-success me-1"></i> Core Team Setup</span>
-                            <span class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Completed</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i
+                                    class="fas fa-drafting-compass text-primary me-1"></i> System Architecture</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i
+                                    class="fas fa-users text-success me-1"></i> Core Team Setup</span>
+                            <span
+                                class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i
+                                    class="fas fa-check-circle me-1"></i> Completed</span>
                         </div>
                     </div>
                 </div>
@@ -1034,10 +1630,13 @@
                         <div class="roadmap-card-bar"></div>
                         <div class="roadmap-card-arrow"></div>
                         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                            <span class="badge bg-light text-success border border-success-subtle rounded-pill px-3 py-1 small fw-bold">
-                                <span class="beacon-dot" style="background-color: #059669;"></span> PHASE 02 • CORE ENGINE
+                            <span
+                                class="badge bg-light text-success border border-success-subtle rounded-pill px-3 py-1 small fw-bold">
+                                <span class="beacon-dot" style="background-color: #059669;"></span> PHASE 02 • CORE
+                                ENGINE
                             </span>
-                            <span class="step-badge fw-bold" style="font-size: 0.85rem; color: #059669; background: #dcfce7; padding: 4px 12px; border-radius: 50px;">
+                            <span class="step-badge fw-bold"
+                                style="font-size: 0.85rem; color: #059669; background: #dcfce7; padding: 4px 12px; border-radius: 50px;">
                                 <i class="far fa-calendar-alt me-1"></i> July 2026
                             </span>
                         </div>
@@ -1046,16 +1645,23 @@
                                 <i class="fas fa-code"></i>
                             </div>
                             <div>
-                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">Platform Development</h4>
-                                <p class="home-card-text mb-0" style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
-                                    Engineered responsive UI modules, secure JWT authentication, multi-role dashboards (Student, Alumni, Faculty, Admin), and relational schemas.
+                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">
+                                    Platform Development</h4>
+                                <p class="home-card-text mb-0"
+                                    style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
+                                    Engineered responsive UI modules, secure JWT authentication, multi-role dashboards
+                                    (Student, Alumni, Faculty, Admin), and relational schemas.
                                 </p>
                             </div>
                         </div>
                         <div class="d-flex flex-wrap gap-1 pt-2 border-top border-light-subtle">
-                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-laptop-code text-success me-1"></i> Multi-Role UI</span>
-                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-shield-alt text-primary me-1"></i> RBAC Security</span>
-                            <span class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Completed</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i
+                                    class="fas fa-laptop-code text-success me-1"></i> Multi-Role UI</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i
+                                    class="fas fa-shield-alt text-primary me-1"></i> RBAC Security</span>
+                            <span
+                                class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i
+                                    class="fas fa-check-circle me-1"></i> Completed</span>
                         </div>
                     </div>
                 </div>
@@ -1067,10 +1673,13 @@
                         <div class="roadmap-card-bar"></div>
                         <div class="roadmap-card-arrow"></div>
                         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                            <span class="badge bg-light text-warning border border-warning-subtle rounded-pill px-3 py-1 small fw-bold">
-                                <span class="beacon-dot" style="background-color: #d97706;"></span> PHASE 03 • BETA RELEASE
+                            <span
+                                class="badge bg-light text-warning border border-warning-subtle rounded-pill px-3 py-1 small fw-bold">
+                                <span class="beacon-dot" style="background-color: #d97706;"></span> PHASE 03 • BETA
+                                RELEASE
                             </span>
-                            <span class="step-badge fw-bold" style="font-size: 0.85rem; color: #d97706; background: #fef3c7; padding: 4px 12px; border-radius: 50px;">
+                            <span class="step-badge fw-bold"
+                                style="font-size: 0.85rem; color: #d97706; background: #fef3c7; padding: 4px 12px; border-radius: 50px;">
                                 <i class="far fa-calendar-alt me-1"></i> August 2026
                             </span>
                         </div>
@@ -1079,16 +1688,23 @@
                                 <i class="fas fa-rocket"></i>
                             </div>
                             <div>
-                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">Beta Launch &amp; Telemetry</h4>
-                                <p class="home-card-text mb-0" style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
-                                    Rolled out the platform to early student test groups, gathering high-value telemetry, feedback loops, and optimizing socket response time under high traffic.
+                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">
+                                    Beta Launch &amp; Telemetry</h4>
+                                <p class="home-card-text mb-0"
+                                    style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
+                                    Rolled out the platform to early student test groups, gathering high-value
+                                    telemetry, feedback loops, and optimizing socket response time under high traffic.
                                 </p>
                             </div>
                         </div>
                         <div class="d-flex flex-wrap gap-1 pt-2 border-top border-light-subtle">
-                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-vial text-warning me-1"></i> Early Beta Cohort</span>
-                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-bolt text-danger me-1"></i> Socket Tuning</span>
-                            <span class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Completed</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i
+                                    class="fas fa-vial text-warning me-1"></i> Early Beta Cohort</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i
+                                    class="fas fa-bolt text-danger me-1"></i> Socket Tuning</span>
+                            <span
+                                class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i
+                                    class="fas fa-check-circle me-1"></i> Completed</span>
                         </div>
                     </div>
                 </div>
@@ -1100,10 +1716,13 @@
                         <div class="roadmap-card-bar"></div>
                         <div class="roadmap-card-arrow"></div>
                         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                            <span class="badge bg-light text-purple border border-purple-subtle rounded-pill px-3 py-1 small fw-bold">
-                                <span class="beacon-dot" style="background-color: #7c3aed;"></span> PHASE 04 • COMMUNITY SCALE
+                            <span
+                                class="badge bg-light text-purple border border-purple-subtle rounded-pill px-3 py-1 small fw-bold">
+                                <span class="beacon-dot" style="background-color: #7c3aed;"></span> PHASE 04 • COMMUNITY
+                                SCALE
                             </span>
-                            <span class="step-badge fw-bold" style="font-size: 0.85rem; color: #7c3aed; background: #f3e8ff; padding: 4px 12px; border-radius: 50px;">
+                            <span class="step-badge fw-bold"
+                                style="font-size: 0.85rem; color: #7c3aed; background: #f3e8ff; padding: 4px 12px; border-radius: 50px;">
                                 <i class="far fa-calendar-alt me-1"></i> September 2026
                             </span>
                         </div>
@@ -1112,16 +1731,23 @@
                                 <i class="fas fa-briefcase"></i>
                             </div>
                             <div>
-                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">Mentorship &amp; Jobs Ecosystem</h4>
-                                <p class="home-card-text mb-0" style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
-                                    Integrated 1:1 real-time mentor connections, verified alumni job portal, interactive campus event registries, and direct instant messaging channels.
+                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">
+                                    Mentorship &amp; Jobs Ecosystem</h4>
+                                <p class="home-card-text mb-0"
+                                    style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
+                                    Integrated 1:1 real-time mentor connections, verified alumni job portal, interactive
+                                    campus event registries, and direct instant messaging channels.
                                 </p>
                             </div>
                         </div>
                         <div class="d-flex flex-wrap gap-1 pt-2 border-top border-light-subtle">
-                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-user-tie text-purple me-1"></i> 1:1 Mentorship</span>
-                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-briefcase text-primary me-1"></i> Job Referrals</span>
-                            <span class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Completed</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i
+                                    class="fas fa-user-tie text-purple me-1"></i> 1:1 Mentorship</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i
+                                    class="fas fa-briefcase text-primary me-1"></i> Job Referrals</span>
+                            <span
+                                class="badge bg-white text-dark border rounded-pill small ms-auto text-success fw-bold"><i
+                                    class="fas fa-check-circle me-1"></i> Completed</span>
                         </div>
                     </div>
                 </div>
@@ -1133,10 +1759,13 @@
                         <div class="roadmap-card-bar"></div>
                         <div class="roadmap-card-arrow"></div>
                         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                            <span class="badge bg-light text-info border border-info-subtle rounded-pill px-3 py-1 small fw-bold">
-                                <span class="beacon-dot" style="background-color: #0891b2;"></span> PHASE 05 • GLOBAL IMPACT
+                            <span
+                                class="badge bg-light text-info border border-info-subtle rounded-pill px-3 py-1 small fw-bold">
+                                <span class="beacon-dot" style="background-color: #0891b2;"></span> PHASE 05 • GLOBAL
+                                IMPACT
                             </span>
-                            <span class="step-badge fw-bold" style="font-size: 0.85rem; color: #0891b2; background: #cffafe; padding: 4px 12px; border-radius: 50px;">
+                            <span class="step-badge fw-bold"
+                                style="font-size: 0.85rem; color: #0891b2; background: #cffafe; padding: 4px 12px; border-radius: 50px;">
                                 <i class="far fa-calendar-alt me-1"></i> October 2026
                             </span>
                         </div>
@@ -1145,16 +1774,23 @@
                                 <i class="fas fa-globe"></i>
                             </div>
                             <div>
-                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">Global Network Expansion</h4>
-                                <p class="home-card-text mb-0" style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
-                                    Serving 15,000+ alumni and students globally across 50+ countries with seamless cross-device performance, zero downtime, and trusted university connections.
+                                <h4 class="home-card-title mb-1 fw-bold" style="font-size: 1.25rem; color: #0f172a;">
+                                    Global Network Expansion</h4>
+                                <p class="home-card-text mb-0"
+                                    style="font-size: 0.92rem; line-height: 1.6; color: #475569;">
+                                    Serving 15,000+ alumni and students globally across 50+ countries with seamless
+                                    cross-device performance, zero downtime, and trusted university connections.
                                 </p>
                             </div>
                         </div>
                         <div class="d-flex flex-wrap gap-1 pt-2 border-top border-light-subtle">
-                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-users text-info me-1"></i> 15,000+ Active</span>
-                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i class="fas fa-globe-americas text-primary me-1"></i> 50+ Countries</span>
-                            <span class="badge bg-white text-dark border rounded-pill small ms-auto text-primary fw-bold"><i class="fas fa-circle text-success me-1"></i> Active Now</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i
+                                    class="fas fa-users text-info me-1"></i> 15,000+ Active</span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2 py-1 small"><i
+                                    class="fas fa-globe-americas text-primary me-1"></i> 50+ Countries</span>
+                            <span
+                                class="badge bg-white text-dark border rounded-pill small ms-auto text-primary fw-bold"><i
+                                    class="fas fa-circle text-success me-1"></i> Active Now</span>
                         </div>
                     </div>
                 </div>
@@ -1187,97 +1823,276 @@
 </div>
 
 <!-- ========================================================
-     RAJENDER MOHAN VERMA - DEVELOPER VIP SHOWCASE POPUP MODAL
+     RAJENDER MOHAN VERMA - EXECUTIVE DEVELOPER VIP SHOWCASE POPUP MODAL
      ======================================================== -->
-<div class="modal fade" id="rajenderProfileModal" tabindex="-1" aria-labelledby="rajenderProfileModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+<div class="modal fade" id="rajenderProfileModal" tabindex="-1" aria-labelledby="rajenderProfileModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
         <div class="modal-content border-0 bg-transparent shadow-none">
-            <div class="footer-dev-card position-relative" style="background: radial-gradient(circle at 10% 15%, rgba(14, 165, 233, 0.32) 0%, transparent 55%), radial-gradient(circle at 90% 85%, rgba(29, 78, 216, 0.28) 0%, transparent 55%), linear-gradient(145deg, #0c274e 0%, #071935 60%, #041024 100%) !important; border: 1.5px solid rgba(56, 189, 248, 0.45) !important; border-radius: 26px; box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.75), 0 0 45px -5px rgba(2, 132, 199, 0.45) !important; padding: 1.85rem 1.95rem;">
-                
+            <div class="vip-modal-box">
+
                 <!-- Glowing Top Accent Bar -->
-                <div class="dev-accent-bar" style="border-radius: 26px 26px 0 0;"></div>
-                
+                <div class="dev-accent-bar"
+                    style="border-radius: 28px 28px 0 0; background: linear-gradient(90deg, #38bdf8 0%, #6366f1 35%, #ec4899 70%, #f59e0b 100%); height: 5px;">
+                </div>
+
                 <!-- Modal Close Button -->
-                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="Close" style="opacity: 0.85; filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));"></button>
-                
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3"
+                    data-bs-dismiss="modal" aria-label="Close"
+                    style="opacity: 0.85; filter: drop-shadow(0 0 6px rgba(0,0,0,0.8));"></button>
+
                 <!-- Profile Header -->
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pe-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4 pe-4">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="dev-avatar-box">
-                            <span class="dev-monogram">RM</span>
-                            <span class="dev-status-indicator" title="Active Developer"></span>
+                        <div class="vip-modal-header-avatar">
+                            <img src="{{ url_for('static', filename='images/team/rajender.jpeg') }}"
+                                alt="Rajender Mohan Verma"
+                                onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Rajender+Verma&background=0284c7&color=fff&size=100';">
+                            <span class="vip-status-dot-pulse" title="Active Developer & Architect"></span>
                         </div>
                         <div>
-                            <div class="d-flex align-items-center gap-2">
-                                <h5 class="dev-name mb-0 text-white" id="rajenderProfileModalLabel" style="color: #ffffff !important; font-weight: 800; font-size: 1.35rem; text-shadow: 0 2px 14px rgba(56, 189, 248, 0.5);">Rajender Mohan Verma</h5>
-                                <span class="dev-verified-badge" title="Verified Lead Architect & Developer">
-                                    <i class="fas fa-check-circle"></i>
+                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                <h4 class="mb-0 text-white fw-bold" id="rajenderProfileModalLabel"
+                                    style="font-size: 1.45rem; text-shadow: 0 2px 14px rgba(56, 189, 248, 0.45);">
+                                    Rajender Mohan Verma
+                                </h4>
+                                <span title="Verified Lead Architect" style="color: #38bdf8; font-size: 1.15rem;">
+                                    <i class="fas fa-circle-check"></i>
                                 </span>
                             </div>
-                            <span class="dev-role-label" style="color: #cbd5e1 !important; font-size: 0.85rem;">Lead Developer &amp; Platform Architect</span>
+                            <div class="d-flex align-items-center gap-2 flex-wrap mt-1">
+                                <span style="color: #94a3b8; font-size: 0.88rem; font-weight: 500;">
+                                    Lead Developer &amp; Platform Architect
+                                </span>
+                                <span class="text-white-50 small">•</span>
+                                <span style="color: #38bdf8; font-size: 0.82rem; font-weight: 600;">
+                                    MCA Core Lead @ JIMS Rohini
+                                </span>
+                            </div>
                         </div>
                     </div>
-                    <span class="badge rounded-pill dev-badge-tag">
-                        <i class="fas fa-code me-1 text-info"></i> Full Stack
-                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge rounded-pill dev-badge-tag" style="padding: 6px 14px; font-size: 0.82rem;">
+                            <i class="fas fa-code me-1 text-info"></i> Full Stack
+                        </span>
+                        <span
+                            class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-40 rounded-pill px-2 py-1 small">
+                            <span class="live-dot me-1"></span> Available
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Direct Quick Action CTAs -->
-                <div class="d-flex flex-wrap gap-2 mb-3">
-                    <a href="https://rajender-portfolio.vercel.app/" target="_blank" rel="noopener noreferrer" class="dev-cta-btn btn-portfolio">
-                        <i class="fas fa-globe me-1"></i> Visit Portfolio <i class="fas fa-arrow-up-right-from-square ms-1" style="font-size: 0.72rem;"></i>
+                <div class="vip-cta-row mb-4">
+                    <a href="https://rajender-portfolio.vercel.app/" target="_blank" rel="noopener noreferrer"
+                        class="vip-primary-btn">
+                        <i class="fas fa-globe"></i>
+                        <span>Visit Portfolio</span>
+                        <i class="fas fa-arrow-up-right-from-square ms-auto" style="font-size: 0.72rem;"></i>
                     </a>
-                    <a href="mailto:rajendramohan7800@gmail.com" class="dev-cta-btn btn-email">
-                        <i class="fas fa-envelope me-1 text-info"></i> Email Me
+                    <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer"
+                        class="vip-secondary-btn"
+                        style="border-color: rgba(34, 197, 94, 0.4); color: #86efac !important;">
+                        <i class="fab fa-whatsapp text-success" style="font-size: 1.1rem;"></i>
+                        <span>Direct WhatsApp</span>
+                        <i class="fas fa-arrow-up-right-from-square ms-auto"
+                            style="font-size: 0.72rem; opacity: 0.7;"></i>
                     </a>
-                    <a href="https://wa.me/7348619567" target="_blank" rel="noopener noreferrer" class="dev-cta-btn btn-whatsapp">
-                        <i class="fab fa-whatsapp me-1 text-success"></i> WhatsApp
+                    <a href="mailto:rajendramohan7800@gmail.com" class="vip-secondary-btn"
+                        style="border-color: rgba(56, 189, 248, 0.4); color: #7dd3fc !important;">
+                        <i class="fas fa-envelope text-info"></i>
+                        <span>Email Me</span>
                     </a>
                 </div>
 
-                <!-- Social Profiles Grid (LinkedIn, GitHub, Instagram, X (Twitter)) -->
-                <div class="mb-3">
-                    <div class="dev-section-subtitle mb-2">
-                        <i class="fas fa-share-nodes text-primary me-1"></i> Social Network
+                <!-- Section 1: Social & Professional Networks -->
+                <div class="mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span
+                            style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;">
+                            <i class="fas fa-share-nodes text-primary me-1"></i> Professional Networks
+                        </span>
+                        <small class="text-white-50" style="font-size: 0.72rem;">4 Verified Handles</small>
                     </div>
-                    <div class="dev-social-grid">
-                        <a href="https://www.linkedin.com/in/rajender-mohan-verma-10418432a/" target="_blank" rel="noopener noreferrer" class="dev-social-btn social-linkedin" title="LinkedIn Profile">
-                            <i class="fab fa-linkedin-in"></i>
-                            <span>LinkedIn</span>
-                        </a>
-                        <a href="https://github.com/RajenderMohanVerma" target="_blank" rel="noopener noreferrer" class="dev-social-btn social-github" title="GitHub Profile">
-                            <i class="fab fa-github"></i>
-                            <span>GitHub</span>
-                        </a>
-                        <a href="https://www.instagram.com/rajender_maurya.01/" target="_blank" rel="noopener noreferrer" class="dev-social-btn social-instagram" title="Instagram Profile">
-                            <i class="fab fa-instagram"></i>
-                            <span>Instagram</span>
-                        </a>
-                        <a href="https://x.com/Rajendermv7800" target="_blank" rel="noopener noreferrer" class="dev-social-btn social-x" title="X (Twitter) Profile">
-                            <i class="fab fa-x-twitter"></i>
-                            <span>X (Twitter)</span>
-                        </a>
+                    <div class="row g-2">
+                        <div class="col-sm-6">
+                            <a href="https://www.linkedin.com/in/rajender-mohan-verma-10418432a/" target="_blank"
+                                rel="noopener noreferrer" class="vip-network-card">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div
+                                        style="width: 32px; height: 32px; border-radius: 8px; background: rgba(0, 119, 181, 0.2); display: flex; align-items: center; justify-content: center; color: #38bdf8;">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </div>
+                                    <div>
+                                        <strong class="d-block text-white" style="font-size: 0.88rem;">LinkedIn</strong>
+                                        <small style="color: #94a3b8; font-size: 0.72rem;">rajender-mohan-verma</small>
+                                    </div>
+                                </div>
+                                <span
+                                    class="badge bg-primary bg-opacity-25 text-info rounded-pill px-2 py-1 small">Connect
+                                    ↗</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="https://github.com/RajenderMohanVerma" target="_blank" rel="noopener noreferrer"
+                                class="vip-network-card">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div
+                                        style="width: 32px; height: 32px; border-radius: 8px; background: rgba(255, 255, 255, 0.15); display: flex; align-items: center; justify-content: center; color: #ffffff;">
+                                        <i class="fab fa-github"></i>
+                                    </div>
+                                    <div>
+                                        <strong class="d-block text-white" style="font-size: 0.88rem;">GitHub</strong>
+                                        <small style="color: #94a3b8; font-size: 0.72rem;">@RajenderMohanVerma</small>
+                                    </div>
+                                </div>
+                                <span
+                                    class="badge bg-secondary bg-opacity-35 text-white rounded-pill px-2 py-1 small">Repos
+                                    ↗</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="https://www.instagram.com/rajender_maurya.01/" target="_blank"
+                                rel="noopener noreferrer" class="vip-network-card">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div
+                                        style="width: 32px; height: 32px; border-radius: 8px; background: rgba(236, 72, 153, 0.2); display: flex; align-items: center; justify-content: center; color: #f472b6;">
+                                        <i class="fab fa-instagram"></i>
+                                    </div>
+                                    <div>
+                                        <strong class="d-block text-white"
+                                            style="font-size: 0.88rem;">Instagram</strong>
+                                        <small style="color: #94a3b8; font-size: 0.72rem;">@rajender_maurya.01</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-pink bg-opacity-25 text-white rounded-pill px-2 py-1 small"
+                                    style="background: rgba(236, 72, 153, 0.25);">Follow ↗</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="https://x.com/Rajendermv7800" target="_blank" rel="noopener noreferrer"
+                                class="vip-network-card">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div
+                                        style="width: 32px; height: 32px; border-radius: 8px; background: rgba(56, 189, 248, 0.2); display: flex; align-items: center; justify-content: center; color: #38bdf8;">
+                                        <i class="fab fa-x-twitter"></i>
+                                    </div>
+                                    <div>
+                                        <strong class="d-block text-white" style="font-size: 0.88rem;">X
+                                            (Twitter)</strong>
+                                        <small style="color: #94a3b8; font-size: 0.72rem;">@Rajendermv7800</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-info bg-opacity-25 text-info rounded-pill px-2 py-1 small">Follow
+                                    ↗</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Competitive Programming & Problem Solving Profiles -->
-                <div>
-                    <div class="dev-section-subtitle mb-2">
-                        <i class="fas fa-laptop-code text-warning me-1"></i> Coding &amp; Development Profiles
+                <!-- Section 2: Competitive Programming & Coding Profiles -->
+                <div class="mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span
+                            style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;">
+                            <i class="fas fa-laptop-code text-warning me-1"></i> Competitive Programming &amp; Problem
+                            Solving
+                        </span>
+                        <small class="text-white-50" style="font-size: 0.72rem;">DSA &amp; Development</small>
                     </div>
-                    <div class="dev-coding-grid">
-                        <a href="https://leetcode.com/u/rajendramohan734/" target="_blank" rel="noopener noreferrer" class="dev-coding-pill pill-leetcode" title="LeetCode Profile">
-                            <i class="fas fa-code"></i> LeetCode
-                        </a>
-                        <a href="https://www.geeksforgeeks.org/profile/rajendramohan734" target="_blank" rel="noopener noreferrer" class="dev-coding-pill pill-gfg" title="GeeksforGeeks Profile">
-                            <i class="fas fa-laptop-code"></i> GeeksforGeeks
-                        </a>
-                        <a href="https://www.hackerrank.com/profile/rajendramohan734" target="_blank" rel="noopener noreferrer" class="dev-coding-pill pill-hackerrank" title="HackerRank Profile">
-                            <i class="fab fa-hackerrank"></i> HackerRank
-                        </a>
-                        <a href="https://www.codechef.com/users/rajender_9567" target="_blank" rel="noopener noreferrer" class="dev-coding-pill pill-codechef" title="CodeChef Profile">
-                            <i class="fas fa-terminal"></i> CodeChef
-                        </a>
+                    <div class="row g-2">
+                        <div class="col-sm-6">
+                            <a href="https://leetcode.com/u/rajendramohan734/" target="_blank" rel="noopener noreferrer"
+                                class="vip-coding-card card-leetcode">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div
+                                        style="width: 32px; height: 32px; border-radius: 8px; background: rgba(251, 146, 60, 0.2); display: flex; align-items: center; justify-content: center; color: #fb923c;">
+                                        <i class="fas fa-code"></i>
+                                    </div>
+                                    <div>
+                                        <strong class="d-block text-white" style="font-size: 0.88rem;">LeetCode</strong>
+                                        <small style="color: #fdba74; font-size: 0.72rem;">@rajendramohan734</small>
+                                    </div>
+                                </div>
+                                <span class="badge rounded-pill px-2 py-1 small"
+                                    style="background: rgba(251, 146, 60, 0.25); color: #fb923c;">Solve ↗</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="https://www.geeksforgeeks.org/profile/rajendramohan734" target="_blank"
+                                rel="noopener noreferrer" class="vip-coding-card card-gfg">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div
+                                        style="width: 32px; height: 32px; border-radius: 8px; background: rgba(52, 211, 153, 0.2); display: flex; align-items: center; justify-content: center; color: #34d399;">
+                                        <i class="fas fa-laptop-code"></i>
+                                    </div>
+                                    <div>
+                                        <strong class="d-block text-white"
+                                            style="font-size: 0.88rem;">GeeksforGeeks</strong>
+                                        <small style="color: #6ee7b7; font-size: 0.72rem;">@rajendramohan734</small>
+                                    </div>
+                                </div>
+                                <span class="badge rounded-pill px-2 py-1 small"
+                                    style="background: rgba(52, 211, 153, 0.25); color: #34d399;">Profile ↗</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="https://www.hackerrank.com/profile/rajendramohan734" target="_blank"
+                                rel="noopener noreferrer" class="vip-coding-card card-hackerrank">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div
+                                        style="width: 32px; height: 32px; border-radius: 8px; background: rgba(74, 222, 128, 0.2); display: flex; align-items: center; justify-content: center; color: #4ade80;">
+                                        <i class="fab fa-hackerrank"></i>
+                                    </div>
+                                    <div>
+                                        <strong class="d-block text-white"
+                                            style="font-size: 0.88rem;">HackerRank</strong>
+                                        <small style="color: #86efac; font-size: 0.72rem;">@rajendramohan734</small>
+                                    </div>
+                                </div>
+                                <span class="badge rounded-pill px-2 py-1 small"
+                                    style="background: rgba(74, 222, 128, 0.25); color: #4ade80;">Badges ↗</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="https://www.codechef.com/users/rajender_9567" target="_blank"
+                                rel="noopener noreferrer" class="vip-coding-card card-codechef">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div
+                                        style="width: 32px; height: 32px; border-radius: 8px; background: rgba(245, 158, 11, 0.2); display: flex; align-items: center; justify-content: center; color: #f59e0b;">
+                                        <i class="fas fa-terminal"></i>
+                                    </div>
+                                    <div>
+                                        <strong class="d-block text-white" style="font-size: 0.88rem;">CodeChef</strong>
+                                        <small style="color: #fcd34d; font-size: 0.72rem;">@rajender_9567</small>
+                                    </div>
+                                </div>
+                                <span class="badge rounded-pill px-2 py-1 small"
+                                    style="background: rgba(245, 158, 11, 0.25); color: #f59e0b;">Rating ↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Engineering Core Skills -->
+                <div class="pt-2 pb-1 border-top border-secondary border-opacity-25">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <small
+                            style="color: #94a3b8; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;">
+                            <i class="fas fa-microchip text-info me-1"></i> Core Stack &amp; Architecture
+                        </small>
+                        <small style="color: #38bdf8; font-size: 0.72rem;">Alumni Hub Platform</small>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1">
+                        <span class="vip-tech-pill"><i class="fab fa-python text-warning"></i> Python 3</span>
+                        <span class="vip-tech-pill"><i class="fas fa-flask text-info"></i> Flask Framework</span>
+                        <span class="vip-tech-pill"><i class="fas fa-database text-success"></i> PostgreSQL /
+                            SQLite</span>
+                        <span class="vip-tech-pill"><i class="fas fa-network-wired text-primary"></i> Socket.IO</span>
+                        <span class="vip-tech-pill"><i class="fas fa-shield-halved text-danger"></i> RBAC
+                            Security</span>
+                        <span class="vip-tech-pill"><i class="fab fa-js text-warning"></i> Modern ES6+</span>
+                        <span class="vip-tech-pill"><i class="fab fa-bootstrap text-purple"></i> Bootstrap 5</span>
                     </div>
                 </div>
 
