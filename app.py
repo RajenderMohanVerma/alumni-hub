@@ -97,26 +97,58 @@ def inject_dev_quick_login():
         return {'dev_quick_login': None}
 
 
+# In-memory micro-cache for community statistics (avoids 2 database queries on every page render)
+_COMMUNITY_STATS_CACHE = {
+    'timestamp': 0,
+    'data': {
+        'stats_alumni_faculty_count': 0,
+        'stats_total_enrolled_count': 0
+    }
+}
+
 @app.context_processor
 def inject_community_stats():
     """
     Expose live real-time counts of enrolled members and active alumni/faculty
     so auth showcase boxes reflect actual database figures dynamically.
+    Cached for 120 seconds to eliminate redundant database queries on every template render.
     """
+    global _COMMUNITY_STATS_CACHE
+    now = time.time()
+    if (now - _COMMUNITY_STATS_CACHE['timestamp'] < 120) and _COMMUNITY_STATS_CACHE['timestamp'] > 0:
+        return _COMMUNITY_STATS_CACHE['data']
+
     try:
         conn = get_db_connection()
         alumni_faculty = conn.execute("SELECT COUNT(*) FROM users WHERE role IN ('alumni', 'faculty')").fetchone()[0]
         total_enrolled = conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]
         conn.close()
-        return {
+        result = {
             'stats_alumni_faculty_count': alumni_faculty or 0,
             'stats_total_enrolled_count': total_enrolled or 0
         }
+        _COMMUNITY_STATS_CACHE['timestamp'] = now
+        _COMMUNITY_STATS_CACHE['data'] = result
+        return result
     except Exception:
-        return {
-            'stats_alumni_faculty_count': 0,
-            'stats_total_enrolled_count': 0
-        }
+        return _COMMUNITY_STATS_CACHE['data']
+
+
+@app.after_request
+def add_performance_and_cache_headers(response):
+    """
+    Add aggressive caching headers for static assets and security headers
+    to make Vercel Edge CDN cache images, CSS, and JS globally.
+    """
+    if request.path.startswith('/static/'):
+        # 1-year immutable caching for static assets on browser and Vercel CDN
+        response.headers['Cache-Control'] = 'public, max-age=31536000, s-maxage=31536000, immutable'
+    elif response.status_code == 200 and request.method == 'GET' and not request.path.startswith(('/admin', '/api/', '/messages', '/auth/')):
+        # For public anonymous GET pages, add a brief edge revalidation header
+        if not current_user.is_authenticated and 'text/html' in response.headers.get('Content-Type', ''):
+            response.headers['Cache-Control'] = 'public, max-age=0, s-maxage=30, stale-while-revalidate=120'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    return response
 
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}

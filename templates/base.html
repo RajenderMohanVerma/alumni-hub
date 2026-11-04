@@ -51,6 +51,16 @@
 
     <title>{% block title %}ALUMNI HUB{% endblock %}</title>
 
+    <!-- Resource Preconnects for Ultra-Fast CDN & Font Handshakes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
     <!-- Premium Fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
@@ -177,17 +187,21 @@
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar navbar-expand-lg navbar-floating fixed-top smart-scroll-nav" id="mainNavbar">
         <div class="container-fluid navbar-container">
-            <a class="navbar-brand brand-premium {% if current_user.is_authenticated and current_user.role == 'admin' %}admin-brand-wrap{% endif %}" href="{{ url_for('dashboard_admin') if current_user.is_authenticated and current_user.role == 'admin' else '/' }}" title="Alumni Hub {% if current_user.is_authenticated and current_user.role == 'admin' %}Admin Console{% else %}Official Portal{% endif %}">
+            <a class="navbar-brand brand-premium {% if current_user.is_authenticated and current_user.role == 'admin' %}admin-brand-wrap{% elif current_user.is_authenticated and current_user.role == 'faculty' %}faculty-brand-wrap{% endif %}" href="{{ url_for('dashboard_admin') if current_user.is_authenticated and current_user.role == 'admin' else (url_for('dashboard_faculty') if current_user.is_authenticated and current_user.role == 'faculty' else '/') }}" title="Alumni Hub {% if current_user.is_authenticated and current_user.role == 'admin' %}Admin Console{% elif current_user.is_authenticated and current_user.role == 'faculty' %}Faculty Portal{% else %}Official Portal{% endif %}">
                 <div class="brand-logo-container position-relative">
                     <img src="{{ url_for('static', filename='images/icons/app-logo.png') }}" alt="Alumni Hub Logo" class="brand-app-logo">
                     {% if current_user.is_authenticated and current_user.role == 'admin' %}
                     <span class="admin-pulse-beacon" title="Security Active"></span>
+                    {% elif current_user.is_authenticated and current_user.role == 'faculty' %}
+                    <span class="faculty-pulse-beacon" title="Faculty Active"></span>
                     {% endif %}
                 </div>
                 <div class="brand-meta-group">
                     <strong class="brand-text-premium brand-animate-rtl">ALUMNI HUB</strong>
                     {% if current_user.is_authenticated and current_user.role == 'admin' %}
                     <span class="admin-brand-tag" title="Enterprise Admin Portal"><i class="fas fa-shield-alt"></i> ADMIN</span>
+                    {% elif current_user.is_authenticated and current_user.role == 'faculty' %}
+                    <span class="faculty-brand-tag" title="Academic Faculty Portal"><i class="fas fa-graduation-cap"></i> FACULTY</span>
                     {% endif %}
                 </div>
             </a>
@@ -376,56 +390,31 @@
                     {% elif current_user.role == 'faculty' %}
                     <li class="nav-item">
                         <a class="nav-link nav-pill-link nav-faculty-link {% if request.endpoint == 'dashboard_faculty' %}active{% endif %}"
-                            href="/faculty/dashboard">
-                            <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+                            href="/faculty/dashboard" title="Faculty Dashboard">
+                            <i class="fas fa-chalkboard-user"></i> <span>Dashboard</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link nav-faculty-link" href="/messages">
+                        <a class="nav-link nav-pill-link nav-faculty-link {% if request.path == '/network' %}active{% endif %}"
+                            href="/network" title="Academic Directory">
+                            <i class="fas fa-users"></i> <span>Directory</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-pill-link nav-faculty-link {% if request.path == '/messages' %}active{% endif %}"
+                            href="/messages" title="Messages">
                             <i class="fas fa-comment-alt"></i> <span>Messages</span>
                         </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link nav-pill-link nav-faculty-link" href="/network">
-                            <i class="fas fa-users"></i> <span>Networks</span>
-                        </a>
-                    </li>
-
-                    <!-- Opportunities Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link nav-pill-link dropdown-toggle nav-faculty-link" href="#"
-                            id="facultyOpportunitiesDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fas fa-briefcase"></i> <span>Opportunities</span>
-                        </a>
-                        <ul class="dropdown-menu shadow-premium border-0"
-                            aria-labelledby="facultyOpportunitiesDropdown">
-                            <li>
-                                <a class="dropdown-item" href="/jobs">
-                                    <i class="fas fa-briefcase me-2 text-primary"></i> Jobs &amp; Internships
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/post-job">
-                                    <i class="fas fa-plus-circle me-2 text-success"></i> Post an Opportunity
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/events">
-                                    <i class="fas fa-calendar-alt me-2 text-warning"></i> Campus Events
-                                </a>
-                            </li>
-                        </ul>
                     </li>
 
                     <!-- Academic Hub Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link nav-pill-link dropdown-toggle nav-faculty-link" href="#"
                             id="facultyAcademicHubDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fas fa-chalkboard"></i> <span>Academic Hub</span>
+                            aria-expanded="false" title="Academic Hub">
+                            <i class="fas fa-school"></i> <span>Academic Hub</span>
                         </a>
                         <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="facultyAcademicHubDropdown">
                             <li>
@@ -441,6 +430,33 @@
                             <li>
                                 <a class="dropdown-item" href="/notifications">
                                     <i class="fas fa-bell me-2 text-warning"></i> Notifications
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Opportunities Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-pill-link dropdown-toggle nav-faculty-link" href="#"
+                            id="facultyOpportunitiesDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" title="Opportunities">
+                            <i class="fas fa-briefcase"></i> <span>Opportunities</span>
+                        </a>
+                        <ul class="dropdown-menu shadow-premium border-0"
+                            aria-labelledby="facultyOpportunitiesDropdown">
+                            <li>
+                                <a class="dropdown-item" href="/jobs">
+                                    <i class="fas fa-briefcase me-2 text-primary"></i> Jobs &amp; Internships
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/post-job">
+                                    <i class="fas fa-plus-circle me-2 text-success"></i> Post Opportunity
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/events">
+                                    <i class="fas fa-calendar-alt me-2 text-warning"></i> Campus Events
                                 </a>
                             </li>
                         </ul>
@@ -620,8 +636,8 @@
                     {% endif %}
 
                     <!-- PWA Download Button for Authenticated Users -->
-                    <li class="nav-item d-none d-md-flex align-items-center me-1">
-                        {% if current_user.role == 'admin' %}
+                    <li class="nav-item d-none d-md-flex align-items-center">
+                        {% if current_user.role in ['admin', 'faculty'] %}
                         <button class="btn btn-admin-utility-icon d-none" id="pwaNavInstallBtnAuth" type="button" title="Download Alumni Hub App" aria-label="Download App">
                             <i class="fas fa-cloud-arrow-down"></i>
                         </button>
@@ -633,7 +649,7 @@
                     </li>
 
                     <!-- User Profile Dropdown -->
-                    <li class="nav-item dropdown px-2 user-dropdown {% if current_user.role == 'admin' %}admin-user-dropdown{% endif %}">
+                    <li class="nav-item dropdown user-dropdown {% if current_user.role == 'admin' %}admin-user-dropdown{% endif %}">
                         <a class="nav-link user-pill {% if current_user.role == 'admin' %}admin-user-pill{% endif %} dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="user-avatar overflow-hidden {% if current_user.role == 'admin' %}admin-user-avatar-ring{% endif %}">
@@ -747,6 +763,45 @@
                         <div class="tile-label">WhatsApp</div>
                     </a>
                     <a href="/messages" class="admin-tile-btn tile-sky adm-drawer-link">
+                        <div class="tile-icon"><i class="fas fa-comments"></i></div>
+                        <div class="tile-label">Messages</div>
+                    </a>
+                </div>
+            </div>
+            {% elif current_user.role == 'faculty' %}
+            <!-- Faculty Mobile Header Card -->
+            <div class="faculty-mobile-header-card" style="--delay: 0.1s">
+                <div class="faculty-mobile-profile-row">
+                    <div class="faculty-mobile-avatar-box">
+                        {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
+                        <img src="{{ current_user.profile_pic }}" alt="{{ current_user.name }}" class="faculty-mobile-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="faculty-mobile-initials" style="display: none;">{{ current_user.name | initials }}</div>
+                        {% else %}
+                        <div class="faculty-mobile-initials">{{ current_user.name | initials }}</div>
+                        {% endif %}
+                        <span class="faculty-avatar-badge-icon" title="Faculty Member"><i class="fas fa-chalkboard-teacher"></i></span>
+                    </div>
+                    <div class="faculty-mobile-user-details">
+                        <h4 class="faculty-mobile-name text-white">{{ current_user.name }}</h4>
+                        <p class="faculty-mobile-role-text"><span class="badge bg-emerald-pill"><i class="fas fa-graduation-cap me-1"></i> Faculty Member</span></p>
+                    </div>
+                </div>
+
+                <!-- 4 Quick Launch App Tiles for Faculty -->
+                <div class="faculty-mobile-quick-grid">
+                    <a href="{{ url_for('dashboard_faculty') }}" class="faculty-tile-btn tile-emerald">
+                        <div class="tile-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div class="tile-label">Dashboard</div>
+                    </a>
+                    <a href="/network" class="faculty-tile-btn tile-sky">
+                        <div class="tile-icon"><i class="fas fa-users"></i></div>
+                        <div class="tile-label">Directory</div>
+                    </a>
+                    <a href="/post-job" class="faculty-tile-btn tile-amber">
+                        <div class="tile-icon"><i class="fas fa-plus-circle"></i></div>
+                        <div class="tile-label">Post Job</div>
+                    </a>
+                    <a href="/messages" class="faculty-tile-btn tile-violet">
                         <div class="tile-icon"><i class="fas fa-comments"></i></div>
                         <div class="tile-label">Messages</div>
                     </a>
@@ -2254,6 +2309,39 @@
                 if (pwaMobileDrawerCard) pwaMobileDrawerCard.classList.add('d-none');
             });
         }());
+    </script>
+    <!-- Instant Page Touch / Hover Prefetcher for Ultra-Fast Mobile & Desktop Navigation -->
+    <script>
+        (function () {
+            if ('requestIdleCallback' in window || 'requestAnimationFrame' in window) {
+                var prefetched = new Set();
+                function prefetchLink(url) {
+                    if (!url || prefetched.has(url)) return;
+                    if (url.startsWith('#') || url.startsWith('javascript:') || url.startsWith('mailto:') || url.startsWith('tel:')) return;
+                    try {
+                        var parsed = new URL(url, window.location.href);
+                        if (parsed.origin !== window.location.origin) return;
+                        if (parsed.pathname === window.location.pathname) return;
+                        if (parsed.pathname.includes('/logout') || parsed.pathname.includes('/delete') || parsed.pathname.startsWith('/api/')) return;
+                        prefetched.add(url);
+                        var link = document.createElement('link');
+                        link.rel = 'prefetch';
+                        link.href = parsed.href;
+                        document.head.appendChild(link);
+                    } catch (e) {}
+                }
+
+                document.addEventListener('mouseover', function (e) {
+                    var a = e.target.closest('a');
+                    if (a && a.href) prefetchLink(a.href);
+                }, { passive: true });
+
+                document.addEventListener('touchstart', function (e) {
+                    var a = e.target.closest('a');
+                    if (a && a.href) prefetchLink(a.href);
+                }, { passive: true });
+            }
+        })();
     </script>
 </body>
 

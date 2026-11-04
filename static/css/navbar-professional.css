@@ -2848,3 +2848,485 @@ body.premium-theme #mainNavbar .nav-admin-btn.active i {
 }
 
 
+
+
+/* FACULTY PORTAL BRAND TAG & ACCENTS */
+.faculty-brand-tag,
+.faculty-brand-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-size: 0.64rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    padding: 0.16rem 0.5rem !important;
+    border-radius: 6px !important;
+    background: #064e3b !important;
+    color: #34d399 !important;
+    border: 1px solid rgba(52, 211, 153, 0.4) !important;
+    box-shadow: 0 1px 4px rgba(6, 78, 59, 0.15) !important;
+    line-height: 1.2 !important;
+    text-transform: uppercase !important;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.faculty-brand-tag i,
+.faculty-brand-badge i {
+    color: #34d399 !important;
+    font-size: 0.65rem !important;
+}
+
+.faculty-pulse-beacon {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #10b981;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.4);
+    animation: facultyPulse 2s infinite;
+}
+
+@keyframes facultyPulse {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+    70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* FACULTY MOBILE DRAWER HEADER CARD */
+.faculty-mobile-header-card {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%);
+    border-radius: 18px;
+    padding: 1.15rem;
+    margin: 0.5rem 0.75rem 1rem;
+    box-shadow: 0 10px 25px -5px rgba(6, 78, 59, 0.35);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.faculty-mobile-profile-row {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 0.95rem;
+}
+
+.faculty-mobile-avatar-box {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+}
+
+.faculty-mobile-img,
+.faculty-mobile-initials {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    object-fit: cover;
+    border: 2.5px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.faculty-mobile-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #10b981, #047857);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.35rem;
+}
+
+.faculty-avatar-badge-icon {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fbbf24;
+    color: #78350f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    border: 2px solid #064e3b;
+}
+
+.faculty-mobile-user-details {
+    overflow: hidden;
+    min-width: 0;
+}
+
+.faculty-mobile-name {
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.faculty-mobile-role-text {
+    margin: 0.2rem 0 0 !important;
+}
+
+.bg-emerald-pill {
+    background: rgba(52, 211, 153, 0.2) !important;
+    color: #a7f3d0 !important;
+    border: 1px solid rgba(52, 211, 153, 0.4) !important;
+    font-size: 0.68rem !important;
+    padding: 0.2rem 0.55rem !important;
+    border-radius: 20px !important;
+    font-weight: 600 !important;
+}
+
+.faculty-mobile-quick-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+}
+
+.faculty-tile-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 0.25rem;
+    border-radius: 12px;
+    text-decoration: none !important;
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: all 0.2s ease;
+}
+
+.faculty-tile-btn:active,
+.faculty-tile-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-2px);
+}
+
+.faculty-tile-btn .tile-icon {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.faculty-tile-btn .tile-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tile-emerald .tile-icon { color: #34d399; }
+.tile-sky .tile-icon { color: #38bdf8; }
+.tile-amber .tile-icon { color: #fbbf24; }
+.tile-violet .tile-icon { color: #c084fc; }
+
+
+/* ===== RESPONSIVE NAVBAR OVERLAP PREVENTION & UNIFORM SPACING (ALL SCREEN SIZES) ===== */
+#mainNavbar .navbar-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.75rem !important;
+    position: relative !important;
+    flex-wrap: nowrap !important;
+}
+
+#mainNavbar .navbar-brand.brand-premium {
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+    margin-right: 1.75rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+    z-index: 10 !important;
+    position: relative !important;
+}
+
+#mainNavbar .brand-meta-group {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    white-space: nowrap !important;
+}
+
+#mainNavbar .faculty-brand-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    font-size: 0.68rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    padding: 0.2rem 0.55rem !important;
+    border-radius: 6px !important;
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
+    color: #6ee7b7 !important;
+    border: 1px solid rgba(52, 211, 153, 0.45) !important;
+    box-shadow: 0 2px 6px rgba(6, 78, 59, 0.2) !important;
+    line-height: 1.2 !important;
+    text-transform: uppercase !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+}
+
+#mainNavbar .faculty-brand-tag i {
+    color: #34d399 !important;
+    font-size: 0.72rem !important;
+}
+
+#mainNavbar .navbar-collapse {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    justify-content: flex-end !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Nav links - Uniform spacing and compact pass-pass layout */
+#mainNavbar .role-nav-links {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    margin-left: auto !important;
+    gap: 0.38rem !important; /* Uniform, balanced spacing between all pages */
+    list-style: none !important;
+    margin-bottom: 0 !important;
+    padding-left: 0 !important;
+    flex-wrap: nowrap !important;
+    flex-shrink: 0 !important;
+}
+
+#mainNavbar .role-nav-links > li {
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+/* Uniform, perfectly aligned nav pill link */
+#mainNavbar .role-nav-links .nav-pill-link,
+#mainNavbar .nav-faculty-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.38rem !important;
+    padding: 0.44rem 0.74rem !important;
+    border-radius: 10px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    color: #475569 !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#mainNavbar .role-nav-links .nav-pill-link:hover,
+#mainNavbar .nav-faculty-link:hover {
+    color: #0f172a !important;
+    background: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* Active state for faculty dashboard & routes */
+#mainNavbar .nav-faculty-link.active {
+    color: #047857 !important;
+    background: #ecfdf5 !important;
+    border-color: rgba(16, 185, 129, 0.35) !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.12) !important;
+    font-weight: 700 !important;
+}
+
+#mainNavbar .nav-faculty-link.active i {
+    color: #059669 !important;
+}
+
+#mainNavbar .nav-faculty-link i {
+    font-size: 0.86rem !important;
+    color: #64748b;
+    transition: color 0.18s ease;
+}
+
+#mainNavbar .nav-faculty-link:hover i {
+    color: #047857 !important;
+}
+
+#mainNavbar .nav-faculty-link .dropdown-toggle::after,
+#mainNavbar .nav-faculty-link.dropdown-toggle::after {
+    margin-left: 0.28rem !important;
+    vertical-align: 0.14em !important;
+    border-top-color: currentColor !important;
+}
+
+/* PWA install icon button in auth header */
+#mainNavbar #pwaNavInstallBtnAuth {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 34px !important;
+    height: 34px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 9px !important;
+    background: #0f172a !important;
+    color: #38bdf8 !important;
+    border: 1px solid rgba(56, 189, 248, 0.35) !important;
+    transition: all 0.18s ease !important;
+    cursor: pointer !important;
+}
+
+#mainNavbar #pwaNavInstallBtnAuth:hover {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+/* User profile dropdown pill */
+#mainNavbar .user-dropdown {
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-left: 0.15rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+#mainNavbar .user-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    padding: 0.24rem 0.7rem 0.24rem 0.25rem !important;
+    border-radius: 9999px !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+    font-size: 0.83rem !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.18s ease !important;
+}
+
+#mainNavbar .user-pill:hover {
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+}
+
+#mainNavbar .user-pill .user-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    flex-shrink: 0 !important;
+}
+
+#mainNavbar .user-pill .user-name {
+    font-size: 0.84rem !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+    white-space: nowrap !important;
+}
+
+/* 1200px - 1400px (Laptops) */
+@media (max-width: 1400px) and (min-width: 1200px) {
+    #mainNavbar .navbar-brand.brand-premium {
+        margin-right: 1.25rem !important;
+    }
+    #mainNavbar .role-nav-links {
+        gap: 0.28rem !important;
+    }
+    #mainNavbar .role-nav-links .nav-pill-link,
+    #mainNavbar .nav-faculty-link {
+        padding: 0.4rem 0.62rem !important;
+        font-size: 0.82rem !important;
+        gap: 0.32rem !important;
+    }
+    #mainNavbar .faculty-brand-tag {
+        font-size: 0.62rem !important;
+        padding: 0.16rem 0.46rem !important;
+    }
+    #mainNavbar .user-pill .user-name {
+        max-width: 105px !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+/* 992px - 1199px (Small Laptops / Tablets in Landscape) */
+@media (max-width: 1199px) and (min-width: 992px) {
+    #mainNavbar .navbar-container {
+        padding-inline: 0.85rem !important;
+        gap: 0.5rem !important;
+    }
+    #mainNavbar .navbar-brand.brand-premium {
+        gap: 0.45rem !important;
+        margin-right: 0.75rem !important;
+    }
+    #mainNavbar .brand-logo-container {
+        width: 34px !important;
+        height: 34px !important;
+    }
+    #mainNavbar .brand-text-premium {
+        font-size: 1.05rem !important;
+    }
+    #mainNavbar .faculty-brand-tag {
+        font-size: 0.6rem !important;
+        padding: 0.15rem 0.42rem !important;
+    }
+    #mainNavbar .role-nav-links {
+        gap: 0.22rem !important;
+    }
+    #mainNavbar .role-nav-links .nav-pill-link,
+    #mainNavbar .nav-faculty-link {
+        padding: 0.35rem 0.52rem !important;
+        font-size: 0.78rem !important;
+        gap: 0.25rem !important;
+    }
+    #mainNavbar .user-pill {
+        padding: 0.2rem 0.55rem 0.2rem 0.22rem !important;
+    }
+    #mainNavbar .user-pill .user-name {
+        max-width: 80px !important;
+        font-size: 0.78rem !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+/* 992px - 1080px (Extra Compact Tablet Landscape) */
+@media (max-width: 1080px) and (min-width: 992px) {
+    #mainNavbar .nav-faculty-link span {
+        display: none !important;
+    }
+    #mainNavbar .nav-faculty-link i {
+        font-size: 0.92rem !important;
+        margin: 0 !important;
+    }
+    #mainNavbar .nav-faculty-link {
+        padding: 0.38rem 0.55rem !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    #mainNavbar .nav-faculty-link.dropdown-toggle::after {
+        display: none !important;
+    }
+}
