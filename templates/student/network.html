@@ -1,184 +1,758 @@
 {% extends "base.html" %}
 
-{% block title %}Student Network - Alumni Hub{% endblock %}
+{% block title %}Campus Network & Directory - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
-    <!-- Page Header -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-        <div>
-            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
-                <i class="fas fa-network-wired"></i>
-                <span>Campus & Alumni Directory</span>
-            </div>
-            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Student & Alumni Network</h1>
-            <p class="text-muted small mb-0">Discover verified graduates, departmental peers, and professors to build your professional circle</p>
-        </div>
-        <div class="mt-3 mt-md-0 d-flex gap-2">
-            <a href="{{ url_for('messages') }}" class="btn btn-outline-primary btn-sm rounded-pill px-3" style="border-color: var(--accent-blue); color: var(--accent-blue);">
-                <i class="fas fa-comment-dots me-1"></i> Messages
-            </a>
-        </div>
-    </div>
+<div class="network-directory-page py-4 py-md-5" style="padding-top: 100px !important; min-height: 90vh; background: #f8fafc;">
+    <div class="container">
 
-    <!-- Search & Filters Container -->
-    <div class="home-card p-4 mb-4 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-        <div class="row g-3">
-            <div class="col-md-4">
-                <label class="form-label small fw-semibold text-muted mb-1">Search Directory</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-transparent" style="border-color: var(--border-color); color: var(--text-muted);">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Search by name, role, or skill...">
+        <!-- 1. PAGE HEADER & QUICK ACTIONS -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom">
+            <div>
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2 bg-emerald-50 text-emerald-800 border border-emerald-200" style="font-size: 0.8rem; font-weight: 700;">
+                    <i class="fas fa-network-wired text-emerald-600"></i>
+                    <span>INSTITUTIONAL DIRECTORY</span>
+                    <span class="live-dot" title="Live Database Active"></span>
                 </div>
+                <h1 class="h2 fw-bold text-slate-900 mb-1">Campus Network &amp; Directory</h1>
+                <p class="text-slate-600 small mb-0 fw-medium">Connect with verified students, graduated alumni, and faculty colleagues across academic departments.</p>
             </div>
-            <div class="col-md-2">
-                <label class="form-label small fw-semibold text-muted mb-1">User Type</label>
-                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                    <option selected>All Roles</option>
-                    <option>Alumni</option>
-                    <option>Students</option>
-                    <option>Faculty</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label small fw-semibold text-muted mb-1">Department</label>
-                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                    <option selected>All Branches</option>
-                    <option>Computer Applications (MCA/BCA)</option>
-                    <option>Computer Science</option>
-                    <option>Information Tech</option>
-                    <option>Electronics</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label small fw-semibold text-muted mb-1">Location</label>
-                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                    <option selected>All Cities</option>
-                    <option>Delhi NCR</option>
-                    <option>Bengaluru</option>
-                    <option>Mumbai</option>
-                    <option>Pune</option>
-                </select>
-            </div>
-            <div class="col-md-2 d-flex align-items-end">
-                <button class="btn btn-primary w-100 rounded-pill py-2 shadow-sm" style="background: var(--accent-blue); border: none;">
-                    <i class="fas fa-filter me-1"></i> Filter
-                </button>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <a href="{{ url_for('messages') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-2 fw-semibold shadow-xs">
+                    <i class="fas fa-comment-dots me-1"></i> Messages Hub
+                </a>
+                {% if current_user.role == 'faculty' %}
+                <a href="{{ url_for('dashboard_faculty') }}" class="btn btn-sm btn-emerald rounded-pill px-3 py-2 fw-semibold text-white shadow-xs">
+                    <i class="fas fa-chalkboard-user me-1"></i> Faculty Dashboard
+                </a>
+                {% endif %}
             </div>
         </div>
-    </div>
 
-    <!-- Network Quick Stats (Realistic, < 1000) -->
-    <div class="row g-3 mb-5">
-        <div class="col-6 col-md-3">
-            <div class="home-card p-3 p-md-4 text-center shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-blue-subtle); color: var(--accent-blue); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
-                    <i class="fas fa-user-graduate"></i>
-                </div>
-                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">480+</h3>
-                <p class="text-muted small mb-0">Verified Alumni</p>
+        <!-- 2. REAL INSTITUTIONAL KPI STATS (100% REAL FROM DATABASE) -->
+        <div class="row g-3 mb-4">
+            <!-- Verified Alumni -->
+            <div class="col-6 col-lg-3">
+                <a href="{{ url_for('network', role='alumni') }}" class="network-kpi-card h-100 text-decoration-none">
+                    <div class="kpi-icon-box bg-amber-subtle text-amber-700">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-number text-slate-900">{{ alumni_count }}</div>
+                        <div class="kpi-label text-slate-600">Verified Alumni</div>
+                    </div>
+                </a>
             </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="home-card p-3 p-md-4 text-center shadow-sm accent-green" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-green-subtle); color: var(--accent-green); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
-                    <i class="fas fa-users"></i>
-                </div>
-                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">320+</h3>
-                <p class="text-muted small mb-0">Active Students</p>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="home-card p-3 p-md-4 text-center shadow-sm accent-amber" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-amber-subtle); color: var(--accent-amber); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
-                    <i class="fas fa-handshake"></i>
-                </div>
-                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">{{ connections_count|default(18) }}</h3>
-                <p class="text-muted small mb-0">Your Connections</p>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="home-card p-3 p-md-4 text-center shadow-sm accent-purple" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="icon-chip mx-auto mb-2" style="width: 44px; height: 44px; background: var(--accent-purple-subtle); color: var(--accent-purple); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                </div>
-                <h3 class="fw-bold mb-0" style="color: var(--text-primary);">45+</h3>
-                <p class="text-muted small mb-0">Faculty Mentors</p>
-            </div>
-        </div>
-    </div>
 
-    <!-- People Directory Cards Grid -->
-    <div class="row g-4">
-        {% set sample_people = [
-            {'name': 'Aarav Sharma', 'role': 'Alumni', 'sub': 'Software Engineer @ TCS', 'batch': 'Batch of 2021', 'loc': 'Delhi NCR', 'initial': 'AS', 'accent': 'accent-blue'},
-            {'name': 'Riya Mehta', 'role': 'Student', 'sub': 'MCA Final Year', 'batch': 'Batch of 2025', 'loc': 'Bengaluru', 'initial': 'RM', 'accent': 'accent-green'},
-            {'name': 'Dr. Sunil Kapoor', 'role': 'Faculty', 'sub': 'Associate Professor & HOD', 'batch': 'Dept. of CS', 'loc': 'Campus', 'initial': 'SK', 'accent': 'accent-purple'},
-            {'name': 'Pooja Verma', 'role': 'Alumni', 'sub': 'Product Designer @ Zomato', 'batch': 'Batch of 2020', 'loc': 'Gurugram', 'initial': 'PV', 'accent': 'accent-amber'},
-            {'name': 'Karan Gupta', 'role': 'Student', 'sub': 'BCA 4th Semester', 'batch': 'Batch of 2026', 'loc': 'Noida', 'initial': 'KG', 'accent': 'accent-blue'},
-            {'name': 'Manish Joshi', 'role': 'Alumni', 'sub': 'Cloud Architect @ Wipro', 'batch': 'Batch of 2019', 'loc': 'Hyderabad', 'initial': 'MJ', 'accent': 'accent-green'},
-            {'name': 'Neha Saxena', 'role': 'Alumni', 'sub': 'Data Analyst @ Swiggy', 'batch': 'Batch of 2022', 'loc': 'Bengaluru', 'initial': 'NS', 'accent': 'accent-purple'},
-            {'name': 'Vikas Rawat', 'role': 'Faculty', 'sub': 'Assistant Professor', 'batch': 'Dept. of IT', 'loc': 'Campus', 'initial': 'VR', 'accent': 'accent-amber'}
-        ] %}
+            <!-- Active Students -->
+            <div class="col-6 col-lg-3">
+                <a href="{{ url_for('network', role='student') }}" class="network-kpi-card h-100 text-decoration-none">
+                    <div class="kpi-icon-box bg-sky-subtle text-sky-700">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-number text-slate-900">{{ students_count }}</div>
+                        <div class="kpi-label text-slate-600">Enrolled Students</div>
+                    </div>
+                </a>
+            </div>
 
-        {% for person in sample_people %}
-        <div class="col-md-6 col-lg-3">
-            <div class="home-card p-4 text-center h-100 shadow-sm d-flex flex-column justify-content-between {{ person.accent }}" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div>
-                    <div class="mb-3 position-relative d-inline-block">
-                        <div class="avatar-circle mx-auto d-grid place-items-center shadow-sm"
-                            style="width: 72px; height: 72px; border-radius: 50%; background: var(--bg-subtle); color: var(--text-primary); border: 2px solid var(--border-color); font-size: 1.3rem; font-weight: 700;">
-                            {{ person.initial }}
+            <!-- Faculty Mentors -->
+            <div class="col-6 col-lg-3">
+                <a href="{{ url_for('network', role='faculty') }}" class="network-kpi-card h-100 text-decoration-none">
+                    <div class="kpi-icon-box bg-emerald-subtle text-emerald-700">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-number text-slate-900">{{ faculty_count }}</div>
+                        <div class="kpi-label text-slate-600">Faculty Peers</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Your Connections -->
+            <div class="col-6 col-lg-3">
+                <div class="network-kpi-card h-100">
+                    <div class="kpi-icon-box bg-indigo-subtle text-indigo-700">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-number text-slate-900">{{ connections_count }}</div>
+                        <div class="kpi-label text-slate-600">Your Connections</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. SEARCH & ADVANCED FILTER TOOLBAR -->
+        <div class="directory-control-card rounded-4 p-3 p-md-4 mb-4 shadow-sm border bg-white">
+            <form method="GET" action="{{ url_for('network') }}" id="networkFilterForm">
+                <div class="row g-3 align-items-end">
+                    <!-- Search Input -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label small fw-bold text-slate-700 mb-1">
+                            <i class="fas fa-magnifying-glass text-emerald me-1"></i> Search Directory
+                        </label>
+                        <div class="position-relative">
+                            <input type="text" name="search" class="form-control rounded-pill ps-4 pe-4"
+                                   placeholder="Search by name, role, department, skills..."
+                                   value="{{ search_query }}">
                         </div>
-                        <span class="position-absolute bottom-0 end-0 badge rounded-pill" style="font-size: 0.65rem; background: var(--accent-blue); color: #fff;">
-                            {{ person.role }}
-                        </span>
                     </div>
 
-                    <h5 class="fw-bold mb-1" style="color: var(--text-primary); font-size: 1.05rem;">{{ person.name }}</h5>
-                    <p class="small mb-1 fw-semibold" style="color: var(--accent-blue);">{{ person.sub }}</p>
-                    <p class="text-muted small mb-2" style="font-size: 0.8rem;">
-                        <i class="fas fa-graduation-cap me-1"></i> {{ person.batch }}
-                    </p>
-                    <p class="small text-muted mb-3" style="font-size: 0.8rem;">
-                        <i class="fas fa-location-dot me-1"></i> {{ person.loc }}
-                    </p>
+                    <!-- Role Dropdown -->
+                    <div class="col-6 col-md-2">
+                        <label class="form-label small fw-bold text-slate-700 mb-1">
+                            <i class="fas fa-users text-emerald me-1"></i> Member Role
+                        </label>
+                        <select name="role" class="form-select rounded-pill" onchange="this.form.submit()">
+                            <option value="all" {% if selected_role == 'all' or not selected_role %}selected{% endif %}>All Roles</option>
+                            <option value="student" {% if selected_role == 'student' %}selected{% endif %}>Students</option>
+                            <option value="alumni" {% if selected_role == 'alumni' %}selected{% endif %}>Alumni</option>
+                            <option value="faculty" {% if selected_role == 'faculty' %}selected{% endif %}>Faculty</option>
+                        </select>
+                    </div>
+
+                    <!-- Department Dropdown -->
+                    <div class="col-6 col-md-3">
+                        <label class="form-label small fw-bold text-slate-700 mb-1">
+                            <i class="fas fa-building-columns text-emerald me-1"></i> Department / Branch
+                        </label>
+                        <select name="department" class="form-select rounded-pill" onchange="this.form.submit()">
+                            <option value="all" {% if selected_dept == 'all' or not selected_dept %}selected{% endif %}>All Departments</option>
+                            <option value="it" {% if selected_dept == 'it' %}selected{% endif %}>IT / Information Tech</option>
+                            <option value="computer" {% if selected_dept == 'computer' %}selected{% endif %}>Computer Science</option>
+                            <option value="mca" {% if selected_dept == 'mca' %}selected{% endif %}>MCA</option>
+                            <option value="bca" {% if selected_dept == 'bca' %}selected{% endif %}>BCA</option>
+                            <option value="management" {% if selected_dept == 'management' %}selected{% endif %}>Management / BBA</option>
+                        </select>
+                    </div>
+
+                    <!-- Location Dropdown -->
+                    <div class="col-6 col-md-2">
+                        <label class="form-label small fw-bold text-slate-700 mb-1">
+                            <i class="fas fa-location-dot text-rose-500 me-1"></i> Location
+                        </label>
+                        <select name="location" class="form-select rounded-pill" onchange="this.form.submit()">
+                            <option value="all" {% if selected_loc == 'all' or not selected_loc %}selected{% endif %}>All Locations</option>
+                            <option value="delhi" {% if selected_loc == 'delhi' %}selected{% endif %}>Delhi NCR</option>
+                            <option value="bengaluru" {% if selected_loc == 'bengaluru' %}selected{% endif %}>Bengaluru</option>
+                            <option value="mumbai" {% if selected_loc == 'mumbai' %}selected{% endif %}>Mumbai</option>
+                            <option value="pune" {% if selected_loc == 'pune' %}selected{% endif %}>Pune</option>
+                            <option value="noida" {% if selected_loc == 'noida' %}selected{% endif %}>Noida / Gurugram</option>
+                        </select>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="col-6 col-md-1 d-flex gap-1">
+                        <button type="submit" class="btn btn-emerald w-100 rounded-pill py-2 shadow-xs" title="Apply Filter">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        {% if search_query or (selected_role and selected_role != 'all') or (selected_dept and selected_dept != 'all') or (selected_loc and selected_loc != 'all') %}
+                        <a href="{{ url_for('network') }}" class="btn btn-outline-secondary rounded-pill py-2 px-3" title="Reset All Filters">
+                            <i class="fas fa-rotate-left"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+
+            <!-- Quick Filter Chips & Live Result Status -->
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3 pt-3 border-top">
+                <div class="d-flex align-items-center flex-wrap gap-2">
+                    <span class="small fw-bold text-slate-700"><i class="fas fa-layer-group text-emerald me-1"></i> Quick Filter:</span>
+                    <a href="{{ url_for('network', role='all', department=selected_dept, search=search_query) }}"
+                       class="btn btn-sm filter-pill {% if selected_role == 'all' or not selected_role %}active{% endif %}">
+                        All ({{ total_count }})
+                    </a>
+                    <a href="{{ url_for('network', role='student', department=selected_dept, search=search_query) }}"
+                       class="btn btn-sm filter-pill {% if selected_role == 'student' %}active{% endif %}">
+                        <i class="fas fa-user-graduate me-1"></i> Students ({{ students_count }})
+                    </a>
+                    <a href="{{ url_for('network', role='alumni', department=selected_dept, search=search_query) }}"
+                       class="btn btn-sm filter-pill {% if selected_role == 'alumni' %}active{% endif %}">
+                        <i class="fas fa-user-tie me-1"></i> Alumni ({{ alumni_count }})
+                    </a>
+                    <a href="{{ url_for('network', role='faculty', department=selected_dept, search=search_query) }}"
+                       class="btn btn-sm filter-pill {% if selected_role == 'faculty' %}active{% endif %}">
+                        <i class="fas fa-chalkboard-user me-1"></i> Faculty ({{ faculty_count }})
+                    </a>
                 </div>
 
-                <div class="d-grid gap-2 pt-2">
-                    <button class="btn btn-sm btn-primary rounded-pill py-2 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('Connection request sent to {{ person.name }}!');">
-                        <i class="fas fa-user-plus me-1"></i> Connect
-                    </button>
-                    <button class="btn btn-sm btn-outline-secondary rounded-pill py-2" style="border-color: var(--border-color); color: var(--text-secondary);" onclick="alert('Profile details modal coming soon!');">
-                        <i class="fas fa-eye me-1"></i> View Profile
-                    </button>
+                <!-- Result Counter -->
+                <div class="small fw-bold text-slate-600">
+                    Showing <span class="text-slate-900">{{ users | length }}</span> of <span class="text-slate-900">{{ total_count }}</span> verified members
                 </div>
             </div>
         </div>
-        {% endfor %}
-    </div>
 
-    <!-- Pagination -->
-    <div class="d-flex justify-content-center mt-5">
-        <ul class="pagination shadow-sm rounded-pill overflow-hidden" style="border: 1px solid var(--border-color);">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-muted); border-color: var(--border-color);">Previous</a>
-            </li>
-            <li class="page-item active">
-                <a class="page-link" href="#" style="background: var(--accent-blue); border-color: var(--accent-blue); color: #fff;">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-color);">2</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-color);">3</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" style="background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-color);">Next</a>
-            </li>
-        </ul>
+        <!-- 4. REAL MEMBERS DIRECTORY GRID (16 PER PAGE) -->
+        {% if users %}
+        <div class="row g-3 g-md-4 mb-5">
+            {% for u in users %}
+            <div class="col-md-6 col-lg-3">
+                <div class="faculty-user-card card-{{ u.role }} h-100 shadow-sm">
+                    <!-- Card Top Banner with Multi-Tone Gradient -->
+                    <div class="user-card-cover {% if u.role == 'student' %}cover-sky{% elif u.role == 'alumni' %}cover-amber{% else %}cover-emerald{% endif %} position-relative">
+                        <div class="d-flex align-items-center justify-content-between p-2 px-3">
+                            <span class="card-role-indicator">
+                                {% if u.role == 'student' %}
+                                <i class="fas fa-user-graduate me-1"></i> Student
+                                {% elif u.role == 'alumni' %}
+                                <i class="fas fa-user-tie me-1"></i> Alumni
+                                {% else %}
+                                <i class="fas fa-chalkboard-user me-1"></i> Faculty
+                                {% endif %}
+                            </span>
+                            <span class="card-status-pill">
+                                {% if u.role == 'student' %}
+                                <i class="fas fa-layer-group text-sky-600 me-1"></i> Sem {{ u.semester or '1' }}
+                                {% elif u.role == 'alumni' %}
+                                <i class="fas fa-calendar-check text-amber-600 me-1"></i> '{{ u.pass_year or 'Grad' }}
+                                {% else %}
+                                <i class="fas fa-shield-halved text-emerald-600 me-1"></i> Staff
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="user-card-body text-center p-3 pt-0">
+                        <!-- Squircle Avatar with Elevated Ring -->
+                        <div class="user-card-avatar mx-auto mb-2">
+                            {% if u.profile_pic and (u.profile_pic.startswith('/') or u.profile_pic.startswith('data:image/') or u.profile_pic.startswith('http')) and u.profile_pic != 'default.jpg' %}
+                            <img src="{{ u.profile_pic }}" alt="{{ u.name }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="avatar-initials {% if u.role == 'student' %}avatar-initials-sky{% elif u.role == 'alumni' %}avatar-initials-amber{% else %}avatar-initials-emerald{% endif %}" style="display: none;">{{ u.name | initials }}</div>
+                            {% else %}
+                            <div class="avatar-initials {% if u.role == 'student' %}avatar-initials-sky{% elif u.role == 'alumni' %}avatar-initials-amber{% else %}avatar-initials-emerald{% endif %}">{{ u.name | initials }}</div>
+                            {% endif %}
+                            <span class="avatar-mini-badge {% if u.role == 'student' %}badge-sky{% elif u.role == 'alumni' %}badge-amber{% else %}badge-emerald{% endif %}">
+                                {% if u.role == 'student' %}<i class="fas fa-graduation-cap"></i>{% elif u.role == 'alumni' %}<i class="fas fa-award"></i>{% else %}<i class="fas fa-chalkboard-teacher"></i>{% endif %}
+                            </span>
+                        </div>
+
+                        <!-- Member Name -->
+                        <h5 class="fw-bold text-slate-900 mb-1 text-truncate member-name" title="{{ u.name }}">{{ u.name }}</h5>
+
+                        <!-- Department & Degree Multi-Pills -->
+                        <div class="d-flex align-items-center justify-content-center flex-wrap gap-1 mb-2">
+                            <span class="member-chip {% if u.role == 'student' %}chip-dept{% elif u.role == 'alumni' %}chip-dept-amber{% else %}chip-dept-emerald{% endif %}">
+                                <i class="fas fa-building-columns me-1"></i> {{ u.department or 'Academic Dept' }}
+                            </span>
+                            <span class="member-chip chip-degree">
+                                <i class="fas fa-book-open-reader me-1"></i> {{ u.degree or 'Member' }}
+                            </span>
+                        </div>
+
+                        <!-- Interactive Info / Career / Skills Box -->
+                        <div class="member-info-box mb-3">
+                            {% if u.role == 'student' %}
+                                {% if u.skills %}
+                                <div class="skills-wrapper">
+                                    {% for skill in u.skills.split(',')[:3] %}
+                                    <span class="user-skill-chip skill-sky">{{ skill.strip() }}</span>
+                                    {% endfor %}
+                                    {% if u.skills.split(',')|length > 3 %}
+                                    <span class="user-skill-chip skill-more">+{{ u.skills.split(',')|length - 3 }}</span>
+                                    {% endif %}
+                                </div>
+                                {% else %}
+                                <div class="member-empty-status">
+                                    <i class="fas fa-id-badge text-sky-600 me-1"></i> Active Enrolled Scholar
+                                </div>
+                                {% endif %}
+                            {% elif u.role == 'alumni' %}
+                                <div class="fw-bold text-slate-800 text-truncate small">
+                                    <i class="fas fa-briefcase text-amber-600 me-1"></i> {{ u.alumni_designation or 'Industry Professional' }}
+                                </div>
+                                <div class="text-slate-600 text-truncate" style="font-size: 0.76rem;">
+                                    <i class="fas fa-building text-slate-400 me-1"></i> {{ u.company_name or 'Corporate Alumni' }} &bull; {{ u.work_location }}
+                                </div>
+                            {% else %}
+                                <div class="fw-bold text-slate-800 text-truncate small">
+                                    <i class="fas fa-door-open text-emerald-600 me-1"></i> Cabin: {{ u.office_location }}
+                                </div>
+                                <div class="text-slate-600 text-truncate" style="font-size: 0.76rem;">
+                                    <i class="fas fa-envelope text-slate-400 me-1"></i> {{ u.faculty_designation }} &bull; Staff
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Dual Action Buttons -->
+                        <div class="user-card-actions">
+                            {% if u.role == 'student' %}
+                            <a href="{{ url_for('student_profile', user_id=u.id) }}" class="btn btn-sm btn-card-profile rounded-pill">
+                                <i class="fas fa-circle-user me-1"></i> Profile
+                            </a>
+                            {% elif u.role == 'alumni' %}
+                            <a href="{{ url_for('alumni_profile', user_id=u.id) }}" class="btn btn-sm btn-card-profile rounded-pill">
+                                <i class="fas fa-circle-user me-1"></i> Profile
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('faculty_profile', user_id=u.id) }}" class="btn btn-sm btn-card-profile rounded-pill">
+                                <i class="fas fa-circle-user me-1"></i> Profile
+                            </a>
+                            {% endif %}
+
+                            <!-- Connection Status Button -->
+                            {% if u.id == current_user.id %}
+                            <span class="badge bg-slate-100 text-slate-600 rounded-pill px-3 py-2 fw-semibold d-flex align-items-center justify-content-center">You</span>
+                            {% elif u.id in connected_user_ids %}
+                            <a href="{{ url_for('messages', user_id=u.id) }}" class="btn btn-sm btn-outline-success rounded-pill d-flex align-items-center justify-content-center">
+                                <i class="fas fa-comment-dots me-1"></i> Message
+                            </a>
+                            {% elif u.id in pending_sent_ids %}
+                            <button class="btn btn-sm btn-outline-warning rounded-pill" disabled>
+                                <i class="fas fa-clock me-1"></i> Pending
+                            </button>
+                            {% else %}
+                            <button class="btn btn-sm btn-card-connect {% if u.role == 'student' %}btn-connect-sky{% elif u.role == 'alumni' %}btn-connect-amber{% else %}btn-connect-emerald{% endif %} rounded-pill"
+                                    onclick="connectUser('{{ u.id }}', '{{ u.role }}', this)">
+                                <i class="fas fa-user-plus me-1"></i> Connect
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- 5. PAGINATION (16 ITEMS PER PAGE) -->
+        {% if total_pages > 1 %}
+        <nav aria-label="Directory pagination" class="my-5">
+            <ul class="pagination justify-content-center gap-1">
+                <!-- Previous Button -->
+                <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+                    <a class="page-link rounded-pill px-3"
+                       href="{{ url_for('network', page=page-1, search=search_query, role=selected_role, department=selected_dept, location=selected_loc) }}"
+                       {% if page <= 1 %}tabindex="-1" aria-disabled="true"{% endif %}>
+                        <i class="fas fa-chevron-left me-1"></i> Previous
+                    </a>
+                </li>
+
+                <!-- Page Numbers -->
+                {% for p in range(1, total_pages + 1) %}
+                    {% if p == page %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link rounded-circle">{{ p }}</span>
+                    </li>
+                    {% elif p <= 3 or p >= total_pages - 2 or (p >= page - 1 and p <= page + 1) %}
+                    <li class="page-item">
+                        <a class="page-link rounded-circle"
+                           href="{{ url_for('network', page=p, search=search_query, role=selected_role, department=selected_dept, location=selected_loc) }}">{{ p }}</a>
+                    </li>
+                    {% elif p == 4 and page > 5 %}
+                    <li class="page-item disabled"><span class="page-link border-0">...</span></li>
+                    {% elif p == total_pages - 3 and page < total_pages - 4 %}
+                    <li class="page-item disabled"><span class="page-link border-0">...</span></li>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Next Button -->
+                <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+                    <a class="page-link rounded-pill px-3"
+                       href="{{ url_for('network', page=page+1, search=search_query, role=selected_role, department=selected_dept, location=selected_loc) }}"
+                       {% if page >= total_pages %}tabindex="-1" aria-disabled="true"{% endif %}>
+                        Next <i class="fas fa-chevron-right ms-1"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <!-- EMPTY / ZERO MATCHES STATE -->
+        <div class="empty-directory-card text-center py-5 my-4 bg-white rounded-4 border shadow-sm p-4">
+            <div class="empty-icon-wrap mx-auto mb-3">
+                <i class="fas fa-user-slash fa-3x text-slate-400"></i>
+            </div>
+            <h4 class="fw-bold text-slate-900 mb-2">No Members Found</h4>
+            <p class="text-slate-600 mb-4 max-w-md mx-auto">No registered directory records matched your current search filters.</p>
+            <a href="{{ url_for('network') }}" class="btn btn-emerald rounded-pill px-4 py-2 fw-semibold">
+                <i class="fas fa-rotate-left me-1"></i> View All Members
+            </a>
+        </div>
+        {% endif %}
+
     </div>
 </div>
+
+<!-- STYLESHEET FOR NETWORK DIRECTORY -->
+<style>
+/* Real KPI Stats Cards */
+.network-kpi-card {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 1.15rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    transition: all 0.22s ease;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+}
+.network-kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+    border-color: #cbd5e1;
+}
+.kpi-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+}
+.kpi-number {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+.kpi-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+/* User Card Redesign */
+.faculty-user-card {
+    background: #ffffff;
+    border-radius: 22px;
+    border: 1.5px solid #e2e8f0;
+    overflow: hidden;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.faculty-user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.12) !important;
+}
+.card-student:hover { border-color: rgba(2, 132, 199, 0.45); }
+.card-alumni:hover { border-color: rgba(217, 119, 6, 0.45); }
+.card-faculty:hover { border-color: rgba(5, 150, 105, 0.45); }
+
+/* Banners with modern multi-tone gradients */
+.user-card-cover {
+    height: 72px;
+    width: 100%;
+    position: relative;
+}
+.cover-sky { background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #1e40af 100%); }
+.cover-amber { background: linear-gradient(135deg, #d97706 0%, #b45309 50%, #78350f 100%); }
+.cover-emerald { background: linear-gradient(135deg, #059669 0%, #047857 50%, #064e3b 100%); }
+
+.card-role-indicator {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.card-status-pill {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* Elevated Squircle Avatar */
+.user-card-avatar {
+    margin-top: -42px;
+    width: 78px;
+    height: 78px;
+    position: relative;
+    z-index: 2;
+}
+.user-card-avatar img,
+.avatar-initials {
+    width: 78px;
+    height: 78px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 3.5px solid #ffffff;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
+}
+.avatar-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+}
+.avatar-initials-sky { background: linear-gradient(135deg, #0284c7, #2563eb); }
+.avatar-initials-amber { background: linear-gradient(135deg, #d97706, #92400e); }
+.avatar-initials-emerald { background: linear-gradient(135deg, #059669, #064e3b); }
+
+.avatar-mini-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.badge-sky { background: #0284c7; color: #ffffff; }
+.badge-amber { background: #d97706; color: #ffffff; }
+.badge-emerald { background: #059669; color: #ffffff; }
+
+/* Member Identity & Chips */
+.member-name {
+    font-size: 1.05rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    letter-spacing: -0.3px;
+}
+.member-chip {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.22rem 0.6rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #334155;
+}
+.chip-dept { background: #f0f9ff; color: #0369a1; border-color: #bae6fd; }
+.chip-dept-amber { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+.chip-dept-emerald { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+.chip-degree { background: #f8fafc; color: #475569; border-color: #e2e8f0; }
+
+/* Info Boxes */
+.member-info-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 0.5rem 0.75rem;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.faculty-user-card:hover .member-info-box {
+    background: #ffffff;
+    border-color: #cbd5e1;
+}
+.member-empty-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.skills-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+}
+.user-skill-chip {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.16rem 0.52rem;
+    border-radius: 8px;
+    display: inline-block;
+}
+.skill-sky { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+.skill-more { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+
+/* Action Buttons */
+.user-card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed #e2e8f0;
+}
+.btn-card-profile {
+    background: #ffffff;
+    color: #334155 !important;
+    border: 1.5px solid #cbd5e1;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 0.42rem 0.75rem;
+    transition: all 0.2s ease;
+}
+.btn-card-profile:hover {
+    background: #f1f5f9;
+    color: #0f172a !important;
+    border-color: #94a3b8;
+}
+.btn-card-connect {
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 0.42rem 0.75rem;
+    border: none;
+    color: #ffffff !important;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+.btn-connect-sky { background: linear-gradient(135deg, #0284c7, #2563eb); }
+.btn-connect-sky:hover { background: linear-gradient(135deg, #0369a1, #1d4ed8); transform: translateY(-1px); }
+.btn-connect-amber { background: linear-gradient(135deg, #d97706, #b45309); }
+.btn-connect-amber:hover { background: linear-gradient(135deg, #b45309, #78350f); transform: translateY(-1px); }
+.btn-connect-emerald { background: linear-gradient(135deg, #059669, #047857); }
+.btn-connect-emerald:hover { background: linear-gradient(135deg, #047857, #064e3b); transform: translateY(-1px); }
+
+/* Quick Filter Pills */
+.filter-pill {
+    background: #ffffff !important;
+    color: #334155 !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 9999px !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    padding: 0.35rem 0.85rem !important;
+    transition: all 0.18s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    text-decoration: none !important;
+}
+.filter-pill:hover {
+    background: #f8fafc !important;
+    color: #064e3b !important;
+    border-color: #10b981 !important;
+    transform: translateY(-1px);
+}
+.filter-pill.active {
+    background: linear-gradient(135deg, #064e3b, #047857) !important;
+    color: #ffffff !important;
+    border-color: #064e3b !important;
+    box-shadow: 0 3px 10px rgba(6, 78, 59, 0.25) !important;
+    font-weight: 700 !important;
+}
+
+/* Pagination Styling */
+.pagination .page-link {
+    color: #334155;
+    font-weight: 600;
+    border: 1.5px solid #e2e8f0;
+    margin: 0 2px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, #064e3b, #047857) !important;
+    border-color: #064e3b !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(6, 78, 59, 0.25);
+}
+.pagination .page-item:not(.active) .page-link:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+.pagination .page-item.disabled .page-link {
+    color: #94a3b8;
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+/* Empty State Card */
+.empty-directory-card {
+    border-radius: 20px;
+    border: 1.5px dashed #cbd5e1;
+}
+.empty-icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+    display: inline-block;
+}
+.btn-emerald {
+    background: linear-gradient(135deg, #059669, #047857) !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+.btn-emerald:hover {
+    background: linear-gradient(135deg, #047857, #064e3b) !important;
+    color: #ffffff !important;
+}
+</style>
+
+<!-- JAVASCRIPT FOR CONNECTION REQUESTS -->
+<script>
+function connectUser(userId, role, btn) {
+    const originalContent = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+
+    fetch('/api/connection-request/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ receiver_id: userId })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            btn.innerHTML = '<i class="fas fa-check me-1"></i> Sent';
+            btn.className = 'btn btn-sm btn-outline-warning rounded-pill';
+            if (typeof showToast === 'function') {
+                showToast('Connection invitation sent successfully!', '#10b981');
+            } else {
+                alert('Connection invitation sent successfully!');
+            }
+        } else {
+            btn.innerHTML = originalContent;
+            btn.disabled = false;
+            if (typeof showToast === 'function') {
+                showToast(data.error || 'Could not send invitation', '#e11d48');
+            } else {
+                alert(data.error || 'Could not send invitation');
+            }
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        btn.innerHTML = originalContent;
+        btn.disabled = false;
+        if (typeof showToast === 'function') {
+            showToast('Network error sending request.', '#e11d48');
+        } else {
+            alert('Network error sending request.');
+        }
+    });
+}
+</script>
 {% endblock %}

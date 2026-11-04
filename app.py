@@ -2065,7 +2065,7 @@ def alumni_meet_view():
 @login_required
 def alumni_network():
     if current_user.role != 'alumni': return redirect(url_for('home'))
-    return render_template('alumni/network.html')
+    return redirect(url_for('network'))
 
 @app.route('/alumni/messages')
 @login_required
@@ -4567,12 +4567,195 @@ def events():
 
 # Student-specific routes - all use student folder templates
 @app.route('/network')
+@app.route('/faculty/network')
+@app.route('/faculty/directory')
 @login_required
 def network():
-    if current_user.role not in ['student', 'faculty', 'alumni']:
+    if current_user.role not in ['student', 'faculty', 'alumni', 'admin']:
         flash('Access denied!', 'danger')
         return redirect(url_for('home'))
-    return render_template('student/network.html')
+
+    import math
+    page = request.args.get('page', 1, type=int)
+    if page < 1:
+        page = 1
+    per_page = 16  # 16 members per page with next/prev pagination
+
+    search_query = request.args.get('search', '').strip()
+    role_filter = request.args.get('role', 'all').strip().lower()
+    dept_filter = request.args.get('department', 'all').strip()
+    loc_filter = request.args.get('location', 'all').strip()
+
+    conn = None
+    try:
+        conn = get_db_connection()
+
+        # Real institutional KPI metrics from database
+        alumni_count_row = conn.execute("""
+            SELECT COUNT(*) FROM users 
+            WHERE role = 'alumni' AND (is_approved = 1 OR is_approved IS NULL)
+        """).fetchone()
+        alumni_count = alumni_count_row[0] if alumni_count_row else 0
+
+        students_count_row = conn.execute("""
+            SELECT COUNT(*) FROM users 
+            WHERE role = 'student' AND (is_approved = 1 OR is_approved IS NULL)
+        """).fetchone()
+        students_count = students_count_row[0] if students_count_row else 0
+
+        faculty_count_row = conn.execute("""
+            SELECT COUNT(*) FROM users 
+            WHERE role = 'faculty' AND (is_approved = 1 OR is_approved IS NULL)
+        """).fetchone()
+        faculty_count = faculty_count_row[0] if faculty_count_row else 0
+
+        # User's real accepted connections count
+        conn_row = conn.execute("""
+            SELECT COUNT(*) FROM connection_requests 
+            WHERE (sender_id = ? OR receiver_id = ?) AND status = 'accepted'
+        """, (current_user.id, current_user.id)).fetchone()
+        connections_count = conn_row[0] if conn_row else 0
+
+        # Connected IDs and Pending Sent IDs for buttons
+        connected_rows = conn.execute("""
+            SELECT CASE WHEN sender_id = ? THEN receiver_id ELSE sender_id END as friend_id
+            FROM connection_requests
+            WHERE (sender_id = ? OR receiver_id = ?) AND status = 'accepted'
+        """, (current_user.id, current_user.id, current_user.id)).fetchall()
+        connected_user_ids = {r['friend_id'] for r in connected_rows}
+
+        pending_sent_rows = conn.execute("""
+            SELECT receiver_id FROM connection_requests
+            WHERE sender_id = ? AND status = 'pending'
+        """, (current_user.id,)).fetchall()
+        pending_sent_ids = {r['receiver_id'] for r in pending_sent_rows}
+
+        # Dynamic Filtering on real DB records
+        where_clauses = [
+            "u.role IN ('student', 'alumni', 'faculty')",
+            "(u.is_approved = 1 OR u.is_approved IS NULL)"
+        ]
+        params = []
+
+        if role_filter and role_filter != 'all':
+            where_clauses.append("u.role = ?")
+            params.append(role_filter)
+
+        if dept_filter and dept_filter != 'all':
+            where_clauses.append("""(
+                s.department LIKE ? OR 
+                a.department LIKE ? OR 
+                f.department LIKE ? OR 
+                u.branch LIKE ?
+            )""")
+            dept_p = f"%{dept_filter}%"
+            params.extend([dept_p, dept_p, dept_p, dept_p])
+
+        if loc_filter and loc_filter != 'all':
+            where_clauses.append("""(
+                a.work_location LIKE ? OR 
+                f.office_location LIKE ? OR 
+                u.city LIKE ?
+            )""")
+            loc_p = f"%{loc_filter}%"
+            params.extend([loc_p, loc_p, loc_p])
+
+        if search_query:
+            where_clauses.append("""(
+                u.name LIKE ? OR 
+                u.email LIKE ? OR 
+                s.skills LIKE ? OR 
+                u.skills LIKE ? OR 
+                s.department LIKE ? OR 
+                a.department LIKE ? OR 
+                f.department LIKE ? OR 
+                u.branch LIKE ? OR 
+                a.company_name LIKE ? OR 
+                u.company LIKE ? OR 
+                a.designation LIKE ? OR 
+                f.designation LIKE ? OR 
+                f.specialization LIKE ?
+            )""")
+            q_p = f"%{search_query}%"
+            params.extend([q_p] * 13)
+
+        where_sql = " AND ".join(where_clauses)
+
+        # Count total matching users
+        count_sql = f"""
+            SELECT COUNT(*) 
+            FROM users u
+            LEFT JOIN student_profile s ON u.id = s.user_id AND u.role = 'student'
+            LEFT JOIN alumni_profile a ON u.id = a.user_id AND u.role = 'alumni'
+            LEFT JOIN faculty_profile f ON u.id = f.user_id AND u.role = 'faculty'
+            WHERE {where_sql}
+        """
+        total_count_row = conn.execute(count_sql, tuple(params)).fetchone()
+        total_count = total_count_row[0] if total_count_row else 0
+
+        total_pages = max(1, math.ceil(total_count / per_page))
+        if page > total_pages:
+            page = total_pages
+        offset = (page - 1) * per_page
+
+        # Fetch page of real users
+        select_sql = f"""
+            SELECT 
+                u.id, u.name, u.email, u.phone, u.role, u.profile_pic, u.created_at,
+                COALESCE(s.department, a.department, f.department, u.branch, 'Academic Dept') as department,
+                COALESCE(s.degree, a.degree, f.designation, u.current_domain, u.role) as degree,
+                s.semester,
+                COALESCE(s.skills, u.skills, '') as skills,
+                s.cgpa,
+                COALESCE(a.company_name, u.company, '') as company_name,
+                COALESCE(a.designation, '') as alumni_designation,
+                COALESCE(a.pass_year, u.passing_year) as pass_year,
+                COALESCE(a.work_location, u.city, 'Delhi NCR') as work_location,
+                COALESCE(f.designation, 'Faculty') as faculty_designation,
+                COALESCE(f.office_location, 'Faculty Chamber') as office_location,
+                COALESCE(f.specialization, '') as specialization
+            FROM users u
+            LEFT JOIN student_profile s ON u.id = s.user_id AND u.role = 'student'
+            LEFT JOIN alumni_profile a ON u.id = a.user_id AND u.role = 'alumni'
+            LEFT JOIN faculty_profile f ON u.id = f.user_id AND u.role = 'faculty'
+            WHERE {where_sql}
+            ORDER BY 
+                CASE u.role 
+                    WHEN 'faculty' THEN 1 
+                    WHEN 'alumni' THEN 2 
+                    WHEN 'student' THEN 3 
+                    ELSE 4 
+                END,
+                u.name ASC
+            LIMIT ? OFFSET ?
+        """
+        query_params = list(params) + [per_page, offset]
+        users = conn.execute(select_sql, tuple(query_params)).fetchall()
+
+        return render_template('student/network.html',
+                               users=users,
+                               page=page,
+                               per_page=per_page,
+                               total_pages=total_pages,
+                               total_count=total_count,
+                               alumni_count=alumni_count,
+                               students_count=students_count,
+                               faculty_count=faculty_count,
+                               connections_count=connections_count,
+                               search_query=search_query,
+                               selected_role=role_filter,
+                               selected_dept=dept_filter,
+                               selected_loc=loc_filter,
+                               connected_user_ids=connected_user_ids,
+                               pending_sent_ids=pending_sent_ids)
+
+    except Exception as e:
+        print(f"Network directory error: {e}")
+        flash('Error loading directory records!', 'danger')
+        return redirect(url_for('home'))
+    finally:
+        if conn:
+            conn.close()
 
 @app.route('/messages')
 @login_required
