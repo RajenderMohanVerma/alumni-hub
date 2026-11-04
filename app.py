@@ -4579,8 +4579,9 @@ def network():
     page = request.args.get('page', 1, type=int)
     if page < 1:
         page = 1
-    per_page = 16  # 16 members per page with next/prev pagination
+    per_page = 12  # Maximum 12 members per page with next/prev arrows
 
+    scope_filter = request.args.get('scope', 'all').strip().lower()
     search_query = request.args.get('search', '').strip()
     role_filter = request.args.get('role', 'all').strip().lower()
     dept_filter = request.args.get('department', 'all').strip()
@@ -4636,6 +4637,15 @@ def network():
             "(u.is_approved = 1 OR u.is_approved IS NULL)"
         ]
         params = []
+
+        # If scope is 'connections', filter to only users connected to current user
+        if scope_filter == 'connections':
+            where_clauses.append('''u.id IN (
+                SELECT CASE WHEN sender_id = ? THEN receiver_id ELSE sender_id END
+                FROM connection_requests
+                WHERE (sender_id = ? OR receiver_id = ?) AND status = 'accepted'
+            )''')
+            params.extend([current_user.id, current_user.id, current_user.id])
 
         if role_filter and role_filter != 'all':
             where_clauses.append("u.role = ?")
@@ -4746,6 +4756,7 @@ def network():
                                selected_role=role_filter,
                                selected_dept=dept_filter,
                                selected_loc=loc_filter,
+                               selected_scope=scope_filter,
                                connected_user_ids=connected_user_ids,
                                pending_sent_ids=pending_sent_ids)
 
