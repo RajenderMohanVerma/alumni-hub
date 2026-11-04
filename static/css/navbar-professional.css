@@ -1505,6 +1505,8 @@
     }
 }
 
+/* ===== CONSISTENT PUBLIC / AUTH NAVIGATION (DESKTOP >= 992px) ===== */
+@media (min-width: 992px) {
 /* ===== CONSISTENT PUBLIC / AUTH NAVIGATION ===== */
 #mainNavbar .navbar-container {
     display: flex !important;
@@ -1625,6 +1627,7 @@
 
 #mainNavbar .nav-mobile-register {
     display: none;
+}
 }
 
 /* Responsive Desktop Optimization (1200px - 1400px) */
@@ -3039,6 +3042,8 @@ body.premium-theme #mainNavbar .nav-admin-btn.active i {
 .tile-violet .tile-icon { color: #c084fc; }
 
 
+/* ===== RESPONSIVE NAVBAR OVERLAP PREVENTION & UNIFORM SPACING (DESKTOP >= 992px) ===== */
+@media (min-width: 992px) {
 /* ===== RESPONSIVE NAVBAR OVERLAP PREVENTION & UNIFORM SPACING (ALL SCREEN SIZES) ===== */
 #mainNavbar .navbar-container {
     display: flex !important;
@@ -3252,6 +3257,7 @@ body.premium-theme #mainNavbar .nav-admin-btn.active i {
     color: #1e293b !important;
     white-space: nowrap !important;
 }
+}
 
 /* 1200px - 1400px (Laptops) */
 @media (max-width: 1400px) and (min-width: 1200px) {
@@ -3340,5 +3346,190 @@ body.premium-theme #mainNavbar .nav-admin-btn.active i {
     }
     #mainNavbar .nav-faculty-link.dropdown-toggle::after {
         display: none !important;
+    }
+}
+
+
+/* ==========================================================================
+   PERFECT MOBILE & TABLET NAVBAR FIX (SCREENS <= 991.98px)
+   Applied across ALL roles: Common/Public, Admin, Faculty, Student, Alumni
+   ========================================================================== */
+@media (max-width: 991.98px) {
+    /* 1. Strictly hide desktop navbar-collapse on mobile */
+    #mainNavbar .navbar-collapse,
+    #mainNavbar .navbar-collapse.show,
+    #mainNavbar .collapse.navbar-collapse,
+    .navbar-floating .navbar-collapse,
+    .navbar-floating .navbar-collapse.show {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        overflow: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+    }
+
+    /* 2. Floating Navbar Outer Wrapper on Mobile */
+    #mainNavbar.navbar-floating {
+        padding: 0.42rem 0.85rem !important;
+        top: 0.5rem !important;
+        left: 0.6rem !important;
+        right: 0.6rem !important;
+        width: auto !important;
+        max-width: calc(100vw - 1.2rem) !important;
+        box-sizing: border-box !important;
+        border-radius: 16px !important;
+        box-shadow: 0 8px 24px rgba(2, 8, 23, 0.12) !important;
+    }
+
+    #mainNavbar .navbar-container {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-wrap: nowrap !important;
+        gap: 0.5rem !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    /* 3. Brand Logo & Title on Mobile */
+    #mainNavbar .navbar-brand.brand-premium {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        margin: 0 !important;
+        margin-right: auto !important;
+        padding: 0 !important;
+        flex: 0 1 auto !important;
+        min-width: 0 !important;
+        text-decoration: none !important;
+        z-index: 5 !important;
+    }
+
+    #mainNavbar .brand-logo-container {
+        width: 36px !important;
+        height: 36px !important;
+        flex-shrink: 0 !important;
+    }
+
+    #mainNavbar .brand-app-logo {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+    }
+
+    #mainNavbar .brand-meta-group {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        min-width: 0 !important;
+    }
+
+    #mainNavbar .brand-text-premium {
+        font-size: 1.05rem !important;
+        font-weight: 800 !important;
+        white-space: nowrap !important;
+        letter-spacing: -0.01em !important;
+        line-height: 1 !important;
+    }
+
+    /* 4. Permanently hide role tags next to brand on mobile to prevent crowding */
+    #mainNavbar .admin-brand-tag,
+    #mainNavbar .faculty-brand-tag,
+    #mainNavbar .faculty-brand-badge {
+        display: none !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* 5. Mobile Hamburger Toggler Button */
+    #mainNavbar .custom-toggler {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 40px !important;
+        height: 40px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        margin-left: 0.4rem !important;
+        background: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 11px !important;
+        cursor: pointer !important;
+        flex-shrink: 0 !important;
+        outline: none !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+        transition: all 0.2s ease !important;
+        z-index: 10 !important;
+    }
+
+    #mainNavbar .custom-toggler:hover,
+    #mainNavbar .custom-toggler:active {
+        background: #e2e8f0 !important;
+        border-color: #94a3b8 !important;
+    }
+
+    #mainNavbar .hamburger-lines {
+        width: 20px !important;
+        height: 15px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    #mainNavbar .hamburger-lines .line {
+        display: block !important;
+        height: 2.2px !important;
+        width: 100% !important;
+        background: #0f172a !important;
+        border-radius: 3px !important;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    #mainNavbar .custom-toggler.active .line1 {
+        transform: translateY(6.4px) rotate(45deg) !important;
+    }
+    #mainNavbar .custom-toggler.active .line2 {
+        opacity: 0 !important;
+        transform: scale(0) !important;
+    }
+    #mainNavbar .custom-toggler.active .line3 {
+        transform: translateY(-6.4px) rotate(-45deg) !important;
+    }
+
+    /* 6. Mobile Quick Register Pill (Unauthenticated Only) */
+    #mainNavbar .nav-mobile-register {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.35rem !important;
+        min-height: 38px !important;
+        padding: 0.4rem 0.9rem !important;
+        font-size: 0.8rem !important;
+        font-weight: 700 !important;
+        border-radius: 9999px !important;
+        background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        white-space: nowrap !important;
+        box-shadow: 0 3px 10px rgba(2, 132, 199, 0.35) !important;
+        border: none !important;
+        flex-shrink: 0 !important;
+        margin-left: auto !important;
+    }
+
+    #mainNavbar .nav-mobile-register:hover,
+    #mainNavbar .nav-mobile-register:active {
+        color: #ffffff !important;
+        transform: translateY(-1px) !important;
     }
 }
