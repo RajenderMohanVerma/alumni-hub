@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Campus Network & Directory - Alumni Hub{% endblock %}
+{% block title %}Campus Networks - Alumni Hub{% endblock %}
 
 {% block content %}
 <div class="network-directory-page py-4 py-md-5" style="padding-top: 100px !important; min-height: 90vh; background: #f8fafc;">
@@ -14,7 +14,7 @@
                     <span>INSTITUTIONAL DIRECTORY</span>
                     <span class="live-dot" title="Live Database Active"></span>
                 </div>
-                <h1 class="h2 fw-bold text-slate-900 mb-1">Campus Network &amp; Directory</h1>
+                <h1 class="h2 fw-bold text-slate-900 mb-1">Student &amp; Alumni Networks</h1>
                 <p class="text-slate-600 small mb-0 fw-medium">Connect with verified students, graduated alumni, and faculty colleagues across academic departments.</p>
             </div>
             <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -86,12 +86,12 @@
 
         <!-- 3. SEARCH & ADVANCED FILTER TOOLBAR -->
         <div class="directory-control-card rounded-4 p-3 p-md-4 mb-4 shadow-sm border bg-white">
-            <!-- Directory Scope Switcher (All Campus Directory vs My Connections) -->
+            <!-- Networks Scope Switcher (All Campus Network vs My Connections) -->
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-3 border-bottom">
                 <div class="d-inline-flex p-1 bg-slate-100 rounded-pill border border-slate-200">
                     <a href="{{ url_for('network', scope='all', role=selected_role, department=selected_dept, location=selected_loc, search=search_query) }}" 
                        class="btn btn-sm rounded-pill px-3.5 py-1.5 fw-bold text-decoration-none {% if selected_scope != 'connections' %}bg-white text-emerald-800 shadow-xs border border-slate-200{% else %}text-slate-600{% endif %}">
-                        <i class="fas fa-globe me-1.5 text-emerald-600"></i> All Campus Directory
+                        <i class="fas fa-globe me-1.5 text-emerald-600"></i> All Campus Network
                     </a>
                     <a href="{{ url_for('network', scope='connections', role=selected_role, department=selected_dept, location=selected_loc, search=search_query) }}" 
                        class="btn btn-sm rounded-pill px-3.5 py-1.5 fw-bold text-decoration-none {% if selected_scope == 'connections' %}bg-white text-emerald-800 shadow-xs border border-slate-200{% else %}text-slate-600{% endif %}">
@@ -115,7 +115,7 @@
                     <!-- Search Input -->
                     <div class="col-12 col-md-4">
                         <label class="form-label small fw-bold text-slate-700 mb-1">
-                            <i class="fas fa-magnifying-glass text-emerald me-1"></i> Search Directory
+                            <i class="fas fa-magnifying-glass text-emerald me-1"></i> Search Networks
                         </label>
                         <div class="position-relative">
                             <input type="text" name="search" class="form-control rounded-pill ps-4 pe-4"
@@ -343,7 +343,7 @@
 
         <!-- 5. PAGINATION (MAX 12 ITEMS PER PAGE WITH ARROWS) -->
         {% if total_pages > 1 %}
-        <nav aria-label="Directory pagination" class="my-5">
+        <nav aria-label="Networks pagination" class="my-5">
             <ul class="pagination justify-content-center align-items-center gap-1 flex-wrap">
                 <!-- Previous Arrow Button -->
                 <li class="page-item {% if page <= 1 %}disabled{% endif %}">

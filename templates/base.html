@@ -101,8 +101,11 @@
             background-color: #021a12 !important;
             backdrop-filter: blur(28px) !important;
             -webkit-backdrop-filter: blur(28px) !important;
-            padding: 72px 14px 45px !important;
+            padding: 0 14px 45px !important;
             color: #f1fdf8 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
         }
 
         .faculty-drawer-theme .mobile-menu-content,
@@ -110,27 +113,117 @@
             gap: 14px !important;
             max-width: 480px !important;
             width: 100% !important;
+            padding-top: 0.25rem !important;
         }
 
-        /* Close Button in Faculty Drawer */
+        /* Sticky Drawer Top Bar with Brand & Close Button */
+        .mobile-drawer-topbar {
+            position: sticky !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            max-width: 480px !important;
+            margin: 0 auto 0.85rem !important;
+            padding: 0.85rem 0.5rem !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(24px) !important;
+            -webkit-backdrop-filter: blur(24px) !important;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.9) !important;
+            z-index: 100005 !important;
+        }
+
+        #mobileMenuOverlay.faculty-drawer-theme .mobile-drawer-topbar {
+            background: rgba(2, 26, 18, 0.95) !important;
+            border-bottom: 1px solid rgba(52, 211, 153, 0.25) !important;
+        }
+
+        .drawer-brand-title {
+            font-size: 1.05rem !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.3px !important;
+            color: #0f172a !important;
+        }
+
+        #mobileMenuOverlay.faculty-drawer-theme .drawer-brand-title {
+            color: #ffffff !important;
+        }
+
+        .drawer-brand-logo-wrap {
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 11px !important;
+            background: rgba(5, 150, 105, 0.25) !important;
+            border: 1px solid rgba(52, 211, 153, 0.4) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+        }
+
+        .drawer-brand-logo {
+            width: 24px !important;
+            height: 24px !important;
+            object-fit: contain !important;
+        }
+
+        .drawer-brand-title {
+            font-size: 1.1rem !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.01em !important;
+            color: #ffffff !important;
+            line-height: 1 !important;
+        }
+
+        .drawer-brand-title .brand-highlight {
+            color: #34d399 !important;
+        }
+
+        .drawer-role-tag {
+            font-size: 0.65rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.08em !important;
+            padding: 0.2rem 0.55rem !important;
+            border-radius: 6px !important;
+            text-transform: uppercase !important;
+        }
+
+        .role-tag-faculty {
+            background: rgba(5, 150, 105, 0.25) !important;
+            color: #6ee7b7 !important;
+            border: 1px solid rgba(52, 211, 153, 0.45) !important;
+        }
+
+        .role-tag-admin {
+            background: rgba(99, 102, 241, 0.25) !important;
+            color: #a5b4fc !important;
+            border: 1px solid rgba(99, 102, 241, 0.45) !important;
+        }
+
+        /* Close Button inside sticky topbar */
+        .mobile-drawer-topbar .mobile-close-btn,
         .faculty-drawer-theme .mobile-close-btn,
         #mobileMenuOverlay.faculty-drawer-theme .mobile-close-btn {
-            top: 16px !important;
-            right: 16px !important;
-            width: 42px !important;
-            height: 42px !important;
-            background: rgba(255, 255, 255, 0.1) !important;
+            position: relative !important;
+            top: auto !important;
+            right: auto !important;
+            width: 40px !important;
+            height: 40px !important;
+            background: rgba(255, 255, 255, 0.12) !important;
             border: 1px solid rgba(52, 211, 153, 0.35) !important;
             border-radius: 12px !important;
-            backdrop-filter: blur(16px) !important;
-            -webkit-backdrop-filter: blur(16px) !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             cursor: pointer !important;
             transition: all 0.2s ease !important;
-            z-index: 100000 !important;
+            flex-shrink: 0 !important;
         }
 
         .faculty-drawer-theme .mobile-close-btn i,
@@ -142,7 +235,7 @@
 
         .faculty-drawer-theme .mobile-close-btn:hover,
         .faculty-drawer-theme .mobile-close-btn:active {
-            background: rgba(239, 68, 68, 0.3) !important;
+            background: rgba(239, 68, 68, 0.35) !important;
             border-color: rgba(239, 68, 68, 0.6) !important;
             transform: scale(1.05) !important;
         }
@@ -219,23 +312,30 @@
             align-items: center !important;
             gap: 0.95rem !important;
             margin-bottom: 1.15rem !important;
+            position: relative !important;
         }
 
         .faculty-mobile-avatar-box {
             position: relative !important;
             width: 56px !important;
             height: 56px !important;
+            min-width: 56px !important;
+            min-height: 56px !important;
             flex-shrink: 0 !important;
         }
 
         .faculty-mobile-img,
         .faculty-mobile-initials {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
             width: 56px !important;
             height: 56px !important;
             border-radius: 16px !important;
             object-fit: cover !important;
             border: 2.5px solid rgba(255, 255, 255, 0.95) !important;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35) !important;
+            box-sizing: border-box !important;
         }
 
         .faculty-mobile-initials {
@@ -264,6 +364,7 @@
             font-size: 0.72rem !important;
             border: 2px solid #064e3b !important;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+            z-index: 5 !important;
         }
 
         .faculty-mobile-user-details {
@@ -409,6 +510,215 @@
         #mobileMenuOverlay.faculty-drawer-theme .adm-drawer-row:hover .adm-row-chevron {
             transform: translateX(3px) !important;
             color: #a7f3d0 !important;
+        }
+
+        
+        /* ===== FACULTY CAMPUS EVENTS SPOTLIGHT CARD ===== */
+        .faculty-drawer-event-card-wrap {
+            width: 100% !important;
+            max-width: 480px !important;
+            margin: 0.35rem auto 0.5rem !important;
+        }
+
+        .faculty-drawer-event-card {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            padding: 1rem 1.15rem !important;
+            background: linear-gradient(135deg, rgba(6, 44, 33, 0.96) 0%, rgba(15, 62, 48, 0.9) 100%) !important;
+            border: 1.5px solid rgba(167, 139, 250, 0.38) !important;
+            border-radius: 16px !important;
+            text-decoration: none !important;
+            box-shadow: 0 10px 26px -4px rgba(0, 0, 0, 0.45) !important;
+            backdrop-filter: blur(14px) !important;
+            -webkit-backdrop-filter: blur(14px) !important;
+            transition: all 0.22s ease !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+
+        .faculty-drawer-event-card::before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 4px !important;
+            height: 100% !important;
+            background: linear-gradient(180deg, #c084fc 0%, #10b981 100%) !important;
+        }
+
+        .faculty-drawer-event-card:hover,
+        .faculty-drawer-event-card:active {
+            background: linear-gradient(135deg, rgba(9, 58, 44, 0.98) 0%, rgba(20, 78, 60, 0.94) 100%) !important;
+            border-color: rgba(192, 132, 252, 0.65) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 14px 32px -4px rgba(168, 85, 247, 0.3) !important;
+        }
+
+        .f-event-card-top {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+        }
+
+        .f-event-card-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            font-size: 0.72rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.06em !important;
+            color: #d8b4fe !important;
+            text-transform: uppercase !important;
+        }
+
+        .text-purple-glow {
+            color: #c084fc !important;
+            filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.5)) !important;
+        }
+
+        .f-event-status-pill {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            font-size: 0.68rem !important;
+            font-weight: 700 !important;
+            padding: 3px 9px !important;
+            border-radius: 20px !important;
+            background: rgba(168, 85, 247, 0.22) !important;
+            color: #f3e8ff !important;
+            border: 1px solid rgba(192, 132, 252, 0.35) !important;
+        }
+
+        .event-live-dot {
+            width: 6px !important;
+            height: 6px !important;
+            border-radius: 50% !important;
+            background: #a855f7 !important;
+            box-shadow: 0 0 8px #c084fc !important;
+            display: inline-block !important;
+            animation: eventDotPulse 2s infinite !important;
+        }
+
+        @keyframes eventDotPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.6; }
+        }
+
+        .f-event-card-title {
+            color: #ffffff !important;
+            font-size: 0.98rem !important;
+            font-weight: 700 !important;
+            line-height: 1.25 !important;
+            margin-top: 2px !important;
+        }
+
+        .f-event-card-desc {
+            color: #94a3b8 !important;
+            font-size: 0.76rem !important;
+            line-height: 1.35 !important;
+        }
+
+        .f-event-card-action {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding-top: 8px !important;
+            margin-top: 4px !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #6ee7b7 !important;
+            font-size: 0.82rem !important;
+            font-weight: 600 !important;
+        }
+
+        .faculty-drawer-event-card:hover .f-event-card-action {
+            color: #a7f3d0 !important;
+        }
+
+        .faculty-drawer-event-card:hover .f-event-arrow {
+            transform: translateX(4px) !important;
+            color: #34d399 !important;
+        }
+
+        /* Themed PWA Banner for Faculty Drawer */
+        #mobileMenuOverlay.faculty-drawer-theme .mobile-pwa-banner {
+            background: rgba(3, 39, 28, 0.94) !important;
+            border: 1px solid rgba(52, 211, 153, 0.28) !important;
+            box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45) !important;
+        }
+
+        #mobileMenuOverlay.faculty-drawer-theme .mobile-pwa-text strong {
+            color: #ffffff !important;
+        }
+
+        #mobileMenuOverlay.faculty-drawer-theme .mobile-pwa-text small {
+            color: #a7f3d0 !important;
+        }
+
+        #mobileMenuOverlay.faculty-drawer-theme .pwa-btn-install {
+            background: #059669 !important;
+            border-color: #10b981 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35) !important;
+        }
+
+        /* Mobile Hamburger Button in Floating Header */
+        @media (max-width: 991.98px) {
+            #mainNavbar .custom-toggler {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 42px !important;
+                height: 42px !important;
+                padding: 0 !important;
+                margin: 0 0 0 auto !important;
+                background: #ffffff !important;
+                border: 1.5px solid #cbd5e1 !important;
+                border-radius: 12px !important;
+                cursor: pointer !important;
+                flex-shrink: 0 !important;
+                outline: none !important;
+                box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08) !important;
+                transition: all 0.2s ease !important;
+                z-index: 10 !important;
+            }
+
+            #mainNavbar .custom-toggler:hover,
+            #mainNavbar .custom-toggler:active {
+                background: #f8fafc !important;
+                border-color: #059669 !important;
+                box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15) !important;
+            }
+
+            #mainNavbar .hamburger-lines {
+                width: 20px !important;
+                height: 15px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+            }
+
+            #mainNavbar .hamburger-lines .line {
+                display: block !important;
+                height: 2.4px !important;
+                width: 100% !important;
+                background: #0f172a !important;
+                border-radius: 3px !important;
+                transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            }
+
+            #mainNavbar .custom-toggler.active .line1 {
+                transform: translateY(6.3px) rotate(45deg) !important;
+                background: #059669 !important;
+            }
+            #mainNavbar .custom-toggler.active .line2 {
+                opacity: 0 !important;
+                transform: scale(0) !important;
+            }
+            #mainNavbar .custom-toggler.active .line3 {
+                transform: translateY(-6.3px) rotate(-45deg) !important;
+                background: #059669 !important;
+            }
         }
 
         .map-container {
@@ -712,9 +1022,9 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link nav-faculty-link {% if request.path == '/network' %}active{% endif %}"
-                            href="/network" title="Academic Directory">
-                            <i class="fas fa-users"></i> <span>Directory</span>
+                        <a class="nav-link nav-pill-link nav-faculty-link {% if request.path in ['/network', '/faculty/network', '/directory', '/faculty/directory'] %}active{% endif %}"
+                            href="/network" title="Academic Networks">
+                            <i class="fas fa-network-wired"></i> <span>Networks</span>
                         </a>
                     </li>
 
@@ -1029,10 +1339,23 @@
 
     <!-- Mobile Menu Drawer Overlay (Independent Body Level for Mobile Responsiveness) -->
     <div class="mobile-menu-overlay{% if current_user.is_authenticated and current_user.role == 'admin' %} admin-drawer-theme{% elif current_user.is_authenticated and current_user.role == 'faculty' %} faculty-drawer-theme{% endif %}" id="mobileMenuOverlay" aria-hidden="true">
-        <!-- Close Button -->
-        <button class="mobile-close-btn" id="closeMobileMenu" type="button" aria-label="Close navigation menu">
-            <i class="fas fa-times"></i>
-        </button>
+        <!-- Sticky Drawer Top Bar with Brand & Dedicated Close Button (Always visible on scroll) -->
+        <div class="mobile-drawer-topbar">
+            <div class="d-flex align-items-center gap-2">
+                <div class="drawer-brand-logo-wrap">
+                    <img src="{{ url_for('static', filename='images/icons/app-logo.png') }}" alt="Logo" class="drawer-brand-logo">
+                </div>
+                <span class="drawer-brand-title">ALUMNI <span class="brand-highlight">HUB</span></span>
+                {% if current_user.is_authenticated and current_user.role == 'faculty' %}
+                <span class="drawer-role-tag role-tag-faculty"><i class="fas fa-chalkboard-user me-1"></i> FACULTY</span>
+                {% elif current_user.is_authenticated and current_user.role == 'admin' %}
+                <span class="drawer-role-tag role-tag-admin"><i class="fas fa-shield-alt me-1"></i> ADMIN</span>
+                {% endif %}
+            </div>
+            <button class="mobile-close-btn" id="closeMobileMenu" type="button" aria-label="Close navigation menu" title="Close Menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
 
         <div class="mobile-menu-content">
             <!-- User Profile Section for Mobile -->
@@ -1097,8 +1420,8 @@
 
                 <div class="faculty-mobile-user-row">
                     <div class="faculty-mobile-avatar-box">
-                        {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
-                        <img src="{{ current_user.profile_pic }}" alt="{{ current_user.name }}" class="faculty-mobile-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        {% if current_user.profile_pic and not ('ui-avatars.com' in current_user.profile_pic) and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
+                        <img src="{{ current_user.profile_pic }}" alt="{{ current_user.name }}" class="faculty-mobile-img" onerror="this.style.display='none'; if(this.nextElementSibling){ this.nextElementSibling.style.display='flex'; }">
                         <div class="faculty-mobile-initials" style="display: none;">{{ current_user.name | initials }}</div>
                         {% else %}
                         <div class="faculty-mobile-initials">{{ current_user.name | initials }}</div>
@@ -1118,8 +1441,8 @@
                         <div class="tile-label">Dashboard</div>
                     </a>
                     <a href="/network" class="faculty-tile-btn tile-sky">
-                        <div class="tile-icon"><i class="fas fa-users-viewfinder"></i></div>
-                        <div class="tile-label">Directory</div>
+                        <div class="tile-icon"><i class="fas fa-network-wired"></i></div>
+                        <div class="tile-label">Networks</div>
                     </a>
                     <a href="/post-job" class="faculty-tile-btn tile-amber">
                         <div class="tile-icon"><i class="fas fa-plus-circle"></i></div>
@@ -1156,12 +1479,12 @@
                     <a href="/student/dashboard" class="action-btn"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                     <a href="/community-group" class="action-btn" style="color: #25d366;"><i class="fab fa-whatsapp"></i> Community</a>
                     <a href="/messages" class="action-btn"><i class="fas fa-comment-alt"></i> Messages</a>
-                    <a href="/network" class="action-btn"><i class="fas fa-users"></i> Directory</a>
+                    <a href="/network" class="action-btn"><i class="fas fa-network-wired"></i> Networks</a>
                     {% elif current_user.role == 'faculty' %}
                     <a href="/faculty/dashboard" class="action-btn"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                     <a href="/community-group" class="action-btn" style="color: #25d366;"><i class="fab fa-whatsapp"></i> Community</a>
                     <a href="/messages" class="action-btn"><i class="fas fa-comment-alt"></i> Messages</a>
-                    <a href="/network" class="action-btn"><i class="fas fa-users"></i> Directory</a>
+                    <a href="/network" class="action-btn"><i class="fas fa-network-wired"></i> Networks</a>
                     {% endif %}
                     <a href="/profile" class="action-btn"><i class="fas fa-user"></i> Profile</a>
                 </div>
@@ -1232,10 +1555,10 @@
                             <i class="fas fa-chevron-right adm-row-chevron"></i>
                         </a>
                         <a href="/network" class="adm-drawer-row adm-drawer-link">
-                            <span class="adm-row-bullet bullet-cyan"><i class="fas fa-users-viewfinder"></i></span>
+                            <span class="adm-row-bullet bullet-cyan"><i class="fas fa-network-wired"></i></span>
                             <div class="adm-row-content">
-                                <span class="adm-row-title">Academic Directory</span>
-                                <span class="adm-row-sub">Students, alumni &amp; peer faculty roster</span>
+                                <span class="adm-row-title">Academic Networks</span>
+                                <span class="adm-row-sub">Connected students, alumni &amp; peer network</span>
                             </div>
                             <i class="fas fa-chevron-right adm-row-chevron"></i>
                         </a>
@@ -1567,7 +1890,28 @@
                     </div>
                 </div>
                 {% endif %}
-                {% if current_user.role != 'admin' %}
+                {% if current_user.role == 'faculty' %}
+                <!-- ===== FACULTY CAMPUS EVENTS SPOTLIGHT CARD (Redesigned) ===== -->
+                <div class="faculty-drawer-event-card-wrap" style="--delay: 0.65s">
+                    <a href="/events" class="faculty-drawer-event-card">
+                        <div class="f-event-card-top">
+                            <div class="f-event-card-badge">
+                                <i class="fas fa-calendar-days me-1.5 text-purple-glow"></i>
+                                <span>CAMPUS EVENTS</span>
+                            </div>
+                            <span class="f-event-status-pill"><span class="event-live-dot"></span> Active Schedules</span>
+                        </div>
+                        <div class="f-event-card-body">
+                            <div class="f-event-card-title">Academic Meets &amp; Seminars</div>
+                            <div class="f-event-card-desc">Conferences, guest lectures, department workshops &amp; alumni reunions</div>
+                        </div>
+                        <div class="f-event-card-action">
+                            <span><i class="fas fa-calendar-check me-1.5" style="color: #6ee7b7 !important;"></i> Explore All Campus Events</span>
+                            <i class="fas fa-arrow-right f-event-arrow"></i>
+                        </div>
+                    </a>
+                </div>
+                {% elif current_user.role != 'admin' %}
                 <a href="/events" class="mobile-nav-link" style="--delay: 0.7s"><i class="fas fa-calendar-alt"></i>
                     Events</a>
                 {% endif %}

@@ -357,12 +357,20 @@ def load_user(user_id):
         conn = get_db_connection()
         user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
         if user:
-            # Avatar generation logic
+            # Avatar generation logic with role-specific brand colors
             pic = user['profile_pic']
             if pic and pic != 'default.jpg' and ('static/uploads/admin_1_1770903475' not in pic):
                 avatar = pic
             else:
-                avatar = f"https://ui-avatars.com/api/?name={user['name']}&background=0D6EFD&color=fff"
+                user_role = user['role'] if 'role' in user.keys() else 'student'
+                role_bg_map = {
+                    'faculty': '047857',
+                    'admin': '4F46E5',
+                    'alumni': 'D97706',
+                    'student': '0284C7'
+                }
+                avatar_bg = role_bg_map.get(user_role, '047857')
+                avatar = f"https://ui-avatars.com/api/?name={user['name']}&background={avatar_bg}&color=fff"
             is_verified = user['is_verified'] if 'is_verified' in user.keys() else 1
             
             def get_field(key):
