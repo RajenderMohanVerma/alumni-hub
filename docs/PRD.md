@@ -37,7 +37,7 @@ The entire application is built around a single `users.role` discriminator (`app
 | **Guest** (unauthenticated) | Discover the platform | Home, About, Services, Events, Contact, FAQ, Privacy, Terms, Report Issue | `templates/common/*` |
 | **Student** | Find mentors, jobs and peers | Student dashboard, Network, Messages, Mentorship, Jobs, Events, Notifications, Settings, Upgrade | `templates/student/*`, `app.py:1418 dashboard_student` |
 | **Alumni** | Give back — mentor, post jobs, network | Alumni dashboard, Network, Mentorship, Spotlight, Post Job, Jobs, Events, Messages, Notifications, Settings, Alumni Meet registration | `templates/alumni/*`, `app.py:1490 dashboard_alumni` |
-| **Faculty** | Guide students, academic guidance, post jobs | Faculty dashboard, My Profile, Students directory, Alumni directory, Colleagues, Announcements, Reports, Post Job, Events, Messages | `templates/faculty/*`, `app.py:1525 dashboard_faculty` |
+| **Faculty** | Guide students, academic guidance, post jobs | Faculty dashboard, Academic Networks (`/network`), Announcements, Reports, Post Job, Campus Events Spotlight, Messages | `templates/faculty/*`, `app.py:1525 dashboard_faculty`, `network` |
 | **Admin** | Govern the platform | Admin dashboard, User management (all/student/alumni/faculty), Approve requests, Jobs Matrix, WhatsApp Broadcast, Messaging Control, Connection Monitor, Analytics, Registration Logs, CSV/DB export | `templates/admin/*`, `app.py:1608 dashboard_admin` |
 
 ### 2.1 Role Lifecycle
@@ -209,6 +209,16 @@ Student ──POST /student/upgrade-to-alumni──► Alumni (role flipped + al
 Home, About (incl. team section), Services, Events, Contact, FAQ, Privacy Policy, Terms & Conditions, Report Issue, Spotlight, Announcements, Mentorship, Coming Soon — all under `templates/common/*` with dedicated enhancement CSS.
 
 ---
+
+### 3.8 Networks & Mobile Experience Enhancement
+- **Networks Roster (`/network`):** Rebranded from Directory to Networks. Displays 12 verified members per page with directional next/prev pagination, real-time query search, and scope toggling between All Campus Network and My Connections (Network).
+- **Faculty Mobile Console:** Full glassmorphism dark emerald drawer overlay (`#mobileMenuOverlay.faculty-drawer-theme`) featuring:
+  - Sticky branding & stationary Close button (`.mobile-drawer-topbar`) to maintain persistent escape access.
+  - Coordinate-locked single-avatar representation (`56px x 56px`) with zero layout shift.
+  - 4-tile quick actions (Dashboard, Networks, Post Job, Messages).
+  - Categorized drawer panels with icon bullets and chevron navigators.
+  - Featured Campus Events Spotlight Card (`.faculty-drawer-event-card`).
+  - Dark-emerald themed PWA install banner.
 
 ## 4. Non-Functional Requirements
 

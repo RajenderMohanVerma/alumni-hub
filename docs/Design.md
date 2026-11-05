@@ -489,3 +489,28 @@ Additional per-page media queries: `home-premium.css`, `about-enhancements.css`,
 10. Fill in the full SEO meta block; the block is inherited, verify `{% block title %}`.
 11. Keep decorative canvases at ≤60 particles and `pointer-events: none`.
 12. Test at 360 px, 768 px, 1280 px and 1920 px before merging.
+
+---
+
+## 15. Mobile Navigation Drawer & Networks Design Specifications
+
+### 15.1 Sticky Drawer Topbar Architecture (`.mobile-drawer-topbar`)
+- **Container Rules:** `position: sticky; top: 0; z-index: 100005; width: 100%; max-width: 480px; margin: 0 auto 0.85rem;`
+- **Backdrop Support:** Native CSS `backdrop-filter: blur(24px)` with `-webkit-` prefix.
+- **Light Theme (General/Public/Student):** `background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid rgba(226, 232, 240, 0.9);`
+- **Dark Emerald Theme (Faculty):** `background: rgba(2, 26, 18, 0.95); border-bottom: 1px solid rgba(52, 211, 153, 0.25);`
+- **Stationary Close Button (`#closeMobileMenu`):** `40px x 40px` circular pill with high-contrast icon. Stays visible and responsive to taps at all times, overcoming containing-block traps caused by parent backdrop filters.
+
+### 15.2 Faculty Emerald Design Tokens & Drawer Styling
+- **Drawer Overlay (`.faculty-drawer-theme`):** `background: linear-gradient(180deg, #021a12 0%, #063124 40%, #04241b 100%);`
+- **Drawer Group Boxes (`.adm-drawer-group-box`):** `background: rgba(3, 39, 28, 0.92); border: 1px solid rgba(52, 211, 153, 0.26); border-radius: 16px;`
+- **Quick Action Tiles (`.faculty-tile-btn`):** 4-column grid (Dashboard, Networks, Post Job, Messages) with glowing icon glyphs and crisp uppercase labels.
+- **Avatar Coordinate Lock (`.faculty-mobile-avatar-box`):** `56px x 56px` fixed container with `position: absolute; top: 0; left: 0;` child bounds, eliminating vertical layout stack collisions against action tiles.
+- **Events Spotlight Card (`.faculty-drawer-event-card`):** Dark emerald gradient (`rgba(6, 44, 33, 0.96)` to `rgba(15, 62, 48, 0.9)`), purple accent border (`rgba(167, 139, 250, 0.38)`), glowing indicator, and arrow CTA.
+- **Themed PWA Banner:** Emerald card matching the drawer tone with `#059669` install button.
+
+### 15.3 Networks UI Specification (`/network`)
+- **Naming Rule:** "Directory" rebranded to "Networks" to reflect mutual professional connections.
+- **Display Limit:** 12 cards per page max with previous/next directional arrow pagination.
+- **Scope Filters:** Segmented pill switcher separating "All Campus Network" from "My Connections (Network)".
+- **Dashboard Roster:** 9 student/alumni cards per page with live search, department tags, and previous/next page navigation.

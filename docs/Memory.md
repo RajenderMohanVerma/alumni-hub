@@ -360,6 +360,34 @@ Worth saying plainly, because it is genuinely strong work for an academic projec
 
 ---
 
+---
+
+## 17. Recent UX & Architecture Milestones (Faculty Navigation & Networks Overhaul)
+
+### 17.1 Network & Connections Nomenclature Migration
+- **Decision:** Shifted user-facing branding from "Directory" to **"Networks"** (`/network`).
+- **Rationale:** The page serves active professional circles, peer interactions, and student-alumni connections rather than a static phonebook/roster.
+- **Route Handling:** In `app.py`, `@app.route('/network')` serves as the primary route, with aliases `@app.route('/faculty/network')`, `@app.route('/directory')`, and `@app.route('/faculty/directory')` to prevent dead links.
+- **Surface Sync:** Header navbar pill, mobile drawer quick-action tiles, drawer category rows, and page headers/tabs in `templates/student/network.html` and `templates/faculty/dashboard.html` are unified under the "Networks" terminology.
+
+### 17.2 Sticky Mobile Drawer Chrome & Close Button Fix
+- **Problem:** Inside `#mobileMenuOverlay`, `backdrop-filter: blur(28px)` creates a containing block that broke viewport-fixed positioning for the close button. On mobile scroll, the close button scrolled off-screen, trapping the user in the drawer.
+- **Solution:** Implemented `.mobile-drawer-topbar` with `position: sticky; top: 0; z-index: 100005`. It houses the branding logo, role pill (`FACULTY`), and a persistent, stationary Close button (`#closeMobileMenu`) that stays fixed regardless of drawer scroll depth.
+- **Adaptability:** Topbar dynamically toggles between high-contrast light theme (`rgba(255, 255, 255, 0.95)`) for general users and dark emerald theme (`rgba(2, 26, 18, 0.95)`) for faculty.
+
+### 17.3 Avatar Collision & Single-Coordinate Fix
+- **Problem:** Avatar box in the mobile drawer rendered both a fallback image and an initials box simultaneously due to `display: flex !important` overriding inline style hiding, creating vertical layout collision that overlapped the "Dashboard" action tile.
+- **Solution:** Re-architected `.faculty-mobile-avatar-box` to condition out fallback avatars cleanly. Child elements are coordinate-locked (`position: absolute; top: 0; left: 0; 56px x 56px`), guaranteeing no sibling layout shifts.
+- **Backend Role Colors:** `app.py` `ui-avatars.com` fallback generation updated to role-aware emerald `047857` for faculty, indigo `4F46E5` for admin, amber `D97706` for alumni, and sky `0284C7` for students.
+
+### 17.4 Faculty Events Spotlight & Themed PWA Card
+- **Problem:** An un-styled, white `.mobile-nav-link` button for `Events` sat discordantly below Faculty Configuration and above the PWA card.
+- **Solution:** Replaced with a luxury dark emerald spotlight card `.faculty-drawer-event-card` with purple accent glow (`#c084fc`), live pulse dot, and clean CTA (`Explore All Campus Events →`). Themed `.mobile-pwa-banner` in emerald glassmorphism to eliminate all white-block design clashes.
+
+### 17.5 Directional Arrow Pagination
+- **Network Page:** 12 cards per page with server/client pagination and Prev/Next arrow navigation.
+- **Faculty Dashboard:** 9 cards per page with real-time department filtering and Prev/Next page navigation.
+
 ## 16. Quick Reference Card
 
 ```

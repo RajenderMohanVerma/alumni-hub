@@ -102,6 +102,19 @@ Colleges lose touch with their alumni the moment students graduate. Emails go st
 - Live **profile completeness meter** on the student dashboard
 - **Student → Alumni self-upgrade** flow that migrates profile data
 
+### 🌐 Student & Alumni Networks
+- Dedicated **Networks Hub (`/network`)** linking students, alumni, and faculty in an interactive professional circle
+- **12-member directional pagination** with live page indicator and smooth scroll
+- Instant scope switcher toggling between **"All Campus Network"** and **"My Connections (Network)"**
+- High-performance live search filtering by name, role, department, and skills
+- Seamless routing aliases (`/network`, `/faculty/network`, `/directory`)
+
+### 📱 Role-Aware Mobile Drawer & Navigation Console
+- **Sticky Top Bar Architecture** with institutional branding, role badge, and a stationary Close (`✕`) button that stays pinned at the top on deep scrolling
+- **Coordinate-locked Avatar System** preventing duplicate image/initial stacking and eliminating tile collisions
+- **Role-Aware Theme Modes:** Clean, high-contrast light theme for public/student visitors; luxury dark-emerald suite for Faculty members
+- **Faculty Mobile Console:** 4 quick-action tiles, categorized collapsible rows with chevrons, dedicated **Campus Events Spotlight Card**, and integrated dark PWA installer banner
+
 ### 🤝 Instagram-Style Connection System
 - Send, accept or reject connection requests between **any** two roles
 - **Mutual-request auto-connect** — if both sides requested, they connect instantly
