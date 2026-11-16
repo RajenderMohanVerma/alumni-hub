@@ -1,145 +1,255 @@
 {% extends "base.html" %}
 
+{% block title %}Registration Confirmation - Alumni Hub{% endblock %}
+
 {% block content %}
-<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
-    <!-- Page Header -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-        <div>
-            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-green-subtle); color: var(--accent-green); font-size: 0.82rem; font-weight: 600;">
-                <i class="fas fa-calendar-check"></i>
-                <span>Alumni Meet Registration</span>
-            </div>
-            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Registration Confirmation &amp; Details</h1>
-            <p class="text-muted small mb-0">Review your submitted registration information for the upcoming Annual Alumni Meet</p>
-        </div>
-        <div class="mt-3 mt-md-0 d-flex gap-2">
-            <a href="{{ url_for('alumni_meet_register') }}" class="btn btn-outline-primary btn-sm rounded-pill px-3" style="border-color: var(--accent-blue); color: var(--accent-blue);">
-                <i class="fas fa-edit me-1"></i> Edit Registration
-            </a>
-            <a href="{{ url_for('dashboard_alumni') }}" class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm" style="background: var(--accent-blue); border: none;">
-                <i class="fas fa-arrow-left me-1"></i> Dashboard
-            </a>
-        </div>
-    </div>
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-    <div class="row justify-content-center">
-        <div class="col-lg-9">
-            <div class="home-card p-4 p-md-5 shadow-sm accent-green" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <!-- Status Banner -->
-                <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4" style="background: var(--accent-green-subtle); border: 1px solid rgba(16, 185, 129, 0.2);">
-                    <div class="icon-chip" style="width: 44px; height: 44px; background: var(--accent-green); color: #fff; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold mb-0" style="color: var(--accent-green);">Registration Confirmed</h6>
-                        <small style="color: var(--text-secondary);">Your pass for the upcoming reunion is reserved. Check your email for further event reminders.</small>
-                    </div>
+<style>
+    /* ========================================================
+       ALUMNI MEET — REGISTRATION CONFIRMATION (AMBER THEME)
+       Alumni variant of the shared admin design system:
+       dark-navy hero, white cards, glassmorphism, hover lift,
+       Outfit / Plus Jakarta Sans.
+       ======================================================== */
+    :root {
+        --al-amber: #f59e0b;
+        --al-amber-dark: #d97706;
+        --al-amber-deep: #b45309;
+        --al-amber-soft: #fffbeb;
+        --al-ink: #0f172a;
+        --al-muted: #64748b;
+        --al-border: rgba(15, 23, 42, 0.09);
+    }
+    .alumni-hero { border-color: rgba(245, 158, 11, 0.45) !important; }
+    .alumni-hero .grad-amber {
+        background: linear-gradient(90deg, #fde68a 0%, #f59e0b 45%, #f97316 100%);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent !important; color: transparent !important;
+    }
+    .alumni-hero-badge {
+        background: rgba(245, 158, 11, 0.16); color: #fcd34d;
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em;
+    }
+    .alumni-card {
+        background: #ffffff; border: 1px solid var(--al-border); border-radius: 20px;
+        box-shadow: 0 10px 30px -14px rgba(15, 23, 42, 0.14);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .alumni-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 24px 44px -18px rgba(15, 23, 42, 0.22);
+        border-color: rgba(245, 158, 11, 0.35);
+    }
+    .detail-section {
+        background: #f8fafc; border: 1px solid var(--al-border); border-radius: 16px;
+    }
+    .detail-section-head { border-bottom: 1px solid var(--al-border); }
+    .detail-label { font-size: 0.78rem; letter-spacing: 0.02em; }
+    .btn-amber {
+        background: linear-gradient(135deg, #f59e0b, #d97706); border: none; color: #fff;
+        font-weight: 600; min-height: 44px;
+        box-shadow: 0 10px 22px -10px rgba(217, 119, 6, 0.6);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .btn-amber:hover, .btn-amber:focus { background: linear-gradient(135deg, #fbbf24, #b45309); color: #fff; transform: translateY(-2px); }
+    .btn-ghost-amber {
+        border: 1.5px solid #f59e0b; color: #b45309; background: #fff;
+        font-weight: 600; min-height: 44px;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+    .btn-ghost-amber:hover { background: var(--al-amber-soft); color: #92400e; border-color: var(--al-amber-dark); }
+    .status-banner {
+        background: linear-gradient(135deg, #dcfce7, #d1fae5);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @media (max-width: 575.98px) {
+        .alumni-hero .btn { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1; transform: none; transition: none; }
+        .alumni-card, .btn-amber, .btn-ghost-amber { transition: none; }
+        .admin-ambient-ball { animation: none; }
+    }
+    @media print {
+        .admin-ambient-ball, .no-print { display: none !important; }
+        .admin-page-wrapper { padding-top: 0 !important; }
+    }
+</style>
+
+<div class="admin-page-wrapper">
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2" style="background: #f59e0b;"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
+
+    <div class="admin-container">
+        <!-- Hero -->
+        <div class="admin-hero-card alumni-hero reveal">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+                <div>
+                    <span class="alumni-hero-badge d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="font-size: 0.75rem; font-weight: 700;">
+                        <i class="fas fa-calendar-check"></i> ALUMNI MEET REGISTRATION
+                    </span>
+                    <h1 class="admin-hero-title fw-bold mb-2" style="font-family: 'Outfit', sans-serif;">Registration <span class="grad-amber">Confirmation &amp; Details</span></h1>
+                    <p class="mb-0" style="color: rgba(255,255,255,0.72); max-width: 620px;">Review your submitted registration information for the upcoming Annual Alumni Meet</p>
                 </div>
-
-                <!-- Personal Details Section -->
-                <div class="p-3 p-md-4 rounded-4 mb-4" style="background: var(--bg-subtle); border: 1px solid var(--border-color);">
-                    <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-                        <i class="fas fa-user" style="color: var(--accent-blue);"></i>
-                        <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Personal Details</h6>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Full Name</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['full_name'] }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Gender</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['gender'] }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Contact Number</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['contact_no'] }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Registered Email</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['email'] }}</span>
-                        </div>
-                        <div class="col-12">
-                            <span class="text-muted small d-block">Current Residential Address</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['current_address'] }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Academic Details Section -->
-                <div class="p-3 p-md-4 rounded-4 mb-4" style="background: var(--bg-subtle); border: 1px solid var(--border-color);">
-                    <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-                        <i class="fas fa-graduation-cap" style="color: var(--accent-purple);"></i>
-                        <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Academic History</h6>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Enrollment Number</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['enrollment_no'] }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Course &amp; Degree</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['course'] }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Year of Graduation</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['passing_year'] }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Current Status</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['current_status'] }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                {% if registration['company_name'] %}
-                <!-- Professional Details Section -->
-                <div class="p-3 p-md-4 rounded-4 mb-4" style="background: var(--bg-subtle); border: 1px solid var(--border-color);">
-                    <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-                        <i class="fas fa-briefcase" style="color: var(--accent-green);"></i>
-                        <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Current Professional Info</h6>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Company / Employer</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['company_name'] }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Designation</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['designation'] }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Work Location</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['work_location'] }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="text-muted small d-block">Industry Experience</span>
-                            <span class="fw-semibold" style="color: var(--text-primary);">{{ registration['experience_years'] }} Years</span>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-
-                <!-- Event RSVP Confirmation -->
-                <div class="p-3 p-md-4 rounded-4 mb-4" style="background: var(--bg-subtle); border: 1px solid var(--border-color);">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <span class="text-muted small d-block">Meet Attendance Confirmation</span>
-                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Attending Alumni Meet?</h6>
-                        </div>
-                        <span class="badge rounded-pill px-3 py-2 fs-6 shadow-sm" style="background: var(--accent-green); color: #fff;">
-                            {{ registration['attending_meet'] }}
-                        </span>
-                    </div>
-                </div>
-
-                <div class="d-flex gap-3 pt-2">
-                    <a href="{{ url_for('dashboard_alumni') }}" class="btn btn-primary rounded-pill w-100 py-2 shadow-sm" style="background: var(--accent-blue); border: none;">
-                        <i class="fas fa-home me-1"></i> Back to Alumni Dashboard
+                <div class="d-flex gap-2 flex-shrink-0 flex-wrap no-print">
+                    <a href="{{ url_for('alumni_meet_register') }}" class="btn btn-ghost-amber rounded-pill px-3">
+                        <i class="fas fa-edit me-1"></i> Edit Registration
                     </a>
+                    <a href="{{ url_for('dashboard_alumni') }}" class="btn btn-amber rounded-pill px-3 shadow-sm">
+                        <i class="fas fa-arrow-left me-1"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="alumni-card p-4 p-md-5 reveal">
+                    <!-- Status Banner -->
+                    <div class="status-banner d-flex align-items-center gap-3 p-3 rounded-3 mb-4">
+                        <div class="d-grid place-items-center flex-shrink-0" style="width: 48px; height: 48px; background: #059669; color: #fff; border-radius: 14px; font-size: 1.3rem;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0" style="color: #047857;">Registration Confirmed</h6>
+                            <small style="color: #475569;">Your pass for the upcoming reunion is reserved. Check your email for further event reminders.</small>
+                        </div>
+                    </div>
+
+                    <!-- Personal Details Section -->
+                    <div class="detail-section p-3 p-md-4 mb-4">
+                        <div class="detail-section-head d-flex align-items-center gap-2 mb-3 pb-2">
+                            <i class="fas fa-user" style="color: var(--al-amber-dark);"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--al-ink);">Personal Details</h6>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Full Name</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['full_name'] }}</span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Gender</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['gender'] }}</span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Contact Number</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['contact_no'] }}</span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Registered Email</span>
+                                <span class="fw-semibold text-break" style="color: var(--al-ink);">{{ registration['email'] }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-muted detail-label d-block">Current Residential Address</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['current_address'] }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Details Section -->
+                    <div class="detail-section p-3 p-md-4 mb-4">
+                        <div class="detail-section-head d-flex align-items-center gap-2 mb-3 pb-2">
+                            <i class="fas fa-graduation-cap" style="color: #7c3aed;"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--al-ink);">Academic History</h6>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Enrollment Number</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['enrollment_no'] }}</span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Course &amp; Degree</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['course'] }}</span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Year of Graduation</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['passing_year'] }}</span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Current Status</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['current_status'] }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if registration['company_name'] %}
+                    <!-- Professional Details Section -->
+                    <div class="detail-section p-3 p-md-4 mb-4">
+                        <div class="detail-section-head d-flex align-items-center gap-2 mb-3 pb-2">
+                            <i class="fas fa-briefcase" style="color: #059669;"></i>
+                            <h6 class="fw-bold mb-0" style="color: var(--al-ink);">Current Professional Info</h6>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Company / Employer</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['company_name'] }}</span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Designation</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['designation'] }}</span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Work Location</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['work_location'] }}</span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <span class="text-muted detail-label d-block">Industry Experience</span>
+                                <span class="fw-semibold" style="color: var(--al-ink);">{{ registration['experience_years'] }} Years</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Event RSVP Confirmation -->
+                    <div class="detail-section p-3 p-md-4 mb-4">
+                        <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+                            <div>
+                                <span class="text-muted detail-label d-block">Meet Attendance Confirmation</span>
+                                <h6 class="fw-bold mb-0" style="color: var(--al-ink);">Attending Alumni Meet?</h6>
+                            </div>
+                            <span class="badge rounded-pill px-3 py-2 fs-6 shadow-sm" style="background: #059669; color: #fff;">
+                                {{ registration['attending_meet'] }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column flex-sm-row gap-3 pt-2 no-print">
+                        <a href="{{ url_for('dashboard_alumni') }}" class="btn btn-amber rounded-pill w-100 py-2 shadow-sm">
+                            <i class="fas fa-home me-1"></i> Back to Alumni Dashboard
+                        </a>
+                        <button type="button" class="btn btn-ghost-amber rounded-pill px-4 py-2" onclick="window.print();">
+                            <i class="fas fa-print me-1"></i> Print Pass
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+(function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var revealEls = document.querySelectorAll('.reveal');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealEls.forEach(function (el) { el.classList.add('visible'); });
+    } else {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); }
+            });
+        }, { threshold: 0.08 });
+        revealEls.forEach(function (el) { io.observe(el); });
+    }
+})();
+</script>
 {% endblock %}

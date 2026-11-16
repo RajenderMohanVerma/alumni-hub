@@ -3,191 +3,379 @@
 {% block title %}Settings - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
-    <!-- Page Header -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-        <div>
-            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
-                <i class="fas fa-sliders-h"></i>
-                <span>Account &amp; Experience</span>
-            </div>
-            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Alumni Settings &amp; Preferences</h1>
-            <p class="text-muted small mb-0">Configure your security credentials, notification channels, theme appearance, and privacy</p>
-        </div>
-    </div>
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-    <div class="row g-4">
-        <!-- Settings Navigation Sidebar -->
-        <div class="col-lg-3">
-            <div class="home-card p-3 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="nav flex-column nav-pills gap-1" id="v-pills-tab" role="tablist">
-                    <button class="nav-link active text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab">
-                        <i class="fas fa-user-circle me-2"></i> Profile Info
-                    </button>
-                    <button class="nav-link text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-account-tab" data-bs-toggle="pill" data-bs-target="#v-pills-account" type="button" role="tab">
-                        <i class="fas fa-shield-alt me-2"></i> Security
-                    </button>
-                    <button class="nav-link text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-notifications-tab" data-bs-toggle="pill" data-bs-target="#v-pills-notifications" type="button" role="tab">
-                        <i class="fas fa-bell me-2"></i> Notifications
-                    </button>
-                    <button class="nav-link text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-privacy-tab" data-bs-toggle="pill" data-bs-target="#v-pills-privacy" type="button" role="tab">
-                        <i class="fas fa-lock me-2"></i> Privacy
-                    </button>
-                </div>
-            </div>
-        </div>
+<style>
+    /* ========================================================
+       ALUMNI SETTINGS — AMBER LUXURY THEME
+       Same shell as admin; amber (#f59e0b / #d97706) replaces
+       admin indigo as the primary accent.
+       ======================================================== */
+    :root {
+        --alm-amber: #f59e0b;
+        --alm-amber-dark: #d97706;
+        --alm-amber-light: #fbbf24;
+        --alm-amber-subtle: #fffbeb;
+    }
+    .alumni-page {
+        font-family: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
+    }
+    .alumni-page h1, .alumni-page h2, .alumni-page h4, .alumni-page h6 {
+        font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    }
+    /* Amber gradient title text (admin uses blue-purple holographic) */
+    .text-holographic-alm {
+        background: linear-gradient(90deg, #fde68a 0%, #fbbf24 35%, #f59e0b 65%, #d97706 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+    }
+    .alm-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.95rem;
+        border-radius: 999px;
+        background: rgba(245, 158, 11, 0.16);
+        border: 1px solid rgba(251, 191, 36, 0.45);
+        color: #fde68a;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+    .alm-badge .live-pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #fbbf24;
+        box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+        animation: alm-pulse 2s infinite;
+    }
+    @keyframes alm-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.55); }
+        70% { box-shadow: 0 0 0 9px rgba(251, 191, 36, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+    }
+    /* White content cards */
+    .alumni-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .alumni-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10);
+    }
+    .btn-amber {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        min-height: 44px;
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-amber:hover, .btn-amber:focus {
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(245, 158, 11, 0.45);
+    }
+    /* Icon chips */
+    .icon-chip-amber {
+        background: var(--alm-amber-subtle);
+        color: var(--alm-amber-dark);
+    }
+    .icon-chip-green {
+        background: var(--accent-green-subtle);
+        color: var(--accent-green);
+    }
+    .icon-chip-purple {
+        background: var(--accent-purple-subtle);
+        color: var(--accent-purple);
+    }
+    /* Settings nav pills — amber active state */
+    .alumni-page #v-pills-tab .nav-link {
+        color: var(--text-secondary);
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s ease;
+    }
+    .alumni-page #v-pills-tab .nav-link:hover {
+        background: var(--alm-amber-subtle);
+        color: var(--alm-amber-dark);
+    }
+    .alumni-page #v-pills-tab .nav-link.active {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: #fff;
+        box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
+    }
+    /* Form controls — amber focus ring */
+    .alumni-page .form-control, .alumni-page .form-select {
+        min-height: 44px;
+        border-radius: 12px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .alumni-page .form-control:focus, .alumni-page .form-select:focus {
+        border-color: var(--alm-amber);
+        box-shadow: 0 0 0 0.25rem rgba(245, 158, 11, 0.22);
+    }
+    /* Toggle switches — amber when on */
+    .alumni-page .form-check-input {
+        width: 2.6rem;
+        height: 1.45rem;
+        cursor: pointer;
+    }
+    .alumni-page .form-check-input:checked {
+        background-color: var(--alm-amber);
+        border-color: var(--alm-amber-dark);
+    }
+    .alumni-page .form-check-input:focus {
+        box-shadow: 0 0 0 0.25rem rgba(245, 158, 11, 0.25);
+        border-color: var(--alm-amber);
+    }
+    .pref-row {
+        background: var(--bg-subtle);
+        border: 1px solid transparent;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .pref-row:hover {
+        border-color: rgba(245, 158, 11, 0.35);
+        transform: translateY(-2px);
+    }
+    .alumni-hero-title {
+        font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+        line-height: 1.15;
+    }
+    /* Mobile: settings nav becomes a horizontal scrollable strip */
+    @media (max-width: 991.98px) {
+        .alumni-page #v-pills-tab {
+            flex-direction: row !important;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .alumni-page #v-pills-tab::-webkit-scrollbar {
+            display: none;
+        }
+        .alumni-page #v-pills-tab .nav-link {
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .alumni-card, .btn-amber, .pref-row, .alumni-page #v-pills-tab .nav-link {
+            transition: none !important;
+        }
+        .alumni-card:hover, .btn-amber:hover, .pref-row:hover {
+            transform: none !important;
+        }
+        .alm-badge .live-pulse-dot {
+            animation: none !important;
+        }
+        .scroll-fade-up, .scroll-fade-down, .scroll-fade-left, .scroll-fade-right, .scroll-scale-in {
+            animation: none !important;
+            opacity: 1 !important;
+        }
+    }
+</style>
 
-        <!-- Settings Content Card -->
-        <div class="col-lg-9">
-            <div class="home-card p-4 p-md-5 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="tab-content" id="v-pills-tabContent">
+<div class="admin-page-wrapper alumni-page">
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
 
-                    <!-- Profile Settings -->
-                    <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel">
-                        <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
-                            <div class="icon-chip" style="width: 44px; height: 44px; background: var(--accent-blue-subtle); color: var(--accent-blue); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
-                                <i class="fas fa-user-gear"></i>
-                            </div>
-                            <div>
-                                <h4 class="fw-bold mb-0" style="color: var(--text-primary);">Basic Profile Settings</h4>
-                                <p class="text-muted small mb-0">Update your public name and career bio</p>
-                            </div>
-                        </div>
+    <div class="admin-container">
+        <!-- Hero -->
+        <section class="admin-hero-card scroll-fade-up">
+            <span class="alm-badge mb-3"><span class="live-pulse-dot"></span><i class="fas fa-sliders-h"></i> Account &amp; Experience</span>
+            <h1 class="alumni-hero-title fw-bold mb-2"><span class="text-holographic-alm">Alumni Settings</span> &amp; Preferences</h1>
+            <p class="mb-0" style="color: rgba(226, 232, 240, 0.85); max-width: 620px;">
+                Configure your security credentials, notification channels, theme appearance, and privacy.
+            </p>
+        </section>
 
-                        <form onsubmit="event.preventDefault(); alert('Profile information saved!');">
-                            <div class="row g-3 mb-3">
-                                <div class="col-md-6">
-                                    <label class="form-label small fw-semibold text-muted">Full Name</label>
-                                    <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ current_user.name }}">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label small fw-semibold text-muted">Email (Primary ID)</label>
-                                    <input type="email" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ current_user.email }}" disabled>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label small fw-semibold text-muted">Headline / Professional Bio</label>
-                                <textarea class="form-control" rows="3" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">Passionate alumni giving back to student careers.</textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;">
-                                <i class="fas fa-save me-1"></i> Save Changes
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Security Settings -->
-                    <div class="tab-pane fade" id="v-pills-account" role="tabpanel">
-                        <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
-                            <div class="icon-chip" style="width: 44px; height: 44px; background: var(--accent-green-subtle); color: var(--accent-green); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
-                                <i class="fas fa-lock"></i>
-                            </div>
-                            <div>
-                                <h4 class="fw-bold mb-0" style="color: var(--text-primary);">Account Security &amp; Password</h4>
-                                <p class="text-muted small mb-0">Ensure strong credentials to safeguard your alumni account</p>
-                            </div>
-                        </div>
-
-                        <form onsubmit="event.preventDefault(); alert('Password updated successfully!');">
-                            <div class="mb-3">
-                                <label class="form-label small fw-semibold text-muted">Current Password</label>
-                                <input type="password" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                            </div>
-                            <div class="row g-3 mb-4">
-                                <div class="col-md-6">
-                                    <label class="form-label small fw-semibold text-muted">New Password</label>
-                                    <input type="password" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label small fw-semibold text-muted">Confirm New Password</label>
-                                    <input type="password" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;">
-                                <i class="fas fa-key me-1"></i> Update Password
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Notification Settings -->
-                    <div class="tab-pane fade" id="v-pills-notifications" role="tabpanel">
-                        <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
-                            <div class="icon-chip" style="width: 44px; height: 44px; background: var(--accent-amber-subtle); color: var(--accent-amber); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
-                                <i class="fas fa-bell"></i>
-                            </div>
-                            <div>
-                                <h4 class="fw-bold mb-0" style="color: var(--text-primary);">Notification Preferences</h4>
-                                <p class="text-muted small mb-0">Choose which notifications you wish to receive</p>
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-column gap-3 mb-4">
-                            <div class="d-flex justify-content-between align-items-center p-3 rounded-3" style="background: var(--bg-subtle);">
-                                <div>
-                                    <div class="fw-semibold small" style="color: var(--text-primary);">Email Notifications</div>
-                                    <small class="text-muted">Receive news about webinars, campus events, and jobs</small>
-                                </div>
-                                <div class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" id="emailNotifAlumni" checked style="cursor: pointer;">
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center p-3 rounded-3" style="background: var(--bg-subtle);">
-                                <div>
-                                    <div class="fw-semibold small" style="color: var(--text-primary);">Direct Chat Messages</div>
-                                    <small class="text-muted">Real-time alerts when students or peers message you</small>
-                                </div>
-                                <div class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" id="msgNotifAlumni" checked style="cursor: pointer;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('Preferences saved successfully!');">
-                            <i class="fas fa-check me-1"></i> Save Preferences
+        <div class="row g-4 mt-1">
+            <!-- Settings Navigation Sidebar -->
+            <div class="col-lg-3">
+                <div class="alumni-card p-3 scroll-fade-up delay-100">
+                    <div class="nav flex-column nav-pills gap-1" id="v-pills-tab" role="tablist">
+                        <button class="nav-link active text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab">
+                            <i class="fas fa-user-circle me-2"></i> Profile Info
+                        </button>
+                        <button class="nav-link text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-account-tab" data-bs-toggle="pill" data-bs-target="#v-pills-account" type="button" role="tab">
+                            <i class="fas fa-shield-alt me-2"></i> Security
+                        </button>
+                        <button class="nav-link text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-notifications-tab" data-bs-toggle="pill" data-bs-target="#v-pills-notifications" type="button" role="tab">
+                            <i class="fas fa-bell me-2"></i> Notifications
+                        </button>
+                        <button class="nav-link text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-privacy-tab" data-bs-toggle="pill" data-bs-target="#v-pills-privacy" type="button" role="tab">
+                            <i class="fas fa-lock me-2"></i> Privacy
                         </button>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Privacy Settings -->
-                    <div class="tab-pane fade" id="v-pills-privacy" role="tabpanel">
-                        <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
-                            <div class="icon-chip" style="width: 44px; height: 44px; background: var(--accent-purple-subtle); color: var(--accent-purple); border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
-                                <i class="fas fa-eye-slash"></i>
+            <!-- Settings Content Card -->
+            <div class="col-lg-9">
+                <div class="alumni-card p-4 p-md-5 scroll-fade-up delay-200">
+                    <div class="tab-content" id="v-pills-tabContent">
+
+                        <!-- Profile Settings -->
+                        <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel">
+                            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
+                                <div class="icon-chip icon-chip-amber" style="width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                                    <i class="fas fa-user-gear"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-0" style="color: var(--text-primary);">Basic Profile Settings</h4>
+                                    <p class="text-muted small mb-0">Update your public name and career bio</p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="fw-bold mb-0" style="color: var(--text-primary);">Privacy &amp; Contact Visibility</h4>
-                                <p class="text-muted small mb-0">Control who can discover and view your contact coordinates</p>
-                            </div>
+
+                            <form onsubmit="event.preventDefault(); alert('Profile information saved!');">
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-semibold text-muted">Full Name</label>
+                                        <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ current_user.name }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-semibold text-muted">Email (Primary ID)</label>
+                                        <input type="email" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ current_user.email }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label small fw-semibold text-muted">Headline / Professional Bio</label>
+                                    <textarea class="form-control" rows="3" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">Passionate alumni giving back to student careers.</textarea>
+                                </div>
+                                <button type="submit" class="btn rounded-pill px-4 shadow-sm btn-amber">
+                                    <i class="fas fa-save me-1"></i> Save Changes
+                                </button>
+                            </form>
                         </div>
 
-                        <form onsubmit="event.preventDefault(); alert('Privacy settings saved!');">
-                            <div class="mb-4">
-                                <label class="form-label small fw-semibold text-muted">Profile Visibility</label>
-                                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                                    <option>Public (Visible to all students &amp; alumni)</option>
-                                    <option selected>Community (Verified College Members Only)</option>
-                                    <option>Connections Only</option>
-                                </select>
+                        <!-- Security Settings -->
+                        <div class="tab-pane fade" id="v-pills-account" role="tabpanel">
+                            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
+                                <div class="icon-chip icon-chip-green" style="width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-0" style="color: var(--text-primary);">Account Security &amp; Password</h4>
+                                    <p class="text-muted small mb-0">Ensure strong credentials to safeguard your alumni account</p>
+                                </div>
                             </div>
 
-                            <div class="form-check form-switch mb-3">
-                                <input class="form-check-input" type="checkbox" id="showEmailAlumni" checked style="cursor: pointer;">
-                                <label class="form-check-label small" for="showEmailAlumni" style="color: var(--text-primary);">Display official email on profile</label>
-                            </div>
-                            <div class="form-check form-switch mb-4">
-                                <input class="form-check-input" type="checkbox" id="showPhoneAlumni" style="cursor: pointer;">
-                                <label class="form-check-label small" for="showPhoneAlumni" style="color: var(--text-primary);">Display phone number on profile</label>
+                            <form onsubmit="event.preventDefault(); alert('Password updated successfully!');">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-semibold text-muted">Current Password</label>
+                                    <input type="password" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                </div>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-semibold text-muted">New Password</label>
+                                        <input type="password" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-semibold text-muted">Confirm New Password</label>
+                                        <input type="password" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn rounded-pill px-4 shadow-sm btn-amber">
+                                    <i class="fas fa-key me-1"></i> Update Password
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Notification Settings -->
+                        <div class="tab-pane fade" id="v-pills-notifications" role="tabpanel">
+                            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
+                                <div class="icon-chip icon-chip-amber" style="width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-0" style="color: var(--text-primary);">Notification Preferences</h4>
+                                    <p class="text-muted small mb-0">Choose which notifications you wish to receive</p>
+                                </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;">
-                                <i class="fas fa-save me-1"></i> Update Privacy
+                            <div class="d-flex flex-column gap-3 mb-4">
+                                <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-3 rounded-3">
+                                    <div>
+                                        <div class="fw-semibold small" style="color: var(--text-primary);">Email Notifications</div>
+                                        <small class="text-muted">Receive news about webinars, campus events, and jobs</small>
+                                    </div>
+                                    <div class="form-check form-switch mb-0">
+                                        <input class="form-check-input" type="checkbox" id="emailNotifAlumni" checked style="cursor: pointer;">
+                                    </div>
+                                </div>
+                                <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-3 rounded-3">
+                                    <div>
+                                        <div class="fw-semibold small" style="color: var(--text-primary);">Direct Chat Messages</div>
+                                        <small class="text-muted">Real-time alerts when students or peers message you</small>
+                                    </div>
+                                    <div class="form-check form-switch mb-0">
+                                        <input class="form-check-input" type="checkbox" id="msgNotifAlumni" checked style="cursor: pointer;">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn rounded-pill px-4 shadow-sm btn-amber" onclick="alert('Preferences saved successfully!');">
+                                <i class="fas fa-check me-1"></i> Save Preferences
                             </button>
-                        </form>
-                    </div>
+                        </div>
 
+                        <!-- Privacy Settings -->
+                        <div class="tab-pane fade" id="v-pills-privacy" role="tabpanel">
+                            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
+                                <div class="icon-chip icon-chip-purple" style="width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                                    <i class="fas fa-eye-slash"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-0" style="color: var(--text-primary);">Privacy &amp; Contact Visibility</h4>
+                                    <p class="text-muted small mb-0">Control who can discover and view your contact coordinates</p>
+                                </div>
+                            </div>
+
+                            <form onsubmit="event.preventDefault(); alert('Privacy settings saved!');">
+                                <div class="mb-4">
+                                    <label class="form-label small fw-semibold text-muted">Profile Visibility</label>
+                                    <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                        <option>Public (Visible to all students &amp; alumni)</option>
+                                        <option selected>Community (Verified College Members Only)</option>
+                                        <option>Connections Only</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="showEmailAlumni" checked style="cursor: pointer;">
+                                    <label class="form-check-label small" for="showEmailAlumni" style="color: var(--text-primary);">Display official email on profile</label>
+                                </div>
+                                <div class="form-check form-switch mb-4">
+                                    <input class="form-check-input" type="checkbox" id="showPhoneAlumni" style="cursor: pointer;">
+                                    <label class="form-check-label small" for="showPhoneAlumni" style="color: var(--text-primary);">Display phone number on profile</label>
+                                </div>
+
+                                <button type="submit" class="btn rounded-pill px-4 shadow-sm btn-amber">
+                                    <i class="fas fa-save me-1"></i> Update Privacy
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
 {% endblock %}

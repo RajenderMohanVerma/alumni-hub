@@ -1,57 +1,61 @@
 {% extends "base.html" %}
+{% block title %}Alumni Dashboard • Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="dashboard-wrapper">
-    <!-- Hero Section -->
-    <div class="hero-section glass-hero alumni-hero-section"
-        style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); position: relative; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.1);">
-        <!-- Animated Background Blobs -->
-        <div class="hero-bg">
-            <div class="blob blob-1" style="background: rgba(102, 126, 234, 0.2);"></div>
-            <div class="blob blob-2" style="background: rgba(122, 79, 162, 0.2);"></div>
-            <div class="blob blob-3" style="background: rgba(0, 212, 255, 0.2);"></div>
-        </div>
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-        <div class="container" style="position: relative; z-index: 2;">
-            <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <div class="hero-content" style="animation: fadeInLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);">
-                        <div class="badge rounded-pill bg-white text-dark px-3 py-2 mb-3 shadow-sm border-0"
-                            id="timeGreetingBadge">
-                            <i class="far fa-clock me-1 text-primary"></i> <span id="dynamicGreeting">Loading...</span>
+<div class="alumni-page-wrapper">
+    <!-- Ambient orbs -->
+    <div class="admin-ambient-ball admin-ball-1" style="background:#f59e0b;"></div>
+    <div class="admin-ambient-ball admin-ball-2" style="background:#0284c7;"></div>
+    <div class="admin-ambient-ball admin-ball-3" style="background:#f59e0b;"></div>
+
+    <div class="alumni-container">
+
+        <!-- ============ HERO ============ -->
+        <section class="alu-hero-card reveal">
+            <div class="alu-hero-glow alu-hero-glow-1"></div>
+            <div class="alu-hero-glow alu-hero-glow-2"></div>
+            <div class="container position-relative" style="z-index:2;">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-7">
+                        <span class="alu-live-badge">
+                            <span class="alu-live-dot"></span> ALUMNI HUB &bull; LIVE
+                        </span>
+                        <div class="alu-greeting-pill mt-3 mb-3">
+                            <i class="far fa-clock me-1 text-warning"></i>
+                            <span id="dynamicGreeting">Loading...</span>
                         </div>
-                        <h1 class="text-white display-4 fw-bold mb-3">
-                            <i class="fas fa-user-tie me-3"></i>Welcome back, <span class="text-gradient-purple">{{
-                                current_user.name }}!</span>
+                        <h1 class="alu-hero-title">
+                            <i class="fas fa-user-tie me-2"></i>Welcome back,
+                            <span class="alu-text-amber">{{ current_user.name }}!</span>
                         </h1>
-                        <p class="text-white-50 lead mb-4" style="font-size: 1.25rem; max-width: 600px;">
+                        <p class="alu-hero-sub">
                             Inspire the next generation. Connect with students and fellow alumni to share your success.
                         </p>
 
-                        <div class="hero-actions mb-4 d-flex flex-wrap gap-2" style="animation: fadeInUp 0.8s ease 0.4s both;">
-                            <a href="{{ url_for('post_job') }}"
-                                class="btn btn-lg rounded-pill px-4 text-white shadow-lg"
-                                style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); border: none;">
+                        <div class="alu-hero-actions d-flex flex-wrap gap-2 mb-4">
+                            <a href="{{ url_for('post_job') }}" class="btn alu-btn-amber btn-lg rounded-pill px-4">
                                 <i class="fas fa-plus-circle me-2"></i> Post a Job
                             </a>
-                            <a href="{{ url_for('alumni_network') }}"
-                                class="btn btn-lg rounded-pill px-4 text-white"
-                                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                            <a href="{{ url_for('alumni_network') }}" class="btn alu-btn-glass btn-lg rounded-pill px-4">
                                 <i class="fas fa-users me-2"></i> My Network
                             </a>
                         </div>
 
                         <!-- Profile Completeness -->
-                        <div class="profile-completeness-wrapper glass-card p-3 d-inline-block"
-                            style="width: 100%; max-width: 420px;">
+                        <div class="alu-completeness glass-card p-3">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="text-white small fw-bold">Alumni Profile Strength</span>
                                 <span class="text-white small fw-bold" id="completenessPercent">0%</span>
                             </div>
-                            <div class="progress"
-                                style="height: 10px; border-radius: 5px; background: rgba(255,255,255,0.2);">
-                                <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"
-                                    id="completenessBar" role="progressbar" style="width: 0%"></div>
+                            <div class="progress" style="height: 10px; border-radius: 5px; background: rgba(255,255,255,0.2);">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                    id="completenessBar" role="progressbar" style="width: 0%; background: linear-gradient(90deg,#f59e0b,#d97706);"></div>
                             </div>
                             <p class="text-white-50 small mt-2 mb-0">
                                 <i class="fas fa-award me-1"></i> <span id="completenessTip">Complete your details to
@@ -59,93 +63,85 @@
                             </p>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-5 text-center d-none d-lg-block">
-                    <div class="hero-image-wrapper" style="animation: float 4s ease-in-out infinite;">
-                        <div class="avatar-glass-card shadow-lg" style="position: relative; width: 180px; height: 180px; margin: 0 auto;">
+
+                    <div class="col-lg-5 text-center d-none d-lg-block">
+                        <div class="alu-avatar-wrap">
                             {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
                             <img src="{{ current_user.profile_pic }}"
-                                alt="{{ current_user.name }}" class="rounded-pill border border-4 border-white shadow-lg"
-                                style="width: 180px; height: 180px; object-fit: cover;"
+                                alt="{{ current_user.name }}" class="alu-hero-avatar"
                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="rounded-pill border border-4 border-white shadow-lg" style="display: none; width: 180px; height: 180px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 4rem; font-weight: 800; align-items: center; justify-content: center;">
+                            <div class="alu-hero-avatar-fallback" style="display: none;">
                                 {{ (current_user.name|trim)[0]|upper }}
                             </div>
                             {% else %}
-                            <div class="rounded-pill border border-4 border-white shadow-lg" style="display: flex; width: 180px; height: 180px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 4rem; font-weight: 800; align-items: center; justify-content: center;">
+                            <div class="alu-hero-avatar-fallback" style="display: flex;">
                                 {{ (current_user.name|trim)[0]|upper }}
                             </div>
                             {% endif %}
-                            <div class="glass-tag bg-primary">Alumni</div>
+                            <span class="alu-avatar-tag">Alumni</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- Stats Section -->
-    <div class="stats-container container-fluid px-lg-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="stat-card home-card" style="animation: slideUp 0.6s ease; --card-accent: #667eea;">
-                        <div class="stat-trend"><i class="fas fa-link"></i> Linked</div>
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                            <i class="fas fa-network-wired"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-number">0</h3>
-                            <p class="stat-label">Active Connections</p>
-                        </div>
+        <!-- ============ STATS ============ -->
+        <section class="row g-4 alu-stats-row">
+            <div class="col-md-4 reveal">
+                <div class="alu-stat-card" style="--card-accent:#0284c7;">
+                    <span class="alu-stat-trend"><i class="fas fa-link"></i> Linked</span>
+                    <div class="alu-stat-icon" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
+                        <i class="fas fa-network-wired"></i>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="stat-card home-card" style="animation: slideUp 0.7s ease; --card-accent: #f59e0b;">
-                        <div class="stat-trend bg-warning text-dark"><i class="fas fa-bell"></i> Action Required</div>
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-number">{{ pending_count }}</h3>
-                            <p class="stat-label">Pending Requests</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="stat-card home-card" style="animation: slideUp 0.8s ease; --card-accent: #10b981;">
-                        <div class="stat-trend"><i class="fas fa-check-circle"></i> Milestone</div>
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                            <i class="fas fa-hands-helping"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-number">5+</h3>
-                            <p class="stat-label">Success Mentorships</p>
-                        </div>
+                    <div class="alu-stat-content">
+                        <h3 class="alu-stat-number"><span class="alu-count" data-count="0">0</span></h3>
+                        <p class="alu-stat-label">Active Connections</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+            <div class="col-md-4 reveal">
+                <div class="alu-stat-card" style="--card-accent:#f59e0b;">
+                    <span class="alu-stat-trend alu-stat-trend-warn"><i class="fas fa-bell"></i> Action Required</span>
+                    <div class="alu-stat-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="alu-stat-content">
+                        <h3 class="alu-stat-number"><span class="alu-count" data-count="{{ pending_count }}">{{ pending_count }}</span></h3>
+                        <p class="alu-stat-label">Pending Requests</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 reveal">
+                <div class="alu-stat-card" style="--card-accent:#10b981;">
+                    <span class="alu-stat-trend"><i class="fas fa-check-circle"></i> Milestone</span>
+                    <div class="alu-stat-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <div class="alu-stat-content">
+                        <h3 class="alu-stat-number"><span class="alu-count" data-count="5" data-suffix="+">5+</span></h3>
+                        <p class="alu-stat-label">Success Mentorships</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <div class="container mt-5">
-        <!-- Action Row -->
+        <!-- ============ MAIN ROW ============ -->
         <div class="row g-4 mb-5">
-            <!-- Pending Connection Requests -->
+            <!-- Pending Connection Requests + Mentorship -->
             <div class="col-lg-8">
                 {% if pending_requests %}
                 <!-- Section Header -->
-                <div class="d-flex align-items-center justify-content-between mb-4" style="animation: slideInLeft 0.6s ease;">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 reveal">
                     <div class="d-flex align-items-center gap-3">
-                        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#6366f1,#4f46e5);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(99,102,241,0.35);">
-                            <i class="fas fa-user-clock text-white" style="font-size:1.2rem;"></i>
+                        <div class="alu-section-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706); box-shadow:0 8px 20px rgba(245,158,11,0.35);">
+                            <i class="fas fa-user-clock text-white"></i>
                         </div>
                         <div>
-                            <h4 class="fw-bold mb-0" style="color:var(--text-primary);">Connection Requests</h4>
+                            <h4 class="fw-bold mb-0 alu-heading">Connection Requests</h4>
                             <span class="text-muted small">{{ pending_count }} pending • Respond to grow your network</span>
                         </div>
                     </div>
-                    <span class="badge rounded-pill px-3 py-2 fw-bold" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:white;font-size:0.85rem;box-shadow:0 4px 12px rgba(239,68,68,0.4);">
+                    <span class="badge rounded-pill px-3 py-2 fw-bold alu-new-badge">
                         {{ pending_count }} New
                     </span>
                 </div>
@@ -153,20 +149,20 @@
                 <!-- Request Cards -->
                 <div class="mb-4" id="connectionRequestsList">
                     {% for req in pending_requests %}
-                    <div class="conn-request-card mb-3" id="req-{{ req['sender_id'] }}" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:18px;padding:18px 22px;box-shadow:var(--card-shadow);transition:all 0.3s ease;">
+                    <div class="alu-req-card mb-3 reveal" id="req-{{ req['sender_id'] }}">
                         <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
-                            <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex align-items-center gap-3 min-width-0">
                                 <div class="position-relative flex-shrink-0" style="width:60px;height:60px;">
                                     {% if req['profile_pic'] and (req['profile_pic'].startswith('/') or req['profile_pic'].startswith('data:image/') or req['profile_pic'].startswith('http')) and req['profile_pic'] != 'default.jpg' %}
                                     <img src="{{ req['profile_pic'] }}"
                                         class="rounded-circle"
-                                        style="width:60px;height:60px;object-fit:cover;border:3px solid #e0e7ff;box-shadow:0 4px 12px rgba(99,102,241,0.2);"
+                                        style="width:60px;height:60px;object-fit:cover;border:3px solid #fef3c7;box-shadow:0 4px 12px rgba(245,158,11,0.2);"
                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                    <div class="rounded-circle" style="display:none;width:60px;height:60px;border:3px solid #e0e7ff;background:linear-gradient(135deg,#0284c7,#1d4ed8);color:#fff;font-size:1.5rem;font-weight:800;align-items:center;justify-content:center;">
+                                    <div class="rounded-circle" style="display:none;width:60px;height:60px;border:3px solid #fef3c7;background:linear-gradient(135deg,#0284c7,#1d4ed8);color:#fff;font-size:1.5rem;font-weight:800;align-items:center;justify-content:center;">
                                         {{ (req['name']|trim)[0]|upper }}
                                     </div>
                                     {% else %}
-                                    <div class="rounded-circle" style="display:flex;width:60px;height:60px;border:3px solid #e0e7ff;background:linear-gradient(135deg,#0284c7,#1d4ed8);color:#fff;font-size:1.5rem;font-weight:800;align-items:center;justify-content:center;">
+                                    <div class="rounded-circle" style="display:flex;width:60px;height:60px;border:3px solid #fef3c7;background:linear-gradient(135deg,#0284c7,#1d4ed8);color:#fff;font-size:1.5rem;font-weight:800;align-items:center;justify-content:center;">
                                         {{ (req['name']|trim)[0]|upper }}
                                     </div>
                                     {% endif %}
@@ -177,9 +173,9 @@
                                 </div>
                                 <!-- Info -->
                                 <div class="flex-grow-1 min-width-0">
-                                    <h6 class="mb-1 fw-bold text-truncate" style="color:var(--text-primary);">{{ req['name'] }}</h6>
+                                    <h6 class="mb-1 fw-bold text-truncate alu-heading">{{ req['name'] }}</h6>
                                     <div class="d-flex align-items-center gap-2 flex-wrap">
-                                        <span class="badge rounded-pill" style="background:rgba(99,102,241,0.1);color:#6366f1;font-size:0.7rem;padding:3px 10px;">
+                                        <span class="badge rounded-pill alu-role-badge">
                                             <i class="fas fa-user-graduate me-1"></i>{{ req['role'] | capitalize }}
                                         </span>
                                         {% if req['created_at'] %}
@@ -192,14 +188,12 @@
                             </div>
                             <!-- Action Buttons -->
                             <div class="d-flex gap-2 w-100 w-sm-auto justify-content-end">
-                                <button class="btn fw-bold px-4 py-2 rounded-pill flex-grow-1 flex-sm-grow-0"
-                                    style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;border:none;font-size:0.85rem;box-shadow:0 4px 12px rgba(99,102,241,0.35);transition:all 0.2s;"
+                                <button class="btn fw-bold px-4 py-2 rounded-pill flex-grow-1 flex-sm-grow-0 alu-btn-accept"
                                     data-sender-id="{{ req['sender_id'] }}"
                                     onclick="handleConnection(this, 'accept')">
                                     <i class="fas fa-check me-1"></i> Accept
                                 </button>
-                                <button class="btn fw-bold px-3 py-2 rounded-pill flex-grow-1 flex-sm-grow-0"
-                                    style="background:rgba(239,68,68,0.08);color:#ef4444;border:1.5px solid rgba(239,68,68,0.25);font-size:0.85rem;transition:all 0.2s;"
+                                <button class="btn fw-bold px-3 py-2 rounded-pill flex-grow-1 flex-sm-grow-0 alu-btn-decline"
                                     data-sender-id="{{ req['sender_id'] }}"
                                     onclick="handleConnection(this, 'reject')">
                                     <i class="fas fa-times me-1"></i> Decline
@@ -212,15 +206,14 @@
                 {% endif %}
 
                 <!-- Mentorship Section -->
-                <div class="mentorship-promo p-4 p-md-5 text-white shadow-lg mb-4"
-                    style="background: linear-gradient(135deg, #4338ca 0%, #312e81 100%); border-radius: 30px; position: relative; overflow: hidden;">
+                <div class="alu-mentor-banner p-4 p-md-5 text-white shadow-lg mb-4 reveal">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h3 class="display-6 fw-bold mb-3">Be a <span class="text-info">Guiding Star</span></h3>
+                            <h3 class="display-6 fw-bold mb-3">Be a <span class="alu-text-amber">Guiding Star</span></h3>
                             <p class="lead opacity-75 mb-4">Your experience can change a student's career. Start your
                                 mentorship journey today.</p>
                             <a href="{{ url_for('edit_alumni_profile', user_id=current_user.id) }}"
-                                class="btn btn-info btn-lg rounded-pill px-5 fw-bold shadow-lg">
+                                class="btn alu-btn-amber btn-lg rounded-pill px-5 fw-bold shadow-lg">
                                 <i class="fas fa-heart me-2"></i> Update Skills for Mentorship
                             </a>
                         </div>
@@ -232,42 +225,44 @@
             </div>
 
             <!-- Quick Actions Sidebar -->
-            <div class="col-lg-4">
-                <div class="glass-card p-4 h-100"
-                    style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                    <h4 class="fw-bold mb-4"><i class="fas fa-rocket text-primary me-2"></i> Quick Actions</h4>
+            <div class="col-lg-4 reveal">
+                <div class="alu-side-card p-4 h-100">
+                    <h4 class="fw-bold mb-4 alu-heading"><i class="fas fa-rocket me-2" style="color:#d97706;"></i> Quick Actions</h4>
                     <div class="d-grid gap-3">
                         <a href="{{ url_for('edit_alumni_profile', user_id=current_user.id) }}"
-                            class="btn btn text-start p-3 rounded-4 transition-all hover-lift" style="background: var(--bg-subtle); color: var(--text-primary); border: 1px solid var(--border-color);">
+                            class="alu-action-tile">
                             <div class="d-flex align-items-center">
-                                <div class="icon-box-md bg-soft-primary text-primary me-3"><i
+                                <div class="alu-tile-icon" style="background:rgba(245,158,11,0.12); color:#d97706;"><i
                                         class="fas fa-user-edit"></i></div>
                                 <div>
-                                    <h6 class="mb-0 fw-bold">Update Profile</h6>
+                                    <h6 class="mb-0 fw-bold alu-heading">Update Profile</h6>
                                     <small class="text-muted">Keep your info current</small>
                                 </div>
+                                <i class="fas fa-chevron-right ms-auto text-muted"></i>
                             </div>
                         </a>
                         <a href="{{ url_for('alumni_meet_register') }}"
-                            class="btn btn text-start p-3 rounded-4 transition-all hover-lift" style="background: var(--bg-subtle); color: var(--text-primary); border: 1px solid var(--border-color);">
+                            class="alu-action-tile">
                             <div class="d-flex align-items-center">
-                                <div class="icon-box-md bg-soft-warning text-warning me-3"><i
+                                <div class="alu-tile-icon" style="background:rgba(245,158,11,0.12); color:#d97706;"><i
                                         class="fas fa-calendar-star"></i></div>
                                 <div>
-                                    <h6 class="mb-0 fw-bold">Alumni Meet</h6>
+                                    <h6 class="mb-0 fw-bold alu-heading">Alumni Meet</h6>
                                     <small class="text-muted">Register for upcoming events</small>
                                 </div>
+                                <i class="fas fa-chevron-right ms-auto text-muted"></i>
                             </div>
                         </a>
                         <a href="{{ url_for('change_password') }}"
-                            class="btn btn-light-secondary text-start p-3 rounded-4 transition-all hover-lift">
+                            class="alu-action-tile">
                             <div class="d-flex align-items-center">
-                                <div class="icon-box-md bg-soft-secondary text-dark me-3"><i class="fas fa-key"></i>
+                                <div class="alu-tile-icon" style="background:rgba(71,85,105,0.1); color:#475569;"><i class="fas fa-key"></i>
                                 </div>
                                 <div>
-                                    <h6 class="mb-0 fw-bold">Security</h6>
+                                    <h6 class="mb-0 fw-bold alu-heading">Security</h6>
                                     <small class="text-muted">Manage your password</small>
                                 </div>
+                                <i class="fas fa-chevron-right ms-auto text-muted"></i>
                             </div>
                         </a>
                         <hr class="my-3">
@@ -280,9 +275,9 @@
         </div>
 
         <!-- Recommended Students Section -->
-        <div class="section-header mb-4 d-flex justify-content-between align-items-center">
-            <h2 class="section-title mb-0">
-                <i class="fas fa-sparkles me-2 text-primary"></i> Students You May Know
+        <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2 reveal">
+            <h2 class="alu-section-title mb-0">
+                <i class="fas fa-sparkles me-2" style="color:#d97706;"></i> Students You May Know
                 <small class="text-muted fs-6 ms-2 fw-normal">Based on your profile, skills &amp; interactions</small>
             </h2>
         </div>
@@ -290,9 +285,8 @@
         <div class="row g-4 mb-5" id="rec-cards-container">
             {% if recommendations %}
             {% for rec in recommendations %}
-            <div class="col-lg-2 col-md-4 col-6">
-                <div class="recommendation-card p-3 text-center h-100 shadow-sm border position-relative"
-                    style="border-radius: 20px; background: white; transition: all 0.3s ease;">
+            <div class="col-lg-2 col-md-4 col-6 reveal">
+                <div class="alu-rec-card p-3 text-center h-100 position-relative">
                     <div class="position-absolute top-0 end-0 m-2">
                         <span class="badge rounded-pill {{ 'bg-success' if rec.source == 'ml' else 'bg-soft-primary text-primary' }} px-2 py-1"
                             style="font-size: 0.7rem;" title="{{ rec.reason|default('Profile match') }}">
@@ -306,21 +300,20 @@
                         </span>
                     </div>
                     {% endif %}
-                    <div style="width: 70px; height: 70px; margin: 0 auto 1rem; position: relative;">
+                    <div class="alu-rec-avatar">
                         {% if rec.profile_pic and (rec.profile_pic.startswith('/') or rec.profile_pic.startswith('data:image/') or rec.profile_pic.startswith('http')) and rec.profile_pic != 'default.jpg' %}
-                        <img src="{{ rec.profile_pic }}" class="rounded-circle shadow-sm"
-                            style="width: 70px; height: 70px; object-fit: cover; border: 3px solid #e0e7ff;"
+                        <img src="{{ rec.profile_pic }}" class="rounded-circle shadow-sm alu-rec-img"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="rounded-circle shadow-sm" style="display: none; width: 70px; height: 70px; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #fff; font-size: 1.8rem; font-weight: 800; align-items: center; justify-content: center; border: 3px solid #e0e7ff;">
+                        <div class="rounded-circle shadow-sm alu-rec-fallback" style="display: none;">
                             {{ (rec.name|trim)[0]|upper }}
                         </div>
                         {% else %}
-                        <div class="rounded-circle shadow-sm" style="display: flex; width: 70px; height: 70px; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #fff; font-size: 1.8rem; font-weight: 800; align-items: center; justify-content: center; border: 3px solid #e0e7ff;">
+                        <div class="rounded-circle shadow-sm alu-rec-fallback" style="display: flex;">
                             {{ (rec.name|trim)[0]|upper }}
                         </div>
                         {% endif %}
                     </div>
-                    <h6 class="fw-bold mb-1 text-truncate" title="{{ rec.name }}">{{ rec.name }}</h6>
+                    <h6 class="fw-bold mb-1 text-truncate alu-heading" title="{{ rec.name }}">{{ rec.name }}</h6>
                     <p class="text-muted small mb-2">{{ rec.branch or 'General' }}</p>
                     {% if rec.reason %}
                     <p class="text-muted mb-2" style="font-size: 0.6rem;">{{ rec.reason }}</p>
@@ -335,7 +328,7 @@
                         <span class="text-muted" style="font-size: 0.65rem;">Potential Mentee</span>
                         {% endif %}
                     </div>
-                    <button class="btn btn-primary btn-sm rounded-pill w-100 py-2 fw-bold"
+                    <button class="btn alu-btn-amber btn-sm rounded-pill w-100 py-2 fw-bold"
                         onclick="connectUser('{{ rec.id }}', '{{ rec.role }}')">
                         Connect
                     </button>
@@ -344,8 +337,7 @@
             {% endfor %}
             {% else %}
             <div class="col-12">
-                <div class="glass-card p-4 text-center"
-                    style="background: white; border: 2px dashed #e2e8f0; border-radius: 24px;">
+                <div class="alu-empty-state p-4 text-center">
                     <p class="text-muted mb-0">No student recommendations at the moment. Try updating your mentor
                         skills!</p>
                 </div>
@@ -354,343 +346,444 @@
         </div>
 
         <!-- Alumni Meet Spotlight -->
-        <div class="card border-0 shadow-lg mb-5" style="border-radius: 30px; overflow: hidden; background: #fff;">
+        <div class="card border-0 shadow-lg mb-5 reveal alu-spotlight">
             <div class="row g-0">
                 <div class="col-md-5 hero-meet-image"
                     style="background: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80') center/cover;">
                     <div class="h-100 w-100"
                         style="background: linear-gradient(to right, rgba(0,0,0,0.3), transparent);"></div>
                 </div>
-                <div class="col-md-7 p-5">
+                <div class="col-md-7 p-4 p-md-5">
                     <div class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold">UPCOMING EVENT</div>
-                    <h2 class="display-6 fw-bold mb-3">Mega Alumni Reunion <span class="text-primary">2025</span></h2>
+                    <h2 class="display-6 fw-bold mb-3 alu-heading">Mega Alumni Reunion <span style="color:#d97706;">2025</span></h2>
                     <p class="text-muted lead mb-4">Reconnect with your batchmates and relive your golden days. Expect
                         industry panels, networking galas, and an unforgettable evening.</p>
                     <div class="row g-3 mb-4">
                         <div class="col-6">
                             <div class="d-flex align-items-center">
-                                <i class="fas fa-calendar text-primary me-3 fa-2x"></i>
+                                <i class="fas fa-calendar me-3 fa-2x" style="color:#d97706;"></i>
                                 <div>
-                                    <h6 class="mb-0 fw-bold">Date</h6>
+                                    <h6 class="mb-0 fw-bold alu-heading">Date</h6>
                                     <p class="text-muted mb-0 small">January 15, 2025</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="d-flex align-items-center">
-                                <i class="fas fa-map-marker-alt text-primary me-3 fa-2x"></i>
+                                <i class="fas fa-map-marker-alt me-3 fa-2x" style="color:#d97706;"></i>
                                 <div>
-                                    <h6 class="mb-0 fw-bold">Venue</h6>
+                                    <h6 class="mb-0 fw-bold alu-heading">Venue</h6>
                                     <p class="text-muted mb-0 small">University Grand Hall</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex gap-3">
+                    <div class="d-flex flex-wrap gap-3">
                         <a href="{{ url_for('alumni_meet_register') }}"
-                            class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm">Register Now</a>
+                            class="btn alu-btn-amber btn-lg rounded-pill px-5 fw-bold shadow-sm">Register Now</a>
                         <a href="{{ url_for('alumni_meet_view') }}"
-                            class="btn btn-outline-primary btn-lg rounded-pill px-4 fw-bold">Attendee List</a>
+                            class="btn alu-btn-outline btn-lg rounded-pill px-4 fw-bold">Attendee List</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+
+    </div><!-- /.alumni-container -->
+</div><!-- /.alumni-page-wrapper -->
 
 <style>
-    /* Premium Design System */
-    .hero-section {
+    /* ============ ALUMNI THEME (amber) on the admin shell ============ */
+    :root {
+        --alu-amber: #f59e0b;
+        --alu-amber-dark: #d97706;
+        --alu-amber-soft: rgba(245, 158, 11, 0.12);
+        --alu-navy: #0f172a;
+        --alu-ink: #0f172a;
+        --alu-muted: #64748b;
+        --alu-card: #ffffff;
+        --alu-border: #e2e8f0;
+        --alu-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.08);
+    }
+
+    .alumni-page-wrapper {
+        min-height: 100vh;
         position: relative;
+        background-color: #f8fafc;
+        overflow-x: clip;
         width: 100%;
-        border-radius: 0 0 50px 50px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        color: var(--alu-ink);
+        padding-bottom: 4.5rem;
     }
 
-    .hero-bg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+    .alumni-container {
+        position: relative;
+        z-index: 1;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 1.25rem 1.25rem 0;
+    }
+
+    .alu-heading { color: var(--alu-ink); font-family: 'Outfit', sans-serif; }
+
+    /* ---- Hero ---- */
+    .alu-hero-card {
+        position: relative;
         overflow: hidden;
+        background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%);
+        border: 1px solid rgba(245, 158, 11, 0.25);
+        border-radius: 28px;
+        padding: 2.75rem 1.5rem;
+        box-shadow: 0 24px 60px -18px rgba(11, 19, 41, 0.55);
+        margin-bottom: 1.75rem;
     }
 
-    .blob {
+    .alu-hero-glow {
         position: absolute;
-        width: 400px;
-        height: 400px;
         border-radius: 50%;
         filter: blur(80px);
-        opacity: 0.5;
-        z-index: 1;
+        pointer-events: none;
+    }
+    .alu-hero-glow-1 { width: 340px; height: 340px; top: -140px; right: -60px; background: rgba(245, 158, 11, 0.28); }
+    .alu-hero-glow-2 { width: 280px; height: 280px; bottom: -140px; left: 30%; background: rgba(2, 132, 199, 0.22); }
+
+    .alu-live-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        color: #fde68a;
+        background: rgba(245, 158, 11, 0.14);
+        border: 1px solid rgba(245, 158, 11, 0.35);
+        border-radius: 999px;
+        padding: 0.45rem 0.95rem;
     }
 
-    .blob-1 {
-        top: -100px;
-        left: -100px;
-        animation: float 10s infinite alternate;
+    .alu-live-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: #f59e0b;
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+        animation: aluPulse 2s infinite;
     }
 
-    .blob-2 {
-        bottom: -150px;
-        right: -100px;
-        animation: float 8s infinite alternate-reverse;
+    .alu-greeting-pill {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.92);
+        color: #0f172a;
+        border-radius: 999px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
     }
 
-    .blob-3 {
-        top: 50%;
-        left: 60%;
-        width: 300px;
-        height: 300px;
-        animation: float 12s infinite linear;
+    .alu-hero-title {
+        font-family: 'Outfit', sans-serif;
+        color: #fff;
+        font-weight: 800;
+        font-size: clamp(1.9rem, 4.5vw, 3rem);
+        line-height: 1.15;
+        margin-bottom: 1rem;
     }
 
-    .text-gradient-purple {
-        background: linear-gradient(45deg, #a78bfa, #c084fc);
+    .alu-text-amber {
+        background: linear-gradient(90deg, #fbbf24, #f59e0b 55%, #fde68a);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
     }
 
-    .glass-card {
+    .alu-hero-sub { color: rgba(255, 255, 255, 0.72); font-size: 1.15rem; max-width: 600px; }
+
+    .alu-btn-amber {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: #fff;
+        border: none;
+        box-shadow: 0 10px 24px rgba(245, 158, 11, 0.4);
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .alu-btn-amber:hover, .alu-btn-amber:focus { color: #fff; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); transform: translateY(-2px); }
+
+    .alu-btn-glass {
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        backdrop-filter: blur(10px);
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .alu-btn-glass:hover, .alu-btn-glass:focus { color: #fff; background: rgba(255, 255, 255, 0.16); transform: translateY(-2px); }
+
+    .alu-completeness {
+        width: 100%;
+        max-width: 420px;
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 24px;
+        border-radius: 20px;
     }
 
-    .avatar-glass-card {
+    .alu-avatar-wrap {
         position: relative;
         display: inline-block;
         padding: 12px;
-        background: rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.12);
         backdrop-filter: blur(10px);
         border-radius: 50%;
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        animation: aluFloat 5s ease-in-out infinite;
     }
 
-    .glass-tag {
+    .alu-hero-avatar, .alu-hero-avatar-fallback {
+        width: 180px; height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #fff;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+    .alu-hero-avatar-fallback {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #fff; font-size: 4rem; font-weight: 800;
+        align-items: center; justify-content: center;
+    }
+
+    .alu-avatar-tag {
         position: absolute;
-        bottom: 10px;
-        right: 10px;
-        color: white;
+        bottom: 14px; right: 8px;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #fff;
         padding: 6px 14px;
         border-radius: 25px;
         font-size: 0.8rem;
         font-weight: 700;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
     }
 
-    /* Stats System */
-    .stats-container {
-        padding: 40px 0;
-        background: var(--bg-primary);
-        margin: 40px 0;
-        border-radius: 40px;
-    }
+    /* ---- Stat cards ---- */
+    .alu-stats-row { margin-bottom: 1.75rem; }
 
-    .stat-card {
-        background: white;
+    .alu-stat-card {
+        background: var(--alu-card);
+        border: 1px solid var(--alu-border);
         border-radius: 24px;
         padding: 24px;
         display: flex;
         align-items: center;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        border: 1px solid #e2e8f0;
+        gap: 16px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--alu-shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        min-height: 120px;
+    }
+    .alu-stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 4px;
+        background: var(--card-accent);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .alu-stat-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12); }
+    .alu-stat-card:hover::before { opacity: 1; }
+
+    .alu-stat-icon {
+        width: 60px; height: 60px; flex-shrink: 0;
+        border-radius: 18px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.5rem; color: #fff;
+        transition: transform 0.3s ease;
+    }
+    .alu-stat-card:hover .alu-stat-icon { transform: scale(1.08) rotate(4deg); }
+
+    .alu-stat-number { font-size: 1.8rem; font-weight: 800; margin: 0; color: var(--alu-ink); font-family: 'Outfit', sans-serif; }
+    .alu-stat-label { font-size: 0.8rem; font-weight: 600; color: var(--alu-muted); text-transform: uppercase; letter-spacing: 0.04em; margin: 0; }
+
+    .alu-stat-trend {
+        position: absolute;
+        top: 14px; right: 14px;
+        font-size: 0.68rem; font-weight: 700;
+        padding: 4px 9px; border-radius: 8px;
+        background: rgba(16, 185, 129, 0.1);
+        color: #059669;
+    }
+    .alu-stat-trend-warn { background: rgba(245, 158, 11, 0.14); color: #92400e; }
+
+    /* ---- Section headers / request cards ---- */
+    .alu-section-icon {
+        width: 48px; height: 48px; flex-shrink: 0;
+        border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    .alu-new-badge {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: #fff;
+        font-size: 0.85rem;
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+
+    .alu-req-card {
+        background: var(--alu-card);
+        border: 1px solid var(--alu-border);
+        border-radius: 18px;
+        padding: 18px 22px;
+        box-shadow: var(--alu-shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .alu-req-card:hover { transform: translateY(-3px); box-shadow: 0 18px 36px rgba(15, 23, 42, 0.1); }
+
+    .alu-role-badge { background: rgba(245, 158, 11, 0.12); color: #b45309; font-size: 0.7rem; padding: 3px 10px; }
+
+    .alu-btn-accept {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #fff; border: none; font-size: 0.85rem;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+        min-height: 44px;
+    }
+    .alu-btn-accept:hover, .alu-btn-accept:focus { color: #fff; background: linear-gradient(135deg, #d97706, #b45309); }
+
+    .alu-btn-decline {
+        background: rgba(239, 68, 68, 0.08);
+        color: #ef4444;
+        border: 1.5px solid rgba(239, 68, 68, 0.25);
+        font-size: 0.85rem;
+        min-height: 44px;
+    }
+    .alu-btn-decline:hover, .alu-btn-decline:focus { background: rgba(239, 68, 68, 0.14); color: #dc2626; }
+
+    /* ---- Mentorship banner ---- */
+    .alu-mentor-banner {
+        background: linear-gradient(135deg, #0b1329 0%, #172554 60%, #451a03 100%);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        border-radius: 28px;
         position: relative;
         overflow: hidden;
     }
 
-    .stat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: var(--card-accent);
-        opacity: 0;
-        transition: 0.3s;
+    /* ---- Sidebar ---- */
+    .alu-side-card {
+        background: var(--alu-card);
+        border: 1px solid var(--alu-border);
+        border-radius: 20px;
+        box-shadow: var(--alu-shadow);
     }
 
-    .stat-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    .alu-action-tile {
+        display: block;
+        background: #f8fafc;
+        color: var(--alu-ink);
+        border: 1px solid var(--alu-border);
+        border-radius: 16px;
+        padding: 1rem;
+        text-decoration: none;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        min-height: 44px;
+    }
+    .alu-action-tile:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08); border-color: rgba(245, 158, 11, 0.5); color: var(--alu-ink); }
+
+    .alu-tile-icon {
+        width: 45px; height: 45px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 12px; font-size: 1.2rem; margin-right: 0.9rem;
     }
 
-    .stat-card:hover::before {
-        opacity: 1;
+    /* ---- Recommendations ---- */
+    .alu-section-title { font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--alu-ink); font-size: 1.5rem; }
+
+    .alu-rec-card {
+        border-radius: 20px;
+        background: #fff;
+        border: 1px solid var(--alu-border);
+        box-shadow: 0 8px 22px -8px rgba(15, 23, 42, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .alu-rec-card:hover { transform: translateY(-5px); box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12); }
+
+    .alu-rec-avatar { width: 70px; height: 70px; margin: 0 auto 1rem; position: relative; }
+    .alu-rec-img { width: 70px; height: 70px; object-fit: cover; border: 3px solid #fef3c7; }
+    .alu-rec-fallback {
+        width: 70px; height: 70px;
+        background: linear-gradient(135deg, #0284c7, #1d4ed8);
+        color: #fff; font-size: 1.8rem; font-weight: 800;
+        align-items: center; justify-content: center;
+        border: 3px solid #fef3c7;
     }
 
-    .stat-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        color: white;
-        margin-right: 20px;
-        transition: 0.4s;
+    .alu-empty-state {
+        background: #fff;
+        border: 2px dashed #e2e8f0;
+        border-radius: 24px;
     }
 
-    .stat-card:hover .stat-icon {
-        transform: scale(1.1) rotate(5deg);
+    /* ---- Spotlight ---- */
+    .alu-spotlight { border-radius: 28px !important; overflow: hidden; background: #fff; }
+
+    .alu-btn-outline {
+        border: 2px solid rgba(217, 119, 6, 0.55);
+        color: #b45309;
+        background: #fff;
+        min-height: 48px;
+        display: inline-flex; align-items: center; justify-content: center;
+    }
+    .alu-btn-outline:hover, .alu-btn-outline:focus { background: rgba(245, 158, 11, 0.1); color: #92400e; transform: translateY(-2px); }
+
+    /* ---- Reveal on scroll ---- */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.reveal-visible { opacity: 1; transform: translateY(0); }
+
+    @keyframes aluPulse {
+        0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+        70% { box-shadow: 0 0 0 9px rgba(245, 158, 11, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
     }
 
-    .stat-number {
-        font-size: 1.8rem;
-        font-weight: 800;
-        margin: 0;
-        color: #1e293b;
+    @keyframes aluFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
     }
 
-    .stat-label {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #64748b;
-        text-transform: uppercase;
-        margin: 0;
-    }
-
-    .stat-trend {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        font-size: 0.7rem;
-        font-weight: 700;
-        padding: 4px 8px;
-        border-radius: 6px;
-        background: rgba(16, 185, 129, 0.1);
-        color: #10b981;
-    }
-
-    /* Utility */
-    .hover-lift:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    }
-
-    .transition-all {
-        transition: all 0.3s ease;
-    }
-
-    .bg-soft-primary {
-        background: rgba(67, 56, 202, 0.1);
-    }
-
-    .bg-soft-warning {
-        background: rgba(245, 158, 11, 0.1);
-    }
-
-    .bg-soft-secondary {
-        background: rgba(71, 85, 105, 0.1);
-    }
-
-    .icon-box-md {
-        width: 45px;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-        font-size: 1.2rem;
-    }
-
-    .btn-light-primary {
-        background: rgba(67, 56, 202, 0.05);
-        color: #4338ca;
-        border: none;
-    }
-
-    .btn-light-warning {
-        background: rgba(245, 158, 11, 0.05);
-        color: #d97706;
-        border: none;
-    }
-
-    .btn-light-secondary {
-        background: rgba(71, 85, 105, 0.05);
-        color: #475569;
-        border: none;
-    }
-
-    @keyframes fadeInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes float {
-
-        0%,
-        100% {
-            transform: translateY(0);
-        }
-
-        50% {
-            transform: translateY(-20px);
-        }
-    }
-
-    /* ===== RESPONSIVE MEDIA QUERIES ===== */
+    /* ---- Mobile ---- */
     @media (max-width: 991px) {
-        .hero-section {
-            padding: 60px 0 !important;
-            border-radius: 0 0 30px 30px;
-        }
-
-        .hero-section h1 {
-            font-size: 2.5rem !important;
-        }
+        .alu-hero-card { padding: 2rem 1.25rem; border-radius: 24px; }
     }
 
     @media (max-width: 768px) {
-        .hero-section {
-            text-align: center;
-        }
+        .alu-hero-card { text-align: center; border-radius: 20px; }
+        .alu-hero-sub { margin-left: auto; margin-right: auto; }
+        .alu-hero-actions { justify-content: center; }
+        .alu-completeness { margin: 0 auto; }
+        .alu-stat-card { flex-direction: column; text-align: center; gap: 10px; }
+        .alu-stat-icon { margin: 0 auto; }
+        .alu-stat-trend { position: static; align-self: center; }
+        .hero-meet-image { min-height: 220px; }
+    }
 
-        .hero-section h1 {
-            font-size: 2rem !important;
-        }
+    @media (max-width: 576px) {
+        .alumni-container { padding: 0.9rem 0.9rem 0; }
+        .alu-hero-card { padding: 1.6rem 1rem; }
+        .alu-hero-actions .btn { width: 100%; }
+        .alu-req-card { padding: 16px; }
+        .alu-section-title { font-size: 1.25rem; }
+    }
 
-        .profile-completeness-wrapper {
-            min-width: 100% !important;
-        }
-
-        .stat-card {
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .stat-icon {
-            margin-right: 0;
-            margin-bottom: 10px;
-        }
-
-        .hero-meet-image {
-            height: 250px;
-        }
+    @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        .alu-live-dot, .alu-avatar-wrap { animation: none !important; }
+        .alu-stat-card, .alu-rec-card, .alu-req-card, .alu-action-tile,
+        .alu-btn-amber, .alu-btn-glass, .alu-btn-outline { transition: none !important; }
+        .alu-stat-card:hover, .alu-rec-card:hover, .alu-req-card:hover { transform: none !important; }
     }
 </style>
 
@@ -734,6 +827,38 @@
                 else tip.innerText = "Your expert profile is solid!";
             }, 500);
         }
+
+        // Reveal-on-scroll
+        const revealEls = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal-visible');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.08 });
+            revealEls.forEach(el => io.observe(el));
+        } else {
+            revealEls.forEach(el => el.classList.add('reveal-visible'));
+        }
+
+        // Animated counters (values already rendered server-side; animate up to them)
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document.querySelectorAll('.alu-count').forEach(el => {
+            const target = parseInt(el.dataset.count || '0', 10) || 0;
+            const suffix = el.dataset.suffix || '';
+            if (reduceMotion || target === 0) { el.textContent = target + suffix; return; }
+            const dur = 900;
+            const start = performance.now();
+            const tick = (now) => {
+                const p = Math.min((now - start) / dur, 1);
+                el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+                if (p < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+        });
     });
 
     function handleConnection(btnEl, action) {
@@ -759,8 +884,8 @@
                     setTimeout(() => {
                         card.remove();
                         // Update the badge count
-                        const remaining = document.querySelectorAll('.conn-request-card').length;
-                        const badge = document.querySelector('#connectionRequestsList')?.closest('.col-lg-8')?.querySelector('.badge.rounded-pill');
+                        const remaining = document.querySelectorAll('.alu-req-card').length;
+                        const badge = document.querySelector('#connectionRequestsList')?.closest('.col-lg-8')?.querySelector('.alu-new-badge');
                         if (badge) badge.textContent = remaining + ' New';
                         // Hide section if no requests left
                         if (remaining === 0) {
@@ -814,7 +939,6 @@
         const toast = document.createElement('div');
         toast.className = 'position-fixed bottom-0 end-0 m-4';
         toast.style.zIndex = '9999';
-        toast.style.animation = 'slideUp 0.4s ease';
 
         toast.innerHTML = `
         <div style="background: ${color}; color: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-weight: 600; min-width: 280px;">

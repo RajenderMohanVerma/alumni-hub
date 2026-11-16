@@ -3,103 +3,287 @@
 {% block title %}Transition to Alumni - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
-    <!-- Page Header -->
-    <div class="text-center max-w-700 mx-auto mb-5 pb-2">
-        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="background: var(--accent-amber-subtle); color: var(--accent-amber); font-size: 0.85rem; font-weight: 600;">
-            <i class="fas fa-graduation-cap"></i>
-            <span>Graduation Milestone</span>
-        </div>
-        <h1 class="display-5 fw-bold mb-3" style="color: var(--text-primary);">Transition to Verified Alumni Status</h1>
-        <p class="lead text-muted" style="max-width: 650px; margin: 0 auto; font-size: 1.1rem;">
-            Congratulations on completing your academic degrees! Upgrade your profile to post jobs, mentor juniors, and access alumni reunions.
-        </p>
-    </div>
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-    <div class="row justify-content-center">
-        <div class="col-lg-9">
-            <div class="home-card p-4 p-md-5 shadow-sm accent-amber" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <form method="POST" class="needs-validation">
-                    <!-- Academic Summary Card -->
-                    <div class="p-4 rounded-4 mb-4" style="background: var(--bg-subtle); border: 1px solid var(--border-color);">
-                        <div class="d-flex align-items-center gap-2 mb-3">
-                            <i class="fas fa-university" style="color: var(--accent-blue);"></i>
-                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Verified Academic Record</h6>
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Enrollment Number</label>
-                                <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ profile['enrollment_no'] }}" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Department</label>
-                                <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ profile['department'] }}" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Degree Program</label>
-                                <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ profile['degree'] }}" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Final CGPA</label>
-                                <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ profile['cgpa'] or 'N/A' }}" disabled>
-                            </div>
-                        </div>
-                    </div>
+<style>
+    /* ========================================================
+       ALUMNI UPGRADE — AMBER LUXURY THEME
+       Same shell as admin; amber (#f59e0b / #d97706) replaces
+       admin indigo as the primary accent.
+       ======================================================== */
+    :root {
+        --alm-amber: #f59e0b;
+        --alm-amber-dark: #d97706;
+        --alm-amber-light: #fbbf24;
+        --alm-amber-subtle: #fffbeb;
+    }
+    .alumni-page {
+        font-family: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
+    }
+    .alumni-page h1, .alumni-page h6 {
+        font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    }
+    /* Amber gradient title text (admin uses blue-purple holographic) */
+    .text-holographic-alm {
+        background: linear-gradient(90deg, #fde68a 0%, #fbbf24 35%, #f59e0b 65%, #d97706 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+    }
+    .alm-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.95rem;
+        border-radius: 999px;
+        background: rgba(245, 158, 11, 0.16);
+        border: 1px solid rgba(251, 191, 36, 0.45);
+        color: #fde68a;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+    .alm-badge .live-pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #fbbf24;
+        box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+        animation: alm-pulse 2s infinite;
+    }
+    @keyframes alm-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.55); }
+        70% { box-shadow: 0 0 0 9px rgba(251, 191, 36, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+    }
+    /* White content cards */
+    .alumni-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .alumni-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10);
+    }
+    .btn-amber {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        min-height: 48px;
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-amber:hover, .btn-amber:focus {
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(245, 158, 11, 0.45);
+    }
+    .btn-cancel {
+        min-height: 48px;
+        border: 1.5px solid var(--border-color);
+        color: var(--text-secondary);
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+    .btn-cancel:hover {
+        border-color: var(--alm-amber);
+        color: var(--alm-amber-dark);
+        background: var(--alm-amber-subtle);
+    }
+    /* Inner section panels */
+    .alm-section {
+        background: var(--bg-subtle);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .alm-section:hover {
+        border-color: rgba(245, 158, 11, 0.35);
+        transform: translateY(-2px);
+    }
+    .alm-section-privileges {
+        background: var(--accent-green-subtle);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        border-radius: 18px;
+    }
+    .section-num {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: inline-grid;
+        place-items: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: #fff;
+        flex-shrink: 0;
+    }
+    /* Form controls — amber focus ring */
+    .alumni-page .form-control {
+        min-height: 44px;
+        border-radius: 12px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .alumni-page .form-control:focus {
+        border-color: var(--alm-amber);
+        box-shadow: 0 0 0 0.25rem rgba(245, 158, 11, 0.22);
+    }
+    /* Hero steps strip */
+    .alm-step {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.6rem 1rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        color: #e2e8f0;
+        font-size: 0.85rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    .alm-step i {
+        color: var(--alm-amber-light);
+    }
+    .alumni-hero-title {
+        font-size: clamp(1.7rem, 5vw, 2.6rem);
+        line-height: 1.15;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .alumni-card, .btn-amber, .btn-cancel, .alm-section {
+            transition: none !important;
+        }
+        .alumni-card:hover, .btn-amber:hover, .alm-section:hover {
+            transform: none !important;
+        }
+        .alm-badge .live-pulse-dot {
+            animation: none !important;
+        }
+        .scroll-fade-up, .scroll-fade-down, .scroll-fade-left, .scroll-fade-right, .scroll-scale-in {
+            animation: none !important;
+            opacity: 1 !important;
+        }
+    }
+</style>
 
-                    <!-- Alumni Career Information -->
-                    <div class="p-4 rounded-4 mb-4" style="background: var(--bg-subtle); border: 1px solid var(--border-color);">
-                        <div class="d-flex align-items-center gap-2 mb-3">
-                            <i class="fas fa-briefcase" style="color: var(--accent-green);"></i>
-                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Professional &amp; Career Details</h6>
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-md-4">
-                                <label for="pass_year" class="form-label small fw-semibold text-muted mb-1">Year of Passing <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="pass_year" name="pass_year" min="2000" max="2030" required placeholder="e.g. 2024" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="company_name" class="form-label small fw-semibold text-muted mb-1">Current Employer / Org</label>
-                                <input type="text" class="form-control" id="company_name" name="company_name" placeholder="e.g. Google, TCS, Startup" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="designation" class="form-label small fw-semibold text-muted mb-1">Current Job Title</label>
-                                <input type="text" class="form-control" id="designation" name="designation" placeholder="e.g. Software Engineer" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                            </div>
-                        </div>
-                        <small class="text-muted d-block mt-3">
-                            <i class="fas fa-info-circle me-1"></i> You can modify your company, portfolio link, and location anytime from your Profile page.
-                        </small>
-                    </div>
+<div class="admin-page-wrapper alumni-page">
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
 
-                    <!-- Alumni Privileges -->
-                    <div class="p-4 rounded-4 mb-4" style="background: var(--accent-green-subtle); border: 1px solid rgba(16, 185, 129, 0.2);">
-                        <h6 class="fw-bold mb-3" style="color: var(--accent-green);"><i class="fas fa-shield-halved me-2"></i> Your Alumni Privileges:</h6>
-                        <div class="row g-2 small" style="color: var(--text-primary);">
-                            <div class="col-md-6 d-flex align-items-center gap-2">
-                                <i class="fas fa-check text-success"></i> Access to exclusive Annual Alumni Meets
+    <div class="admin-container">
+        <!-- Hero -->
+        <section class="admin-hero-card text-center scroll-fade-up">
+            <span class="alm-badge mb-3"><span class="live-pulse-dot"></span><i class="fas fa-graduation-cap"></i> Graduation Milestone</span>
+            <h1 class="alumni-hero-title fw-bold mb-3">Transition to <span class="text-holographic-alm">Verified Alumni Status</span></h1>
+            <p class="lead mb-4" style="color: rgba(226, 232, 240, 0.85); max-width: 650px; margin: 0 auto; font-size: 1.1rem;">
+                Congratulations on completing your academic degrees! Upgrade your profile to post jobs, mentor juniors, and access alumni reunions.
+            </p>
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+                <span class="alm-step"><i class="fas fa-id-card"></i> 1 · Verify Record</span>
+                <span class="alm-step"><i class="fas fa-briefcase"></i> 2 · Career Details</span>
+                <span class="alm-step"><i class="fas fa-shield-halved"></i> 3 · Alumni Privileges</span>
+            </div>
+        </section>
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-9">
+                <div class="alumni-card p-4 p-md-5 shadow-sm accent-amber scroll-fade-up delay-100">
+                    <form method="POST" class="needs-validation">
+                        <!-- Academic Summary Card -->
+                        <div class="alm-section p-4 mb-4">
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <span class="section-num">1</span>
+                                <i class="fas fa-university" style="color: var(--alm-amber-dark);"></i>
+                                <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Verified Academic Record</h6>
                             </div>
-                            <div class="col-md-6 d-flex align-items-center gap-2">
-                                <i class="fas fa-check text-success"></i> Post internships &amp; job openings directly
-                            </div>
-                            <div class="col-md-6 d-flex align-items-center gap-2">
-                                <i class="fas fa-check text-success"></i> Mentor passionate students and juniors
-                            </div>
-                            <div class="col-md-6 d-flex align-items-center gap-2">
-                                <i class="fas fa-check text-success"></i> Lifelong institutional directory connection
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold text-muted mb-1">Enrollment Number</label>
+                                    <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ profile['enrollment_no'] }}" disabled>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold text-muted mb-1">Department</label>
+                                    <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ profile['department'] }}" disabled>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold text-muted mb-1">Degree Program</label>
+                                    <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ profile['degree'] }}" disabled>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold text-muted mb-1">Final CGPA</label>
+                                    <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" value="{{ profile['cgpa'] or 'N/A' }}" disabled>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Action Buttons -->
-                    <div class="d-flex flex-column flex-sm-row gap-3 pt-2">
-                        <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 shadow-sm flex-grow-1" style="background: var(--accent-blue); border: none;">
-                            <i class="fas fa-check-double me-1"></i> Complete Alumni Verification
-                        </button>
-                        <a href="{{ url_for('dashboard_student') }}" class="btn btn-outline-secondary rounded-pill px-4 py-2" style="border-color: var(--border-color); color: var(--text-secondary);">
-                            Cancel &amp; Return
-                        </a>
-                    </div>
-                </form>
+                        <!-- Alumni Career Information -->
+                        <div class="alm-section p-4 mb-4">
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <span class="section-num">2</span>
+                                <i class="fas fa-briefcase" style="color: var(--accent-green);"></i>
+                                <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Professional &amp; Career Details</h6>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="pass_year" class="form-label small fw-semibold text-muted mb-1">Year of Passing <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="pass_year" name="pass_year" min="2000" max="2030" required placeholder="e.g. 2024" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="company_name" class="form-label small fw-semibold text-muted mb-1">Current Employer / Org</label>
+                                    <input type="text" class="form-control" id="company_name" name="company_name" placeholder="e.g. Google, TCS, Startup" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="designation" class="form-label small fw-semibold text-muted mb-1">Current Job Title</label>
+                                    <input type="text" class="form-control" id="designation" name="designation" placeholder="e.g. Software Engineer" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                </div>
+                            </div>
+                            <small class="text-muted d-block mt-3">
+                                <i class="fas fa-info-circle me-1"></i> You can modify your company, portfolio link, and location anytime from your Profile page.
+                            </small>
+                        </div>
+
+                        <!-- Alumni Privileges -->
+                        <div class="alm-section-privileges p-4 mb-4">
+                            <h6 class="fw-bold mb-3" style="color: var(--accent-green);"><i class="fas fa-shield-halved me-2"></i> Your Alumni Privileges:</h6>
+                            <div class="row g-2 small" style="color: var(--text-primary);">
+                                <div class="col-md-6 d-flex align-items-center gap-2">
+                                    <i class="fas fa-check text-success"></i> Access to exclusive Annual Alumni Meets
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center gap-2">
+                                    <i class="fas fa-check text-success"></i> Post internships &amp; job openings directly
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center gap-2">
+                                    <i class="fas fa-check text-success"></i> Mentor passionate students and juniors
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center gap-2">
+                                    <i class="fas fa-check text-success"></i> Lifelong institutional directory connection
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex flex-column flex-sm-row gap-3 pt-2">
+                            <button type="submit" class="btn rounded-pill px-5 py-2 shadow-sm flex-grow-1 btn-amber">
+                                <i class="fas fa-check-double me-1"></i> Complete Alumni Verification
+                            </button>
+                            <a href="{{ url_for('dashboard_student') }}" class="btn rounded-pill px-4 py-2 btn-cancel">
+                                Cancel &amp; Return
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

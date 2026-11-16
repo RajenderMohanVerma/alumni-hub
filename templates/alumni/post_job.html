@@ -2,185 +2,309 @@
 {% block title %}Post a Job - Alumni Hub{% endblock %}
 
 {% block content %}
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 
-<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
-    <!-- Page Header -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-        <div>
-            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-green-subtle); color: var(--accent-green); font-size: 0.82rem; font-weight: 600;">
-                <i class="fas fa-plus-circle"></i>
-                <span>Recruiter &amp; Alumni Portal</span>
+<style>
+    :root {
+        --alumni-amber: #f59e0b;
+        --alumni-amber-dark: #d97706;
+        --alumni-amber-soft: #fef3c7;
+        --alumni-amber-subtle: #fffbeb;
+    }
+    .alumni-page { position: relative; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+    .alumni-page h1, .alumni-page h2, .alumni-page h3, .alumni-page h4, .alumni-page h5, .alumni-page h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    /* ---------- Hero ---------- */
+    .alumni-hero {
+        background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%);
+        border-radius: 28px; padding: 2.5rem 2rem; position: relative; overflow: hidden;
+        box-shadow: 0 24px 60px rgba(11,19,41,.28);
+    }
+    .alumni-hero::after {
+        content: ''; position: absolute; inset: 0; pointer-events: none;
+        background-image: radial-gradient(rgba(245,158,11,.16) 1px, transparent 1px);
+        background-size: 26px 26px; opacity: .5;
+    }
+    .alumni-hero > * { position: relative; z-index: 2; }
+    .alumni-hero-badge {
+        display: inline-flex; align-items: center; gap: .5rem;
+        background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
+        color: #fde68a; font-weight: 700; font-size: .78rem; letter-spacing: .12em;
+        padding: .5rem 1.1rem; border-radius: 999px;
+    }
+    .text-amber-gradient {
+        background: linear-gradient(90deg, #fde68a, #fbbf24 35%, #f59e0b 65%, #fcd34d);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .alumni-hero h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; color: #fff; line-height: 1.12; }
+    .alumni-hero p { color: rgba(255,255,255,.72); max-width: 640px; }
+
+    /* ---------- Buttons ---------- */
+    .btn-amber {
+        background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: none;
+        border-radius: 999px; font-weight: 600; min-height: 48px;
+        display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+        box-shadow: 0 10px 24px rgba(245,158,11,.32); transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .btn-amber:hover, .btn-amber:focus { color: #fff; transform: translateY(-2px); box-shadow: 0 14px 30px rgba(245,158,11,.42); }
+    .btn-amber-outline {
+        border: 1.5px solid rgba(255,255,255,.35); color: #fff; background: rgba(255,255,255,.08);
+        border-radius: 999px; font-weight: 600; min-height: 44px;
+        display: inline-flex; align-items: center; justify-content: center; gap: .45rem; transition: all .25s ease;
+    }
+    .btn-amber-outline:hover { background: rgba(255,255,255,.16); color: #fff; }
+
+    /* ---------- Form card ---------- */
+    .alumni-form-card {
+        background: #fff; border: 1px solid rgba(15,23,42,.08); border-radius: 24px;
+        box-shadow: 0 16px 40px rgba(15,23,42,.08); padding: 2rem;
+        border-top: 4px solid var(--alumni-amber);
+    }
+    .form-section-head {
+        display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem;
+        padding-bottom: .75rem; border-bottom: 1px solid var(--border-color);
+    }
+    .form-section-head .section-icon {
+        width: 38px; height: 38px; min-width: 38px; border-radius: 11px;
+        background: var(--alumni-amber-soft); color: var(--alumni-amber-dark);
+        display: grid; place-items: center; font-size: 1rem;
+    }
+    .form-section-head h6 { font-weight: 700; color: var(--text-primary); margin-bottom: 0; }
+    .alumni-form-card .form-control, .alumni-form-card .form-select {
+        min-height: 46px; border-radius: 12px;
+    }
+    .alumni-form-card textarea.form-control { min-height: 0; }
+    .alumni-form-card .form-control:focus, .alumni-form-card .form-select:focus {
+        border-color: var(--alumni-amber); box-shadow: 0 0 0 .2rem rgba(245,158,11,.18);
+    }
+    .alumni-form-card .form-label { color: #57534e; }
+
+    /* ---------- Live preview card ---------- */
+    .preview-card {
+        background: #fff; border: 1px solid rgba(15,23,42,.08); border-radius: 24px;
+        box-shadow: 0 16px 40px rgba(15,23,42,.08); padding: 1.5rem;
+        border-top: 4px solid var(--alumni-amber);
+        transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .preview-card:hover { transform: translateY(-5px); box-shadow: 0 24px 52px rgba(15,23,42,.12); }
+    .preview-avatar {
+        width: 56px; height: 56px; min-width: 56px; border-radius: 16px;
+        background: var(--alumni-amber-soft); color: var(--alumni-amber-dark);
+        font-size: 1.35rem; font-weight: 800; display: grid; place-items: center;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .preview-type-badge {
+        background: var(--alumni-amber-soft); color: var(--alumni-amber-dark);
+        font-size: .75rem; font-weight: 700; border-radius: 999px; padding: .3rem .7rem;
+    }
+    .preview-facts { background: var(--bg-subtle); border-radius: 14px; padding: 1rem; }
+    .preview-facts i { color: var(--alumni-amber); }
+    .preview-label {
+        font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #78716c;
+    }
+    .preview-note {
+        background: var(--alumni-amber-subtle); border: 1px solid rgba(245,158,11,.25);
+        border-radius: 14px; padding: .85rem 1rem; font-size: .86rem; color: #78350f;
+    }
+    .preview-note i { color: var(--alumni-amber-dark); }
+
+    /* Reveal on scroll (subtle) */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 576px) {
+        .alumni-hero { padding: 2rem 1.25rem; border-radius: 22px; }
+        .alumni-form-card { padding: 1.35rem 1.15rem; }
+        .preview-card { padding: 1.25rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation: none !important; transition: none !important; }
+        .reveal { opacity: 1 !important; transform: none !important; }
+    }
+</style>
+
+<div class="alumni-page">
+    <div class="container py-4 py-md-5">
+        <!-- Hero -->
+        <section class="alumni-hero mb-4 reveal">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-4">
+                <div>
+                    <span class="alumni-hero-badge mb-3"><i class="fas fa-plus-circle"></i>&nbsp;RECRUITER &amp; ALUMNI PORTAL</span>
+                    <h1 class="mb-2">Post a Job <span class="text-amber-gradient">or Internship</span></h1>
+                    <p class="mb-0">Share career opportunities directly with verified college students and graduating seniors</p>
+                </div>
+                <div class="flex-shrink-0">
+                    <a href="{{ url_for('list_jobs') }}" class="btn btn-amber-outline px-4">
+                        <i class="fas fa-arrow-left me-1"></i>Back to Jobs
+                    </a>
+                </div>
             </div>
-            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Post a Job or Internship</h1>
-            <p class="text-muted small mb-0">Share career opportunities directly with verified college students and graduating seniors</p>
-        </div>
-        <div class="mt-3 mt-md-0 d-flex gap-2">
-            <a href="{{ url_for('list_jobs') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3" style="border-color: var(--border-color); color: var(--text-secondary);">
-                <i class="fas fa-arrow-left me-1"></i> Back to Jobs
-            </a>
-        </div>
-    </div>
+        </section>
 
-    <div class="row g-4 align-items-start">
-        <!-- Job Form Column -->
-        <div class="col-lg-7">
-            <div class="home-card p-4 p-md-5 shadow-sm accent-blue" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <form method="POST" enctype="multipart/form-data" id="jobPostForm">
-                    <!-- Position & Company -->
-                    <div class="mb-4">
-                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-                            <i class="fas fa-briefcase" style="color: var(--accent-blue);"></i>
-                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Role &amp; Company Overview</h6>
+        <div class="row g-4 align-items-start">
+            <!-- Job Form Column -->
+            <div class="col-lg-7">
+                <div class="alumni-form-card reveal">
+                    <form method="POST" enctype="multipart/form-data" id="jobPostForm">
+                        <!-- Position & Company -->
+                        <div class="mb-4">
+                            <div class="form-section-head">
+                                <span class="section-icon"><i class="fas fa-briefcase"></i></span>
+                                <h6>Role &amp; Company Overview</h6>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-7">
+                                    <label class="form-label small fw-semibold mb-1" for="in_title">Job Title <span class="text-danger">*</span></label>
+                                    <input type="text" name="title" id="in_title" class="form-control" placeholder="e.g. Associate Software Engineer" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
+                                </div>
+                                <div class="col-md-5">
+                                    <label class="form-label small fw-semibold mb-1" for="in_company">Company Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="company" id="in_company" class="form-control" placeholder="e.g. Google India" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold mb-1" for="in_category">Industry Domain</label>
+                                    <select name="category" id="in_category" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                        <option value="Technology">Technology &amp; Software</option>
+                                        <option value="Finance">Finance &amp; Banking</option>
+                                        <option value="Design">Product &amp; UI/UX Design</option>
+                                        <option value="Marketing">Growth &amp; Marketing</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold mb-1" for="in_type">Employment Type</label>
+                                    <select name="employment_type" id="in_type" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" onchange="updatePreview()">
+                                        <option value="Full-Time">Full-Time</option>
+                                        <option value="Internship">Internship</option>
+                                        <option value="Contract">Contract</option>
+                                        <option value="Part-time">Part-Time</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="row g-3">
-                            <div class="col-md-7">
-                                <label class="form-label small fw-semibold text-muted mb-1">Job Title <span class="text-danger">*</span></label>
-                                <input type="text" name="title" id="in_title" class="form-control" placeholder="e.g. Associate Software Engineer" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
+                        <!-- Work Environment & Location -->
+                        <div class="mb-4">
+                            <div class="form-section-head">
+                                <span class="section-icon"><i class="fas fa-location-dot"></i></span>
+                                <h6>Work Mode &amp; Eligibility</h6>
                             </div>
-                            <div class="col-md-5">
-                                <label class="form-label small fw-semibold text-muted mb-1">Company Name <span class="text-danger">*</span></label>
-                                <input type="text" name="company" id="in_company" class="form-control" placeholder="e.g. Google India" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold mb-1" for="in_mode">Work Mode</label>
+                                    <select name="work_mode" id="in_mode" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                        <option value="Remote">Remote</option>
+                                        <option value="Onsite">On-Site (Office)</option>
+                                        <option value="Hybrid">Hybrid</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold mb-1" for="in_branch">Eligible Branch / Degree</label>
+                                    <input type="text" name="eligible_branch" id="in_branch" class="form-control" placeholder="e.g. BCA, MCA, B.Tech" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold mb-1" for="in_exp">Experience Required</label>
+                                    <select name="experience_required" id="in_exp" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                        <option value="Freshers">Entry Level (Freshers)</option>
+                                        <option value="0-1 Years">0-1 Years</option>
+                                        <option value="1-3 Years">1-3 Years</option>
+                                        <option value="3+ Years">3+ Years</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold mb-1" for="in_location">Job Location / City</label>
+                                    <input type="text" name="location" id="in_location" class="form-control" placeholder="e.g. Bengaluru / Remote" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Industry Domain</label>
-                                <select name="category" id="in_category" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                                    <option value="Technology">Technology &amp; Software</option>
-                                    <option value="Finance">Finance &amp; Banking</option>
-                                    <option value="Design">Product &amp; UI/UX Design</option>
-                                    <option value="Marketing">Growth &amp; Marketing</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                        </div>
+
+                        <!-- Compensation & Apply Link -->
+                        <div class="mb-4">
+                            <div class="form-section-head">
+                                <span class="section-icon"><i class="fas fa-money-bill-wave"></i></span>
+                                <h6>Compensation &amp; Application Details</h6>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Employment Type</label>
-                                <select name="employment_type" id="in_type" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" onchange="updatePreview()">
-                                    <option value="Full-Time">Full-Time</option>
-                                    <option value="Internship">Internship</option>
-                                    <option value="Contract">Contract</option>
-                                    <option value="Part-time">Part-Time</option>
-                                </select>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold mb-1" for="in_salary">Annual CTC / Stipend</label>
+                                    <input type="text" name="salary" id="in_salary" class="form-control" placeholder="e.g. ₹6-8 LPA or ₹25k/month" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold mb-1" for="in_deadline">Application Deadline</label>
+                                    <input type="date" name="deadline" id="in_deadline" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small fw-semibold mb-1" for="in_link">Application URL or HR Email <span class="text-danger">*</span></label>
+                                    <input type="text" name="apply_link" id="in_link" class="form-control" placeholder="https://careers.company.com/apply or jobs@company.com" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                                </div>
                             </div>
+                        </div>
+
+                        <!-- Skills & Description -->
+                        <div class="mb-4">
+                            <div class="form-section-head">
+                                <span class="section-icon"><i class="fas fa-list-check"></i></span>
+                                <h6>Requirements &amp; Description</h6>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold mb-1" for="in_skills">Key Skills (Comma separated)</label>
+                                <input type="text" name="skills" id="in_skills" class="form-control" placeholder="e.g. Python, SQL, REST APIs, Git" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold mb-1">Job Description &amp; Responsibilities</label>
+                                <textarea name="description" class="form-control" rows="4" placeholder="Briefly describe the candidate's responsibilities..." style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);"></textarea>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-amber px-5 w-100" style="font-size: 1.05rem;">
+                            <i class="fas fa-paper-plane me-2"></i>Publish Job Opportunity
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Live Preview Card Column -->
+            <div class="col-lg-5 sticky-lg-top" style="top: 100px;">
+                <div class="d-flex align-items-center gap-2 mb-2 reveal">
+                    <i class="fas fa-eye" style="color: var(--alumni-amber-dark);"></i>
+                    <span class="preview-label">Live Card Preview</span>
+                </div>
+
+                <div class="preview-card reveal">
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                        <div class="preview-avatar" id="prev_logo">C</div>
+                        <div>
+                            <span class="preview-type-badge mb-1 d-inline-block" id="prev_type">Full-Time</span>
+                            <h5 class="fw-bold mb-0" style="color: var(--text-primary);" id="prev_title">Associate Software Engineer</h5>
+                            <p class="small text-muted mb-0" id="prev_company">Google India</p>
                         </div>
                     </div>
 
-                    <!-- Work Environment & Location -->
-                    <div class="mb-4">
-                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-                            <i class="fas fa-location-dot" style="color: var(--accent-green);"></i>
-                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Work Mode &amp; Eligibility</h6>
+                    <div class="preview-facts mb-3">
+                        <div class="d-flex justify-content-between small text-muted mb-1">
+                            <span><i class="fas fa-location-dot me-1"></i>Location:</span>
+                            <strong style="color: var(--text-primary);" id="prev_loc">Bengaluru / Remote</strong>
                         </div>
-
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Work Mode</label>
-                                <select name="work_mode" id="in_mode" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                                    <option value="Remote">Remote</option>
-                                    <option value="Onsite">On-Site (Office)</option>
-                                    <option value="Hybrid">Hybrid</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Eligible Branch / Degree</label>
-                                <input type="text" name="eligible_branch" id="in_branch" class="form-control" placeholder="e.g. BCA, MCA, B.Tech" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Experience Required</label>
-                                <select name="experience_required" id="in_exp" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                                    <option value="Freshers">Entry Level (Freshers)</option>
-                                    <option value="0-1 Years">0-1 Years</option>
-                                    <option value="1-3 Years">1-3 Years</option>
-                                    <option value="3+ Years">3+ Years</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Job Location / City</label>
-                                <input type="text" name="location" id="in_location" class="form-control" placeholder="e.g. Bengaluru / Remote" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
-                            </div>
+                        <div class="d-flex justify-content-between small text-muted">
+                            <span><i class="fas fa-money-bill-wave me-1"></i>Salary:</span>
+                            <strong style="color: var(--alumni-amber-dark);" id="prev_sal">Competitive</strong>
                         </div>
                     </div>
 
-                    <!-- Compensation & Apply Link -->
-                    <div class="mb-4">
-                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-                            <i class="fas fa-money-bill-wave" style="color: var(--accent-amber);"></i>
-                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Compensation &amp; Application Details</h6>
-                        </div>
-
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Annual CTC / Stipend</label>
-                                <input type="text" name="salary" id="in_salary" class="form-control" placeholder="e.g. ₹6-8 LPA or ₹25k/month" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" oninput="updatePreview()">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-muted mb-1">Application Deadline</label>
-                                <input type="date" name="deadline" id="in_deadline" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label small fw-semibold text-muted mb-1">Application URL or HR Email <span class="text-danger">*</span></label>
-                                <input type="text" name="apply_link" id="in_link" class="form-control" placeholder="https://careers.company.com/apply or jobs@company.com" required style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Skills & Description -->
-                    <div class="mb-4">
-                        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-                            <i class="fas fa-list-check" style="color: var(--accent-purple);"></i>
-                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Requirements &amp; Description</h6>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label small fw-semibold text-muted mb-1">Key Skills (Comma separated)</label>
-                            <input type="text" name="skills" id="in_skills" class="form-control" placeholder="e.g. Python, SQL, REST APIs, Git" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label small fw-semibold text-muted mb-1">Job Description &amp; Responsibilities</label>
-                            <textarea name="description" class="form-control" rows="4" placeholder="Briefly describe the candidate's responsibilities..." style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);"></textarea>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 w-100 shadow-sm" style="background: var(--accent-blue); border: none; font-size: 1.05rem;">
-                        <i class="fas fa-paper-plane me-2"></i> Publish Job Opportunity
+                    <button class="btn btn-amber w-100" disabled type="button" style="opacity: 0.9;">
+                        Apply for Role <i class="fas fa-arrow-up-right-from-square ms-1"></i>
                     </button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Live Preview Card Column -->
-        <div class="col-lg-5 sticky-lg-top" style="top: 100px;">
-            <div class="d-flex align-items-center gap-2 mb-2">
-                <i class="fas fa-eye text-primary"></i>
-                <span class="small fw-bold text-muted text-uppercase" style="letter-spacing: 0.05em;">Live Card Preview</span>
-            </div>
-
-            <div class="home-card p-4 shadow-sm accent-blue" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="d-flex align-items-start gap-3 mb-3">
-                    <div class="avatar-circle d-grid place-items-center fw-bold shadow-sm" style="width: 54px; height: 54px; border-radius: 14px; background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 1.3rem;" id="prev_logo">
-                        C
-                    </div>
-                    <div>
-                        <span class="badge rounded-pill px-2 py-1 mb-1" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.75rem;" id="prev_type">Full-Time</span>
-                        <h5 class="fw-bold mb-0" style="color: var(--text-primary);" id="prev_title">Associate Software Engineer</h5>
-                        <p class="small text-muted mb-0" id="prev_company">Google India</p>
-                    </div>
                 </div>
 
-                <div class="p-3 rounded-3 mb-3" style="background: var(--bg-subtle);">
-                    <div class="d-flex justify-content-between small text-muted mb-1">
-                        <span><i class="fas fa-location-dot me-1"></i> Location:</span>
-                        <strong style="color: var(--text-primary);" id="prev_loc">Bengaluru / Remote</strong>
-                    </div>
-                    <div class="d-flex justify-content-between small text-muted">
-                        <span><i class="fas fa-money-bill-wave me-1"></i> Salary:</span>
-                        <strong style="color: var(--accent-green);" id="prev_sal">Competitive</strong>
-                    </div>
+                <div class="preview-note mt-3 reveal">
+                    <i class="fas fa-circle-info me-1"></i>
+                    This is how your opening will appear on the Career Board. Postings are reviewed before they go live.
                 </div>
-
-                <button class="btn btn-primary w-100 rounded-pill py-2" disabled style="background: var(--accent-blue); opacity: 0.9;">
-                    Apply for Role <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                </button>
             </div>
         </div>
     </div>
@@ -201,5 +325,20 @@ function updatePreview() {
     document.getElementById('prev_sal').innerText = sal;
     document.getElementById('prev_logo').innerText = (company.trim()[0] || 'C').toUpperCase();
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var revealEls = document.querySelectorAll('.reveal');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealEls.forEach(function (el) { el.classList.add('revealed'); });
+    } else {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) { entry.target.classList.add('revealed'); observer.unobserve(entry.target); }
+            });
+        }, { threshold: 0.05 });
+        revealEls.forEach(function (el) { observer.observe(el); });
+    }
+});
 </script>
 {% endblock %}

@@ -2,79 +2,83 @@
 
 {% block content %}
 <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
     rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-<div class="edit-profile-premium">
-    <!-- Animated Mesh Background -->
-    <div class="mesh-background">
-        <div class="mesh-gradient mesh-1"></div>
-        <div class="mesh-gradient mesh-2"></div>
-        <div class="mesh-gradient mesh-3"></div>
-        <div class="mesh-gradient mesh-4"></div>
-        <div class="mesh-gradient mesh-5"></div>
-    </div>
+<div class="admin-page-wrapper alumni-edit-page">
+    <!-- Ambient glow orbs (admin shell) -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
 
-    <!-- Floating Elements -->
-    <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-4"></div>
-    </div>
-
-    <div class="container-fluid px-4 py-5">
-        <!-- Premium Header -->
-        <div class="profile-header text-center mb-5 animate__animated animate__fadeInDown">
-            <div class="header-badge mb-3">
-                <div class="badge-glow"></div>
-                <i class="fas fa-user-edit"></i>
+    <div class="admin-container">
+        <!-- ======================= HERO ======================= -->
+        <section class="admin-hero-card alumni-hero reveal">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <span class="hero-badge"><i class="fas fa-id-card-alt me-2"></i>Alumni Profile &middot; Edit Mode</span>
+                    <h1 class="hero-title mt-3 mb-2">Edit Your <span class="hero-title-gradient">Profile</span></h1>
+                    <p class="hero-subtitle mb-0">Craft your professional identity with precision &mdash; every change
+                        updates the profile the community sees.</p>
+                    <div class="hero-chips mt-3">
+                        <span class="hero-chip"><i class="fas fa-camera me-2"></i>Photo</span>
+                        <span class="hero-chip"><i class="fas fa-user me-2"></i>Personal</span>
+                        <span class="hero-chip"><i class="fas fa-briefcase me-2"></i>Career</span>
+                        <span class="hero-chip"><i class="fas fa-trophy me-2"></i>Achievements</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="admin-hero-stat-box hero-complete-box">
+                        <span class="admin-hero-stat-label"><i class="fas fa-chart-pie me-1"></i>Profile Completeness</span>
+                        <span class="admin-hero-stat-val"><span id="completePct">0%</span></span>
+                        <div class="complete-track mt-2" role="progressbar" aria-label="Profile completeness"
+                            aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="completeTrack">
+                            <div class="complete-fill" id="completeBar" style="width: 0%"></div>
+                        </div>
+                        <small class="complete-label d-block mt-2" id="completeLabel">Fill in your details to complete your profile.</small>
+                    </div>
+                </div>
             </div>
-            <h1 class="header-title mb-2">
-                <span class="text-reveal">Edit Your Profile</span>
-            </h1>
-            <p class="header-subtitle animate__animated animate__fadeIn animate__delay-1s">
-                Craft your professional identity with precision
-            </p>
-        </div>
+        </section>
 
-        <div class="row g-4">
-            <!-- Main Form Column -->
+        <div class="row g-4 align-items-start">
+            <!-- ======================= FORM COLUMN ======================= -->
             <div class="col-xl-8">
                 <form id="editForm" method="POST" enctype="multipart/form-data">
 
-                    <!-- Profile Photo Card -->
-                    <div class="premium-card mb-4 animate__animated animate__fadeInLeft">
-                        <div class="card-header-premium">
-                            <div class="header-icon">
-                                <i class="fas fa-camera"></i>
-                            </div>
+                    <!-- 01 · Profile Photo -->
+                    <section class="alumni-card mb-4 reveal" aria-labelledby="photoHeading">
+                        <div class="alumni-card-header">
+                            <span class="step-chip">01</span>
+                            <div class="header-icon-amber"><i class="fas fa-camera"></i></div>
                             <div>
-                                <h5 class="card-title-premium mb-1">Profile Photo</h5>
-                                <p class="card-subtitle-premium mb-0">Upload a professional headshot</p>
+                                <h2 class="alumni-card-title mb-1" id="photoHeading">Profile Photo</h2>
+                                <p class="alumni-card-subtitle mb-0">Upload a professional headshot</p>
                             </div>
                         </div>
-                        <div class="card-body-premium">
+                        <div class="alumni-card-body">
                             <div class="photo-upload-advanced">
                                 <div class="upload-grid">
-                                    <!-- Photo Circle with Advanced Effects -->
+                                    <!-- Photo circle -->
                                     <div class="photo-circle-container">
-                                        <div class="circle-glow-ring"></div>
-                                        <div class="photo-circle-wrapper"
-                                            onclick="document.getElementById('profile_pic').click()">
+                                        <div class="circle-glow-ring" aria-hidden="true"></div>
+                                        <div class="photo-circle-wrapper" role="button" tabindex="0"
+                                            aria-label="Upload profile photo"
+                                            onclick="document.getElementById('profile_pic').click()"
+                                            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('profile_pic').click();}">
                                             <div class="photo-circle">
-                                                <!-- Progress Ring -->
-                                                <svg class="progress-ring" width="190" height="190">
+                                                <!-- Progress ring -->
+                                                <svg class="progress-ring" width="190" height="190" aria-hidden="true">
                                                     <circle class="progress-ring-circle" stroke="url(#gradient)"
                                                         stroke-width="4" fill="transparent" r="90" cx="95" cy="95" />
                                                     <defs>
                                                         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%"
                                                             y2="100%">
                                                             <stop offset="0%"
-                                                                style="stop-color:#667eea;stop-opacity:1" />
+                                                                style="stop-color:#f59e0b;stop-opacity:1" />
                                                             <stop offset="100%"
-                                                                style="stop-color:#764ba2;stop-opacity:1" />
+                                                                style="stop-color:#d97706;stop-opacity:1" />
                                                         </linearGradient>
                                                     </defs>
                                                 </svg>
@@ -82,6 +86,7 @@
                                                 <!-- Images -->
                                                 {% set has_custom_pic = user['profile_pic'] and (user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http') or user['profile_pic'].startswith('/')) and user['profile_pic'] != 'default.jpg' %}
                                                 <img id="uploadPreview" src="{{ user['profile_pic'] if has_custom_pic else '' }}"
+                                                    alt="Your profile photo"
                                                     class="{% if has_custom_pic %}d-block{% else %}d-none{% endif %}"
                                                     onerror="this.classList.add('d-none'); this.classList.remove('d-block'); var sp = document.getElementById('svgPlaceholder'); if(sp){sp.classList.remove('d-none'); sp.classList.add('d-block');}">
                                                 <img id="svgPlaceholder"
@@ -89,42 +94,43 @@
                                                     alt="Upload Photo"
                                                     class="camera-svg-placeholder {% if has_custom_pic %}d-none{% else %}d-block{% endif %}">
 
-                                                <!-- Hover Overlay -->
+                                                <!-- Hover overlay -->
                                                 <div class="photo" id="photoPlaceholder">
                                                     <div class="overlay-content">
-                                                        <i class="fas fa-camera fa-3x mb-3 pulse-icon"></i>
-                                                        <span class="fw-bold fs-5 mb-2">Upload Photo</span>
+                                                        <i class="fas fa-camera fa-2x mb-2 pulse-icon"></i>
+                                                        <span class="fw-bold mb-1">Upload Photo</span>
                                                         <span class="small opacity-75">Click or Drop Here</span>
                                                     </div>
                                                 </div>
 
-                                                <!-- Upload Success Checkmark -->
-                                                <div class="upload-success" id="uploadSuccess">
+                                                <!-- Upload success checkmark -->
+                                                <div class="upload-success" id="uploadSuccess" aria-hidden="true">
                                                     <i class="fas fa-check-circle fa-3x"></i>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <!-- Edit/Remove Buttons -->
+                                        <!-- Edit / Remove buttons -->
                                         <div class="photo-actions {% if user['profile_pic'] %}d-flex{% else %}d-none{% endif %}"
                                             id="photoActions">
                                             <button type="button" class="action-btn edit-btn"
+                                                aria-label="Change photo"
                                                 onclick="document.getElementById('profile_pic').click()">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button type="button" class="action-btn remove-btn" onclick="removePhoto()">
+                                            <button type="button" class="action-btn remove-btn"
+                                                aria-label="Remove photo" onclick="removePhoto()">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </div>
 
-                                    <!-- Upload Info Panel -->
+                                    <!-- Upload info panel -->
                                     <div class="upload-info-panel">
                                         <div class="info-header">
                                             <i class="fas fa-info-circle me-2"></i>
                                             <h6 class="mb-0">Upload Guidelines</h6>
                                         </div>
-
                                         <div class="info-items">
                                             <div class="info-item">
                                                 <i class="fas fa-check-circle text-success"></i>
@@ -148,11 +154,12 @@
                                             </div>
                                         </div>
 
-                                        <!-- Drag & Drop Zone -->
-                                        <div class="drag-drop-zone" id="dragDropZone">
-                                            <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
-                                            <p class="fw-bold mb-1">Drag & Drop</p>
-                                            <p class="small mb-0 text-white">or click to browse</p>
+                                        <!-- Drag & drop zone -->
+                                        <div class="drag-drop-zone" id="dragDropZone" role="button" tabindex="0"
+                                            aria-label="Drag and drop a photo, or click to browse">
+                                            <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                            <p class="fw-bold mb-1">Drag &amp; Drop</p>
+                                            <p class="small mb-0">or click to browse</p>
                                         </div>
                                     </div>
                                 </div>
@@ -161,24 +168,23 @@
                                     onchange="handlePhotoUpload(this)">
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <!-- Personal Information Card -->
-                    <div class="premium-card mb-4 animate__animated animate__fadeInLeft animate__delay-1s">
-                        <div class="card-header-premium">
-                            <div class="header-icon">
-                                <i class="fas fa-user-circle"></i>
-                            </div>
+                    <!-- 02 · Personal Information -->
+                    <section class="alumni-card mb-4 reveal" aria-labelledby="personalHeading">
+                        <div class="alumni-card-header">
+                            <span class="step-chip">02</span>
+                            <div class="header-icon-amber"><i class="fas fa-user-circle"></i></div>
                             <div>
-                                <h5 class="card-title-premium mb-1">Personal Information</h5>
-                                <p class="card-subtitle-premium mb-0">Your basic details</p>
+                                <h2 class="alumni-card-title mb-1" id="personalHeading">Personal Information</h2>
+                                <p class="alumni-card-subtitle mb-0">Your basic details</p>
                             </div>
                         </div>
-                        <div class="card-body-premium">
+                        <div class="alumni-card-body">
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <div class="form-group-premium">
-                                        <label class="form-label-premium">
+                                        <label class="form-label-premium" for="name">
                                             <i class="fas fa-user me-2"></i>Full Name
                                             <span class="text-danger">*</span>
                                         </label>
@@ -190,7 +196,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group-premium">
-                                        <label class="form-label-premium">
+                                        <label class="form-label-premium" for="phone">
                                             <i class="fas fa-phone me-2"></i>Phone Number
                                             <span class="text-danger">*</span>
                                         </label>
@@ -202,24 +208,23 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <!-- Professional Details Card -->
-                    <div class="premium-card mb-4 animate__animated animate__fadeInLeft animate__delay-2s">
-                        <div class="card-header-premium">
-                            <div class="header-icon">
-                                <i class="fas fa-briefcase"></i>
-                            </div>
+                    <!-- 03 · Professional Details -->
+                    <section class="alumni-card mb-4 reveal" aria-labelledby="professionalHeading">
+                        <div class="alumni-card-header">
+                            <span class="step-chip">03</span>
+                            <div class="header-icon-amber"><i class="fas fa-briefcase"></i></div>
                             <div>
-                                <h5 class="card-title-premium mb-1">Professional Details</h5>
-                                <p class="card-subtitle-premium mb-0">Your career information</p>
+                                <h2 class="alumni-card-title mb-1" id="professionalHeading">Professional Details</h2>
+                                <p class="alumni-card-subtitle mb-0">Your career information</p>
                             </div>
                         </div>
-                        <div class="card-body-premium">
+                        <div class="alumni-card-body">
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <div class="form-group-premium">
-                                        <label class="form-label-premium">
+                                        <label class="form-label-premium" for="company">
                                             <i class="fas fa-building me-2"></i>Current Company
                                         </label>
                                         <input type="text" class="form-input-premium" id="company" name="company_name"
@@ -230,7 +235,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group-premium">
-                                        <label class="form-label-premium">
+                                        <label class="form-label-premium" for="designation">
                                             <i class="fas fa-id-badge me-2"></i>Job Title
                                         </label>
                                         <input type="text" class="form-input-premium" id="designation"
@@ -241,7 +246,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group-premium">
-                                        <label class="form-label-premium">
+                                        <label class="form-label-premium" for="location">
                                             <i class="fas fa-map-marker-alt me-2"></i>Work Location
                                         </label>
                                         <input type="text" class="form-input-premium" id="location" name="work_location"
@@ -252,7 +257,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group-premium">
-                                        <label class="form-label-premium">
+                                        <label class="form-label-premium" for="experience">
                                             <i class="fas fa-calendar-alt me-2"></i>Years of Experience
                                         </label>
                                         <input type="number" class="form-input-premium" id="experience"
@@ -263,7 +268,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group-premium">
-                                        <label class="form-label-premium">
+                                        <label class="form-label-premium" for="bio">
                                             <i class="fas fa-pen-fancy me-2"></i>Professional Bio
                                         </label>
                                         <textarea class="form-input-premium" id="bio" name="bio" rows="4"
@@ -274,24 +279,23 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <!-- Social & Achievements Card -->
-                    <div class="premium-card mb-4 animate__animated animate__fadeInLeft animate__delay-3s">
-                        <div class="card-header-premium">
-                            <div class="header-icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
+                    <!-- 04 · Achievements & Social Links -->
+                    <section class="alumni-card mb-4 reveal" aria-labelledby="socialHeading">
+                        <div class="alumni-card-header">
+                            <span class="step-chip">04</span>
+                            <div class="header-icon-amber"><i class="fas fa-trophy"></i></div>
                             <div>
-                                <h5 class="card-title-premium mb-1">Achievements & Social Links</h5>
-                                <p class="card-subtitle-premium mb-0">Showcase your accomplishments</p>
+                                <h2 class="alumni-card-title mb-1" id="socialHeading">Achievements &amp; Social Links</h2>
+                                <p class="alumni-card-subtitle mb-0">Showcase your accomplishments</p>
                             </div>
                         </div>
-                        <div class="card-body-premium">
+                        <div class="alumni-card-body">
                             <div class="row g-4">
                                 <div class="col-12">
                                     <div class="form-group-premium">
-                                        <label class="form-label-premium">
+                                        <label class="form-label-premium" for="linkedin">
                                             <i class="fab fa-linkedin me-2"></i>LinkedIn Profile
                                         </label>
                                         <input type="url" class="form-input-premium" id="linkedin" name="linkedin_url"
@@ -302,7 +306,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group-premium">
-                                        <label class="form-label-premium">
+                                        <label class="form-label-premium" for="achievements">
                                             <i class="fas fa-star me-2"></i>Key Achievements
                                         </label>
                                         <textarea class="form-input-premium" id="achievements" name="achievements"
@@ -313,35 +317,70 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <!-- Action Buttons -->
-                    <div class="action-buttons animate__animated animate__fadeInUp animate__delay-4s">
+                    <!-- Desktop action buttons -->
+                    <div class="action-buttons reveal">
                         <a href="{{ url_for('alumni_profile', user_id=user['id']) }}"
                             class="btn-premium btn-secondary-premium">
                             <i class="fas fa-times me-2"></i>
                             <span>Cancel</span>
                         </a>
-                        <button type="submit" class="btn-premium btn-primary-premium">
-                            <span>Save Changes</span>
+                        <button type="submit" class="btn-premium btn-primary-premium" id="saveBtn">
+                            <span class="save-label">Save Changes</span>
                             <i class="fas fa-check ms-2"></i>
                             <div class="btn-glow"></div>
+                        </button>
+                    </div>
+
+                    <!-- Mobile sticky save bar (inside the form so both buttons submit it) -->
+                    <div class="sticky-save-bar d-xl-none" role="region" aria-label="Save profile">
+                        <a href="{{ url_for('alumni_profile', user_id=user['id']) }}"
+                            class="btn-premium btn-secondary-premium sticky-cancel">
+                            <i class="fas fa-times me-2"></i><span>Cancel</span>
+                        </a>
+                        <button type="submit" class="btn-premium btn-primary-premium sticky-save">
+                            <i class="fas fa-check me-2"></i><span class="save-label">Save</span>
                         </button>
                     </div>
                 </form>
             </div>
 
-            <!-- Live Preview Sidebar -->
+            <!-- ======================= SIDEBAR ======================= -->
             <div class="col-xl-4">
-                <div class="preview-sidebar animate__animated animate__fadeInRight">
+                <div class="preview-sidebar">
                     <div class="preview-sticky">
-                        <div class="preview-label mb-3">
+
+                        <!-- Profile completeness -->
+                        <section class="alumni-card completeness-card mb-4 reveal" aria-labelledby="completeHeading">
+                            <div class="alumni-card-body">
+                                <h2 class="completeness-title mb-1" id="completeHeading">
+                                    <i class="fas fa-tasks me-2"></i>Complete Your Profile
+                                </h2>
+                                <p class="alumni-card-subtitle mb-3">A complete profile gets noticed more.</p>
+                                <ul class="complete-list" id="completeList">
+                                    <li data-field="photo"><i class="fas fa-circle"></i>Profile photo</li>
+                                    <li data-field="name"><i class="fas fa-circle"></i>Full name</li>
+                                    <li data-field="phone"><i class="fas fa-circle"></i>Phone number</li>
+                                    <li data-field="company"><i class="fas fa-circle"></i>Current company</li>
+                                    <li data-field="designation"><i class="fas fa-circle"></i>Job title</li>
+                                    <li data-field="location"><i class="fas fa-circle"></i>Work location</li>
+                                    <li data-field="experience"><i class="fas fa-circle"></i>Years of experience</li>
+                                    <li data-field="bio"><i class="fas fa-circle"></i>Professional bio</li>
+                                    <li data-field="linkedin"><i class="fas fa-circle"></i>LinkedIn profile</li>
+                                    <li data-field="achievements"><i class="fas fa-circle"></i>Key achievements</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <!-- Live preview -->
+                        <div class="preview-label mb-3 reveal">
                             <i class="fas fa-eye me-2"></i>
                             <span>Live Preview</span>
                             <div class="pulse-dot"></div>
                         </div>
 
-                        <div class="preview-card-premium">
+                        <div class="preview-card-premium reveal">
                             <div class="preview-banner-gradient"></div>
                             <div class="preview-body">
                                 <div class="preview-avatar" style="position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;">
@@ -363,8 +402,7 @@
                                 </div>
 
                                 <h4 id="previewName" class="preview-name">{{ user['name'] }}</h4>
-                                <p id="previewRole" class="preview-designation">{{ profile['designation'] or 'Your
-                                    Designation' }}</p>
+                                <p id="previewRole" class="preview-designation">{{ profile['designation'] or 'Your Designation' }}</p>
 
                                 <div class="preview-stats">
                                     <div class="stat-item">
@@ -383,19 +421,18 @@
                                 </div>
 
                                 <div class="preview-bio">
-                                    <p id="previewBio">{{ profile['bio'] or 'Your professional bio will appear here.
-                                        Share your journey, expertise, and what makes you unique!' }}</p>
+                                    <p id="previewBio">{{ profile['bio'] or 'Your professional bio will appear here. Share your journey, expertise, and what makes you unique!' }}</p>
                                 </div>
 
-                                <button class="btn-preview-action">
+                                <a class="btn-preview-action" href="{{ url_for('alumni_profile', user_id=user['id']) }}">
                                     <i class="fas fa-arrow-right me-2"></i>
                                     View Full Profile
-                                </button>
+                                </a>
                             </div>
                         </div>
 
-                        <!-- Quick Tips -->
-                        <div class="quick-tips mt-4">
+                        <!-- Quick tips -->
+                        <div class="quick-tips mt-4 reveal">
                             <h6 class="tips-title">
                                 <i class="fas fa-lightbulb me-2"></i>
                                 Quick Tips
@@ -406,6 +443,7 @@
                                 <li><i class="fas fa-check-circle me-2"></i>Highlight key achievements</li>
                             </ul>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -414,1098 +452,328 @@
 </div>
 
 <style>
-    /* Global Styles */
-    .edit-profile-premium {
-        min-height: 100vh;
-        background: var(--bg-primary); color: var(--text-primary);
-        position: relative;
-        overflow-x: hidden;
-        font-family: 'Inter', sans-serif;
-        padding-top: 80px;
+    /* ============ Alumni edit-profile theme (page-local, amber) ============ */
+    .alumni-edit-page {
+        font-family: 'Plus Jakarta Sans', sans-serif;
     }
+    .alumni-edit-page .admin-ball-1 { background: #f59e0b; }
+    .alumni-edit-page .admin-ball-2 { background: #d97706; }
+    .alumni-edit-page .admin-ball-3 { background: #fbbf24; }
 
-    /* Mesh Background */
-    .mesh-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        overflow: hidden;
+    /* ---- Hero ---- */
+    .alumni-hero.admin-hero-card {
+        border: 2px solid rgba(245, 158, 11, 0.35) !important;
     }
-
-    .mesh-gradient {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(120px);
-        opacity: 0.4;
-        animation: float-mesh 25s infinite ease-in-out;
+    .alumni-hero .hero-badge {
+        display: inline-flex; align-items: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+        color: #fcd34d; background: rgba(245, 158, 11, 0.14);
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        padding: 0.45rem 0.9rem; border-radius: 999px;
     }
-
-    .mesh-1 {
-        width: 600px;
-        height: 600px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        top: -200px;
-        left: -200px;
-        animation-delay: 0s;
-    }
-
-    .mesh-2 {
-        width: 500px;
-        height: 500px;
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        bottom: -150px;
-        right: -150px;
-        animation-delay: -8s;
-    }
-
-    .mesh-3 {
-        width: 450px;
-        height: 450px;
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        top: 40%;
-        left: 60%;
-        animation-delay: -16s;
-    }
-
-    .mesh-4 {
-        width: 400px;
-        height: 400px;
-        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        top: 20%;
-        right: 10%;
-        animation-delay: -12s;
-    }
-
-    .mesh-5 {
-        width: 350px;
-        height: 350px;
-        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        bottom: 30%;
-        left: 20%;
-        animation-delay: -20s;
-    }
-
-    @keyframes float-mesh {
-
-        0%,
-        100% {
-            transform: translate(0, 0) rotate(0deg) scale(1);
-        }
-
-        25% {
-            transform: translate(100px, 100px) rotate(90deg) scale(1.1);
-        }
-
-        50% {
-            transform: translate(0, 200px) rotate(180deg) scale(0.9);
-        }
-
-        75% {
-            transform: translate(-100px, 100px) rotate(270deg) scale(1.05);
-        }
-    }
-
-    /* Floating Shapes */
-    .floating-shapes {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        pointer-events: none;
-    }
-
-    .shape {
-        position: absolute;
-        background: var(--bg-surface); color: var(--text-primary);
-        border-radius: 50%;
-        animation: float-shape 20s infinite ease-in-out;
-    }
-
-    .shape-1 {
-        width: 80px;
-        height: 80px;
-        top: 10%;
-        left: 10%;
-        animation-delay: 0s;
-    }
-
-    .shape-2 {
-        width: 60px;
-        height: 60px;
-        top: 60%;
-        right: 15%;
-        animation-delay: -5s;
-    }
-
-    .shape-3 {
-        width: 100px;
-        height: 100px;
-        bottom: 20%;
-        left: 20%;
-        animation-delay: -10s;
-    }
-
-    .shape-4 {
-        width: 70px;
-        height: 70px;
-        top: 30%;
-        right: 30%;
-        animation-delay: -15s;
-    }
-
-    @keyframes float-shape {
-
-        0%,
-        100% {
-            transform: translateY(0) rotate(0deg);
-        }
-
-        50% {
-            transform: translateY(-50px) rotate(180deg);
-        }
-    }
-
-    /* Header */
-    .profile-header {
-        position: relative;
-        z-index: 2;
-    }
-
-    .header-badge {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .badge-glow {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        border-radius: 30px;
-        animation: pulse-glow 2s infinite;
-        opacity: 0.5;
-    }
-
-    @keyframes pulse-glow {
-
-        0%,
-        100% {
-            transform: scale(1);
-            opacity: 0.5;
-        }
-
-        50% {
-            transform: scale(1.1);
-            opacity: 0.8;
-        }
-    }
-
-    .header-badge i {
-        font-size: 3rem;
-        color: var(--text-primary);
-        z-index: 1;
-        position: relative;
-    }
-
-    .header-title {
+    .alumni-hero .hero-title {
         font-family: 'Outfit', sans-serif;
-        font-size: 3.5rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #fff 0%, #a8b3ff 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom: 1rem;
+        font-size: clamp(1.9rem, 4vw, 2.9rem);
+        font-weight: 800; line-height: 1.1; color: #fff;
     }
-
-    .text-reveal {
-        display: inline-block;
-        animation: text-reveal 1s ease-out;
+    .alumni-hero .hero-title-gradient {
+        background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 50%, #fb923c 100%);
+        -webkit-background-clip: text; background-clip: text;
+        color: transparent; -webkit-text-fill-color: transparent;
     }
-
-    @keyframes text-reveal {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-            filter: blur(10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
-        }
+    .alumni-hero .hero-subtitle { color: rgba(255, 255, 255, 0.82); font-size: 1rem; line-height: 1.6; max-width: 640px; }
+    .alumni-hero .hero-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .alumni-hero .hero-chip {
+        font-size: 0.8rem; font-weight: 600; color: #fef3c7;
+        background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16);
+        padding: 0.4rem 0.8rem; border-radius: 999px;
     }
-
-    .header-subtitle {
-        color: var(--text-muted);
-        font-size: 1.1rem;
-        font-weight: 400;
+    .alumni-hero .hero-chip i { color: #fbbf24; }
+    .alumni-hero .hero-complete-box { height: 100%; }
+    .alumni-hero .complete-track {
+        height: 10px; border-radius: 999px; overflow: hidden;
+        background: rgba(255, 255, 255, 0.16);
     }
+    .alumni-hero .complete-fill {
+        height: 100%; border-radius: 999px;
+        background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
+        transition: width 0.5s ease;
+    }
+    .alumni-hero .complete-label { color: rgba(255, 255, 255, 0.75); font-size: 0.82rem; }
 
-    /* Premium Cards */
-    .premium-card {
-        background: var(--bg-surface); color: var(--text-primary);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--border-color);
+    /* ---- White cards ---- */
+    .alumni-card {
+        background: #fff; color: #0f172a;
+        border: 1px solid rgba(15, 23, 42, 0.08);
         border-radius: 24px;
-        overflow: hidden;
-        position: relative;
-        z-index: 2;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.08);
+        overflow: hidden; position: relative; z-index: 2;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
-
-    .premium-card:hover {
+    .alumni-card:hover {
         transform: translateY(-5px);
-        border-color: rgba(102, 126, 234, 0.5);
-        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        border-color: rgba(245, 158, 11, 0.45);
+        box-shadow: 0 22px 48px -12px rgba(217, 119, 6, 0.22);
     }
-
-    .card-header-premium {
-        padding: 1.5rem 2rem;
-        background: var(--bg-subtle);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex;
-        align-items: center;
-        gap: 1rem;
+    .alumni-card-header {
+        display: flex; align-items: center; gap: 1rem;
+        padding: 1.4rem 1.75rem;
+        background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%);
+        border-bottom: 1px solid rgba(15, 23, 42, 0.07);
     }
-
-    .header-icon {
-        width: 50px;
-        height: 50px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        border-radius: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-primary);
-        font-size: 1.3rem;
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    .alumni-card-body { padding: 1.75rem; }
+    .step-chip {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700;
+        color: #92400e; background: #fef3c7; border: 1px solid #fde68a;
+        padding: 0.3rem 0.6rem; border-radius: 8px; flex-shrink: 0;
     }
-
-    .card-title-premium {
-        color: var(--text-primary);
-        font-weight: 700;
-        font-size: 1.2rem;
-        margin: 0;
+    .header-icon-amber {
+        width: 50px; height: 50px; flex-shrink: 0;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        border-radius: 14px; display: flex; align-items: center; justify-content: center;
+        color: #fff; font-size: 1.25rem;
+        box-shadow: 0 10px 24px rgba(217, 119, 6, 0.35);
     }
+    .alumni-card-title { font-family: 'Outfit', sans-serif; color: #0f172a; font-weight: 700; font-size: 1.2rem; margin: 0; }
+    .alumni-card-subtitle { color: #64748b; font-size: 0.875rem; }
 
-    .card-subtitle-premium {
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 0.875rem;
-    }
-
-    .card-body-premium {
-        padding: 2rem;
-    }
-
-    /* Photo Upload */
-    .photo-upload-premium {
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .photo-container {
-        display: flex;
-        align-items: center;
-        gap: 3rem;
-        padding: 2rem;
-        border: 2px dashed rgba(102, 126, 234, 0.3);
-        border-radius: 16px;
-        background: rgba(102, 126, 234, 0.05);
-        transition: all 0.3s ease;
-    }
-
-    .photo-container:hover {
-        border-color: rgba(102, 126, 234, 0.6);
-        background: rgba(102, 126, 234, 0.1);
-        transform: scale(1.02);
-    }
-
-    .photo-circle {
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
-        position: relative;
-        flex-shrink: 0;
-        overflow: hidden;
-        border: 4px solid rgba(102, 126, 234, 0.5);
-        box-shadow: 0 15px 50px rgba(102, 126, 234, 0.3);
-    }
-
-    .photo-circle img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    #uploadPreview {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    #uploadPreview:not([src]),
-    #uploadPreview[src=""] {
-        display: none !important;
-    }
-
-    .avatar-icon {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-secondary);
-    }
-
-    .icon-stack {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .camera-badge {
-        position: absolute;
-        bottom: -10px;
-        right: -20px;
-        background: rgba(255, 255, 255, 0.2);
-        padding: 0.5rem;
-        border-radius: 50%;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        animation: bounce-camera 2s infinite;
-    }
-
-    .camera-svg-icon {
-        width: 120px;
-        height: 120px;
-        filter: brightness(1.2) drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
-        animation: float-svg 3s ease-in-out infinite;
-    }
-
-    .camera-svg-placeholder {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        padding: 20px;
-        animation: float-svg 3s ease-in-out infinite;
-    }
-
-    @keyframes float-svg {
-
-        0%,
-        100% {
-            transform: translateY(0) scale(1);
-        }
-
-        50% {
-            transform: translateY(-10px) scale(1.05);
-        }
-    }
-
-    @keyframes bounce-camera {
-
-        0%,
-        100% {
-            transform: translateY(0);
-        }
-
-        50% {
-            transform: translateY(-5px);
-        }
-    }
-
-    /* Advanced Upload Styles */
-    .photo-upload-advanced {
-        padding: 0;
-    }
-
-    .upload-grid {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 3rem;
-        align-items: start;
-    }
-
-    .photo-circle-container {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-    }
-
+    /* ---- Photo upload ---- */
+    .upload-grid { display: grid; grid-template-columns: auto 1fr; gap: 2.5rem; align-items: start; }
+    .photo-circle-container { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
     .circle-glow-ring {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 220px;
-        height: 220px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        opacity: 0.2;
-        filter: blur(30px);
-        animation: pulse-glow-ring 3s ease-in-out infinite;
+        position: absolute; top: 95px; left: 50%; transform: translate(-50%, -50%);
+        width: 220px; height: 220px; border-radius: 50%;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        opacity: 0.16; filter: blur(30px); pointer-events: none;
+        animation: amber-glow 3s ease-in-out infinite;
     }
-
-    @keyframes pulse-glow-ring {
-
-        0%,
-        100% {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 0.2;
-        }
-
-        50% {
-            transform: translate(-50%, -50%) scale(1.1);
-            opacity: 0.3;
-        }
+    @keyframes amber-glow { 0%, 100% { opacity: 0.14; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.26; transform: translate(-50%, -50%) scale(1.08); } }
+    .photo-circle-wrapper { position: relative; cursor: pointer; transition: transform 0.3s ease; }
+    .photo-circle-wrapper:hover, .photo-circle-wrapper:focus-visible { transform: scale(1.04); outline: none; }
+    .photo-circle-wrapper:focus-visible .photo-circle { box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.45); }
+    .photo-circle {
+        width: 180px; height: 180px; border-radius: 50%; position: relative;
+        overflow: hidden; flex-shrink: 0;
+        border: 4px solid rgba(245, 158, 11, 0.55);
+        box-shadow: 0 15px 40px rgba(217, 119, 6, 0.25);
+        background: #fffbeb;
     }
-
-    .photo-circle-wrapper {
-        position: relative;
-        cursor: pointer;
-        transition: transform 0.3s ease;
+    .photo-circle img { width: 100%; height: 100%; object-fit: cover; }
+    #uploadPreview { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
+    #uploadPreview:not([src]), #uploadPreview[src=""] { display: none !important; }
+    .camera-svg-placeholder { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; padding: 22px; animation: float-svg 3s ease-in-out infinite; }
+    @keyframes float-svg { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .photo-circle .photo {
+        position: absolute; inset: 0; z-index: 3;
+        display: flex; align-items: center; justify-content: center;
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.88), rgba(217, 119, 6, 0.88));
+        color: #fff; opacity: 0; transition: opacity 0.3s ease; border-radius: 50%;
     }
-
-    .photo-circle-wrapper:hover {
-        transform: scale(1.05);
-    }
-
-    .progress-ring {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 5;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .progress-ring.active {
-        opacity: 1;
-    }
-
-    .progress-ring-circle {
-        stroke-dasharray: 565;
-        stroke-dashoffset: 565;
-        transition: stroke-dashoffset 0.5s ease;
-        transform: rotate(-90deg);
-        transform-origin: 50% 50%;
-    }
-
-    .photo-hover-overlay-advanced {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(102, 126, 234, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: all 0.3s ease;
-        z-index: 10;
-    }
-
-    .photo-circle-wrapper:hover .photo-hover-overlay-advanced {
-        opacity: 1;
-    }
-
-    .overlay-content {
-        text-align: center;
-        color: var(--text-primary);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .pulse-icon {
-        animation: pulse-icon 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-icon {
-
-        0%,
-        100% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.1);
-        }
-    }
-
+    .photo-circle-wrapper:hover .photo, .photo-circle .photo.photo-empty { opacity: 1; }
+    .photo-circle .overlay-content { text-align: center; display: flex; flex-direction: column; align-items: center; padding: 1rem; }
+    .pulse-icon { animation: pulse-icon 2s ease-in-out infinite; }
+    @keyframes pulse-icon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+    .progress-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .progress-ring.active { opacity: 1; }
+    .progress-ring-circle { stroke-dasharray: 565; stroke-dashoffset: 565; transition: stroke-dashoffset 0.5s ease; transform: rotate(-90deg); transform-origin: 50% 50%; }
     .upload-success {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        background: rgba(16, 185, 129, 0.95);
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-primary);
-        z-index: 15;
-        opacity: 0;
-        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        position: absolute; inset: 0; z-index: 15;
+        transform: scale(0); background: rgba(16, 185, 129, 0.95);
+        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        color: #fff; opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
-
-    .upload-success.show {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-    }
-
-    .photo-actions {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-    }
-
+    .upload-success.show { transform: scale(1); opacity: 1; }
+    .photo-actions { display: flex; gap: 0.75rem; justify-content: center; }
     .action-btn {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        border: none;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        color: var(--text-primary);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.1rem;
+        width: 46px; height: 46px; border-radius: 50%; border: 1px solid #e2e8f0;
+        background: #fff; color: #334155; cursor: pointer;
+        transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; font-size: 1.05rem;
+        box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
     }
-
-    .action-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    }
-
-    .edit-btn:hover {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-    }
-
-    .remove-btn:hover {
-        background: linear-gradient(135deg, #f093fb, #f5576c);
-    }
+    .action-btn:hover { transform: translateY(-3px); color: #fff; border-color: transparent; }
+    .edit-btn:hover { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .remove-btn:hover { background: linear-gradient(135deg, #f43f5e, #e11d48); }
 
     .upload-info-panel {
-        background: var(--bg-subtle);
-        border: 1px solid var(--border-color);
-        border-radius: 16px;
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
+        background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px;
+        padding: 1.4rem; display: flex; flex-direction: column; gap: 1.25rem;
     }
-
-    .info-header {
-        display: flex;
-        align-items: center;
-        color: var(--text-primary);
-        padding-bottom: 1rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .info-header i {
-        color: #667eea;
-        font-size: 1.2rem;
-    }
-
-    .info-items {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
+    .info-header { display: flex; align-items: center; color: #0f172a; padding-bottom: 0.9rem; border-bottom: 1px solid #e2e8f0; }
+    .info-header i { color: #d97706; font-size: 1.15rem; }
+    .info-header h6 { font-family: 'Outfit', sans-serif; font-weight: 700; }
+    .info-items { display: flex; flex-direction: column; gap: 0.6rem; }
     .info-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-        padding: 0.5rem;
-        background: var(--bg-subtle);
-        border-radius: 8px;
-        transition: all 0.3s ease;
+        display: flex; align-items: center; gap: 0.75rem; color: #475569; font-size: 0.9rem;
+        padding: 0.5rem 0.6rem; background: #fff; border: 1px solid #f1f5f9; border-radius: 8px;
+        transition: transform 0.25s ease;
     }
-
-    .info-item:hover {
-        background: var(--bg-surface); color: var(--text-primary);
-        transform: translateX(5px);
-    }
-
-    .info-item i {
-        font-size: 1.1rem;
-        width: 20px;
-        text-align: center;
-    }
-
+    .info-item:hover { transform: translateX(5px); }
+    .info-item i { font-size: 1.05rem; width: 20px; text-align: center; flex-shrink: 0; }
     .drag-drop-zone {
-        text-align: center;
-        padding: 2rem;
-        border: 2px dashed rgba(102, 126, 234, 0.4);
-        border-radius: 12px;
-        background: rgba(102, 126, 234, 0.05);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        color: var(--text-muted);
+        text-align: center; padding: 1.6rem 1rem; cursor: pointer;
+        border: 2px dashed rgba(217, 119, 6, 0.45); border-radius: 12px;
+        background: rgba(245, 158, 11, 0.06); color: #475569;
+        transition: all 0.25s ease;
     }
+    .drag-drop-zone:hover, .drag-drop-zone:focus-visible { border-color: #d97706; background: rgba(245, 158, 11, 0.12); outline: none; }
+    .drag-drop-zone.drag-over { border-color: #d97706; background: rgba(245, 158, 11, 0.18); transform: scale(1.02); }
+    .drag-drop-zone i { color: #d97706; }
+    .drag-drop-zone p { color: #0f172a; }
 
-    .drag-drop-zone:hover {
-        border-color: rgba(102, 126, 234, 0.8);
-        background: rgba(102, 126, 234, 0.1);
-        transform: scale(1.02);
-    }
-
-    .drag-drop-zone.drag-over {
-        border-color: #667eea;
-        background: rgba(102, 126, 234, 0.2);
-        transform: scale(1.05);
-    }
-
-    .drag-drop-zone i {
-        color: #667eea;
-    }
-
-    /* Responsive */
-    @media (max-width: 991px) {
-        .upload-grid {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-        .photo-circle-container {
-            margin: 0 auto;
-        }
-    }
-
-    @keyframes bounce-camera {
-
-        0%,
-        100% {
-            transform: translateY(0);
-        }
-
-        50% {
-            transform: translateY(-5px);
-        }
-    }
-
-    .photo-hover-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(102, 126, 234, 0.95);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-primary);
-        z-index: 10;
-    }
-
-    .upload-info {
-        flex: 1;
-        text-align: center;
-        color: var(--text-secondary);
-    }
-
-    .upload-info i {
-        color: #667eea;
-    }
-
-    /* Form Groups */
-    .form-group-premium {
-        position: relative;
-        margin-bottom: 0;
-    }
-
-    .form-label-premium {
-        display: block;
-        color: var(--text-primary);
-        font-weight: 600;
-        font-size: 0.95rem;
-        margin-bottom: 0.75rem;
-    }
-
+    /* ---- Form ---- */
+    .form-group-premium { position: relative; margin-bottom: 0; }
+    .form-label-premium { display: block; color: #0f172a; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.6rem; }
+    .form-label-premium i { color: #d97706; }
     .form-input-premium {
-        width: 100%;
-        padding: 1rem 1.25rem;
-        background: var(--bg-surface); color: var(--text-primary);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        color: var(--text-primary);
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        position: relative;
+        width: 100%; min-height: 48px; padding: 0.8rem 1.1rem;
+        background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px;
+        color: #0f172a; font-size: 1rem; font-family: 'Plus Jakarta Sans', sans-serif;
+        transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
     }
-
-    .form-input-premium::placeholder {
-        color: rgba(255, 255, 255, 0.4);
-    }
-
+    .form-input-premium::placeholder { color: #94a3b8; }
+    .form-input-premium:hover { border-color: #cbd5e1; }
     .form-input-premium:focus {
-        outline: none;
-        background: var(--bg-surface); color: var(--text-primary);
-        border-color: #667eea;
-        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+        outline: none; background: #fff; border-color: #f59e0b;
+        box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.18);
     }
+    .input-focus-line { position: absolute; bottom: 0; left: 12px; right: 12px; height: 2px; background: linear-gradient(90deg, #f59e0b, #d97706); transform: scaleX(0); transition: transform 0.3s ease; transform-origin: left; }
+    .form-input-premium:focus + .input-focus-line { transform: scaleX(1); }
+    textarea.form-input-premium { resize: vertical; min-height: 120px; }
+    .form-group-premium.focused .form-label-premium { color: #92400e; }
 
-    .input-focus-line {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: linear-gradient(90deg, #667eea, #764ba2);
-        transition: width 0.3s ease;
-    }
-
-    .form-input-premium:focus+.input-focus-line {
-        width: 100%;
-    }
-
-    textarea.form-input-premium {
-        resize: vertical;
-        min-height: 120px;
-    }
-
-    /* Action Buttons */
-    .action-buttons {
-        display: flex;
-        gap: 1rem;
-        justify-content: flex-end;
-        position: relative;
-        z-index: 2;
-    }
-
+    /* ---- Buttons ---- */
+    .action-buttons { display: flex; gap: 1rem; justify-content: flex-end; position: relative; z-index: 2; }
     .btn-premium {
-        padding: 1rem 2.5rem;
-        border-radius: 14px;
-        font-weight: 700;
-        font-size: 1rem;
-        border: none;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+        min-height: 48px; padding: 0.85rem 2rem; border-radius: 14px;
+        font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem;
+        cursor: pointer; position: relative; overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        text-decoration: none;
     }
-
     .btn-primary-premium {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: var(--text-primary);
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #fff; border: none;
+        box-shadow: 0 10px 26px rgba(217, 119, 6, 0.4);
     }
-
-    .btn-primary-premium:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
-    }
-
-    .btn-secondary-premium {
-        background: rgba(255, 255, 255, 0.1);
-        color: var(--text-primary);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-secondary-premium:hover {
-        background: rgba(255, 255, 255, 0.15);
-        border-color: rgba(255, 255, 255, 0.3);
-    }
-
+    .btn-primary-premium:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(217, 119, 6, 0.5); color: #fff; }
+    .btn-primary-premium:disabled { opacity: 0.7; cursor: wait; transform: none; }
+    .btn-secondary-premium { background: #fff; color: #334155; border: 1.5px solid #e2e8f0; }
+    .btn-secondary-premium:hover { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; transform: translateY(-3px); }
     .btn-glow {
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        animation: btn-shine 3s infinite;
+        position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+        animation: btn-shine 3.5s infinite; pointer-events: none;
     }
+    @keyframes btn-shine { 0% { left: -100%; } 50%, 100% { left: 100%; } }
 
-    @keyframes btn-shine {
-        0% {
-            left: -100%;
-        }
-
-        50%,
-        100% {
-            left: 100%;
-        }
+    /* Mobile sticky save bar */
+    .sticky-save-bar {
+        position: sticky; bottom: 0; z-index: 30;
+        display: flex; gap: 0.75rem; align-items: center;
+        margin: 1.5rem -0.75rem -0.5rem; padding: 0.75rem;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 18px;
+        box-shadow: 0 -8px 30px rgba(15, 23, 42, 0.14);
     }
+    .sticky-save-bar .btn-premium { flex: 1; padding: 0.8rem 1rem; min-height: 48px; }
 
-    /* Preview Sidebar */
-    .preview-sidebar {
-        position: relative;
-        z-index: 2;
-    }
+    /* ---- Sidebar ---- */
+    .preview-sidebar { position: relative; z-index: 2; }
+    .preview-sticky { position: sticky; top: 110px; }
+    .completeness-title { font-family: 'Outfit', sans-serif; color: #0f172a; font-weight: 700; font-size: 1.1rem; }
+    .completeness-title i { color: #d97706; }
+    .complete-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem 1rem; }
+    .complete-list li { display: flex; align-items: center; gap: 0.5rem; color: #64748b; font-size: 0.85rem; }
+    .complete-list li i { font-size: 0.6rem; color: #cbd5e1; flex-shrink: 0; }
+    .complete-list li.done { color: #0f172a; font-weight: 600; }
+    .complete-list li.done i { color: #10b981; font-size: 0.9rem; }
+    .complete-list li.done i::before { content: "\f058"; font-family: "Font Awesome 6 Free", "Font Awesome 5 Free"; font-weight: 900; }
 
-    .preview-sticky {
-        position: sticky;
-        top: 100px;
-    }
-
-    .preview-label {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--text-primary);
-        font-weight: 700;
-        font-size: 1.1rem;
-        position: relative;
-    }
-
-    .pulse-dot {
-        width: 10px;
-        height: 10px;
-        background: #10b981;
-        border-radius: 50%;
-        animation: pulse-dot 2s infinite;
-    }
-
-    @keyframes pulse-dot {
-
-        0%,
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        50% {
-            transform: scale(1.3);
-            opacity: 0.7;
-        }
-    }
-
+    .preview-label { display: flex; align-items: center; gap: 0.5rem; color: #0f172a; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.1rem; }
+    .preview-label i { color: #d97706; }
+    .pulse-dot { width: 10px; height: 10px; background: #10b981; border-radius: 50%; animation: pulse-dot 2s infinite; }
+    @keyframes pulse-dot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: 0.7; } }
     .preview-card-premium {
-        background: var(--bg-surface); color: var(--text-primary);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--border-color);
-        border-radius: 24px;
-        overflow: hidden;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        background: #fff; border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 24px;
+        overflow: hidden; box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.18);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
-    .preview-banner-gradient {
-        height: 120px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-
-    .preview-body {
-        padding: 2rem;
-        text-align: center;
-    }
-
-    .preview-avatar {
-        width: 120px;
-        height: 120px;
-        margin: -60px auto 1.5rem;
-        position: relative;
-    }
-
-    .preview-avatar img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        border: 5px solid rgba(10, 14, 39, 0.8);
-        object-fit: cover;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-    }
-
+    .preview-card-premium:hover { transform: translateY(-5px); box-shadow: 0 26px 56px -12px rgba(217, 119, 6, 0.25); }
+    .preview-banner-gradient { height: 110px; background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%); border-bottom: 3px solid #f59e0b; }
+    .preview-body { padding: 0 1.75rem 1.75rem; text-align: center; }
+    .preview-avatar { width: 120px; height: 120px; margin: -60px auto 1.25rem; position: relative; border-radius: 50%; }
+    .preview-avatar img { width: 100%; height: 100%; border-radius: 50%; border: 5px solid #fff; object-fit: cover; box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25); }
     .online-indicator {
-        position: absolute;
-        bottom: 5px;
-        right: 5px;
-        width: 25px;
-        height: 25px;
-        background: #10b981;
-        border: 4px solid rgba(10, 14, 39, 0.8);
-        border-radius: 50%;
+        position: absolute; bottom: 5px; right: 5px; width: 24px; height: 24px;
+        background: #10b981; border: 4px solid #fff; border-radius: 50%; z-index: 2;
         animation: pulse-online 2s infinite;
     }
-
-    @keyframes pulse-online {
-
-        0%,
-        100% {
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-        }
-
-        50% {
-            box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
-        }
-    }
-
-    .preview-name {
-        color: var(--text-primary);
-        font-weight: 800;
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .preview-designation {
-        color: #667eea;
-        font-weight: 600;
-        font-size: 1rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .preview-stats {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        margin-bottom: 1.5rem;
-    }
-
+    @keyframes pulse-online { 0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); } 50% { box-shadow: 0 0 0 9px rgba(16, 185, 129, 0); } }
+    .preview-name { font-family: 'Outfit', sans-serif; color: #0f172a; font-weight: 800; font-size: 1.45rem; margin-bottom: 0.35rem; word-break: break-word; }
+    .preview-designation { color: #b45309; font-weight: 600; font-size: 0.95rem; margin-bottom: 1.4rem; }
+    .preview-stats { display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.4rem; }
     .stat-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem 1rem;
-        background: var(--bg-surface); color: var(--text-primary);
-        border-radius: 10px;
-        color: var(--text-secondary);
-        font-size: 0.9rem;
+        display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 1rem;
+        background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 10px;
+        color: #475569; font-size: 0.9rem; text-align: left; word-break: break-word;
     }
-
-    .stat-item i {
-        color: #667eea;
-        width: 20px;
-    }
-
-    .preview-bio {
-        padding: 1.25rem;
-        background: var(--bg-surface); color: var(--text-primary);
-        border-radius: 12px;
-        margin-bottom: 1.5rem;
-    }
-
-    .preview-bio p {
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        line-height: 1.6;
-        margin: 0;
-        font-style: italic;
-    }
-
+    .stat-item i { color: #d97706; width: 20px; flex-shrink: 0; text-align: center; }
+    .preview-bio { padding: 1.15rem; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 12px; margin-bottom: 1.4rem; }
+    .preview-bio p { color: #57534e; font-size: 0.9rem; line-height: 1.6; margin: 0; font-style: italic; word-break: break-word; }
     .btn-preview-action {
-        width: 100%;
-        padding: 1rem;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: var(--text-primary);
-        border: none;
-        border-radius: 12px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
+        width: 100%; min-height: 48px; padding: 0.85rem;
+        background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: none; border-radius: 12px;
+        font-family: 'Outfit', sans-serif; font-weight: 700; cursor: pointer;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none;
     }
+    .btn-preview-action:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(217, 119, 6, 0.45); color: #fff; }
 
-    .btn-preview-action:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
-    }
+    .quick-tips { background: #fff; border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 18px; padding: 1.4rem; box-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.08); }
+    .tips-title { font-family: 'Outfit', sans-serif; color: #0f172a; font-weight: 700; margin-bottom: 0.75rem; }
+    .tips-title i { color: #d97706; }
+    .tips-list { list-style: none; padding: 0; margin: 0; }
+    .tips-list li { color: #64748b; padding: 0.45rem 0; font-size: 0.9rem; }
+    .tips-list i { color: #10b981; }
 
-    /* Quick Tips */
-    .quick-tips {
-        background: var(--bg-surface); color: var(--text-primary);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--border-color);
-        border-radius: 16px;
-        padding: 1.5rem;
-    }
+    /* ---- Reveal on scroll ---- */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
-    .tips-title {
-        color: var(--text-primary);
-        font-weight: 700;
-        margin-bottom: 1rem;
-    }
-
-    .tips-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .tips-list li {
-        color: var(--text-muted);
-        padding: 0.5rem 0;
-        font-size: 0.9rem;
-    }
-
-    .tips-list i {
-        color: #10b981;
-    }
-
-    /* Responsive */
+    /* ---- Responsive ---- */
     @media (max-width: 1199px) {
-        .header-title {
-            font-size: 2.5rem;
-        }
-
-        .preview-sticky {
-            position: relative;
-            top: 0;
-            margin-top: 2rem;
-        }
+        .preview-sticky { position: relative; top: 0; margin-top: 0.5rem; }
+    }
+    @media (max-width: 991px) {
+        .upload-grid { grid-template-columns: 1fr; gap: 2rem; }
+        .photo-circle-container { margin: 0 auto; }
+    }
+    @media (max-width: 767px) {
+        .alumni-card-header { padding: 1.1rem 1.25rem; }
+        .alumni-card-body { padding: 1.25rem; }
+        .action-buttons { flex-direction: column; }
+        .action-buttons .btn-premium { width: 100%; justify-content: center; }
+        .complete-list { grid-template-columns: 1fr 1fr; }
+        .photo-circle { width: 164px; height: 164px; }
+    }
+    @media (max-width: 480px) {
+        .alumni-card-header { flex-wrap: wrap; gap: 0.75rem; }
+        .header-icon-amber { width: 44px; height: 44px; font-size: 1.1rem; }
+        .step-chip { order: 3; }
+        .complete-list { grid-template-columns: 1fr; }
+        .sticky-save-bar { margin-inline: -0.25rem; }
     }
 
-    @media (max-width: 767px) {
-        .header-title {
-            font-size: 2rem;
-        }
-
-        .photo-container {
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .action-buttons {
-            flex-direction: column;
-        }
-
-        .btn-premium {
-            width: 100%;
-            justify-content: center;
-        }
+    /* ---- Reduced motion ---- */
+    @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        .alumni-card:hover, .preview-card-premium:hover, .btn-premium:hover { transform: none !important; }
     }
 </style>
+<noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
 
 <script>
     function updatePreview() {
@@ -1522,6 +790,59 @@
         document.getElementById('previewLocation').textContent = location;
         document.getElementById('previewExp').textContent = experience;
         document.getElementById('previewBio').textContent = bio;
+
+        // Keep the avatar initial in step with the typed name.
+        const initial = document.getElementById('previewInitial');
+        if (initial) {
+            initial.textContent = (name.trim()[0] || 'A').toUpperCase();
+        }
+        updateCompleteness();
+    }
+
+    // Profile completeness, computed only from the fields already on this page.
+    // 10 items: photo + the 9 named form fields.
+    var COMPLETENESS_FIELDS = [
+        { key: 'photo', id: null },
+        { key: 'name', id: 'name' },
+        { key: 'phone', id: 'phone' },
+        { key: 'company', id: 'company' },
+        { key: 'designation', id: 'designation' },
+        { key: 'location', id: 'location' },
+        { key: 'experience', id: 'experience' },
+        { key: 'bio', id: 'bio' },
+        { key: 'linkedin', id: 'linkedin' },
+        { key: 'achievements', id: 'achievements' }
+    ];
+
+    function updateCompleteness() {
+        var done = 0;
+        COMPLETENESS_FIELDS.forEach(function (field) {
+            var isDone = false;
+            if (field.key === 'photo') {
+                var up = document.getElementById('uploadPreview');
+                isDone = !!(up && up.getAttribute('src') && !up.classList.contains('d-none'));
+            } else {
+                var el = document.getElementById(field.id);
+                isDone = !!(el && el.value.trim() !== '');
+            }
+            var row = document.querySelector('#completeList li[data-field="' + field.key + '"]');
+            if (row) { row.classList.toggle('done', isDone); }
+            if (isDone) { done += 1; }
+        });
+        var total = COMPLETENESS_FIELDS.length;
+        var pct = Math.round((done / total) * 100);
+        var pctEl = document.getElementById('completePct');
+        var barEl = document.getElementById('completeBar');
+        var trackEl = document.getElementById('completeTrack');
+        var labelEl = document.getElementById('completeLabel');
+        if (pctEl) { pctEl.textContent = pct + '%'; }
+        if (barEl) { barEl.style.width = pct + '%'; }
+        if (trackEl) { trackEl.setAttribute('aria-valuenow', String(pct)); }
+        if (labelEl) {
+            labelEl.textContent = pct === 100
+                ? 'Your profile is complete \u2014 looking great!'
+                : done + ' of ' + total + ' fields complete. Keep going!';
+        }
     }
 
     // Enhanced Photo Upload Handler
@@ -1532,31 +853,36 @@
             // Validate file size (5MB max)
             if (file.size > 5 * 1024 * 1024) {
                 alert('File size must be less than 5MB');
+                input.value = '';
                 return;
             }
 
             // Validate file type
             if (!file.type.match('image.*')) {
                 alert('Please upload an image file');
+                input.value = '';
                 return;
             }
 
             const reader = new FileReader();
             reader.onload = function (e) {
-                // Show uploaded image
+                // Show uploaded image (remove the d-none class so it is actually visible)
                 const uploadPreview = document.getElementById('uploadPreview');
                 uploadPreview.src = e.target.result;
-                uploadPreview.style.display = 'block';
+                uploadPreview.classList.remove('d-none');
+                uploadPreview.classList.add('d-block');
 
                 // Hide SVG placeholder
                 const svgPlaceholder = document.getElementById('svgPlaceholder');
                 if (svgPlaceholder) {
-                    svgPlaceholder.style.display = 'none';
+                    svgPlaceholder.classList.add('d-none');
+                    svgPlaceholder.classList.remove('d-block');
                 }
 
                 // Hide photo overlay
                 const placeholder = document.getElementById('photoPlaceholder');
                 if (placeholder) {
+                    placeholder.classList.remove('photo-empty');
                     placeholder.style.display = 'none';
                 }
 
@@ -1570,11 +896,20 @@
                 // Show action buttons
                 const photoActions = document.getElementById('photoActions');
                 if (photoActions) {
-                    photoActions.style.display = 'flex';
+                    photoActions.classList.remove('d-none');
+                    photoActions.classList.add('d-flex');
                 }
 
-                // Update preview card
-                document.getElementById('previewImg').src = e.target.result;
+                // Update preview card avatar
+                const previewImg = document.getElementById('previewImg');
+                const previewInitial = document.getElementById('previewInitial');
+                if (previewImg) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                }
+                if (previewInitial) { previewInitial.style.display = 'none'; }
+
+                updateCompleteness();
             };
             reader.readAsDataURL(file);
         }
@@ -1583,34 +918,55 @@
     function removePhoto() {
         const uploadPreview = document.getElementById('uploadPreview');
         uploadPreview.src = '';
-        uploadPreview.style.display = 'none';
+        uploadPreview.classList.add('d-none');
+        uploadPreview.classList.remove('d-block');
 
         const svgPlaceholder = document.getElementById('svgPlaceholder');
         if (svgPlaceholder) {
-            svgPlaceholder.style.display = 'block';
+            svgPlaceholder.classList.remove('d-none');
+            svgPlaceholder.classList.add('d-block');
         }
 
         const placeholder = document.getElementById('photoPlaceholder');
         if (placeholder) {
             placeholder.style.display = 'flex';
+            placeholder.classList.add('photo-empty');
         }
 
         const photoActions = document.getElementById('photoActions');
         if (photoActions) {
-            photoActions.style.display = 'none';
+            photoActions.classList.add('d-none');
+            photoActions.classList.remove('d-flex');
         }
 
+        // Preview card falls back to the initial-letter avatar.
+        const previewImg = document.getElementById('previewImg');
+        const previewInitial = document.getElementById('previewInitial');
+        if (previewImg) { previewImg.src = ''; previewImg.style.display = 'none'; }
+        if (previewInitial) { previewInitial.style.display = 'flex'; }
+
         document.getElementById('profile_pic').value = '';
+        updateCompleteness();
     }
 
-    // Drag and Drop functionality
     document.addEventListener('DOMContentLoaded', function () {
         const dragDropZone = document.getElementById('dragDropZone');
         const fileInput = document.getElementById('profile_pic');
+        const photoPlaceholder = document.getElementById('photoPlaceholder');
 
-        if (dragDropZone) {
+        // Show the "Upload Photo" overlay only while no photo is present.
+        if (photoPlaceholder) {
+            const up = document.getElementById('uploadPreview');
+            const hasPhoto = !!(up && up.getAttribute('src') && !up.classList.contains('d-none'));
+            photoPlaceholder.classList.toggle('photo-empty', !hasPhoto);
+        }
+
+        if (dragDropZone && fileInput) {
             dragDropZone.addEventListener('click', () => {
                 fileInput.click();
+            });
+            dragDropZone.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
             });
 
             dragDropZone.addEventListener('dragover', (e) => {
@@ -1634,50 +990,48 @@
             });
         }
 
-        // Animate cards on scroll
-        const cards = document.querySelectorAll('.premium-card');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-
-        cards.forEach(card => {
-            observer.observe(card);
-        });
-    });
-
-    // Add smooth scroll animations
-    document.addEventListener('DOMContentLoaded', function () {
+        // Focus states on inputs
         const inputs = document.querySelectorAll('.form-input-premium');
-
         inputs.forEach(input => {
             input.addEventListener('focus', function () {
                 this.parentElement.classList.add('focused');
             });
-
             input.addEventListener('blur', function () {
                 this.parentElement.classList.remove('focused');
             });
+            input.addEventListener('input', updateCompleteness);
         });
 
-        // Animate cards on scroll
-        const cards = document.querySelectorAll('.premium-card');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
+        // Reveal-on-scroll (subtle); show everything if IntersectionObserver is unavailable.
+        const revealEls = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.08 });
+            revealEls.forEach(el => observer.observe(el));
+        } else {
+            revealEls.forEach(el => el.classList.add('is-visible'));
+        }
+
+        // Prevent double-submit: native validation runs first, so this only
+        // fires for a form that is actually being submitted.
+        const form = document.getElementById('editForm');
+        if (form) {
+            form.addEventListener('submit', function () {
+                form.querySelectorAll('button[type="submit"]').forEach(btn => {
+                    btn.disabled = true;
+                    const label = btn.querySelector('.save-label');
+                    if (label) { label.textContent = 'Saving\u2026'; }
+                });
             });
-        }, { threshold: 0.1 });
+        }
 
-        cards.forEach(card => {
-            observer.observe(card);
-        });
+        updatePreview();
     });
 </script>
 {% endblock %}

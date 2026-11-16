@@ -3,164 +3,349 @@
 {% block title %}Career Board - Alumni Hub{% endblock %}
 
 {% block content %}
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 
-<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
-    <!-- Page Header -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-        <div>
-            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
-                <i class="fas fa-briefcase"></i>
-                <span>Alumni Career Opportunities</span>
-            </div>
-            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Career Board &amp; Openings</h1>
-            <p class="text-muted small mb-0">Browse roles shared by alumni or share career openings at your organization</p>
-        </div>
-        <div class="mt-3 mt-md-0 d-flex gap-2">
-            <a href="{{ url_for('post_job') }}" class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;">
-                <i class="fas fa-plus-circle me-1"></i> Post a Job Opening
-            </a>
-        </div>
-    </div>
+<style>
+    :root {
+        --alumni-amber: #f59e0b;
+        --alumni-amber-dark: #d97706;
+        --alumni-amber-soft: #fef3c7;
+        --alumni-amber-subtle: #fffbeb;
+    }
+    .alumni-page { position: relative; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+    .alumni-page h1, .alumni-page h2, .alumni-page h3, .alumni-page h4, .alumni-page h5, .alumni-page h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-    <!-- Search & Filter Bar Container -->
-    <div class="home-card p-4 mb-4 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-        <div class="row g-3 align-items-center">
-            <div class="col-lg-6">
-                <label class="form-label small fw-semibold text-muted mb-1">Search Roles</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-transparent" style="border-color: var(--border-color); color: var(--text-muted);">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <input type="text" id="jobSearchInput" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Search by job title, company name, or technology...">
+    /* ---------- Hero ---------- */
+    .alumni-hero {
+        background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%);
+        border-radius: 28px; padding: 2.75rem 2rem; position: relative; overflow: hidden;
+        box-shadow: 0 24px 60px rgba(11,19,41,.28);
+    }
+    .alumni-hero::after {
+        content: ''; position: absolute; inset: 0; pointer-events: none;
+        background-image: radial-gradient(rgba(245,158,11,.16) 1px, transparent 1px);
+        background-size: 26px 26px; opacity: .5;
+    }
+    .alumni-hero > * { position: relative; z-index: 2; }
+    .alumni-hero-badge {
+        display: inline-flex; align-items: center; gap: .5rem;
+        background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
+        color: #fde68a; font-weight: 700; font-size: .78rem; letter-spacing: .12em;
+        padding: .5rem 1.1rem; border-radius: 999px;
+    }
+    .text-amber-gradient {
+        background: linear-gradient(90deg, #fde68a, #fbbf24 35%, #f59e0b 65%, #fcd34d);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .alumni-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: #fff; line-height: 1.12; }
+    .alumni-hero p { color: rgba(255,255,255,.72); max-width: 640px; }
+
+    /* Summary chips (counts computed from the jobs list already passed in) */
+    .alumni-chip {
+        background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.16);
+        backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+        border-radius: 999px; padding: .55rem 1.1rem; color: #fff; font-weight: 600; font-size: .9rem;
+        display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .alumni-chip strong { color: #fbbf24; font-size: 1.05rem; }
+    .alumni-chip i { color: #fbbf24; }
+
+    /* ---------- Buttons ---------- */
+    .btn-amber {
+        background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: none;
+        border-radius: 999px; font-weight: 600; min-height: 44px;
+        display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+        box-shadow: 0 10px 24px rgba(245,158,11,.32); transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .btn-amber:hover, .btn-amber:focus { color: #fff; transform: translateY(-2px); box-shadow: 0 14px 30px rgba(245,158,11,.42); }
+    .btn-amber-outline {
+        border: 1.5px solid rgba(217,119,6,.45); color: var(--alumni-amber-dark); background: #fff;
+        border-radius: 999px; font-weight: 600; min-height: 44px;
+        display: inline-flex; align-items: center; justify-content: center; gap: .45rem; transition: all .25s ease;
+    }
+    .btn-amber-outline:hover { background: var(--alumni-amber-soft); color: var(--alumni-amber-dark); }
+
+    /* ---------- Filter card ---------- */
+    .alumni-filter-card {
+        background: #fff; border: 1px solid rgba(15,23,42,.08); border-radius: 20px;
+        box-shadow: 0 12px 32px rgba(15,23,42,.08); padding: 1.4rem;
+    }
+    .alumni-filter-card .form-control, .alumni-filter-card .form-select {
+        min-height: 46px; border-radius: 12px;
+    }
+    .alumni-filter-card .form-control:focus, .alumni-filter-card .form-select:focus {
+        border-color: var(--alumni-amber); box-shadow: 0 0 0 .2rem rgba(245,158,11,.18);
+    }
+    .filter-chip {
+        border: 1.5px solid rgba(217,119,6,.3); background: #fff; color: #57534e;
+        border-radius: 999px; font-weight: 600; font-size: .86rem; min-height: 40px;
+        padding: .45rem 1rem; cursor: pointer; transition: all .25s ease; font-family: 'Outfit', sans-serif;
+    }
+    .filter-chip:hover { border-color: var(--alumni-amber); color: var(--alumni-amber-dark); transform: translateY(-2px); }
+    .filter-chip.active { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-color: transparent; box-shadow: 0 8px 20px rgba(245,158,11,.35); }
+
+    /* ---------- Job cards ---------- */
+    .job-card {
+        background: #fff; border: 1px solid rgba(15,23,42,.08); border-radius: 20px;
+        box-shadow: 0 10px 28px rgba(15,23,42,.06); padding: 1.35rem 1.5rem;
+        transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    }
+    .job-card:hover { transform: translateY(-5px); box-shadow: 0 22px 48px rgba(15,23,42,.12); border-color: rgba(245,158,11,.45); }
+    .job-card:hover .job-title { color: var(--alumni-amber-dark); }
+    .job-avatar {
+        width: 56px; height: 56px; min-width: 56px; border-radius: 16px;
+        background: var(--alumni-amber-soft); color: var(--alumni-amber-dark);
+        border: 1px solid rgba(245,158,11,.25); font-size: 1.35rem; font-weight: 800;
+        display: grid; place-items: center; overflow: hidden; font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .job-avatar img { width: 100%; height: 100%; object-fit: contain; }
+    .job-title { font-weight: 700; color: #1c1917; transition: color .25s ease; }
+    .job-type-badge {
+        background: var(--alumni-amber-soft); color: var(--alumni-amber-dark);
+        font-size: .75rem; font-weight: 700; border-radius: 999px; padding: .3rem .7rem; white-space: nowrap;
+    }
+    .job-meta { font-size: .86rem; color: #78716c; }
+    .job-meta strong { color: #44403c; }
+    .job-meta i { color: var(--alumni-amber); }
+    .job-meta .deadline i { color: #dc2626; }
+
+    .empty-state-icon {
+        width: 68px; height: 68px; background: var(--alumni-amber-soft); color: var(--alumni-amber-dark);
+        border-radius: 20px; display: grid; place-items: center; font-size: 1.75rem; margin: 0 auto;
+    }
+
+    /* Reveal on scroll (subtle) */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; transition-delay: var(--delay, 0s); }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 576px) {
+        .alumni-hero { padding: 2rem 1.25rem; border-radius: 22px; }
+        .job-card { padding: 1.15rem; }
+        .job-card .apply-wrap { width: 100%; }
+        .job-card .apply-wrap .btn-amber { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation: none !important; transition: none !important; }
+        .reveal { opacity: 1 !important; transform: none !important; }
+    }
+</style>
+
+<div class="alumni-page">
+    <div class="container py-4 py-md-5">
+        <!-- Hero -->
+        <section class="alumni-hero mb-4 reveal">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-4">
+                <div>
+                    <span class="alumni-hero-badge mb-3"><i class="fas fa-briefcase"></i>&nbsp;ALUMNI CAREER OPPORTUNITIES</span>
+                    <h1 class="mb-2">Career Board <span class="text-amber-gradient">&amp; Openings</span></h1>
+                    <p class="mb-0">Browse roles shared by alumni or share career openings at your organization</p>
+                </div>
+                <div class="flex-shrink-0">
+                    <a href="{{ url_for('post_job') }}" class="btn btn-amber px-4">
+                        <i class="fas fa-plus-circle me-1"></i>Post a Job Opening
+                    </a>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-3">
-                <label class="form-label small fw-semibold text-muted mb-1">Employment Type</label>
-                <select id="jobTypeFilter" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                    <option value="">All Employment Types</option>
-                    <option value="Full-Time">Full-Time</option>
-                    <option value="Internship">Internship</option>
-                    <option value="Contract">Contract</option>
-                    <option value="Remote">Remote</option>
-                </select>
+
+            {# Summary counts computed from the jobs list already passed to this template #}
+            {% set ns = namespace(full_time=0, internship=0) %}
+            {% for j in (jobs or []) %}
+                {% if (j.employment_type or '')|lower == 'full-time' %}{% set ns.full_time = ns.full_time + 1 %}{% endif %}
+                {% if (j.employment_type or '')|lower == 'internship' %}{% set ns.internship = ns.internship + 1 %}{% endif %}
+            {% endfor %}
+            <div class="d-flex flex-wrap gap-2 mt-4">
+                <span class="alumni-chip"><i class="fas fa-layer-group"></i>Total openings <strong>{{ (jobs or [])|length }}</strong></span>
+                <span class="alumni-chip"><i class="fas fa-briefcase"></i>Full-Time <strong>{{ ns.full_time }}</strong></span>
+                <span class="alumni-chip"><i class="fas fa-graduation-cap"></i>Internships <strong>{{ ns.internship }}</strong></span>
             </div>
-            <div class="col-md-4 col-lg-3 d-flex gap-2 align-items-end pt-md-4">
-                <button id="applyFilterBtn" class="btn btn-primary w-100 rounded-pill py-2 shadow-sm" style="background: var(--accent-blue); border: none;">
-                    <i class="fas fa-filter me-1"></i> Filter
-                </button>
-                <button id="resetFilterBtn" class="btn btn-outline-secondary rounded-pill py-2 px-3" style="border-color: var(--border-color); color: var(--text-secondary);">
-                    <i class="fas fa-rotate"></i>
-                </button>
+        </section>
+
+        <!-- Search & Filter Bar -->
+        <div class="alumni-filter-card mb-4 reveal">
+            <div class="row g-3 align-items-end">
+                <div class="col-lg-6">
+                    <label class="form-label small fw-semibold text-muted mb-1" for="jobSearchInput">Search Roles</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent" style="border-color: var(--border-color); color: var(--text-muted);">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" id="jobSearchInput" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Search by job title, company name, or technology...">
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <label class="form-label small fw-semibold text-muted mb-1" for="jobTypeFilter">Employment Type</label>
+                    <select id="jobTypeFilter" class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
+                        <option value="">All Employment Types</option>
+                        <option value="Full-Time">Full-Time</option>
+                        <option value="Internship">Internship</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Remote">Remote</option>
+                    </select>
+                </div>
+                <div class="col-md-4 col-lg-3 d-flex gap-2">
+                    <button id="applyFilterBtn" class="btn btn-amber flex-fill" type="button">
+                        <i class="fas fa-filter me-1"></i>Filter
+                    </button>
+                    <button id="resetFilterBtn" class="btn btn-amber-outline px-3" type="button" aria-label="Reset filters">
+                        <i class="fas fa-rotate"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Quick type chips: client-side only, filter the already-loaded list -->
+            <div class="d-flex flex-wrap gap-2 mt-3">
+                <button class="filter-chip active" data-chip-type="" type="button">All Types</button>
+                <button class="filter-chip" data-chip-type="full-time" type="button">Full-Time</button>
+                <button class="filter-chip" data-chip-type="internship" type="button">Internship</button>
+                <button class="filter-chip" data-chip-type="contract" type="button">Contract</button>
+                <button class="filter-chip" data-chip-type="remote" type="button">Remote</button>
             </div>
         </div>
-    </div>
 
-    <!-- Job Listings Feed -->
-    <div>
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold mb-0" style="color: var(--text-primary); font-size: 1.25rem;">
-                <i class="fas fa-building-user text-primary me-2"></i> All Active Openings
-            </h4>
-            <span class="text-muted small">Total: <strong>{{ (jobs or [])|length }}</strong> opportunities</span>
-        </div>
+        <!-- Job Listings Feed -->
+        <div>
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <h4 class="fw-bold mb-0" style="color: var(--text-primary); font-size: 1.25rem;">
+                    <i class="fas fa-building-user me-2" style="color: var(--alumni-amber-dark);"></i>All Active Openings
+                </h4>
+                <span class="text-muted small" id="jobCountLabel">Total: <strong>{{ (jobs or [])|length }}</strong> opportunities</span>
+            </div>
 
-        {% if jobs and jobs|length > 0 %}
-        <div class="d-flex flex-column gap-3" id="jobListings">
-            {% for job in jobs %}
-            <div class="home-card p-4 shadow-sm job-row-item" data-title="{{ (job.title or '')|lower }}" data-company="{{ (job.company or '')|lower }}" data-type="{{ (job.employment_type or '')|lower }}" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="job-company-avatar d-grid place-items-center fw-bold shadow-sm" style="width: 54px; height: 54px; min-width: 54px; border-radius: 14px; background: var(--bg-subtle); color: var(--accent-blue); border: 1px solid var(--border-color); font-size: 1.3rem;">
-                            {% if job.company_logo %}
-                            <img src="{{ job.company_logo }}" alt="{{ job.company }}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 14px;">
-                            {% else %}
-                            {{ (job.company or 'C')[0] }}
-                            {% endif %}
-                        </div>
-
-                        <div>
-                            <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                                <h5 class="mb-0 fw-bold" style="color: var(--text-primary);">{{ job.title }}</h5>
-                                <span class="badge rounded-pill px-2 py-1" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.75rem; font-weight: 600;">
-                                    {{ job.employment_type or 'Full-Time' }}
-                                </span>
-                            </div>
-                            <div class="d-flex gap-3 text-muted small flex-wrap" style="font-size: 0.85rem;">
-                                <span><i class="fas fa-building me-1 text-primary"></i><strong>{{ job.company }}</strong></span>
-                                <span><i class="fas fa-location-dot me-1"></i>{{ job.location or 'Remote' }}</span>
-                                <span><i class="fas fa-money-bill-wave me-1"></i>{{ job.salary or 'Competitive' }}</span>
-                                {% if job.deadline %}
-                                <span><i class="fas fa-clock me-1 text-danger"></i>Closes: {{ job.deadline }}</span>
+            {% if jobs and jobs|length > 0 %}
+            <div class="d-flex flex-column gap-3" id="jobListings">
+                {% for job in jobs %}
+                <div class="job-card job-row-item reveal" data-title="{{ (job.title or '')|lower }}" data-company="{{ (job.company or '')|lower }}" data-type="{{ (job.employment_type or '')|lower }}" style="--delay: 0.03s">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                        <div class="d-flex align-items-center gap-3 min-w-0">
+                            <div class="job-avatar">
+                                {% if job.company_logo %}
+                                <img src="{{ job.company_logo }}" alt="{{ job.company }}">
+                                {% else %}
+                                {{ (job.company or 'C')[0] }}
                                 {% endif %}
                             </div>
+
+                            <div class="min-w-0">
+                                <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                                    <h5 class="job-title mb-0">{{ job.title }}</h5>
+                                    <span class="job-type-badge">{{ job.employment_type or 'Full-Time' }}</span>
+                                </div>
+                                <div class="d-flex gap-3 job-meta flex-wrap">
+                                    <span><i class="fas fa-building me-1"></i><strong>{{ job.company }}</strong></span>
+                                    <span><i class="fas fa-location-dot me-1"></i>{{ job.location or 'Remote' }}</span>
+                                    <span><i class="fas fa-money-bill-wave me-1"></i>{{ job.salary or 'Competitive' }}</span>
+                                    {% if job.deadline %}
+                                    <span class="deadline"><i class="fas fa-clock me-1"></i>Closes: {{ job.deadline }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2 flex-shrink-0 apply-wrap">
+                            <a href="{{ job.apply_link if '://' in (job.apply_link or '') else 'mailto:' + (job.apply_link or '') }}"
+                                target="_blank" class="btn btn-amber btn-sm px-4 py-2">
+                                <span>Apply</span>
+                                <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                            </a>
                         </div>
                     </div>
-
-                    <div class="d-flex align-items-center gap-2 flex-shrink-0">
-                        <a href="{{ job.apply_link if '://' in (job.apply_link or '') else 'mailto:' + (job.apply_link or '') }}"
-                            target="_blank" class="btn btn-primary btn-sm rounded-pill px-4 py-2 shadow-sm" style="background: var(--accent-blue); border: none;">
-                            <span>Apply</span>
-                            <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                        </a>
-                    </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="home-card text-center py-5 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-            <div class="icon-chip mx-auto mb-3" style="width: 64px; height: 64px; background: var(--accent-blue-subtle); color: var(--accent-blue); border-radius: 18px; display: grid; place-items: center; font-size: 1.75rem;">
-                <i class="fas fa-briefcase"></i>
+            <!-- Shown only when the client-side filter hides every loaded job -->
+            <div class="job-card text-center py-5 d-none" id="noFilterResults">
+                <div class="empty-state-icon mb-3"><i class="fas fa-magnifying-glass"></i></div>
+                <h4 class="fw-bold mb-2" style="color: var(--text-primary);">No openings match your filters</h4>
+                <p class="text-muted mb-4" style="max-width: 420px; margin: 0 auto;">Try a different search term or employment type.</p>
+                <button class="btn btn-amber-outline px-4" id="clearFilterBtn" type="button">
+                    <i class="fas fa-rotate me-1"></i>Clear Filters
+                </button>
             </div>
-            <h4 class="fw-bold mb-2" style="color: var(--text-primary);">No Active Openings Found</h4>
-            <p class="text-muted mb-4" style="max-width: 420px; margin: 0 auto;">Be the first alumnus to post an opportunity from your team or company!</p>
-            <a href="{{ url_for('post_job') }}" class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;">
-                <i class="fas fa-plus-circle me-1"></i> Post an Opening
-            </a>
+            {% else %}
+            <div class="job-card text-center py-5">
+                <div class="empty-state-icon mb-3"><i class="fas fa-briefcase"></i></div>
+                <h4 class="fw-bold mb-2" style="color: var(--text-primary);">No Active Openings Found</h4>
+                <p class="text-muted mb-4" style="max-width: 420px; margin: 0 auto;">Be the first alumnus to post an opportunity from your team or company!</p>
+                <a href="{{ url_for('post_job') }}" class="btn btn-amber px-4">
+                    <i class="fas fa-plus-circle me-1"></i>Post an Opening
+                </a>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.getElementById('jobSearchInput');
-    const typeFilter = document.getElementById('jobTypeFilter');
-    const applyBtn = document.getElementById('applyFilterBtn');
-    const resetBtn = document.getElementById('resetFilterBtn');
-    const jobRows = document.querySelectorAll('.job-row-item');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Reveal on scroll (subtle) */
+    var revealEls = document.querySelectorAll('.reveal');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealEls.forEach(function (el) { el.classList.add('revealed'); });
+    } else {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) { entry.target.classList.add('revealed'); observer.unobserve(entry.target); }
+            });
+        }, { threshold: 0.05 });
+        revealEls.forEach(function (el) { observer.observe(el); });
+    }
+
+    /* Client-side filtering over the already-loaded jobs */
+    var searchInput = document.getElementById('jobSearchInput');
+    var typeFilter = document.getElementById('jobTypeFilter');
+    var applyBtn = document.getElementById('applyFilterBtn');
+    var resetBtn = document.getElementById('resetFilterBtn');
+    var clearBtn = document.getElementById('clearFilterBtn');
+    var jobRows = document.querySelectorAll('.job-row-item');
+    var chips = document.querySelectorAll('.filter-chip');
+    var countLabel = document.getElementById('jobCountLabel');
+    var noResults = document.getElementById('noFilterResults');
+    var total = jobRows.length;
+
+    function setChip(type) {
+        chips.forEach(function (c) { c.classList.toggle('active', (c.getAttribute('data-chip-type') || '') === type); });
+    }
 
     function filterJobs() {
-        const query = (searchInput.value || '').toLowerCase().trim();
-        const selectedType = (typeFilter.value || '').toLowerCase();
+        var query = (searchInput.value || '').toLowerCase().trim();
+        var selectedType = (typeFilter.value || '').toLowerCase();
+        var visible = 0;
 
-        jobRows.forEach(row => {
-            const title = row.getAttribute('data-title') || '';
-            const company = row.getAttribute('data-company') || '';
-            const type = row.getAttribute('data-type') || '';
-
-            const matchesQuery = !query || title.includes(query) || company.includes(query);
-            const matchesType = !selectedType || type.includes(selectedType);
-
-            if (matchesQuery && matchesType) {
-                row.style.display = 'block';
-            } else {
-                row.style.display = 'none';
-            }
+        jobRows.forEach(function (row) {
+            var title = row.getAttribute('data-title') || '';
+            var company = row.getAttribute('data-company') || '';
+            var type = row.getAttribute('data-type') || '';
+            var matchesQuery = !query || title.indexOf(query) !== -1 || company.indexOf(query) !== -1;
+            var matchesType = !selectedType || type.indexOf(selectedType) !== -1;
+            var show = matchesQuery && matchesType;
+            row.style.display = show ? '' : 'none';
+            if (show) visible += 1;
         });
+
+        setChip(selectedType);
+        if (countLabel) countLabel.innerHTML = 'Showing <strong>' + visible + '</strong> of <strong>' + total + '</strong> opportunities';
+        if (noResults) noResults.classList.toggle('d-none', visible !== 0);
+    }
+
+    function resetFilters() {
+        if (searchInput) searchInput.value = '';
+        if (typeFilter) typeFilter.value = '';
+        filterJobs();
     }
 
     if (searchInput) searchInput.addEventListener('input', filterJobs);
     if (typeFilter) typeFilter.addEventListener('change', filterJobs);
     if (applyBtn) applyBtn.addEventListener('click', filterJobs);
-    if (resetBtn) {
-        resetBtn.addEventListener('click', function () {
-            searchInput.value = '';
-            typeFilter.value = '';
+    if (resetBtn) resetBtn.addEventListener('click', resetFilters);
+    if (clearBtn) clearBtn.addEventListener('click', resetFilters);
+    chips.forEach(function (chip) {
+        chip.addEventListener('click', function () {
+            if (typeFilter) typeFilter.value = chip.getAttribute('data-chip-type') || '';
             filterJobs();
         });
-    }
+    });
 });
 </script>
 {% endblock %}

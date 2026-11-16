@@ -1,53 +1,53 @@
 <!-- filepath: d:\RajenderMohan_BCA\RajenderMohan_Projects\6_Semester\Major Project\Alumni App\templates\profile_alumni.html -->
 {% extends "base.html" %}
+{% block title %}{{ user['name'] }} • Alumni Profile{% endblock %}
 
 {% block content %}
-<div class="profile-extreme-wrapper overflow-hidden bg-slate-50">
-    <!-- Ambient Background Lighting -->
-    <div class="ambient-light">
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
-        <div class="glow-orb orb-3"></div>
-    </div>
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-    <!-- Ultra Hero Section -->
-    <div class="profile-hero-extreme"
-        style="background: #0f172a; padding: 120px 0; min-height: 55vh; position: relative; overflow: hidden;">
-        <div class="hero-aurora"></div>
+<div class="alumni-page-wrapper alu-profile-page">
+    <!-- Ambient orbs -->
+    <div class="admin-ambient-ball admin-ball-1" style="background:#f59e0b;"></div>
+    <div class="admin-ambient-ball admin-ball-2" style="background:#0284c7;"></div>
+    <div class="admin-ambient-ball admin-ball-3" style="background:#f59e0b;"></div>
 
+    <!-- ============ HERO ============ -->
+    <section class="alu-hero-card alu-profile-hero reveal">
+        <div class="alu-hero-glow alu-hero-glow-1"></div>
+        <div class="alu-hero-glow alu-hero-glow-2"></div>
         <div class="container position-relative" style="z-index: 5;">
             <div class="row align-items-center">
                 <div class="col-lg-8 text-center text-lg-start">
-                    <div class="reveal-stagger">
-                        <div class="badge-premium mb-4 reveal-item">
-                            <span
-                                class="badge rounded-pill px-4 py-2 border border-white/20 text-white shadow-xl text-shimmer-glow"
-                                style="background: rgba(255,255,255,0.1); backdrop-filter: blur(15px);">
-                                <i class="fas fa-crown text-warning me-2 animate-bounce"></i>
-                                <span class="shimmer-text">ALUMNI ELITE</span>
-                            </span>
-                        </div>
-                        <h1 class="display-2 fw-bold text-white mb-3 reveal-item name-typing-advanced">
-                            <span class="text-gradient-extreme">{{ user['name'] }}</span>
-                        </h1>
-                        <p class="lead text-indigo-200 reveal-item fs-4"
-                            style="text-shadow: 0 4px 15px rgba(0,0,0,0.4);">
-                            <span class="glass-reveal-text">
-                                <i class="fas fa-user-graduate me-2 text-indigo-400"></i>Batch of {{
-                                profile['pass_year'] }}
-                                <span class="mx-3 text-white/30">|</span>
-                                <i class="fas fa-microchip me-2 text-indigo-400"></i>{{ profile['department'] }}
-                            </span>
-                        </p>
+                    <span class="alu-live-badge mb-3">
+                        <i class="fas fa-crown me-1"></i> ALUMNI ELITE
+                    </span>
+                    <h1 class="alu-hero-title mt-3 mb-3">
+                        <span class="alu-text-amber">{{ user['name'] }}</span>
+                    </h1>
+                    <p class="alu-hero-sub mb-0">
+                        <i class="fas fa-user-graduate me-2" style="color:#fbbf24;"></i>Batch of {{
+                        profile['pass_year'] }}
+                        <span class="mx-3" style="color:rgba(255,255,255,0.3);">|</span>
+                        <i class="fas fa-microchip me-2" style="color:#fbbf24;"></i>{{ profile['department'] }}
+                    </p>
+                </div>
+                <div class="col-lg-4 text-center d-none d-lg-block">
+                    <div class="alu-hero-chip">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Batch of {{ profile['pass_year'] }}</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Animated Wave Separation -->
-        <div class="hero-wave-container">
+        <!-- Wave separation -->
+        <div class="alu-wave-wrap">
             <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto" aria-hidden="true">
                 <defs>
                     <path id="gentle-wave"
                         d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
@@ -60,66 +60,66 @@
                 </g>
             </svg>
         </div>
-    </div>
+    </section>
 
-    <!-- Interactive Data Content -->
-    <div class="container" style="margin-top: -100px; position: relative; z-index: 10; padding-bottom: 80px;">
-        <div class="row g-5">
+    <!-- ============ CONTENT ============ -->
+    <div class="alumni-container alu-profile-content">
+        <div class="row g-4">
             <!-- Sidebar: Identity Card -->
-            <div class="col-lg-4">
+            <div class="col-lg-4 reveal">
                 <div class="tilt-card-wrapper" data-tilt>
-                    <div class="extreme-profile-card shadow-3xl p-5 text-center">
-                        <div class="avatar-magnetic-container mb-4">
-                            <div class="avatar-ring"></div>
-                            <div class="profile-avatar-xl shadow-2xl mx-auto">
+                    <div class="alu-identity-card shadow-lg p-4 p-md-5 text-center">
+                        <div class="alu-avatar-zone mb-4">
+                            <div class="alu-avatar-ring"></div>
+                            <div class="alu-profile-avatar shadow mx-auto">
                                 {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
-                                <img src="{{ user['profile_pic'] }}" alt="Avatar" class="avatar-img-extreme" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'avatar-img-extreme initials-avatar-extreme\'>{{ user.name | initials }}</div>';">
+                                <img src="{{ user['profile_pic'] }}" alt="Avatar" class="alu-avatar-img" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'alu-avatar-img alu-avatar-initials\'>{{ user.name | initials }}</div>';">
                                 {% else %}
-                                <div class="avatar-img-extreme initials-avatar-extreme">
+                                <div class="alu-avatar-img alu-avatar-initials">
                                     {{ user['name'] | initials }}
                                 </div>
                                 {% endif %}
-                                <div class="online-indicator"></div>
+                                <span class="alu-online-dot" title="Alumni member"></span>
                             </div>
                         </div>
 
-                        <h2 class="fw-bold text-theme-primary mb-1">{{ user['name'] }}</h2>
-                        <div class="professional-tag mb-4">Professional Alumni</div>
+                        <h2 class="fw-bold alu-heading mb-1">{{ user['name'] }}</h2>
+                        <div class="alu-pro-tag mb-4">Professional Alumni</div>
 
                         <!-- Stats Row -->
                         <div class="row g-2 mb-4">
                             <div class="col-6">
-                                <div class="mini-glass-stat p-3 rounded-4">
-                                    <h4 class="mb-0 fw-bold text-indigo-600">{{ profile['pass_year'] }}</h4>
-                                    <p class="mb-0 text-muted small uppercase tracking-widest">Year</p>
+                                <div class="alu-mini-stat p-3 rounded-4">
+                                    <h4 class="mb-0 fw-bold alu-count" data-count="{{ profile['pass_year'] }}" style="color:#b45309;">{{ profile['pass_year'] }}</h4>
+                                    <p class="mb-0 text-muted small text-uppercase" style="letter-spacing:0.12em;">Year</p>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="mini-glass-stat p-3 rounded-4">
-                                    <h4 class="mb-0 fw-bold text-emerald-600">{{ profile['experience_years'] or 0 }}+
+                                <div class="alu-mini-stat p-3 rounded-4">
+                                    <h4 class="mb-0 fw-bold alu-count" data-count="{{ profile['experience_years'] or 0 }}" data-suffix="+" style="color:#059669;">{{ profile['experience_years'] or 0 }}+
                                     </h4>
-                                    <p class="mb-0 text-muted small uppercase tracking-widest">Exp</p>
+                                    <p class="mb-0 text-muted small text-uppercase" style="letter-spacing:0.12em;">Exp</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Professional Info Sidebar -->
                         {% if profile['company_name'] %}
-                        <div class="info-strip mb-4 transition-all">
-                            <div class="d-flex align-items-center p-3 bg-indigo-50 rounded-4 mb-2">
-                                <div class="icon-sq bg-indigo-600 shadow-indigo me-3"><i
+                        <div class="mb-4 text-start">
+                            <div class="d-flex align-items-center p-3 rounded-4 mb-2" style="background:#fffbeb;">
+                                <div class="alu-info-icon me-3" style="background:linear-gradient(135deg,#f59e0b,#d97706);"><i
                                         class="fas fa-building text-white"></i></div>
-                                <div class="text-start">
-                                    <small class="text-muted d-block line-height-1">Company</small>
-                                    <span class="fw-bold text-theme-primary">{{ profile['company_name'] }}</span>
+                                <div class="text-start min-width-0">
+                                    <small class="text-muted d-block" style="line-height:1.2;">Company</small>
+                                    <span class="fw-bold alu-heading text-truncate d-block">{{ profile['company_name'] }}</span>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center p-3 bg-emerald-50 rounded-4">
-                                <div class="icon-sq bg-emerald-600 shadow-emerald me-3"><i
+                            <div class="d-flex align-items-center p-3 rounded-4" style="background:#ecfdf5;">
+                                <div class="alu-info-icon me-3" style="background:linear-gradient(135deg,#10b981,#059669);"><i
                                         class="fas fa-briefcase text-white"></i></div>
-                                <div class="text-start">
-                                    <small class="text-muted d-block line-height-1">Role</small>
-                                    <span class="fw-bold text-theme-primary">{{ profile['designation'] }}</span>
+                                <div class="text-start min-width-0">
+                                    <small class="text-muted d-block" style="line-height:1.2;">Role</small>
+                                    <span class="fw-bold alu-heading text-truncate d-block">{{ profile['designation'] }}</span>
                                 </div>
                             </div>
                         </div>
@@ -129,35 +129,35 @@
                         <div class="d-grid gap-3">
                             {% if current_user.id == user['id'] %}
                             <a href="{{ url_for('edit_alumni_profile', user_id=user['id']) }}"
-                                class="btn-extreme-primary shadow-indigo py-3 rounded-pill">
+                                class="btn alu-btn-amber py-3 rounded-pill fw-bold shadow">
                                 <i class="fas fa-sparkles me-2"></i>Enhance Profile
                             </a>
                             {% else %}
-                            <button id="connection-btn" class="btn-extreme-pulse shadow-emerald py-3 rounded-pill"
+                            <button id="connection-btn" class="btn alu-btn-connect py-3 rounded-pill fw-bold"
                                 onclick="sendExtremeConnection({{ user['id'] }})">
                                 <i class="fas fa-user-plus me-2"></i>Send Request
                             </button>
 
                             <a href="{{ url_for('whatsapp_bridge', user_id=user['id']) }}"
-                                class="btn-extreme-outline py-3 rounded-pill bg-white">
+                                class="btn alu-btn-outline py-3 rounded-pill fw-bold">
                                 <i class="fab fa-whatsapp me-2" style="color: #25D366;"></i>WhatsApp Bridge
                             </a>
 
                             <a href="{{ url_for('compose_email', user_id=user['id']) }}"
-                                class="btn-extreme-outline py-3 rounded-pill bg-white">
-                                <i class="fas fa-paper-plane me-2 text-indigo-600"></i>Professional Mail
+                                class="btn alu-btn-outline py-3 rounded-pill fw-bold">
+                                <i class="fas fa-paper-plane me-2" style="color:#d97706;"></i>Professional Mail
                             </a>
 
                             <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ user['email'] }}" target="_blank"
-                                class="btn-extreme-outline py-3 rounded-pill bg-white">
+                                class="btn alu-btn-outline py-3 rounded-pill fw-bold">
                                 <i class="fab fa-google me-2" style="color: #EA4335;"></i>Gmail Compose
                             </a>
                             {% endif %}
 
                             {% if profile['linkedin_url'] %}
                             <a href="{{ profile['linkedin_url'] }}" target="_blank"
-                                class="btn-extreme-outline py-3 rounded-pill">
-                                <i class="fab fa-linkedin me-2 text-indigo-600"></i>LinkedIn Profile
+                                class="btn alu-btn-outline py-3 rounded-pill fw-bold">
+                                <i class="fab fa-linkedin me-2" style="color:#0a66c2;"></i>LinkedIn Profile
                             </a>
                             {% endif %}
                         </div>
@@ -167,17 +167,15 @@
 
             <!-- Main Content Area -->
             <div class="col-lg-8">
-                <!-- Bio Section with Glass Quote -->
-                <div class="section-reveal mb-5 card-interactive">
-                    <div class="extreme-glass-section p-5 rounded-6 shadow-xl border-t-glow">
-                        <div class="header-section mb-4">
-                            <span class="badge bg-indigo-100 text-indigo-800 px-3 py-1 mb-2 rounded-pill fw-bold">ABOUT
-                                ME</span>
-                            <h3 class="fw-bold text-theme-primary d-flex align-items-center">
-                                Professional Journey <i class="fas fa-bolt ms-3 text-warning"></i>
-                            </h3>
-                        </div>
-                        <p class="bio-text-glow lead text-slate-600 italic">
+                <!-- Bio Section -->
+                <div class="section-reveal reveal mb-4">
+                    <div class="alu-glass-section p-4 p-md-5">
+                        <span class="badge px-3 py-1 mb-2 rounded-pill fw-bold" style="background:rgba(245,158,11,0.14); color:#92400e;">ABOUT
+                            ME</span>
+                        <h3 class="fw-bold alu-heading d-flex align-items-center">
+                            Professional Journey <i class="fas fa-bolt ms-3" style="color:#f59e0b;"></i>
+                        </h3>
+                        <p class="lead mb-0" style="color:#475569; font-style:italic;">
                             "{{ profile['bio'] or "Passionate professional sharing industry expertise and mentoring the
                             next generation of talent." }}"
                         </p>
@@ -185,37 +183,37 @@
                 </div>
 
                 <!-- Expertise & Academics Grid -->
-                <div class="row g-4 mb-5">
-                    <div class="col-md-6 section-reveal">
-                        <div class="interactive-info-card academics-card p-4 rounded-6 shadow-lg h-100">
-                            <div class="card-icon mb-3 academics-bg"><i class="fas fa-award"></i></div>
-                            <h4 class="fw-bold mb-4">Academic Roots</h4>
-                            <div class="data-entry mb-3">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6 reveal">
+                        <div class="alu-info-card p-4 h-100">
+                            <div class="alu-card-icon mb-3" style="background:linear-gradient(135deg,#f59e0b,#d97706);"><i class="fas fa-award"></i></div>
+                            <h4 class="fw-bold mb-4 alu-heading">Academic Roots</h4>
+                            <div class="alu-data-entry mb-3">
                                 <label>Department</label>
-                                <div class="data-value">{{ profile['department'] }}</div>
+                                <div class="alu-data-value">{{ profile['department'] }}</div>
                             </div>
-                            <div class="data-entry">
+                            <div class="alu-data-entry">
                                 <label>Degree Specialization</label>
-                                <div class="data-value">{{ profile['degree'] }}</div>
+                                <div class="alu-data-value">{{ profile['degree'] }}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 section-reveal">
-                        <div class="interactive-info-card professional-card p-4 rounded-6 shadow-lg h-100">
-                            <div class="card-icon mb-3 professional-bg"><i class="fas fa-rocket"></i></div>
-                            <h4 class="fw-bold mb-4">Industry Pulse</h4>
-                            <div class="data-entry mb-3">
+                    <div class="col-md-6 reveal">
+                        <div class="alu-info-card p-4 h-100">
+                            <div class="alu-card-icon mb-3" style="background:linear-gradient(135deg,#10b981,#059669);"><i class="fas fa-rocket"></i></div>
+                            <h4 class="fw-bold mb-4 alu-heading">Industry Pulse</h4>
+                            <div class="alu-data-entry mb-3">
                                 <label>Active Base</label>
-                                <div class="data-value text-emerald-600">{{ profile['work_location'] or "Worldwide" }}
+                                <div class="alu-data-value" style="color:#059669;">{{ profile['work_location'] or "Worldwide" }}
                                 </div>
                             </div>
-                            <div class="experience-milestone mt-2">
+                            <div class="mt-2">
                                 <div class="d-flex justify-content-between mb-1">
                                     <span class="small fw-bold">Experience Milestone</span>
                                     <span class="small fw-bold">{{ profile['experience_years'] or 0 }}Y / 30Y</span>
                                 </div>
-                                <div class="ext-progress">
-                                    <div class="progress-fill"
+                                <div class="alu-progress">
+                                    <div class="alu-progress-fill"
                                         style="width: {{ (profile['experience_years']|int / 30 * 100)|int }}%"></div>
                                 </div>
                             </div>
@@ -225,24 +223,23 @@
 
                 <!-- Achievements Showcase -->
                 {% if profile['achievements'] %}
-                <div
-                    class="section-reveal section-achievements p-5 rounded-6 shadow-2xl border">
-                    <div class="d-flex align-items-center justify-content-between mb-5">
-                        <h3 class="fw-bold text-theme-primary mb-0">Notable Milestones</h3>
-                        <div class="milestone-counter">
-                            <i class="fas fa-trophy text-warning"></i>
+                <div class="section-reveal reveal alu-achievements p-4 p-md-5">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h3 class="fw-bold alu-heading mb-0">Notable Milestones</h3>
+                        <div class="alu-trophy">
+                            <i class="fas fa-trophy" style="color:#f59e0b;"></i>
                         </div>
                     </div>
-                    <div class="row g-4">
+                    <div class="row g-3">
                         {% for achievement in profile['achievements'].split('|') %}
                         <div class="col-12">
-                            <div class="achievement-row p-4 rounded-5 border-l-ext transition-all hover-scale-sm">
-                                <div class="row align-items-center">
+                            <div class="alu-achievement-row p-3 p-md-4">
+                                <div class="row align-items-center g-3">
                                     <div class="col-auto">
-                                        <div class="badge-ring"><i class="fas fa-medal"></i></div>
+                                        <div class="alu-medal"><i class="fas fa-medal"></i></div>
                                     </div>
-                                    <div class="col">
-                                        <h5 class="fw-bold mb-0 text-theme-primary">{{ achievement.strip() }}</h5>
+                                    <div class="col min-width-0">
+                                        <h5 class="fw-bold mb-0 alu-heading">{{ achievement.strip() }}</h5>
                                         <small class="text-muted">Verified Community Milestone</small>
                                     </div>
                                 </div>
@@ -256,434 +253,329 @@
         </div>
     </div>
 </div>
-</div>
-
-<!-- Redirection System Enabled -->
 
 <style>
-    /* CSS EXTREME DESIGN SYSTEM */
+    /* ============ ALUMNI THEME (amber) on the admin shell ============ */
     :root {
-        --indigo-primary: #4f46e5;
-        --emerald-primary: #10b981;
-        --slate-900: #0f172a;
-        --glass-bg: var(--bg-surface);
+        --alu-amber: #f59e0b;
+        --alu-amber-dark: #d97706;
+        --alu-navy: #0f172a;
+        --alu-ink: #0f172a;
+        --alu-muted: #64748b;
+        --alu-card: #ffffff;
+        --alu-border: #e2e8f0;
+        --alu-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.08);
     }
 
-    .profile-extreme-wrapper {
-        background: var(--bg-primary); color: var(--text-primary);
-        font-family: 'Poppins', sans-serif;
-    }
-
-    /* Ambient Lighting */
-    .ambient-light {
-        position: absolute;
-        top: 0;
-        left: 0;
+    .alumni-page-wrapper {
+        min-height: 100vh;
+        position: relative;
+        background-color: #f8fafc;
+        overflow-x: clip;
         width: 100%;
-        height: 100%;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        color: var(--alu-ink);
+        padding-bottom: 4.5rem;
+    }
+
+    .alumni-container {
+        position: relative;
         z-index: 1;
-        pointer-events: none;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 1.25rem 1.25rem 0;
     }
 
-    .glow-orb {
-        position: absolute;
-        width: 50vw;
-        height: 50vw;
-        border-radius: 50%;
-        filter: blur(120px);
-        opacity: 0.4;
-        animation: orbFloat 20s infinite alternate;
-    }
+    .alu-heading { color: var(--alu-ink); font-family: 'Outfit', sans-serif; }
 
-    .orb-1 {
-        top: -10%;
-        left: -10%;
-        background: radial-gradient(circle, rgba(79, 70, 229, 0.3), transparent);
-    }
-
-    .orb-2 {
-        bottom: -10%;
-        right: -10%;
-        background: radial-gradient(circle, rgba(16, 185, 129, 0.3), transparent);
-    }
-
-    /* Hero Extreme */
-    .hero-aurora {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(circle at 70% 30%, rgba(99, 102, 241, 0.2), transparent 40%);
-        opacity: 0.6;
-    }
-
-    .name-typing {
-        animation: textReveal 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        letter-spacing: -2px;
-    }
-
-    /* Waves */
-    .hero-wave-container {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        line-height: 0;
-    }
-
-    .waves {
-        width: 100%;
-        height: 70px;
-    }
-
-    .parallax>use {
-        animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
-    }
-
-    .parallax>use:nth-child(1) {
-        animation-delay: -2s;
-        animation-duration: 7s;
-    }
-
-    .parallax>use:nth-child(2) {
-        animation-delay: -3s;
-        animation-duration: 10s;
-    }
-
-    .parallax>use:nth-child(3) {
-        animation-delay: -4s;
-        animation-duration: 13s;
-    }
-
-    .parallax>use:nth-child(4) {
-        animation-delay: -5s;
-        animation-duration: 20s;
-    }
-
-    /* Cards */
-    .extreme-profile-card {
-        background: var(--glass-bg);
-        backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        border-radius: 40px;
-    }
-
-    .profile-avatar-xl {
-        width: 220px;
-        height: 220px;
-        border-radius: 50%;
-        border: 6px solid var(--border-color);
+    /* ---- Hero ---- */
+    .alu-hero-card {
         position: relative;
-        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        overflow: hidden;
+        background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%);
+        border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+        box-shadow: 0 24px 60px -18px rgba(11, 19, 41, 0.55);
     }
 
-    .avatar-img-extreme {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 50%;
-    }
+    .alu-profile-hero { padding: 3.5rem 1.5rem 6.5rem; border-radius: 0; }
 
-    .initials-avatar-extreme {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        color: white;
-        display: flex;
+    .alu-hero-glow { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+    .alu-hero-glow-1 { width: 340px; height: 340px; top: -140px; right: -60px; background: rgba(245, 158, 11, 0.28); }
+    .alu-hero-glow-2 { width: 280px; height: 280px; bottom: -140px; left: 30%; background: rgba(2, 132, 199, 0.22); }
+
+    .alu-live-badge {
+        display: inline-flex;
         align-items: center;
-        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.78rem;
         font-weight: 800;
-        font-size: 5rem;
-        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: #fde68a;
+        background: rgba(245, 158, 11, 0.14);
+        border: 1px solid rgba(245, 158, 11, 0.35);
+        border-radius: 999px;
+        padding: 0.55rem 1.1rem;
     }
 
-    .profile-avatar-xl:hover {
-        transform: rotate(3deg) scale(1.05);
+    .alu-hero-title {
+        font-family: 'Outfit', sans-serif;
+        color: #fff;
+        font-weight: 800;
+        font-size: clamp(2rem, 5vw, 3.4rem);
+        line-height: 1.1;
+        word-break: break-word;
     }
 
-    /* Interactive Info Cards */
-    .interactive-info-card {
-        background: var(--bg-surface); color: var(--text-primary);
-        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border: 1px solid var(--border-color); border-radius: 18px;
-    }
-
-    .interactive-info-card:hover {
-        transform: translateY(-15px);
-        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-icon {
-        width: 55px;
-        height: 55px;
-        border-radius: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        color: white;
-    }
-
-    .academics-bg {
-        background: linear-gradient(135deg, #6366f1, #4f46e5);
-    }
-
-    .professional-bg {
-        background: linear-gradient(135deg, #10b981, #059669);
-    }
-
-    /* Buttons Extreme */
-    .btn-extreme-primary {
-        background: var(--indigo-primary);
-        color: white;
-        border: none;
-        font-weight: 700;
-        transition: all 0.4s;
-        position: relative;
-        overflow: hidden;
-        display: block;
-        text-align: center;
-        text-decoration: none;
-    }
-
-    .btn-extreme-pulse {
-        background: var(--emerald-primary);
-        color: white;
-        border: none;
-        font-weight: 700;
-        animation: pulseEmerald 2s infinite;
-        display: block;
-        width: 100%;
-    }
-
-    .btn-extreme-primary:hover {
-        background: #4338ca;
-        transform: translateY(-3px);
-    }
-
-    /* Progress */
-    .ext-progress {
-        height: 8px;
-        background: #e2e8f0;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #10b981, #34d399);
-        border-radius: 10px;
-        animation: progressGrow 2s ease-out;
-    }
-
-    /* Achievement Ext */
-    .achievement-row {
-        background: var(--bg-primary); color: var(--text-primary);
-        border-left: 6px solid #f59e0b;
-    }
-
-    .badge-ring {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        border: 3px solid #f59e0b;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #f59e0b;
-        font-size: 1.2rem;
-    }
-
-    /* Animations Keyframes */
-    @keyframes orbFloat {
-        from {
-            transform: translate(0, 0) scale(1);
-        }
-
-        to {
-            transform: translate(100px, 50px) scale(1.2);
-        }
-    }
-
-    @keyframes textReveal {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-            filter: blur(10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
-        }
-    }
-
-    @keyframes move-forever {
-        0% {
-            transform: translate3d(-90px, 0, 0);
-        }
-
-        100% {
-            transform: translate3d(85px, 0, 0);
-        }
-    }
-
-    @keyframes pulseEmerald {
-        0% {
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-        }
-
-        70% {
-            box-shadow: 0 0 0 20px rgba(16, 185, 129, 0);
-        }
-
-        100% {
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-        }
-    }
-
-    @keyframes progressGrow {
-        from {
-            width: 0;
-        }
-    }
-
-    /* Advanced Text Animations */
-    .shimmer-text {
-        background: linear-gradient(90deg, #fff 0%, #a5b4fc 50%, #fff 100%);
-        background-size: 200% auto;
-        color: transparent;
+    .alu-text-amber {
+        background: linear-gradient(90deg, #fbbf24, #f59e0b 55%, #fde68a);
         -webkit-background-clip: text;
         background-clip: text;
-        animation: shine 3s linear infinite;
-        font-weight: 800;
-        letter-spacing: 2px;
-    }
-
-    @keyframes shine {
-        to {
-            background-position: 200% center;
-        }
-    }
-
-    .name-typing-advanced {
-        animation: reveal-and-glow 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-        letter-spacing: -3px;
-    }
-
-    .text-gradient-extreme {
-        background: linear-gradient(135deg, #fff 0%, #818cf8 50%, #c084fc 100%);
-        -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        display: inline-block;
-        filter: drop-shadow(0 0 15px rgba(129, 140, 248, 0.3));
     }
 
-    @keyframes reveal-and-glow {
-        0% {
-            opacity: 0;
-            transform: translateY(50px) scale(0.9);
-            filter: blur(20px);
-            letter-spacing: 10px;
-        }
+    .alu-hero-sub { color: rgba(255, 255, 255, 0.78); font-size: 1.2rem; }
 
-        100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            filter: blur(0);
-            letter-spacing: -3px;
-        }
-    }
-
-    .glass-reveal-text {
-        opacity: 0;
-        animation: fadeInSlide 1s ease-out 0.8s forwards;
-    }
-
-    @keyframes fadeInSlide {
-        0% {
-            opacity: 0;
-            transform: translateX(-20px);
-            filter: blur(5px);
-        }
-
-        100% {
-            opacity: 1;
-            transform: translateX(0);
-            filter: blur(0);
-        }
-    }
-
-    .text-shimmer-glow {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .text-shimmer-glow::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(45deg,
-                transparent,
-                rgba(255, 255, 255, 0.1),
-                transparent);
-        transform: rotate(45deg);
-        animation: reflection 4s infinite linear;
-    }
-
-    @keyframes reflection {
-        0% {
-            transform: translateX(-100%) rotate(45deg);
-        }
-
-        100% {
-            transform: translateX(100%) rotate(45deg);
-        }
-    }
-
-    /* Utils */
-    .line-height-1 {
-        line-height: 1.2;
-    }
-
-    .fs-4 {
-        font-size: 1.5rem;
-    }
-
-    .text-indigo-200 {
-        color: #c7d2fe;
-    }
-
-    .italic {
-        font-style: italic;
-    }
-
-    .mb-0 {
-        margin-bottom: 0 !important;
-    }
-
-    .data-value {
-        font-size: 1.25rem;
+    .alu-hero-chip {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(245, 158, 11, 0.35);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 1.25rem 1.75rem;
+        color: #fde68a;
         font-weight: 700;
-        color: #1e293b;
+    }
+    .alu-hero-chip i { font-size: 2rem; color: #f59e0b; }
+
+    .alu-wave-wrap { position: absolute; bottom: 0; left: 0; width: 100%; line-height: 0; }
+    .waves { width: 100%; height: 60px; }
+    .parallax > use { animation: aluWave 25s cubic-bezier(.55, .5, .45, .5) infinite; }
+    .parallax > use:nth-child(1) { animation-delay: -2s; animation-duration: 7s; }
+    .parallax > use:nth-child(2) { animation-delay: -3s; animation-duration: 10s; }
+    .parallax > use:nth-child(3) { animation-delay: -4s; animation-duration: 13s; }
+    .parallax > use:nth-child(4) { animation-delay: -5s; animation-duration: 20s; }
+
+    /* ---- Content overlap ---- */
+    .alu-profile-content { margin-top: -90px; padding-bottom: 2rem; }
+
+    /* ---- Identity card ---- */
+    .alu-identity-card {
+        background: var(--alu-card);
+        border: 1px solid var(--alu-border);
+        border-radius: 28px;
+        box-shadow: var(--alu-shadow);
+        position: relative;
     }
 
-    .data-entry label {
-        font-size: 0.85rem;
-        color: #64748b;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+    .alu-avatar-zone { position: relative; display: inline-block; }
+    .alu-avatar-ring {
+        position: absolute;
+        inset: -10px;
+        border-radius: 50%;
+        background: conic-gradient(from 180deg, #f59e0b, #fde68a, #d97706, #f59e0b);
+        opacity: 0.55;
+        filter: blur(2px);
+        z-index: 0;
     }
 
-    .rounded-6 {
-        border-radius: 35px;
+    .alu-profile-avatar {
+        width: min(200px, 62vw);
+        height: min(200px, 62vw);
+        border-radius: 50%;
+        border: 6px solid #fff;
+        outline: 2px solid rgba(245, 158, 11, 0.4);
+        position: relative;
+        z-index: 1;
+        transition: transform 0.4s ease;
+    }
+    .alu-profile-avatar:hover { transform: scale(1.03); }
+
+    .alu-avatar-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .alu-avatar-initials {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 800; font-size: 4.5rem; text-transform: uppercase;
     }
 
-    /* Tilt Logic */
-    .tilt-card-wrapper {
-        transform-style: preserve-3d;
+    .alu-online-dot {
+        position: absolute;
+        bottom: 12px; right: 12px;
+        width: 22px; height: 22px;
+        border-radius: 50%;
+        background: #10b981;
+        border: 3px solid #fff;
+        z-index: 2;
+    }
+
+    .alu-pro-tag {
+        display: inline-block;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: #92400e;
+        background: rgba(245, 158, 11, 0.14);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        border-radius: 999px;
+        padding: 0.4rem 1rem;
+    }
+
+    .alu-mini-stat { background: #f8fafc; border: 1px solid var(--alu-border); }
+    .alu-mini-stat h4 { font-family: 'Outfit', sans-serif; font-size: 1.5rem; }
+
+    .alu-info-icon {
+        width: 44px; height: 44px; flex-shrink: 0;
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.1rem;
+    }
+
+    /* ---- Buttons ---- */
+    .alu-btn-amber {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: #fff; border: none;
+        box-shadow: 0 10px 24px rgba(245, 158, 11, 0.4);
+        min-height: 48px;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .alu-btn-amber:hover, .alu-btn-amber:focus { color: #fff; background: linear-gradient(135deg, #d97706, #b45309); transform: translateY(-2px); }
+
+    .alu-btn-connect {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: #fff; border: none;
+        box-shadow: 0 10px 24px rgba(16, 185, 129, 0.35);
+        min-height: 48px;
+        animation: aluPulseGreen 2s infinite;
+    }
+    .alu-btn-connect:hover, .alu-btn-connect:focus { color: #fff; transform: translateY(-2px); }
+
+    .alu-btn-outline {
+        border: 1.5px solid var(--alu-border);
+        color: var(--alu-ink);
+        background: #fff;
+        min-height: 48px;
+        display: flex; align-items: center; justify-content: center;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .alu-btn-outline:hover, .alu-btn-outline:focus { transform: translateY(-2px); border-color: rgba(245, 158, 11, 0.55); box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08); color: var(--alu-ink); }
+
+    /* ---- Main content cards ---- */
+    .alu-glass-section {
+        background: var(--alu-card);
+        border: 1px solid var(--alu-border);
+        border-top: 3px solid var(--alu-amber);
+        border-radius: 24px;
+        box-shadow: var(--alu-shadow);
+    }
+
+    .alu-info-card {
+        background: var(--alu-card);
+        border: 1px solid var(--alu-border);
+        border-radius: 20px;
+        box-shadow: var(--alu-shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .alu-info-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12); }
+
+    .alu-card-icon {
+        width: 55px; height: 55px;
+        border-radius: 18px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.5rem; color: #fff;
+    }
+
+    .alu-data-entry label {
+        font-size: 0.8rem; color: var(--alu-muted);
+        text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+    }
+    .alu-data-value { font-size: 1.2rem; font-weight: 700; color: var(--alu-ink); word-break: break-word; }
+
+    .alu-progress { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+    .alu-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #f59e0b, #d97706);
+        border-radius: 10px;
+        transition: width 1s ease;
+    }
+
+    /* ---- Achievements ---- */
+    .alu-achievements {
+        background: var(--alu-card);
+        border: 1px solid var(--alu-border);
+        border-radius: 24px;
+        box-shadow: var(--alu-shadow);
+    }
+
+    .alu-trophy {
+        width: 48px; height: 48px;
+        border-radius: 50%;
+        background: rgba(245, 158, 11, 0.12);
+        border: 2px solid rgba(245, 158, 11, 0.35);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.3rem;
+    }
+
+    .alu-achievement-row {
+        background: #f8fafc;
+        border: 1px solid var(--alu-border);
+        border-left: 5px solid var(--alu-amber);
+        border-radius: 16px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .alu-achievement-row:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08); }
+
+    .alu-medal {
+        width: 45px; height: 45px;
+        border-radius: 50%;
+        border: 3px solid var(--alu-amber);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--alu-amber-dark);
+        font-size: 1.2rem;
+        background: #fff;
+    }
+
+    /* ---- Reveal on scroll ---- */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.reveal-visible { opacity: 1; transform: translateY(0); }
+
+    @keyframes aluWave {
+        0% { transform: translate3d(-90px, 0, 0); }
+        100% { transform: translate3d(85px, 0, 0); }
+    }
+
+    @keyframes aluPulseGreen {
+        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55); }
+        70% { box-shadow: 0 0 0 16px rgba(16, 185, 129, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* ---- Mobile ---- */
+    @media (max-width: 991px) {
+        .alu-profile-hero { padding: 2.5rem 1.25rem 5.5rem; }
+        .alu-profile-content { margin-top: -70px; }
+    }
+
+    @media (max-width: 768px) {
+        .alu-profile-hero { padding: 2rem 1rem 5rem; }
+        .alu-hero-sub { font-size: 1.05rem; }
+        .alu-profile-content { margin-top: -60px; }
+        .alu-identity-card { padding: 1.5rem !important; }
+    }
+
+    @media (max-width: 576px) {
+        .alumni-container { padding: 0.9rem 0.9rem 0; }
+        .alu-hero-title { font-size: 1.9rem; }
+        .alu-achievement-row h5 { font-size: 1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        .parallax > use, .alu-btn-connect { animation: none !important; }
+        .alu-info-card, .alu-achievement-row, .alu-btn-outline, .alu-btn-amber, .alu-profile-avatar { transition: none !important; }
+        .alu-info-card:hover, .alu-achievement-row:hover { transform: none !important; }
     }
 </style>
 
@@ -748,12 +640,31 @@
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('reveal-active');
+                entry.target.classList.add('reveal-visible');
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    document.querySelectorAll('.section-reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.section-reveal, .reveal').forEach(el => observer.observe(el));
+
+    // Animated counters for the Year / Exp mini-stats (values already rendered server-side)
+    (function animateProfileCounters() {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document.querySelectorAll('.alu-identity-card .alu-count').forEach(el => {
+            const target = parseInt(el.dataset.count || '0', 10);
+            const suffix = el.dataset.suffix || '';
+            if (reduceMotion || isNaN(target)) return;
+            if (target > 2100) { el.textContent = target + suffix; return; } // pass year: no count-up
+            const dur = 900;
+            const start = performance.now();
+            const tick = (now) => {
+                const p = Math.min((now - start) / dur, 1);
+                el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+                if (p < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+        });
+    })();
 </script>
 {% endblock %}

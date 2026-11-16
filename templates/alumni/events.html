@@ -3,510 +3,452 @@
 {% block title %}Upcoming Events - Alumni Hub{% endblock %}
 
 {% block content %}
-<!-- Premium Fonts -->
-<link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 
-<div class="events-wrapper">
-    <!-- Animated Mesh Background -->
-    <div class="mesh-background">
-        <div class="mesh-ball ball-1"></div>
-        <div class="mesh-ball ball-2"></div>
-        <div class="mesh-ball ball-3"></div>
-        <div class="mesh-ball ball-4"></div>
-    </div>
+<style>
+    /* ---------- Alumni theme (amber) ---------- */
+    :root {
+        --alumni-amber: #f59e0b;
+        --alumni-amber-dark: #d97706;
+        --alumni-amber-soft: #fef3c7;
+        --alumni-amber-subtle: #fffbeb;
+        --alumni-navy: #0b1329;
+    }
+    .alumni-page { position: relative; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+    .alumni-page h1, .alumni-page h2, .alumni-page h3, .alumni-page h4, .alumni-page h5, .alumni-page h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-    <!-- Floating Particles -->
-    <div class="particles-container">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
+    /* Ambient orbs (subtle, amber) */
+    .alumni-orb { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 0; }
+    .alumni-orb-1 { width: 420px; height: 420px; background: rgba(245,158,11,.14); top: 320px; left: -140px; }
+    .alumni-orb-2 { width: 360px; height: 360px; background: rgba(23,37,84,.12); top: 900px; right: -120px; }
 
-    <!-- Hero Section -->
-    <section class="events-hero glass-hero position-relative overflow-hidden">
-        <canvas class="network-canvas"></canvas>
-        <div class="hero-particles"></div>
-        <div class="container" style="position: relative; z-index: 2;">
-            <div class="hero-content text-center">
-                <div class="badge rounded-pill bg-white text-primary px-4 py-2 mb-4 shadow-lg reveal-fade animate-bounce-in"
-                    style="font-weight: 700; letter-spacing: 1.5px;">
-                    <i class="fas fa-calendar-star me-2 pulse-icon"></i> CONNECT & GROW
+    /* ---------- Hero ---------- */
+    .alumni-hero {
+        background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%);
+        border-radius: 28px;
+        padding: 3.5rem 2rem 7.5rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 24px 60px rgba(11,19,41,.28);
+    }
+    .alumni-hero::after {
+        content: ''; position: absolute; inset: 0; pointer-events: none;
+        background-image: radial-gradient(rgba(245,158,11,.16) 1px, transparent 1px);
+        background-size: 26px 26px; opacity: .5;
+    }
+    .alumni-hero > * { position: relative; z-index: 2; }
+    .alumni-hero-badge {
+        display: inline-flex; align-items: center; gap: .5rem;
+        background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
+        color: #fde68a; font-weight: 700; font-size: .78rem; letter-spacing: .14em;
+        padding: .5rem 1.1rem; border-radius: 999px;
+    }
+    .alumni-hero-badge .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #fbbf24; animation: alumni-pulse 2s ease-in-out infinite; }
+    @keyframes alumni-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(251,191,36,.55); } 50% { box-shadow: 0 0 0 7px rgba(251,191,36,0); } }
+    .text-amber-gradient {
+        background: linear-gradient(90deg, #fde68a, #fbbf24 35%, #f59e0b 65%, #fcd34d);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .alumni-hero h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 800; color: #fff; line-height: 1.08; }
+    .alumni-hero p.lead { color: rgba(255,255,255,.72); max-width: 760px; margin: 0 auto; font-size: 1.12rem; line-height: 1.65; }
+
+    /* Hero stat cards (glass) */
+    .alumni-stat {
+        background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.16);
+        backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+        border-radius: 20px; padding: 1.25rem .75rem; text-align: center;
+        transition: transform .3s ease, background .3s ease;
+    }
+    .alumni-stat:hover { transform: translateY(-5px); background: rgba(255,255,255,.14); }
+    .alumni-stat .stat-number { font-size: 2rem; font-weight: 800; color: #fff; line-height: 1; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .alumni-stat .stat-number .stat-suffix { color: #fbbf24; font-size: 1.4rem; }
+    .alumni-stat .stat-label { font-size: .82rem; font-weight: 600; color: rgba(255,255,255,.65); margin-top: .4rem; }
+
+    /* Content pulled over the hero */
+    .alumni-lift { position: relative; z-index: 5; margin-top: -5.5rem; }
+
+    /* ---------- Filter tabs ---------- */
+    .alumni-filter-card {
+        background: #fff; border: 1px solid rgba(15,23,42,.08); border-radius: 20px;
+        box-shadow: 0 12px 32px rgba(15,23,42,.08); padding: 1rem;
+    }
+    .filter-btn {
+        min-height: 44px; padding: .65rem 1.35rem; border: 1.5px solid rgba(217,119,6,.28);
+        background: #fff; border-radius: 999px; font-weight: 600; font-size: .92rem; color: #57534e;
+        transition: all .25s ease; cursor: pointer; font-family: 'Outfit', sans-serif;
+    }
+    .filter-btn:hover { border-color: var(--alumni-amber); color: var(--alumni-amber-dark); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245,158,11,.18); }
+    .filter-btn.active { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-color: transparent; box-shadow: 0 10px 24px rgba(245,158,11,.38); }
+    .filter-count { font-size: .88rem; color: #78716c; font-weight: 500; }
+
+    /* ---------- Event cards ---------- */
+    .event-card {
+        background: #fff; border: 1px solid rgba(15,23,42,.08); border-radius: 24px;
+        box-shadow: 0 14px 36px rgba(15,23,42,.07); overflow: hidden; height: 100%;
+        transition: transform .3s ease, box-shadow .3s ease; display: flex; flex-direction: column;
+    }
+    .event-card:hover { transform: translateY(-5px); box-shadow: 0 26px 56px rgba(15,23,42,.14); }
+    .event-card:hover .event-title { color: var(--alumni-amber-dark); }
+    .event-visual { height: 200px; position: relative; overflow: hidden; flex-shrink: 0; }
+    .event-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,.38) 100%); }
+    .event-visual .event-badge-chip {
+        position: absolute; top: 1rem; left: 1rem; z-index: 3;
+        background: rgba(255,255,255,.94); color: #1c1917; padding: .4rem .9rem; border-radius: 999px;
+        font-weight: 700; font-size: .82rem; box-shadow: 0 6px 16px rgba(0,0,0,.18);
+    }
+    .event-status { position: absolute; top: 1rem; right: 1rem; z-index: 3; }
+    .date-badge {
+        position: absolute; bottom: 1rem; left: 1rem; z-index: 3;
+        background: #fff; padding: .55rem .95rem; border-radius: 14px; text-align: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,.2); line-height: 1.1; color: #1c1917;
+    }
+    .date-badge .date-day { display: block; font-weight: 800; font-size: 1.15rem; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .date-badge .date-month { display: block; font-weight: 700; font-size: .72rem; letter-spacing: .12em; color: var(--alumni-amber-dark); }
+    .event-body { padding: 1.4rem 1.4rem 1.5rem; display: flex; flex-direction: column; flex: 1; }
+    .event-category { font-weight: 700; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--alumni-amber-dark); }
+    .event-seats { font-size: .83rem; color: #78716c; font-weight: 600; }
+    .event-title { transition: color .25s ease; font-weight: 700; color: #1c1917; }
+    .event-time { font-size: .88rem; color: #78716c; }
+    .event-description { color: #57534e; line-height: 1.6; font-size: .95rem; flex: 1; }
+    .event-meta { font-size: .88rem; color: #78716c; }
+    .event-meta i { color: var(--alumni-amber); }
+
+    /* Completed event */
+    .event-completed { opacity: .88; }
+    .event-completed .event-visual { filter: grayscale(.35); }
+
+    /* ---------- Buttons ---------- */
+    .btn-amber {
+        background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: none;
+        border-radius: 999px; font-weight: 600; min-height: 44px;
+        display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+        box-shadow: 0 10px 24px rgba(245,158,11,.32); transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .btn-amber:hover, .btn-amber:focus { color: #fff; transform: translateY(-2px); box-shadow: 0 14px 30px rgba(245,158,11,.42); }
+    .btn-amber-outline {
+        border: 1.5px solid rgba(217,119,6,.45); color: var(--alumni-amber-dark); background: #fff;
+        border-radius: 999px; font-weight: 600; min-height: 44px;
+        display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+        transition: all .25s ease;
+    }
+    .btn-amber-outline:hover { background: var(--alumni-amber-soft); color: var(--alumni-amber-dark); transform: translateY(-2px); }
+    .btn-live { background: #dc2626; color: #fff; border: none; border-radius: 999px; font-weight: 600; min-height: 44px; }
+    .btn-live:disabled { opacity: .95; }
+    .blink-dot { animation: alumni-blink 1.5s ease-in-out infinite; }
+    @keyframes alumni-blink { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+    .pulse-badge-soft { animation: alumni-pulse 2s ease-in-out infinite; }
+
+    /* ---------- CTA ---------- */
+    .alumni-cta {
+        background: #fff; border: 1px solid rgba(245,158,11,.25); border-radius: 28px;
+        box-shadow: 0 18px 44px rgba(15,23,42,.08); padding: 3rem 2rem; position: relative; overflow: hidden;
+    }
+    .alumni-cta::before { content: ''; position: absolute; top: -70px; right: -70px; width: 220px; height: 220px; border-radius: 50%; background: rgba(245,158,11,.12); filter: blur(40px); }
+    .alumni-cta h2 { font-weight: 800; }
+
+    /* ---------- Reveal on scroll (subtle) ---------- */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; transition-delay: var(--delay, 0s); }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 576px) {
+        .alumni-hero { padding: 2.25rem 1.1rem 6.5rem; border-radius: 22px; }
+        .alumni-stat .stat-number { font-size: 1.6rem; }
+        .event-visual { height: 180px; }
+        .filter-btn { padding: .6rem 1rem; font-size: .86rem; }
+        .alumni-cta { padding: 2.25rem 1.25rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation: none !important; transition: none !important; }
+        .reveal { opacity: 1 !important; transform: none !important; }
+    }
+</style>
+
+<div class="alumni-page">
+    <div class="alumni-orb alumni-orb-1"></div>
+    <div class="alumni-orb alumni-orb-2"></div>
+
+    <div class="container py-4 py-md-5">
+        <!-- Hero -->
+        <section class="alumni-hero text-center">
+            <span class="alumni-hero-badge mb-4"><span class="live-dot"></span><i class="fas fa-calendar-star"></i>&nbsp;CONNECT &amp; GROW</span>
+            <h1 class="mb-3">Upcoming <span class="text-amber-gradient">Events</span></h1>
+            <p class="lead mb-5">Join our webinars, meetups, and reunions to stay connected with the alumni community.</p>
+
+            <!-- Stats Counter -->
+            <div class="row justify-content-center g-3 g-md-4">
+                <div class="col-6 col-md-3">
+                    <div class="alumni-stat">
+                        <div class="stat-number"><span class="counter" data-target="25">0</span></div>
+                        <div class="stat-label">Events This Year</div>
+                    </div>
                 </div>
-                <h1 class="display-2 fw-bold mb-4 text-white">
-                    <span class="fade-in-text">Upcoming </span><span
-                        class="text-holographic gradient-shift">Events</span>
-                </h1>
-                <p class="text-white-50 lead mb-5 reveal-fade slide-up"
-                    style="font-size: 1.5rem; max-width: 850px; margin: 0 auto; font-weight: 500; line-height: 1.6;">
-                    Join our webinars, meetups, and reunions to stay connected with the alumni community.
-                </p>
-
-                <!-- Stats Counter -->
-                <div class="row justify-content-center mt-5 g-4">
-                    <div class="col-md-3 col-6">
-                        <div class="stat-card glass-card p-4 reveal-fade" style="--delay: 0.1s">
-                            <div class="stat-number counter" data-target="25">0</div>
-                            <div class="stat-label">Events This Year</div>
-                        </div>
+                <div class="col-6 col-md-3">
+                    <div class="alumni-stat">
+                        <div class="stat-number"><span class="counter" data-target="650">0</span></div>
+                        <div class="stat-label">Participants</div>
                     </div>
-                    <div class="col-md-3 col-6">
-                        <div class="stat-card glass-card p-4 reveal-fade" style="--delay: 0.2s">
-                            <div class="stat-number counter" data-target="650">0</div>
-                            <div class="stat-label">Participants</div>
-                        </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="alumni-stat">
+                        <div class="stat-number"><span class="counter" id="upcomingStat" data-target="7">0</span></div>
+                        <div class="stat-label">Upcoming Events</div>
                     </div>
-                    <div class="col-md-3 col-6">
-                        <div class="stat-card glass-card p-4 reveal-fade" style="--delay: 0.3s">
-                            <div class="stat-number counter" data-target="7">0</div>
-                            <div class="stat-label">Upcoming Events</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="stat-card glass-card p-4 reveal-fade" style="--delay: 0.4s">
-                            <div class="stat-number counter" data-target="98">0</div>
-                            <div class="stat-label">Success Rate %</div>
-                        </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="alumni-stat">
+                        <div class="stat-number"><span class="counter" data-target="98">0</span><span class="stat-suffix">%</span></div>
+                        <div class="stat-label">Success Rate</div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <div class="container pb-5" style="position: relative; z-index: 5; margin-top: -100px;">
-
-        <!-- Filter Tabs -->
-        <div class="filter-tabs mb-5 reveal-fade">
-            <div class="home-card p-3">
-                <div class="d-flex flex-wrap justify-content-center gap-3">
-                    <button class="filter-btn active" data-filter="all">
+        <div class="alumni-lift">
+            <!-- Filter Tabs -->
+            <div class="alumni-filter-card mb-4 reveal">
+                <div class="d-flex flex-wrap justify-content-center gap-2 gap-md-3" role="group" aria-label="Filter events by category">
+                    <button class="filter-btn active" data-filter="all" type="button">
                         <i class="fas fa-th-large me-2"></i>All Events
                     </button>
-                    <button class="filter-btn" data-filter="webinar">
+                    <button class="filter-btn" data-filter="webinar" type="button">
                         <i class="fas fa-video me-2"></i>Webinars
                     </button>
-                    <button class="filter-btn" data-filter="workshop">
+                    <button class="filter-btn" data-filter="workshop" type="button">
                         <i class="fas fa-chalkboard-teacher me-2"></i>Workshops
                     </button>
-                    <button class="filter-btn" data-filter="social">
+                    <button class="filter-btn" data-filter="social" type="button">
                         <i class="fas fa-users me-2"></i>Social
                     </button>
-                    <button class="filter-btn" data-filter="networking">
+                    <button class="filter-btn" data-filter="networking" type="button">
                         <i class="fas fa-handshake me-2"></i>Networking
                     </button>
                 </div>
+                <p class="filter-count text-center mb-0 mt-3" id="filterCount">Showing 8 of 8 events</p>
             </div>
-        </div>
 
-        <!-- Event Cards -->
-        <div class="row g-4 events-grid">
-            <!-- Event 1 - Itrang'26 (Ongoing) -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="social" style="--delay: 0.1s">
-                <div class="card border-0 glass-card event-card tilt-element h-100 p-0 overflow-hidden">
-                    <div class="event-img-container position-relative"
-                        style="height: 220px; background: linear-gradient(135deg, rgba(240, 147, 251, 0.8) 0%, rgba(245, 87, 108, 0.8) 100%), url('/static/images/itrang.jpeg'); background-size: cover; background-position: center;">
-                        <div class="event-overlay">
-                            <div class="event-badge">
-                                <i class="fas fa-star"></i> Live Now
+            <!-- Event Cards -->
+            <div class="row g-4 events-grid">
+                <!-- Event 1 - Itrang'26 (Ongoing) -->
+                <div class="col-12 col-md-6 col-lg-4 event-item reveal" data-category="social" style="--delay: 0.05s">
+                    <article class="event-card">
+                        <div class="event-visual" style="background: linear-gradient(135deg, rgba(240,147,251,0.8) 0%, rgba(245,87,108,0.8) 100%), url('/static/images/itrang.jpeg'); background-size: cover; background-position: center;">
+                            <span class="event-badge-chip"><i class="fas fa-star me-1"></i>Live Now</span>
+                            <span class="event-status"><span class="badge bg-danger shadow-lg pulse-badge-soft">Happening Now</span></span>
+                            <span class="date-badge"><span class="date-day">27-28</span><span class="date-month">FEB</span></span>
+                        </div>
+                        <div class="event-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category"><i class="fas fa-trophy me-1"></i>Cultural Fest</span>
+                                <span class="event-seats"><i class="fas fa-users me-1"></i>1000+ seats</span>
                             </div>
-                        </div>
-                        <div class="position-absolute bottom-0 start-0 m-3 date-badge">
-                            <span class="d-block fw-bold h4 mb-0">27-28</span>
-                            <small class="d-block fw-bold">FEB</small>
-                        </div>
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-danger shadow-lg pulse-badge animate-pulse">Happening Now</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="event-category text-danger">
-                                <i class="fas fa-trophy me-1"></i> Cultural Fest
-                            </span>
-                            <span class="event-seats">
-                                <i class="fas fa-users me-1"></i> 1000+ seats
-                            </span>
-                        </div>
-                        <h4 class="mb-3 fw-bold event-title">Itrang'26</h4>
-                        <p class="text-muted small mb-3">
-                            <i class="far fa-clock me-2 text-danger"></i> 9:00 AM Onwards (2 Days)
-                        </p>
-                        <p class="text-muted mb-4 event-description">Annual cultural festival featuring competitions,
-                            performances, and celebrations. Join us for two days of non-stop entertainment!</p>
-                        <div class="d-flex flex-column gap-3">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-map-marker-alt text-danger me-2"></i>
-                                <span class="text-muted small">Main Campus</span>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-danger rounded-pill px-3 btn-hover-effect flex-fill" disabled>
-                                    <span>Live Event</span>
-                                    <i class="fas fa-circle ms-2 blink"></i>
+                            <h4 class="event-title mb-2">Itrang'26</h4>
+                            <p class="event-time mb-2"><i class="far fa-clock me-2"></i>9:00 AM Onwards (2 Days)</p>
+                            <p class="event-description mb-3">Annual cultural festival featuring competitions, performances, and celebrations. Join us for two days of non-stop entertainment!</p>
+                            <p class="event-meta mb-3"><i class="fas fa-map-marker-alt me-2"></i>Main Campus</p>
+                            <div class="d-flex gap-2 mt-auto">
+                                <button class="btn btn-live px-3 flex-fill" disabled type="button">
+                                    <span>Live Event</span><i class="fas fa-circle ms-2 blink-dot"></i>
                                 </button>
-                                <a href="https://itrangadmin.vercel.app/"
-                                    class="btn btn-premium-gradient rounded-pill px-3 btn-hover-effect flex-fill">
-                                    <span>Join Itrang</span>
-                                    <i class="fas fa-external-link-alt ms-2"></i>
+                                <a href="https://itrangadmin.vercel.app/" class="btn btn-amber px-3 flex-fill">
+                                    <span>Join Itrang</span><i class="fas fa-external-link-alt ms-1"></i>
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
-            </div>
 
-            <!-- Event 2 - Sparda'26 (Completed) -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="social" style="--delay: 0.2s">
-                <div class="card border-0 glass-card event-card tilt-element h-100 p-0 overflow-hidden event-completed">
-                    <div class="event-img-container position-relative"
-                        style="height: 220px; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); filter: grayscale(0.3);">
-                        <div class="event-overlay">
-                            <div class="event-badge">
-                                <i class="fas fa-check-circle"></i> Completed
+                <!-- Event 2 - Sparda'26 (Completed) -->
+                <div class="col-12 col-md-6 col-lg-4 event-item reveal" data-category="social" style="--delay: 0.1s">
+                    <article class="event-card event-completed">
+                        <div class="event-visual" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                            <span class="event-badge-chip"><i class="fas fa-check-circle me-1"></i>Completed</span>
+                            <span class="event-status"><span class="badge bg-secondary shadow-lg">Event Over</span></span>
+                            <span class="date-badge"><span class="date-day">28-29</span><span class="date-month">JAN</span></span>
+                        </div>
+                        <div class="event-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category text-secondary"><i class="fas fa-running me-1"></i>Sports Fest</span>
+                                <span class="event-seats"><i class="fas fa-users me-1"></i>800+ attended</span>
                             </div>
-                        </div>
-                        <div class="position-absolute bottom-0 start-0 m-3 date-badge">
-                            <span class="d-block fw-bold h4 mb-0">28-29</span>
-                            <small class="d-block fw-bold">JAN</small>
-                        </div>
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-secondary shadow-lg">Event Over</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="event-category text-secondary">
-                                <i class="fas fa-running me-1"></i> Sports Fest
-                            </span>
-                            <span class="event-seats">
-                                <i class="fas fa-users me-1"></i> 800+ attended
-                            </span>
-                        </div>
-                        <h4 class="mb-3 fw-bold event-title">Sparda'26</h4>
-                        <p class="text-muted small mb-3">
-                            <i class="far fa-clock me-2 text-secondary"></i> 28-29 January (Completed)
-                        </p>
-                        <p class="text-muted mb-4 event-description">Annual sports festival with cricket, football,
-                            basketball tournaments and athletics competitions. Successfully completed with great
-                            participation!</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-map-marker-alt text-secondary me-2"></i>
-                                <span class="text-muted small">Sports Ground</span>
-                            </div>
-                            <button class="btn btn-outline-secondary rounded-pill px-4" disabled>
-                                <span>Event Closed</span>
-                                <i class="fas fa-check ms-2"></i>
+                            <h4 class="event-title mb-2">Sparda'26</h4>
+                            <p class="event-time mb-2"><i class="far fa-clock me-2"></i>28-29 January (Completed)</p>
+                            <p class="event-description mb-3">Annual sports festival with cricket, football, basketball tournaments and athletics competitions. Successfully completed with great participation!</p>
+                            <p class="event-meta mb-3"><i class="fas fa-map-marker-alt me-2"></i>Sports Ground</p>
+                            <button class="btn btn-outline-secondary rounded-pill px-4 mt-auto" disabled type="button" style="min-height: 44px;">
+                                <span>Event Closed</span><i class="fas fa-check ms-2"></i>
                             </button>
                         </div>
-                    </div>
+                    </article>
                 </div>
-            </div>
 
-            <!-- Event 3 - AI Webinar -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="webinar" style="--delay: 0.1s">
-                <div class="card border-0 glass-card event-card tilt-element h-100 p-0 overflow-hidden">
-                    <div class="event-img-container position-relative"
-                        style="height: 220px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <div class="event-overlay">
-                            <div class="event-badge">
-                                <i class="fas fa-fire"></i> Trending
+                <!-- Event 3 - AI Webinar -->
+                <div class="col-12 col-md-6 col-lg-4 event-item reveal" data-category="webinar" style="--delay: 0.15s">
+                    <article class="event-card">
+                        <div class="event-visual" style="background: linear-gradient(135deg, #92400e 0%, #f59e0b 55%, #fbbf24 100%);">
+                            <span class="event-badge-chip"><i class="fas fa-fire me-1"></i>Trending</span>
+                            <span class="event-status"><span class="badge bg-success shadow-lg">Upcoming</span></span>
+                            <span class="date-badge"><span class="date-day">15</span><span class="date-month">MAR</span></span>
+                        </div>
+                        <div class="event-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category"><i class="fas fa-video me-1"></i>Webinar</span>
+                                <span class="event-seats"><i class="fas fa-users me-1"></i>250 seats</span>
                             </div>
-                        </div>
-                        <div class="position-absolute bottom-0 start-0 m-3 date-badge">
-                            <span class="d-block fw-bold h4 mb-0">15</span>
-                            <small class="d-block fw-bold">MAR</small>
-                        </div>
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-success shadow-lg pulse-badge">Upcoming</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="event-category text-primary">
-                                <i class="fas fa-video me-1"></i> Webinar
-                            </span>
-                            <span class="event-seats">
-                                <i class="fas fa-users me-1"></i> 250 seats
-                            </span>
-                        </div>
-                        <h4 class="mb-3 fw-bold event-title">AI in 2026: The Future of Tech</h4>
-                        <p class="text-muted small mb-3">
-                            <i class="far fa-clock me-2 text-primary"></i> 10:00 AM - 12:00 PM
-                        </p>
-                        <p class="text-muted mb-4 event-description">Join industry leaders discussing the impact of
-                            Artificial Intelligence on software engineering and future career opportunities.</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-globe text-primary me-2"></i>
-                                <span class="text-muted small">Online Event</span>
-                            </div>
-                            <a href="/register" class="btn btn-premium-gradient rounded-pill px-4 btn-hover-effect">
-                                <span>Register</span>
-                                <i class="fas fa-arrow-right ms-2"></i>
+                            <h4 class="event-title mb-2">AI in 2026: The Future of Tech</h4>
+                            <p class="event-time mb-2"><i class="far fa-clock me-2"></i>10:00 AM - 12:00 PM</p>
+                            <p class="event-description mb-3">Join industry leaders discussing the impact of Artificial Intelligence on software engineering and future career opportunities.</p>
+                            <p class="event-meta mb-3"><i class="fas fa-globe me-2"></i>Online Event</p>
+                            <a href="/register" class="btn btn-amber px-4 mt-auto align-self-start">
+                                <span>Register</span><i class="fas fa-arrow-right ms-1"></i>
                             </a>
                         </div>
-                    </div>
+                    </article>
                 </div>
-            </div>
 
-            <!-- Event 2 - Resume Workshop -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="workshop" style="--delay: 0.2s">
-                <div class="card border-0 glass-card event-card tilt-element h-100 p-0 overflow-hidden">
-                    <div class="event-img-container position-relative"
-                        style="height: 220px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                        <div class="event-overlay">
-                            <div class="event-badge">
-                                <i class="fas fa-star"></i> Popular
+                <!-- Event 4 - Resume Workshop -->
+                <div class="col-12 col-md-6 col-lg-4 event-item reveal" data-category="workshop" style="--delay: 0.05s">
+                    <article class="event-card">
+                        <div class="event-visual" style="background: linear-gradient(135deg, #78350f 0%, #d97706 55%, #fbbf24 100%);">
+                            <span class="event-badge-chip"><i class="fas fa-star me-1"></i>Popular</span>
+                            <span class="event-status"><span class="badge bg-warning text-dark shadow-lg">Workshop</span></span>
+                            <span class="date-badge"><span class="date-day">22</span><span class="date-month">MAR</span></span>
+                        </div>
+                        <div class="event-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category"><i class="fas fa-chalkboard-teacher me-1"></i>Workshop</span>
+                                <span class="event-seats"><i class="fas fa-users me-1"></i>100 seats</span>
                             </div>
-                        </div>
-                        <div class="position-absolute bottom-0 start-0 m-3 date-badge">
-                            <span class="d-block fw-bold h4 mb-0">22</span>
-                            <small class="d-block fw-bold">MAR</small>
-                        </div>
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-warning text-dark shadow-lg pulse-badge">Workshop</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="event-category text-warning">
-                                <i class="fas fa-chalkboard-teacher me-1"></i> Workshop
-                            </span>
-                            <span class="event-seats">
-                                <i class="fas fa-users me-1"></i> 100 seats
-                            </span>
-                        </div>
-                        <h4 class="mb-3 fw-bold event-title">Resume Building Masterclass</h4>
-                        <p class="text-muted small mb-3">
-                            <i class="far fa-clock me-2 text-warning"></i> 02:00 PM - 04:00 PM
-                        </p>
-                        <p class="text-muted mb-4 event-description">Learn how to craft a perfect resume that gets you
-                            hired by top companies with expert guidance and live examples.</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-map-marker-alt text-warning me-2"></i>
-                                <span class="text-muted small">College Auditorium</span>
-                            </div>
-                            <button class="btn btn-premium-gradient rounded-pill px-4 btn-hover-effect">
-                                <span>RSVP</span>
-                                <i class="fas fa-arrow-right ms-2"></i>
+                            <h4 class="event-title mb-2">Resume Building Masterclass</h4>
+                            <p class="event-time mb-2"><i class="far fa-clock me-2"></i>02:00 PM - 04:00 PM</p>
+                            <p class="event-description mb-3">Learn how to craft a perfect resume that gets you hired by top companies with expert guidance and live examples.</p>
+                            <p class="event-meta mb-3"><i class="fas fa-map-marker-alt me-2"></i>College Auditorium</p>
+                            <button class="btn btn-amber px-4 mt-auto align-self-start" type="button">
+                                <span>RSVP</span><i class="fas fa-arrow-right ms-1"></i>
                             </button>
                         </div>
-                    </div>
+                    </article>
                 </div>
-            </div>
 
-            <!-- Event 3 - Alumni Meet -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="social" style="--delay: 0.3s">
-                <div class="card border-0 glass-card event-card tilt-element h-100 p-0 overflow-hidden">
-                    <div class="event-img-container position-relative"
-                        style="height: 220px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                        <div class="event-overlay">
-                            <div class="event-badge">
-                                <i class="fas fa-heart"></i> Featured
+                <!-- Event 5 - Alumni Meet -->
+                <div class="col-12 col-md-6 col-lg-4 event-item reveal" data-category="social" style="--delay: 0.1s">
+                    <article class="event-card">
+                        <div class="event-visual" style="background: linear-gradient(135deg, #172554 0%, #1d4ed8 55%, #38bdf8 100%);">
+                            <span class="event-badge-chip"><i class="fas fa-heart me-1"></i>Featured</span>
+                            <span class="event-status"><span class="badge bg-primary shadow-lg">Social</span></span>
+                            <span class="date-badge"><span class="date-day">10</span><span class="date-month">APR</span></span>
+                        </div>
+                        <div class="event-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category"><i class="fas fa-users me-1"></i>Reunion</span>
+                                <span class="event-seats"><i class="fas fa-users me-1"></i>500+ seats</span>
                             </div>
-                        </div>
-                        <div class="position-absolute bottom-0 start-0 m-3 date-badge">
-                            <span class="d-block fw-bold h4 mb-0">10</span>
-                            <small class="d-block fw-bold">APR</small>
-                        </div>
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-primary shadow-lg pulse-badge">Social</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="event-category text-success">
-                                <i class="fas fa-users me-1"></i> Reunion
-                            </span>
-                            <span class="event-seats">
-                                <i class="fas fa-users me-1"></i> 500+ seats
-                            </span>
-                        </div>
-                        <h4 class="mb-3 fw-bold event-title">Annual Alumni Meet 2026</h4>
-                        <p class="text-muted small mb-3">
-                            <i class="far fa-clock me-2 text-success"></i> 06:00 PM Onwards
-                        </p>
-                        <p class="text-muted mb-4 event-description">Reconnect with old friends and professors at the
-                            biggest event of the year with entertainment and networking.</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-map-marker-alt text-success me-2"></i>
-                                <span class="text-muted small">Campus Grounds</span>
-                            </div>
-                            <button class="btn btn-premium-gradient rounded-pill px-4 btn-hover-effect">
-                                <span>Get Tickets</span>
-                                <i class="fas fa-arrow-right ms-2"></i>
+                            <h4 class="event-title mb-2">Annual Alumni Meet 2026</h4>
+                            <p class="event-time mb-2"><i class="far fa-clock me-2"></i>06:00 PM Onwards</p>
+                            <p class="event-description mb-3">Reconnect with old friends and professors at the biggest event of the year with entertainment and networking.</p>
+                            <p class="event-meta mb-3"><i class="fas fa-map-marker-alt me-2"></i>Campus Grounds</p>
+                            <button class="btn btn-amber px-4 mt-auto align-self-start" type="button">
+                                <span>Get Tickets</span><i class="fas fa-arrow-right ms-1"></i>
                             </button>
                         </div>
-                    </div>
+                    </article>
                 </div>
-            </div>
 
-            <!-- Event 4 - Tech Founders -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="networking" style="--delay: 0.4s">
-                <div class="card border-0 glass-card event-card tilt-element h-100 p-0 overflow-hidden">
-                    <div class="event-img-container position-relative"
-                        style="height: 220px; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                        <div class="event-overlay">
-                            <div class="event-badge">
-                                <i class="fas fa-rocket"></i> New
+                <!-- Event 6 - Tech Founders -->
+                <div class="col-12 col-md-6 col-lg-4 event-item reveal" data-category="networking" style="--delay: 0.15s">
+                    <article class="event-card">
+                        <div class="event-visual" style="background: linear-gradient(135deg, #0f172a 0%, #334155 55%, #f59e0b 130%);">
+                            <span class="event-badge-chip"><i class="fas fa-rocket me-1"></i>New</span>
+                            <span class="event-status"><span class="badge bg-info text-dark shadow-lg">Networking</span></span>
+                            <span class="date-badge"><span class="date-day">18</span><span class="date-month">APR</span></span>
+                        </div>
+                        <div class="event-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category"><i class="fas fa-handshake me-1"></i>Meetup</span>
+                                <span class="event-seats"><i class="fas fa-users me-1"></i>150 seats</span>
                             </div>
-                        </div>
-                        <div class="position-absolute bottom-0 start-0 m-3 date-badge">
-                            <span class="d-block fw-bold h4 mb-0">18</span>
-                            <small class="d-block fw-bold">APR</small>
-                        </div>
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-info shadow-lg pulse-badge">Networking</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="event-category text-info">
-                                <i class="fas fa-handshake me-1"></i> Meetup
-                            </span>
-                            <span class="event-seats">
-                                <i class="fas fa-users me-1"></i> 150 seats
-                            </span>
-                        </div>
-                        <h4 class="mb-3 fw-bold event-title">Tech Founders Meetup</h4>
-                        <p class="text-muted small mb-3">
-                            <i class="far fa-clock me-2 text-info"></i> 04:00 PM - 07:00 PM
-                        </p>
-                        <p class="text-muted mb-4 event-description">Network with successful startup founders and learn
-                            from their journey in building tech companies.</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-video text-info me-2"></i>
-                                <span class="text-muted small">Hybrid Event</span>
-                            </div>
-                            <button class="btn btn-premium-gradient rounded-pill px-4 btn-hover-effect">
-                                <span>Join Now</span>
-                                <i class="fas fa-arrow-right ms-2"></i>
+                            <h4 class="event-title mb-2">Tech Founders Meetup</h4>
+                            <p class="event-time mb-2"><i class="far fa-clock me-2"></i>04:00 PM - 07:00 PM</p>
+                            <p class="event-description mb-3">Network with successful startup founders and learn from their journey in building tech companies.</p>
+                            <p class="event-meta mb-3"><i class="fas fa-video me-2"></i>Hybrid Event</p>
+                            <button class="btn btn-amber px-4 mt-auto align-self-start" type="button">
+                                <span>Join Now</span><i class="fas fa-arrow-right ms-1"></i>
                             </button>
                         </div>
-                    </div>
+                    </article>
                 </div>
-            </div>
 
-            <!-- Event 5 - Career Fair -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="networking" style="--delay: 0.5s">
-                <div class="card border-0 glass-card event-card tilt-element h-100 p-0 overflow-hidden">
-                    <div class="event-img-container position-relative"
-                        style="height: 220px; background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
-                        <div class="event-overlay">
-                            <div class="event-badge">
-                                <i class="fas fa-briefcase"></i> Career
+                <!-- Event 7 - Career Fair -->
+                <div class="col-12 col-md-6 col-lg-4 event-item reveal" data-category="networking" style="--delay: 0.05s">
+                    <article class="event-card">
+                        <div class="event-visual" style="background: linear-gradient(135deg, #7c2d12 0%, #ea580c 55%, #fbbf24 100%);">
+                            <span class="event-badge-chip"><i class="fas fa-briefcase me-1"></i>Career</span>
+                            <span class="event-status"><span class="badge bg-danger shadow-lg">Career</span></span>
+                            <span class="date-badge"><span class="date-day">25</span><span class="date-month">APR</span></span>
+                        </div>
+                        <div class="event-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category"><i class="fas fa-briefcase me-1"></i>Career Fair</span>
+                                <span class="event-seats"><i class="fas fa-users me-1"></i>1000+ seats</span>
                             </div>
-                        </div>
-                        <div class="position-absolute bottom-0 start-0 m-3 date-badge">
-                            <span class="d-block fw-bold h4 mb-0">25</span>
-                            <small class="d-block fw-bold">APR</small>
-                        </div>
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-danger shadow-lg pulse-badge">Career</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="event-category text-danger">
-                                <i class="fas fa-briefcase me-1"></i> Career Fair
-                            </span>
-                            <span class="event-seats">
-                                <i class="fas fa-users me-1"></i> 1000+ seats
-                            </span>
-                        </div>
-                        <h4 class="mb-3 fw-bold event-title">Spring Career Fair 2026</h4>
-                        <p class="text-muted small mb-3">
-                            <i class="far fa-clock me-2 text-danger"></i> 10:00 AM - 05:00 PM
-                        </p>
-                        <p class="text-muted mb-4 event-description">Meet top recruiters and explore exciting career
-                            opportunities with 50+ companies participating.</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-building text-danger me-2"></i>
-                                <span class="text-muted small">Main Campus</span>
-                            </div>
-                            <button class="btn btn-premium-gradient rounded-pill px-4 btn-hover-effect">
-                                <span>Register</span>
-                                <i class="fas fa-arrow-right ms-2"></i>
+                            <h4 class="event-title mb-2">Spring Career Fair 2026</h4>
+                            <p class="event-time mb-2"><i class="far fa-clock me-2"></i>10:00 AM - 05:00 PM</p>
+                            <p class="event-description mb-3">Meet top recruiters and explore exciting career opportunities with 50+ companies participating.</p>
+                            <p class="event-meta mb-3"><i class="fas fa-building me-2"></i>Main Campus</p>
+                            <button class="btn btn-amber px-4 mt-auto align-self-start" type="button">
+                                <span>Register</span><i class="fas fa-arrow-right ms-1"></i>
                             </button>
                         </div>
-                    </div>
+                    </article>
                 </div>
-            </div>
 
-            <!-- Event 6 - Hackathon -->
-            <div class="col-md-6 col-lg-4 event-item reveal-fade" data-category="workshop" style="--delay: 0.6s">
-                <div class="card border-0 glass-card event-card tilt-element h-100 p-0 overflow-hidden">
-                    <div class="event-img-container position-relative"
-                        style="height: 220px; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
-                        <div class="event-overlay">
-                            <div class="event-badge">
-                                <i class="fas fa-code"></i> Tech
+                <!-- Event 8 - Hackathon -->
+                <div class="col-12 col-md-6 col-lg-4 event-item reveal" data-category="workshop" style="--delay: 0.1s">
+                    <article class="event-card">
+                        <div class="event-visual" style="background: linear-gradient(135deg, #451a03 0%, #b45309 55%, #f59e0b 100%);">
+                            <span class="event-badge-chip"><i class="fas fa-code me-1"></i>Tech</span>
+                            <span class="event-status"><span class="badge bg-secondary shadow-lg">Hackathon</span></span>
+                            <span class="date-badge"><span class="date-day">05</span><span class="date-month">MAY</span></span>
+                        </div>
+                        <div class="event-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="event-category"><i class="fas fa-laptop-code me-1"></i>Competition</span>
+                                <span class="event-seats"><i class="fas fa-users me-1"></i>200 seats</span>
                             </div>
-                        </div>
-                        <div class="position-absolute bottom-0 start-0 m-3 date-badge">
-                            <span class="d-block fw-bold h4 mb-0">05</span>
-                            <small class="d-block fw-bold">MAY</small>
-                        </div>
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-secondary shadow-lg pulse-badge">Hackathon</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="event-category text-secondary">
-                                <i class="fas fa-laptop-code me-1"></i> Competition
-                            </span>
-                            <span class="event-seats">
-                                <i class="fas fa-users me-1"></i> 200 seats
-                            </span>
-                        </div>
-                        <h4 class="mb-3 fw-bold event-title">Alumni Hackathon 2026</h4>
-                        <p class="text-muted small mb-3">
-                            <i class="far fa-clock me-2 text-secondary"></i> 48 Hours
-                        </p>
-                        <p class="text-muted mb-4 event-description">Code, collaborate, and compete with fellow alumni
-                            for amazing prizes worth ₹5 lakhs.</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-laptop-code text-secondary me-2"></i>
-                                <span class="text-muted small">Online + Campus</span>
-                            </div>
-                            <button class="btn btn-premium-gradient rounded-pill px-4 btn-hover-effect">
-                                <span>Sign Up</span>
-                                <i class="fas fa-arrow-right ms-2"></i>
+                            <h4 class="event-title mb-2">Alumni Hackathon 2026</h4>
+                            <p class="event-time mb-2"><i class="far fa-clock me-2"></i>48 Hours</p>
+                            <p class="event-description mb-3">Code, collaborate, and compete with fellow alumni for amazing prizes worth ₹5 lakhs.</p>
+                            <p class="event-meta mb-3"><i class="fas fa-laptop-code me-2"></i>Online + Campus</p>
+                            <button class="btn btn-amber px-4 mt-auto align-self-start" type="button">
+                                <span>Sign Up</span><i class="fas fa-arrow-right ms-1"></i>
                             </button>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
-        </div>
 
-        <!-- CTA Section -->
-        <div class="cta-section text-center mt-5 py-5 reveal-fade">
-            <div class="card border-0 glass-card p-5 holographic-border position-relative overflow-hidden">
-                <div class="cta-glow"></div>
-                <h2 class="fw-bold mb-3 gradient-text-animate">Don't Miss Out!</h2>
-                <p class="text-muted mb-5 mx-auto" style="max-width: 650px; font-size: 1.1rem;">
+            <!-- No results for filter (client-side only) -->
+            <div class="text-center py-5 d-none" id="noFilterResults">
+                <div class="mx-auto mb-3" style="width: 64px; height: 64px; border-radius: 18px; background: var(--alumni-amber-soft); color: var(--alumni-amber-dark); font-size: 1.6rem; display: grid; place-items: center;">
+                    <i class="fas fa-calendar-xmark"></i>
+                </div>
+                <h4 class="fw-bold mb-2">No events in this category yet</h4>
+                <p class="text-muted mb-0">Try another category to see more events.</p>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="alumni-cta text-center mt-5 reveal">
+                <h2 class="mb-3">Don't Miss Out!</h2>
+                <p class="text-muted mb-4 mx-auto" style="max-width: 650px; font-size: 1.05rem;">
                     Stay updated with upcoming events and never miss an opportunity to connect with your alumni
                     community.
                 </p>
                 <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <a href="/register" class="btn btn-premium-gradient px-5 py-3 magnetic-button btn-shine">
-                        <span class="btn-text fw-bold" style="font-size: 1.1rem;">
-                            Join Alumni Hub <i class="fas fa-arrow-right ms-2"></i>
-                        </span>
-                        <div class="btn-glow"></div>
+                    <a href="/register" class="btn btn-amber px-5 py-3">
+                        <span class="fw-bold" style="font-size: 1.05rem;">Join Alumni Hub <i class="fas fa-arrow-right ms-2"></i></span>
                     </a>
-                    <a href="#" class="btn btn-outline-primary px-5 py-3 btn-outline-hover"
-                        style="border-radius: 20px; font-weight: 600; border-width: 2px;">
-                        <i class="fas fa-bell me-2"></i> Get Notifications
+                    <a href="#" class="btn btn-amber-outline px-5 py-3">
+                        <i class="fas fa-bell me-2"></i>Get Notifications
                     </a>
                 </div>
             </div>
@@ -514,938 +456,86 @@
     </div>
 </div>
 
-<style>
-    /* Base Styles */
-    body {
-        font-family: 'Outfit', sans-serif;
-        background-color: var(--bg-primary) !important; color: var(--text-primary) !important;
-        overflow-x: hidden;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    .events-wrapper {
-        position: relative;
-        overflow: hidden;
-        min-height: 100vh;
-    }
-
-    /* Mesh Background with Animation */
-    .mesh-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        pointer-events: none;
-    }
-
-    .mesh-ball {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(100px);
-        opacity: 0.2;
-        animation: mesh-float 25s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
-    }
-
-    .ball-1 {
-        width: 700px;
-        height: 700px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        top: -15%;
-        left: -15%;
-    }
-
-    .ball-2 {
-        width: 600px;
-        height: 600px;
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        bottom: 10%;
-        right: -10%;
-        animation-delay: -8s;
-    }
-
-    .ball-3 {
-        width: 500px;
-        height: 500px;
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        top: 50%;
-        left: 40%;
-        animation-delay: -15s;
-    }
-
-    .ball-4 {
-        width: 400px;
-        height: 400px;
-        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        bottom: 30%;
-        left: 10%;
-        animation-delay: -20s;
-    }
-
-    @keyframes mesh-float {
-        0% {
-            transform: translate(0, 0) rotate(0deg) scale(1);
-        }
-
-        50% {
-            transform: translate(80px, 80px) rotate(180deg) scale(1.1);
-        }
-
-        100% {
-            transform: translate(150px, 150px) rotate(360deg) scale(0.9);
-        }
-    }
-
-    /* Floating Particles */
-    .particles-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        pointer-events: none;
-    }
-
-    .particle {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 50%;
-        animation: float-particle 20s infinite;
-    }
-
-    .particle:nth-child(1) {
-        left: 10%;
-        animation-delay: 0s;
-        animation-duration: 15s;
-    }
-
-    .particle:nth-child(2) {
-        left: 30%;
-        animation-delay: -5s;
-        animation-duration: 20s;
-    }
-
-    .particle:nth-child(3) {
-        left: 50%;
-        animation-delay: -10s;
-        animation-duration: 18s;
-    }
-
-    .particle:nth-child(4) {
-        left: 70%;
-        animation-delay: -3s;
-        animation-duration: 22s;
-    }
-
-    .particle:nth-child(5) {
-        left: 90%;
-        animation-delay: -8s;
-        animation-duration: 16s;
-    }
-
-    @keyframes float-particle {
-        0% {
-            transform: translateY(100vh) scale(0);
-            opacity: 0;
-        }
-
-        10% {
-            opacity: 1;
-        }
-
-        90% {
-            opacity: 1;
-        }
-
-        100% {
-            transform: translateY(-100vh) scale(1);
-            opacity: 0;
-        }
-    }
-
-    /* Hero Section */
-    .events-hero {
-        padding: 160px 0 140px;
-        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-particles {
-        position: absolute;
-        inset: 0;
-        background-image:
-            radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
-            radial-gradient(rgba(99, 102, 241, 0.1) 2px, transparent 2px);
-        background-size: 100% 100%, 100% 100%, 40px 40px;
-        opacity: 0.6;
-        animation: particles-move 20s linear infinite;
-    }
-
-    @keyframes particles-move {
-        0% {
-            background-position: 0 0, 0 0, 0 0;
-        }
-
-        100% {
-            background-position: 100px 100px, -100px -100px, 40px 40px;
-        }
-    }
-
-    /* Typing Animation */
-    .typing-text {
-        display: inline-block;
-        animation: typing 2s steps(10) 1s forwards;
-        overflow: hidden;
-        white-space: nowrap;
-        border-right: 3px solid white;
-    }
-
-    @keyframes typing {
-        from {
-            width: 0;
-        }
-
-        to {
-            width: 100%;
-            border-right: none;
-        }
-    }
-
-    /* Holographic Text with Gradient Shift */
-    .text-holographic {
-        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #fbbf24, #60a5fa);
-        background-size: 400% 100%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: holographic-move 8s linear infinite;
-    }
-
-    .gradient-shift {
-        animation: gradient-shift 5s ease infinite;
-    }
-
-    @keyframes holographic-move {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        100% {
-            background-position: 400% 50%;
-        }
-    }
-
-    @keyframes gradient-shift {
-
-        0%,
-        100% {
-            filter: hue-rotate(0deg);
-        }
-
-        50% {
-            filter: hue-rotate(90deg);
-        }
-    }
-
-    /* Pulse Icon */
-    .pulse-icon {
-        animation: pulse-scale 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-scale {
-
-        0%,
-        100% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.2);
-        }
-    }
-
-    /* Bounce In Animation */
-    .animate-bounce-in {
-        animation: bounce-in 1s ease-out;
-    }
-
-    @keyframes bounce-in {
-        0% {
-            transform: scale(0);
-            opacity: 0;
-        }
-
-        50% {
-            transform: scale(1.1);
-        }
-
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-
-    /* Fade In Text Animation (No Cursor) */
-    .fade-in-text {
-        display: inline-block;
-        animation: fade-in-smooth 1.5s ease-out;
-    }
-
-    @keyframes fade-in-smooth {
-        from {
-            opacity: 0;
-            transform: translateX(-20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    /* Slide Up Animation */
-    .slide-up {
-        animation: slide-up 1s ease-out 0.5s both;
-    }
-
-    @keyframes slide-up {
-        from {
-            transform: translateY(50px);
-            opacity: 0;
-        }
-
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    /* Stats Counter Cards */
-    .stat-card {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        border-radius: 20px !important;
-        transition: all 0.4s ease;
-    }
-
-    .stat-card:hover {
-        transform: translateY(-10px) scale(1.05);
-        background: rgba(255, 255, 255, 0.15);
-        box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
-    }
-
-    .stat-number {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: #ffffff;
-        margin-bottom: 0.5rem;
-    }
-
-    .stat-label {
-        font-size: 0.9rem;
-        color: #475569;
-        font-weight: 600;
-        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
-    }
-
-    /* Filter Tabs */
-    .filter-tabs {
-        animation: fade-in-down 0.8s ease-out;
-    }
-
-    @keyframes fade-in-down {
-        from {
-            opacity: 0;
-            transform: translateY(-30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .filter-btn {
-        padding: 12px 24px;
-        border: 2px solid rgba(99, 102, 241, 0.2);
-        background: white;
-        border-radius: 50px;
-        font-weight: 600;
-        color: #64748b;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .filter-btn:hover {
-        border-color: #6366f1;
-        color: #6366f1;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
-    }
-
-    .filter-btn.active {
-        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-        color: white;
-        border-color: transparent;
-        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
-    }
-
-    /* Event Cards Enhanced */
-    .glass-card {
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(30px);
-        border: 1px solid rgba(255, 255, 255, 0.8) !important;
-        border-radius: 28px !important;
-        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.08) !important;
-        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .event-card {
-        transform-style: preserve-3d;
-        position: relative;
-    }
-
-    .event-card::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: 28px;
-        padding: 2px;
-        background: linear-gradient(135deg, transparent, rgba(99, 102, 241, 0.1), transparent);
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        opacity: 0;
-        transition: opacity 0.5s ease;
-    }
-
-    .event-card:hover::before {
-        opacity: 1;
-    }
-
-    .event-card:hover {
-        transform: translateY(-20px) scale(1.03);
-        box-shadow: 0 40px 100px rgba(99, 102, 241, 0.2) !important;
-    }
-
-    .event-img-container {
-        border-radius: 24px 24px 0 0;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .event-img-container::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
-    }
-
-    .event-overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.3);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-    }
-
-    .event-card:hover .event-overlay {
-        opacity: 1;
-    }
-
-    .event-badge {
-        background: white;
-        color: #1e293b;
-        padding: 8px 20px;
-        border-radius: 50px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        transform: scale(0);
-        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-
-    .event-card:hover .event-badge {
-        transform: scale(1);
-    }
-
-    .date-badge {
-        background: white;
-        padding: 12px 16px;
-        border-radius: 12px;
-        text-align: center;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        z-index: 3;
-    }
-
-    .pulse-badge {
-        animation: pulse-badge 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-badge {
-
-        0%,
-        100% {
-            transform: scale(1);
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-        }
-
-        50% {
-            transform: scale(1.05);
-            box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-        }
-    }
-
-    .event-category {
-        font-weight: 700;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .event-seats {
-        font-size: 0.85rem;
-        color: #64748b;
-        font-weight: 600;
-    }
-
-    .event-title {
-        transition: color 0.3s ease;
-    }
-
-    .event-card:hover .event-title {
-        color: #6366f1;
-    }
-
-    .event-description {
-        line-height: 1.6;
-    }
-
-    /* Button Hover Effects */
-    .btn-hover-effect {
-        position: relative;
-        overflow: hidden;
-        z-index: 1;
-    }
-
-    .btn-hover-effect::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        transform: translate(-50%, -50%);
-        transition: width 0.6s ease, height 0.6s ease;
-    }
-
-    .btn-hover-effect:hover::before {
-        width: 300px;
-        height: 300px;
-    }
-
-    .btn-hover-effect span,
-    .btn-hover-effect i {
-        position: relative;
-        z-index: 2;
-    }
-
-    /* Live Event Blink Animation */
-    .blink {
-        animation: blink-animation 1.5s ease-in-out infinite;
-    }
-
-    @keyframes blink-animation {
-
-        0%,
-        100% {
-            opacity: 1;
-        }
-
-        50% {
-            opacity: 0.3;
-        }
-    }
-
-    .animate-pulse {
-        animation: pulse-glow 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-glow {
-
-        0%,
-        100% {
-            box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
-        }
-
-        50% {
-            box-shadow: 0 0 20px rgba(220, 38, 38, 0.8);
-        }
-    }
-
-    /* Completed Event Styling */
-    .event-completed {
-        opacity: 0.85;
-    }
-
-    .event-completed:hover {
-        opacity: 1;
-    }
-
-    /* CTA Section */
-    .holographic-border {
-        position: relative;
-    }
-
-    .holographic-border::after {
-        content: '';
-        position: absolute;
-        inset: -3px;
-        z-index: -1;
-        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #fbbf24, #60a5fa);
-        background-size: 400% 100%;
-        border-radius: 30px;
-        opacity: 0.2;
-        animation: holographic-move 8s linear infinite;
-    }
-
-    .cta-glow {
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
-        animation: rotate-glow 10s linear infinite;
-    }
-
-    @keyframes rotate-glow {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    .gradient-text-animate {
-        background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899, #6366f1);
-        background-size: 300% 100%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: gradient-text-flow 5s ease infinite;
-    }
-
-    @keyframes gradient-text-flow {
-
-        0%,
-        100% {
-            background-position: 0% 50%;
-        }
-
-        50% {
-            background-position: 100% 50%;
-        }
-    }
-
-    .btn-premium-gradient {
-        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-        color: white;
-        border-radius: 20px;
-        border: none;
-        box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
-        transition: all 0.4s ease;
-        position: relative;
-    }
-
-    .btn-premium-gradient:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 50px rgba(99, 102, 241, 0.5);
-        color: white;
-    }
-
-    .btn-shine {
-        overflow: hidden;
-    }
-
-    .btn-shine::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -100%;
-        width: 50%;
-        height: 200%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transform: skewX(-20deg);
-        animation: shine 3s infinite;
-    }
-
-    @keyframes shine {
-        0% {
-            left: -100%;
-        }
-
-        50%,
-        100% {
-            left: 200%;
-        }
-    }
-
-    .magnetic-button {
-        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        overflow: hidden;
-        position: relative;
-    }
-
-    .btn-glow {
-        position: absolute;
-        width: 150px;
-        height: 150px;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.3s;
-        transform: translate(-50%, -50%);
-    }
-
-    .magnetic-button:hover .btn-glow {
-        opacity: 1;
-    }
-
-    .btn-outline-hover {
-        position: relative;
-        overflow: hidden;
-        transition: all 0.4s ease;
-    }
-
-    .btn-outline-hover::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-        transition: left 0.4s ease;
-        z-index: -1;
-    }
-
-    .btn-outline-hover:hover {
-        color: white;
-        border-color: transparent;
-    }
-
-    .btn-outline-hover:hover::before {
-        left: 0;
-    }
-
-    /* Reveal Animations */
-    .reveal-text {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .reveal-fade {
-        opacity: 0;
-        transform: scale(0.95) translateY(20px);
-        transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-        transition-delay: calc(var(--delay, 0s));
-    }
-
-    .revealed {
-        opacity: 1 !important;
-        transform: translate(0, 0) scale(1) !important;
-    }
-
-    /* Tilt Effect */
-    .tilt-element {
-        transition: transform 0.3s ease;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .events-hero {
-            padding: 120px 0 100px;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-        }
-
-        .filter-btn {
-            padding: 10px 20px;
-            font-size: 0.9rem;
-        }
-
-        .event-card:hover {
-            transform: translateY(-10px) scale(1.02);
-        }
-    }
-</style>
-
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Reveal Animations with Intersection Observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, idx) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('revealed');
-                    }, idx * 100);
-                }
+document.addEventListener('DOMContentLoaded', function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Reveal on scroll (subtle) */
+    var revealEls = document.querySelectorAll('.reveal');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealEls.forEach(function (el) { el.classList.add('revealed'); });
+    } else {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) { entry.target.classList.add('revealed'); observer.unobserve(entry.target); }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.08 });
+        revealEls.forEach(function (el) { observer.observe(el); });
+    }
 
-        document.querySelectorAll('.reveal-text, .reveal-fade').forEach(el => observer.observe(el));
+    /* Upcoming-events counter: derive from the cards actually on the page
+       (all cards minus completed ones), so it can never drift from the list. */
+    var upcomingEl = document.getElementById('upcomingStat');
+    if (upcomingEl) {
+        var upcomingCount = document.querySelectorAll('.event-item').length
+            - document.querySelectorAll('.event-completed').length;
+        upcomingEl.setAttribute('data-target', String(upcomingCount));
+    }
 
-        // Auto-count upcoming events (exclude completed events)
-        const upcomingEventsCounter = document.querySelector('[data-target="6"]');
-        if (upcomingEventsCounter) {
-            // Count all event cards that don't have 'event-completed' class
-            const allEventCards = document.querySelectorAll('.event-item');
-            const completedEvents = document.querySelectorAll('.event-completed');
-            const upcomingCount = allEventCards.length - completedEvents.length;
-
-            // Update the data-target attribute
-            upcomingEventsCounter.setAttribute('data-target', upcomingCount);
+    /* Animated counters (run once, when visible; instant if reduced motion) */
+    var counters = document.querySelectorAll('.counter');
+    counters.forEach(function (counter) {
+        var target = parseInt(counter.getAttribute('data-target'), 10) || 0;
+        function run() {
+            if (reduceMotion) { counter.textContent = target; return; }
+            var duration = 1400, start = null;
+            function step(ts) {
+                if (!start) start = ts;
+                var p = Math.min((ts - start) / duration, 1);
+                counter.textContent = Math.ceil(target * p);
+                if (p < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
         }
-
-        // Counter Animation
-        const counters = document.querySelectorAll('.counter');
-        counters.forEach(counter => {
-            const target = parseInt(counter.getAttribute('data-target'));
-            const duration = 2000;
-            const increment = target / (duration / 16);
-            let current = 0;
-
-            const updateCounter = () => {
-                current += increment;
-                if (current < target) {
-                    counter.textContent = Math.ceil(current);
-                    requestAnimationFrame(updateCounter);
-                } else {
-                    counter.textContent = target;
-                }
-            };
-
-            const counterObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        updateCounter();
-                        counterObserver.unobserve(entry.target);
-                    }
-                });
+        if (!('IntersectionObserver' in window)) { run(); return; }
+        var co = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) { run(); co.unobserve(entry.target); }
             });
+        }, { threshold: 0.4 });
+        co.observe(counter);
+    });
 
-            counterObserver.observe(counter);
-        });
+    /* Filter tabs (client-side only, over already-loaded cards) */
+    var filterBtns = document.querySelectorAll('.filter-btn');
+    var eventItems = document.querySelectorAll('.event-item');
+    var filterCount = document.getElementById('filterCount');
+    var noResults = document.getElementById('noFilterResults');
+    var total = eventItems.length;
 
-        // Filter Functionality
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const eventItems = document.querySelectorAll('.event-item');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const filter = btn.getAttribute('data-filter');
-
-                eventItems.forEach(item => {
-                    const category = item.getAttribute('data-category');
-
-                    if (filter === 'all' || category === filter) {
-                        item.style.display = 'block';
-                        setTimeout(() => {
-                            item.style.opacity = '1';
-                            item.style.transform = 'scale(1)';
-                        }, 10);
-                    } else {
-                        item.style.opacity = '0';
-                        item.style.transform = 'scale(0.8)';
-                        setTimeout(() => {
-                            item.style.display = 'none';
-                        }, 300);
-                    }
-                });
+    filterBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            filterBtns.forEach(function (b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            var filter = btn.getAttribute('data-filter');
+            var visible = 0;
+            eventItems.forEach(function (item) {
+                var show = (filter === 'all' || item.getAttribute('data-category') === filter);
+                item.style.display = show ? '' : 'none';
+                if (show) visible += 1;
             });
-        });
-
-        // Magnetic Button Effect
-        const magneticBtn = document.querySelector('.magnetic-button');
-        const btnGlow = document.querySelector('.btn-glow');
-
-        if (magneticBtn && btnGlow) {
-            magneticBtn.addEventListener('mousemove', (e) => {
-                const { left, top, width, height } = magneticBtn.getBoundingClientRect();
-                const x = e.clientX - left;
-                const y = e.clientY - top;
-
-                btnGlow.style.left = `${x}px`;
-                btnGlow.style.top = `${y}px`;
-
-                const moveX = (x - width / 2) * 0.3;
-                const moveY = (y - height / 2) * 0.3;
-                magneticBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
-            });
-
-            magneticBtn.addEventListener('mouseleave', () => {
-                magneticBtn.style.transform = 'translate(0, 0)';
-            });
-        }
-
-        // 3D Tilt Effect on Cards
-        const tiltElements = document.querySelectorAll('.tilt-element');
-        tiltElements.forEach(el => {
-            el.addEventListener('mousemove', (e) => {
-                const { left, top, width, height } = el.getBoundingClientRect();
-                const x = (e.clientX - left) / width;
-                const y = (e.clientY - top) / height;
-                const rX = (y - 0.5) * 10;
-                const rY = (x - 0.5) * -10;
-                el.style.transform = `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg) translateY(-20px) scale(1.03)`;
-            });
-
-            el.addEventListener('mouseleave', () => {
-                el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)';
-            });
-        });
-
-        // Smooth scroll for internal links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
+            if (filterCount) filterCount.textContent = 'Showing ' + visible + ' of ' + total + ' events';
+            if (noResults) noResults.classList.toggle('d-none', visible !== 0);
         });
     });
+
+    /* Smooth scroll for in-page anchor links only */
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener('click', function (e) {
+            var target = document.querySelector(this.getAttribute('href'));
+            if (target) { e.preventDefault(); target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' }); }
+        });
+    });
+});
 </script>
 {% endblock %}

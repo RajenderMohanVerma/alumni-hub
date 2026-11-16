@@ -1,104 +1,276 @@
 {% extends "base.html" %}
 
+{% block title %}Notifications - Alumni Hub{% endblock %}
+
 {% block content %}
-<div class="container py-5" style="margin-top: 80px; min-height: 80vh;">
-    <!-- Page Header -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-        <div>
-            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
-                <i class="fas fa-bell"></i>
-                <span>Alumni Updates</span>
-            </div>
-            <h2 class="h3 fw-bold mb-1" style="color: var(--text-primary);">Notifications & Community Alerts</h2>
-            <p class="text-muted small mb-0">Stay connected with campus announcements, student mentorship requests, and batch updates</p>
-        </div>
-        <div class="mt-3 mt-md-0 d-flex gap-2">
-            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="location.reload();" style="border-color: var(--border-color); color: var(--text-secondary);">
-                <i class="fas fa-rotate me-1"></i> Refresh
-            </button>
-            <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm" style="background: var(--accent-blue); border: none;">
-                <i class="fas fa-check-double me-1"></i> Mark All Read
-            </button>
-        </div>
-    </div>
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-    <div class="row g-4">
-        <!-- Main Notifications Feed -->
-        <div class="col-lg-8">
-            <div class="home-card p-4 p-md-5 mb-4 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="text-center py-5">
-                    <div class="icon-chip mx-auto mb-3" style="width: 72px; height: 72px; background: var(--accent-blue-subtle); color: var(--accent-blue); border-radius: 20px; display: grid; place-items: center; font-size: 2rem;">
-                        <i class="fas fa-bell-slash"></i>
-                    </div>
-                    <h5 class="fw-bold mb-2" style="color: var(--text-primary);">All Caught Up!</h5>
-                    <p class="text-muted mb-4" style="max-width: 420px; margin: 0 auto; font-size: 0.95rem;">
-                        No pending alerts right now. Whenever students request mentorship or batchmates reach out, your alerts will show up here.
+<style>
+    /* ========================================================
+       ALUMNI NOTIFICATIONS — AMBER LUXURY THEME
+       Same shell as admin; amber (#f59e0b / #d97706) replaces
+       admin indigo as the primary accent.
+       ======================================================== */
+    :root {
+        --alm-amber: #f59e0b;
+        --alm-amber-dark: #d97706;
+        --alm-amber-light: #fbbf24;
+        --alm-amber-subtle: #fffbeb;
+    }
+    .alumni-page {
+        font-family: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
+    }
+    .alumni-page h1, .alumni-page h2, .alumni-page h5, .alumni-page h6 {
+        font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    }
+    /* Amber gradient title text (admin uses blue-purple holographic) */
+    .text-holographic-alm {
+        background: linear-gradient(90deg, #fde68a 0%, #fbbf24 35%, #f59e0b 65%, #d97706 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+    }
+    .alm-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.95rem;
+        border-radius: 999px;
+        background: rgba(245, 158, 11, 0.16);
+        border: 1px solid rgba(251, 191, 36, 0.45);
+        color: #fde68a;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+    .alm-badge .live-pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #fbbf24;
+        box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+        animation: alm-pulse 2s infinite;
+    }
+    @keyframes alm-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.55); }
+        70% { box-shadow: 0 0 0 9px rgba(251, 191, 36, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+    }
+    /* White content cards */
+    .alumni-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .alumni-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10);
+    }
+    .btn-amber {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        min-height: 44px;
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-amber:hover, .btn-amber:focus {
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(245, 158, 11, 0.45);
+    }
+    .btn-ghost-light {
+        min-height: 44px;
+        color: #e2e8f0;
+        border-color: rgba(255, 255, 255, 0.35);
+    }
+    .btn-ghost-light:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.10);
+        border-color: rgba(255, 255, 255, 0.55);
+    }
+    .btn-outline-amber {
+        min-height: 44px;
+        border: 1.5px solid var(--alm-amber);
+        color: var(--alm-amber-dark);
+        font-weight: 600;
+        background: transparent;
+        transition: all 0.2s ease;
+    }
+    .btn-outline-amber:hover {
+        background: var(--alm-amber);
+        color: #fff;
+        border-color: var(--alm-amber);
+    }
+    /* Amber icon chips */
+    .icon-chip-amber {
+        background: var(--alm-amber-subtle);
+        color: var(--alm-amber-dark);
+    }
+    .icon-chip-green {
+        background: var(--accent-green-subtle);
+        color: var(--accent-green);
+    }
+    /* Preference rows */
+    .pref-row {
+        background: var(--bg-subtle);
+        border: 1px solid transparent;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .pref-row:hover {
+        border-color: rgba(245, 158, 11, 0.35);
+        transform: translateY(-2px);
+    }
+    .alumni-page .form-check-input {
+        width: 2.6rem;
+        height: 1.45rem;
+        cursor: pointer;
+    }
+    .alumni-page .form-check-input:checked {
+        background-color: var(--alm-amber);
+        border-color: var(--alm-amber-dark);
+    }
+    .alumni-page .form-check-input:focus {
+        box-shadow: 0 0 0 0.25rem rgba(245, 158, 11, 0.25);
+        border-color: var(--alm-amber);
+    }
+    /* Hero title sizing that stays inside 360px screens */
+    .alumni-hero-title {
+        font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+        line-height: 1.15;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .alumni-card, .btn-amber, .pref-row {
+            transition: none !important;
+        }
+        .alumni-card:hover, .btn-amber:hover, .pref-row:hover {
+            transform: none !important;
+        }
+        .alm-badge .live-pulse-dot {
+            animation: none !important;
+        }
+        .scroll-fade-up, .scroll-fade-down, .scroll-fade-left, .scroll-fade-right, .scroll-scale-in {
+            animation: none !important;
+            opacity: 1 !important;
+        }
+    }
+</style>
+
+<div class="admin-page-wrapper alumni-page">
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
+
+    <div class="admin-container">
+        <!-- Hero -->
+        <section class="admin-hero-card scroll-fade-up">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+                <div>
+                    <span class="alm-badge mb-3"><span class="live-pulse-dot"></span><i class="fas fa-bell"></i> Alumni Updates</span>
+                    <h1 class="alumni-hero-title fw-bold mb-2"><span class="text-holographic-alm">Notifications</span> &amp; Community Alerts</h1>
+                    <p class="mb-0" style="color: rgba(226, 232, 240, 0.85); max-width: 560px;">
+                        Stay connected with campus announcements, student mentorship requests, and batch updates.
                     </p>
-                    <a href="{{ url_for('list_jobs') }}" class="btn btn-primary rounded-pill px-4" style="background: var(--accent-blue); border: none;">
-                        <i class="fas fa-plus-circle me-2"></i> Post a Job Opening
-                    </a>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-outline-light btn-sm rounded-pill px-3 btn-ghost-light" onclick="location.reload();">
+                        <i class="fas fa-rotate me-1"></i> Refresh
+                    </button>
+                    <button class="btn btn-sm rounded-pill px-3 btn-amber">
+                        <i class="fas fa-check-double me-1"></i> Mark All Read
+                    </button>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Notification Preferences Sidebar -->
-        <div class="col-lg-4">
-            <div class="home-card p-4 shadow-sm mb-4" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
-                    <div class="icon-chip" style="width: 40px; height: 40px; background: var(--accent-green-subtle); color: var(--accent-green); border-radius: 12px; display: grid; place-items: center;">
-                        <i class="fas fa-sliders-h"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Preferences</h6>
-                        <small class="text-muted">Manage communication</small>
-                    </div>
-                </div>
-
-                <div class="d-flex flex-column gap-3">
-                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
-                        <div>
-                            <div class="fw-semibold small" style="color: var(--text-primary);">Mentorship Inquiries</div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Student guidance pings</small>
+        <div class="row g-4 mt-1">
+            <!-- Main Notifications Feed -->
+            <div class="col-lg-8">
+                <div class="alumni-card p-4 p-md-5 mb-4 scroll-fade-up delay-100">
+                    <div class="text-center py-5">
+                        <div class="icon-chip icon-chip-amber mx-auto mb-3" style="width: 72px; height: 72px; border-radius: 20px; display: grid; place-items: center; font-size: 2rem;">
+                            <i class="fas fa-bell-slash"></i>
                         </div>
-                        <div class="form-check form-switch mb-0">
-                            <input class="form-check-input" type="checkbox" id="emailNotif" checked style="cursor: pointer;">
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
-                        <div>
-                            <div class="fw-semibold small" style="color: var(--text-primary);">Alumni Reunion &amp; Events</div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Annual meets &amp; mixers</small>
-                        </div>
-                        <div class="form-check form-switch mb-0">
-                            <input class="form-check-input" type="checkbox" id="eventNotif" checked style="cursor: pointer;">
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
-                        <div>
-                            <div class="fw-semibold small" style="color: var(--text-primary);">Direct Messages</div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Peer to peer conversations</small>
-                        </div>
-                        <div class="form-check form-switch mb-0">
-                            <input class="form-check-input" type="checkbox" id="messageNotif" checked style="cursor: pointer;">
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
-                        <div>
-                            <div class="fw-semibold small" style="color: var(--text-primary);">Candidate Applications</div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Applicants for your posted jobs</small>
-                        </div>
-                        <div class="form-check form-switch mb-0">
-                            <input class="form-check-input" type="checkbox" id="jobNotif" checked style="cursor: pointer;">
-                        </div>
+                        <h5 class="fw-bold mb-2" style="color: var(--text-primary);">All Caught Up!</h5>
+                        <p class="text-muted mb-4" style="max-width: 420px; margin: 0 auto; font-size: 0.95rem;">
+                            No pending alerts right now. Whenever students request mentorship or batchmates reach out, your alerts will show up here.
+                        </p>
+                        <a href="{{ url_for('list_jobs') }}" class="btn rounded-pill px-4 btn-amber">
+                            <i class="fas fa-plus-circle me-2"></i> Post a Job Opening
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <button class="btn btn-outline-primary btn-sm w-100 rounded-pill mt-4" style="border-color: var(--accent-blue); color: var(--accent-blue);" onclick="alert('Alumni notification preferences updated!');">
-                    <i class="fas fa-save me-1"></i> Save Preferences
-                </button>
+            <!-- Notification Preferences Sidebar -->
+            <div class="col-lg-4">
+                <div class="alumni-card p-4 mb-4 scroll-fade-up delay-200">
+                    <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
+                        <div class="icon-chip icon-chip-green" style="width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;">
+                            <i class="fas fa-sliders-h"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Preferences</h6>
+                            <small class="text-muted">Manage communication</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column gap-3">
+                        <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-2 rounded-3">
+                            <div>
+                                <div class="fw-semibold small" style="color: var(--text-primary);">Mentorship Inquiries</div>
+                                <small class="text-muted" style="font-size: 0.75rem;">Student guidance pings</small>
+                            </div>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="emailNotif" checked style="cursor: pointer;">
+                            </div>
+                        </div>
+
+                        <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-2 rounded-3">
+                            <div>
+                                <div class="fw-semibold small" style="color: var(--text-primary);">Alumni Reunion &amp; Events</div>
+                                <small class="text-muted" style="font-size: 0.75rem;">Annual meets &amp; mixers</small>
+                            </div>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="eventNotif" checked style="cursor: pointer;">
+                            </div>
+                        </div>
+
+                        <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-2 rounded-3">
+                            <div>
+                                <div class="fw-semibold small" style="color: var(--text-primary);">Direct Messages</div>
+                                <small class="text-muted" style="font-size: 0.75rem;">Peer to peer conversations</small>
+                            </div>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="messageNotif" checked style="cursor: pointer;">
+                            </div>
+                        </div>
+
+                        <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-2 rounded-3">
+                            <div>
+                                <div class="fw-semibold small" style="color: var(--text-primary);">Candidate Applications</div>
+                                <small class="text-muted" style="font-size: 0.75rem;">Applicants for your posted jobs</small>
+                            </div>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="jobNotif" checked style="cursor: pointer;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-sm w-100 rounded-pill mt-4 btn-outline-amber" onclick="alert('Alumni notification preferences updated!');">
+                        <i class="fas fa-save me-1"></i> Save Preferences
+                    </button>
+                </div>
             </div>
         </div>
     </div>

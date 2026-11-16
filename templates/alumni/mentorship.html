@@ -3,183 +3,313 @@
 {% block title %}Mentorship Program - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
-    <!-- Header Section -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-        <div>
-            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-purple-subtle); color: var(--accent-purple); font-size: 0.82rem; font-weight: 600;">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <span>Alumni Mentorship Network</span>
-            </div>
-            <h1 class="h2 fw-bold mb-1" style="color: var(--text-primary);">Alumni Mentorship Program</h1>
-            <p class="text-muted small mb-0">Share your industry experience with students or collaborate with peer alumni leaders</p>
-        </div>
-        <div class="mt-3 mt-md-0 d-flex gap-2">
-            <button class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('You are already registered as an active mentor!');">
-                <i class="fas fa-hand-holding-heart me-2"></i> Offer Mentorship
-            </button>
-        </div>
-    </div>
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-    <!-- Search & Filter Container -->
-    <div class="home-card p-4 mb-5 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-        <div class="row g-3">
-            <div class="col-lg-5">
-                <label class="form-label small fw-semibold text-muted mb-1">Search Keywords</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-transparent" style="border-color: var(--border-color); color: var(--text-muted);"><i class="fas fa-search"></i></span>
-                    <input type="text" class="form-control" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);" placeholder="Search by name, company, or skills...">
-                </div>
-            </div>
-            <div class="col-md-3 col-lg-3">
-                <label class="form-label small fw-semibold text-muted mb-1">Department</label>
-                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                    <option selected>All Departments</option>
-                    <option>Computer Science / MCA</option>
-                    <option>Information Technology</option>
-                    <option>Electronics</option>
-                    <option>Mechanical</option>
-                </select>
-            </div>
-            <div class="col-md-3 col-lg-2">
-                <label class="form-label small fw-semibold text-muted mb-1">Domain</label>
-                <select class="form-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--border-color);">
-                    <option selected>All Industries</option>
-                    <option>Cloud &amp; DevOps</option>
-                    <option>AI &amp; Data Science</option>
-                    <option>Product Management</option>
-                    <option>Fintech</option>
-                </select>
-            </div>
-            <div class="col-md-2 col-lg-2 d-flex align-items-end">
-                <button class="btn btn-outline-primary w-100 rounded-pill py-2" style="border-color: var(--accent-blue); color: var(--accent-blue);">
-                    <i class="fas fa-filter me-1"></i> Apply
-                </button>
-            </div>
-        </div>
-    </div>
+<style>
+    /* ========================================================
+       ALUMNI MENTORSHIP — AMBER THEME (alumni variant of the
+       shared admin design system: dark-navy hero, white cards,
+       glassmorphism, hover lift, Outfit / Plus Jakarta Sans)
+       ======================================================== */
+    :root {
+        --al-amber: #f59e0b;
+        --al-amber-dark: #d97706;
+        --al-amber-deep: #b45309;
+        --al-amber-soft: #fffbeb;
+        --al-ink: #0f172a;
+        --al-muted: #64748b;
+        --al-border: rgba(15, 23, 42, 0.09);
+    }
+    .alumni-hero { border-color: rgba(245, 158, 11, 0.45) !important; }
+    .alumni-hero .grad-amber {
+        background: linear-gradient(90deg, #fde68a 0%, #f59e0b 45%, #f97316 100%);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent !important; color: transparent !important;
+    }
+    .alumni-hero-badge {
+        background: rgba(245, 158, 11, 0.16); color: #fcd34d;
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em;
+    }
+    .alumni-card {
+        background: #ffffff; border: 1px solid var(--al-border); border-radius: 20px;
+        box-shadow: 0 10px 30px -14px rgba(15, 23, 42, 0.14);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .alumni-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 24px 44px -18px rgba(15, 23, 42, 0.24);
+        border-color: rgba(245, 158, 11, 0.45);
+    }
+    .btn-amber {
+        background: linear-gradient(135deg, #f59e0b, #d97706); border: none; color: #fff;
+        font-weight: 600; min-height: 44px;
+        box-shadow: 0 10px 22px -10px rgba(217, 119, 6, 0.6);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .btn-amber:hover, .btn-amber:focus { background: linear-gradient(135deg, #fbbf24, #b45309); color: #fff; transform: translateY(-2px); }
+    .btn-ghost-amber {
+        border: 1.5px solid #f59e0b; color: #b45309; background: #fff;
+        font-weight: 600; min-height: 44px;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+    .btn-ghost-amber:hover { background: var(--al-amber-soft); color: #92400e; border-color: var(--al-amber-dark); }
+    .alumni-input, .alumni-select { min-height: 46px; border-radius: 12px; }
+    .alumni-input:focus, .alumni-select:focus { border-color: var(--al-amber); box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.18); }
+    .mentor-avatar {
+        width: 68px; height: 68px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: #fff; font-weight: 700; font-size: 1.8rem; font-family: 'Outfit', sans-serif;
+        border: 3px solid #fde68a;
+    }
+    .skill-chip {
+        background: var(--al-amber-soft); color: #92400e; border: 1px solid #fde68a;
+        font-size: 0.75rem; font-weight: 600;
+    }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @media (max-width: 575.98px) {
+        .alumni-hero .btn { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1; transform: none; transition: none; }
+        .alumni-card, .btn-amber, .btn-ghost-amber { transition: none; }
+        .admin-ambient-ball { animation: none; }
+    }
+</style>
 
-    <!-- Mentors Grid -->
-    <div class="row g-4">
-        <!-- Mentor Card 1 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="home-card p-4 h-100 shadow-sm d-flex flex-column justify-content-between accent-blue" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+<div class="admin-page-wrapper">
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2" style="background: #f59e0b;"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
+
+    <div class="admin-container">
+        <!-- Hero -->
+        <div class="admin-hero-card alumni-hero reveal">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
                 <div>
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-                        <div class="position-relative">
-                            <div class="rounded-circle shadow-sm d-flex align-items-center justify-content-center text-white fw-bold" style="width: 64px; height: 64px; background: linear-gradient(135deg, #0284c7, #1d4ed8); font-size: 1.8rem; font-family: 'Outfit', sans-serif; border: 3px solid var(--border-color);">R</div>
-                            <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-2 border-white rounded-circle"></span>
-                        </div>
-                        <span class="badge rounded-pill px-3 py-1" style="background: var(--accent-green-subtle); color: var(--accent-green); font-size: 0.78rem; font-weight: 600;">
-                            Available
-                        </span>
-                    </div>
-
-                    <h5 class="fw-bold mb-1" style="color: var(--text-primary);">Rahul Sharma</h5>
-                    <p class="small mb-2" style="color: var(--accent-blue); font-weight: 600;">Senior Software Engineer @ Google</p>
-
-                    <div class="d-flex justify-content-between text-muted small mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important; font-size: 0.82rem;">
-                        <span><i class="fas fa-graduation-cap me-1"></i> CSE &bull; Batch 2018</span>
-                        <span><i class="fas fa-location-dot me-1"></i> Bengaluru</span>
-                    </div>
-
-                    <p class="small text-muted mb-3" style="line-height: 1.5;">
-                        Expert in Distributed Systems and Cloud Architecture. Passionate about helping students prepare for system design rounds.
-                    </p>
-
-                    <div class="d-flex flex-wrap gap-1 mb-4">
-                        <span class="badge rounded-pill px-2 py-1" style="background: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-color); font-size: 0.75rem;">System Design</span>
-                        <span class="badge rounded-pill px-2 py-1" style="background: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-color); font-size: 0.75rem;">Kubernetes</span>
-                        <span class="badge rounded-pill px-2 py-1" style="background: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-color); font-size: 0.75rem;">Backend</span>
-                    </div>
+                    <span class="alumni-hero-badge d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="font-size: 0.75rem; font-weight: 700;">
+                        <i class="fas fa-chalkboard-teacher"></i> ALUMNI MENTORSHIP NETWORK
+                    </span>
+                    <h1 class="admin-hero-title fw-bold mb-2" style="font-family: 'Outfit', sans-serif;">Alumni <span class="grad-amber">Mentorship Program</span></h1>
+                    <p class="mb-0" style="color: rgba(255,255,255,0.72); max-width: 620px;">Share your industry experience with students or collaborate with peer alumni leaders</p>
                 </div>
-
-                <div class="d-flex gap-2 pt-2">
-                    <button class="btn btn-primary rounded-pill w-100 py-2 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('Connection request sent to Rahul Sharma!');">
-                        <i class="fas fa-user-plus me-1"></i> Connect &amp; Collaborate
+                <div class="d-flex gap-2 flex-shrink-0">
+                    <button class="btn btn-amber rounded-pill px-4 shadow-sm" onclick="alert('You are already registered as an active mentor!');">
+                        <i class="fas fa-hand-holding-heart me-2"></i> Offer Mentorship
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mentor Card 2 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="home-card p-4 h-100 shadow-sm d-flex flex-column justify-content-between accent-purple" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div>
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-                        <div class="position-relative">
-                            <div class="rounded-circle shadow-sm d-flex align-items-center justify-content-center text-white fw-bold" style="width: 64px; height: 64px; background: linear-gradient(135deg, #7c3aed, #4f46e5); font-size: 1.8rem; font-family: 'Outfit', sans-serif; border: 3px solid var(--border-color);">P</div>
-                        </div>
-                        <span class="badge rounded-pill px-3 py-1" style="background: var(--accent-amber-subtle); color: var(--accent-amber); font-size: 0.78rem; font-weight: 600;">
-                            2 Slots Left
-                        </span>
-                    </div>
-
-                    <h5 class="fw-bold mb-1" style="color: var(--text-primary);">Priya Verma</h5>
-                    <p class="small mb-2" style="color: var(--accent-purple); font-weight: 600;">Product Lead @ Microsoft</p>
-
-                    <div class="d-flex justify-content-between text-muted small mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important; font-size: 0.82rem;">
-                        <span><i class="fas fa-graduation-cap me-1"></i> IT &bull; Batch 2019</span>
-                        <span><i class="fas fa-location-dot me-1"></i> Hyderabad</span>
-                    </div>
-
-                    <p class="small text-muted mb-3" style="line-height: 1.5;">
-                        Specializing in Product Strategy, Roadmapping, and UX metrics. Welcoming students interested in the Associate PM track.
-                    </p>
-
-                    <div class="d-flex flex-wrap gap-1 mb-4">
-                        <span class="badge rounded-pill px-2 py-1" style="background: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-color); font-size: 0.75rem;">Product Strategy</span>
-                        <span class="badge rounded-pill px-2 py-1" style="background: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-color); font-size: 0.75rem;">User Discovery</span>
+        <!-- Search & Filter Container -->
+        <div class="alumni-card p-4 mb-4 reveal">
+            <div class="row g-3">
+                <div class="col-lg-5">
+                    <label class="form-label small fw-semibold text-muted mb-1" for="mentorSearch">Search Keywords</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent" style="border-color: var(--al-border); color: var(--al-muted);"><i class="fas fa-search"></i></span>
+                        <input type="text" id="mentorSearch" class="form-control alumni-input" style="background: var(--input-bg); color: var(--input-text); border-color: var(--al-border);" placeholder="Search by name, company, or skills...">
                     </div>
                 </div>
-
-                <div class="d-flex gap-2 pt-2">
-                    <button class="btn btn-outline-primary rounded-pill w-100 py-2" style="border-color: var(--accent-purple); color: var(--accent-purple);" onclick="alert('Connection request sent to Priya Verma!');">
-                        <i class="fas fa-user-plus me-1"></i> Connect &amp; Collaborate
+                <div class="col-md-3 col-lg-3">
+                    <label class="form-label small fw-semibold text-muted mb-1">Department</label>
+                    <select class="form-select alumni-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--al-border);">
+                        <option selected>All Departments</option>
+                        <option>Computer Science / MCA</option>
+                        <option>Information Technology</option>
+                        <option>Electronics</option>
+                        <option>Mechanical</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-lg-2">
+                    <label class="form-label small fw-semibold text-muted mb-1" for="mentorDomain">Domain</label>
+                    <select id="mentorDomain" class="form-select alumni-select" style="background: var(--input-bg); color: var(--input-text); border-color: var(--al-border);">
+                        <option value="all" selected>All Industries</option>
+                        <option value="cloud">Cloud &amp; DevOps</option>
+                        <option value="ai">AI &amp; Data Science</option>
+                        <option value="product">Product Management</option>
+                        <option value="fintech">Fintech</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-lg-2 d-flex align-items-end">
+                    <button type="button" class="btn btn-ghost-amber w-100 rounded-pill py-2" onclick="applyMentorFilter()">
+                        <i class="fas fa-filter me-1"></i> Apply
                     </button>
+                </div>
+            </div>
+            <p id="mentorCount" class="small text-muted mb-0 mt-3"><i class="fas fa-chalkboard-teacher me-1" style="color: var(--al-amber-dark);"></i> Showing <span id="mentorCountNum">3</span> mentors</p>
+        </div>
+
+        <!-- Mentors Grid -->
+        <div class="row g-4" id="mentorGrid">
+            <!-- Mentor Card 1 -->
+            <div class="col-12 col-md-6 col-lg-4 mentor-card reveal" data-search="rahul sharma senior software engineer google cse batch 2018 bengaluru distributed systems cloud architecture system design kubernetes backend" data-domain="cloud">
+                <div class="alumni-card p-4 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="position-relative">
+                                <div class="mentor-avatar shadow-sm" style="background: linear-gradient(135deg, #f59e0b, #d97706);">R</div>
+                                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-2 border-white rounded-circle"></span>
+                            </div>
+                            <span class="badge rounded-pill px-3 py-1" style="background: #dcfce7; color: #059669; font-size: 0.78rem; font-weight: 600;">
+                                Available
+                            </span>
+                        </div>
+
+                        <h5 class="fw-bold mb-1" style="color: var(--al-ink);">Rahul Sharma</h5>
+                        <p class="small mb-2" style="color: var(--al-amber-dark); font-weight: 600;">Senior Software Engineer @ Google</p>
+
+                        <div class="d-flex justify-content-between text-muted small mb-3 pb-2 border-bottom" style="border-color: var(--al-border) !important; font-size: 0.82rem;">
+                            <span><i class="fas fa-graduation-cap me-1"></i> CSE &bull; Batch 2018</span>
+                            <span><i class="fas fa-location-dot me-1"></i> Bengaluru</span>
+                        </div>
+
+                        <p class="small text-muted mb-3" style="line-height: 1.5;">
+                            Expert in Distributed Systems and Cloud Architecture. Passionate about helping students prepare for system design rounds.
+                        </p>
+
+                        <div class="d-flex flex-wrap gap-1 mb-4">
+                            <span class="badge skill-chip rounded-pill px-2 py-1">System Design</span>
+                            <span class="badge skill-chip rounded-pill px-2 py-1">Kubernetes</span>
+                            <span class="badge skill-chip rounded-pill px-2 py-1">Backend</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 pt-2">
+                        <button class="btn btn-amber rounded-pill w-100 py-2 shadow-sm" onclick="alert('Connection request sent to Rahul Sharma!');">
+                            <i class="fas fa-user-plus me-1"></i> Connect &amp; Collaborate
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mentor Card 2 -->
+            <div class="col-12 col-md-6 col-lg-4 mentor-card reveal" data-search="priya verma product lead microsoft it batch 2019 hyderabad product strategy roadmapping ux metrics associate pm user discovery" data-domain="product">
+                <div class="alumni-card p-4 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="position-relative">
+                                <div class="mentor-avatar shadow-sm" style="background: linear-gradient(135deg, #7c3aed, #4f46e5);">P</div>
+                            </div>
+                            <span class="badge rounded-pill px-3 py-1" style="background: #fef3c7; color: #b45309; font-size: 0.78rem; font-weight: 600;">
+                                2 Slots Left
+                            </span>
+                        </div>
+
+                        <h5 class="fw-bold mb-1" style="color: var(--al-ink);">Priya Verma</h5>
+                        <p class="small mb-2" style="color: #7c3aed; font-weight: 600;">Product Lead @ Microsoft</p>
+
+                        <div class="d-flex justify-content-between text-muted small mb-3 pb-2 border-bottom" style="border-color: var(--al-border) !important; font-size: 0.82rem;">
+                            <span><i class="fas fa-graduation-cap me-1"></i> IT &bull; Batch 2019</span>
+                            <span><i class="fas fa-location-dot me-1"></i> Hyderabad</span>
+                        </div>
+
+                        <p class="small text-muted mb-3" style="line-height: 1.5;">
+                            Specializing in Product Strategy, Roadmapping, and UX metrics. Welcoming students interested in the Associate PM track.
+                        </p>
+
+                        <div class="d-flex flex-wrap gap-1 mb-4">
+                            <span class="badge skill-chip rounded-pill px-2 py-1">Product Strategy</span>
+                            <span class="badge skill-chip rounded-pill px-2 py-1">User Discovery</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 pt-2">
+                        <button class="btn btn-ghost-amber rounded-pill w-100 py-2" onclick="alert('Connection request sent to Priya Verma!');">
+                            <i class="fas fa-user-plus me-1"></i> Connect &amp; Collaborate
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mentor Card 3 -->
+            <div class="col-12 col-md-6 col-lg-4 mentor-card reveal" data-search="amit patel senior data scientist amazon ece batch 2020 pune ml engineering deep learning model deployments real-time streaming data analytics ai ml python pytorch" data-domain="ai">
+                <div class="alumni-card p-4 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="position-relative">
+                                <div class="mentor-avatar shadow-sm" style="background: linear-gradient(135deg, #059669, #10b981);">A</div>
+                            </div>
+                            <span class="badge rounded-pill px-3 py-1" style="background: #dcfce7; color: #059669; font-size: 0.78rem; font-weight: 600;">
+                                Available
+                            </span>
+                        </div>
+
+                        <h5 class="fw-bold mb-1" style="color: var(--al-ink);">Amit Patel</h5>
+                        <p class="small mb-2" style="color: #059669; font-weight: 600;">Senior Data Scientist @ Amazon</p>
+
+                        <div class="d-flex justify-content-between text-muted small mb-3 pb-2 border-bottom" style="border-color: var(--al-border) !important; font-size: 0.82rem;">
+                            <span><i class="fas fa-graduation-cap me-1"></i> ECE &bull; Batch 2020</span>
+                            <span><i class="fas fa-location-dot me-1"></i> Pune</span>
+                        </div>
+
+                        <p class="small text-muted mb-3" style="line-height: 1.5;">
+                            Advising on ML engineering, deep learning model deployments, and real-time streaming data analytics.
+                        </p>
+
+                        <div class="d-flex flex-wrap gap-1 mb-4">
+                            <span class="badge skill-chip rounded-pill px-2 py-1">AI / ML</span>
+                            <span class="badge skill-chip rounded-pill px-2 py-1">Python</span>
+                            <span class="badge skill-chip rounded-pill px-2 py-1">PyTorch</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 pt-2">
+                        <button class="btn btn-amber rounded-pill w-100 py-2 shadow-sm" onclick="alert('Connection request sent to Amit Patel!');">
+                            <i class="fas fa-user-plus me-1"></i> Connect &amp; Collaborate
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Mentor Card 3 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="home-card p-4 h-100 shadow-sm d-flex flex-column justify-content-between accent-green" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div>
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-                        <div class="position-relative">
-                            <div class="rounded-circle shadow-sm d-flex align-items-center justify-content-center text-white fw-bold" style="width: 64px; height: 64px; background: linear-gradient(135deg, #059669, #10b981); font-size: 1.8rem; font-family: 'Outfit', sans-serif; border: 3px solid var(--border-color);">A</div>
-                        </div>
-                        <span class="badge rounded-pill px-3 py-1" style="background: var(--accent-green-subtle); color: var(--accent-green); font-size: 0.78rem; font-weight: 600;">
-                            Available
-                        </span>
-                    </div>
-
-                    <h5 class="fw-bold mb-1" style="color: var(--text-primary);">Amit Patel</h5>
-                    <p class="small mb-2" style="color: var(--accent-green); font-weight: 600;">Senior Data Scientist @ Amazon</p>
-
-                    <div class="d-flex justify-content-between text-muted small mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important; font-size: 0.82rem;">
-                        <span><i class="fas fa-graduation-cap me-1"></i> ECE &bull; Batch 2020</span>
-                        <span><i class="fas fa-location-dot me-1"></i> Pune</span>
-                    </div>
-
-                    <p class="small text-muted mb-3" style="line-height: 1.5;">
-                        Advising on ML engineering, deep learning model deployments, and real-time streaming data analytics.
-                    </p>
-
-                    <div class="d-flex flex-wrap gap-1 mb-4">
-                        <span class="badge rounded-pill px-2 py-1" style="background: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-color); font-size: 0.75rem;">AI / ML</span>
-                        <span class="badge rounded-pill px-2 py-1" style="background: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-color); font-size: 0.75rem;">Python</span>
-                        <span class="badge rounded-pill px-2 py-1" style="background: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-color); font-size: 0.75rem;">PyTorch</span>
-                    </div>
-                </div>
-
-                <div class="d-flex gap-2 pt-2">
-                    <button class="btn btn-primary rounded-pill w-100 py-2 shadow-sm" style="background: var(--accent-green); border: none;" onclick="alert('Connection request sent to Amit Patel!');">
-                        <i class="fas fa-user-plus me-1"></i> Connect &amp; Collaborate
-                    </button>
-                </div>
-            </div>
+        <!-- No results (client-side filter empty state) -->
+        <div id="mentorEmpty" class="alumni-card p-5 text-center mt-4" style="display: none;">
+            <i class="fas fa-chalkboard-teacher fa-2x mb-3" style="color: var(--al-amber);"></i>
+            <h5 class="fw-bold" style="color: var(--al-ink);">No mentors match your search</h5>
+            <p class="text-muted small mb-0">Try a different keyword or domain.</p>
         </div>
     </div>
 </div>
+
+<script>
+(function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var revealEls = document.querySelectorAll('.reveal');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealEls.forEach(function (el) { el.classList.add('visible'); });
+    } else {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); }
+            });
+        }, { threshold: 0.12 });
+        revealEls.forEach(function (el) { io.observe(el); });
+    }
+})();
+
+/* Client-side mentor filter over the already-loaded mentor cards */
+function applyMentorFilter() {
+    var q = (document.getElementById('mentorSearch').value || '').trim().toLowerCase();
+    var domain = document.getElementById('mentorDomain').value;
+    var visible = 0;
+    document.querySelectorAll('.mentor-card').forEach(function (card) {
+        var hay = card.getAttribute('data-search') || '';
+        var ok = true;
+        if (q && hay.indexOf(q) === -1) ok = false;
+        if (ok && domain !== 'all' && card.getAttribute('data-domain') !== domain) ok = false;
+        card.style.display = ok ? '' : 'none';
+        if (ok) visible++;
+    });
+    document.getElementById('mentorCountNum').textContent = visible;
+    document.getElementById('mentorEmpty').style.display = visible === 0 ? '' : 'none';
+}
+document.getElementById('mentorSearch').addEventListener('input', applyMentorFilter);
+document.getElementById('mentorDomain').addEventListener('change', applyMentorFilter);
+</script>
 {% endblock %}

@@ -3,117 +3,215 @@
 {% block title %}Alumni Spotlight - Alumni Hub{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="margin-top: 80px; min-height: 85vh;">
-    <!-- Page Header -->
-    <div class="text-center max-w-700 mx-auto mb-5 pb-2">
-        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="background: var(--accent-amber-subtle); color: var(--accent-amber); font-size: 0.85rem; font-weight: 600;">
-            <i class="fas fa-award"></i>
-            <span>Success Stories</span>
-        </div>
-        <h1 class="display-5 fw-bold mb-3" style="color: var(--text-primary);">Alumni Spotlight &amp; Achievements</h1>
-        <p class="lead text-muted" style="max-width: 650px; margin: 0 auto; font-size: 1.1rem;">
-            Celebrating extraordinary journeys, startup milestones, and leadership triumphs from our global alumni community.
-        </p>
-    </div>
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-    <!-- Featured Spotlight Container -->
-    <div class="home-card p-0 overflow-hidden mb-5 shadow-sm accent-blue" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-        <div class="row g-0 align-items-center">
-            <div class="col-lg-6">
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80"
-                    alt="Featured Alumni" class="img-fluid w-100 object-fit-cover" style="min-height: 380px; max-height: 440px;">
-            </div>
-            <div class="col-lg-6 p-4 p-md-5 d-flex flex-column justify-content-center">
-                <div class="d-flex align-items-center gap-2 mb-3">
-                    <span class="badge rounded-pill px-3 py-1" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.8rem; font-weight: 600;">
-                        <i class="fas fa-star me-1"></i> Featured Innovator
-                    </span>
-                    <small class="text-muted"><i class="fas fa-graduation-cap me-1"></i> Class of 2015</small>
-                </div>
-                <h2 class="h3 fw-bold mb-2" style="color: var(--text-primary);">From Campus Lab to Silicon Valley Exit</h2>
-                <h6 class="fw-semibold mb-3" style="color: var(--accent-blue);">Anjali Gupta &bull; Co-founder &amp; CEO, NeuralScale</h6>
-                <p class="text-muted mb-4" style="line-height: 1.6; font-size: 0.95rem;">
-                    Anjali shares how her final-year engineering project evolved into an enterprise AI automation company, recently acquired by a Fortune 500 tech leader. Learn about perseverance, fundraising, and the power of campus networking.
-                </p>
-                <div>
-                    <button class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: var(--accent-blue); border: none;" onclick="alert('Full feature story modal');">
-                        <i class="fas fa-book-open me-2"></i> Read Full Interview
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+<style>
+    /* ========================================================
+       ALUMNI SPOTLIGHT — AMBER THEME (alumni variant of the
+       shared admin design system: dark-navy hero, white cards,
+       glassmorphism, hover lift, Outfit / Plus Jakarta Sans)
+       ======================================================== */
+    :root {
+        --al-amber: #f59e0b;
+        --al-amber-dark: #d97706;
+        --al-amber-deep: #b45309;
+        --al-amber-soft: #fffbeb;
+        --al-ink: #0f172a;
+        --al-muted: #64748b;
+        --al-border: rgba(15, 23, 42, 0.09);
+    }
+    .alumni-hero { border-color: rgba(245, 158, 11, 0.45) !important; }
+    .alumni-hero .grad-amber {
+        background: linear-gradient(90deg, #fde68a 0%, #f59e0b 45%, #f97316 100%);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent !important; color: transparent !important;
+    }
+    .alumni-hero-badge {
+        background: rgba(245, 158, 11, 0.16); color: #fcd34d;
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em;
+    }
+    .alumni-card {
+        background: #ffffff; border: 1px solid var(--al-border); border-radius: 20px;
+        box-shadow: 0 10px 30px -14px rgba(15, 23, 42, 0.14);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .alumni-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 24px 44px -18px rgba(15, 23, 42, 0.24);
+        border-color: rgba(245, 158, 11, 0.45);
+    }
+    .btn-amber {
+        background: linear-gradient(135deg, #f59e0b, #d97706); border: none; color: #fff;
+        font-weight: 600; min-height: 44px;
+        box-shadow: 0 10px 22px -10px rgba(217, 119, 6, 0.6);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .btn-amber:hover, .btn-amber:focus { background: linear-gradient(135deg, #fbbf24, #b45309); color: #fff; transform: translateY(-2px); }
+    .btn-ghost-amber {
+        border: 1.5px solid #f59e0b; color: #b45309; background: #fff;
+        font-weight: 600; min-height: 44px;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+    .btn-ghost-amber:hover { background: var(--al-amber-soft); color: #92400e; border-color: var(--al-amber-dark); }
+    .spotlight-img { transition: transform 0.5s ease; }
+    .alumni-card:hover .spotlight-img { transform: scale(1.04); }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @media (max-width: 575.98px) {
+        .featured-img { min-height: 220px !important; max-height: 260px !important; }
+        .alumni-hero .btn { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1; transform: none; transition: none; }
+        .alumni-card, .btn-amber, .btn-ghost-amber, .spotlight-img { transition: none; }
+        .admin-ambient-ball { animation: none; }
+    }
+</style>
 
-    <!-- Spotlight Grid -->
-    <div class="row g-4">
-        <!-- Card 1 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="home-card p-0 h-100 shadow-sm d-flex flex-column justify-content-between overflow-hidden accent-green" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div>
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80"
-                        class="w-100" alt="Vikram Singh" style="height: 220px; object-fit: cover;">
-                    <div class="p-4">
-                        <span class="badge rounded-pill px-2 py-1 mb-2" style="background: var(--accent-green-subtle); color: var(--accent-green); font-size: 0.75rem;">Clean Tech</span>
-                        <h5 class="fw-bold mb-1" style="color: var(--text-primary);">Vikram Singh</h5>
-                        <p class="small mb-2 fw-semibold" style="color: var(--accent-green);">CEO, GreenGrid Systems &bull; Batch 2012</p>
-                        <p class="text-muted small mb-0" style="line-height: 1.5;">
-                            Pioneering solar grid optimization across 14 states with proprietary IoT hardware and intelligent demand forecast algorithms.
-                        </p>
+<div class="admin-page-wrapper">
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2" style="background: #f59e0b;"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
+
+    <div class="admin-container">
+        <!-- Hero -->
+        <div class="admin-hero-card alumni-hero reveal text-center">
+            <span class="alumni-hero-badge d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="font-size: 0.75rem; font-weight: 700;">
+                <i class="fas fa-award"></i> SUCCESS STORIES
+            </span>
+            <h1 class="admin-hero-title fw-bold mb-3" style="font-family: 'Outfit', sans-serif;">Alumni <span class="grad-amber">Spotlight &amp; Achievements</span></h1>
+            <p class="mb-0 mx-auto" style="color: rgba(255,255,255,0.72); max-width: 650px; font-size: 1.1rem;">
+                Celebrating extraordinary journeys, startup milestones, and leadership triumphs from our global alumni community.
+            </p>
+        </div>
+
+        <!-- Featured Spotlight Container -->
+        <div class="alumni-card p-0 overflow-hidden mb-5 reveal">
+            <div class="row g-0 align-items-center">
+                <div class="col-lg-6 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80"
+                        alt="Featured Alumni" class="img-fluid w-100 object-fit-cover spotlight-img featured-img" style="min-height: 380px; max-height: 440px;">
+                </div>
+                <div class="col-lg-6 p-4 p-md-5 d-flex flex-column justify-content-center">
+                    <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+                        <span class="badge rounded-pill px-3 py-1" style="background: #fef3c7; color: #b45309; font-size: 0.8rem; font-weight: 600;">
+                            <i class="fas fa-star me-1"></i> Featured Innovator
+                        </span>
+                        <small class="text-muted"><i class="fas fa-graduation-cap me-1"></i> Class of 2015</small>
+                    </div>
+                    <h2 class="h3 fw-bold mb-2" style="color: var(--al-ink); font-family: 'Outfit', sans-serif;">From Campus Lab to Silicon Valley Exit</h2>
+                    <h6 class="fw-semibold mb-3" style="color: var(--al-amber-dark);">Anjali Gupta &bull; Co-founder &amp; CEO, NeuralScale</h6>
+                    <p class="text-muted mb-4" style="line-height: 1.6; font-size: 0.95rem;">
+                        Anjali shares how her final-year engineering project evolved into an enterprise AI automation company, recently acquired by a Fortune 500 tech leader. Learn about perseverance, fundraising, and the power of campus networking.
+                    </p>
+                    <div>
+                        <button class="btn btn-amber rounded-pill px-4 shadow-sm" onclick="alert('Full feature story modal');">
+                            <i class="fas fa-book-open me-2"></i> Read Full Interview
+                        </button>
                     </div>
                 </div>
-                <div class="p-4 pt-0">
-                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill w-100 py-2" style="border-color: var(--border-color); color: var(--accent-green);" onclick="alert('Story details coming soon');">
-                        Read Story <i class="fas fa-arrow-right ms-1"></i>
-                    </a>
-                </div>
             </div>
         </div>
 
-        <!-- Card 2 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="home-card p-0 h-100 shadow-sm d-flex flex-column justify-content-between overflow-hidden accent-purple" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div>
-                    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80"
-                        class="w-100" alt="Sarah Khan" style="height: 220px; object-fit: cover;">
-                    <div class="p-4">
-                        <span class="badge rounded-pill px-2 py-1 mb-2" style="background: var(--accent-purple-subtle); color: var(--accent-purple); font-size: 0.75rem;">Healthcare AI</span>
-                        <h5 class="fw-bold mb-1" style="color: var(--text-primary);">Sarah Khan</h5>
-                        <p class="small mb-2 fw-semibold" style="color: var(--accent-purple);">Lead Research Scientist, BioGen &bull; Batch 2014</p>
-                        <p class="text-muted small mb-0" style="line-height: 1.5;">
-                            Leading breakthroughs in computational oncology and protein folding models, published in top tier international bio-engineering journals.
-                        </p>
+        <!-- Spotlight Grid -->
+        <div class="row g-4">
+            <!-- Card 1 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="alumni-card p-0 h-100 d-flex flex-column justify-content-between overflow-hidden reveal">
+                    <div>
+                        <div class="overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80"
+                                class="w-100 spotlight-img" alt="Vikram Singh" style="height: 220px; object-fit: cover;">
+                        </div>
+                        <div class="p-4">
+                            <span class="badge rounded-pill px-2 py-1 mb-2" style="background: #dcfce7; color: #059669; font-size: 0.75rem;">Clean Tech</span>
+                            <h5 class="fw-bold mb-1" style="color: var(--al-ink);">Vikram Singh</h5>
+                            <p class="small mb-2 fw-semibold" style="color: #059669;">CEO, GreenGrid Systems &bull; Batch 2012</p>
+                            <p class="text-muted small mb-0" style="line-height: 1.5;">
+                                Pioneering solar grid optimization across 14 states with proprietary IoT hardware and intelligent demand forecast algorithms.
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="p-4 pt-0">
-                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill w-100 py-2" style="border-color: var(--border-color); color: var(--accent-purple);" onclick="alert('Story details coming soon');">
-                        Read Story <i class="fas fa-arrow-right ms-1"></i>
-                    </a>
+                    <div class="p-4 pt-0">
+                        <a href="#" class="btn btn-ghost-amber btn-sm rounded-pill w-100 py-2" onclick="alert('Story details coming soon');">
+                            Read Story <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Card 3 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="home-card p-0 h-100 shadow-sm d-flex flex-column justify-content-between overflow-hidden accent-amber" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div>
-                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80"
-                        class="w-100" alt="David Chen" style="height: 220px; object-fit: cover;">
-                    <div class="p-4">
-                        <span class="badge rounded-pill px-2 py-1 mb-2" style="background: var(--accent-amber-subtle); color: var(--accent-amber); font-size: 0.75rem;">EdTech Social</span>
-                        <h5 class="fw-bold mb-1" style="color: var(--text-primary);">David Chen</h5>
-                        <p class="small mb-2 fw-semibold" style="color: var(--accent-amber);">Founder, OpenClassrooms &bull; Batch 2018</p>
-                        <p class="text-muted small mb-0" style="line-height: 1.5;">
-                            Democratizing high-quality coding education and mentor office hours for thousands of aspiring developers in tier-2 and tier-3 towns.
-                        </p>
+            <!-- Card 2 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="alumni-card p-0 h-100 d-flex flex-column justify-content-between overflow-hidden reveal">
+                    <div>
+                        <div class="overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80"
+                                class="w-100 spotlight-img" alt="Sarah Khan" style="height: 220px; object-fit: cover;">
+                        </div>
+                        <div class="p-4">
+                            <span class="badge rounded-pill px-2 py-1 mb-2" style="background: #ede9fe; color: #7c3aed; font-size: 0.75rem;">Healthcare AI</span>
+                            <h5 class="fw-bold mb-1" style="color: var(--al-ink);">Sarah Khan</h5>
+                            <p class="small mb-2 fw-semibold" style="color: #7c3aed;">Lead Research Scientist, BioGen &bull; Batch 2014</p>
+                            <p class="text-muted small mb-0" style="line-height: 1.5;">
+                                Leading breakthroughs in computational oncology and protein folding models, published in top tier international bio-engineering journals.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0">
+                        <a href="#" class="btn btn-ghost-amber btn-sm rounded-pill w-100 py-2" onclick="alert('Story details coming soon');">
+                            Read Story <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="p-4 pt-0">
-                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill w-100 py-2" style="border-color: var(--border-color); color: var(--accent-amber);" onclick="alert('Story details coming soon');">
-                        Read Story <i class="fas fa-arrow-right ms-1"></i>
-                    </a>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="alumni-card p-0 h-100 d-flex flex-column justify-content-between overflow-hidden reveal">
+                    <div>
+                        <div class="overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80"
+                                class="w-100 spotlight-img" alt="David Chen" style="height: 220px; object-fit: cover;">
+                        </div>
+                        <div class="p-4">
+                            <span class="badge rounded-pill px-2 py-1 mb-2" style="background: #fef3c7; color: #b45309; font-size: 0.75rem;">EdTech Social</span>
+                            <h5 class="fw-bold mb-1" style="color: var(--al-ink);">David Chen</h5>
+                            <p class="small mb-2 fw-semibold" style="color: var(--al-amber-dark);">Founder, OpenClassrooms &bull; Batch 2018</p>
+                            <p class="text-muted small mb-0" style="line-height: 1.5;">
+                                Democratizing high-quality coding education and mentor office hours for thousands of aspiring developers in tier-2 and tier-3 towns.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0">
+                        <a href="#" class="btn btn-ghost-amber btn-sm rounded-pill w-100 py-2" onclick="alert('Story details coming soon');">
+                            Read Story <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+(function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var revealEls = document.querySelectorAll('.reveal');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealEls.forEach(function (el) { el.classList.add('visible'); });
+    } else {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); }
+            });
+        }, { threshold: 0.12 });
+        revealEls.forEach(function (el) { io.observe(el); });
+    }
+})();
+</script>
 {% endblock %}
