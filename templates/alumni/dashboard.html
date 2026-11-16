@@ -672,6 +672,21 @@
         overflow: hidden;
     }
 
+    /* Dark-on-dark fix (2026-11-16): theme-system.css forces h1..h6 to dark
+       navy (#0f172a !important) and p to #334155, both unreadable on this
+       dark gradient. The shared fix in navbar-professional.css only covers
+       .alu-hero-card / .alumni-hero headings, not this banner. The amber
+       gradient span inside the h3 keeps its own transparent fill (its direct
+       rule beats the inherited value from the h3). The <p> keeps its
+       opacity-75 class, so plain white renders dimmed as intended. */
+    .alu-mentor-banner h3 {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+    .alu-mentor-banner p {
+        color: #ffffff !important;
+    }
+
     /* ---- Sidebar ---- */
     .alu-side-card {
         background: var(--alu-card);

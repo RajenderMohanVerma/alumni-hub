@@ -4361,3 +4361,58 @@ body.premium-theme #mainNavbar .nav-alumni-btn.active i {
         animation: none !important;
     }
 }
+
+/* ==========================================================================
+   ALUMNI FIXED-NAVBAR CLEARANCE + DARK-HERO CONTRAST (2026-11-16)
+   Bug 1: #mainNavbar is fixed-top (~80px desktop, ~64-70px mobile). Admin
+   pages clear it via .admin-page-wrapper padding-top from
+   static/css/admin-luxury.css (:root --adm-top-spacing-desktop 145px /
+   tablet 125px / mobile 98px / small 92px). Alumni pages using
+   .alumni-page-wrapper (dashboard, profile) and .alumni-page (events,
+   jobs, post_job) had NO top padding, so their hero cards/pills were
+   clipped behind the navbar. This mirrors the admin values exactly for
+   those two alumni-only wrappers (grep confirms no non-alumni template
+   uses these classes). Pages already on .admin-page-wrapper need nothing.
+   Bug 2: static/css/theme-system.css (loaded in base.html) sets
+   h1..h6 { color: var(--text-primary) !important; } (dark navy), which
+   beats the plain `color:#fff` rules in alumni heroes — only the amber
+   gradient spans survived (background-clip:text). Mirrors the
+   "bulletproof" block in admin-luxury.css, scoped to the alumni hero
+   classes (.alu-hero-card, .alumni-hero). Gradient spans keep their own
+   transparent fill (a direct rule on the span beats the inherited value
+   from the h1), exactly as admin's .hero-title-gradient does.
+   ========================================================================== */
+.alumni-page-wrapper,
+.alumni-page {
+    padding-top: 145px;
+}
+@media (max-width: 991.98px) {
+    .alumni-page-wrapper,
+    .alumni-page {
+        padding-top: 125px;
+    }
+}
+@media (max-width: 768px) {
+    .alumni-page-wrapper,
+    .alumni-page {
+        padding-top: 98px;
+    }
+}
+@media (max-width: 575.98px) {
+    .alumni-page-wrapper,
+    .alumni-page {
+        padding-top: 92px;
+    }
+}
+
+.alu-hero-card h1,
+.alu-hero-card h2,
+.alu-hero-card h3,
+.alu-hero-card .alu-hero-title,
+.alumni-hero h1,
+.alumni-hero h2,
+.alumni-hero h3,
+.alumni-hero .alumni-hero-title {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}

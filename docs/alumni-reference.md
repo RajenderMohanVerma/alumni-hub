@@ -671,3 +671,79 @@ profile card ALUMNI MEMBER badge) were NOT removed — only the navbar one
 was circled. Verification: `python3 scripts/validate_templates.py` →
 **Total errors: 0**; `alumni-brand-tag` no longer occurs in `base.html`.
 No push — local only.
+
+## 7. Fixed-navbar overlap + dark-hero contrast fix (2026-11-16, local — not pushed)
+
+Two live bugs from Rajender's phone screenshots (21:19 IST).
+
+### 7.1 Root causes
+
+- **Bug 1 — content hidden behind the fixed navbar.** `#mainNavbar` is
+  `fixed-top`. Admin pages clear it with `.admin-page-wrapper`
+  `padding-top` from `static/css/admin-luxury.css`
+  (`--adm-top-spacing-desktop 145px / tablet 125px / mobile 98px /
+  small 92px`). But 5 alumni pages never had that padding:
+  `dashboard.html` + `profile.html` (`.alumni-page-wrapper`, inline CSS
+  with no `padding-top`) and `events.html`, `jobs.html`, `post_job.html`
+  (`.alumni-page`, only a `py-4` container). Their heroes started at the
+  top of the page, so the navbar clipped the hero card / the
+  "RECRUITER & ALUMNI PORTAL" pill / the title.
+- **Bug 2 — dark-on-dark hero titles.** `static/css/theme-system.css`
+  (loaded in `base.html`) sets `h1..h6 { color: var(--text-primary)
+  !important; }` — dark navy — which beats every plain `color: #fff`
+  rule in the alumni templates. Only the amber gradient spans survived
+  (they use `background-clip: text` + `-webkit-text-fill-color:
+  transparent`), so "Welcome back," / "Post a Job" rendered dark on the
+  dark-navy hero while the amber part stayed readable. Admin heroes were
+  already protected by the "bulletproof" block in `admin-luxury.css`
+  (`.admin-hero-card h1 { color: #fff !important }`); alumni heroes
+  using `.alu-hero-card` / `.alumni-hero` were not.
+
+### 7.2 The shared fix (one place, alumni-scoped)
+
+Appended to `static/css/navbar-professional.css` (loaded in `base.html`
+on every page; grep confirms no non-alumni template uses these classes):
+
+- **Clearance** — `.alumni-page-wrapper, .alumni-page` get exactly the
+  admin values: `padding-top: 145px` desktop, `125px` ≤991.98px, `98px`
+  ≤768px, `92px` ≤575.98px. Navbar is ~80px desktop / ~64–70px mobile,
+  so these leave the same breathing room admin has. The 9 pages already
+  on `.admin-page-wrapper` needed nothing. (Note: `meet_view.html` has a
+  `padding-top: 0 !important` on `.admin-page-wrapper`, but it is inside
+  `@media print` only — print-only, left alone.)
+- **Contrast** — `.alu-hero-card h1/h2/h3/.alu-hero-title` and
+  `.alumni-hero h1/h2/h3/.alumni-hero-title` get `color: #fff !important`
+  + `-webkit-text-fill-color: #fff !important`, mirroring admin's
+  bulletproof block. Gradient spans keep their transparent fill (a direct
+  rule on the span beats the inherited value from the `h1`), exactly as
+  admin's `.hero-title-gradient` does.
+
+### 7.3 Per-page audit
+
+| Page | Wrapper (clipped?) | Hero title | Change |
+|---|---|---|---|
+| dashboard.html | `.alumni-page-wrapper` — covered by shared fix | `.alu-hero-title` covered; **one extra spot**: "Be a Guiding Star" mentorship banner (`.alu-mentor-banner`, dark gradient) — its `h3` was forced dark by theme-system, its `<p class="lead opacity-75">` forced `#334155` | Scoped CSS in the template only: `.alu-mentor-banner h3/p { color:#fff !important }` (p keeps `opacity-75`, so it renders dimmed as intended) |
+| profile.html | `.alumni-page-wrapper` — covered | Covered | None — `.alu-profile-content { margin-top:-90px }` only overlaps the hero's own wave padding, not the navbar |
+| edit_profile.html | `.admin-page-wrapper` — already had admin padding | `.admin-hero-card` bulletproof + shared fix | None |
+| events.html | `.alumni-page` — covered | `.alumni-hero h1` covered | None — `.alumni-lift { margin-top:-5.5rem }` only overlaps the hero's own bottom padding |
+| jobs.html | `.alumni-page` — covered | Covered | None |
+| post_job.html | `.alumni-page` — covered | Covered ("Post a Job" now white, "or Internship" amber) | None |
+| network.html, mentorship.html, notifications.html, settings.html, spotlight.html, upgrade.html, meet_register.html, meet_view.html | `.admin-page-wrapper` — already had admin padding | All `h1`s inside `.admin-hero-card` — bulletproof white | None — systematic grep found every dark-colour instance on these pages lives on white/light cards, never inside a dark container |
+
+Mobile 360px polish (static review, both groups): no real defects — no
+fixed widths >360px, no long unbroken strings, hero buttons go full-width
+≤576px, settings nav is a contained horizontal scroll strip, upgrade
+pills wrap. No mobile changes made.
+
+### 7.4 Verification
+
+- `python3 scripts/validate_templates.py` → **Total errors: 0**.
+- Jinja render tests with mocked alumni users: all 14 pages render;
+  dashboard/post_job/profile (18/18 checks) and mentorship/
+  notifications/upgrade/network/settings/spotlight/meet_register/
+  meet_view all PASS — hero titles present, wrappers as expected, form
+  fields and `url_for` routes intact.
+- `git diff --stat`: only `static/css/navbar-professional.css` (+55,
+  shared fix) and `templates/alumni/dashboard.html` (+15, banner fix).
+  70 insertions, 0 deletions. No content, text, Jinja, `url_for`, form
+  field or route changed. No push — local only.
