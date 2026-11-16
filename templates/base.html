@@ -1024,9 +1024,20 @@
             color: #ffffff !important;
         }
 
-        .alumni-tile-btn .tile-icon {
+        /* Clean solid tile icons: the global .tile-sky / .tile-emerald rules in
+           navbar-professional.css paint a tinted 32px box behind any .tile-icon,
+           which showed up as muddy dark squares behind the Network / Post Job
+           glyphs. Alumni tiles use bare glyphs, so strip that box (alumni-scoped
+           only; admin / faculty tiles keep their boxed icons). */
+        .alumni-mobile-quick-grid .alumni-tile-btn .tile-icon {
             font-size: 1.25rem !important;
             margin-bottom: 0.3rem !important;
+            background: transparent !important;
+            width: auto !important;
+            height: auto !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            padding: 0 !important;
         }
 
         .alumni-tile-btn .tile-label {
@@ -1839,7 +1850,7 @@
                         <div class="tile-label">Dashboard</div>
                     </a>
                     <a href="/alumni/network" class="alumni-tile-btn tile-sky adm-drawer-link">
-                        <div class="tile-icon"><i class="fas fa-network-wired"></i></div>
+                        <div class="tile-icon"><i class="fas fa-users"></i></div>
                         <div class="tile-label">Network</div>
                     </a>
                     <a href="/alumni/post-job" class="alumni-tile-btn tile-emerald adm-drawer-link">
@@ -1868,12 +1879,7 @@
                     <span class="badge badge-role">{{ current_user.role|capitalize }}</span>
                 </div>
                 <div class="mobile-quick-actions">
-                    {% if current_user.role == 'alumni' %}
-                    <a href="/alumni/dashboard" class="action-btn"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                    <a href="/community-group" class="action-btn" style="color: #25d366;"><i class="fab fa-whatsapp"></i> Community</a>
-                    <a href="/messages" class="action-btn"><i class="fas fa-comment-alt"></i> Messages</a>
-                    <a href="/alumni/network" class="action-btn"><i class="fas fa-network-wired"></i> Network</a>
-                    {% elif current_user.role == 'student' %}
+                    {% if current_user.role == 'student' %}
                     <a href="/student/dashboard" class="action-btn"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                     <a href="/community-group" class="action-btn" style="color: #25d366;"><i class="fab fa-whatsapp"></i> Community</a>
                     <a href="/messages" class="action-btn"><i class="fas fa-comment-alt"></i> Messages</a>
@@ -1894,7 +1900,7 @@
             {% endif %}
 
             <div class="mobile-links-container">
-                {% if not (current_user.is_authenticated and current_user.role in ['admin', 'faculty']) %}
+                {% if not (current_user.is_authenticated and current_user.role in ['admin', 'faculty', 'alumni']) %}
                 <a href="/" class="mobile-nav-link" style="--delay: 0.15s"><i class="fas fa-home"></i> Home</a>
                 <a href="/about" class="mobile-nav-link" style="--delay: 0.2s"><i class="fas fa-info-circle"></i>
                     About</a>
@@ -2057,6 +2063,40 @@
                                 <span class="adm-row-sub">Terminate alumni session safely</span>
                             </div>
                             <i class="fas fa-arrow-right-from-bracket text-danger ms-auto" style="font-size: 0.76rem;"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Category 5: Explore (Public Portal) — dark alumni rows replacing the old white Home / About / Events cards -->
+                <div class="adm-drawer-group">
+                    <div class="adm-drawer-group-head">
+                        <i class="fas fa-compass adm-head-icon" style="color: #fbbf24 !important;"></i>
+                        <span class="adm-head-title">Explore</span>
+                    </div>
+                    <div class="adm-drawer-group-box">
+                        <a href="/" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-amber"><i class="fas fa-home"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Home</span>
+                                <span class="adm-row-sub">Back to the public homepage</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/about" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-blue"><i class="fas fa-info-circle"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">About</span>
+                                <span class="adm-row-sub">About Alumni Hub &amp; JIMS Rohini</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/events" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-rose"><i class="fas fa-calendar-alt"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Campus Events</span>
+                                <span class="adm-row-sub">All campus events &amp; reunions</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
                         </a>
                     </div>
                 </div>
@@ -2434,7 +2474,7 @@
                         </div>
                     </a>
                 </div>
-                {% elif current_user.role != 'admin' %}
+                {% elif current_user.role not in ['admin', 'alumni'] %}
                 <a href="/events" class="mobile-nav-link" style="--delay: 0.7s"><i class="fas fa-calendar-alt"></i>
                     Events</a>
                 {% endif %}
@@ -2474,6 +2514,12 @@
                 <div class="text-center mt-2 mb-2">
                     <small style="font-size: 0.72rem; letter-spacing: 0.05em; display: inline-flex; align-items: center; justify-content: center; gap: 6px; color: #34d399 !important;">
                         <i class="fas fa-graduation-cap text-warning"></i> VERIFIED FACULTY PORTAL • v3.3
+                    </small>
+                </div>
+                {% elif current_user.role == 'alumni' %}
+                <div class="text-center mt-2 mb-2">
+                    <small style="font-size: 0.72rem; letter-spacing: 0.05em; display: inline-flex; align-items: center; justify-content: center; gap: 6px; color: #fbbf24 !important;">
+                        <i class="fas fa-user-tie text-warning"></i> VERIFIED ALUMNI PORTAL • JIMS ROHINI
                     </small>
                 </div>
                 {% else %}

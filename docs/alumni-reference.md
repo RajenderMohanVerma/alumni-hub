@@ -548,7 +548,8 @@ service or backend file was touched.
 - Every pre-existing mobile alumni link is preserved (all 9 nav links +
   Community Group + Profile from the old quick actions). Only additions
   are links to routes that already exist: My Profile, Settings, Logout.
-  Home / About at the top of the drawer are unchanged.
+  Home / About / Events at the top of the drawer were initially left as
+  white cards — see §6.7, which rebuilt them as dark Explore rows.
 - No JS was changed: open/close uses the existing `#navbarToggler` /
   `#mobileMenuOverlay` / `#closeMobileMenu` handlers, Escape key, and the
   `.mobile-nav-link, .adm-drawer-link` auto-close listener.
@@ -597,3 +598,62 @@ service or backend file was touched.
   it; no horizontal scrollbar.
 - Log in as admin and faculty: navbar, brand, drawer and pills must look
   exactly as before (no alumni classes in their markup).
+
+### 6.7 Alumni drawer white-card fix (2026-11-16, local — not pushed)
+
+Bug seen on a real phone screenshot (21:24 IST): below the amber profile
+card and 4 quick tiles, the alumni drawer showed two big **white** cards
+— Home and About — plus a white Events card at the bottom, clashing with
+the dark amber drawer. Cause: three places in `templates/base.html`
+rendered the old white `.mobile-nav-link` cards for every non-admin /
+non-faculty user, i.e. alumni included.
+
+What was white, and what it is now (all in `templates/base.html` only):
+
+- **Home (`/`) + About (`/about`)** — were white cards at the top of
+  the drawer (gated by `role not in ['admin', 'faculty']`). The gate now
+  also excludes `alumni`; the same two links render as dark rows in a
+  new **Explore** group at the bottom of the drawer. Same hrefs, same
+  `.adm-drawer-link` auto-close.
+- **Events (`/events`)** — was a white card after the groups (gated by
+  `role != 'admin'`). The gate now excludes alumni too; the link renders
+  as a dark **Campus Events** row inside Explore ("All campus events &
+  reunions"). Student and logged-out users still see the original white
+  cards — their markup is untouched.
+- **Dead alumni quick actions** — the `{% else %}` standard
+  `.mobile-profile-card` still contained an alumni branch with grey
+  `.action-btn` links. It was unreachable for alumni (alumni hits its
+  own profile-card branch first), so only that dead alumni branch was
+  removed; the student/faculty branches are untouched.
+- **Duplicate Logout button** — the generic `btn-outline-danger` Logout
+  button below the groups duplicated the Sign Out row already in the
+  Account group. For alumni it is replaced by an amber session footer
+  ("VERIFIED ALUMNI PORTAL • JIMS ROHINI"), mirroring the admin/faculty
+  footer lines. Student keeps the Logout button.
+- **Quick-tile icons** — the Network and Post Job tiles showed muddy
+  dark squares behind their glyphs. Cause: global `.tile-sky` /
+  `.tile-emerald .tile-icon` rules in
+  `static/css/navbar-professional.css` paint a tinted 32px box behind
+  any `.tile-icon` (Dashboard amber and Messages violet had no such
+  rule, so they looked clean). Fixed with an alumni-scoped override
+  (`.alumni-mobile-quick-grid .alumni-tile-btn .tile-icon` —
+  transparent background, no box) in the inline alumni CSS. The Network
+  tile glyph was also swapped `fa-network-wired` → `fa-users` (clean
+  single glyph at small size); the grouped Alumni Network row keeps
+  `fa-network-wired`.
+- Audited the rest of the alumni drawer (topbar, profile card, tiles,
+  all groups, PWA banner — already has an alumni dark override, session
+  footer): no other white/light element renders for alumni.
+
+Final drawer order: profile card → 4 quick tiles → Alumni Home →
+Connect & Mentor → Career & Events → Account → **Explore** (Home,
+About, Campus Events) → amber session footer.
+
+Verification: `python3 scripts/validate_templates.py` → **Total errors:
+0**. Jinja render test with mocked alumni/student/faculty/admin/
+anonymous users (`/tmp/test_alumni_drawer.py`): rendered alumni drawer
+contains **zero** `mobile-nav-link` and **zero** `action-btn`; Home /
+About / Campus Events render as `adm-drawer-row` inside Explore; all 16
+pre-existing alumni hrefs still present; student, faculty, admin and
+anonymous drawer output is **byte-identical to HEAD**. No push — local
+only.
