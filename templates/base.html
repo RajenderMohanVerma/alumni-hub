@@ -783,23 +783,345 @@
             opacity: 0.6;
         }
 
-        /* Alumni Navbar Compact Styles */
-        .nav-alumni-link {
-            font-size: 0.9rem !important;
-            padding-left: 0.5rem !important;
-            padding-right: 0.5rem !important;
-            white-space: nowrap;
+        /* ===== ALUMNI MOBILE DRAWER THEME (amber, mirrors faculty-drawer-theme) ===== */
+        .mobile-menu-overlay.alumni-drawer-theme,
+        #mobileMenuOverlay.alumni-drawer-theme {
+            background: linear-gradient(180deg, #1a1206 0%, #171208 40%, #0f172a 100%) !important;
+            background-color: #171208 !important;
+            backdrop-filter: blur(28px) !important;
+            -webkit-backdrop-filter: blur(28px) !important;
+            padding: 0 14px 45px !important;
+            color: #fffbeb !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
         }
 
-        .nav-alumni-link i {
-            font-size: 1rem;
-            color: var(--primary-color, #4f46e5);
-            /* Brand color hint */
+        .alumni-drawer-theme .mobile-menu-content,
+        #mobileMenuOverlay.alumni-drawer-theme .mobile-menu-content {
+            gap: 14px !important;
+            max-width: 480px !important;
+            width: 100% !important;
+            padding-top: 0.25rem !important;
         }
 
-        @media (max-width: 1200px) {
-            .nav-alumni-link span.d-xl-inline {
-                display: none !important;
+        #mobileMenuOverlay.alumni-drawer-theme .mobile-drawer-topbar {
+            background: rgba(23, 18, 6, 0.95) !important;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.25) !important;
+        }
+
+        #mobileMenuOverlay.alumni-drawer-theme .drawer-brand-title {
+            color: #ffffff !important;
+        }
+
+        #mobileMenuOverlay.alumni-drawer-theme .drawer-brand-title .brand-highlight {
+            color: #fbbf24 !important;
+        }
+
+        #mobileMenuOverlay.alumni-drawer-theme .drawer-brand-logo-wrap {
+            background: rgba(245, 158, 11, 0.25) !important;
+            border: 1px solid rgba(245, 158, 11, 0.4) !important;
+        }
+
+        .role-tag-alumni {
+            background: rgba(245, 158, 11, 0.25) !important;
+            color: #fde68a !important;
+            border: 1px solid rgba(245, 158, 11, 0.45) !important;
+        }
+
+        .alumni-drawer-theme .mobile-close-btn,
+        #mobileMenuOverlay.alumni-drawer-theme .mobile-close-btn {
+            border: 1px solid rgba(245, 158, 11, 0.35) !important;
+        }
+
+        .alumni-drawer-theme .mobile-close-btn i,
+        #mobileMenuOverlay.alumni-drawer-theme .mobile-close-btn i {
+            color: #fde68a !important;
+        }
+
+        /* Alumni Mobile Profile Card */
+        .alumni-mobile-card {
+            background: linear-gradient(145deg, #3f2a05 0%, #573d08 55%, #713f12 100%) !important;
+            background-color: #3f2a05 !important;
+            border: 1.5px solid rgba(245, 158, 11, 0.4) !important;
+            border-radius: 20px !important;
+            padding: 1.25rem 1.1rem !important;
+            box-shadow: 0 14px 35px -6px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
+            width: 100% !important;
+            margin-bottom: 0.85rem !important;
+            box-sizing: border-box !important;
+            display: block !important;
+            opacity: 1 !important;
+            transform: none !important;
+            animation: none !important;
+        }
+
+        .alumni-mobile-card-header {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin-bottom: 0.9rem !important;
+            padding-bottom: 0.7rem !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+        }
+
+        .alumni-mobile-status-pill {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 7px !important;
+            font-size: 0.72rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.08em !important;
+            color: #fde68a !important;
+            text-transform: uppercase !important;
+        }
+
+        .alumni-status-pulse {
+            width: 9px !important;
+            height: 9px !important;
+            border-radius: 50% !important;
+            background: #f59e0b !important;
+            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.45) !important;
+            display: inline-block !important;
+            animation: alumniPulse 2s infinite !important;
+        }
+
+        @keyframes alumniPulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+
+        .alumni-role-badge {
+            font-size: 0.68rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.08em !important;
+            padding: 0.25rem 0.65rem !important;
+            border-radius: 7px !important;
+            background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(251, 191, 36, 0.55) !important;
+            text-transform: uppercase !important;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35) !important;
+        }
+
+        .alumni-mobile-user-row {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.95rem !important;
+            margin-bottom: 1.15rem !important;
+            position: relative !important;
+        }
+
+        .alumni-mobile-avatar-box {
+            position: relative !important;
+            width: 56px !important;
+            height: 56px !important;
+            min-width: 56px !important;
+            min-height: 56px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .alumni-mobile-img,
+        .alumni-mobile-initials {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 56px !important;
+            height: 56px !important;
+            border-radius: 16px !important;
+            object-fit: cover !important;
+            border: 2.5px solid rgba(255, 255, 255, 0.95) !important;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35) !important;
+            box-sizing: border-box !important;
+        }
+
+        .alumni-mobile-initials {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important;
+            color: #ffffff !important;
+            font-weight: 800 !important;
+            font-size: 1.45rem !important;
+            letter-spacing: 0.03em !important;
+        }
+
+        .alumni-avatar-badge-icon {
+            position: absolute !important;
+            bottom: -4px !important;
+            right: -4px !important;
+            width: 22px !important;
+            height: 22px !important;
+            border-radius: 50% !important;
+            background: #fbbf24 !important;
+            color: #78350f !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 0.72rem !important;
+            border: 2px solid #3f2a05 !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+            z-index: 5 !important;
+        }
+
+        .alumni-mobile-user-details {
+            overflow: hidden !important;
+            min-width: 0 !important;
+            flex: 1 !important;
+        }
+
+        .alumni-mobile-name {
+            font-size: 1.2rem !important;
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            margin: 0 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            line-height: 1.25 !important;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .alumni-mobile-email {
+            font-size: 0.82rem !important;
+            color: #fde68a !important;
+            margin: 0.25rem 0 0 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            font-weight: 600 !important;
+        }
+
+        .alumni-mobile-quick-grid {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 0.55rem !important;
+        }
+
+        .alumni-tile-btn {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0.7rem 0.25rem !important;
+            min-height: 64px !important;
+            border-radius: 13px !important;
+            text-decoration: none !important;
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.18) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        .alumni-tile-btn:active,
+        .alumni-tile-btn:hover {
+            background: rgba(255, 255, 255, 0.22) !important;
+            border-color: rgba(251, 191, 36, 0.45) !important;
+            transform: translateY(-2px) !important;
+            color: #ffffff !important;
+        }
+
+        .alumni-tile-btn .tile-icon {
+            font-size: 1.25rem !important;
+            margin-bottom: 0.3rem !important;
+        }
+
+        .alumni-tile-btn .tile-label {
+            font-size: 0.72rem !important;
+            font-weight: 700 !important;
+            white-space: nowrap !important;
+            color: #ffffff !important;
+        }
+
+        /* Grouped rows inside the alumni drawer (amber accents) */
+        .alumni-drawer-theme .adm-drawer-group-box,
+        #mobileMenuOverlay.alumni-drawer-theme .adm-drawer-group-box {
+            background: rgba(28, 21, 7, 0.92) !important;
+            border: 1px solid rgba(245, 158, 11, 0.26) !important;
+            border-radius: 16px !important;
+            overflow: hidden !important;
+            backdrop-filter: blur(14px) !important;
+            -webkit-backdrop-filter: blur(14px) !important;
+            box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.45) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            margin-bottom: 0.25rem !important;
+        }
+
+        .alumni-drawer-theme .adm-drawer-row,
+        #mobileMenuOverlay.alumni-drawer-theme .adm-drawer-row {
+            min-height: 48px !important;
+            padding: 0.72rem 0.95rem !important;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.12) !important;
+        }
+
+        .alumni-drawer-theme .adm-drawer-row:hover,
+        .alumni-drawer-theme .adm-drawer-row:active,
+        #mobileMenuOverlay.alumni-drawer-theme .adm-drawer-row:hover,
+        #mobileMenuOverlay.alumni-drawer-theme .adm-drawer-row:active {
+            background: rgba(245, 158, 11, 0.16) !important;
+            transform: translateX(3px) !important;
+        }
+
+        .alumni-drawer-theme .adm-row-title,
+        #mobileMenuOverlay.alumni-drawer-theme .adm-row-title {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 0.92rem !important;
+        }
+
+        .alumni-drawer-theme .adm-row-sub,
+        #mobileMenuOverlay.alumni-drawer-theme .adm-row-sub {
+            color: #d6d3d1 !important;
+            font-size: 0.74rem !important;
+        }
+
+        .alumni-drawer-theme .adm-row-chevron,
+        #mobileMenuOverlay.alumni-drawer-theme .adm-row-chevron {
+            color: #fbbf24 !important;
+            font-size: 0.78rem !important;
+        }
+
+        .alumni-drawer-theme .adm-drawer-row:hover .adm-row-chevron,
+        #mobileMenuOverlay.alumni-drawer-theme .adm-drawer-row:hover .adm-row-chevron {
+            transform: translateX(3px) !important;
+            color: #fde68a !important;
+        }
+
+        .alumni-drawer-theme .adm-head-title,
+        #mobileMenuOverlay.alumni-drawer-theme .adm-head-title {
+            color: #fde68a !important;
+        }
+
+        /* Themed PWA banner for the alumni drawer */
+        #mobileMenuOverlay.alumni-drawer-theme .mobile-pwa-banner {
+            background: rgba(28, 21, 7, 0.94) !important;
+            border: 1px solid rgba(245, 158, 11, 0.28) !important;
+            box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45) !important;
+        }
+
+        #mobileMenuOverlay.alumni-drawer-theme .mobile-pwa-text strong {
+            color: #ffffff !important;
+        }
+
+        #mobileMenuOverlay.alumni-drawer-theme .mobile-pwa-text small {
+            color: #fde68a !important;
+        }
+
+        #mobileMenuOverlay.alumni-drawer-theme .pwa-btn-install {
+            background: #d97706 !important;
+            border-color: #f59e0b !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35) !important;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .alumni-status-pulse,
+            .alumni-pulse-beacon {
+                animation: none !important;
             }
         }
     </style>
@@ -817,20 +1139,23 @@
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar navbar-expand-lg navbar-floating fixed-top smart-scroll-nav" id="mainNavbar">
         <div class="container-fluid navbar-container">
-            <a class="navbar-brand brand-premium {% if current_user.is_authenticated and current_user.role == 'admin' %}admin-brand-wrap{% elif current_user.is_authenticated and current_user.role == 'faculty' %}faculty-brand-wrap{% endif %}" href="{{ url_for('dashboard_admin') if current_user.is_authenticated and current_user.role == 'admin' else (url_for('dashboard_faculty') if current_user.is_authenticated and current_user.role == 'faculty' else '/') }}" title="Alumni Hub {% if current_user.is_authenticated and current_user.role == 'admin' %}Admin Console{% elif current_user.is_authenticated and current_user.role == 'faculty' %}Faculty Portal{% else %}Official Portal{% endif %}">
+            <a class="navbar-brand brand-premium {% if current_user.is_authenticated and current_user.role == 'admin' %}admin-brand-wrap{% elif current_user.is_authenticated and current_user.role == 'faculty' %}faculty-brand-wrap{% elif current_user.is_authenticated and current_user.role == 'alumni' %}alumni-brand-wrap{% endif %}" href="{{ url_for('dashboard_admin') if current_user.is_authenticated and current_user.role == 'admin' else (url_for('dashboard_faculty') if current_user.is_authenticated and current_user.role == 'faculty' else (url_for('dashboard_alumni') if current_user.is_authenticated and current_user.role == 'alumni' else '/')) }}" title="Alumni Hub {% if current_user.is_authenticated and current_user.role == 'admin' %}Admin Console{% elif current_user.is_authenticated and current_user.role == 'faculty' %}Faculty Portal{% elif current_user.is_authenticated and current_user.role == 'alumni' %}Alumni Portal{% else %}Official Portal{% endif %}">
                 <div class="brand-logo-container position-relative">
                     <img src="{{ url_for('static', filename='images/icons/app-logo.png') }}" alt="Alumni Hub Logo" class="brand-app-logo">
                     {% if current_user.is_authenticated and current_user.role == 'admin' %}
                     <span class="admin-pulse-beacon" title="Security Active"></span>
                     {% elif current_user.is_authenticated and current_user.role == 'faculty' %}
                     <span class="faculty-pulse-beacon" title="Faculty Active"></span>
+                    {% elif current_user.is_authenticated and current_user.role == 'alumni' %}
+                    <span class="alumni-pulse-beacon" title="Alumni Active"></span>
                     {% endif %}
                 </div>
                 <div class="brand-meta-group">
                     <strong class="brand-text-premium brand-animate-rtl">ALUMNI HUB</strong>
                     {% if current_user.is_authenticated and current_user.role == 'admin' %}
                     <span class="admin-brand-tag" title="Enterprise Admin Portal"><i class="fas fa-shield-alt"></i> ADMIN</span>
-
+                    {% elif current_user.is_authenticated and current_user.role == 'alumni' %}
+                    <span class="alumni-brand-tag" title="Alumni Portal"><i class="fas fa-user-tie"></i> ALUMNI</span>
                     {% endif %}
                 </div>
             </a>
@@ -843,7 +1168,7 @@
             
 
             <!-- Open Button -->
-            <button class="navbar-toggler custom-toggler {% if current_user.is_authenticated and current_user.role == 'admin' %}admin-custom-toggler{% endif %}" type="button" aria-controls="mobileMenuOverlay"
+            <button class="navbar-toggler custom-toggler {% if current_user.is_authenticated and current_user.role == 'admin' %}admin-custom-toggler{% elif current_user.is_authenticated and current_user.role == 'alumni' %}alumni-custom-toggler{% endif %}" type="button" aria-controls="mobileMenuOverlay"
                 aria-expanded="false" aria-label="Toggle navigation" id="navbarToggler">
                 <div class="hamburger-lines">
                     <span class="line line1"></span>
@@ -945,71 +1270,93 @@
 
                     {% elif current_user.role == 'alumni' %}
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link nav-alumni-link {% if request.endpoint == 'dashboard_alumni' %}active{% endif %}"
-                            href="/alumni/dashboard">
-                            <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+                        <a class="nav-link nav-pill-link nav-alumni-btn {% if request.endpoint == 'dashboard_alumni' %}active{% endif %}"
+                            href="/alumni/dashboard" id="navAlumniDashboard">
+                            <i class="fas fa-gauge-high text-warning"></i> <span>Dashboard</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link nav-alumni-link" href="/messages">
-                            <i class="fas fa-comment-alt"></i> <span>Messages</span>
+                        <a class="nav-link nav-pill-link nav-alumni-btn {% if request.endpoint == 'messages' or request.path.startswith('/messages') %}active{% endif %}"
+                            href="/messages" id="navAlumniMessages">
+                            <i class="fas fa-comments text-info"></i> <span>Messages</span>
                         </a>
                     </li>
 
                     <!-- Connect Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link nav-pill-link dropdown-toggle nav-alumni-link" href="#"
+                        <a class="nav-link nav-pill-link nav-alumni-btn dropdown-toggle {% if request.endpoint in ['alumni_network', 'alumni_mentorship', 'alumni_spotlight'] %}active{% endif %}" href="#"
                             id="alumniConnectDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-users"></i> <span>Connect</span>
+                            <i class="fas fa-users text-warning"></i> <span>Connect</span>
                         </a>
-                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="alumniConnectDropdown">
+                        <ul class="dropdown-menu shadow-premium border-0 nav-admin-dropdown-menu nav-alumni-dropdown-menu" aria-labelledby="alumniConnectDropdown">
+                            <li class="nav-menu-intro alumni-dropdown-intro">
+                                <span class="nav-menu-intro-icon alumni-intro-icon"><i class="fas fa-users"></i></span>
+                                <span><strong>Connect &amp; Mentor</strong><small>Network, Guidance &amp; Stories</small></span>
+                            </li>
                             <li>
-                                <a class="dropdown-item" href="/alumni/network">
-                                    <i class="fas fa-network-wired me-2 text-primary"></i> Alumni &amp; Students
+                                <a class="dropdown-item nav-admin-menu-item nav-alumni-menu-item" href="/alumni/network">
+                                    <span class="nav-menu-icon icon-amber"><i class="fas fa-network-wired"></i></span>
+                                    <span class="nav-menu-copy"><strong>Alumni &amp; Students</strong><small>Directory of graduates &amp; students</small></span>
+                                    <i class="fas fa-chevron-right nav-item-chevron"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="/alumni/mentorship">
-                                    <i class="fas fa-chalkboard-teacher me-2 text-success"></i> Mentorship Hub
+                                <a class="dropdown-item nav-admin-menu-item nav-alumni-menu-item" href="/alumni/mentorship">
+                                    <span class="nav-menu-icon icon-green"><i class="fas fa-chalkboard-teacher"></i></span>
+                                    <span class="nav-menu-copy"><strong>Mentorship Hub</strong><small>Guide students &amp; share experience</small></span>
+                                    <i class="fas fa-chevron-right nav-item-chevron"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="/alumni/spotlight">
-                                    <i class="fas fa-star me-2 text-warning"></i> Alumni Spotlight
+                                <a class="dropdown-item nav-admin-menu-item nav-alumni-menu-item" href="/alumni/spotlight">
+                                    <span class="nav-menu-icon icon-violet"><i class="fas fa-star"></i></span>
+                                    <span class="nav-menu-copy"><strong>Alumni Spotlight</strong><small>Featured alumni stories</small></span>
+                                    <i class="fas fa-chevron-right nav-item-chevron"></i>
                                 </a>
                             </li>
                         </ul>
                     </li>
 
-                    <!-- Opportunities Dropdown -->
+                    <!-- Career Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link nav-pill-link dropdown-toggle nav-alumni-link" href="#"
+                        <a class="nav-link nav-pill-link nav-alumni-btn dropdown-toggle {% if request.endpoint in ['alumni_jobs', 'alumni_post_job', 'alumni_events'] %}active{% endif %}" href="#"
                             id="opportunitiesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-briefcase"></i> <span>Opportunities</span>
+                            <i class="fas fa-briefcase text-warning"></i> <span>Career</span>
                         </a>
-                        <ul class="dropdown-menu shadow-premium border-0" aria-labelledby="opportunitiesDropdown">
+                        <ul class="dropdown-menu shadow-premium border-0 nav-admin-dropdown-menu nav-alumni-dropdown-menu" aria-labelledby="opportunitiesDropdown">
+                            <li class="nav-menu-intro alumni-dropdown-intro">
+                                <span class="nav-menu-intro-icon alumni-intro-icon"><i class="fas fa-briefcase"></i></span>
+                                <span><strong>Career &amp; Events</strong><small>Jobs, Referrals &amp; Reunions</small></span>
+                            </li>
                             <li>
-                                <a class="dropdown-item" href="/alumni/jobs">
-                                    <i class="fas fa-search me-2 text-info"></i> Browse Jobs
+                                <a class="dropdown-item nav-admin-menu-item nav-alumni-menu-item" href="/alumni/jobs">
+                                    <span class="nav-menu-icon icon-blue"><i class="fas fa-magnifying-glass"></i></span>
+                                    <span class="nav-menu-copy"><strong>Browse Jobs</strong><small>Open roles &amp; internships</small></span>
+                                    <i class="fas fa-chevron-right nav-item-chevron"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="/alumni/post-job">
-                                    <i class="fas fa-plus-circle me-2 text-success"></i> Post Job / Referral
+                                <a class="dropdown-item nav-admin-menu-item nav-alumni-menu-item" href="/alumni/post-job">
+                                    <span class="nav-menu-icon icon-orange"><i class="fas fa-plus-circle"></i></span>
+                                    <span class="nav-menu-copy"><strong>Post Job / Referral</strong><small>Share an opening with students</small></span>
+                                    <i class="fas fa-chevron-right nav-item-chevron"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="/alumni/events">
-                                    <i class="fas fa-calendar-alt me-2 text-danger"></i> Alumni Events
+                                <a class="dropdown-item nav-admin-menu-item nav-alumni-menu-item" href="/alumni/events">
+                                    <span class="nav-menu-icon icon-rose"><i class="fas fa-calendar-alt"></i></span>
+                                    <span class="nav-menu-copy"><strong>Alumni Events</strong><small>Meets, reunions &amp; webinars</small></span>
+                                    <i class="fas fa-chevron-right nav-item-chevron"></i>
                                 </a>
                             </li>
                         </ul>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-pill-link nav-alumni-link" href="/alumni/notifications">
-                            <i class="fas fa-bell"></i> <span>Notifications</span>
+                        <a class="nav-link nav-pill-link nav-alumni-btn {% if request.endpoint == 'alumni_notifications' %}active{% endif %}"
+                            href="/alumni/notifications" id="navAlumniNotifications">
+                            <i class="fas fa-bell text-warning"></i> <span>Notifications</span>
                         </a>
                     </li>
 
@@ -1275,10 +1622,10 @@
                     </li>
 
                     <!-- User Profile Dropdown -->
-                    <li class="nav-item dropdown user-dropdown {% if current_user.role == 'admin' %}admin-user-dropdown{% endif %}">
-                        <a class="nav-link user-pill {% if current_user.role == 'admin' %}admin-user-pill{% endif %} dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    <li class="nav-item dropdown user-dropdown {% if current_user.role == 'admin' %}admin-user-dropdown{% elif current_user.role == 'alumni' %}alumni-user-dropdown{% endif %}">
+                        <a class="nav-link user-pill {% if current_user.role == 'admin' %}admin-user-pill{% elif current_user.role == 'alumni' %}alumni-user-pill{% endif %} dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="user-avatar overflow-hidden {% if current_user.role == 'admin' %}admin-user-avatar-ring{% endif %}">
+                            <div class="user-avatar overflow-hidden {% if current_user.role == 'admin' %}admin-user-avatar-ring{% elif current_user.role == 'alumni' %}alumni-user-avatar-ring{% endif %}">
                                 {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
                                 <img src="{{ current_user.profile_pic }}" alt="{{ current_user.name }}"
                                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"
@@ -1291,6 +1638,8 @@
                             <span class="user-name d-none d-sm-inline">{{ current_user.name }}</span>
                             {% if current_user.role == 'admin' %}
                             <span class="admin-user-pill-tag ms-1"><i class="fas fa-shield-alt"></i> ADMIN</span>
+                            {% elif current_user.role == 'alumni' %}
+                            <span class="alumni-user-pill-tag ms-1"><i class="fas fa-user-tie"></i> ALUMNI</span>
                             {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-premium" aria-labelledby="navbarDropdown">
@@ -1338,7 +1687,7 @@
     </nav>
 
     <!-- Mobile Menu Drawer Overlay (Independent Body Level for Mobile Responsiveness) -->
-    <div class="mobile-menu-overlay{% if current_user.is_authenticated and current_user.role == 'admin' %} admin-drawer-theme{% elif current_user.is_authenticated and current_user.role == 'faculty' %} faculty-drawer-theme{% endif %}" id="mobileMenuOverlay" aria-hidden="true">
+    <div class="mobile-menu-overlay{% if current_user.is_authenticated and current_user.role == 'admin' %} admin-drawer-theme{% elif current_user.is_authenticated and current_user.role == 'faculty' %} faculty-drawer-theme{% elif current_user.is_authenticated and current_user.role == 'alumni' %} alumni-drawer-theme{% endif %}" id="mobileMenuOverlay" aria-hidden="true">
         <!-- Sticky Drawer Top Bar with Brand & Dedicated Close Button (Always visible on scroll) -->
         <div class="mobile-drawer-topbar">
             <div class="d-flex align-items-center gap-2">
@@ -1350,6 +1699,8 @@
                 <span class="drawer-role-tag role-tag-faculty"><i class="fas fa-chalkboard-user me-1"></i> FACULTY</span>
                 {% elif current_user.is_authenticated and current_user.role == 'admin' %}
                 <span class="drawer-role-tag role-tag-admin"><i class="fas fa-shield-alt me-1"></i> ADMIN</span>
+                {% elif current_user.is_authenticated and current_user.role == 'alumni' %}
+                <span class="drawer-role-tag role-tag-alumni"><i class="fas fa-user-tie me-1"></i> ALUMNI</span>
                 {% endif %}
             </div>
             <button class="mobile-close-btn" id="closeMobileMenu" type="button" aria-label="Close navigation menu" title="Close Menu">
@@ -1454,6 +1805,53 @@
                     </a>
                 </div>
             </div>
+            {% elif current_user.role == 'alumni' %}
+            <!-- ===== ALUMNI MOBILE PROFILE CARD ===== -->
+            <div class="alumni-mobile-card" style="--delay: 0.08s">
+                <div class="alumni-mobile-card-header">
+                    <div class="alumni-mobile-status-pill">
+                        <span class="alumni-status-pulse"></span>
+                        <span>ALUMNI PORTAL</span>
+                    </div>
+                    <span class="alumni-role-badge">ALUMNI MEMBER</span>
+                </div>
+
+                <div class="alumni-mobile-user-row">
+                    <div class="alumni-mobile-avatar-box">
+                        {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
+                        <img src="{{ current_user.profile_pic }}" alt="{{ current_user.name }}" class="alumni-mobile-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="alumni-mobile-initials" style="display: none;">{{ current_user.name | initials }}</div>
+                        {% else %}
+                        <div class="alumni-mobile-initials">{{ current_user.name | initials }}</div>
+                        {% endif %}
+                        <span class="alumni-avatar-badge-icon" title="Alumni Member"><i class="fas fa-user-tie"></i></span>
+                    </div>
+                    <div class="alumni-mobile-user-details">
+                        <h4 class="alumni-mobile-name">{{ current_user.name }}</h4>
+                        <p class="alumni-mobile-email">{{ current_user.email or 'Alumni Member' }}</p>
+                    </div>
+                </div>
+
+                <!-- 4 Quick Launch App Tiles for Alumni -->
+                <div class="alumni-mobile-quick-grid">
+                    <a href="/alumni/dashboard" class="alumni-tile-btn tile-amber adm-drawer-link">
+                        <div class="tile-icon"><i class="fas fa-gauge-high"></i></div>
+                        <div class="tile-label">Dashboard</div>
+                    </a>
+                    <a href="/alumni/network" class="alumni-tile-btn tile-sky adm-drawer-link">
+                        <div class="tile-icon"><i class="fas fa-network-wired"></i></div>
+                        <div class="tile-label">Network</div>
+                    </a>
+                    <a href="/alumni/post-job" class="alumni-tile-btn tile-emerald adm-drawer-link">
+                        <div class="tile-icon"><i class="fas fa-plus-circle"></i></div>
+                        <div class="tile-label">Post Job</div>
+                    </a>
+                    <a href="/messages" class="alumni-tile-btn tile-violet adm-drawer-link">
+                        <div class="tile-icon"><i class="fas fa-comment-dots"></i></div>
+                        <div class="tile-label">Messages</div>
+                    </a>
+                </div>
+            </div>
             {% else %}
             <!-- Standard User Profile Section for Mobile -->
             <div class="mobile-profile-card" style="--delay: 0.1s">
@@ -1519,24 +1917,149 @@
                 <a href="/notifications" class="mobile-nav-link" style="--delay: 0.55s"><i class="fas fa-bell"></i>
                     Notifications</a>
                 {% elif current_user.role == 'alumni' %}
-                <a href="/alumni/dashboard" class="mobile-nav-link" style="--delay: 0.25s"><i
-                        class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="/messages" class="mobile-nav-link" style="--delay: 0.3s"><i class="fas fa-comment-alt"></i>
-                    Messages</a>
-                <a href="/alumni/network" class="mobile-nav-link" style="--delay: 0.35s"><i
-                        class="fas fa-network-wired"></i> Alumni Network</a>
-                <a href="/alumni/mentorship" class="mobile-nav-link" style="--delay: 0.4s"><i
-                        class="fas fa-chalkboard-teacher"></i> Mentorship Hub</a>
-                <a href="/alumni/jobs" class="mobile-nav-link" style="--delay: 0.45s"><i class="fas fa-briefcase"></i>
-                    Browse Jobs</a>
-                <a href="/alumni/post-job" class="mobile-nav-link" style="--delay: 0.5s"><i
-                        class="fas fa-plus-circle"></i> Post Job / Referral</a>
-                <a href="/alumni/events" class="mobile-nav-link" style="--delay: 0.55s"><i
-                        class="fas fa-calendar-alt"></i> Alumni Events</a>
-                <a href="/alumni/spotlight" class="mobile-nav-link" style="--delay: 0.6s"><i class="fas fa-star"></i>
-                    Alumni Spotlight</a>
-                <a href="/alumni/notifications" class="mobile-nav-link" style="--delay: 0.65s"><i
-                        class="fas fa-bell"></i> Notifications</a>
+                <!-- Category 1: Alumni Home -->
+                <div class="adm-drawer-group">
+                    <div class="adm-drawer-group-head">
+                        <i class="fas fa-gauge-high adm-head-icon" style="color: #fbbf24 !important;"></i>
+                        <span class="adm-head-title">Alumni Home</span>
+                    </div>
+                    <div class="adm-drawer-group-box">
+                        <a href="/alumni/dashboard" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-amber"><i class="fas fa-gauge-high"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Dashboard</span>
+                                <span class="adm-row-sub">Your alumni home &amp; updates</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/messages" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-blue"><i class="fas fa-comments"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Messages</span>
+                                <span class="adm-row-sub">Chat with students &amp; alumni</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Category 2: Connect & Mentor -->
+                <div class="adm-drawer-group">
+                    <div class="adm-drawer-group-head">
+                        <i class="fas fa-users adm-head-icon" style="color: #fbbf24 !important;"></i>
+                        <span class="adm-head-title">Connect &amp; Mentor</span>
+                    </div>
+                    <div class="adm-drawer-group-box">
+                        <a href="/alumni/network" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-amber"><i class="fas fa-network-wired"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Alumni Network</span>
+                                <span class="adm-row-sub">Directory of graduates &amp; students</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/alumni/mentorship" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-emerald"><i class="fas fa-chalkboard-teacher"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Mentorship Hub</span>
+                                <span class="adm-row-sub">Guide students &amp; share experience</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/alumni/spotlight" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-violet"><i class="fas fa-star"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Alumni Spotlight</span>
+                                <span class="adm-row-sub">Featured alumni stories</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/community-group" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-cyan"><i class="fa-brands fa-whatsapp"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Community Group</span>
+                                <span class="adm-row-sub">Live campus WhatsApp group chat</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Category 3: Career & Events -->
+                <div class="adm-drawer-group">
+                    <div class="adm-drawer-group-head">
+                        <i class="fas fa-briefcase adm-head-icon" style="color: #fbbf24 !important;"></i>
+                        <span class="adm-head-title">Career &amp; Events</span>
+                    </div>
+                    <div class="adm-drawer-group-box">
+                        <a href="/alumni/jobs" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-blue"><i class="fas fa-briefcase"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Browse Jobs</span>
+                                <span class="adm-row-sub">Open roles &amp; internships</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/alumni/post-job" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-orange"><i class="fas fa-plus-circle"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Post Job / Referral</span>
+                                <span class="adm-row-sub">Share an opening with students</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/alumni/events" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-rose"><i class="fas fa-calendar-alt"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Alumni Events</span>
+                                <span class="adm-row-sub">Meets, reunions &amp; webinars</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Category 4: Account -->
+                <div class="adm-drawer-group">
+                    <div class="adm-drawer-group-head">
+                        <i class="fas fa-user-gear adm-head-icon" style="color: #fbbf24 !important;"></i>
+                        <span class="adm-head-title">Account</span>
+                    </div>
+                    <div class="adm-drawer-group-box">
+                        <a href="/alumni/notifications" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-cyan"><i class="fas fa-bell"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Notifications</span>
+                                <span class="adm-row-sub">Alerts, approvals &amp; updates</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="{{ url_for('alumni_profile', user_id=current_user.id) }}" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-indigo"><i class="fas fa-id-card"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">My Profile</span>
+                                <span class="adm-row-sub">View your public alumni profile</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="{{ url_for('alumni_settings') }}" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-purple"><i class="fas fa-gear"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Settings</span>
+                                <span class="adm-row-sub">Edit profile &amp; preferences</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/logout" class="adm-drawer-row adm-drawer-link adm-row-danger">
+                            <span class="adm-row-bullet bullet-rose"><i class="fas fa-power-off"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title text-danger">Sign Out</span>
+                                <span class="adm-row-sub">Terminate alumni session safely</span>
+                            </div>
+                            <i class="fas fa-arrow-right-from-bracket text-danger ms-auto" style="font-size: 0.76rem;"></i>
+                        </a>
+                    </div>
+                </div>
                 {% elif current_user.role == 'faculty' %}
                 
                 <!-- Category 1: Academic Roster & Workspace -->

@@ -467,3 +467,133 @@ errors; the base.html mobile drawer opens and all nav links work.
   wiring them to real endpoints is a Phase 6 item.
 - **No backend was changed**, so every route, permission check and data flow
   behaves exactly as before. The redesign is presentation-only.
+
+## 6. Alumni navbar / header redesign (2026-11-16, local — not pushed)
+
+Desktop navbar + mobile drawer for the Alumni role rebuilt to the Admin
+standard, in the shared shell `templates/base.html` (3,155 lines) and
+`static/css/navbar-professional.css`. No alumni page template, route,
+service or backend file was touched.
+
+### 6.1 Files changed
+
+| File | Change |
+|---|---|
+| `templates/base.html` | Alumni desktop nav, brand, toggler, user pill, mobile drawer (see below) |
+| `static/css/navbar-professional.css` | +258 lines appended at end — alumni desktop CSS only |
+| `docs/alumni-reference.md` | This section (§6) |
+
+### 6.2 Desktop navbar (alumni)
+
+- Pill buttons now use new `.nav-alumni-btn` (mirrors `.nav-admin-btn`):
+  amber-tinted pill `#fffbeb` / border `#fde68a`, hover amber `#fef3c7`,
+  active = amber gradient `#f59e0b → #d97706` with white text. Same
+  1200–1400px / 992–1199px responsive sizing rules as the admin buttons.
+- **Connect** dropdown (was plain text items): intro header
+  "Connect & Mentor — Network, Guidance & Stories" + rich rows (icon tile +
+  title + subtitle + chevron) for Alumni & Students, Mentorship Hub,
+  Alumni Spotlight. **Career** dropdown (renamed from "Opportunities",
+  same links): intro "Career & Events — Jobs, Referrals & Reunions" +
+  Browse Jobs, Post Job / Referral, Alumni Events. Dropdown menus reuse
+  the admin `.nav-admin-dropdown-menu` structure with alumni-scoped
+  amber overrides (`.nav-alumni-dropdown-menu`, `.nav-alumni-menu-item`).
+- Active states added where they were missing: Connect toggle is active
+  on `alumni_network` / `alumni_mentorship` / `alumni_spotlight`, Career
+  toggle on `alumni_jobs` / `alumni_post_job` / `alumni_events`,
+  Messages on `messages` (same check as admin), Notifications on
+  `alumni_notifications`. Dashboard active check unchanged.
+- All 9 desktop links and hrefs unchanged:
+  `/alumni/dashboard`, `/messages`, `/alumni/network`, `/alumni/mentorship`,
+  `/alumni/spotlight`, `/alumni/jobs`, `/alumni/post-job`, `/alumni/events`,
+  `/alumni/notifications`. Dropdown ids `alumniConnectDropdown` /
+  `opportunitiesDropdown` unchanged.
+- **Brand:** new `.alumni-brand-wrap` — brand now links to
+  `/alumni/dashboard` for alumni (was `/`), with an amber ALUMNI tag
+  (`fa-user-tie`) and an amber pulse beacon, mirroring
+  `.admin-brand-wrap` / `.admin-brand-tag` / `.admin-pulse-beacon`.
+  Admin and faculty brand branches are byte-identical.
+- **Hamburger toggler:** new `.alumni-custom-toggler` (amber border/hover),
+  mirroring `.admin-custom-toggler`. Same button, same
+  `id="navbarToggler"`, `aria-controls="mobileMenuOverlay"`,
+  `aria-expanded` handling — no JS change.
+- **User pill:** new `.alumni-user-pill` (white pill, amber `#d97706`
+  border, amber avatar ring) + ALUMNI role tag next to the name, mirroring
+  `.admin-user-pill` / `.admin-user-pill-tag`. The pill dropdown menu
+  itself is unchanged (My Profile, Messages, Settings, Change Password,
+  Logout).
+
+### 6.3 Mobile drawer (alumni)
+
+- Overlay now gets `.alumni-drawer-theme` (dark amber-navy gradient,
+  amber topbar / close button / group boxes), mirroring
+  `.faculty-drawer-theme`. Topbar shows the amber ALUMNI role tag
+  (`.role-tag-alumni`).
+- New **alumni mobile profile card** (`.alumni-mobile-card`, amber
+  gradient) replacing the generic grey card for alumni: "ALUMNI PORTAL"
+  status pill with pulse, "ALUMNI MEMBER" badge, avatar with `fa-user-tie`
+  badge, name + email, and 4 quick tiles — Dashboard, Network, Post Job,
+  Messages — all existing routes, all with `adm-drawer-link` so the
+  drawer auto-closes on tap (same JS hook as admin/faculty).
+- The old flat list of 9 plain `mobile-nav-link` rows is replaced by 4
+  grouped sections using the admin `.adm-drawer-group` /
+  `.adm-drawer-group-box` / `.adm-drawer-row` pattern (icon bullet + title
+  + subtitle + chevron, amber accents):
+  - **Alumni Home** — Dashboard, Messages
+  - **Connect & Mentor** — Alumni Network, Mentorship Hub, Alumni
+    Spotlight, Community Group
+  - **Career & Events** — Browse Jobs, Post Job / Referral, Alumni Events
+  - **Account** — Notifications, My Profile
+    (`url_for('alumni_profile')`), Settings
+    (`url_for('alumni_settings')`), Sign Out (`/logout`, danger row)
+- Every pre-existing mobile alumni link is preserved (all 9 nav links +
+  Community Group + Profile from the old quick actions). Only additions
+  are links to routes that already exist: My Profile, Settings, Logout.
+  Home / About at the top of the drawer are unchanged.
+- No JS was changed: open/close uses the existing `#navbarToggler` /
+  `#mobileMenuOverlay` / `#closeMobileMenu` handlers, Escape key, and the
+  `.mobile-nav-link, .adm-drawer-link` auto-close listener.
+
+### 6.4 Mobile & accessibility
+
+- Rows are min 48px tall, quick tiles min 64px; drawer stacks to one
+  column at 360px with no horizontal overflow; subtitles truncate with
+  ellipsis (same as admin rows).
+- `aria-expanded` / `aria-label` / `aria-controls` untouched; focus
+  behaviour unchanged (Escape closes and refocuses the toggler).
+- Pulse/beacon animations are disabled under
+  `prefers-reduced-motion: reduce`.
+
+### 6.5 What was preserved (verification)
+
+- `python3 scripts/validate_templates.py` → **Total errors: 0**.
+- Jinja2 parse of `base.html` OK; full render test with mocked
+  `current_user`/`request`/`url_for` for alumni (`dashboard_alumni`,
+  `alumni_network`) and admin (`dashboard_admin`) — all alumni navbar
+  and drawer elements render, dashboard active state works, brand href
+  is `/dashboard_alumni`, and neither role's render leaks the other's
+  drawer/card/theme classes in markup.
+- `git diff --stat`: only `templates/base.html` and
+  `static/css/navbar-professional.css` changed. The CSS diff is purely
+  appended lines at the end of the file; the `base.html` diff hunks are
+  confined to the alumni style block, brand, toggler, alumni desktop nav,
+  user pill, drawer overlay/topbar, alumni mobile card and alumni mobile
+  links. The only shared line touched is the brand anchor (admin/faculty
+  branches inside it are byte-identical). No `+/-` diff line references
+  any admin/faculty/student endpoint (`dashboard_admin`,
+  `dashboard_faculty`, `dashboard_student`, `admin_view_users`, …).
+- Removed dead CSS: the old `.nav-alumni-link` compact styles (no longer
+  used anywhere — verified by repo-wide grep).
+- **Note:** no notification count badge was added — there is no existing
+  unread-count variable for alumni, and no count was invented.
+
+### 6.6 How to test (after deploy / locally with Flask)
+
+- Log in as an alumni user on desktop: brand links to
+  `/alumni/dashboard`, ALUMNI tag + amber beacon visible, pill nav with
+  amber active state, Connect/Career dropdowns open on hover (desktop)
+  and click, with intro headers and chevron rows.
+- At 360px: hamburger opens the amber drawer — profile card, 4 tiles,
+  4 grouped sections; tap any row and the drawer closes; Escape closes
+  it; no horizontal scrollbar.
+- Log in as admin and faculty: navbar, brand, drawer and pills must look
+  exactly as before (no alumni classes in their markup).

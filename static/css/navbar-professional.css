@@ -4103,3 +4103,261 @@ body.premium-theme #mainNavbar .nav-admin-btn.active i {
     color: #ffffff !important;
     box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35) !important;
 }
+
+/* ==========================================================================
+   ALUMNI NAVBAR (desktop) — admin-standard pill nav, amber theme.
+   Alumni-scoped only: mirrors .nav-admin-btn / .admin-brand-wrap /
+   .admin-custom-toggler / .admin-user-pill. Nothing above this block is
+   changed, so admin / student / faculty / public nav is unaffected.
+   ========================================================================== */
+
+/* --- Alumni brand wrap / tag / pulse beacon (mirrors admin-brand-*) --- */
+.alumni-brand-wrap {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+}
+
+.alumni-pulse-beacon {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    background: #f59e0b;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 10px #f59e0b;
+    animation: alumniBeaconPulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes alumniBeaconPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.35); opacity: 0.65; }
+}
+
+.alumni-brand-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-size: 0.64rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    padding: 0.16rem 0.5rem !important;
+    border-radius: 6px !important;
+    background: #0f172a !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(251, 191, 36, 0.4) !important;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.15) !important;
+    line-height: 1.2 !important;
+    text-transform: uppercase !important;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.alumni-brand-tag i {
+    color: #fbbf24 !important;
+    font-size: 0.65rem !important;
+}
+
+/* --- Alumni hamburger toggler (mirrors .admin-custom-toggler) --- */
+.alumni-custom-toggler {
+    border: 1.5px solid rgba(217, 119, 6, 0.35) !important;
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.2s ease !important;
+}
+
+.alumni-custom-toggler:hover {
+    border-color: #d97706 !important;
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2) !important;
+}
+
+#mainNavbar .alumni-custom-toggler.active .line1,
+#mainNavbar .alumni-custom-toggler.active .line3 {
+    background: #d97706 !important;
+}
+
+/* --- Alumni pill nav buttons (mirrors .nav-admin-btn, amber accent) --- */
+.nav-alumni-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 0.35rem 0.7rem !important;
+    border-radius: 50px !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 0.83rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em !important;
+    background: #fffbeb !important;
+    border: 1.5px solid #fde68a !important;
+    color: #0f172a !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+    transition: all 0.16s ease !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
+}
+
+.nav-alumni-btn i {
+    font-size: 0.86rem !important;
+    transition: transform 0.16s ease !important;
+}
+
+.nav-alumni-btn span {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+.nav-alumni-btn:hover {
+    background: #fef3c7 !important;
+    color: #b45309 !important;
+    border-color: #f59e0b !important;
+    box-shadow: 0 3px 10px rgba(217, 119, 6, 0.18) !important;
+    transform: translateY(-1px) !important;
+}
+
+.nav-alumni-btn:hover span {
+    color: #b45309 !important;
+}
+
+.nav-alumni-btn:hover i {
+    transform: scale(1.12) !important;
+}
+
+.nav-alumni-btn.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: #ffffff !important;
+    border-color: #d97706 !important;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35) !important;
+}
+
+.nav-alumni-btn.active span {
+    color: #ffffff !important;
+}
+
+.nav-alumni-btn.active i {
+    color: #ffffff !important;
+}
+
+.premium-theme .nav-alumni-btn,
+body.premium-theme #mainNavbar .nav-alumni-btn {
+    background: #fffbeb !important;
+    border-color: #fde68a !important;
+    color: #0f172a !important;
+}
+
+.premium-theme .nav-alumni-btn span,
+body.premium-theme #mainNavbar .nav-alumni-btn span {
+    color: #0f172a !important;
+}
+
+.premium-theme .nav-alumni-btn.active,
+body.premium-theme #mainNavbar .nav-alumni-btn.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    border-color: #d97706 !important;
+    color: #ffffff !important;
+}
+
+.premium-theme .nav-alumni-btn.active span,
+body.premium-theme #mainNavbar .nav-alumni-btn.active span {
+    color: #ffffff !important;
+}
+
+.premium-theme .nav-alumni-btn.active i,
+body.premium-theme #mainNavbar .nav-alumni-btn.active i {
+    color: #ffffff !important;
+}
+
+/* --- Alumni dropdown menus (amber accents on the shared admin structure) --- */
+.dropdown-menu.nav-alumni-dropdown-menu {
+    border: 1.5px solid rgba(217, 119, 6, 0.3) !important;
+    box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(217, 119, 6, 0.12) !important;
+}
+
+@media (min-width: 992px) {
+    .navbar-nav .nav-item.dropdown:hover > .dropdown-menu.nav-alumni-dropdown-menu {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+}
+
+.alumni-dropdown-intro {
+    background: linear-gradient(135deg, #451a03 0%, #78350f 100%) !important;
+    border: 1px solid rgba(245, 158, 11, 0.45) !important;
+}
+
+.alumni-intro-icon {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35) !important;
+}
+
+.nav-alumni-menu-item:hover {
+    background: #fffbeb !important;
+    border-left: 3px solid #d97706 !important;
+    color: #b45309 !important;
+}
+
+.nav-alumni-menu-item:hover .nav-item-chevron {
+    color: #d97706 !important;
+    transform: translateX(3px) !important;
+}
+
+/* --- Alumni user pill + role tag (mirrors .admin-user-pill) --- */
+.alumni-user-pill {
+    background: #ffffff !important;
+    border: 2px solid #d97706 !important;
+    padding: 4px 14px 4px 4px !important;
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.12) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.alumni-user-pill:hover {
+    border-color: #f59e0b !important;
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.25) !important;
+    transform: translateY(-2px) !important;
+}
+
+.alumni-user-avatar-ring {
+    border: 2px solid #f59e0b !important;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25) !important;
+}
+
+.alumni-user-pill-tag {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    font-size: 0.68rem !important;
+    padding: 0.22rem 0.55rem !important;
+    border-radius: 6px !important;
+    letter-spacing: 0.08em !important;
+    box-shadow: 0 2px 6px rgba(217, 119, 6, 0.4) !important;
+    text-transform: uppercase !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+/* Alumni pill sizing on narrower desktops (mirrors admin rules) */
+@media (max-width: 1400px) and (min-width: 1200px) {
+    #mainNavbar .nav-alumni-btn { padding: 0.32rem 0.6rem !important; font-size: 0.8rem !important; gap: 5px !important; }
+    #mainNavbar .alumni-user-pill { padding: 3px 10px 3px 3px !important; }
+    #mainNavbar .alumni-user-pill .user-name { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+@media (max-width: 1199px) and (min-width: 992px) {
+    #mainNavbar .nav-alumni-btn { padding: 0.3rem 0.52rem !important; font-size: 0.78rem !important; gap: 4px !important; }
+    #mainNavbar .alumni-user-pill { padding: 3px 8px 3px 3px !important; gap: 5px !important; }
+    #mainNavbar .alumni-user-pill .user-name { max-width: 75px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #mainNavbar .alumni-user-pill-tag { font-size: 0.58rem !important; padding: 0.15rem 0.35rem !important; }
+    #mainNavbar .alumni-brand-tag { font-size: 0.58rem !important; padding: 0.14rem 0.4rem !important; letter-spacing: 0.04em !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .alumni-pulse-beacon {
+        animation: none !important;
+    }
+}
