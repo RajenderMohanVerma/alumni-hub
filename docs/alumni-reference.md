@@ -657,3 +657,17 @@ About / Campus Events render as `adm-drawer-row` inside Explore; all 16
 pre-existing alumni hrefs still present; student, faculty, admin and
 anonymous drawer output is **byte-identical to HEAD**. No push — local
 only.
+
+### 6.8 Navbar ALUMNI badge removed (2026-11-16, local — not pushed)
+
+Rajender's phone screenshot (21:41 IST) showed the amber **ALUMNI** role
+tag next to ALUMNI HUB in the top navbar overflowing on mobile — white
+text cut off behind the hamburger button. Fix: removed the
+`<span class="alumni-brand-tag">…ALUMNI</span>` element from the navbar
+brand in `templates/base.html` (2 lines deleted). The navbar now shows
+only the logo + **ALUMNI HUB** name, as requested. The admin ADMIN tag is
+untouched. The ALUMNI tags inside the mobile drawer (topbar role tag,
+profile card ALUMNI MEMBER badge) were NOT removed — only the navbar one
+was circled. Verification: `python3 scripts/validate_templates.py` →
+**Total errors: 0**; `alumni-brand-tag` no longer occurs in `base.html`.
+No push — local only.
