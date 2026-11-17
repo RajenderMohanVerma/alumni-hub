@@ -1564,3 +1564,99 @@ changed anywhere — CSS/hover/focus/animation polish only, all
 - `git status` shows only the 8 student templates + this doc;
   `base.html`, `app.py`, alumni/admin/faculty/common/auth templates
   and the footer are untouched.
+
+## 13. Student header aligned to the footer style + scroll-to-top moved left (2026-11-17, local — not pushed)
+
+### 13.1 What Rajender reported
+
+The student header rebuilt in §10 was fine functionally, but its design
+looked "thoda idhar-udhar" (scattered / misaligned) to him. He asked for
+the student header to be made like the **footer on the common pages** —
+the shared `footer.footer-custom#mainFooter`, whose language is dark navy
+(`#071f3f → #061833 → #030e20`), radial sky glows, a 1.5px sky top border
+with a 3.5px gradient hairline, 50px pill badges, and one spacing rhythm.
+Separately he asked for the scroll-to-top button to move from the
+bottom-right to the **bottom-left**, because on student pages it sat on
+top of the dashboard FAB (also bottom-right).
+
+### 13.2 Misalignments found in the audit (render-tested, student vs alumni vs public)
+
+- **M1 — White shell vs dark footer.** The navbar shell was white glass
+  (`rgba(255,255,255,0.95)`); the footer is dark navy. The dark STUDENT
+  tag (`#0c4a6e`) was the only dark element in the header, so it read as
+  a stray chip instead of part of a system.
+- **M2 — Three competing accents in one brand row.** The brand row held
+  the animated gradient "ALUMNI HUB" text + the dark STUDENT tag +
+  the pulse beacon, while the footer stacks one title + one muted
+  subtitle. Alumni has no navbar tag at all (removed in §6.8).
+- **M3 — Mixed radii and borders.** Tag 6px / 1px, toggler 12px /
+  1.5px, pill buttons 50px / 1.5px, user pill 50px / 2px, container
+  20px / 1px. The footer uses one rhythm: 50px pill badges, one 1.5px
+  sky border, one gradient hairline.
+- **M4 — Uneven heights and gaps.** Pill buttons ~30px tall vs user
+  pill ~44px vs toggler 48px (38px mobile) vs logo 44px; three gaps in
+  one row (nav 0.5rem, role-links 0.28rem, button gap 6px). The footer
+  uses one 0.45rem gap and 40px buttons.
+- **M5 — Drawer HUB was emerald.** `.drawer-brand-title .brand-highlight`
+  was `#34d399` (emerald) in the base rule and in the student override,
+  clashing with the sky theme and the footer's cyan HUB gradient.
+- **M6 — Drawer topbar had no nowrap guards.** Title and role tag could
+  wrap at narrow widths.
+- **M7 — Scroll-to-top collision.** `#scrollToTopBtn` (fixed bottom-right)
+  overlapped the student dashboard FAB (also fixed bottom-right).
+
+### 13.3 What changed (student-scoped only)
+
+- `templates/base.html`: the `<nav>` gains a `student-nav-theme` class
+  only when the logged-in user is a student (one Jinja conditional, the
+  same pattern as the `student-drawer-theme` overlay class). No link,
+  route, `url_for`, dropdown, drawer section or Jinja logic changed.
+- `static/css/navbar-professional.css` (new block appended last, §13):
+  the student navbar shell now wears the footer's own language — the
+  same dark-navy gradient + radial sky glows, 1.5px sky border with a
+  stronger 2px top edge (the footer's hairline), footer-style logo box
+  (sky-tinted, 1.5px sky border), white-to-sky brand title, STUDENT tag
+  restyled as a footer pill badge (50px radius, translucent sky,
+  0.74rem, 0.2px letter-spacing), one 0.45rem gap rhythm, and one 40px
+  height for pill buttons and user pill (glass-on-dark, sky icons,
+  active state keeps the sky gradient). The hamburger gets a dark-glass
+  body with light lines (they were `#000` on white). Dropdown menus
+  stay white (admin/alumni pattern); the footer itself is untouched.
+  Narrow-desktop compaction rules mirror the §10 ones so brand + 5
+  buttons + pill still fit at 992px.
+- Drawer topbar (student only): HUB highlight is now the footer's cyan
+  gradient (`#38bdf8 → #0ea5e9`) instead of emerald; the topbar hairline
+  is `rgba(56,189,248,0.35)`; the STUDENT role tag matches the footer
+  pill-badge style (50px radius); title and tag are `nowrap` with
+  `flex-shrink: 0`.
+- Scroll-to-top: `#scrollToTopBtn` moved from bottom-right to
+  bottom-left — `left: 30px` in the base rule, `left: 20px` at ≤768px,
+  `left: 15px` at ≤480px. Same size, same 300px show threshold, same
+  smooth-scroll JS, same animations. It is a shared/global button, so
+  it moves for all roles (as Rajender asked); it now clears the student
+  dashboard FAB completely.
+- `#backToTop` (the second button, `base.html` ~line 3155, styled in
+  `static/css/style.css` ~line 2076): verified dead — `display: none`
+  in CSS and **no JS wiring anywhere** in the repo (no
+  `getElementById('backToTop')`, no `querySelector('.back-to-top')`).
+  Left exactly as it is; not moved, not deleted.
+
+### 13.4 Verification
+
+- `python3 scripts/validate_templates.py` → **Total errors: 0**.
+- CSS braces balanced in `navbar-professional.css` (checked after the
+  append).
+- Render audit (`/tmp/student_header_audit.py`, mocked users): student,
+  alumni and public renders clean, no unrendered Jinja; student render
+  carries only `student-nav-theme` + `student-drawer-theme`, alumni and
+  public renders contain no student classes; all links, buttons, the
+  user pill and the drawer topbar are intact.
+- Scroll-to-top: `right:` no longer appears in any
+  `.scroll-to-top-btn` rule; `left:` is set in the base rule and both
+  media queries; the JS (show after 300px, smooth scroll on click) is
+  untouched. At 360px the button sits 15px from the left edge and the
+  FAB stays 20px from the right — no overlap.
+- `git status` shows only `templates/base.html`,
+  `static/css/navbar-professional.css` and this doc; alumni/admin/
+  faculty/public headers, the footer, `app.py` and all page templates
+  are untouched.

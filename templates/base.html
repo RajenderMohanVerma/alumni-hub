@@ -1148,7 +1148,7 @@
     </div>
 
     <!-- ===== NAVBAR ===== -->
-    <nav class="navbar navbar-expand-lg navbar-floating fixed-top smart-scroll-nav" id="mainNavbar">
+    <nav class="navbar navbar-expand-lg navbar-floating fixed-top smart-scroll-nav{% if current_user.is_authenticated and current_user.role == 'student' %} student-nav-theme{% endif %}" id="mainNavbar">
         <div class="container-fluid navbar-container">
             <a class="navbar-brand brand-premium {% if current_user.is_authenticated and current_user.role == 'admin' %}admin-brand-wrap{% elif current_user.is_authenticated and current_user.role == 'faculty' %}faculty-brand-wrap{% elif current_user.is_authenticated and current_user.role == 'alumni' %}alumni-brand-wrap{% elif current_user.is_authenticated and current_user.role == 'student' %}student-brand-wrap{% endif %}" href="{{ url_for('dashboard_admin') if current_user.is_authenticated and current_user.role == 'admin' else (url_for('dashboard_faculty') if current_user.is_authenticated and current_user.role == 'faculty' else (url_for('dashboard_alumni') if current_user.is_authenticated and current_user.role == 'alumni' else (url_for('dashboard_student') if current_user.is_authenticated and current_user.role == 'student' else '/'))) }}" title="Alumni Hub {% if current_user.is_authenticated and current_user.role == 'admin' %}Admin Console{% elif current_user.is_authenticated and current_user.role == 'faculty' %}Faculty Portal{% elif current_user.is_authenticated and current_user.role == 'alumni' %}Alumni Portal{% elif current_user.is_authenticated and current_user.role == 'student' %}Student Portal{% else %}Official Portal{% endif %}">
                 <div class="brand-logo-container position-relative">

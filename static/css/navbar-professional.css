@@ -955,7 +955,7 @@
 .scroll-to-top-btn {
     position: fixed;
     bottom: 30px;
-    right: 30px;
+    left: 30px;
     width: 50px;
     height: 50px;
     background: linear-gradient(135deg, #6366f1, #a855f7);
@@ -1022,7 +1022,7 @@
         width: 45px;
         height: 45px;
         bottom: 20px;
-        right: 20px;
+        left: 20px;
         font-size: 1rem;
     }
 }
@@ -1032,7 +1032,7 @@
         width: 40px;
         height: 40px;
         bottom: 15px;
-        right: 15px;
+        left: 15px;
         font-size: 0.9rem;
     }
 }
@@ -5366,4 +5366,242 @@ body.premium-theme #mainNavbar .nav-student-btn.active i {
     .student-user-pill:hover {
         transform: none !important;
     }
+}
+
+/* ==========================================================================
+   STUDENT HEADER — FOOTER-ALIGNED DARK THEME — 2026-11-17 (§13)
+   Rajender's feedback: the student header rebuilt in §10 looked "thoda
+   idhar-udhar" (scattered) next to the settled shared footer. Root causes
+   found in the audit (see §13 in docs/alumni-reference.md):
+   (M1) white glass navbar shell vs the footer's dark navy depth — the dark
+   STUDENT tag was the only dark element, so it read as a stray chip;
+   (M2) tag + gradient brand text + pulse beacon = three competing accents
+   in one brand row, while the footer stacks one title + one subtitle;
+   (M3) mixed radii/borders (tag 6px, toggler 12px, buttons 50px, pill 2px
+   border, container 20px) vs the footer's single rhythm (50px pill badges,
+   one 1.5px sky border, one gradient hairline);
+   (M4) uneven heights — pill buttons ~30px vs user pill ~44px vs toggler
+   48px vs logo 44px — and three different gaps in one row (nav 0.5rem,
+   role-links 0.28rem, button gap 6px);
+   (M5) drawer topbar HUB highlight was emerald #34d399, clashing with the
+   sky theme and the footer's cyan HUB;
+   (M6) drawer topbar title/tag had no nowrap guards.
+   Fix: the student navbar now wears the footer's own language — same dark
+   navy gradient + radial sky glows, same 1.5px sky border with a stronger
+   top edge (the footer's hairline), same 50px pill-badge treatment, same
+   0.45rem gap rhythm, same Outfit/Plus Jakarta Sans discipline — while
+   keeping the Sky accent as the student identity. Scoped ONLY to
+   #mainNavbar.student-nav-theme (class added in base.html, same pattern as
+   the overlay theme classes) and to the student drawer topbar, so alumni,
+   admin, faculty and public headers are untouched. ID-qualified !important
+   rules beat the white-shell rules and the .premium-theme overrides; this
+   block sits last in the file so it wins on equal specificity.
+   Dropdown menus stay white (admin/alumni pattern) — only the bar itself
+   goes dark, exactly like the footer sits dark under light page content.
+   ========================================================================== */
+
+/* --- Dark footer-depth navbar shell (student only) --- */
+#mainNavbar.student-nav-theme .navbar-container,
+#mainNavbar.student-nav-theme.scrolled-up .navbar-container {
+    background:
+        radial-gradient(circle at 18% 12%, rgba(14, 165, 233, 0.25) 0%, transparent 48%),
+        radial-gradient(circle at 82% 88%, rgba(29, 78, 216, 0.26) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(2, 132, 199, 0.12) 0%, transparent 60%),
+        linear-gradient(175deg, #071f3f 0%, #061833 45%, #030e20 100%) !important;
+    border: 1px solid rgba(56, 189, 248, 0.35) !important;
+    border-top: 2px solid rgba(56, 189, 248, 0.55) !important;
+    box-shadow: 0 12px 32px -8px rgba(2, 132, 199, 0.4), 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* --- Brand: footer-style logo box + white/sky title (footer title language) --- */
+#mainNavbar.student-nav-theme .brand-logo-container {
+    background: rgba(2, 132, 199, 0.2) !important;
+    border: 1.5px solid rgba(56, 189, 248, 0.45) !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25) !important;
+}
+
+#mainNavbar.student-nav-theme .brand-text-premium {
+    background: linear-gradient(90deg, #f8fafc, #bae6fd, #e0f2fe, #f8fafc) !important;
+    background-size: 300% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+#mainNavbar.student-nav-theme .navbar-brand:hover .brand-text-premium {
+    filter: brightness(1.15) !important;
+}
+
+/* --- STUDENT tag: footer pill-badge language (was a dark 6px chip) --- */
+#mainNavbar.student-nav-theme .student-brand-tag {
+    background: rgba(14, 165, 233, 0.18) !important;
+    color: #e0f2fe !important;
+    border: 1px solid rgba(56, 189, 248, 0.55) !important;
+    border-radius: 50px !important;
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.2px !important;
+    padding: 0.35rem 0.85rem !important;
+    gap: 0.45rem !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3) !important;
+    line-height: 1.2 !important;
+}
+
+#mainNavbar.student-nav-theme .student-brand-tag i {
+    color: #7dd3fc !important;
+    font-size: 0.7rem !important;
+}
+
+/* --- One gap rhythm (0.45rem, footer) across the whole nav row --- */
+#mainNavbar.student-nav-theme .navbar-nav,
+#mainNavbar.student-nav-theme .role-nav-links {
+    gap: 0.45rem !important;
+}
+
+/* --- Nav pill buttons: one 40px height, glass-on-dark (was ~30px light pills) --- */
+#mainNavbar.student-nav-theme .nav-student-btn {
+    min-height: 40px !important;
+    padding: 0.5rem 0.9rem !important;
+    gap: 0.45rem !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #e0f2fe !important;
+    box-shadow: none !important;
+}
+
+#mainNavbar.student-nav-theme .nav-student-btn span {
+    color: #e0f2fe !important;
+}
+
+#mainNavbar.student-nav-theme .nav-student-btn i {
+    color: #38bdf8 !important;
+}
+
+#mainNavbar.student-nav-theme .nav-student-btn:hover {
+    background: rgba(56, 189, 248, 0.14) !important;
+    border-color: rgba(56, 189, 248, 0.45) !important;
+    color: #ffffff !important;
+    box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25) !important;
+    transform: translateY(-1px) !important;
+}
+
+#mainNavbar.student-nav-theme .nav-student-btn:hover span {
+    color: #ffffff !important;
+}
+
+#mainNavbar.student-nav-theme .nav-student-btn:hover i {
+    color: #7dd3fc !important;
+}
+
+#mainNavbar.student-nav-theme .nav-student-btn.active {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+    border-color: #0284c7 !important;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35) !important;
+}
+
+#mainNavbar.student-nav-theme .nav-student-btn.active span,
+#mainNavbar.student-nav-theme .nav-student-btn.active i {
+    color: #ffffff !important;
+}
+
+/* --- User pill: dark glass, 40px to match the buttons (was white, ~44px) --- */
+#mainNavbar.student-nav-theme .student-user-pill {
+    background: rgba(56, 189, 248, 0.12) !important;
+    border: 1.5px solid rgba(56, 189, 248, 0.45) !important;
+    padding: 2px 12px 2px 2px !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2) !important;
+}
+
+#mainNavbar.student-nav-theme .student-user-pill:hover {
+    background: rgba(56, 189, 248, 0.2) !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.3) !important;
+}
+
+#mainNavbar.student-nav-theme .student-user-pill .user-name {
+    color: #ffffff !important;
+}
+
+#mainNavbar.student-nav-theme .student-user-pill-tag {
+    background: rgba(14, 165, 233, 0.25) !important;
+    color: #e0f2fe !important;
+    border: 1px solid rgba(56, 189, 248, 0.55) !important;
+    border-radius: 50px !important;
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4) !important;
+}
+
+/* --- Hamburger toggler: dark glass, light lines (lines were #000 on white) --- */
+#mainNavbar.student-nav-theme .student-custom-toggler {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1.5px solid rgba(56, 189, 248, 0.45) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+#mainNavbar.student-nav-theme .student-custom-toggler:hover {
+    border-color: #38bdf8 !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3) !important;
+}
+
+#mainNavbar.student-nav-theme .hamburger-lines .line {
+    background: #e0f2fe !important;
+}
+
+#mainNavbar.student-nav-theme .student-custom-toggler.active .line1,
+#mainNavbar.student-nav-theme .student-custom-toggler.active .line3 {
+    background: #38bdf8 !important;
+}
+
+/* --- Drawer topbar: footer cyan HUB (was emerald #34d399), stronger hairline,
+       nowrap guards so title + tag never wrap at 360px --- */
+#mobileMenuOverlay.student-drawer-theme .mobile-drawer-topbar {
+    border-bottom: 1px solid rgba(56, 189, 248, 0.35) !important;
+}
+
+#mobileMenuOverlay.student-drawer-theme .drawer-brand-title {
+    white-space: nowrap !important;
+}
+
+#mobileMenuOverlay.student-drawer-theme .drawer-brand-title .brand-highlight {
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+}
+
+#mobileMenuOverlay.student-drawer-theme .drawer-role-tag.role-tag-student {
+    background: rgba(14, 165, 233, 0.18) !important;
+    color: #e0f2fe !important;
+    border: 1px solid rgba(56, 189, 248, 0.55) !important;
+    border-radius: 50px !important;
+    font-size: 0.68rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.2px !important;
+    padding: 0.3rem 0.7rem !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #mainNavbar.student-nav-theme .nav-student-btn:hover,
+    #mainNavbar.student-nav-theme .student-user-pill:hover {
+        transform: none !important;
+    }
+}
+
+/* Narrow desktops: compact the dark student nav (mirrors the §10 compaction
+   rules) so brand + 5 buttons + pill still fit at 992px without overflow. */
+@media (max-width: 1400px) and (min-width: 1200px) {
+    #mainNavbar.student-nav-theme .nav-student-btn { padding: 0.5rem 0.7rem !important; font-size: 0.8rem !important; }
+    #mainNavbar.student-nav-theme .student-user-pill { padding: 2px 10px 2px 2px !important; }
+    #mainNavbar.student-nav-theme .student-user-pill .user-name { max-width: 110px !important; }
+}
+
+@media (max-width: 1199px) and (min-width: 992px) {
+    #mainNavbar.student-nav-theme .nav-student-btn { padding: 0.45rem 0.55rem !important; font-size: 0.76rem !important; gap: 0.35rem !important; }
+    #mainNavbar.student-nav-theme .role-nav-links { gap: 0.35rem !important; }
+    #mainNavbar.student-nav-theme .student-user-pill { padding: 2px 8px 2px 2px !important; gap: 5px !important; }
+    #mainNavbar.student-nav-theme .student-user-pill .user-name { max-width: 60px !important; }
+    #mainNavbar.student-nav-theme .student-user-pill-tag { font-size: 0.58rem !important; padding: 0.15rem 0.35rem !important; }
+    #mainNavbar.student-nav-theme .student-brand-tag { font-size: 0.68rem !important; padding: 0.3rem 0.7rem !important; }
 }
