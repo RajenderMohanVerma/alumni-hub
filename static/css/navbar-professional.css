@@ -4653,3 +4653,717 @@ body.premium-theme #mainNavbar .nav-alumni-btn.active i {
         transform: none !important;
     }
 }
+
+/* ==========================================================================
+   STUDENT HEADER / NAVBAR + MOBILE DRAWER REDESIGN — 2026-11-17
+   Mirrors the alumni navbar redesign (§6, commit d1cdd19) and the later
+   drawer fixes (§6.7, §9): same structure, same grouped dropdowns /
+   drawer groups, same animation language — sky-blue accent (#0ea5e9 /
+   #38bdf8) for the student identity instead of alumni amber, so students
+   stay visually distinct from alumni / admin / faculty / public.
+   Scoped to .student-* classes and #mobileMenuOverlay.student-drawer-theme,
+   which base.html adds ONLY when the logged-in user is a student.
+   ID-qualified !important rules beat the bullet-proof inline <style> in
+   base.html the same way the faculty / alumni / public theme blocks do.
+   Desktop navbar: grouped Connect / Career dropdowns, STUDENT brand tag
+   (hidden on phones — the alumni ALUMNI tag was removed for exactly this
+   overflow, see §6.8; the tag still shows in the drawer topbar and the
+   user pill), sky pulse beacon, sky user pill. Mobile drawer: student
+   profile card + 4 quick tiles + 5 grouped sections, zero white cards.
+   Top clearance: student pages already clear the fixed navbar via
+   theme-system.css (--nav-header-offset-desktop 135px / mobile 100px on
+   .student-hero-section and the generic first-child rule), so no extra
+   padding-top rules are needed here (unlike the alumni §7 fix).
+   ========================================================================== */
+
+/* --- Student brand wrap / tag / pulse beacon (mirrors alumni-brand-*) --- */
+.student-brand-wrap {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+}
+
+.student-pulse-beacon {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    background: #0ea5e9;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 10px #0ea5e9;
+    animation: studentBeaconPulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes studentBeaconPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.35); opacity: 0.65; }
+}
+
+.student-brand-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-size: 0.64rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    padding: 0.16rem 0.5rem !important;
+    border-radius: 6px !important;
+    background: #0c4a6e !important;
+    color: #7dd3fc !important;
+    border: 1px solid rgba(56, 189, 248, 0.4) !important;
+    box-shadow: 0 1px 4px rgba(12, 74, 110, 0.3) !important;
+    line-height: 1.2 !important;
+    text-transform: uppercase !important;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.student-brand-tag i {
+    color: #7dd3fc !important;
+    font-size: 0.65rem !important;
+}
+
+/* Phones: hide the navbar STUDENT tag — brand + tag + hamburger do not fit
+   at 360px (the alumni ALUMNI tag was removed for this exact overflow,
+   §6.8). The tag still shows in the drawer topbar and the user pill. */
+@media (max-width: 767.98px) {
+    .student-brand-tag {
+        display: none !important;
+    }
+}
+
+/* --- Student hamburger toggler (mirrors .alumni-custom-toggler) --- */
+.student-custom-toggler {
+    border: 1.5px solid rgba(2, 132, 199, 0.35) !important;
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.2s ease !important;
+}
+
+.student-custom-toggler:hover {
+    border-color: #0284c7 !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2) !important;
+}
+
+#mainNavbar .student-custom-toggler.active .line1,
+#mainNavbar .student-custom-toggler.active .line3 {
+    background: #0284c7 !important;
+}
+
+/* --- Student pill nav buttons (mirrors .nav-alumni-btn, sky accent) --- */
+.nav-student-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 0.35rem 0.7rem !important;
+    border-radius: 50px !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 0.83rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em !important;
+    background: #f0f9ff !important;
+    border: 1.5px solid #bae6fd !important;
+    color: #0f172a !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+    transition: all 0.16s ease !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
+}
+
+.nav-student-btn i {
+    font-size: 0.86rem !important;
+    transition: transform 0.16s ease !important;
+}
+
+.nav-student-btn span {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+.nav-student-btn:hover {
+    background: #e0f2fe !important;
+    color: #0369a1 !important;
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 3px 10px rgba(2, 132, 199, 0.18) !important;
+    transform: translateY(-1px) !important;
+}
+
+.nav-student-btn:hover span {
+    color: #0369a1 !important;
+}
+
+.nav-student-btn:hover i {
+    transform: scale(1.12) !important;
+}
+
+.nav-student-btn.active {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+    color: #ffffff !important;
+    border-color: #0284c7 !important;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35) !important;
+}
+
+.nav-student-btn.active span {
+    color: #ffffff !important;
+}
+
+.nav-student-btn.active i {
+    color: #ffffff !important;
+}
+
+.premium-theme .nav-student-btn,
+body.premium-theme #mainNavbar .nav-student-btn {
+    background: #f0f9ff !important;
+    border-color: #bae6fd !important;
+    color: #0f172a !important;
+}
+
+.premium-theme .nav-student-btn span,
+body.premium-theme #mainNavbar .nav-student-btn span {
+    color: #0f172a !important;
+}
+
+.premium-theme .nav-student-btn.active,
+body.premium-theme #mainNavbar .nav-student-btn.active {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+    border-color: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+.premium-theme .nav-student-btn.active span,
+body.premium-theme #mainNavbar .nav-student-btn.active span {
+    color: #ffffff !important;
+}
+
+.premium-theme .nav-student-btn.active i,
+body.premium-theme #mainNavbar .nav-student-btn.active i {
+    color: #ffffff !important;
+}
+
+/* --- Student dropdown menus (sky accents on the shared admin structure) --- */
+.dropdown-menu.nav-student-dropdown-menu {
+    border: 1.5px solid rgba(2, 132, 199, 0.3) !important;
+    box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(2, 132, 199, 0.12) !important;
+}
+
+@media (min-width: 992px) {
+    .navbar-nav .nav-item.dropdown:hover > .dropdown-menu.nav-student-dropdown-menu {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+}
+
+.student-dropdown-intro {
+    background: linear-gradient(135deg, #082f49 0%, #0c4a6e 100%) !important;
+    border: 1px solid rgba(14, 165, 233, 0.45) !important;
+}
+
+.student-intro-icon {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35) !important;
+}
+
+.nav-student-menu-item:hover {
+    background: #f0f9ff !important;
+    border-left: 3px solid #0284c7 !important;
+    color: #0369a1 !important;
+}
+
+.nav-student-menu-item:hover .nav-item-chevron {
+    color: #0284c7 !important;
+    transform: translateX(3px) !important;
+}
+
+/* Sky icon tint for the desktop dropdown rows (no .icon-sky existed yet) */
+.icon-sky {
+    background: rgba(14, 165, 233, 0.12) !important;
+    color: #0284c7 !important;
+}
+
+/* --- Student user pill + role tag (mirrors .alumni-user-pill) --- */
+.student-user-pill {
+    background: #ffffff !important;
+    border: 2px solid #0284c7 !important;
+    padding: 4px 14px 4px 4px !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.12) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.student-user-pill:hover {
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.25) !important;
+    transform: translateY(-2px) !important;
+}
+
+.student-user-avatar-ring {
+    border: 2px solid #0ea5e9 !important;
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.25) !important;
+}
+
+.student-user-pill-tag {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    font-size: 0.68rem !important;
+    padding: 0.22rem 0.55rem !important;
+    border-radius: 6px !important;
+    letter-spacing: 0.08em !important;
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4) !important;
+    text-transform: uppercase !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+/* Student pill sizing on narrower desktops (mirrors alumni rules) */
+@media (max-width: 1400px) and (min-width: 1200px) {
+    #mainNavbar .nav-student-btn { padding: 0.32rem 0.6rem !important; font-size: 0.8rem !important; gap: 5px !important; }
+    #mainNavbar .student-user-pill { padding: 3px 10px 3px 3px !important; }
+    #mainNavbar .student-user-pill .user-name { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+@media (max-width: 1199px) and (min-width: 992px) {
+    #mainNavbar .nav-student-btn { padding: 0.3rem 0.52rem !important; font-size: 0.78rem !important; gap: 4px !important; }
+    #mainNavbar .student-user-pill { padding: 3px 8px 3px 3px !important; gap: 5px !important; }
+    #mainNavbar .student-user-pill .user-name { max-width: 75px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #mainNavbar .student-user-pill-tag { font-size: 0.58rem !important; padding: 0.15rem 0.35rem !important; }
+    #mainNavbar .student-brand-tag { font-size: 0.58rem !important; padding: 0.14rem 0.4rem !important; letter-spacing: 0.04em !important; }
+}
+
+/* --- Student drawer topbar role tag (mirrors .role-tag-alumni) --- */
+.role-tag-student {
+    background: rgba(14, 165, 233, 0.25) !important;
+    color: #bae6fd !important;
+    border: 1px solid rgba(14, 165, 233, 0.45) !important;
+}
+
+/* --- Sky bullet tint used by the student drawer rows (no .bullet-sky existed yet) --- */
+.bullet-sky { background: rgba(14, 165, 233, 0.18) !important; color: #38bdf8 !important; }
+
+/* --- Student mobile profile card (mirrors .alumni-mobile-card, sky theme) --- */
+.student-mobile-card {
+    background: linear-gradient(145deg, #082f49 0%, #0c4a6e 55%, #075985 100%) !important;
+    background-color: #082f49 !important;
+    border: 1.5px solid rgba(14, 165, 233, 0.4) !important;
+    border-radius: 20px !important;
+    padding: 1.25rem 1.1rem !important;
+    box-shadow: 0 14px 35px -6px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
+    width: 100% !important;
+    margin-bottom: 0.85rem !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.student-mobile-card-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 0.9rem !important;
+    padding-bottom: 0.7rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.student-mobile-status-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    color: #bae6fd !important;
+    text-transform: uppercase !important;
+}
+
+.student-status-pulse {
+    width: 9px !important;
+    height: 9px !important;
+    border-radius: 50% !important;
+    background: #0ea5e9 !important;
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.45) !important;
+    display: inline-block !important;
+    animation: studentPulse 2s infinite !important;
+}
+
+@keyframes studentPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(14, 165, 233, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+}
+
+.student-role-badge {
+    font-size: 0.68rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    padding: 0.25rem 0.65rem !important;
+    border-radius: 7px !important;
+    background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(125, 211, 252, 0.55) !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35) !important;
+}
+
+.student-mobile-user-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.95rem !important;
+    margin-bottom: 1.15rem !important;
+    position: relative !important;
+}
+
+.student-mobile-avatar-box {
+    position: relative !important;
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+    flex-shrink: 0 !important;
+}
+
+.student-mobile-img,
+.student-mobile-initials {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 16px !important;
+    object-fit: cover !important;
+    border: 2.5px solid rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35) !important;
+    box-sizing: border-box !important;
+}
+
+.student-mobile-initials {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, #0284c7 0%, #0c4a6e 100%) !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    font-size: 1.45rem !important;
+    letter-spacing: 0.03em !important;
+}
+
+.student-avatar-badge-icon {
+    position: absolute !important;
+    bottom: -4px !important;
+    right: -4px !important;
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 50% !important;
+    background: #38bdf8 !important;
+    color: #082f49 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.72rem !important;
+    border: 2px solid #082f49 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+    z-index: 5 !important;
+}
+
+.student-mobile-user-details {
+    overflow: hidden !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+.student-mobile-name {
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.25 !important;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.student-mobile-email {
+    font-size: 0.82rem !important;
+    color: #bae6fd !important;
+    margin: 0.25rem 0 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    font-weight: 600 !important;
+}
+
+.student-mobile-quick-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0.55rem !important;
+}
+
+.student-tile-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.7rem 0.25rem !important;
+    min-height: 64px !important;
+    border-radius: 13px !important;
+    text-decoration: none !important;
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.student-tile-btn:active,
+.student-tile-btn:hover {
+    background: rgba(255, 255, 255, 0.22) !important;
+    border-color: rgba(56, 189, 248, 0.45) !important;
+    transform: translateY(-2px) !important;
+    color: #ffffff !important;
+}
+
+/* Clean solid tile icons: the global .tile-sky / .tile-emerald rules in
+   this file paint a tinted 32px box behind any .tile-icon, which showed up
+   as muddy dark squares behind the alumni Network / Post Job glyphs (§6.7).
+   Student tiles use bare glyphs, so strip that box (student-scoped only;
+   admin / faculty tiles keep their boxed icons). */
+.student-mobile-quick-grid .student-tile-btn .tile-icon {
+    font-size: 1.25rem !important;
+    margin-bottom: 0.3rem !important;
+    background: transparent !important;
+    width: auto !important;
+    height: auto !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.student-tile-btn .tile-label {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    color: #ffffff !important;
+}
+
+/* --- Student drawer theme overrides (mirrors public-drawer-theme) --- */
+#mobileMenuOverlay.student-drawer-theme {
+    background: linear-gradient(180deg, #0a2540 0%, #0d3557 42%, #081826 100%) !important;
+    background-color: #0a2540 !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+    padding: 0 14px 45px !important;
+    color: #eff6ff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+.student-drawer-theme .mobile-menu-content,
+#mobileMenuOverlay.student-drawer-theme .mobile-menu-content {
+    gap: 14px !important;
+    max-width: 480px !important;
+    width: 100% !important;
+    padding-top: 0.25rem !important;
+}
+
+/* Dark topbar so the (already white) ALUMNI title + green HUB read clearly */
+#mobileMenuOverlay.student-drawer-theme .mobile-drawer-topbar {
+    background: rgba(8, 42, 68, 0.95) !important;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.25) !important;
+}
+
+#mobileMenuOverlay.student-drawer-theme .drawer-brand-title {
+    color: #ffffff !important;
+}
+
+#mobileMenuOverlay.student-drawer-theme .drawer-brand-title .brand-highlight {
+    color: #34d399 !important;
+}
+
+#mobileMenuOverlay.student-drawer-theme .drawer-brand-logo-wrap {
+    background: rgba(56, 189, 248, 0.18) !important;
+    border: 1px solid rgba(56, 189, 248, 0.4) !important;
+}
+
+.student-drawer-theme .mobile-close-btn,
+#mobileMenuOverlay.student-drawer-theme .mobile-close-btn {
+    border: 1px solid rgba(56, 189, 248, 0.35) !important;
+}
+
+.student-drawer-theme .mobile-close-btn i,
+#mobileMenuOverlay.student-drawer-theme .mobile-close-btn i {
+    color: #bae6fd !important;
+}
+
+.student-drawer-theme .mobile-close-btn:hover,
+.student-drawer-theme .mobile-close-btn:active,
+#mobileMenuOverlay.student-drawer-theme .mobile-close-btn:hover,
+#mobileMenuOverlay.student-drawer-theme .mobile-close-btn:active {
+    background: rgba(239, 68, 68, 0.35) !important;
+    border-color: rgba(239, 68, 68, 0.6) !important;
+}
+
+.student-drawer-theme .mobile-close-btn:hover i,
+.student-drawer-theme .mobile-close-btn:active i,
+#mobileMenuOverlay.student-drawer-theme .mobile-close-btn:hover i,
+#mobileMenuOverlay.student-drawer-theme .mobile-close-btn:active i {
+    color: #fca5a5 !important;
+}
+
+/* Grouped rows inside the student drawer (sky accents) */
+.student-drawer-theme .adm-drawer-group-box,
+#mobileMenuOverlay.student-drawer-theme .adm-drawer-group-box {
+    background: rgba(10, 37, 64, 0.92) !important;
+    border: 1px solid rgba(56, 189, 248, 0.26) !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.45) !important;
+}
+
+.student-drawer-theme .adm-drawer-row,
+#mobileMenuOverlay.student-drawer-theme .adm-drawer-row {
+    min-height: 52px !important;
+    padding: 0.78rem 0.95rem !important;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.12) !important;
+}
+
+.student-drawer-theme .adm-drawer-row:hover,
+.student-drawer-theme .adm-drawer-row:active,
+#mobileMenuOverlay.student-drawer-theme .adm-drawer-row:hover,
+#mobileMenuOverlay.student-drawer-theme .adm-drawer-row:active {
+    background: rgba(56, 189, 248, 0.14) !important;
+    transform: translateX(3px) !important;
+}
+
+.student-drawer-theme .adm-row-title,
+#mobileMenuOverlay.student-drawer-theme .adm-row-title {
+    color: #ffffff !important;
+}
+
+.student-drawer-theme .adm-row-sub,
+#mobileMenuOverlay.student-drawer-theme .adm-row-sub {
+    color: #cbd5e1 !important;
+}
+
+.student-drawer-theme .adm-row-chevron,
+#mobileMenuOverlay.student-drawer-theme .adm-row-chevron {
+    color: #38bdf8 !important;
+    font-size: 0.78rem !important;
+}
+
+.student-drawer-theme .adm-drawer-row:hover .adm-row-chevron,
+#mobileMenuOverlay.student-drawer-theme .adm-drawer-row:hover .adm-row-chevron {
+    transform: translateX(3px) !important;
+    color: #bae6fd !important;
+}
+
+.student-drawer-theme .adm-head-title,
+#mobileMenuOverlay.student-drawer-theme .adm-head-title {
+    color: #7dd3fc !important;
+}
+
+/* Staggered reveal on drawer open — keyed off .active (the JS only toggles
+   .active on the overlay, so page-load animations would already be finished
+   by the time the drawer opens). The card rises first, then the 5 groups
+   one by one. Without .active there is no animation, so the drawer is
+   fully visible if JS never runs. */
+@keyframes studentRiseIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#mobileMenuOverlay.student-drawer-theme.active .student-mobile-card {
+    animation: studentRiseIn 0.45s cubic-bezier(0.23, 1, 0.32, 1) both !important;
+    animation-delay: 0.05s !important;
+}
+
+#mobileMenuOverlay.student-drawer-theme.active .mobile-links-container > .adm-drawer-group {
+    animation: studentRiseIn 0.45s cubic-bezier(0.23, 1, 0.32, 1) both !important;
+}
+
+#mobileMenuOverlay.student-drawer-theme.active .mobile-links-container > .adm-drawer-group:nth-child(1) { animation-delay: 0.10s !important; }
+#mobileMenuOverlay.student-drawer-theme.active .mobile-links-container > .adm-drawer-group:nth-child(2) { animation-delay: 0.16s !important; }
+#mobileMenuOverlay.student-drawer-theme.active .mobile-links-container > .adm-drawer-group:nth-child(3) { animation-delay: 0.22s !important; }
+#mobileMenuOverlay.student-drawer-theme.active .mobile-links-container > .adm-drawer-group:nth-child(4) { animation-delay: 0.28s !important; }
+#mobileMenuOverlay.student-drawer-theme.active .mobile-links-container > .adm-drawer-group:nth-child(5) { animation-delay: 0.34s !important; }
+
+/* Themed PWA banner for the student drawer */
+#mobileMenuOverlay.student-drawer-theme .mobile-pwa-banner {
+    background: rgba(10, 37, 64, 0.94) !important;
+    border: 1px solid rgba(56, 189, 248, 0.28) !important;
+    box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45) !important;
+}
+
+#mobileMenuOverlay.student-drawer-theme .mobile-pwa-text strong {
+    color: #ffffff !important;
+}
+
+#mobileMenuOverlay.student-drawer-theme .mobile-pwa-text small {
+    color: #7dd3fc !important;
+}
+
+#mobileMenuOverlay.student-drawer-theme .pwa-btn-install {
+    background: #0284c7 !important;
+    border-color: #38bdf8 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35) !important;
+}
+
+/* Narrow phones (360px): slightly tighter rows, no overflow or clipping */
+@media (max-width: 360px) {
+    .student-drawer-theme .adm-drawer-row,
+    #mobileMenuOverlay.student-drawer-theme .adm-drawer-row {
+        min-height: 50px !important;
+        padding: 0.7rem 0.8rem !important;
+        gap: 0.6rem !important;
+    }
+
+    .student-drawer-theme .adm-row-title,
+    #mobileMenuOverlay.student-drawer-theme .adm-row-title {
+        font-size: 0.82rem !important;
+    }
+
+    .student-drawer-theme .adm-row-sub,
+    #mobileMenuOverlay.student-drawer-theme .adm-row-sub {
+        font-size: 0.66rem !important;
+    }
+
+    .student-mobile-quick-grid {
+        gap: 0.45rem !important;
+    }
+
+    .student-tile-btn .tile-label {
+        font-size: 0.68rem !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .student-pulse-beacon,
+    .student-status-pulse {
+        animation: none !important;
+    }
+
+    #mobileMenuOverlay.student-drawer-theme.active .student-mobile-card,
+    #mobileMenuOverlay.student-drawer-theme.active .mobile-links-container > .adm-drawer-group {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .student-drawer-theme .adm-drawer-row:hover,
+    .student-tile-btn:hover,
+    .nav-student-btn:hover,
+    .student-user-pill:hover {
+        transform: none !important;
+    }
+}

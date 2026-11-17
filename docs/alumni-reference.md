@@ -902,3 +902,201 @@ instead of alumni amber:
   branches untouched (verified by `git diff` — only the 5 public hunks
   in `base.html`). No push — local only, pending Rajender's approval
   together with the unpushed Network-page changes.
+
+## 10. Student header / navbar + mobile drawer redesign (2026-11-17, local — not pushed)
+
+Mirrors the alumni navbar redesign (§6) and the later drawer fixes (§6.7,
+§9): same structure, same grouped dropdowns / drawer groups, same
+animation language — sky-blue accent (`#0ea5e9` / `#38bdf8`) for the
+student identity instead of alumni amber, so students stay visually
+distinct from alumni / admin / faculty / public.
+
+### 10.1 What the student nav was before
+
+- **Desktop:** plain white pill links (Dashboard, Messages,
+  Notifications) + two bare dropdowns (Connect: Alumni Directory,
+  Mentorship Hub; Opportunities: Jobs & Internships, Campus Events) with
+  plain text items, no active states on Messages/Notifications/dropdowns,
+  no role tag, brand linked to `/` (public home) for students.
+- **Mobile drawer:** the generic grey `.mobile-profile-card` with grey
+  `.action-btn` quick actions, plus **seven white `.mobile-nav-link`
+  cards** (Dashboard, Messages, Alumni Directory, Mentorship Hub, Jobs &
+  Internships, Campus Events, Notifications), two more white Home/About
+  cards at the top and a white Events card at the bottom — the same
+  white-card problem fixed for alumni (§6.7) and public (§9). No theme
+  class on the overlay.
+
+### 10.2 Desktop navbar (student only)
+
+- **Brand:** new `.student-brand-wrap` — brand now links to
+  `/student/dashboard` for students (was `/`), with a sky STUDENT tag
+  (`.student-brand-tag`, `fa-user-graduate`) and a sky pulse beacon
+  (`.student-pulse-beacon`, `studentBeaconPulse` keyframes), mirroring
+  `.alumni-brand-wrap` / `.alumni-brand-tag` / `.alumni-pulse-beacon`.
+  The tag is hidden below 768px in CSS — the alumni ALUMNI tag was
+  removed for exactly this mobile overflow (§6.8); the tag still shows
+  in the drawer topbar and the user pill.
+- **Pill buttons:** new `.nav-student-btn` (mirrors `.nav-alumni-btn`):
+  sky-tinted pill `#f0f9ff` / border `#bae6fd`, hover `#e0f2fe`,
+  active = sky gradient `#0ea5e9 → #0284c7` with white text. Same
+  1200–1400px / 992–1199px responsive sizing rules as the alumni buttons.
+- **Connect dropdown** (rich rows, ids `studentConnectDropdown`): intro
+  header "Connect & Learn — Network, Mentors & Community" + Alumni
+  Directory, Mentorship Hub, Community Group (`/community-group` —
+  already a student link in the old drawer quick actions). **Career
+  dropdown** (renamed from "Opportunities", same links + one addition,
+  id `studentCareerDropdown`): intro "Career & Events — Jobs,
+  Internships & Campus Life" + Jobs & Internships, Campus Events,
+  Upgrade to Alumni (`/upgrade` — already in the user-pill menu).
+  Dropdown menus reuse the admin `.nav-admin-dropdown-menu` structure
+  with student-scoped sky overrides (`.nav-student-dropdown-menu`,
+  `.nav-student-menu-item`), including the desktop hover-open rule.
+- **Active states added:** Connect toggle is active on `network` /
+  `mentorship` / `/community-group`, Career toggle on `list_jobs` /
+  `events` / `upgrade`, Messages on `messages` (same check as alumni),
+  Notifications on `notifications`. Dashboard active check unchanged.
+- **Hamburger toggler:** new `.student-custom-toggler` (sky
+  border/hover), mirroring `.alumni-custom-toggler`. Same button, same
+  `id="navbarToggler"` — no JS change.
+- **User pill:** new `.student-user-pill` (white pill, `#0284c7`
+  border, sky avatar ring) + STUDENT role tag next to the name,
+  mirroring `.alumni-user-pill` / `.alumni-user-pill-tag`. The pill
+  dropdown menu itself is unchanged (My Profile, Messages, Upgrade to
+  Pro, Settings, Change Password, Logout).
+- All pre-existing student desktop links and hrefs unchanged:
+  `/student/dashboard`, `/messages`, `/network`, `/mentorship`,
+  `/jobs`, `/events`, `/notifications`.
+
+### 10.3 Mobile drawer (student only)
+
+- Overlay now gets `.student-drawer-theme` (dark sky-navy gradient,
+  dark topbar / close button / group boxes), mirroring
+  `.alumni-drawer-theme` / `.public-drawer-theme`. Topbar shows the sky
+  STUDENT role tag (`.role-tag-student`).
+- New **student mobile profile card** (`.student-mobile-card`, sky
+  gradient) replacing the generic grey card for students: "STUDENT
+  PORTAL" status pill with pulse, "ENROLLED STUDENT" badge, avatar with
+  `fa-user-graduate` badge, name + email, and 4 quick tiles — Dashboard,
+  Network, Mentorship, Messages — all existing routes, all with
+  `adm-drawer-link` so the drawer auto-closes on tap. The generic
+  `.mobile-profile-card` is kept verbatim as the fallback `{% else %}`
+  branch for any unknown role. Tile icons use the same bare-glyph
+  override as the alumni fix (§6.7) so the global `.tile-sky` /
+  `.tile-emerald` tinted boxes do not show as muddy squares.
+- The 7 white rows are replaced by 5 grouped sections using the admin
+  `.adm-drawer-group` / `.adm-drawer-group-box` / `.adm-drawer-row`
+  pattern (icon bullet + title + subtitle + chevron, sky accents):
+  - **Student Home** — Dashboard, Messages
+  - **Connect & Learn** — Alumni Directory, Mentorship Hub, Community
+    Group
+  - **Career & Events** — Jobs & Internships, Campus Events, Upgrade
+    to Alumni
+  - **Account** — Notifications, My Profile (`/profile`), Settings
+    (`url_for('settings')`), Change Password (`/change_password`),
+    Sign Out (`/logout`, danger row)
+  - **Explore** — Home, About, Services, Contact
+- The shared white Home/About cards and the trailing white Events card
+  are gated out for students (same gate-widening as §6.7/§9); Home /
+  About / Services / Contact now render as dark rows in Explore, and
+  Events lives once in Career & Events (no duplicate — unlike alumni,
+  where Explore's Campus Events and Career & Events' Alumni Events are
+  different URLs; for students both are `/events`).
+- The duplicate generic Logout button below the groups is replaced by
+  a sky session footer ("VERIFIED STUDENT PORTAL • JIMS ROHINI"),
+  mirroring the alumni footer. Sign Out already exists as a row in the
+  Account group.
+- No JS was changed: open/close uses the existing `#navbarToggler` /
+  `#mobileMenuOverlay` / `#closeMobileMenu` handlers, Escape key, and
+  the `.mobile-nav-link, .adm-drawer-link` auto-close listener.
+
+### 10.4 Animations
+
+Same animation language as alumni/admin, all CSS-only (no new JS
+libraries, no new JS at all):
+
+- Logo pulse beacon (`.student-pulse-beacon`, 2s) + status pulse on
+  the profile card (`.student-status-pulse`, `studentPulse` ring).
+- Dropdown open snap (shared `.nav-admin-dropdown-menu` animation) +
+  hover-open on desktop ≥992px; hover lift on pill buttons, dropdown
+  rows, drawer rows/tiles (translateY −1/−2px, chevron slides).
+- **Staggered reveal on drawer open:** the card rises first, then the
+  5 groups one by one (`studentRiseIn` keyframes, 0.05s / 0.10s /
+  0.16s / 0.22s / 0.28s / 0.34s). Keyed off
+  `#mobileMenuOverlay.student-drawer-theme.active` — the JS only
+  toggles `.active` on the overlay, so page-load animations would
+  already be finished by the time the drawer opens; without `.active`
+  there is no animation, so the drawer is fully visible if JS never
+  runs.
+- No animated counters were added in the nav/drawer — there is no stat
+  rendered inside the navbar or drawer to count from.
+- `prefers-reduced-motion: reduce` disables the beacons, pulses, the
+  staggered reveal (opacity/transform forced to final state) and all
+  hover lifts.
+
+### 10.5 Mobile & accessibility
+
+- Rows are min 52px tall (50px at ≤360px), quick tiles min 64px;
+  drawer stacks to one column at 360px with no horizontal overflow
+  (no fixed width above the viewport in the new CSS — only the 480px
+  `max-width` on the fluid content column, same as public); subtitles
+  truncate with ellipsis (same as admin rows).
+- **Top clearance — no new rules needed:** unlike the alumni §7 fix,
+  student pages already clear the fixed navbar via
+  `static/css/theme-system.css` (`--nav-header-offset-desktop` 135px /
+  mobile 100px on `.student-hero-section` and the generic
+  `.main-wrapper > div:first-child` rule, which covers
+  `.jobs-page-wrapper`, `.profile-wrapper`, `.settings-wrapper`;
+  mentorship/notifications carry inline `margin-top: 80px`, network
+  `padding-top: 100px`). Verified statically; nothing was added.
+- `aria-expanded` / `aria-label` / `aria-controls` untouched; focus
+  behaviour unchanged (Escape closes and refocuses the toggler).
+
+### 10.6 What was preserved / verification
+
+- `python3 scripts/validate_templates.py` → **Total errors: 0**.
+- CSS brace check: 822 open / 822 close, balanced.
+- Render test (`/tmp/student_nav_render_test.py`, mocked
+  `current_user`/`request`/`url_for`): **58/58 checks pass** — student
+  render: overlay carries only `student-drawer-theme`, zero
+  `class="mobile-nav-link"` and zero `class="action-btn"`, profile card
+  + 4 tiles + 5 groups, all 17 student hrefs present, brand href is
+  `/student/dashboard`, cache-buster `?v=4.2`; alumni render keeps
+  `alumni-drawer-theme` + its 5 groups, admin keeps `admin-drawer-theme`,
+  faculty keeps `faculty-drawer-theme`, anonymous keeps
+  `public-drawer-theme` + its 5 Explore rows — and none of the four
+  renders contains any student class or `/student/dashboard` link.
+- Token set-diff vs HEAD (`base.html`): no `url_for()` / `name=` lost;
+  only the brand-href `{{ }}` expression changed (student branch added
+  inside it, admin/faculty/alumni branches byte-identical) and the two
+  widened gate `{% %}` conditions; 5 new `id=` values added
+  (`navStudentDashboard`, `navStudentMessages`,
+  `studentConnectDropdown`, `studentCareerDropdown`,
+  `navStudentNotifications`), none lost. All 16 gained `href=` values
+  are the new group rows / dropdown rows (duplicates of existing
+  destinations) plus the `?v=4.2` bump.
+- `git diff --stat`: only `templates/base.html` (+325/−49) and
+  `static/css/navbar-professional.css` (+714, purely appended at end)
+  changed, plus this file. The only `+/-` diff lines mentioning other
+  roles' endpoints are the shared brand-anchor line (admin/faculty/
+  alumni branches inside it are byte-identical). No page template,
+  route, service or backend file was touched. No push — local only.
+
+### 10.7 Deliberately left out (would need new backend data)
+
+- **Unread-messages badge on the Messages pill/tile/row:** no unread
+  count is available to `base.html` — `get_unread_message_count()` is
+  only passed to the messaging template itself
+  (`routes/messaging_routes.py`), and there is no global context
+  processor injecting it into the navbar. Adding a badge would need a
+  new context processor in `app.py` (backend change) — left out, do
+  not invent a count.
+- **Profile-completeness ring on the drawer card:** the student
+  dashboard computes completeness in its own template/JS; that value
+  is not passed to `base.html`. Left out for the same reason.
+- **Live counts on tiles/groups** (e.g. pending requests, new jobs):
+  no such variables exist in the navbar context; nothing was
+  hardcoded.
+- **STUDENT tag in the top navbar on phones:** deliberately hidden
+  below 768px in CSS — the alumni ALUMNI tag was removed for exactly
+  this overflow (§6.8). The tag still shows on desktop navbar, in the
+  drawer topbar and in the user pill.
