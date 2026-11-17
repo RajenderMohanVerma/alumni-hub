@@ -1,0 +1,39 @@
+{#
+  Shared floating quick-action button (FAB) — one implementation for all
+  role dashboards (student, alumni, faculty, admin).
+
+  Usage:
+      {% from "common/quick_fab.html" import quick_fab %}
+      {{ quick_fab([
+          {'label': 'Search',   'url': url_for('search_network'), 'icon': 'fas fa-search'},
+          {'label': 'Messages', 'url': url_for('messages'),       'icon': 'fas fa-comment-dots'}
+      ], theme='amber') }}
+
+  Parameters:
+      actions — list of dicts with keys: label, url, icon (Font Awesome class)
+      theme   — optional colour variant matching the dashboard palette:
+                '' (sky, default) | 'amber' (alumni) | 'emerald' (faculty) | 'indigo' (admin)
+
+  Styles live in static/css/quick-fab.css and behaviour in
+  static/js/quick-fab.js; both are loaded by this macro so a single
+  macro call is all a dashboard needs. Behaviour: tap + to open,
+  tap again / click outside / Escape to close; the FAB parks (fades
+  out) while the footer is on screen.
+#}
+{% macro quick_fab(actions, theme='') %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quick-fab.css') }}?v=1.0">
+<div class="ah-fab-container{% if theme %} ah-fab-theme-{{ theme }}{% endif %}" data-ah-fab>
+    <div class="ah-fab-actions" id="ahFabActions" aria-hidden="true">
+        {% for action in actions %}
+        <a href="{{ action.url }}" class="ah-fab-action" data-ah-fab-action>
+            <span class="ah-fab-action-label">{{ action.label }}</span>
+            <span class="ah-fab-action-icon shadow-sm"><i class="{{ action.icon }}"></i></span>
+        </a>
+        {% endfor %}
+    </div>
+    <button type="button" class="ah-fab shadow-lg" data-ah-fab-toggle aria-expanded="false" aria-controls="ahFabActions" aria-label="Quick actions">
+        <span class="ah-fab-content"><i class="fas fa-plus"></i></span>
+    </button>
+</div>
+<script src="{{ url_for('static', filename='js/quick-fab.js') }}?v=1.0"></script>
+{% endmacro %}

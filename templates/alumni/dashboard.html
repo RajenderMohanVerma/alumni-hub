@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "common/quick_fab.html" import quick_fab %}
 {% block title %}Alumni Dashboard • Alumni Hub{% endblock %}
 
 {% block content %}
@@ -984,4 +985,12 @@
     });
 }());
 </script>
+
+<!-- Floating Action Button: quick actions (shared component — templates/common/quick_fab.html) -->
+{{ quick_fab([
+    {'label': 'Search', 'url': url_for('search_network'), 'icon': 'fas fa-search'},
+    {'label': 'Messages', 'url': url_for('messages'), 'icon': 'fas fa-comment-dots'},
+    {'label': 'Profile', 'url': url_for('alumni_profile', user_id=current_user.id), 'icon': 'fas fa-user'},
+    {'label': 'Post a Job', 'url': url_for('post_job'), 'icon': 'fas fa-briefcase'}
+], theme='amber') }}
 {% endblock %}
