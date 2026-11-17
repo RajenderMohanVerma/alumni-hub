@@ -99,6 +99,22 @@
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1.25rem;
 }
+/* Anti-blowout: grid/flex items must be allowed to shrink below their
+   min-content size, otherwise long emails/meta values force the card
+   wider than its column and it gets clipped on small screens. */
+.adm-user-card,
+.adm-card-head,
+.adm-card-email {
+    min-width: 0;
+}
+.adm-card-email > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.adm-meta-row > * {
+    min-width: 0;
+}
 .adm-user-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
@@ -562,6 +578,96 @@
 }
 
 /* ========================================================
+   CARD MODE BELOW DESKTOP (< 992px)
+   The dense table is desktop-only: below the lg breakpoint the
+   directory always renders as cards, whatever the view toggle says.
+   ======================================================== */
+@media (max-width: 991.98px) {
+    /* Hide dense table, force card grid (single minmax(0,1fr) track
+       so cards can never overflow their column) */
+    #usersTableWrap {
+        display: none !important;
+    }
+    #usersCardsWrap {
+        display: grid !important;
+    }
+    .user-cards-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 1rem !important;
+    }
+
+    /* Touch-friendly targets (>= 44px) for card actions & controls */
+    .adm-btn-action {
+        min-height: 44px;
+    }
+    .btn-adm-approve-banner {
+        min-height: 48px;
+    }
+    .adm-btn-action-icon {
+        width: 44px;
+        height: 44px;
+    }
+    .btn-quick-call {
+        width: 44px;
+        height: 44px;
+        font-size: 0.9rem;
+    }
+    .view-switch-btn {
+        width: 44px;
+        height: 44px;
+    }
+    .adm-chip-btn {
+        min-height: 44px;
+    }
+    .admin-filter-input {
+        min-height: 48px;
+    }
+    #filterRoleSelect,
+    #filterStatusSelect,
+    #sortSelect {
+        min-height: 44px;
+    }
+
+    /* Toasts stay inside the viewport on small screens */
+    #admToastContainer {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+    }
+    .adm-toast {
+        word-break: break-word;
+    }
+}
+
+/* Two-column card grid on tablets */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .user-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .adm-user-card,
+    .adm-kpi-card,
+    .adm-btn-action,
+    .btn-adm-approve-banner,
+    .adm-btn-action-icon,
+    .adm-chip-btn,
+    .adm-bulk-bar {
+        transition: none !important;
+    }
+    .adm-user-card:hover,
+    .adm-kpi-card:hover,
+    .adm-btn-action:hover,
+    .adm-btn-chat:hover,
+    .adm-btn-profile:hover,
+    .adm-btn-inspect:hover {
+        transform: none !important;
+    }
+}
+
+/* ========================================================
    RESPONSIVE MOBILE BREAKPOINTS (< 768px and < 480px)
    ======================================================== */
 @media (max-width: 767.98px) {
@@ -605,13 +711,7 @@
         padding: 0.52rem 0.65rem !important;
         font-size: 0.78rem !important;
     }
-    /* Hide dense table by default on mobile */
-    #usersTableWrap {
-        display: none !important;
-    }
-    #usersCardsWrap {
-        display: grid !important;
-    }
+    /* (Table/cards display switch now lives in the < 992px block above.) */
 
     /* Native Bottom Sheet for Inspection Modal on Mobile */
     #userInspectModal .modal-dialog {
@@ -1275,16 +1375,23 @@ document.addEventListener('DOMContentLoaded', function () {
     initApproveHandlers();
     initPurgeHandlers();
 
-    // Auto-detect mobile and activate Cards View
-    if (window.innerWidth < 768) {
+    // Auto-detect below-desktop widths and activate Cards View
+    if (window.innerWidth < 992) {
         switchView('cards');
     }
 });
 
 // Extract dataset from server-rendered rows
+// NOTE: every user is rendered twice (card + table row, both .user-row),
+// so dedupe by id — otherwise counts and CSV exports list everyone twice.
 function extractUsersData() {
     const rows = document.querySelectorAll('.user-row');
-    currentUsersData = Array.from(rows).map(row => ({
+    const seenIds = new Set();
+    currentUsersData = Array.from(rows).filter(row => {
+        if (seenIds.has(row.dataset.id)) return false;
+        seenIds.add(row.dataset.id);
+        return true;
+    }).map(row => ({
         id: row.dataset.id,
         name: row.dataset.name,
         email: row.dataset.email,

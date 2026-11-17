@@ -141,11 +141,22 @@
             border-bottom: 1px solid rgba(52, 211, 153, 0.25) !important;
         }
 
-        .drawer-brand-title {
-            font-size: 1.05rem !important;
-            font-weight: 800 !important;
-            letter-spacing: -0.3px !important;
-            color: #0f172a !important;
+        /* Dark topbars for the remaining drawer themes (admin / student / public),
+           mirroring the faculty & alumni pattern — without these the base white
+           topbar makes the white brand title and close icon invisible. */
+        #mobileMenuOverlay.admin-drawer-theme .mobile-drawer-topbar {
+            background: rgba(7, 11, 20, 0.95) !important;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.25) !important;
+        }
+
+        #mobileMenuOverlay.student-drawer-theme .mobile-drawer-topbar {
+            background: rgba(8, 42, 68, 0.95) !important;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.25) !important;
+        }
+
+        #mobileMenuOverlay.public-drawer-theme .mobile-drawer-topbar {
+            background: rgba(11, 30, 58, 0.95) !important;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.25) !important;
         }
 
         #mobileMenuOverlay.faculty-drawer-theme .drawer-brand-title {
@@ -180,6 +191,16 @@
 
         .drawer-brand-title .brand-highlight {
             color: #34d399 !important;
+        }
+
+        /* Admin topbar brand accents (indigo, mirrors the alumni amber pattern) */
+        #mobileMenuOverlay.admin-drawer-theme .drawer-brand-title .brand-highlight {
+            color: #a5b4fc !important;
+        }
+
+        #mobileMenuOverlay.admin-drawer-theme .drawer-brand-logo-wrap {
+            background: rgba(99, 102, 241, 0.25) !important;
+            border: 1px solid rgba(99, 102, 241, 0.4) !important;
         }
 
         .drawer-role-tag {
@@ -242,6 +263,64 @@
 
         .faculty-drawer-theme .mobile-close-btn:hover i,
         .faculty-drawer-theme .mobile-close-btn:active i {
+            color: #fca5a5 !important;
+        }
+
+        /* Close Button per-theme accents (admin indigo / student & public sky),
+           mirroring the faculty pattern so the X stays visible on dark topbars */
+        .admin-drawer-theme .mobile-close-btn,
+        #mobileMenuOverlay.admin-drawer-theme .mobile-close-btn {
+            border: 1px solid rgba(99, 102, 241, 0.35) !important;
+        }
+
+        .admin-drawer-theme .mobile-close-btn i,
+        #mobileMenuOverlay.admin-drawer-theme .mobile-close-btn i {
+            color: #c7d2fe !important;
+            font-size: 1.15rem !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .admin-drawer-theme .mobile-close-btn:hover,
+        .admin-drawer-theme .mobile-close-btn:active {
+            background: rgba(239, 68, 68, 0.35) !important;
+            border-color: rgba(239, 68, 68, 0.6) !important;
+            transform: scale(1.05) !important;
+        }
+
+        .admin-drawer-theme .mobile-close-btn:hover i,
+        .admin-drawer-theme .mobile-close-btn:active i {
+            color: #fca5a5 !important;
+        }
+
+        .student-drawer-theme .mobile-close-btn,
+        #mobileMenuOverlay.student-drawer-theme .mobile-close-btn,
+        .public-drawer-theme .mobile-close-btn,
+        #mobileMenuOverlay.public-drawer-theme .mobile-close-btn {
+            border: 1px solid rgba(56, 189, 248, 0.35) !important;
+        }
+
+        .student-drawer-theme .mobile-close-btn i,
+        #mobileMenuOverlay.student-drawer-theme .mobile-close-btn i,
+        .public-drawer-theme .mobile-close-btn i,
+        #mobileMenuOverlay.public-drawer-theme .mobile-close-btn i {
+            color: #bae6fd !important;
+            font-size: 1.15rem !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .student-drawer-theme .mobile-close-btn:hover,
+        .student-drawer-theme .mobile-close-btn:active,
+        .public-drawer-theme .mobile-close-btn:hover,
+        .public-drawer-theme .mobile-close-btn:active {
+            background: rgba(239, 68, 68, 0.35) !important;
+            border-color: rgba(239, 68, 68, 0.6) !important;
+            transform: scale(1.05) !important;
+        }
+
+        .student-drawer-theme .mobile-close-btn:hover i,
+        .student-drawer-theme .mobile-close-btn:active i,
+        .public-drawer-theme .mobile-close-btn:hover i,
+        .public-drawer-theme .mobile-close-btn:active i {
             color: #fca5a5 !important;
         }
 
