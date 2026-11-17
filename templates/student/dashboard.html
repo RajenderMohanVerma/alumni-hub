@@ -705,23 +705,23 @@
 </div>
 
 <!-- Floating Action Button: quick actions (tap + to open, tap again / outside / Esc to close) -->
-<div class="fab-container" id="stuFabContainer">
-    <div class="fab-actions" id="stuFabActions" aria-hidden="true">
-        <a href="#globalSearch" class="fab-action" data-fab-action>
-            <span class="fab-action-label">Search</span>
-            <span class="fab-action-icon shadow-sm"><i class="fas fa-search"></i></span>
+<div class="stu-fab-container" id="stuFabContainer">
+    <div class="stu-fab-actions" id="stuFabActions" aria-hidden="true">
+        <a href="#globalSearch" class="stu-fab-action" data-stu-fab-action>
+            <span class="stu-fab-action-label">Search</span>
+            <span class="stu-fab-action-icon shadow-sm"><i class="fas fa-search"></i></span>
         </a>
-        <a href="{{ url_for('messages') }}" class="fab-action" data-fab-action>
-            <span class="fab-action-label">Messages</span>
-            <span class="fab-action-icon shadow-sm"><i class="fas fa-comment-dots"></i></span>
+        <a href="{{ url_for('messages') }}" class="stu-fab-action" data-stu-fab-action>
+            <span class="stu-fab-action-label">Messages</span>
+            <span class="stu-fab-action-icon shadow-sm"><i class="fas fa-comment-dots"></i></span>
         </a>
-        <a href="{{ url_for('student_profile', user_id=current_user.id) }}" class="fab-action" data-fab-action>
-            <span class="fab-action-label">Profile</span>
-            <span class="fab-action-icon shadow-sm"><i class="fas fa-user"></i></span>
+        <a href="{{ url_for('student_profile', user_id=current_user.id) }}" class="stu-fab-action" data-stu-fab-action>
+            <span class="stu-fab-action-label">Profile</span>
+            <span class="stu-fab-action-icon shadow-sm"><i class="fas fa-user"></i></span>
         </a>
     </div>
-    <button type="button" class="fab shadow-lg" id="stuFabToggle" aria-expanded="false" aria-controls="stuFabActions" aria-label="Quick actions">
-        <span class="fab-content"><i class="fas fa-plus"></i></span>
+    <button type="button" class="stu-fab shadow-lg" id="stuFabToggle" aria-expanded="false" aria-controls="stuFabActions" aria-label="Quick actions">
+        <span class="stu-fab-content"><i class="fas fa-plus"></i></span>
     </button>
 </div>
 <script>
@@ -731,29 +731,40 @@
     var actions = document.getElementById('stuFabActions');
     if (!container || !toggle || !actions) return;
     function setOpen(open) {
-        container.classList.toggle('fab-open', open);
+        container.classList.toggle('stu-fab-open', open);
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         actions.setAttribute('aria-hidden', open ? 'false' : 'true');
     }
     toggle.addEventListener('click', function (e) {
         e.stopPropagation();
-        setOpen(!container.classList.contains('fab-open'));
+        setOpen(!container.classList.contains('stu-fab-open'));
     });
     document.addEventListener('click', function (e) {
-        if (container.classList.contains('fab-open') && !container.contains(e.target)) setOpen(false);
+        if (container.classList.contains('stu-fab-open') && !container.contains(e.target)) setOpen(false);
     });
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') setOpen(false);
     });
     actions.addEventListener('click', function () { setOpen(false); });
-    /* Park the FAB while the footer is on screen so it never covers footer content */
-    var footer = document.getElementById('mainFooter');
-    if (footer && 'IntersectionObserver' in window) {
-        new IntersectionObserver(function (entries) {
-            var visible = entries[0] && entries[0].isIntersecting;
-            container.classList.toggle('fab-parked', !!visible);
-            if (visible) setOpen(false);
-        }, { rootMargin: '0px 0px -40px 0px' }).observe(footer);
+    /* Park the FAB while the footer is on screen so it never covers footer content.
+       NOTE: this script runs while the page is still parsing (inside the content
+       block), so #mainFooter does not exist yet at this point — looking it up
+       here would return null and the observer would never register. Defer the
+       lookup to DOMContentLoaded when the footer is not found immediately. */
+    function setupFabPark() {
+        var footer = document.getElementById('mainFooter');
+        if (footer && 'IntersectionObserver' in window) {
+            new IntersectionObserver(function (entries) {
+                var visible = entries[0] && entries[0].isIntersecting;
+                container.classList.toggle('stu-fab-parked', !!visible);
+                if (visible) setOpen(false);
+            }, { rootMargin: '0px 0px -40px 0px' }).observe(footer);
+        }
+    }
+    if (document.getElementById('mainFooter')) {
+        setupFabPark();
+    } else {
+        document.addEventListener('DOMContentLoaded', setupFabPark);
     }
 })();
 </script>
@@ -1190,12 +1201,12 @@
     .stu-mentor-banner h4 { color: #ffffff !important; }
 
     /* ---- Floating action button: tap + to open quick actions ---- */
-    .fab-container {
+    .stu-fab-container {
         position: fixed; bottom: 28px; right: 28px; z-index: 1030;
         display: flex; flex-direction: column; align-items: flex-end;
         transition: opacity 0.3s ease, transform 0.3s ease;
     }
-    .fab {
+    .stu-fab {
         width: 60px; height: 60px; border-radius: 50%; border: none;
         background: linear-gradient(135deg, #0ea5e9, #0284c7);
         color: #fff;
@@ -1204,44 +1215,44 @@
         box-shadow: 0 12px 28px rgba(14, 165, 233, 0.45);
         transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .fab:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(14, 165, 233, 0.55); }
-    .fab:active { transform: scale(0.96); }
-    .fab:focus-visible { outline: 3px solid rgba(56, 189, 248, 0.6); outline-offset: 3px; }
-    .fab .fab-content { display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease; }
+    .stu-fab:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(14, 165, 233, 0.55); }
+    .stu-fab:active { transform: scale(0.96); }
+    .stu-fab:focus-visible { outline: 3px solid rgba(56, 189, 248, 0.6); outline-offset: 3px; }
+    .stu-fab .stu-fab-content { display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease; }
     /* + rotates into × while the menu is open */
-    .fab-container.fab-open .fab .fab-content { transform: rotate(135deg); }
-    .fab-actions {
+    .stu-fab-container.stu-fab-open .stu-fab .stu-fab-content { transform: rotate(135deg); }
+    .stu-fab-actions {
         display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
         margin-bottom: 14px;
     }
-    .fab-action {
+    .stu-fab-action {
         display: flex; align-items: center; gap: 10px; text-decoration: none;
         opacity: 0; visibility: hidden; transform: translateY(12px) scale(0.85);
         pointer-events: none;
         transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
     }
-    .fab-container.fab-open .fab-action { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; }
-    .fab-container.fab-open .fab-action:nth-child(1) { transition-delay: 0.05s; }
-    .fab-container.fab-open .fab-action:nth-child(2) { transition-delay: 0.1s; }
-    .fab-container.fab-open .fab-action:nth-child(3) { transition-delay: 0.15s; }
-    .fab-action-label {
+    .stu-fab-container.stu-fab-open .stu-fab-action { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; }
+    .stu-fab-container.stu-fab-open .stu-fab-action:nth-child(1) { transition-delay: 0.05s; }
+    .stu-fab-container.stu-fab-open .stu-fab-action:nth-child(2) { transition-delay: 0.1s; }
+    .stu-fab-container.stu-fab-open .stu-fab-action:nth-child(3) { transition-delay: 0.15s; }
+    .stu-fab-action-label {
         background: #0f172a; color: #fff; font-size: 0.8rem; font-weight: 700;
         padding: 0.45rem 0.8rem; border-radius: 999px; box-shadow: 0 6px 16px rgba(15, 23, 42, 0.3);
         white-space: nowrap;
     }
-    .fab-action-icon {
+    .stu-fab-action-icon {
         width: 48px; height: 48px; border-radius: 50%;
         background: linear-gradient(135deg, #38bdf8, #0284c7);
         display: flex; align-items: center; justify-content: center;
         font-size: 1.1rem; color: #fff; flex-shrink: 0;
         transition: transform 0.2s ease;
     }
-    .fab-action:hover .fab-action-icon { transform: scale(1.1); }
-    .fab-action:focus-visible { outline: 3px solid rgba(56, 189, 248, 0.6); outline-offset: 3px; border-radius: 999px; }
+    .stu-fab-action:hover .stu-fab-action-icon { transform: scale(1.1); }
+    .stu-fab-action:focus-visible { outline: 3px solid rgba(56, 189, 248, 0.6); outline-offset: 3px; border-radius: 999px; }
     /* Parked: fades out while the footer is on screen so it never covers footer content */
-    .fab-container.fab-parked { opacity: 0; pointer-events: none; transform: translateY(16px); }
+    .stu-fab-container.stu-fab-parked { opacity: 0; pointer-events: none; transform: translateY(16px); }
     @media (prefers-reduced-motion: reduce) {
-        .fab, .fab .fab-content, .fab-action, .fab-container { transition: none !important; }
+        .stu-fab, .stu-fab .stu-fab-content, .stu-fab-action, .stu-fab-container { transition: none !important; }
     }
 
     /* ---- Reveal on scroll (driven by the preserved IntersectionObserver) ---- */
@@ -1296,15 +1307,15 @@
         .category-tabs .nav-pills { flex-direction: column; gap: 8px; }
         .category-btn { width: 100%; padding: 12px 15px; }
         .stu-filter-card { padding: 2rem !important; }
-        .fab-container { bottom: 20px; right: 20px; }
+        .stu-fab-container { bottom: 20px; right: 20px; }
     }
 
     @media (max-width: 576px) {
         /* Compact FAB on small phones so it never crowds the footer */
-        .fab-container { bottom: 16px; right: 16px; }
-        .fab { width: 52px; height: 52px; font-size: 1.25rem; }
-        .fab-action-icon { width: 44px; height: 44px; font-size: 1rem; }
-        .fab-actions { gap: 10px; margin-bottom: 12px; }
+        .stu-fab-container { bottom: 16px; right: 16px; }
+        .stu-fab { width: 52px; height: 52px; font-size: 1.25rem; }
+        .stu-fab-action-icon { width: 44px; height: 44px; font-size: 1rem; }
+        .stu-fab-actions { gap: 10px; margin-bottom: 12px; }
         /* Breathing room above the footer: was 0, so the last card sat flush */
         .admin-container { padding: 0.9rem 0.9rem 1.25rem; }
         .stu-hero { padding: 1.6rem 1rem; }

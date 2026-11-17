@@ -1660,3 +1660,117 @@ top of the dashboard FAB (also bottom-right).
   `static/css/navbar-professional.css` and this doc; alumni/admin/
   faculty/public headers, the footer, `app.py` and all page templates
   are untouched.
+
+## §14 — Student footer `.fab` class collision + cache-buster + scroll-to-top left (2026-11-17)
+
+Rajender sent a phone screenshot (15:51 IST, student dashboard footer
+area) showing three defects: the footer "Community" link had a GIANT
+blue circle overlapping the "Community NEW" text; the blue + FAB was
+visible at bottom-right, overlapping the "Contact Campus & Help Desk"
+card while the footer was on screen; and the top navbar was still
+WHITE even though §13 made the student navbar dark navy. He also
+reported that in admin the footer looks fine — only the student role
+is different. His follow-up: the scroll-to-top button is still on the
+right — move it to the LEFT and keep the newly added features (the
+FAB) on the RIGHT.
+
+### 14.1 Root cause 1 — the giant circle: a class-name collision
+
+`templates/student/dashboard.html` defined GLOBAL rules in its page
+`<style>` block for the floating action button using the class name
+`.fab` (60px blue-gradient circle, `lines ~1198-1244`). Font Awesome
+brand icons use the SAME class name: the footer's Community link is
+`<i class="fab fa-whatsapp text-success"></i> Community` (base.html
+footer Platform column) and the footer marquee has
+`<i class="fab fa-whatsapp">`. On the student dashboard those icons
+picked up the 60px blue-circle FAB styling — that IS the giant circle
+in the screenshot. Admin has no such `.fab` rule, which is why admin
+looks fine. Other victims on student pages: `profile.html` has
+`<i class="fab fa-whatsapp">` (WhatsApp Connect) and
+`<i class="fab fa-google">` (Gmail Compose) — both are fixed by the
+same rename, since no `.fab` rule exists anywhere after it.
+
+**Fix:** every FAB class in `dashboard.html` (HTML, `<style>` and
+`<script>`) was renamed to a unique `stu-fab-*` prefix —
+`.stu-fab`, `.stu-fab-container`, `.stu-fab-content`,
+`.stu-fab-actions`, `.stu-fab-action`, `.stu-fab-action-label`,
+`.stu-fab-action-icon`, `.stu-fab-open`, `.stu-fab-parked`. Behaviour
+is identical: tap + opens Search/Messages/Profile with labels, +
+rotates to ×, closes on second tap / outside tap / Escape, actions
+hidden by default. A repo-wide check confirms NO bare `.fab` CSS
+selector remains in any template or shared stylesheet — the only
+`fab` left is Font Awesome's own `fab fa-*` icon usage, which now
+renders as normal small icons. No other student template defined its
+own `.fab` rule, so only `dashboard.html` needed the rename.
+
+### 14.2 Root cause 2 — stale CSS cache: white navbar + right-side button
+
+The scroll-to-top move to `left:` WAS already in
+`static/css/navbar-professional.css` (`left: 30px` base,
+`left: 20px` ≤768px, `left: 15px` ≤480px; `right:` in 0 of the 9
+`.scroll-to-top-btn` rule blocks), and the dark student header CSS
+from §13 is in the same file — but `templates/base.html` line 86
+still loaded it as `?v=4.2`, unchanged since commit 5617a98. Phones
+that cached `?v=4.2` never refetch, so they still show the old
+right-side button and white navbar.
+
+**Fix:** the cache-buster on that one line was bumped to `?v=4.3`.
+No other version string was changed. After the push, a hard refresh
+(or the new `?v=4.3` URL on first load) loads the current
+stylesheet, which carries both the dark student header (§13) and the
+bottom-left scroll-to-top button.
+
+### 14.3 Root cause 3 — FAB over footer: a REAL timing bug (not just cache)
+
+The fade-out code itself looked correct: an `IntersectionObserver`
+on `#mainFooter` toggling `fab-parked`, which hides the container.
+But it never ran. The FAB `<script>` sits inside the dashboard's
+`{% block content %}`, which renders inside `<main>` (base.html
+~line 2895-2897), while `<footer id="mainFooter">` is at base.html
+~line 2900 — AFTER the main block. The inline script executes
+synchronously while the page is still parsing, so
+`document.getElementById('mainFooter')` returned `null`, the
+`if (footer && ...)` guard failed, and the observer was NEVER
+registered. The FAB therefore never parked over the footer even
+with fresh code — stale cache alone does not explain it.
+
+**Fix:** the observer setup is now wrapped in a `setupFabPark()`
+function that runs immediately if the footer already exists, and
+otherwise registers on `DOMContentLoaded`. The parked class, the
+`rootMargin: '0px 0px -40px 0px'` trigger and the
+close-the-open-menu behaviour are unchanged.
+
+### 14.4 Verification
+
+- `python3 scripts/validate_templates.py` → **Total errors: 0**.
+- Render test (`/tmp/footer_fab_render_test.py`, mocked student and
+  alumni users, app's real `initials`/`first_letter` filters):
+  **21/21 checks pass** — dashboard renders clean with no unrendered
+  Jinja; FAB renamed everywhere; no bare `.fab` selector in any
+  `<style>` block; every remaining `class="fab ..."` is a Font
+  Awesome brand icon (`fa-whatsapp`, `fa-google`, `fa-linkedin-in`,
+  `fa-github`, `fa-x-twitter`, `fa-instagram`); footer Community and
+  marquee icons are plain FA icons; park setup is deferred via
+  `DOMContentLoaded` and toggles `stu-fab-parked`; scroll-to-top
+  button present; `?v=4.3` present and `?v=4.2` gone; student render
+  carries `student-nav-theme` + `student-drawer-theme`; alumni render
+  of `base.html` alone contains no `stu-fab` classes and no
+  `student-nav-theme`.
+- Token set-diff vs HEAD (whitespace-normalised) for
+  `templates/base.html` and `templates/student/dashboard.html`:
+  **0 missing** in every category (`{{ }}`, `{% %}`, `url_for()`,
+  `name=`, `id=`).
+- CSS braces balanced in both dashboard `<style>` blocks
+  (1/1 and 154/154).
+- `git status` shows only `templates/base.html`,
+  `templates/student/dashboard.html` and this doc; alumni/admin/
+  faculty/public headers, the footer, `app.py` and all other page
+  templates are untouched.
+- **Not checked live:** no live browser check at 360px was done in
+  this job (no browser tool in this session) — the verification
+  above is a full Jinja render + static audit. The parent should do
+  the 360px live check (or Rajender should hard-refresh on his
+  phone after the push) before calling this fully verified: the
+  scroll-to-top button must be bottom-LEFT, the FAB bottom-RIGHT,
+  the footer Community link a normal small WhatsApp icon, and the
+  header dark navy.
