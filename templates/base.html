@@ -83,7 +83,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=2.3">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar-professional.css') }}?v=4.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar-professional.css') }}?v=4.1">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/social_pages.css') }}?v=2.3">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}?v=2.3">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home-premium.css') }}?v=2.3">
@@ -1696,7 +1696,7 @@
     </nav>
 
     <!-- Mobile Menu Drawer Overlay (Independent Body Level for Mobile Responsiveness) -->
-    <div class="mobile-menu-overlay{% if current_user.is_authenticated and current_user.role == 'admin' %} admin-drawer-theme{% elif current_user.is_authenticated and current_user.role == 'faculty' %} faculty-drawer-theme{% elif current_user.is_authenticated and current_user.role == 'alumni' %} alumni-drawer-theme{% endif %}" id="mobileMenuOverlay" aria-hidden="true">
+    <div class="mobile-menu-overlay{% if current_user.is_authenticated and current_user.role == 'admin' %} admin-drawer-theme{% elif current_user.is_authenticated and current_user.role == 'faculty' %} faculty-drawer-theme{% elif current_user.is_authenticated and current_user.role == 'alumni' %} alumni-drawer-theme{% elif not current_user.is_authenticated %} public-drawer-theme{% endif %}" id="mobileMenuOverlay" aria-hidden="true">
         <!-- Sticky Drawer Top Bar with Brand & Dedicated Close Button (Always visible on scroll) -->
         <div class="mobile-drawer-topbar">
             <div class="d-flex align-items-center gap-2">
@@ -1898,7 +1898,57 @@
             {% endif %}
 
             <div class="mobile-links-container">
-                {% if not (current_user.is_authenticated and current_user.role in ['admin', 'faculty', 'alumni']) %}
+                {% if not current_user.is_authenticated %}
+                <!-- ===== PUBLIC EXPLORE GROUP (logged-out) — dark rows replacing the old white Home / About / Services / Events / Contact cards ===== -->
+                <div class="adm-drawer-group">
+                    <div class="adm-drawer-group-head">
+                        <i class="fas fa-compass adm-head-icon" style="color: #38bdf8 !important;"></i>
+                        <span class="adm-head-title">Explore</span>
+                    </div>
+                    <div class="adm-drawer-group-box">
+                        <a href="/" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-blue"><i class="fas fa-home"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Home</span>
+                                <span class="adm-row-sub">Back to the public homepage</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/about" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-violet"><i class="fas fa-info-circle"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">About</span>
+                                <span class="adm-row-sub">About Alumni Hub &amp; JIMS Rohini</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/services" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-cyan"><i class="fas fa-briefcase"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Services</span>
+                                <span class="adm-row-sub">What Alumni Hub offers you</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/events" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-rose"><i class="fas fa-calendar-alt"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Events</span>
+                                <span class="adm-row-sub">Campus events &amp; reunions</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                        <a href="/contact" class="adm-drawer-row adm-drawer-link">
+                            <span class="adm-row-bullet bullet-emerald"><i class="fas fa-envelope"></i></span>
+                            <div class="adm-row-content">
+                                <span class="adm-row-title">Contact</span>
+                                <span class="adm-row-sub">Get in touch with us</span>
+                            </div>
+                            <i class="fas fa-chevron-right adm-row-chevron"></i>
+                        </a>
+                    </div>
+                </div>
+                {% elif not (current_user.is_authenticated and current_user.role in ['admin', 'faculty', 'alumni']) %}
                 <a href="/" class="mobile-nav-link" style="--delay: 0.15s"><i class="fas fa-home"></i> Home</a>
                 <a href="/about" class="mobile-nav-link" style="--delay: 0.2s"><i class="fas fa-info-circle"></i>
                     About</a>
@@ -2476,13 +2526,8 @@
                 <a href="/events" class="mobile-nav-link" style="--delay: 0.7s"><i class="fas fa-calendar-alt"></i>
                     Events</a>
                 {% endif %}
-                {% else %}
-                <a href="/services" class="mobile-nav-link" style="--delay: 0.25s"><i class="fas fa-briefcase"></i>
-                    Services</a>
-                <a href="/events" class="mobile-nav-link" style="--delay: 0.3s"><i class="fas fa-calendar-alt"></i>
-                    Events</a>
-                <a href="/contact" class="mobile-nav-link" style="--delay: 0.35s"><i class="fas fa-envelope"></i>
-                    Contact</a>
+                <!-- NOTE: the logged-out Services / Events / Contact links now live in the
+                     public Explore group above (dark rows); the old white cards here are gone. -->
                 {% endif %}
             </div>
 
@@ -2529,14 +2574,15 @@
             </div>
             {% else %}
             <div class="mobile-auth-buttons w-100 px-2 mt-3 d-flex flex-column gap-2" style="--delay: 0.45s">
-                <a href="/login" class="btn btn-outline-primary btn-lg w-100 shadow-sm"
-                    style="font-weight: 700; border-radius: 12px;">
+                <a href="/login" class="w-100 public-auth-btn public-auth-signin">
                     <i class="fas fa-sign-in-alt me-2"></i> Sign In
                 </a>
-                <a href="/register" class="btn btn-primary btn-lg w-100 shadow-sm"
-                    style="font-weight: 700; border-radius: 12px; background: var(--accent-blue); border: none;">
+                <a href="/register" class="w-100 public-auth-btn public-auth-register">
                     Register <i class="fas fa-arrow-right ms-2"></i>
                 </a>
+                <div class="text-center mt-1">
+                    <small class="public-drawer-footer">ALUMNI HUB • JIMS ROHINI</small>
+                </div>
             </div>
             {% endif %}
         </div>

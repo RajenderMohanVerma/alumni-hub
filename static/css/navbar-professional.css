@@ -4416,3 +4416,240 @@ body.premium-theme #mainNavbar .nav-alumni-btn.active i {
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
 }
+
+/* ==========================================================================
+   PUBLIC (LOGGED-OUT) MOBILE DRAWER THEME — 2026-11-17
+   Screenshot bug: the logged-out drawer was still the old light design —
+   white topbar with a WHITE "ALUMNI" brand title (only the green HUB was
+   visible) and five big white .mobile-nav-link cards (Home / About /
+   Services / Events / Contact), clashing with the dark alumni/admin
+   drawers. Fix mirrors the alumni drawer exactly: same dark-navy
+   .adm-drawer-group rows (global classes, reused verbatim), same
+   structure, sky-blue accent (#38bdf8) for the public identity instead
+   of alumni amber. Scoped to #mobileMenuOverlay.public-drawer-theme,
+   which base.html adds ONLY when the user is not logged in — alumni,
+   admin, faculty and student drawers are untouched. ID-qualified
+   !important rules beat the bullet-proof inline <style> in base.html
+   (white topbar / white brand title) the same way the faculty and
+   alumni theme blocks do.
+   ========================================================================== */
+#mobileMenuOverlay.public-drawer-theme {
+    background: linear-gradient(180deg, #0b1e3a 0%, #0f2040 42%, #0b1526 100%) !important;
+    background-color: #0b1e3a !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+    padding: 0 14px 45px !important;
+    color: #eff6ff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+.public-drawer-theme .mobile-menu-content,
+#mobileMenuOverlay.public-drawer-theme .mobile-menu-content {
+    gap: 14px !important;
+    max-width: 480px !important;
+    width: 100% !important;
+    padding-top: 0.25rem !important;
+}
+
+/* Dark topbar so the (already white) ALUMNI title + green HUB read clearly */
+#mobileMenuOverlay.public-drawer-theme .mobile-drawer-topbar {
+    background: rgba(11, 30, 58, 0.95) !important;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.25) !important;
+}
+
+#mobileMenuOverlay.public-drawer-theme .drawer-brand-title {
+    color: #ffffff !important;
+}
+
+#mobileMenuOverlay.public-drawer-theme .drawer-brand-title .brand-highlight {
+    color: #34d399 !important;
+}
+
+#mobileMenuOverlay.public-drawer-theme .drawer-brand-logo-wrap {
+    background: rgba(56, 189, 248, 0.18) !important;
+    border: 1px solid rgba(56, 189, 248, 0.4) !important;
+}
+
+.public-drawer-theme .mobile-close-btn,
+#mobileMenuOverlay.public-drawer-theme .mobile-close-btn {
+    border: 1px solid rgba(56, 189, 248, 0.35) !important;
+}
+
+.public-drawer-theme .mobile-close-btn i,
+#mobileMenuOverlay.public-drawer-theme .mobile-close-btn i {
+    color: #bae6fd !important;
+}
+
+.public-drawer-theme .mobile-close-btn:hover,
+.public-drawer-theme .mobile-close-btn:active,
+#mobileMenuOverlay.public-drawer-theme .mobile-close-btn:hover,
+#mobileMenuOverlay.public-drawer-theme .mobile-close-btn:active {
+    background: rgba(239, 68, 68, 0.35) !important;
+    border-color: rgba(239, 68, 68, 0.6) !important;
+}
+
+.public-drawer-theme .mobile-close-btn:hover i,
+.public-drawer-theme .mobile-close-btn:active i,
+#mobileMenuOverlay.public-drawer-theme .mobile-close-btn:hover i,
+#mobileMenuOverlay.public-drawer-theme .mobile-close-btn:active i {
+    color: #fca5a5 !important;
+}
+
+/* Explore group — sky-blue tint on the shared dark group box */
+.public-drawer-theme .adm-drawer-group-box,
+#mobileMenuOverlay.public-drawer-theme .adm-drawer-group-box {
+    background: rgba(13, 32, 64, 0.92) !important;
+    border: 1px solid rgba(56, 189, 248, 0.26) !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.45) !important;
+}
+
+.public-drawer-theme .adm-drawer-row,
+#mobileMenuOverlay.public-drawer-theme .adm-drawer-row {
+    min-height: 52px !important;
+    padding: 0.78rem 0.95rem !important;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.12) !important;
+}
+
+.public-drawer-theme .adm-drawer-row:hover,
+.public-drawer-theme .adm-drawer-row:active,
+#mobileMenuOverlay.public-drawer-theme .adm-drawer-row:hover,
+#mobileMenuOverlay.public-drawer-theme .adm-drawer-row:active {
+    background: rgba(56, 189, 248, 0.14) !important;
+    transform: translateX(3px) !important;
+}
+
+.public-drawer-theme .adm-row-title,
+#mobileMenuOverlay.public-drawer-theme .adm-row-title {
+    color: #ffffff !important;
+}
+
+.public-drawer-theme .adm-row-sub,
+#mobileMenuOverlay.public-drawer-theme .adm-row-sub {
+    color: #cbd5e1 !important;
+}
+
+.public-drawer-theme .adm-row-chevron,
+#mobileMenuOverlay.public-drawer-theme .adm-row-chevron {
+    color: #38bdf8 !important;
+    font-size: 0.78rem !important;
+}
+
+.public-drawer-theme .adm-drawer-row:hover .adm-row-chevron,
+#mobileMenuOverlay.public-drawer-theme .adm-drawer-row:hover .adm-row-chevron {
+    transform: translateX(3px) !important;
+    color: #bae6fd !important;
+}
+
+.public-drawer-theme .adm-head-title,
+#mobileMenuOverlay.public-drawer-theme .adm-head-title {
+    color: #7dd3fc !important;
+}
+
+/* Sign In / Register — outline secondary + blue gradient primary CTA */
+.public-drawer-theme .public-auth-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 52px !important;
+    padding: 0.8rem 1rem !important;
+    border-radius: 14px !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.public-drawer-theme .public-auth-signin {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1.5px solid rgba(186, 230, 253, 0.45) !important;
+    color: #e0f2fe !important;
+}
+
+.public-drawer-theme .public-auth-signin:hover,
+.public-drawer-theme .public-auth-signin:active {
+    background: rgba(56, 189, 248, 0.16) !important;
+    border-color: #38bdf8 !important;
+    color: #ffffff !important;
+}
+
+.public-drawer-theme .public-auth-register {
+    background: linear-gradient(135deg, #1d4ed8 0%, #0284c7 55%, #0ea5e9 100%) !important;
+    border: 1.5px solid rgba(125, 211, 252, 0.5) !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 24px -6px rgba(2, 132, 199, 0.55) !important;
+}
+
+.public-drawer-theme .public-auth-register:hover,
+.public-drawer-theme .public-auth-register:active {
+    filter: brightness(1.1) !important;
+    transform: translateY(-1px) !important;
+    color: #ffffff !important;
+}
+
+/* Small session footer under the auth buttons (mirrors the alumni footer) */
+.public-drawer-theme .public-drawer-footer {
+    color: #7dd3fc !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+}
+
+/* Themed PWA banner for the public drawer */
+#mobileMenuOverlay.public-drawer-theme .mobile-pwa-banner {
+    background: rgba(13, 32, 64, 0.94) !important;
+    border: 1px solid rgba(56, 189, 248, 0.28) !important;
+    box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45) !important;
+}
+
+#mobileMenuOverlay.public-drawer-theme .mobile-pwa-text strong {
+    color: #ffffff !important;
+}
+
+#mobileMenuOverlay.public-drawer-theme .mobile-pwa-text small {
+    color: #7dd3fc !important;
+}
+
+#mobileMenuOverlay.public-drawer-theme .pwa-btn-install {
+    background: #0284c7 !important;
+    border-color: #38bdf8 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35) !important;
+}
+
+/* Narrow phones (360px): slightly tighter rows, no overflow or clipping */
+@media (max-width: 360px) {
+    .public-drawer-theme .adm-drawer-row,
+    #mobileMenuOverlay.public-drawer-theme .adm-drawer-row {
+        min-height: 50px !important;
+        padding: 0.7rem 0.8rem !important;
+        gap: 0.6rem !important;
+    }
+
+    .public-drawer-theme .adm-row-title,
+    #mobileMenuOverlay.public-drawer-theme .adm-row-title {
+        font-size: 0.82rem !important;
+    }
+
+    .public-drawer-theme .adm-row-sub,
+    #mobileMenuOverlay.public-drawer-theme .adm-row-sub {
+        font-size: 0.66rem !important;
+    }
+
+    .public-drawer-theme .public-auth-btn {
+        min-height: 50px !important;
+        font-size: 0.95rem !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .public-drawer-theme .adm-drawer-row:hover,
+    .public-drawer-theme .public-auth-register:hover {
+        transform: none !important;
+    }
+}

@@ -747,3 +747,158 @@ pills wrap. No mobile changes made.
   shared fix) and `templates/alumni/dashboard.html` (+15, banner fix).
   70 insertions, 0 deletions. No content, text, Jinja, `url_for`, form
   field or route changed. No push — local only.
+
+## 8. Network page redesign (2026-11-16, local — not pushed)
+
+### 8.1 Which file is actually live — important finding
+
+Rajender's screenshot (21:51 IST) shows the **live** Network page as a
+plain light page ("Student & Alumni Networks", INSTITUTIONAL DIRECTORY
+pill, stats 1 / 4 / 1 / 1, "All Campus Network" / "My Connections Only
+(1)" pills, Messages Hub). That is **not** `templates/alumni/network.html`
+— that file was already redesigned (dark hero, amber cards, client-side
+filter over 8 hardcoded demo members) and is never rendered for this URL:
+`alumni_network()` (`app.py` ~2072) does `return redirect(url_for('network'))`,
+and `network()` (`app.py` ~4577) renders **`templates/student/network.html`**
+with real database rows. So the redesign was done on the file that actually
+serves the page: `templates/student/network.html` (817 lines).
+`templates/alumni/network.html` was left untouched. The page is shared by
+student / alumni / faculty / admin (all hit the same `network()` route),
+so the redesign stays role-neutral in copy ("Student & Alumni Networks")
+and keeps the per-role card colours (student sky, alumni amber, faculty
+emerald) and the faculty-only Faculty Dashboard button.
+
+### 8.2 What changed
+
+- **Hero:** plain light header replaced by a dark-navy `.admin-hero-card
+  .alumni-hero` (amber border via the shared `navbar-professional.css`
+  contrast fix, so the title renders white): amber INSTITUTIONAL
+  DIRECTORY badge with live dot, white title "Student & *Alumni
+  Networks*" (amber gradient on "Alumni Networks"), subtitle, Messages
+  Hub as an outline-light pill, Faculty Dashboard as an amber button
+  (faculty only, unchanged condition). Google Fonts + `admin-luxury.css`
+  links added at the top of the block, same as the other alumni pages.
+- **Stat cards:** same 4 server-rendered counts (`alumni_count`,
+  `students_count`, `faculty_count`, `connections_count`) and the same
+  links, now with animated counters (`data-target` = the server number;
+  the rendered number stays as the no-JS fallback), reveal-on-scroll,
+  amber hover border, and role-tinted icon chips kept.
+- **Filter bar:** same GET form, same field names (`search`, `role`,
+  `department`, `location`, hidden `scope`), same `onchange` submits,
+  same reset button condition. Restyled: search input with icon and
+  amber focus, amber selects, amber Filter button, amber active states
+  on the scope switcher and quick-filter pills, amber active pagination.
+  "Showing X of Y verified members" kept verbatim.
+- **Directory cards:** markup unchanged (role cover, avatar/initials,
+  department + degree chips, skills/designation info box, Profile /
+  Connect / Message / Pending / You actions, `connectUser()` JS verbatim).
+  Added `reveal` to the card columns for the scroll animation.
+- **New utility definitions:** the page used Tailwind-style colour
+  classes (`text-slate-900`, `bg-amber-subtle`, `text-amber-700`, …)
+  that do not exist anywhere in the repo CSS — previously they silently
+  did nothing (hence the plain/blue look: KPI numbers inherited the
+  anchor blue). They are now defined in the page's own `<style>` block
+  (page-scoped only), so the tints and amber accents actually render.
+- **Clearance:** the wrapper's inline `padding-top: 100px !important`
+  is untouched — the screenshot already showed correct navbar clearance;
+  the page does not use `.alumni-page-wrapper`, so the shared §7 fix
+  does not apply here and was not regressed.
+- **Mobile:** hero buttons go full-width ≤576px, scope switcher stretches
+  full width with centred links, KPI grid stays 2 columns, member grid is
+  a single column below 768px, pagination wraps. `prefers-reduced-motion`
+  disables reveal and counters.
+
+### 8.3 What was preserved / verification
+
+- `python3 scripts/validate_templates.py` → **Total errors: 0**.
+- Token set-diff vs HEAD: all 46 `{{ }}` / 46 `{% %}` / 21 `url_for()` /
+  5 `name=` / 1 `id=` / `connectUser` from the old file still present;
+  only additions are the `admin-luxury.css` `url_for` and the counter
+  `tick` helper. `app.py` untouched; no route, count or endpoint invented.
+- Jinja render test with mocked data (alumni user, 2 members, counts
+  1/4/1/1): 20/20 checks pass — hero, KPIs, both scope links, search,
+  member cards, Profile/Message/Connect actions, `connectUser()`,
+  counters, reveal, result counter, wrapper clearance, no Jinja
+  leftovers; empty state renders for `users=[]` with the connections
+  scope. No push — local only.
+
+---
+
+## 9. Public (logged-out) mobile drawer redesign (2026-11-17, local — not pushed)
+
+### 9.1 The bug (Rajender's phone screenshot, 2026-11-17 12:12 IST)
+
+The logged-out mobile drawer was still the old light design while the
+alumni/admin drawers are dark and professional. Two visible problems:
+
+- **Brand title half-invisible:** the drawer topbar is white, but
+  `.drawer-brand-title` is white (`!important`, inline `<style>` in
+  `base.html` line ~173) — so "ALUMNI" vanished on white and only the
+  green "HUB" (`brand-highlight`) showed.
+- **Five white cards:** Home, About, Services, Events, Contact rendered
+  as big white `.mobile-nav-link` cards (the old public style), clashing
+  with the dark drawer used everywhere else.
+
+### 9.2 What changed
+
+Same fix as the alumni white-card fix (§6.7), mirrored for the public
+branch — dark navy, sky-blue accent (`#38bdf8`) for the public identity
+instead of alumni amber:
+
+- **`templates/base.html`**
+  - Overlay gets a new theme class only when logged out:
+    `{% elif not current_user.is_authenticated %} public-drawer-theme`.
+    Admin / faculty / alumni / student overlays are unchanged.
+  - The five public links are now one **Explore** group of dark
+    `.adm-drawer-row` rows (the same global group classes the alumni
+    drawer uses): Home, About, Services, Events, Contact — each with a
+    coloured icon tile, title + subtitle, and chevron. The old white
+    cards are gone, including the duplicate Services/Events/Contact
+    cards in the `{% else %}` branch (removed, with a note left behind).
+  - The shared Home/About block still serves students: logged-out users
+    get the new group, students keep their two original white links
+    verbatim (moved into an `{% elif %}`).
+  - **Sign In / Register** restyled as a professional pair — Sign In is
+    now an outline-light button, Register a blue-gradient primary CTA
+    (routes `/login` and `/register` unchanged, inline styles moved into
+    CSS classes `public-auth-signin` / `public-auth-register`). A small
+    "ALUMNI HUB • JIMS ROHINI" footer caption was added under the
+    buttons, mirroring the alumni session footer.
+  - `navbar-professional.css` cache-buster bumped `?v=4.0` → `?v=4.1` so
+    phones actually load the new CSS.
+- **`static/css/navbar-professional.css`** — new `public-drawer-theme`
+  section (~235 lines) at the end of the file: dark-navy overlay
+  gradient, dark topbar (so the white ALUMNI title + green HUB finally
+  read), sky-blue group-box/row/chevron tints, auth-button styles, a
+  themed PWA banner, and a ≤360px media query. Rules are
+  `#mobileMenuOverlay.public-drawer-theme`-scoped with `!important`
+  where they must beat the bullet-proof inline `<style>` in `base.html`
+  (same pattern as the faculty/alumni theme blocks).
+- **Topbar fix, explained:** the topbar stays sticky white in the base
+  rule, but under `public-drawer-theme` it becomes dark navy
+  (`rgba(11, 30, 58, 0.95)`) — so the existing white brand title and
+  green HUB highlight are readable with no change to the brand markup
+  or the logo.
+
+### 9.3 What was preserved / verification
+
+- `python3 scripts/validate_templates.py` → **Total errors: 0**;
+  `base.html` parses cleanly under Jinja2 as well.
+- CSS brace check: 708 open / 708 close, balanced.
+- Render test (`/tmp/public_drawer_render_test.py`, mocked
+  `current_user`/`request`/`url_for`): **21/21 checks pass** — public
+  render: overlay carries only `public-drawer-theme`, all 5 Explore
+  rows are dark `adm-drawer-row` links, zero white `mobile-nav-link`
+  cards, `/login` + `/register` intact, no Jinja leftovers; student
+  render: no theme class, original Home/About white links and
+  Dashboard/Messages/Jobs intact; alumni render: `alumni-drawer-theme`
+  kept, its own Explore group intact.
+- **360px audit (static):** no fixed width above the viewport in the
+  new CSS (only a 480px `max-width` on the fluid content column and
+  100% widths); rows/buttons are 52px tap targets (50px at ≤360px);
+  row subtitles use the global ellipsis rule, so nothing overflows or
+  clips.
+- Desktop navbar untouched; alumni, admin, faculty and student drawer
+  branches untouched (verified by `git diff` — only the 5 public hunks
+  in `base.html`). No push — local only, pending Rajender's approval
+  together with the unpushed Network-page changes.

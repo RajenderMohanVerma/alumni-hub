@@ -3,81 +3,88 @@
 {% block title %}Campus Networks - Alumni Hub{% endblock %}
 
 {% block content %}
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
+
 <div class="network-directory-page py-4 py-md-5" style="padding-top: 100px !important; min-height: 90vh; background: #f8fafc;">
     <div class="container">
 
-        <!-- 1. PAGE HEADER & QUICK ACTIONS -->
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom">
-            <div>
-                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2 bg-emerald-50 text-emerald-800 border border-emerald-200" style="font-size: 0.8rem; font-weight: 700;">
-                    <i class="fas fa-network-wired text-emerald-600"></i>
-                    <span>INSTITUTIONAL DIRECTORY</span>
-                    <span class="live-dot" title="Live Database Active"></span>
+        <!-- 1. PAGE HERO (dark navy, amber accent — matches the other alumni pages) -->
+        <div class="admin-hero-card alumni-hero reveal mb-4">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+                <div>
+                    <span class="alumni-hero-badge d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="font-size: 0.75rem; font-weight: 700;">
+                        <i class="fas fa-network-wired"></i> INSTITUTIONAL DIRECTORY
+                        <span class="live-dot" title="Live Database Active"></span>
+                    </span>
+                    <h1 class="admin-hero-title fw-bold mb-2" style="font-family: 'Outfit', sans-serif;">Student &amp; <span class="grad-amber">Alumni Networks</span></h1>
+                    <p class="mb-0" style="color: rgba(255,255,255,0.72); max-width: 620px;">Connect with verified students, graduated alumni, and faculty colleagues across academic departments.</p>
                 </div>
-                <h1 class="h2 fw-bold text-slate-900 mb-1">Student &amp; Alumni Networks</h1>
-                <p class="text-slate-600 small mb-0 fw-medium">Connect with verified students, graduated alumni, and faculty colleagues across academic departments.</p>
-            </div>
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-                <a href="{{ url_for('messages') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-2 fw-semibold shadow-xs">
-                    <i class="fas fa-comment-dots me-1"></i> Messages Hub
-                </a>
-                {% if current_user.role == 'faculty' %}
-                <a href="{{ url_for('dashboard_faculty') }}" class="btn btn-sm btn-emerald rounded-pill px-3 py-2 fw-semibold text-white shadow-xs">
-                    <i class="fas fa-chalkboard-user me-1"></i> Faculty Dashboard
-                </a>
-                {% endif %}
+                <div class="d-flex gap-2 flex-shrink-0 flex-wrap">
+                    <a href="{{ url_for('messages') }}" class="btn btn-outline-light rounded-pill px-4" style="min-height: 44px;">
+                        <i class="fas fa-comment-dots me-1"></i> Messages Hub
+                    </a>
+                    {% if current_user.role == 'faculty' %}
+                    <a href="{{ url_for('dashboard_faculty') }}" class="btn btn-amber rounded-pill px-4" style="min-height: 44px;">
+                        <i class="fas fa-chalkboard-user me-1"></i> Faculty Dashboard
+                    </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
 
         <!-- 2. REAL INSTITUTIONAL KPI STATS (100% REAL FROM DATABASE) -->
         <div class="row g-3 mb-4">
             <!-- Verified Alumni -->
-            <div class="col-6 col-lg-3">
+            <div class="col-6 col-lg-3 reveal">
                 <a href="{{ url_for('network', role='alumni') }}" class="network-kpi-card h-100 text-decoration-none">
                     <div class="kpi-icon-box bg-amber-subtle text-amber-700">
                         <i class="fas fa-user-tie"></i>
                     </div>
                     <div>
-                        <div class="kpi-number text-slate-900">{{ alumni_count }}</div>
+                        <div class="kpi-number text-slate-900 counter" data-target="{{ alumni_count }}">{{ alumni_count }}</div>
                         <div class="kpi-label text-slate-600">Verified Alumni</div>
                     </div>
                 </a>
             </div>
 
             <!-- Active Students -->
-            <div class="col-6 col-lg-3">
+            <div class="col-6 col-lg-3 reveal">
                 <a href="{{ url_for('network', role='student') }}" class="network-kpi-card h-100 text-decoration-none">
                     <div class="kpi-icon-box bg-sky-subtle text-sky-700">
                         <i class="fas fa-user-graduate"></i>
                     </div>
                     <div>
-                        <div class="kpi-number text-slate-900">{{ students_count }}</div>
+                        <div class="kpi-number text-slate-900 counter" data-target="{{ students_count }}">{{ students_count }}</div>
                         <div class="kpi-label text-slate-600">Enrolled Students</div>
                     </div>
                 </a>
             </div>
 
             <!-- Faculty Mentors -->
-            <div class="col-6 col-lg-3">
+            <div class="col-6 col-lg-3 reveal">
                 <a href="{{ url_for('network', role='faculty') }}" class="network-kpi-card h-100 text-decoration-none">
                     <div class="kpi-icon-box bg-emerald-subtle text-emerald-700">
                         <i class="fas fa-chalkboard-teacher"></i>
                     </div>
                     <div>
-                        <div class="kpi-number text-slate-900">{{ faculty_count }}</div>
+                        <div class="kpi-number text-slate-900 counter" data-target="{{ faculty_count }}">{{ faculty_count }}</div>
                         <div class="kpi-label text-slate-600">Faculty Peers</div>
                     </div>
                 </a>
             </div>
 
             <!-- Your Connections -->
-            <div class="col-6 col-lg-3">
+            <div class="col-6 col-lg-3 reveal">
                 <a href="{{ url_for('network', scope='connections') }}" class="network-kpi-card h-100 text-decoration-none {% if selected_scope == 'connections' %}active-kpi-scope{% endif %}" title="Click to filter by only your connections">
                     <div class="kpi-icon-box bg-indigo-subtle text-indigo-700">
                         <i class="fas fa-handshake"></i>
                     </div>
                     <div>
-                        <div class="kpi-number text-slate-900">{{ connections_count }}</div>
+                        <div class="kpi-number text-slate-900 counter" data-target="{{ connections_count }}">{{ connections_count }}</div>
                         <div class="kpi-label text-slate-600">Your Connections {% if selected_scope == 'connections' %}<i class="fas fa-check-circle text-emerald-600 ms-1"></i>{% endif %}</div>
                     </div>
                 </a>
@@ -85,16 +92,16 @@
         </div>
 
         <!-- 3. SEARCH & ADVANCED FILTER TOOLBAR -->
-        <div class="directory-control-card rounded-4 p-3 p-md-4 mb-4 shadow-sm border bg-white">
+        <div class="directory-control-card alumni-card rounded-4 p-3 p-md-4 mb-4 shadow-sm border bg-white reveal">
             <!-- Networks Scope Switcher (All Campus Network vs My Connections) -->
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-3 border-bottom">
-                <div class="d-inline-flex p-1 bg-slate-100 rounded-pill border border-slate-200">
+                <div class="d-inline-flex p-1 bg-slate-100 rounded-pill border border-slate-200 scope-switcher">
                     <a href="{{ url_for('network', scope='all', role=selected_role, department=selected_dept, location=selected_loc, search=search_query) }}" 
-                       class="btn btn-sm rounded-pill px-3.5 py-1.5 fw-bold text-decoration-none {% if selected_scope != 'connections' %}bg-white text-emerald-800 shadow-xs border border-slate-200{% else %}text-slate-600{% endif %}">
-                        <i class="fas fa-globe me-1.5 text-emerald-600"></i> All Campus Network
+                       class="btn btn-sm rounded-pill px-3.5 py-1.5 fw-bold text-decoration-none {% if selected_scope != 'connections' %}bg-white text-amber-800 shadow-xs border border-slate-200{% else %}text-slate-600{% endif %}">
+                        <i class="fas fa-globe me-1.5 text-amber-600"></i> All Campus Network
                     </a>
                     <a href="{{ url_for('network', scope='connections', role=selected_role, department=selected_dept, location=selected_loc, search=search_query) }}" 
-                       class="btn btn-sm rounded-pill px-3.5 py-1.5 fw-bold text-decoration-none {% if selected_scope == 'connections' %}bg-white text-emerald-800 shadow-xs border border-slate-200{% else %}text-slate-600{% endif %}">
+                       class="btn btn-sm rounded-pill px-3.5 py-1.5 fw-bold text-decoration-none {% if selected_scope == 'connections' %}bg-white text-amber-800 shadow-xs border border-slate-200{% else %}text-slate-600{% endif %}">
                         <i class="fas fa-handshake me-1.5 text-indigo-600"></i> My Connections Only ({{ connections_count }})
                     </a>
                 </div>
@@ -103,8 +110,8 @@
                     <i class="fas fa-filter text-indigo-500 me-1"></i> Filtered by: Accepted Connections
                 </span>
                 {% else %}
-                <span class="badge bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-pill small fw-semibold">
-                    <i class="fas fa-users-viewfinder text-emerald-600 me-1"></i> Full Campus Network
+                <span class="badge bg-amber-subtle text-amber-800 border px-3 py-1.5 rounded-pill small fw-semibold" style="border-color: #fde68a;">
+                    <i class="fas fa-users-viewfinder text-amber-600 me-1"></i> Full Campus Network
                 </span>
                 {% endif %}
             </div>
@@ -115,10 +122,12 @@
                     <!-- Search Input -->
                     <div class="col-12 col-md-4">
                         <label class="form-label small fw-bold text-slate-700 mb-1">
-                            <i class="fas fa-magnifying-glass text-emerald me-1"></i> Search Networks
+                            <i class="fas fa-magnifying-glass text-amber-600 me-1"></i> Search Networks
                         </label>
                         <div class="position-relative">
-                            <input type="text" name="search" class="form-control rounded-pill ps-4 pe-4"
+                            <i class="fas fa-search position-absolute" style="left: 14px; top: 50%; transform: translateY(-50%); color: #d97706; font-size: 0.85rem;"></i>
+                            <input type="text" name="search" class="form-control alumni-input rounded-pill ps-4 pe-4"
+                                   style="padding-left: 2.2rem !important;"
                                    placeholder="Search by name, role, department, skills..."
                                    value="{{ search_query }}">
                         </div>
@@ -127,9 +136,9 @@
                     <!-- Role Dropdown -->
                     <div class="col-6 col-md-2">
                         <label class="form-label small fw-bold text-slate-700 mb-1">
-                            <i class="fas fa-users text-emerald me-1"></i> Member Role
+                            <i class="fas fa-users text-amber-600 me-1"></i> Member Role
                         </label>
-                        <select name="role" class="form-select rounded-pill" onchange="this.form.submit()">
+                        <select name="role" class="form-select alumni-select rounded-pill" onchange="this.form.submit()">
                             <option value="all" {% if selected_role == 'all' or not selected_role %}selected{% endif %}>All Roles</option>
                             <option value="student" {% if selected_role == 'student' %}selected{% endif %}>Students</option>
                             <option value="alumni" {% if selected_role == 'alumni' %}selected{% endif %}>Alumni</option>
@@ -140,9 +149,9 @@
                     <!-- Department Dropdown -->
                     <div class="col-6 col-md-3">
                         <label class="form-label small fw-bold text-slate-700 mb-1">
-                            <i class="fas fa-building-columns text-emerald me-1"></i> Department / Branch
+                            <i class="fas fa-building-columns text-amber-600 me-1"></i> Department / Branch
                         </label>
-                        <select name="department" class="form-select rounded-pill" onchange="this.form.submit()">
+                        <select name="department" class="form-select alumni-select rounded-pill" onchange="this.form.submit()">
                             <option value="all" {% if selected_dept == 'all' or not selected_dept %}selected{% endif %}>All Departments</option>
                             <option value="it" {% if selected_dept == 'it' %}selected{% endif %}>IT / Information Tech</option>
                             <option value="computer" {% if selected_dept == 'computer' %}selected{% endif %}>Computer Science</option>
@@ -157,7 +166,7 @@
                         <label class="form-label small fw-bold text-slate-700 mb-1">
                             <i class="fas fa-location-dot text-rose-500 me-1"></i> Location
                         </label>
-                        <select name="location" class="form-select rounded-pill" onchange="this.form.submit()">
+                        <select name="location" class="form-select alumni-select rounded-pill" onchange="this.form.submit()">
                             <option value="all" {% if selected_loc == 'all' or not selected_loc %}selected{% endif %}>All Locations</option>
                             <option value="delhi" {% if selected_loc == 'delhi' %}selected{% endif %}>Delhi NCR</option>
                             <option value="bengaluru" {% if selected_loc == 'bengaluru' %}selected{% endif %}>Bengaluru</option>
@@ -169,7 +178,7 @@
 
                     <!-- Action Buttons -->
                     <div class="col-6 col-md-1 d-flex gap-1">
-                        <button type="submit" class="btn btn-emerald w-100 rounded-pill py-2 shadow-xs" title="Apply Filter">
+                        <button type="submit" class="btn btn-amber w-100 rounded-pill py-2 shadow-xs" title="Apply Filter">
                             <i class="fas fa-filter"></i>
                         </button>
                         {% if search_query or (selected_role and selected_role != 'all') or (selected_dept and selected_dept != 'all') or (selected_loc and selected_loc != 'all') %}
@@ -184,7 +193,7 @@
             <!-- Quick Filter Chips & Live Result Status -->
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3 pt-3 border-top">
                 <div class="d-flex align-items-center flex-wrap gap-2">
-                    <span class="small fw-bold text-slate-700"><i class="fas fa-layer-group text-emerald me-1"></i> Quick Filter:</span>
+                    <span class="small fw-bold text-slate-700"><i class="fas fa-layer-group text-amber-600 me-1"></i> Quick Filter:</span>
                     <a href="{{ url_for('network', scope=selected_scope, role='all', department=selected_dept, location=selected_loc, search=search_query) }}"
                        class="btn btn-sm filter-pill {% if selected_role == 'all' or not selected_role %}active{% endif %}">
                         All ({{ total_count }})
@@ -214,7 +223,7 @@
         {% if users %}
         <div class="row g-3 g-md-4 mb-5">
             {% for u in users %}
-            <div class="col-md-6 col-lg-3">
+            <div class="col-md-6 col-lg-3 reveal">
                 <div class="faculty-user-card card-{{ u.role }} h-100 shadow-sm">
                     <!-- Card Top Banner with Multi-Tone Gradient -->
                     <div class="user-card-cover {% if u.role == 'student' %}cover-sky{% elif u.role == 'alumni' %}cover-amber{% else %}cover-emerald{% endif %} position-relative">
@@ -350,7 +359,7 @@
                     <a class="page-link rounded-pill px-3.5 py-2 shadow-xs d-inline-flex align-items-center"
                        href="{{ url_for('network', page=page-1, search=search_query, role=selected_role, department=selected_dept, location=selected_loc, scope=selected_scope) }}"
                        {% if page <= 1 %}tabindex="-1" aria-disabled="true"{% endif %} aria-label="Previous Page">
-                        <i class="fas fa-arrow-left me-1.5 text-emerald-600"></i> <span class="fw-bold">Prev</span>
+                        <i class="fas fa-arrow-left me-1.5 text-amber-600"></i> <span class="fw-bold">Prev</span>
                     </a>
                 </li>
 
@@ -377,7 +386,7 @@
                     <a class="page-link rounded-pill px-3.5 py-2 shadow-xs d-inline-flex align-items-center"
                        href="{{ url_for('network', page=page+1, search=search_query, role=selected_role, department=selected_dept, location=selected_loc, scope=selected_scope) }}"
                        {% if page >= total_pages %}tabindex="-1" aria-disabled="true"{% endif %} aria-label="Next Page">
-                        <span class="fw-bold">Next</span> <i class="fas fa-arrow-right ms-1.5 text-emerald-600"></i>
+                        <span class="fw-bold">Next</span> <i class="fas fa-arrow-right ms-1.5 text-amber-600"></i>
                     </a>
                 </li>
             </ul>
@@ -386,7 +395,7 @@
 
         {% else %}
         <!-- EMPTY / ZERO MATCHES STATE -->
-        <div class="empty-directory-card text-center py-5 my-4 bg-white rounded-4 border shadow-sm p-4">
+        <div class="empty-directory-card alumni-card text-center py-5 my-4 bg-white rounded-4 border shadow-sm p-4">
             <div class="empty-icon-wrap mx-auto mb-3">
                 {% if selected_scope == 'connections' %}
                 <i class="fas fa-user-group fa-2x text-indigo-400"></i>
@@ -410,7 +419,7 @@
             </p>
             <div class="d-flex align-items-center justify-content-center gap-2 flex-wrap">
                 {% if selected_scope == 'connections' %}
-                <a href="{{ url_for('network', scope='all') }}" class="btn btn-emerald rounded-pill px-4 py-2 fw-bold shadow-xs">
+                <a href="{{ url_for('network', scope='all') }}" class="btn btn-amber rounded-pill px-4 py-2 fw-bold shadow-xs">
                     <i class="fas fa-globe me-1.5"></i> Browse All Campus Members
                 </a>
                 {% endif %}
@@ -428,9 +437,9 @@
 <style>
 /* Real KPI Stats Cards */
 .network-kpi-card.active-kpi-scope {
-    border-color: #059669 !important;
-    background: linear-gradient(180deg, #ffffff 0%, #ecfdf5 100%) !important;
-    box-shadow: 0 8px 24px -4px rgba(5, 150, 105, 0.22) !important;
+    border-color: #d97706 !important;
+    background: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%) !important;
+    box-shadow: 0 8px 24px -4px rgba(217, 119, 6, 0.22) !important;
     transform: translateY(-2px);
 }
 .pagination .page-link.rounded-pill {
@@ -768,6 +777,118 @@
     background: linear-gradient(135deg, #047857, #064e3b) !important;
     color: #ffffff !important;
 }
+
+/* ========================================================
+   ALUMNI DESIGN SYSTEM (amber) — matches the redesigned
+   alumni pages: dark-navy hero, white cards, hover lift,
+   Outfit / Plus Jakarta Sans. Only presentational rules;
+   all filters, counts and actions are unchanged.
+   ======================================================== */
+:root {
+    --al-amber: #f59e0b;
+    --al-amber-dark: #d97706;
+    --al-amber-deep: #b45309;
+    --al-amber-soft: #fffbeb;
+    --al-ink: #0f172a;
+    --al-muted: #64748b;
+    --al-border: rgba(15, 23, 42, 0.09);
+}
+/* Tailwind-style colour utilities this page uses — none of them exist in
+   the repo CSS (only CSS variables do), so without these the KPI tints,
+   scope-switcher active state and role colours silently render as plain
+   inherited/link-blue text. Scoped to this page only. */
+.text-slate-900 { color: #0f172a !important; }
+.text-slate-700 { color: #334155 !important; }
+.text-slate-600 { color: #475569 !important; }
+.text-slate-400 { color: #94a3b8 !important; }
+.bg-slate-100 { background: #f1f5f9 !important; }
+.border-slate-200 { border-color: #e2e8f0 !important; }
+.text-amber-600 { color: #d97706 !important; }
+.text-amber-700 { color: #b45309 !important; }
+.text-amber-800 { color: #92400e !important; }
+.bg-amber-subtle { background: #fffbeb !important; }
+.text-sky-700 { color: #0369a1 !important; }
+.bg-sky-subtle { background: #f0f9ff !important; }
+.text-emerald-600 { color: #059669 !important; }
+.text-emerald-700 { color: #047857 !important; }
+.text-emerald-800 { color: #065f46 !important; }
+.bg-emerald-subtle { background: #ecfdf5 !important; }
+.bg-emerald-50 { background: #ecfdf5 !important; }
+.border-emerald-200 { border-color: #a7f3d0 !important; }
+.text-indigo-500 { color: #6366f1 !important; }
+.text-indigo-600 { color: #4f46e5 !important; }
+.text-indigo-700 { color: #4338ca !important; }
+.bg-indigo-subtle { background: #eef2ff !important; }
+.bg-indigo-50 { background: #eef2ff !important; }
+.border-indigo-200 { border-color: #c7d2fe !important; }
+.text-rose-500 { color: #f43f5e !important; }
+.alumni-hero { border-color: rgba(245, 158, 11, 0.45) !important; }
+.alumni-hero .grad-amber {
+    background: linear-gradient(90deg, #fde68a 0%, #f59e0b 45%, #f97316 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent !important; color: transparent !important;
+}
+.alumni-hero-badge {
+    background: rgba(245, 158, 11, 0.16); color: #fcd34d;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em;
+}
+.alumni-card {
+    background: #ffffff; border: 1px solid var(--al-border); border-radius: 20px;
+    box-shadow: 0 10px 30px -14px rgba(15, 23, 42, 0.14);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.alumni-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 24px 44px -18px rgba(15, 23, 42, 0.24);
+    border-color: rgba(245, 158, 11, 0.45);
+}
+.btn-amber {
+    background: linear-gradient(135deg, #f59e0b, #d97706); border: none; color: #fff;
+    font-weight: 600; min-height: 44px;
+    box-shadow: 0 10px 22px -10px rgba(217, 119, 6, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.btn-amber:hover, .btn-amber:focus { background: linear-gradient(135deg, #fbbf24, #b45309); color: #fff; transform: translateY(-2px); }
+.alumni-input, .alumni-select { min-height: 46px; border-radius: 12px; }
+.alumni-input:focus, .alumni-select:focus { border-color: var(--al-amber); box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.18); }
+/* KPI cards: keep role-tinted icons, amber hover to match the system */
+.network-kpi-card:hover { border-color: rgba(245, 158, 11, 0.55); }
+.network-kpi-card:hover .kpi-number { color: var(--al-amber-dark); }
+/* Scope switcher + quick pills + pagination: amber active states */
+.scope-switcher a:hover { color: var(--al-amber-deep) !important; }
+.filter-pill:hover {
+    background: #f8fafc !important;
+    color: #92400e !important;
+    border-color: #f59e0b !important;
+    transform: translateY(-1px);
+}
+.filter-pill.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: #ffffff !important;
+    border-color: #d97706 !important;
+    box-shadow: 0 3px 10px rgba(217, 119, 6, 0.25) !important;
+    font-weight: 700 !important;
+}
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    border-color: #d97706 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(217, 119, 6, 0.25);
+}
+/* Reveal on scroll + animated counters */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+@media (max-width: 575.98px) {
+    .alumni-hero .btn { width: 100%; }
+    .scope-switcher { width: 100%; }
+    .scope-switcher a { flex: 1; text-align: center; }
+    .pagination { flex-wrap: wrap; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .alumni-card, .btn-amber, .network-kpi-card, .faculty-user-card { transition: none; }
+}
 </style>
 
 <!-- JAVASCRIPT FOR CONNECTION REQUESTS -->
@@ -813,5 +934,46 @@ function connectUser(userId, role, btn) {
         }
     });
 }
+
+/* Reveal on scroll + animated KPI counters (numbers stay server-rendered) */
+(function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var revealEls = document.querySelectorAll('.reveal');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealEls.forEach(function (el) { el.classList.add('visible'); });
+    } else {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); }
+            });
+        }, { threshold: 0.12 });
+        revealEls.forEach(function (el) { io.observe(el); });
+    }
+
+    document.querySelectorAll('.counter').forEach(function (el) {
+        var target = parseInt(el.getAttribute('data-target'), 10);
+        if (isNaN(target)) return;
+        if (reduceMotion) { el.textContent = target; return; }
+        var started = false;
+        var cio = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting && !started) {
+                    started = true;
+                    var start = null, dur = 1100;
+                    function tick(ts) {
+                        if (!start) start = ts;
+                        var p = Math.min((ts - start) / dur, 1);
+                        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+                        if (p < 1) requestAnimationFrame(tick);
+                    }
+                    requestAnimationFrame(tick);
+                    cio.disconnect();
+                }
+            });
+        }, { threshold: 0.4 });
+        cio.observe(el);
+    });
+})();
 </script>
 {% endblock %}
