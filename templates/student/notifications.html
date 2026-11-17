@@ -105,6 +105,16 @@
     .student-page .form-check-input { width: 2.6rem; height: 1.45rem; cursor: pointer; }
     .student-page .form-check-input:checked { background-color: var(--st-sky); border-color: var(--st-sky-dark); }
     .student-page .form-check-input:focus { box-shadow: 0 0 0 0.25rem rgba(14, 165, 233, 0.25); border-color: var(--st-sky); }
+    /* Preference rows: soft sky hover so each toggle reads as its own row */
+    .student-page .pref-row { transition: background 0.2s ease, border-color 0.2s ease; border: 1px solid transparent; }
+    .student-page .pref-row:hover { background: #f0f9ff; border-color: #e0f2fe; }
+    .student-page .pref-row:focus-within { border-color: rgba(56, 189, 248, 0.5); }
+    /* "All Caught Up!" bell: gentle float so the empty state feels alive */
+    @keyframes stuBellFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    .student-page .icon-chip-sky { animation: stuBellFloat 3s ease-in-out infinite; box-shadow: 0 10px 24px -6px rgba(14, 165, 233, 0.45); }
+    @media (prefers-reduced-motion: reduce) {
+        .student-page .icon-chip-sky { animation: none; }
+    }
 
     /* Reveal on scroll (subtle) */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; transition-delay: var(--delay, 0s); }

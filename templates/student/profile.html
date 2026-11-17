@@ -418,6 +418,11 @@
         opacity: 0.55;
         filter: blur(2px);
         z-index: 0;
+        animation: stuRingSpin 9s linear infinite;
+    }
+    @keyframes stuRingSpin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) {
+        .stu-avatar-ring { animation: none; }
     }
 
     .stu-profile-avatar {
@@ -569,8 +574,9 @@
         padding: 8px 16px;
         border-radius: 12px;
         font-weight: 600;
-        transition: all 0.3s ease;
+        transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
     }
+    .stu-skill-tag:hover { transform: translateY(-2px); background: rgba(14, 165, 233, 0.14); border-color: rgba(14, 165, 233, 0.45); }
     .stu-skill-tag:hover {
         background: #0ea5e9;
         color: #fff;

@@ -598,7 +598,8 @@
     }
     .drag-drop-zone:hover, .drag-drop-zone:focus-visible { border-color: #0284c7; background: rgba(14, 165, 233, 0.12); outline: none; }
     .drag-drop-zone.drag-over { border-color: #0284c7; background: rgba(14, 165, 233, 0.18); transform: scale(1.02); }
-    .drag-drop-zone i { color: #0284c7; }
+    .drag-drop-zone i { color: #0284c7; transition: transform 0.25s ease; }
+    .drag-drop-zone:hover i { transform: translateY(-3px) scale(1.1); }
     .drag-drop-zone p { color: #0f172a; }
 
     /* ---- Form ---- */
@@ -687,8 +688,9 @@
     .completeness-title { font-family: 'Outfit', sans-serif; color: #0f172a; font-weight: 700; font-size: 1.1rem; }
     .completeness-title i { color: #0284c7; }
     .complete-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem 1rem; }
-    .complete-list li { display: flex; align-items: center; gap: 0.5rem; color: #64748b; font-size: 0.85rem; }
-    .complete-list li i { font-size: 0.6rem; color: #cbd5e1; flex-shrink: 0; }
+    .complete-list li { display: flex; align-items: center; gap: 0.5rem; color: #64748b; font-size: 0.85rem; transition: color 0.25s ease, font-weight 0.25s ease; }
+    .complete-list li i { font-size: 0.6rem; color: #cbd5e1; flex-shrink: 0; transition: color 0.25s ease, transform 0.25s ease; }
+    .complete-list li.done i { transform: scale(1.1); }
     .complete-list li.done { color: #0f172a; font-weight: 600; }
     .complete-list li.done i { color: #10b981; font-size: 0.9rem; }
     .complete-list li.done i::before { content: "\f058"; font-family: "Font Awesome 6 Free", "Font Awesome 5 Free"; font-weight: 900; }

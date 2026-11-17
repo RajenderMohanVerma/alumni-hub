@@ -1445,3 +1445,122 @@ template it renders did not exist; items 4–7 above are still open.
   target in `app.py` + `routes/*.py` (83 literal + multi-line
   targets) was checked against files on disk — **no other missing
   template exists**. The upgrade template was the only one.
+
+## 12. Student FAB fix + footer restore + feature re-polish (2026-11-17, local — not pushed)
+
+Rajender reported three things on the student pages after the §11
+push: the floating **+** button did nothing, the footer looked
+"thoda kharab" on student pages, and the recently added features
+needed to look better than before. All three are fixed here, local
+only — nothing pushed.
+
+### 12.1 The + button — what it was, what it does now
+
+**The bug (verified in code):** the Floating Action Button on
+`templates/student/dashboard.html` was a fixed 60px sky-gradient
+circle at bottom-right with three sub-buttons (Search → `#globalSearch`,
+Messages → `messages`, Profile → `student_profile`) stacked above it
+at fixed offsets 90/150/210px. The main **+** had **no click
+handler at all**, and the three sub-buttons were **always visible** —
+so the + did nothing and a permanent cluster of four floating circles
+sat on the page. It pre-dated the §11 redesign (present at HEAD
+5617a98) but was never wired up.
+
+**Now (`dashboard.html` only — no other student page has a FAB):**
+- Tap **+** → the three actions open with labels (Search / Messages /
+  Profile), staggered 0.05s apart; the **+ rotates 135° into ×**.
+- Tap **+** again, tap **anywhere outside**, or press **Escape** →
+  the menu closes. Tapping an action also closes it, then follows
+  the same destination as before (all three URLs unchanged).
+- The actions are **hidden by default** (`opacity: 0`, `visibility:
+  hidden`, `pointer-events: none`, `aria-hidden="true"`); only the
+  single + circle shows until opened.
+- On phones ≤576px the FAB is compact (52px main, 44px actions,
+  16px from the corner) so it never crowds the screen.
+- `prefers-reduced-motion` disables the rotate/stagger transitions.
+- Render-tested: 12/12 checks pass (toggle button, hidden-by-default
+  actions, setOpen JS, outside-click + Escape close, all three
+  destinations, no leftover `.sub-button`).
+
+### 12.2 The footer — root cause (it was never broken)
+
+**Verified by rendering:** the footer HTML in `base.html`
+(`footer.footer-custom#mainFooter`, marquee + grid + bottom bar) is
+**byte-identical** between the student and alumni dashboard renders
+(18,536 chars), the footer CSS was touched by **0 lines** in both
+the header push (d67a542..5617a98) and the pages push
+(5617a98..72fb80e), and the bottom spacing is identical too
+(`.admin-page-wrapper` `padding-bottom: 4.5rem` on both). There is no
+student-specific footer branch. **The footer code was never changed
+or spoiled.**
+
+**The real cause:** the always-visible FAB cluster — fixed, `z-index:
+1030` — floated on top of the footer whenever Rajender scrolled to
+the bottom of the student dashboard, covering footer links/text. The
+alumni dashboard has no FAB, which is why its footer looks perfect.
+That is the whole difference.
+
+**The fix (no footer redesign, spacing/overlap only):**
+- The FAB now **fades out automatically while the footer is on
+  screen** (`IntersectionObserver` on `#mainFooter`, class
+  `fab-parked`; it also closes the open menu). The footer is never
+  covered by the button again.
+- The FAB is hidden by default (see §12.1), so only one small circle
+  ever floats — never the old four-circle cluster.
+- Small spacing restore: on phones the dashboard's
+  `.admin-container` bottom padding was `0` (`0.9rem 0.9rem 0`), so
+  the last card sat flush; it is now `0.9rem 0.9rem 1.25rem`, giving
+  the last card breathing room above the footer. The footer itself
+  (marquee, grid, bottom bar) is untouched.
+
+### 12.3 Feature re-polish (visible upgrades, polish only)
+
+No form field, link destination, Jinja variable or JS behaviour was
+changed anywhere — CSS/hover/focus/animation polish only, all
+`prefers-reduced-motion` respected:
+
+- **Dashboard:** Quick Shortcuts now slide their chevron right and
+  scale their icon on hover, with a press (`:active` scale) and a
+  sky `focus-visible` ring; stat numbers use tabular figures so
+  counters don't jitter while counting.
+- **Mentorship:** the "Showing N mentors" line is now a proper sky
+  pill (blue-tinted background, border, bold sky count) instead of
+  plain muted text; the Apply button gets a press scale and a focus
+  ring. Filter logic and empty state untouched.
+- **Jobs:** type chips get a press scale and focus ring; stat-chip
+  counters use tabular figures.
+- **Edit Profile:** checklist rows now transition colour/weight when
+  an item flips to done, and the done check icon scales in; the
+  drag-and-drop zone icon lifts on hover. Completeness math, preview
+  and form untouched.
+- **Notifications:** each preference row (`.pref-row`) gets a soft
+  sky hover background/border and a focus-within ring; the "All
+  Caught Up!" bell chip gently floats with a sky glow.
+- **Settings:** the sidebar mini-profile avatar gets a sky ring
+  (`0 0 0 3px #e0f2fe`) on top of its existing shadow.
+- **Upgrade:** the MOST POPULAR badge gets a soft glow pulse (scoped
+  to that badge only, via a new `plan-popular-badge` class); the
+  price uses tabular figures.
+- **Profile:** the avatar's conic-gradient halo now rotates slowly
+  (9s linear, disabled under `prefers-reduced-motion`); skill tags
+  lift and deepen on hover.
+
+### 12.4 Verification
+
+- `python3 scripts/validate_templates.py` → **Total errors: 0**.
+- CSS braces balanced in all 9 student templates (dashboard 568/568,
+  profile 220/220, edit_profile 270/270, jobs 181/181, mentorship
+  59/59, notifications 66/66, settings 113/113, upgrade 70/70,
+  network untouched 424/424). One self-caught slip during the profile
+  polish (a rule closed early, leaving a stray brace) was fixed and
+  re-verified before finishing.
+- Render tests: student dashboard (12/12 FAB checks, footer still
+  byte-identical to alumni) + mentorship, edit-profile, jobs,
+  notifications, settings, upgrade, profile — all render clean with
+  no unrendered Jinja.
+- Token set-diff vs HEAD (whitespace-normalised) across all 8 touched
+  files: **0 missing** in every category (`{{ }}`, `{% %}`,
+  `url_for()`, `name=`, `id=`).
+- `git status` shows only the 8 student templates + this doc;
+  `base.html`, `app.py`, alumni/admin/faculty/common/auth templates
+  and the footer are untouched.
