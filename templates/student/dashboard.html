@@ -1,365 +1,356 @@
-<!-- filepath: d:\RajenderMohan_BCA\RajenderMohan_Projects\6_Semester\Major Project\Alumni App\templates\dashboard_student.html -->
 {% extends "base.html" %}
+{% block title %}Student Dashboard • Alumni Hub{% endblock %}
 
 {% block content %}
-<!-- Premium Fonts -->
-<!-- Premium Fonts & Scripts -->
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
 <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
     rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+<noscript><style>.reveal-text, .reveal-fade { opacity: 1 !important; transform: none !important; }</style></noscript>
 
-<div class="dashboard-wrapper">
-    <!-- Animated Mesh Background -->
-    <div class="mesh-background">
-        <div class="mesh-ball ball-1"></div>
-        <div class="mesh-ball ball-2"></div>
-        <div class="mesh-ball ball-3"></div>
-        <div class="mesh-ball ball-4"></div>
-    </div>
-    <!-- Hero Section -->
-    <div class="hero-section glass-hero student-hero-section"
-        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.1);">
-        <!-- Advanced Animated Background -->
-        <div class="hero-bg">
-            <div class="blob blob-1"></div>
-            <div class="blob blob-2"></div>
-            <div class="blob blob-3"></div>
-            <div class="animated-bg-lines"></div>
-        </div>
+<div class="admin-page-wrapper stu-page">
+    <!-- Ambient orbs -->
+    <div class="admin-ambient-ball admin-ball-1" style="background:#0ea5e9;"></div>
+    <div class="admin-ambient-ball admin-ball-2" style="background:#38bdf8;"></div>
+    <div class="admin-ambient-ball admin-ball-3" style="background:#0284c7;"></div>
 
-        <div class="container" style="position: relative; z-index: 2;">
-            <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <div class="hero-content" style="animation: fadeInLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);">
-                        <div class="badge-animated rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-lg border-0"
-                            id="timeGreetingBadge" style="display: inline-block; animation: bounceIn 0.8s ease;">
-                            <i class="far fa-clock me-1"></i> <span id="dynamicGreeting"
-                                class="fw-bold">Loading...</span>
+    <div class="admin-container">
+
+        <!-- ============ HERO ============ -->
+        <section class="admin-hero-card stu-hero">
+            <div class="stu-hero-glow stu-hero-glow-1"></div>
+            <div class="stu-hero-glow stu-hero-glow-2"></div>
+            <div class="container position-relative" style="z-index:2;">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-7">
+                        <span class="stu-live-badge">
+                            <span class="stu-live-dot"></span> STUDENT DASHBOARD &bull; LIVE
+                        </span>
+                        <div class="stu-greeting-pill mt-3 mb-3" id="timeGreetingBadge">
+                            <i class="far fa-clock me-1" style="color:#0284c7;"></i>
+                            <span id="dynamicGreeting">Loading...</span>
                         </div>
-                        <h1 class="text-white display-4 fw-bold mb-3 reveal-text split-text-hero"
-                            style="line-height: 1.2; letter-spacing: -1px;">
-                            <i class="fas fa-user-graduate me-3 slide-in-icon"></i><span
-                                class="word-reveal">Hello,</span> <span
-                                class="text-holographic typing-text gradient-text animate-gradient">{{ current_user.name
-                                }}!</span>
+                        <h1 class="stu-hero-title reveal-text">
+                            <i class="fas fa-user-graduate me-2"></i><span class="word-reveal">Hello,</span>
+                            <span class="typing-text stu-text-sky">{{ current_user.name }}!</span>
                         </h1>
-                        <p class="text-white-50 lead mb-4 reveal-fade"
-                            style="font-size: 1.25rem; max-width: 600px; animation: slideInDown 1s ease 0.3s both;">
+                        <p class="stu-hero-sub reveal-fade">
                             Empower your future. Connect with the elite network of alumni and mentors.
                         </p>
 
-                        <div class="hero-actions mb-4 d-flex flex-wrap gap-2" style="animation: fadeInUp 0.8s ease 0.4s both;">
-                            <a href="{{ url_for('list_jobs') }}"
-                                class="btn btn-lg rounded-pill px-4 text-white shadow-lg"
-                                style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">
+                        <div class="stu-hero-actions d-flex flex-wrap gap-2 mb-4">
+                            <a href="{{ url_for('list_jobs') }}" class="btn stu-btn-sky btn-lg rounded-pill px-4">
                                 <i class="fas fa-rocket me-2"></i> Explore Career Board
                             </a>
-                            <a href="#recommendations" class="btn btn-lg rounded-pill px-4 text-white"
-                                style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
+                            <a href="#recommendations" class="btn stu-btn-glass btn-lg rounded-pill px-4">
                                 <i class="fas fa-users me-2"></i> Network
                             </a>
                         </div>
 
-                        <!-- Profile Completeness with Advanced Animation -->
-                        <div class="profile-completeness-wrapper glass-card p-3 p-md-4 d-inline-block"
-                            style="width: 100%; max-width: 420px; animation: slideInLeft 0.8s ease 0.5s both; backdrop-filter: blur(15px);">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="text-white small fw-bold" style="font-size: 0.95rem;">Profile
-                                    Completeness</span>
-                                <span class="text-white small fw-bold badge bg-primary" id="completenessPercent"
-                                    style="font-size: 0.9rem; animation: counterPop 0.6s ease;">0%</span>
+                        <!-- Profile Completeness -->
+                        <div class="stu-completeness p-3 p-md-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-white small fw-bold">Profile Completeness</span>
+                                <span class="text-white small fw-bold" id="completenessPercent">0%</span>
                             </div>
-                            <div class="progress"
-                                style="height: 12px; border-radius: 8px; background: rgba(255,255,255,0.15); overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);">
-                                <div class="progress-bar bg-info progress-bar-striped" id="completenessBar"
+                            <div class="progress" style="height: 10px; border-radius: 5px; background: rgba(255,255,255,0.2);">
+                                <div class="progress-bar progress-bar-striped" id="completenessBar"
                                     role="progressbar"
-                                    style="width: 0%; border-radius: 8px; background: linear-gradient(90deg, #10b981, #3b82f6); box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); animation: slideUp 1s ease-out 0.7s both;">
-                                </div>
+                                    style="width: 0%; background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
                             </div>
-                            <p class="text-white-50 small mt-3 mb-0" style="font-size: 0.85rem;">
-                                <i class="fas fa-magic me-2 text-warning"
-                                    style="animation: spin 2s linear infinite;"></i> <span id="completenessTip">Complete
+                            <p class="text-white-50 small mt-2 mb-0">
+                                <i class="fas fa-magic me-2 text-warning"></i> <span id="completenessTip">Complete
                                     your profile to stand out!</span>
                             </p>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-5 text-center d-none d-lg-block">
-                    <div class="hero-image-wrapper">
-                        <div class="hero-visual-container">
-                            <!-- Glow Aura -->
-                            <div class="glow-aura"></div>
 
-                            <!-- Floating Elements -->
-                            <div class="floating-elements">
-                                <div class="floating-shape shape-1"
-                                    style="animation: float-slow 8s ease-in-out infinite;"></div>
-                                <div class="floating-shape shape-2"
-                                    style="animation: float-medium 6s ease-in-out infinite;"></div>
-                                <div class="floating-icon icon-1"
-                                    style="animation: float-fast 4s ease-in-out infinite;">
-                                    <i class="fas fa-graduation-cap"></i>
-                                </div>
-                                <div class="floating-icon icon-2"
-                                    style="animation: float-medium 7s ease-in-out infinite;">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <div class="floating-icon icon-3"
-                                    style="animation: float-slow 9s ease-in-out infinite;">
-                                    <i class="fas fa-rocket"></i>
-                                </div>
+                    <div class="col-lg-5 text-center d-none d-lg-block">
+                        <div class="stu-avatar-wrap">
+                            {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
+                            <img src="{{ current_user.profile_pic }}" alt="{{ current_user.name }}"
+                                class="stu-hero-avatar"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="stu-hero-avatar-fallback" style="display: none;">
+                                {{ (current_user.name|trim)[0]|upper }}
                             </div>
-
-                            <div class="avatar-glass-card-wrapper">
-                                <div class="avatar-glass-card shadow-lg">
-                                    <div class="avatar-inner-border">
-                                        {% if current_user.profile_pic and (current_user.profile_pic.startswith('/') or current_user.profile_pic.startswith('data:image/') or current_user.profile_pic.startswith('http')) and current_user.profile_pic != 'default.jpg' %}
-                                        <img src="{{ current_user.profile_pic }}" alt="{{ current_user.name }}"
-                                            class="rounded-pill avatar-img shadow-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                        <div class="rounded-pill avatar-img shadow-lg" style="display: none; background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%); color: #fff; font-size: 3rem; font-weight: 800; align-items: center; justify-content: center; width: 100%; height: 100%;">
-                                            {{ (current_user.name|trim)[0]|upper }}
-                                        </div>
-                                        {% else %}
-                                        <div class="rounded-pill avatar-img shadow-lg" style="display: flex; background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%); color: #fff; font-size: 3rem; font-weight: 800; align-items: center; justify-content: center; width: 100%; height: 100%;">
-                                            {{ (current_user.name|trim)[0]|upper }}
-                                        </div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="glass-tag">
-                                        <span class="tag-dot"></span>
-                                        Student
-                                    </div>
-                                    <div class="card-shine"></div>
-                                </div>
+                            {% else %}
+                            <div class="stu-hero-avatar-fallback" style="display: flex;">
+                                {{ (current_user.name|trim)[0]|upper }}
                             </div>
+                            {% endif %}
+                            <span class="stu-avatar-tag">Student</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- Stats Section -->
-    <div class="stats-container container-fluid px-lg-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-3">
-                    <div class="stat-card" style="animation: slideUp 0.6s ease; --card-accent: #667eea;">
-                        <div class="stat-trend"><i class="fas fa-arrow-up"></i> Active</div>
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                            <i class="fas fa-users-viewfinder"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-number counter" data-target="{{ alumni | length }}">0</h3>
-                            <p class="stat-label">Alumni</p>
-                        </div>
+        <!-- ============ STATS ============ -->
+        <section class="row g-4 stu-stats-row reveal-fade">
+            <div class="col-md-3">
+                <div class="stat-card stu-stat-card" style="--card-accent:#0ea5e9;">
+                    <span class="stu-stat-trend"><i class="fas fa-arrow-up"></i> Active</span>
+                    <div class="stu-stat-icon" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
+                        <i class="fas fa-users-viewfinder"></i>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="stat-card" style="animation: slideUp 0.7s ease; --card-accent: #f5576c;">
-                        <div class="stat-trend"><i class="fas fa-certificate"></i> Verified</div>
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-number counter" data-target="{{ faculty | length }}">0</h3>
-                            <p class="stat-label">Mentors</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="stat-card" style="animation: slideUp 0.8s ease; --card-accent: #00d4ff;">
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-number counter" data-target="{{ student['semester'] or 0 }}">0</h3>
-                            <p class="stat-label">Semester</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="stat-card" style="animation: slideUp 0.9s ease; --card-accent: #10b981;">
-                        <div class="stat-trend bg-success text-white" style="padding: 2px 6px;">Peak</div>
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-number counter-float" data-target="{{ (student['cgpa'] or 0) }}">0</h3>
-                            <p class="stat-label">GPA Score</p>
-                        </div>
+                    <div class="stu-stat-content">
+                        <h3 class="stu-stat-number counter" data-target="{{ alumni | length }}">{{ alumni | length }}</h3>
+                        <p class="stu-stat-label">Alumni</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+            <div class="col-md-3">
+                <div class="stat-card stu-stat-card" style="--card-accent:#0284c7;">
+                    <span class="stu-stat-trend"><i class="fas fa-certificate"></i> Verified</span>
+                    <div class="stu-stat-icon" style="background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="stu-stat-content">
+                        <h3 class="stu-stat-number counter" data-target="{{ faculty | length }}">{{ faculty | length }}</h3>
+                        <p class="stu-stat-label">Mentors</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card stu-stat-card" style="--card-accent:#38bdf8;">
+                    <div class="stu-stat-icon" style="background: linear-gradient(135deg, #7dd3fc 0%, #0ea5e9 100%);">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="stu-stat-content">
+                        <h3 class="stu-stat-number counter" data-target="{{ student['semester'] or 0 }}">{{ student['semester'] or 0 }}</h3>
+                        <p class="stu-stat-label">Semester</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card stu-stat-card" style="--card-accent:#10b981;">
+                    <span class="stu-stat-trend" style="background: rgba(16,185,129,0.12); color:#059669;">Peak</span>
+                    <div class="stu-stat-icon" style="background: linear-gradient(135deg, #34d399 0%, #059669 100%);">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stu-stat-content">
+                        <h3 class="stu-stat-number counter-float" data-target="{{ (student['cgpa'] or 0) }}">{{ (student['cgpa'] or 0) }}</h3>
+                        <p class="stu-stat-label">GPA Score</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Main Content -->
+        <!-- ============ QUICK SHORTCUTS ============ -->
+        <section class="row g-3 stu-shortcuts-row mb-5 reveal-fade">
+            <div class="col-6 col-lg-3">
+                <a href="{{ url_for('search_network') }}" class="stu-shortcut">
+                    <div class="stu-shortcut-icon" style="background:rgba(14,165,233,0.12); color:#0284c7;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-bold stu-heading">Network</h6>
+                        <small class="text-muted">Find alumni &amp; peers</small>
+                    </div>
+                    <i class="fas fa-chevron-right ms-auto text-muted"></i>
+                </a>
+            </div>
+            <div class="col-6 col-lg-3">
+                <a href="{{ url_for('list_jobs') }}" class="stu-shortcut">
+                    <div class="stu-shortcut-icon" style="background:rgba(16,185,129,0.12); color:#059669;">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-bold stu-heading">Career Board</h6>
+                        <small class="text-muted">Jobs &amp; internships</small>
+                    </div>
+                    <i class="fas fa-chevron-right ms-auto text-muted"></i>
+                </a>
+            </div>
+            <div class="col-6 col-lg-3">
+                <a href="{{ url_for('messages') }}" class="stu-shortcut">
+                    <div class="stu-shortcut-icon" style="background:rgba(139,92,246,0.12); color:#7c3aed;">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-bold stu-heading">Messages</h6>
+                        <small class="text-muted">Your conversations</small>
+                    </div>
+                    <i class="fas fa-chevron-right ms-auto text-muted"></i>
+                </a>
+            </div>
+            <div class="col-6 col-lg-3">
+                <a href="{{ url_for('student_profile', user_id=current_user.id) }}" class="stu-shortcut">
+                    <div class="stu-shortcut-icon" style="background:rgba(245,158,11,0.12); color:#d97706;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-bold stu-heading">My Profile</h6>
+                        <small class="text-muted">View &amp; share yours</small>
+                    </div>
+                    <i class="fas fa-chevron-right ms-auto text-muted"></i>
+                </a>
+            </div>
+        </section>
 
-    <!-- Network Insights Section (New) -->
-    <div class="container mb-5">
-        <div class="row g-4">
+        <!-- ============ NETWORK INSIGHTS ============ -->
+        <section class="row g-4 mb-5 reveal-fade">
             <div class="col-lg-8">
-                <div class="glass-card p-4 h-100" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                    <h4 class="fw-bold mb-3 text-theme-primary"><i class="fas fa-chart-pie me-2 text-primary"></i>Alumni
+                <div class="stu-card p-4 h-100">
+                    <h4 class="fw-bold mb-3 stu-heading"><i class="fas fa-chart-pie me-2" style="color:#0284c7;"></i>Alumni
                         Distribution</h4>
                     <canvas id="alumniChart" style="max-height: 300px;"></canvas>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="glass-card p-4 h-100" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                    <h4 class="fw-bold mb-3 text-theme-primary"><i class="fas fa-building me-2 text-success"></i>Top Recruiters
+                <div class="stu-card p-4 h-100">
+                    <h4 class="fw-bold mb-3 stu-heading"><i class="fas fa-building me-2 text-success"></i>Top Recruiters
                     </h4>
                     <canvas id="companyChart" style="max-height: 300px;"></canvas>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- Recommended for You Section -->
-    <div class="container mb-5" id="recommendations">
-        <div class="section-header mb-4 d-flex justify-content-between align-items-center">
-            <h2 class="section-title mb-0">
-                <i class="fas fa-magic me-2 text-primary"></i> Recommended for You
-                <small class="text-muted fs-6 ms-2 fw-normal">Based on your profile, skills &amp; interactions</small>
-            </h2>
-            <a href="{{ url_for('search_network') }}" class="btn btn-link text-primary fw-bold text-decoration-none">
-                View All <i class="fas fa-arrow-right ms-1"></i>
-            </a>
-        </div>
+        <!-- ============ RECOMMENDED FOR YOU ============ -->
+        <section class="mb-5 reveal-fade" id="recommendations">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                <h2 class="stu-section-title mb-0">
+                    <i class="fas fa-magic me-2" style="color:#0284c7;"></i> Recommended for You
+                    <small class="text-muted fs-6 ms-2 fw-normal">Based on your profile, skills &amp; interactions</small>
+                </h2>
+                <a href="{{ url_for('search_network') }}" class="btn btn-link fw-bold text-decoration-none" style="color:#0284c7;">
+                    View All <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
 
-        <div class="row g-4" id="rec-cards-container">
-            {% if recommendations %}
-            {% for rec in recommendations %}
-            <div class="col-lg-2 col-md-4 col-6">
-                <div class="recommendation-card p-3 text-center h-100 shadow-sm border position-relative"
-                    style="border-radius: 18px; background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-color); transition: all 0.3s ease;">
-                    <div class="position-absolute top-0 end-0 m-2">
-                        <span class="badge rounded-pill {{ 'bg-success' if rec.source == 'ml' else 'bg-soft-primary text-primary' }} px-2 py-1"
-                            style="font-size: 0.7rem;" title="{{ rec.reason|default('Profile match') }}">
-                            {{ rec.score }} pts
-                        </span>
-                    </div>
-                    {% if rec.source == 'ml' %}
-                    <div class="position-absolute top-0 start-0 m-2">
-                        <span class="badge rounded-pill bg-warning text-theme-primary px-2 py-1" style="font-size: 0.6rem;" title="ML-powered recommendation">
-                            <i class="fas fa-robot"></i> AI
-                        </span>
-                    </div>
-                    {% endif %}
-                    <div style="width: 70px; height: 70px; margin: 0 auto 1rem; position: relative;">
-                        {% if rec.profile_pic and (rec.profile_pic.startswith('/') or rec.profile_pic.startswith('data:image/') or rec.profile_pic.startswith('http')) and rec.profile_pic != 'default.jpg' %}
-                        <img src="{{ rec.profile_pic }}" class="rounded-circle shadow-sm"
-                            style="width: 70px; height: 70px; object-fit: cover; border: 3px solid #e0e7ff;"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="rounded-circle shadow-sm" style="display: none; width: 70px; height: 70px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 1.8rem; font-weight: 800; align-items: center; justify-content: center; border: 3px solid #e0e7ff;">
-                            {{ (rec.name|trim)[0]|upper }}
+            <div class="row g-4" id="rec-cards-container">
+                {% if recommendations %}
+                {% for rec in recommendations %}
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="stu-rec-card recommendation-card p-3 text-center h-100 position-relative">
+                        <div class="position-absolute top-0 end-0 m-2">
+                            <span class="badge rounded-pill {{ 'bg-success' if rec.source == 'ml' else 'bg-soft-primary text-primary' }} px-2 py-1"
+                                style="font-size: 0.7rem;" title="{{ rec.reason|default('Profile match') }}">
+                                {{ rec.score }} pts
+                            </span>
                         </div>
-                        {% else %}
-                        <div class="rounded-circle shadow-sm" style="display: flex; width: 70px; height: 70px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 1.8rem; font-weight: 800; align-items: center; justify-content: center; border: 3px solid #e0e7ff;">
-                            {{ (rec.name|trim)[0]|upper }}
+                        {% if rec.source == 'ml' %}
+                        <div class="position-absolute top-0 start-0 m-2">
+                            <span class="badge rounded-pill bg-warning text-dark px-2 py-1" style="font-size: 0.6rem;" title="ML-powered recommendation">
+                                <i class="fas fa-robot"></i> AI
+                            </span>
                         </div>
                         {% endif %}
-                    </div>
-                    <h6 class="fw-bold mb-1 text-truncate" title="{{ rec.name }}">{{ rec.name }}</h6>
-                    <p class="text-muted small mb-2">{{ rec.branch or 'General' }}</p>
-                    {% if rec.reason %}
-                    <p class="text-muted mb-2" style="font-size: 0.6rem;">{{ rec.reason }}</p>
-                    {% endif %}
-                    <div class="skills-preview-tiny mb-3">
-                        {% if rec.skills %}
-                        {% for skill in rec.skills.split(',')[:2] %}
-                        <span class="badge bg-light text-theme-primary border-0 rounded-pill mb-1" style="font-size: 0.65rem;">{{
-                            skill.strip() }}</span>
-                        {% endfor %}
-                        {% else %}
-                        <span class="text-muted" style="font-size: 0.65rem;">Connect to grow</span>
+                        <div class="stu-rec-avatar">
+                            {% if rec.profile_pic and (rec.profile_pic.startswith('/') or rec.profile_pic.startswith('data:image/') or rec.profile_pic.startswith('http')) and rec.profile_pic != 'default.jpg' %}
+                            <img src="{{ rec.profile_pic }}" class="rounded-circle shadow-sm stu-rec-img"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="rounded-circle shadow-sm stu-rec-fallback" style="display: none;">
+                                {{ (rec.name|trim)[0]|upper }}
+                            </div>
+                            {% else %}
+                            <div class="rounded-circle shadow-sm stu-rec-fallback" style="display: flex;">
+                                {{ (rec.name|trim)[0]|upper }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <h6 class="fw-bold mb-1 text-truncate stu-heading" title="{{ rec.name }}">{{ rec.name }}</h6>
+                        <p class="text-muted small mb-2">{{ rec.branch or 'General' }}</p>
+                        {% if rec.reason %}
+                        <p class="text-muted mb-2" style="font-size: 0.6rem;">{{ rec.reason }}</p>
                         {% endif %}
+                        <div class="skills-preview-tiny mb-3">
+                            {% if rec.skills %}
+                            {% for skill in rec.skills.split(',')[:2] %}
+                            <span class="badge bg-light text-dark border-0 rounded-pill mb-1" style="font-size: 0.65rem;">{{
+                                skill.strip() }}</span>
+                            {% endfor %}
+                            {% else %}
+                            <span class="text-muted" style="font-size: 0.65rem;">Connect to grow</span>
+                            {% endif %}
+                        </div>
+                        <button class="btn stu-btn-sky btn-sm rounded-pill w-100 py-2 fw-bold"
+                            onclick="connectUser('{{ rec.id }}', '{{ rec.role }}')">
+                            Connect
+                        </button>
                     </div>
-                    <button class="btn btn-primary btn-sm rounded-pill w-100 py-2 fw-bold"
-                        onclick="connectUser('{{ rec.id }}', '{{ rec.role }}')">
-                        Connect
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="col-12">
+                    <div class="stu-empty-state p-5 text-center">
+                        <i class="fas fa-users-slash display-4 text-muted mb-3"></i>
+                        <h5 class="text-muted">No recommendations available right now</h5>
+                        <p class="text-muted mb-0">Try updating your profile with skills and interests!</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- ============ CATEGORY TABS ============ -->
+        <div class="category-tabs mb-5 reveal-fade">
+            <ul class="nav nav-pills nav-fill stu-pills p-2 shadow-sm">
+                <li class="nav-item">
+                    <button class="nav-link category-btn active" data-category="alumni" onclick="switchCategory('alumni')">
+                        <i class="fas fa-graduation-cap me-2"></i> Alumni Network
                     </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link category-btn" data-category="student" onclick="switchCategory('student')">
+                        <i class="fas fa-user-graduate me-2"></i> Student Directory
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link category-btn" data-category="faculty" onclick="switchCategory('faculty')">
+                        <i class="fas fa-chalkboard-teacher me-2"></i> Faculty Members
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ============ PENDING CONNECTION REQUESTS ============ -->
+        {% if pending_requests %}
+        <section class="mb-5 reveal-fade" id="pendingRequestsSection">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="stu-section-icon" style="background:linear-gradient(135deg,#0ea5e9,#0284c7); box-shadow:0 8px 20px rgba(14,165,233,0.35);">
+                    <i class="fas fa-bell text-white"></i>
+                </div>
+                <div>
+                    <h2 class="stu-section-title mb-0">Pending Requests
+                        <span class="badge bg-danger ms-2" id="requestCountBadge">{{ pending_count }}</span>
+                    </h2>
+                    <span class="text-muted small">Respond to grow your network</span>
                 </div>
             </div>
-            {% endfor %}
-            {% else %}
-            <div class="col-12">
-                <div class="glass-card p-5 text-center"
-                    style="background: var(--bg-surface); border: 2px dashed var(--border-color); border-radius: 18px;">
-                    <i class="fas fa-users-slash display-4 text-muted mb-3"></i>
-                    <h5 class="text-muted">No recommendations available right now</h5>
-                    <p class="text-muted mb-0">Try updating your profile with skills and interests!</p>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- Category Navigation Tabs -->
-    <div class="category-tabs mb-5" style="animation: slideUp 0.6s ease;">
-        <ul class="nav nav-pills nav-fill gradient-pills p-2 shadow-sm"
-            style="background: var(--bg-surface); border-radius: 18px; border: 1px solid var(--border-color);">
-            <li class="nav-item">
-                <button class="nav-link category-btn active" data-category="alumni" onclick="switchCategory('alumni')">
-                    <i class="fas fa-graduation-cap me-2"></i> Alumni Network
-                </button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link category-btn" data-category="student" onclick="switchCategory('student')">
-                    <i class="fas fa-user-graduate me-2"></i> Student Directory
-                </button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link category-btn" data-category="faculty" onclick="switchCategory('faculty')">
-                    <i class="fas fa-chalkboard-teacher me-2"></i> Faculty Members
-                </button>
-            </li>
-        </ul>
-    </div>
-
-    <!-- Connection Requests (Collapsible) -->
-    {% if pending_requests %}
-    <div class="mb-5" id="pendingRequestsSection">
-        <div class="section-header mb-4" style="animation: slideInLeft 0.6s ease;">
-            <h2 class="section-title">
-                <i class="fas fa-bell me-2" style="color: #667eea;"></i> Pending Requests
-                <span class="badge bg-danger ms-2" id="requestCountBadge">{{ pending_count }}</span>
-            </h2>
-        </div>
-        <div class="card border-0 shadow-lg mb-4" style="border-radius: 20px; border-left: 5px solid #ef4444;">
-            <div class="card-body p-4">
+            <div class="stu-card p-4">
                 <div id="pendingRequestsList" class="row g-3">
                     {% for req in pending_requests %}
                     <div class="col-md-6 col-lg-4">
-                        <div class="d-flex align-items-center p-3 border rounded-3 bg-light">
+                        <div class="stu-req-card d-flex align-items-center p-3">
                             <div class="avatar-sm me-3" style="width: 45px; height: 45px; position: relative; flex-shrink: 0;">
                                 {% if req['profile_pic'] and (req['profile_pic'].startswith('/') or req['profile_pic'].startswith('data:image/') or req['profile_pic'].startswith('http')) and req['profile_pic'] != 'default.jpg' %}
                                 <img src="{{ req['profile_pic'] }}"
                                     class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;"
                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="rounded-circle" style="display: none; width: 45px; height: 45px; background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; font-size: 1.2rem; font-weight: 800; align-items: center; justify-content: center;">
+                                <div class="rounded-circle" style="display: none; width: 45px; height: 45px; background: linear-gradient(135deg, #0ea5e9, #0284c7); color: #fff; font-size: 1.2rem; font-weight: 800; align-items: center; justify-content: center;">
                                     {{ (req['name']|trim)[0]|upper }}
                                 </div>
                                 {% else %}
-                                <div class="rounded-circle" style="display: flex; width: 45px; height: 45px; background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; font-size: 1.2rem; font-weight: 800; align-items: center; justify-content: center;">
+                                <div class="rounded-circle" style="display: flex; width: 45px; height: 45px; background: linear-gradient(135deg, #0ea5e9, #0284c7); color: #fff; font-size: 1.2rem; font-weight: 800; align-items: center; justify-content: center;">
                                     {{ (req['name']|trim)[0]|upper }}
                                 </div>
                                 {% endif %}
                             </div>
-                            <div class="flex-grow-1">
-                                <h6 class="mb-0 fw-bold">{{ req['name'] }}</h6>
+                            <div class="flex-grow-1 min-width-0">
+                                <h6 class="mb-0 fw-bold stu-heading text-truncate">{{ req['name'] }}</h6>
                                 <small class="text-muted">{{ req['role'] | capitalize }}</small>
                             </div>
-                            <div class="d-flex gap-2">
+                            <div class="d-flex gap-2 flex-shrink-0">
                                 <button class="btn btn-sm btn-success rounded-circle shadow-sm"
-                                    onclick="handleRequest('{{ req.sender_id }}', 'accept')"><i
+                                    onclick="handleRequest('{{ req.sender_id }}', 'accept')" aria-label="Accept request"><i
                                         class="fas fa-check"></i></button>
                                 <button class="btn btn-sm btn-outline-danger rounded-circle shadow-sm"
-                                    onclick="handleRequest('{{ req.sender_id }}', 'reject')"><i
+                                    onclick="handleRequest('{{ req.sender_id }}', 'reject')" aria-label="Reject request"><i
                                         class="fas fa-times"></i></button>
                             </div>
                         </div>
@@ -367,285 +358,295 @@
                     {% endfor %}
                 </div>
             </div>
-        </div>
-    </div>
-    {% endif %}
+        </section>
+        {% endif %}
 
-    <!-- Filter & Search Section -->
-    <div class="card border-0 shadow-lg mb-5 reveal-fade"
-        style="border-radius: 30px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2);">
-        <div class="filter-section p-4 p-md-5" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
+        <!-- ============ FILTER & SEARCH ============ -->
+        <section class="stu-card stu-filter-card p-4 p-md-5 mb-5 reveal-fade">
             <div class="row g-4 align-items-end">
                 <div class="col-lg-6">
-                    <label class="form-label fw-bold mb-2"><i class="fas fa-search me-2 text-primary"></i> Global
+                    <label class="form-label fw-bold mb-2" for="globalSearch"><i class="fas fa-search me-2" style="color:#0284c7;"></i> Global
                         Search</label>
                     <div class="search-input-group">
                         <input type="text" class="form-control form-control-lg" id="globalSearch"
                             placeholder="Search by name, department, company..."
-                            style="border-radius: 12px; border: 2px solid #e0e7ff; padding-right: 45px;">
+                            style="border-radius: 12px; border: 2px solid #e0f2fe; padding-right: 45px;">
                         <i class="fas fa-search search-icon"></i>
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <label class="form-label fw-bold mb-2"><i class="fas fa-filter me-2 text-primary"></i> Category
+                    <label class="form-label fw-bold mb-2" for="activeCategorySelect"><i class="fas fa-filter me-2" style="color:#0284c7;"></i> Category
                         View</label>
                     <select class="form-select form-select-lg" id="activeCategorySelect"
-                        onchange="switchCategory(this.value)" style="border-radius: 12px; border: 2px solid #e0e7ff;">
+                        onchange="switchCategory(this.value)" style="border-radius: 12px; border: 2px solid #e0f2fe;">
                         <option value="alumni">Alumni</option>
                         <option value="student">Students</option>
                         <option value="faculty">Faculty</option>
                     </select>
                 </div>
                 <div class="col-lg-3">
-                    <button class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-sm" onclick="resetAllFilters()"
-                        style="border-radius: 12px;">
+                    <button class="btn stu-btn-sky btn-lg w-100 py-3 fw-bold shadow-sm" onclick="resetAllFilters()">
                         <i class="fas fa-redo-alt me-2"></i> Reset Filters
                     </button>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- Directory Content -->
-    <div class="directory-container">
-        <!-- Alumni Tab -->
-        <div id="alumniContent" class="category-panel active-panel">
-            <div class="row g-4" id="alumniGrid">
-                {% for alum in alumni %}
-                <div class="col-lg-4 col-md-6 user-card alum-card" data-name="{{ alum['name'].lower() }}"
-                    data-info="{{ (alum['company_name'] or alum['department'] or '')|lower }}">
-                    <div class="premium-card holographic-border">
-                        <div class="card-gradient-top alumni-gradient"></div>
-                        <div class="card-avatar-wrapper" style="position: relative;">
-                            {% if alum['profile_pic'] and (alum['profile_pic'].startswith('/') or alum['profile_pic'].startswith('data:image/') or alum['profile_pic'].startswith('http')) and alum['profile_pic'] != 'default.jpg' %}
-                            <img src="{{ alum['profile_pic'] }}"
-                                class="card-avatar"
-                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="card-avatar" style="display: none; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
-                                {{ (alum['name']|trim)[0]|upper }}
-                            </div>
-                            {% else %}
-                            <div class="card-avatar" style="display: flex; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
-                                {{ (alum['name']|trim)[0]|upper }}
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="card-body-content text-center pt-2">
-                            <h5 class="fw-bold mb-1 text-theme-primary">{{ alum['name'] }}</h5>
-                            <div class="badge bg-soft-primary text-primary mb-3 px-3 py-2 rounded-pill small">
-                                <i class="fas fa-graduation-cap me-1"></i> Batch {{ alum['pass_year'] }}
-                            </div>
-                            <div class="info-badges mb-4 d-flex flex-wrap justify-content-center gap-1">
-                                <span class="badge rounded-pill bg-light text-muted border py-2 px-3"><i
-                                        class="fas fa-briefcase me-1"></i> {{ alum['company_name'] or 'N/A' }}</span>
-                                <span class="badge rounded-pill bg-light text-muted border py-2 px-3"><i
-                                        class="fas fa-location-dot me-1 text-danger"></i> {{ alum['work_location'] or
-                                    'Remote' }}</span>
-                            </div>
-                            <div class="card-footer-actions d-grid gap-2 mt-auto">
-                                <a href="{{ url_for('alumni_profile', user_id=alum['id']) }}"
-                                    class="btn btn-primary rounded-pill py-2 shadow-sm fw-bold"><i
-                                        class="fas fa-user-circle me-2"></i>Profile</a>
-                                <button class="btn btn-outline-primary rounded-pill btn-sm py-2 fw-600"
-                                    onclick="connectUser('{{ alum.id }}', 'alumni')"><i
-                                        class="fas fa-plus me-2"></i>Connect</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <!-- Students Tab -->
-        <div id="studentContent" class="category-panel">
-            <div class="row g-4" id="studentGrid">
-                {% for s in other_students %}
-                <div class="col-lg-4 col-md-6 user-card student-card" data-name="{{ s['name'].lower() }}"
-                    data-info="{{ (s['department'] or s['degree'] or '')|lower }}">
-                    <div class="premium-card holographic-border">
-                        <div class="card-gradient-top student-gradient"></div>
-                        <div class="card-avatar-wrapper" style="position: relative;">
-                            {% if s['profile_pic'] and (s['profile_pic'].startswith('/') or s['profile_pic'].startswith('data:image/') or s['profile_pic'].startswith('http')) and s['profile_pic'] != 'default.jpg' %}
-                            <img src="{{ s['profile_pic'] }}"
-                                class="card-avatar"
-                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="card-avatar" style="display: none; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
-                                {{ (s['name']|trim)[0]|upper }}
-                            </div>
-                            {% else %}
-                            <div class="card-avatar" style="display: flex; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
-                                {{ (s['name']|trim)[0]|upper }}
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="card-body-content text-center pt-2">
-                            <h5 class="fw-bold mb-1 text-theme-primary">{{ s['name'] }}</h5>
-                            <div class="badge bg-soft-info text-info mb-3 px-3 py-2 rounded-pill small">
-                                <i class="fas fa-university me-1"></i> {{ s['department'] }}
-                            </div>
-                            <p class="text-muted small fw-600 mb-3">{{ s['degree'] }} | Semester {{ s['semester'] }}</p>
-
-                            <!-- Skills Preview -->
-                            <div class="skills-preview mb-4 d-flex flex-wrap justify-content-center gap-1">
-                                {% if s['skills'] %}
-                                {% for skill in s['skills'].split(',')[:3] %}
-                                <span class="skill-tag">{{ skill.strip() }}</span>
-                                {% endfor %}
+        <!-- ============ DIRECTORY ============ -->
+        <div class="directory-container mb-5 reveal-fade">
+            <!-- Alumni Tab -->
+            <div id="alumniContent" class="category-panel active-panel">
+                <div class="row g-4" id="alumniGrid">
+                    {% for alum in alumni %}
+                    <div class="col-lg-4 col-md-6 user-card alumni-card" data-name="{{ alum['name'].lower() }}"
+                        data-info="{{ (alum['company_name'] or alum['department'] or '')|lower }}">
+                        <div class="premium-card stu-dir-card">
+                            <div class="card-gradient-top alumni-gradient"></div>
+                            <div class="card-avatar-wrapper" style="position: relative;">
+                                {% if alum['profile_pic'] and (alum['profile_pic'].startswith('/') or alum['profile_pic'].startswith('data:image/') or alum['profile_pic'].startswith('http')) and alum['profile_pic'] != 'default.jpg' %}
+                                <img src="{{ alum['profile_pic'] }}"
+                                    class="card-avatar"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="card-avatar" style="display: none; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
+                                    {{ (alum['name']|trim)[0]|upper }}
+                                </div>
                                 {% else %}
-                                <span class="text-muted small italic">No skills listed</span>
+                                <div class="card-avatar" style="display: flex; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
+                                    {{ (alum['name']|trim)[0]|upper }}
+                                </div>
                                 {% endif %}
                             </div>
-
-                            <div class="card-footer-actions d-grid gap-2 mt-auto">
-                                <a href="{{ url_for('student_profile', user_id=s.id) }}"
-                                    class="btn btn-info text-white rounded-pill py-2 shadow-sm fw-bold">
-                                    <i class="fas fa-bolt me-2"></i>Quick View
-                                </a>
-                                <button class="btn btn-outline-info rounded-pill btn-sm py-2 fw-600"
-                                    onclick="connectUser('{{ s.id }}', 'student')">
-                                    <i class="fas fa-plus me-2"></i>Connect
-                                </button>
+                            <div class="card-body-content text-center pt-2">
+                                <h5 class="fw-bold mb-1 stu-heading">{{ alum['name'] }}</h5>
+                                <div class="badge bg-soft-primary text-primary mb-3 px-3 py-2 rounded-pill small">
+                                    <i class="fas fa-graduation-cap me-1"></i> Batch {{ alum['pass_year'] }}
+                                </div>
+                                <div class="info-badges mb-4 d-flex flex-wrap justify-content-center gap-1">
+                                    <span class="badge rounded-pill bg-light text-muted border py-2 px-3"><i
+                                            class="fas fa-briefcase me-1"></i> {{ alum['company_name'] or 'N/A' }}</span>
+                                    <span class="badge rounded-pill bg-light text-muted border py-2 px-3"><i
+                                            class="fas fa-location-dot me-1 text-danger"></i> {{ alum['work_location'] or
+                                        'Remote' }}</span>
+                                </div>
+                                <div class="card-footer-actions d-grid gap-2 mt-auto">
+                                    <a href="{{ url_for('alumni_profile', user_id=alum['id']) }}"
+                                        class="btn btn-primary rounded-pill py-2 shadow-sm fw-bold"><i
+                                            class="fas fa-user-circle me-2"></i>Profile</a>
+                                    <button class="btn btn-outline-primary rounded-pill btn-sm py-2 fw-600"
+                                        onclick="connectUser('{{ alum.id }}', 'alumni')"><i
+                                            class="fas fa-plus me-2"></i>Connect</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <!-- Faculty Tab -->
-        <div id="facultyContent" class="category-panel">
-            <div class="row g-4" id="facultyGrid">
-                {% for f in faculty %}
-                <div class="col-lg-4 col-md-6 user-card faculty-card" data-name="{{ f['name'].lower() }}"
-                    data-info="{{ (f['department'] or f['designation'] or '')|lower }}">
-                    <div class="premium-card holographic-border">
-                        <div class="card-gradient-top faculty-gradient"></div>
-                        <div class="card-avatar-wrapper" style="position: relative;">
-                            {% if f['profile_pic'] and (f['profile_pic'].startswith('/') or f['profile_pic'].startswith('data:image/') or f['profile_pic'].startswith('http')) and f['profile_pic'] != 'default.jpg' %}
-                            <img src="{{ f['profile_pic'] }}"
-                                class="card-avatar"
-                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="card-avatar" style="display: none; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
-                                {{ (f['name']|trim)[0]|upper }}
-                            </div>
-                            {% else %}
-                            <div class="card-avatar" style="display: flex; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
-                                {{ (f['name']|trim)[0]|upper }}
-                            </div>
-                            {% endif %}
+                    {% else %}
+                    <div class="col-12">
+                        <div class="stu-empty-state p-5 text-center">
+                            <i class="fas fa-graduation-cap display-4 text-muted mb-3"></i>
+                            <h5 class="text-muted">No alumni in the network yet</h5>
+                            <p class="text-muted mb-0">Check back soon — new alumni join regularly.</p>
                         </div>
-                        <div class="card-body-content text-center pt-2">
-                            <h5 class="fw-bold mb-1 text-theme-primary">{{ f['name'] }}</h5>
-                            <div class="badge bg-soft-danger text-danger mb-3 px-3 py-2 rounded-pill small">
-                                <i class="fas fa-award me-1"></i> {{ f['department'] }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Students Tab -->
+            <div id="studentContent" class="category-panel">
+                <div class="row g-4" id="studentGrid">
+                    {% for s in other_students %}
+                    <div class="col-lg-4 col-md-6 user-card student-card" data-name="{{ s['name'].lower() }}"
+                        data-info="{{ (s['department'] or s['degree'] or '')|lower }}">
+                        <div class="premium-card stu-dir-card">
+                            <div class="card-gradient-top student-gradient"></div>
+                            <div class="card-avatar-wrapper" style="position: relative;">
+                                {% if s['profile_pic'] and (s['profile_pic'].startswith('/') or s['profile_pic'].startswith('data:image/') or s['profile_pic'].startswith('http')) and s['profile_pic'] != 'default.jpg' %}
+                                <img src="{{ s['profile_pic'] }}"
+                                    class="card-avatar"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="card-avatar" style="display: none; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
+                                    {{ (s['name']|trim)[0]|upper }}
+                                </div>
+                                {% else %}
+                                <div class="card-avatar" style="display: flex; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
+                                    {{ (s['name']|trim)[0]|upper }}
+                                </div>
+                                {% endif %}
                             </div>
-                            <p class="text-muted small fw-600 mb-3">{{ f['designation'] }}</p>
-                            <div class="info-badges mb-4 d-flex justify-content-center">
-                                <span class="badge rounded-pill bg-light text-muted border py-2 px-3"><i
-                                        class="fas fa-envelope me-1"></i> {{ f['email'][:25] }}{% if f['email']|length >
-                                    25 %}...{% endif %}</span>
-                            </div>
-                            <div class="card-footer-actions d-grid gap-2 mt-auto">
-                                <a href="{{ url_for('faculty_profile', user_id=f['id']) }}"
-                                    class="btn btn-danger rounded-pill py-2 shadow-sm fw-bold"><i
-                                        class="fas fa-user-tie me-2"></i>Profile</a>
-                                <button class="btn btn-outline-danger rounded-pill btn-sm py-2 fw-600"
-                                    onclick="connectUser('{{ f.id }}', 'faculty')"><i
-                                        class="fas fa-link me-2"></i>Connect</button>
+                            <div class="card-body-content text-center pt-2">
+                                <h5 class="fw-bold mb-1 stu-heading">{{ s['name'] }}</h5>
+                                <div class="badge bg-soft-info text-info mb-3 px-3 py-2 rounded-pill small">
+                                    <i class="fas fa-university me-1"></i> {{ s['department'] }}
+                                </div>
+                                <p class="text-muted small fw-600 mb-3">{{ s['degree'] }} | Semester {{ s['semester'] }}</p>
+
+                                <!-- Skills Preview -->
+                                <div class="skills-preview mb-4 d-flex flex-wrap justify-content-center gap-1">
+                                    {% if s['skills'] %}
+                                    {% for skill in s['skills'].split(',')[:3] %}
+                                    <span class="skill-tag">{{ skill.strip() }}</span>
+                                    {% endfor %}
+                                    {% else %}
+                                    <span class="text-muted small italic">No skills listed</span>
+                                    {% endif %}
+                                </div>
+
+                                <div class="card-footer-actions d-grid gap-2 mt-auto">
+                                    <a href="{{ url_for('student_profile', user_id=s.id) }}"
+                                        class="btn btn-info text-white rounded-pill py-2 shadow-sm fw-bold">
+                                        <i class="fas fa-bolt me-2"></i>Quick View
+                                    </a>
+                                    <button class="btn btn-outline-info rounded-pill btn-sm py-2 fw-600"
+                                        onclick="connectUser('{{ s.id }}', 'student')">
+                                        <i class="fas fa-plus me-2"></i>Connect
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-
-    <!-- Premium Mentorship Section -->
-    <div class="row mt-5 mb-5 g-4 align-items-center">
-        <div class="col-lg-6 reveal-text">
-            <div class="mentorship-hero d-flex align-items-center p-5 text-white shadow-lg"
-                style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 40px; position: relative; overflow: hidden; min-height: 400px; border: 1px solid rgba(255,255,255,0.1);">
-                <div class="hero-particles"></div>
-                <div class="glow-point"
-                    style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(59, 130, 246, 0.2); filter: blur(60px); border-radius: 50%;">
-                </div>
-                <div class="z-index-2 position-relative">
-                    <h2 class="display-6 fw-bold mb-3">Accelerate Your <br><span class="text-info">Career Journey</span>
-                    </h2>
-                    <p class="lead opacity-75 mb-4">Connect with industry leaders and alumni mentors who have walked the
-                        path you are on today.</p>
-                    <div class="d-flex gap-3">
-                        <div class="stat-mini">
-                            <h4 class="mb-0 fw-bold">500+</h4>
-                            <small class="opacity-50">Active Mentors</small>
-                        </div>
-                        <div class="stat-mini border-start ps-3">
-                            <h4 class="mb-0 fw-bold">1.2k</h4>
-                            <small class="opacity-50">Success Stories</small>
+                    {% else %}
+                    <div class="col-12">
+                        <div class="stu-empty-state p-5 text-center">
+                            <i class="fas fa-user-graduate display-4 text-muted mb-3"></i>
+                            <h5 class="text-muted">No other students listed yet</h5>
+                            <p class="text-muted mb-0">Your batchmates will appear here once they join.</p>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                <i class="fas fa-rocket position-absolute bottom-0 end-0 m-4 opacity-10 display-1"></i>
             </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="glass-card p-5 border-start-primary-thick h-100"
-                style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px; border-left: 6px solid var(--accent-blue);">
-                <h3 class="fw-bold mb-4 font-heading"><i class="fas fa-handshake-angle text-primary me-2"></i>Why
-                    Mentorship?</h3>
-                <ul class="list-unstyled space-y-4">
-                    <li class="d-flex align-items-start mb-4">
-                        <div class="icon-box-sm bg-light-primary text-primary me-3"><i class="fas fa-bullseye"></i>
-                        </div>
-                        <div>
-                            <h5 class="fw-bold mb-1">Career Goal Setting</h5>
-                            <p class="text-muted small mb-0">Define your path with experts who know the industry inside
-                                out.</p>
-                        </div>
-                    </li>
-                    <li class="d-flex align-items-start mb-4">
-                        <div class="icon-box-sm bg-light-info text-info me-3"><i class="fas fa-network-wired"></i></div>
-                        <div>
-                            <h5 class="fw-bold mb-1">Network Expansion</h5>
-                            <p class="text-muted small mb-0">Open doors to referrals and internships at top companies.
-                            </p>
-                        </div>
-                    </li>
-                </ul>
-                <a href="{{ url_for('search_network') }}"
-                    class="btn btn-primary btn-lg w-100 rounded-pill py-3 fw-bold shadow-lg mt-2">
-                    Start Your Journey <i class="fas fa-arrow-right ms-2 animate-bounce-x"></i>
-                </a>
-            </div>
-        </div>
-    </div>
 
-    <!-- Action Buttons -->
-    <!-- Action Buttons -->
-    <div class="action-buttons-container mt-5 mb-5 pb-5">
-        <div class="glass-card p-4 mx-auto" style="max-width: 900px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-            <h4 class="text-center mb-4 fw-bold text-theme-primary">Quick Actions</h4>
-            <div class="d-flex flex-wrap justify-content-center gap-3">
-                <a href="{{ url_for('edit_student_profile', user_id=current_user.id) }}"
-                    class="btn btn-primary btn-lg action-btn-enhanced">
-                    <i class="fas fa-edit me-2"></i> Edit Profile
-                </a>
-                <button class="btn btn-warning text-white btn-lg action-btn-enhanced" data-bs-toggle="modal"
-                    data-bs-target="#upgradeModal">
-                    <i class="fas fa-crown me-2"></i> Upgrade to Alumni
-                </button>
-                <a href="{{ url_for('logout') }}" class="btn btn-danger btn-lg action-btn-enhanced">
-                    <i class="fas fa-sign-out-alt me-2"></i> Logout
-                </a>
+            <!-- Faculty Tab -->
+            <div id="facultyContent" class="category-panel">
+                <div class="row g-4" id="facultyGrid">
+                    {% for f in faculty %}
+                    <div class="col-lg-4 col-md-6 user-card faculty-card" data-name="{{ f['name'].lower() }}"
+                        data-info="{{ (f['department'] or f['designation'] or '')|lower }}">
+                        <div class="premium-card stu-dir-card">
+                            <div class="card-gradient-top faculty-gradient"></div>
+                            <div class="card-avatar-wrapper" style="position: relative;">
+                                {% if f['profile_pic'] and (f['profile_pic'].startswith('/') or f['profile_pic'].startswith('data:image/') or f['profile_pic'].startswith('http')) and f['profile_pic'] != 'default.jpg' %}
+                                <img src="{{ f['profile_pic'] }}"
+                                    class="card-avatar"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="card-avatar" style="display: none; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
+                                    {{ (f['name']|trim)[0]|upper }}
+                                </div>
+                                {% else %}
+                                <div class="card-avatar" style="display: flex; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 2.2rem; font-weight: 800; align-items: center; justify-content: center;">
+                                    {{ (f['name']|trim)[0]|upper }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="card-body-content text-center pt-2">
+                                <h5 class="fw-bold mb-1 stu-heading">{{ f['name'] }}</h5>
+                                <div class="badge bg-soft-danger text-danger mb-3 px-3 py-2 rounded-pill small">
+                                    <i class="fas fa-award me-1"></i> {{ f['department'] }}
+                                </div>
+                                <p class="text-muted small fw-600 mb-3">{{ f['designation'] }}</p>
+                                <div class="info-badges mb-4 d-flex justify-content-center">
+                                    <span class="badge rounded-pill bg-light text-muted border py-2 px-3"><i
+                                            class="fas fa-envelope me-1"></i> {{ f['email'][:25] }}{% if f['email']|length > 25 %}...{% endif %}</span>
+                                </div>
+                                <div class="card-footer-actions d-grid gap-2 mt-auto">
+                                    <a href="{{ url_for('faculty_profile', user_id=f['id']) }}"
+                                        class="btn btn-danger rounded-pill py-2 shadow-sm fw-bold"><i
+                                            class="fas fa-user-tie me-2"></i>Profile</a>
+                                    <button class="btn btn-outline-danger rounded-pill btn-sm py-2 fw-600"
+                                        onclick="connectUser('{{ f.id }}', 'faculty')"><i
+                                            class="fas fa-link me-2"></i>Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="col-12">
+                        <div class="stu-empty-state p-5 text-center">
+                            <i class="fas fa-chalkboard-teacher display-4 text-muted mb-3"></i>
+                            <h5 class="text-muted">No faculty members listed yet</h5>
+                            <p class="text-muted mb-0">Faculty mentors will appear here once added.</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
 
-</div>
-</div>
+        <!-- ============ MENTORSHIP ============ -->
+        <section class="row mt-5 mb-5 g-4 align-items-stretch reveal-fade">
+            <div class="col-lg-6">
+                <div class="stu-mentor-banner d-flex align-items-center p-4 p-md-5 text-white shadow-lg h-100">
+                    <div class="position-relative" style="z-index:2;">
+                        <h2 class="display-6 fw-bold mb-3">Accelerate Your <br><span class="text-info">Career Journey</span>
+                        </h2>
+                        <p class="lead opacity-75 mb-4">Connect with industry leaders and alumni mentors who have walked the
+                            path you are on today.</p>
+                        <div class="d-flex gap-3">
+                            <div class="stat-mini">
+                                <h4 class="mb-0 fw-bold">500+</h4>
+                                <small class="opacity-50">Active Mentors</small>
+                            </div>
+                            <div class="stat-mini border-start ps-3">
+                                <h4 class="mb-0 fw-bold">1.2k</h4>
+                                <small class="opacity-50">Success Stories</small>
+                            </div>
+                        </div>
+                    </div>
+                    <i class="fas fa-rocket position-absolute bottom-0 end-0 m-4 opacity-10 display-1"></i>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="stu-card p-4 p-md-5 h-100" style="border-left: 6px solid #0ea5e9;">
+                    <h3 class="fw-bold mb-4 stu-heading"><i class="fas fa-handshake-angle me-2" style="color:#0284c7;"></i>Why
+                        Mentorship?</h3>
+                    <ul class="list-unstyled">
+                        <li class="d-flex align-items-start mb-4">
+                            <div class="stu-icon-box-sm me-3" style="background:rgba(14,165,233,0.12); color:#0284c7;"><i class="fas fa-bullseye"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1 stu-heading">Career Goal Setting</h5>
+                                <p class="text-muted small mb-0">Define your path with experts who know the industry inside
+                                    out.</p>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start mb-4">
+                            <div class="stu-icon-box-sm me-3" style="background:rgba(56,189,248,0.12); color:#0284c7;"><i class="fas fa-network-wired"></i></div>
+                            <div>
+                                <h5 class="fw-bold mb-1 stu-heading">Network Expansion</h5>
+                                <p class="text-muted small mb-0">Open doors to referrals and internships at top companies.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="{{ url_for('search_network') }}"
+                        class="btn stu-btn-sky btn-lg w-100 rounded-pill py-3 fw-bold shadow-lg mt-2">
+                        Start Your Journey <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ QUICK ACTIONS ============ -->
+        <section class="mb-5 pb-4 reveal-fade">
+            <div class="stu-card p-4 mx-auto" style="max-width: 900px;">
+                <h4 class="text-center mb-4 fw-bold stu-heading">Quick Actions</h4>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a href="{{ url_for('edit_student_profile', user_id=current_user.id) }}"
+                        class="btn stu-btn-sky btn-lg">
+                        <i class="fas fa-edit me-2"></i> Edit Profile
+                    </a>
+                    <a href="{{ url_for('upgrade_to_alumni') }}" class="btn btn-warning text-white btn-lg">
+                        <i class="fas fa-crown me-2"></i> Upgrade to Alumni
+                    </a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-danger btn-lg">
+                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- /.admin-container -->
+</div><!-- /.admin-page-wrapper -->
 
 <!-- Alumni Modal -->
 <div class="modal fade" id="alumniDetailsModal" tabindex="-1">
@@ -656,7 +657,7 @@
                 <h5 class="modal-title fw-bold text-white">
                     <i class="fas fa-user-circle"></i> Alumni Details
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-5" id="alumniDetailsContent">
                 <div class="text-center">
@@ -680,11 +681,11 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
             <div class="modal-header"
-                style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border: none; border-radius: 20px 20px 0 0;">
+                style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); border: none; border-radius: 20px 20px 0 0;">
                 <h5 class="modal-title fw-bold text-white">
                     <i class="fas fa-user-graduate"></i> Student Details
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-5" id="studentDetailsContent">
                 <div class="text-center">
@@ -700,572 +701,323 @@
                 </button>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- Floating Action Button -->
-        <div class="fab-container">
-            <div class="fab shadow-lg">
-                <div class="fab-content">
-                    <i class="fas fa-plus"></i>
-                </div>
-            </div>
-            <div class="sub-button shadow-sm" style="bottom: 90px; right: 28px;" title="Search">
-                <a href="#globalSearch" class="text-white"><i class="fas fa-search"></i></a>
-            </div>
-            <div class="sub-button shadow-sm" style="bottom: 150px; right: 28px;" title="Messages">
-                <a href="{{ url_for('messages') }}" class="text-white"><i class="fas fa-comment-dots"></i></a>
-            </div>
-            <div class="sub-button shadow-sm" style="bottom: 210px; right: 28px;" title="Profile">
-                <a href="{{ url_for('student_profile', user_id=current_user.id) }}" class="text-white"><i
-                        class="fas fa-user"></i></a>
-            </div>
+<!-- Floating Action Button -->
+<div class="fab-container">
+    <div class="fab shadow-lg">
+        <div class="fab-content">
+            <i class="fas fa-plus"></i>
         </div>
-
-        <script>
-            // Initialize Vanilla Tilt
-            VanillaTilt.init(document.querySelectorAll(".stat-card, .premium-card, .glass-card"), {
-                max: 10,
-                speed: 400,
-                glare: true,
-                "max-glare": 0.2,
-                scale: 1.02
-            });
-
-            // Chart.js - Alumni Distribution
-            const ctxAlumni = document.getElementById('alumniChart').getContext('2d');
-            new Chart(ctxAlumni, {
-                type: 'line',
-                data: {
-                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
-                    datasets: [{
-                        label: 'Alumni Growth',
-                        data: [12, 19, 3, 5, 2, 3],
-                        borderColor: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { display: false } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
-
-            // Chart.js - Top Companies
-            const ctxCompany = document.getElementById('companyChart').getContext('2d');
-            new Chart(ctxCompany, {
-                type: 'doughnut',
-                data: {
-                    labels: ['TCS', 'Infosys', 'Wipro', 'Google', 'Microsoft'],
-                    datasets: [{
-                        data: [30, 20, 15, 10, 25],
-                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'bottom' }
-                    },
-                    cutout: '70%'
-                }
-            });
-        </script>
+    </div>
+    <div class="sub-button shadow-sm" style="bottom: 90px; right: 28px;" title="Search">
+        <a href="#globalSearch" class="text-white"><i class="fas fa-search"></i></a>
+    </div>
+    <div class="sub-button shadow-sm" style="bottom: 150px; right: 28px;" title="Messages">
+        <a href="{{ url_for('messages') }}" class="text-white"><i class="fas fa-comment-dots"></i></a>
+    </div>
+    <div class="sub-button shadow-sm" style="bottom: 210px; right: 28px;" title="Profile">
+        <a href="{{ url_for('student_profile', user_id=current_user.id) }}" class="text-white"><i
+                class="fas fa-user"></i></a>
     </div>
 </div>
 
 <style>
-    /* Global Typography & Mesh */
-    body {
-        font-family: 'Outfit', sans-serif;
-        background-color: var(--bg-primary) !important; color: var(--text-primary) !important;
-        overflow-x: hidden;
+    /* ============ STUDENT THEME (Sky) on the admin shell ============ */
+    :root {
+        --stu-sky: #0ea5e9;
+        --stu-sky-dark: #0284c7;
+        --stu-sky-light: #38bdf8;
+        --stu-navy: #0f172a;
+        --stu-ink: #0f172a;
+        --stu-muted: #64748b;
+        --stu-card: #ffffff;
+        --stu-border: #e2e8f0;
+        --stu-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.08);
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    .stu-page {
         font-family: 'Plus Jakarta Sans', sans-serif;
+        color: var(--stu-ink);
+        overflow-x: clip;
     }
 
-    .dashboard-wrapper {
-        position: relative;
-        overflow: hidden;
-        min-height: 100vh;
+    .stu-heading { color: var(--stu-ink); font-family: 'Outfit', sans-serif; }
+
+    /* ---- Hero (dark navy; Sky variant of .admin-hero-card) ---- */
+    .stu-hero {
+        border: 1px solid rgba(56, 189, 248, 0.35) !important;
+        margin-bottom: 1.75rem;
     }
 
-    .mesh-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        overflow: hidden;
-        background: var(--bg-primary);
-        pointer-events: none;
-    }
-
-    .mesh-ball {
+    .stu-hero-glow {
         position: absolute;
         border-radius: 50%;
         filter: blur(80px);
-        opacity: 0.15;
-        animation: mesh-float 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+        pointer-events: none;
+    }
+    .stu-hero-glow-1 { width: 340px; height: 340px; top: -140px; right: -60px; background: rgba(14, 165, 233, 0.30); }
+    .stu-hero-glow-2 { width: 280px; height: 280px; bottom: -140px; left: 30%; background: rgba(56, 189, 248, 0.20); }
+
+    .stu-live-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        color: #bae6fd;
+        background: rgba(14, 165, 233, 0.16);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        border-radius: 999px;
+        padding: 0.45rem 0.95rem;
     }
 
-    .ball-1 {
-        width: 600px;
-        height: 600px;
-        background: #6366f1;
-        top: -10%;
-        left: -10%;
-        animation-duration: 25s;
+    .stu-live-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: #38bdf8;
+        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+        animation: stuPulse 2s infinite;
     }
 
-    .ball-2 {
-        width: 500px;
-        height: 500px;
-        background: #a855f7;
-        bottom: 10%;
-        right: -5%;
-        animation-duration: 30s;
+    .stu-greeting-pill {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.92);
+        color: #0f172a;
+        border-radius: 999px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
     }
 
-    .ball-3 {
-        width: 400px;
-        height: 400px;
-        background: #ec4899;
-        top: 40%;
-        left: 30%;
-        animation-duration: 22s;
+    /* Dark-on-dark guard: theme-system.css forces headings dark navy.
+       The shared .admin-hero-card rule covers this, but the guard is
+       repeated here so the title stays white even if that sheet loads
+       after admin-luxury.css. The gradient span keeps its own
+       transparent fill (its direct rule beats the inherited value). */
+    .stu-hero-title {
+        font-family: 'Outfit', sans-serif;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 800;
+        font-size: clamp(1.9rem, 4.5vw, 3rem);
+        line-height: 1.15;
+        margin-bottom: 1rem;
     }
 
-    .ball-4 {
-        width: 450px;
-        height: 450px;
-        background: #3b82f6;
-        bottom: -5%;
-        left: 15%;
-        animation-duration: 28s;
+    .stu-text-sky {
+        background: linear-gradient(90deg, #bae6fd, #7dd3fc 35%, #38bdf8 65%, #0ea5e9);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
-    @keyframes mesh-float {
-        0% {
-            transform: translate(0, 0) rotate(0deg);
-        }
+    .stu-hero-sub { color: rgba(255, 255, 255, 0.72); font-size: 1.15rem; max-width: 600px; }
 
-        100% {
-            transform: translate(100px, 100px) rotate(180deg);
-        }
+    .stu-btn-sky {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: #fff;
+        border: none;
+        box-shadow: 0 10px 24px rgba(14, 165, 233, 0.4);
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
+    .stu-btn-sky:hover, .stu-btn-sky:focus { color: #fff; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); transform: translateY(-2px); }
 
-    /* Glassmorphism Classes */
-    .glass-card {
-        background: rgba(255, 255, 255, 0.1);
+    .stu-btn-glass {
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        backdrop-filter: blur(10px);
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .stu-btn-glass:hover, .stu-btn-glass:focus { color: #fff; background: rgba(255, 255, 255, 0.16); transform: translateY(-2px); }
+
+    .stu-completeness {
+        width: 100%;
+        max-width: 420px;
+        background: rgba(255, 255, 255, 0.08);
         backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 18px;
+        border-radius: 20px;
     }
 
-    .glass-nav {
-        background: rgba(255, 255, 255, 0.7) !important;
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    }
-
-    .text-gradient-cyan {
-        background: linear-gradient(45deg, #00d4ff, #00f2fe);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .text-holographic {
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
-        background-size: 300% 100%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: holographic-move 6s linear infinite;
-    }
-
-    @keyframes holographic-move {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        100% {
-            background-position: 300% 50%;
-        }
-    }
-
-    .reveal-text {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-    .reveal-fade {
-        opacity: 0;
-        transition: opacity 1.5s ease;
-    }
-
-    .revealed {
-        opacity: 1 !important;
-        transform: translate(0, 0) !important;
-    }
-
-    .avatar-glass-card {
+    .stu-avatar-wrap {
         position: relative;
         display: inline-block;
         padding: 12px;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(10px);
         border-radius: 50%;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow:
-            0 20px 40px rgba(0, 0, 0, 0.2),
-            inset 0 0 20px rgba(255, 255, 255, 0.1);
-        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        z-index: 5;
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        animation: stuFloat 5s ease-in-out infinite;
     }
 
-    .avatar-inner-border {
-        padding: 5px;
+    .stu-hero-avatar, .stu-hero-avatar-fallback {
+        width: 180px; height: 180px;
         border-radius: 50%;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .avatar-img {
-        width: 180px;
-        height: 180px;
         object-fit: cover;
-        border: 4px solid white;
-        border-radius: 50%;
-        /* Force circle */
-        transition: transform 0.5s ease;
-        display: block;
+        border: 4px solid #fff;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+    .stu-hero-avatar-fallback {
+        background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        color: #fff; font-size: 4rem; font-weight: 800;
+        align-items: center; justify-content: center;
     }
 
-    .glass-tag {
+    .stu-avatar-tag {
         position: absolute;
-        bottom: 15px;
-        right: -10px;
-        background: linear-gradient(135deg, #00d4ff 0%, #0080ff 100%);
-        color: white;
-        padding: 6px 16px;
-        border-radius: 30px;
-        font-size: 0.85rem;
-        font-weight: 800;
-        box-shadow: 0 10px 20px rgba(0, 212, 255, 0.4);
+        bottom: 14px; right: 8px;
+        background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 25px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    /* ---- Stat cards ---- */
+    .stu-stats-row { margin-bottom: 1.75rem; }
+
+    .stu-stat-card {
+        background: var(--stu-card);
+        border: 1px solid var(--stu-border);
+        border-radius: 24px;
+        padding: 24px;
         display: flex;
         align-items: center;
-        gap: 6px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        z-index: 10;
-        animation: tag-pulse 2s infinite;
-    }
-
-    .tag-dot {
-        width: 8px;
-        height: 8px;
-        background: white;
-        border-radius: 50%;
-        display: inline-block;
-        box-shadow: 0 0 10px white;
-    }
-
-    @keyframes tag-pulse {
-
-        0%,
-        100% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.05);
-        }
-    }
-
-    /* Hero Visual container and floating elements */
-    .hero-visual-container {
+        gap: 16px;
         position: relative;
-        padding: 60px;
-        /* Increased padding */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        perspective: 1000px;
-        min-height: 400px;
+        overflow: hidden;
+        box-shadow: var(--stu-shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        min-height: 120px;
     }
-
-    .avatar-glass-card-wrapper {
-        position: relative;
-        z-index: 5;
-        transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        transform-style: preserve-3d;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .hero-visual-container:hover .avatar-glass-card-wrapper {
-        transform: rotateX(5deg) rotateY(10deg) scale(1.05);
-    }
-
-    .hero-visual-container:hover .avatar-img {
-        transform: scale(1.05);
-    }
-
-    .glow-aura {
+    .stu-stat-card::before {
+        content: '';
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 350px;
-        height: 350px;
-        background: radial-gradient(circle, rgba(102, 126, 234, 0.4) 0%, transparent 70%);
-        border-radius: 50%;
-        filter: blur(40px);
-        z-index: 1;
-        animation: pulse-aura 4s ease-in-out infinite;
-        pointer-events: none;
-    }
-
-    .hero-particles {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        background: radial-gradient(circle at center, rgba(102, 126, 234, 0.05), transparent);
-    }
-
-    @keyframes pulse-aura {
-
-        0%,
-        100% {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 0.4;
-        }
-
-        50% {
-            transform: translate(-50%, -50%) scale(1.2);
-            opacity: 0.7;
-        }
-    }
-
-    .floating-elements {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 2;
-    }
-
-    .floating-shape {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .shape-1 {
-        width: 60px;
-        height: 60px;
-        top: 10%;
-        left: 10%;
-    }
-
-    .shape-2 {
-        width: 40px;
-        height: 40px;
-        bottom: 20%;
-        right: 15%;
-    }
-
-    .floating-icon {
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        background: white;
-        color: #667eea;
-        border-radius: 12px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.2rem;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        transform-style: preserve-3d;
-    }
-
-    .icon-1 {
-        top: 15%;
-        right: 10%;
-    }
-
-    .icon-2 {
-        bottom: 25%;
-        left: 5%;
-    }
-
-    .icon-3 {
-        top: 60%;
-        right: 5%;
-    }
-
-    @keyframes float-slow {
-
-        0%,
-        100% {
-            transform: translate(0, 0) rotate(0deg);
-        }
-
-        33% {
-            transform: translate(15px, -20px) rotate(5deg);
-        }
-
-        66% {
-            transform: translate(-10px, 15px) rotate(-5deg);
-        }
-    }
-
-    @keyframes float-medium {
-
-        0%,
-        100% {
-            transform: translate(0, 0) rotate(10deg);
-        }
-
-        50% {
-            transform: translate(-20px, 15px) rotate(-10deg);
-        }
-    }
-
-    @keyframes float-fast {
-
-        0%,
-        100% {
-            transform: translateY(0) scale(1);
-        }
-
-        50% {
-            transform: translateY(-30px) scale(1.1);
-        }
-    }
-
-    .card-shine {
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 50%;
-        height: 100%;
-        background: linear-gradient(to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.3) 50%,
-                rgba(255, 255, 255, 0) 100%);
-        transform: skewX(-25deg);
-        transition: 0.75s;
-        z-index: 3;
-    }
-
-    .avatar-glass-card:hover .card-shine {
-        left: 125%;
-    }
-
-    /* Interactive Skills Tags */
-    .skill-tag {
-        font-size: 0.7rem;
-        padding: 4px 10px;
-        background: rgba(79, 172, 254, 0.1);
-        color: #0369a1;
-        border-radius: 8px;
-        margin: 2px;
-        display: inline-block;
-        font-weight: 600;
-        border: 1px solid rgba(79, 172, 254, 0.2);
-    }
-
-    /* Skeleton Loader */
-    .skeleton-loader {
-        background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.5s infinite;
-        border-radius: 12px;
-    }
-
-    @keyframes shimmer {
-        0% {
-            background-position: -200% 0;
-        }
-
-        100% {
-            background-position: 200% 0;
-        }
-    }
-
-    .loading-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: white;
-        z-index: 10;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        top: 0; left: 0;
+        width: 100%; height: 4px;
+        background: var(--card-accent, #0ea5e9);
         opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.3s;
+    }
+    .stu-stat-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12); }
+    .stu-stat-card:hover::before { opacity: 1; }
+
+    .stu-stat-icon {
+        width: 60px; height: 60px; flex-shrink: 0;
+        border-radius: 18px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.5rem; color: #fff;
+        transition: transform 0.3s ease;
+    }
+    .stu-stat-card:hover .stu-stat-icon { transform: scale(1.08) rotate(4deg); }
+
+    .stu-stat-number { font-size: 1.8rem; font-weight: 800; margin: 0; color: var(--stu-ink); font-family: 'Outfit', sans-serif; }
+    .stu-stat-label { font-size: 0.8rem; font-weight: 600; color: var(--stu-muted); text-transform: uppercase; letter-spacing: 0.04em; margin: 0; }
+
+    .stu-stat-trend {
+        position: absolute;
+        top: 14px; right: 14px;
+        font-size: 0.68rem; font-weight: 700;
+        padding: 4px 9px; border-radius: 8px;
+        background: rgba(16, 185, 129, 0.1);
+        color: #059669;
     }
 
-    .is-loading .loading-overlay {
-        opacity: 0.8;
-        pointer-events: auto;
+    /* ---- Shortcut tiles ---- */
+    .stu-shortcuts-row { margin-top: 0.25rem; }
+
+    .stu-shortcut {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: #fff;
+        color: var(--stu-ink);
+        border: 1px solid var(--stu-border);
+        border-radius: 16px;
+        padding: 1rem;
+        text-decoration: none;
+        box-shadow: var(--stu-shadow);
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        min-height: 44px;
+        height: 100%;
+    }
+    .stu-shortcut:hover { transform: translateY(-5px); box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12); border-color: rgba(14, 165, 233, 0.5); color: var(--stu-ink); }
+
+    .stu-shortcut-icon {
+        width: 45px; height: 45px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 12px; font-size: 1.2rem;
     }
 
-    /* Category-Toggle Improvements */
-    .category-panel {
-        display: none;
-        position: relative;
+    /* ---- Generic white cards ---- */
+    .stu-card {
+        background: var(--stu-card);
+        border: 1px solid var(--stu-border);
+        border-radius: 20px;
+        box-shadow: var(--stu-shadow);
     }
 
-    .active-panel {
-        display: block;
-        animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .stu-section-title { font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--stu-ink); font-size: 1.5rem; }
+
+    .stu-section-icon {
+        width: 48px; height: 48px; flex-shrink: 0;
+        border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.2rem;
     }
 
-    @keyframes scaleIn {
-        from {
-            opacity: 0;
-            transform: scale(0.95);
-        }
+    .stu-icon-box-sm {
+        width: 44px; height: 44px; flex-shrink: 0;
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.1rem;
+    }
 
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
+    /* ---- Recommendation cards ---- */
+    .stu-rec-card {
+        border-radius: 20px;
+        background: #fff;
+        border: 1px solid var(--stu-border);
+        box-shadow: 0 8px 22px -8px rgba(15, 23, 42, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stu-rec-card:hover { transform: translateY(-5px); box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12); }
+
+    .stu-rec-avatar { width: 70px; height: 70px; margin: 0 auto 1rem; position: relative; }
+    .stu-rec-img { width: 70px; height: 70px; object-fit: cover; border: 3px solid #e0f2fe; }
+    .stu-rec-fallback {
+        width: 70px; height: 70px;
+        background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        color: #fff; font-size: 1.8rem; font-weight: 800;
+        align-items: center; justify-content: center;
+        border: 3px solid #e0f2fe;
+    }
+
+    .stu-empty-state {
+        background: #fff;
+        border: 2px dashed #e2e8f0;
+        border-radius: 24px;
+    }
+
+    /* ---- Category pills ---- */
+    .stu-pills {
+        background: var(--stu-card);
+        border-radius: 18px;
+        border: 1px solid var(--stu-border);
     }
 
     .category-btn {
@@ -1273,157 +1025,85 @@
         font-weight: 700;
         padding: 14px 24px;
         color: #4b5563;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.3s ease;
         border: 2px solid transparent;
+        min-height: 48px;
     }
-
-    .category-btn:hover {
-        background: rgba(102, 126, 234, 0.05);
-        color: #667eea;
-        transform: translateY(-2px);
-    }
-
+    .category-btn:hover { background: rgba(14, 165, 233, 0.06); color: #0284c7; }
     .category-btn.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-        color: white !important;
-        box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
-        transform: translateY(-3px) scale(1.05);
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 12px 24px rgba(14, 165, 233, 0.3);
     }
 
-    /* Premium Component Styles */
+    .category-panel { display: none; }
+    .active-panel { display: block; animation: stuScaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+    /* ---- Pending request cards ---- */
+    .stu-req-card {
+        border: 1px solid var(--stu-border);
+        border-radius: 16px;
+        background: #f8fafc;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .stu-req-card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08); background: #fff; }
+
+    /* ---- Search / filter ---- */
+    .search-input-group { position: relative; }
+    .search-icon {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #0284c7;
+        font-size: 1.2rem;
+        pointer-events: none;
+    }
+
+    .directory-container { min-height: 400px; transition: opacity 0.3s ease; }
+
+    /* ---- Directory cards ---- */
     .premium-card {
-        background: white;
+        background: #fff;
         border-radius: 28px;
         overflow: hidden;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
-        transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
         height: 100%;
         display: flex;
         flex-direction: column;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--stu-border);
         position: relative;
     }
-
-    .premium-card::after {
-        content: '';
-        position: absolute;
-        inset: -1px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), transparent, rgba(255, 255, 255, 0.2));
-        border-radius: 28px;
-        z-index: -1;
-        transition: opacity 0.4s ease;
-        opacity: 0;
-    }
-
-    .premium-card:hover::after {
-        opacity: 1;
-    }
-
-    .holographic-border {
-        position: relative;
-    }
-
-    .holographic-border:hover {
-        border: 1px solid transparent !important;
-        background-clip: padding-box;
-    }
-
-    .holographic-border::before {
-        content: '';
-        position: absolute;
-        inset: -2px;
-        z-index: -1;
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
-        background-size: 300% 100%;
-        border-radius: 30px;
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        animation: holographic-move 6s linear infinite;
-    }
-
-    .holographic-border:hover::before {
-        opacity: 0.6;
-    }
-
-    .bg-soft-primary {
-        background-color: rgba(102, 126, 234, 0.1);
-    }
-
-    .bg-soft-info {
-        background-color: rgba(79, 172, 254, 0.1);
-    }
-
-    .bg-soft-danger {
-        background-color: rgba(245, 87, 108, 0.1);
-    }
-
-    .fw-600 {
-        font-weight: 600;
-    }
-
     .premium-card:hover {
-        transform: translateY(-12px);
-        box-shadow: 0 25px 50px rgba(102, 126, 234, 0.15);
-        border-color: rgba(102, 126, 234, 0.2);
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
+        border-color: rgba(14, 165, 233, 0.3);
     }
 
-    .card-gradient-top {
-        height: 100px;
-        width: 100%;
-        transition: all 0.4s ease;
-    }
-
-    .premium-card:hover .card-gradient-top {
-        height: 110px;
-    }
-
-    .alumni-gradient {
-        background: linear-gradient(45deg, #667eea, #764ba2);
-    }
-
-    .student-gradient {
-        background: linear-gradient(45deg, #4facfe, #00f2fe);
-    }
-
-    .faculty-gradient {
-        background: linear-gradient(45deg, #f093fb, #f5576c);
-    }
+    .card-gradient-top { height: 100px; width: 100%; }
+    .alumni-gradient { background: linear-gradient(45deg, #f59e0b, #d97706); }
+    .student-gradient { background: linear-gradient(45deg, #0ea5e9, #0284c7); }
+    .faculty-gradient { background: linear-gradient(45deg, #10b981, #059669); }
 
     .card-avatar-wrapper {
         width: 120px;
         height: 120px;
         margin: -60px auto 15px;
         border-radius: 50%;
-        border: 8px solid white;
-        background: white;
+        border: 8px solid #fff;
+        background: #fff;
         overflow: hidden;
         box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: transform 0.4s ease;
         position: relative;
         z-index: 5;
     }
+    .card-avatar { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .premium-card:hover .card-avatar { transform: scale(1.08); }
+    .premium-card:hover .card-avatar-wrapper { transform: scale(1.05) translateY(-3px); }
 
-    .card-avatar {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .premium-card:hover .card-avatar {
-        transform: scale(1.1);
-    }
-
-    .premium-card:hover .card-avatar-wrapper {
-        transform: scale(1.08) translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        border-color: #fff;
-    }
-
-    .card-body-content {
-        padding: 0 24px 28px;
-        flex-grow: 1;
-    }
+    .card-body-content { padding: 0 24px 28px; flex-grow: 1; }
 
     .info-badges .badge {
         font-size: 0.8rem;
@@ -1432,812 +1112,183 @@
         background: #f8fafc !important;
         color: #475569 !important;
         border: 1px solid #e2e8f0 !important;
-        transition: all 0.3s ease;
     }
 
-    .premium-card:hover .info-badges .badge {
-        border-color: #cbd5e1 !important;
-        transform: scale(1.05);
-    }
+    .bg-soft-primary { background-color: rgba(14, 165, 233, 0.1); }
+    .bg-soft-info { background-color: rgba(56, 189, 248, 0.12); }
+    .bg-soft-danger { background-color: rgba(245, 87, 108, 0.1); }
+    .fw-600 { font-weight: 600; }
 
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes float {
-
-        0%,
-        100% {
-            transform: translateY(0);
-        }
-
-        50% {
-            transform: translateY(-15px);
-        }
-    }
-
-    /* Search Bar Design */
-    .search-input-group {
-        position: relative;
-    }
-
-    .search-icon {
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #667eea;
-        font-size: 1.2rem;
-    }
-
-    .is-loading {
-        pointer-events: none;
-    }
-
-    .directory-container {
-        min-height: 400px;
-        transition: opacity 0.3s ease;
-    }
-
-    .is-loading .user-card {
-        filter: blur(4px);
-        opacity: 0.6;
-    }
-
-    /* Stats Section Premium Styles */
-    .stats-container {
-        position: relative;
-        padding: 40px 0;
-        background: radial-gradient(circle at top left, rgba(102, 126, 234, 0.03), transparent),
-            radial-gradient(circle at bottom right, rgba(122, 79, 162, 0.03), transparent);
-        border-radius: 40px;
-        margin: 40px 0;
-    }
-
-    .stat-card {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        border-radius: 24px;
-        padding: 24px;
-        display: flex;
-        align-items: center;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        cursor: default;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-    }
-
-    .stat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: var(--card-accent, #667eea);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .stat-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        background: rgba(255, 255, 255, 0.9);
-        border-color: var(--card-accent, rgba(102, 126, 234, 0.3));
-    }
-
-    .stat-card:hover::before {
-        opacity: 1;
-    }
-
-    .stat-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        color: white;
-        margin-right: 20px;
-        flex-shrink: 0;
-        transition: all 0.4s ease;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        position: relative;
-    }
-
-    .stat-icon::after {
-        content: '';
-        position: absolute;
-        inset: -5px;
-        background: inherit;
-        filter: blur(15px);
-        opacity: 0.3;
-        border-radius: inherit;
-        z-index: -1;
-    }
-
-    .stat-card:hover .stat-icon {
-        transform: scale(1.1) rotate(5deg);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-    }
-
-    .stat-content h3 {
-        font-size: 1.75rem;
-        font-weight: 800;
-        margin: 0;
-        color: #1e293b;
-        letter-spacing: -1px;
-    }
-
-    .stat-label {
-        margin: 0;
-        font-size: 0.85rem;
+    .skill-tag {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+        background: rgba(14, 165, 233, 0.1);
+        color: #0369a1;
+        border-radius: 8px;
+        margin: 2px;
+        display: inline-block;
         font-weight: 600;
-        color: #64748b;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+        border: 1px solid rgba(14, 165, 233, 0.2);
     }
 
-    .stat-trend {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        padding: 4px 8px;
-        border-radius: 6px;
-        background: rgba(16, 185, 129, 0.1);
-        color: #10b981;
-    }
-
-    .animate-bounce-x {
-        animation: bounceX 1s infinite;
-    }
-
-    @keyframes bounceX {
-
-        0%,
-        100% {
-            transform: translateX(0);
-        }
-
-        50% {
-            transform: translateX(5px);
-        }
-    }
-
-    /* ===== ADVANCED ANIMATION STYLES ===== */
-
-    /* Split Text Animations */
-    .split-text-hero {
-        display: block;
+    /* ---- Mentorship banner (dark; white-contrast guard like alumni) ---- */
+    .stu-mentor-banner {
+        background: linear-gradient(135deg, #0b1329 0%, #172554 60%, #082f49 100%);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        border-radius: 28px;
+        position: relative;
         overflow: hidden;
     }
+    .stu-mentor-banner h2 {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+    .stu-mentor-banner h2 .text-info { -webkit-text-fill-color: #38bdf8 !important; }
+    .stu-mentor-banner p { color: #ffffff !important; }
+    .stu-mentor-banner h4 { color: #ffffff !important; }
 
-    .split-text-hero .word-reveal {
-        display: inline-block;
-        animation: slideInDown 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
+    /* ---- Floating action button ---- */
+    .fab-container { position: fixed; bottom: 28px; right: 28px; z-index: 1030; }
+    .fab {
+        width: 60px; height: 60px; border-radius: 50%;
+        background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.4rem; cursor: pointer;
+        box-shadow: 0 12px 28px rgba(14, 165, 233, 0.45);
+    }
+    .sub-button {
+        position: fixed;
+        width: 48px; height: 48px; border-radius: 50%;
+        background: linear-gradient(135deg, #38bdf8, #0284c7);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.1rem;
+    }
+    .sub-button a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; text-decoration: none; }
+
+    /* ---- Reveal on scroll (driven by the preserved IntersectionObserver) ---- */
+    .reveal-text {
         opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
     }
+    .reveal-fade { opacity: 0; transition: opacity 0.8s ease; }
+    .revealed { opacity: 1 !important; transform: translate(0, 0) !important; }
 
-    @keyframes slideInDown {
-        from {
-            transform: translateY(-40px);
-            opacity: 0;
-        }
+    .word-reveal { display: inline-block; }
 
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
+    @keyframes stuPulse {
+        0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+        70% { box-shadow: 0 0 0 9px rgba(56, 189, 248, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
     }
 
-    .gradient-text {
-        background: linear-gradient(90deg, #00d4ff, #0099ff, #00d4ff, #00d4ff);
-        background-size: 300% 100%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+    @keyframes stuFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
     }
 
-    .animate-gradient {
-        animation: gradientShift 5s ease infinite;
+    @keyframes stuScaleIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
     }
 
-    @keyframes gradientShift {
-
-        0%,
-        100% {
-            background-position: 0% center;
-        }
-
-        50% {
-            background-position: 100% center;
-        }
-    }
-
-    .slide-in-icon {
-        display: inline-block;
-        animation: slideInLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .badge-animated {
-        animation: float 3s ease-in-out infinite;
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        border: 2px solid rgba(255, 255, 255, 0.5);
-        backdrop-filter: blur(10px);
-        transition: all 0.3s ease;
-    }
-
-    .badge-animated:hover {
-        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
-        transform: translateY(-2px);
-    }
-
-    @keyframes bounceIn {
-        0% {
-            transform: scale(0.8);
-            opacity: 0;
-        }
-
-        50% {
-            transform: scale(1.05);
-        }
-
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-
-    /* Animated Background Lines */
-    .animated-bg-lines {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0.08;
-        background-image:
-            linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .2) 25%, rgba(255, 255, 255, .2) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .2) 75%, rgba(255, 255, 255, .2) 76%, transparent 77%, transparent),
-            linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .2) 25%, rgba(255, 255, 255, .2) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .2) 75%, rgba(255, 255, 255, .2) 76%, transparent 77%, transparent);
-        background-size: 50px 50px;
-        animation: moveLines 15s linear infinite;
-        pointer-events: none;
-    }
-
-    @keyframes moveLines {
-        0% {
-            transform: translateY(0);
-        }
-
-        100% {
-            transform: translateY(50px);
-        }
-    }
-
-    /* Enhanced Stat Cards with Stagger */
-    .stat-card {
-        animation: slideUp 0.6s ease-out both;
-        position: relative;
-    }
-
-    .stat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: left 0.5s ease;
-    }
-
-    .stat-card:hover::before {
-        left: 100%;
-    }
-
-    .stat-card:nth-child(1) {
-        animation-delay: 0.2s;
-    }
-
-    .stat-card:nth-child(2) {
-        animation-delay: 0.4s;
-    }
-
-    .stat-card:nth-child(3) {
-        animation-delay: 0.6s;
-    }
-
-    .stat-card:nth-child(4) {
-        animation-delay: 0.8s;
-    }
-
-    /* Premium Card Enhancements */
-    .premium-card {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .premium-card::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-        animation: rotate 8s linear infinite;
-        pointer-events: none;
-    }
-
-    @keyframes rotate {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    /* Premium Card with hover lift effect */
-    .premium-card {
-        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .premium-card:hover {
-        transform: translateY(-15px) scale(1.02);
-        box-shadow: 0 30px 60px rgba(102, 126, 234, 0.25);
-    }
-
-    /* Text Reveal Animation */
-    .text-reveal {
-        animation: textReveal 0.8s ease forwards;
-        overflow: hidden;
-    }
-
-    @keyframes textReveal {
-        from {
-            width: 0;
-            opacity: 0;
-        }
-
-        to {
-            width: 100%;
-            opacity: 1;
-        }
-    }
-
-    /* Neon Glow Effect */
-    .neon-glow {
-        text-shadow: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.3);
-        animation: neonFlicker 3s infinite;
-    }
-
-    @keyframes neonFlicker {
-
-        0%,
-        18%,
-        22%,
-        25%,
-        53%,
-        57%,
-        100% {
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.3);
-        }
-
-        20%,
-        24%,
-        55% {
-            text-shadow: 0 0 5px rgba(0, 212, 255, 0.2);
-        }
-    }
-
-    /* Category Pills with Enhanced Animation */
-    .gradient-pills .nav-link {
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        position: relative;
-    }
-
-    .gradient-pills .nav-link::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #667eea, #764ba2);
-        transition: width 0.4s ease;
-    }
-
-    .gradient-pills .nav-link:hover::after {
-        width: 100%;
-    }
-
-    /* Counter Animation Improvements */
-    .counter {
-        font-weight: 800;
-        animation: counterPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    @keyframes counterPop {
-        0% {
-            transform: scale(0.5);
-            opacity: 0;
-        }
-
-        50% {
-            transform: scale(1.1);
-        }
-
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-
-    /* Floating Animation Enhancement */
-    @keyframes floatUpDown {
-
-        0%,
-        100% {
-            transform: translateY(0px);
-        }
-
-        50% {
-            transform: translateY(-20px);
-        }
-    }
-
-    .floating-shape {
-        animation: floatUpDown 6s ease-in-out infinite;
-    }
-
-    /* Modal Enter Animation */
-    .modal.fade .modal-dialog {
-        animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    @keyframes modalSlideIn {
-        from {
-            opacity: 0;
-            transform: scale(0.9) translateY(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-    }
-
-    /* Card Stagger Animation */
-    .alumniGrid,
-    .studentGrid,
-    .facultyGrid {
-        animation: fadeIn 0.6s ease;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    /* Ripple Effect for Buttons */
-    .btn.ripple {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .ripple-effect {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.6);
-        transform: scale(0);
-        animation: ripple-animation 0.6s ease-out;
-        pointer-events: none;
-    }
-
-    @keyframes ripple-animation {
-        to {
-            transform: scale(4);
-            opacity: 0;
-        }
-    }
-
-    /* Spin Animation for Icons */
-    @keyframes spin {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
-    /* Advanced Counter Pop Animation */
-    @keyframes counterPop {
-        0% {
-            transform: scale(0.5);
-            opacity: 0;
-        }
-
-        50% {
-            transform: scale(1.2);
-        }
-
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-
-    /* Smooth Stagger Animation */
-    @keyframes stagger {
-        0% {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Pulse Glow Animation */
-    @keyframes pulseGlow {
-
-        0%,
-        100% {
-            box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
-        }
-
-        50% {
-            box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
-        }
-    }
-
-    /* Action Button Enhancements */
-    .action-btn {
-        animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
-        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .action-btn::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.2);
-        transform: translate(-50%, -50%);
-        transition: width 0.6s, height 0.6s;
-    }
-
-    .action-btn:hover::before {
-        width: 300px;
-        height: 300px;
-    }
-
-    /* Professional Stat Card Hover */
-    .stat-card {
-        position: relative;
-    }
-
-    .stat-card::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
-        border-radius: 24px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .stat-card:hover::after {
-        opacity: 1;
-    }
-
-    /* Modal Professional Animation */
-    .modal.fade .modal-dialog {
-        animation: modalSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    @keyframes modalSlideUp {
-        from {
-            opacity: 0;
-            transform: scale(0.85) translateY(50px);
-        }
-
-        to {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-    }
-
-    /* Badge Pulse Animation */
-    .badge-animated {
-        animation: badgePulse 2s ease-in-out infinite;
-    }
-
-    @keyframes badgePulse {
-
-        0%,
-        100% {
-            box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
-        }
-
-        50% {
-            box-shadow: 0 0 0 8px rgba(102, 126, 234, 0);
-        }
-    }
-
-    /* Smooth Transition for Category Switch */
-    .category-panel {
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    @keyframes stuRise {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== MODAL STYLES ===== */
-    .modal {
-        z-index: 1050;
-    }
-
-    .modal-backdrop {
-        z-index: 1040;
-        backdrop-filter: blur(4px);
-        background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    .modal.show {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .modal-dialog {
-        margin: 0;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-
-    .modal-content {
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        border: none;
-    }
-
-    .modal-header {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .modal-body {
-        max-height: calc(90vh - 120px);
-        overflow-y: auto;
-    }
-
-    .modal-footer {
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    .btn-close-white {
-        filter: invert(1);
-    }
-
-    .btn-close-white:focus {
-        box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
-    }
+    /* ---- Mobile ---- */
+    /* Tap targets: every button on this page is at least 44px tall. */
+    .stu-page .btn-sm { min-height: 44px; }
+    .stu-dir-card .btn, .stu-rec-card .btn { min-height: 44px; }
 
-    /* ===== RESPONSIVE MEDIA QUERIES ===== */
     @media (max-width: 991px) {
-        .hero-section {
-            padding: 80px 0 !important;
-        }
-
-        .hero-section h1 {
-            font-size: 2.8rem !important;
-        }
-
-        .stats-container {
-            margin: 20px 0;
-            padding: 20px 0;
-        }
+        .stu-hero { padding: 2rem 1.25rem; border-radius: 24px; }
     }
 
     @media (max-width: 768px) {
-        .hero-section {
-            text-align: center;
-            padding: 60px 0 !important;
-        }
-
-        .hero-section h1 {
-            font-size: 2.2rem !important;
-        }
-
-        .hero-section .lead {
-            font-size: 1.1rem !important;
-            margin: 0 auto 1.5rem !important;
-        }
-
-        .profile-completeness-wrapper {
-            min-width: 100% !important;
-            margin-top: 1.5rem;
-        }
-
-        .category-tabs .nav-pills {
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .category-btn {
-            width: 100%;
-            padding: 10px 15px;
-        }
-
-        .filter-section {
-            padding: 2rem !important;
-        }
+        .stu-hero { text-align: center; border-radius: 20px; }
+        .stu-hero-sub { margin-left: auto; margin-right: auto; }
+        .stu-hero-actions { justify-content: center; }
+        .stu-completeness { margin: 0 auto; }
+        .stu-stat-card { flex-direction: column; text-align: center; gap: 10px; }
+        .stu-stat-icon { margin: 0 auto; }
+        .stu-stat-trend { position: static; align-self: center; }
+        .category-tabs .nav-pills { flex-direction: column; gap: 8px; }
+        .category-btn { width: 100%; padding: 12px 15px; }
+        .stu-filter-card { padding: 2rem !important; }
+        .fab-container { bottom: 20px; right: 20px; }
     }
 
     @media (max-width: 576px) {
-        .hero-section h1 {
-            font-size: 1.8rem !important;
-        }
+        .admin-container { padding: 0.9rem 0.9rem 0; }
+        .stu-hero { padding: 1.6rem 1rem; }
+        .stu-hero-actions .btn { width: 100%; }
+        .stu-section-title { font-size: 1.25rem; }
+        .stu-shortcut { padding: 0.8rem; }
+        .stu-shortcut small { display: none; }
+    }
 
-        .stat-card {
-            flex-direction: column;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .stat-icon {
-            margin-right: 0;
-            margin-bottom: 15px;
-        }
-
-        .avatar-img {
-            width: 140px;
-            height: 140px;
-        }
-
-        .hero-visual-container {
-            min-height: 300px;
-            padding: 20px;
-        }
+    @media (prefers-reduced-motion: reduce) {
+        .reveal-text, .reveal-fade { opacity: 1 !important; transform: none !important; transition: none !important; }
+        .stu-live-dot, .stu-avatar-wrap { animation: none !important; }
+        .stu-stat-card, .stu-rec-card, .stu-req-card, .stu-shortcut,
+        .premium-card, .stu-btn-sky, .stu-btn-glass { transition: none !important; }
+        .stu-stat-card:hover, .stu-rec-card:hover, .stu-req-card:hover,
+        .stu-shortcut:hover, .premium-card:hover { transform: none !important; }
     }
 </style>
+
+<script>
+    // Chart.js - Alumni Distribution
+    const ctxAlumni = document.getElementById('alumniChart').getContext('2d');
+    new Chart(ctxAlumni, {
+        type: 'line',
+        data: {
+            labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+            datasets: [{
+                label: 'Alumni Growth',
+                data: [12, 19, 3, 5, 2, 3],
+                borderColor: '#0284c7',
+                backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true, grid: { display: false } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // Chart.js - Top Companies
+    const ctxCompany = document.getElementById('companyChart').getContext('2d');
+    new Chart(ctxCompany, {
+        type: 'doughnut',
+        data: {
+            labels: ['TCS', 'Infosys', 'Wipro', 'Google', 'Microsoft'],
+            datasets: [{
+                data: [30, 20, 15, 10, 25],
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            },
+            cutout: '70%'
+        }
+    });
+</script>
 
 <script>
     // Unified Student Dashboard Initialization
@@ -2374,30 +1425,12 @@
         type();
     }
 
+    // Card hover lift is handled in CSS now; this keeps only the button glow.
     function initAdvancedAnimations() {
-        // Card hover effects
-        const cards = document.querySelectorAll('.premium-card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', function () {
-                this.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
-                this.style.transform = 'translateY(-15px) scale(1.02)';
-
-                const avatar = this.querySelector('.card-avatar-wrapper');
-                if (avatar) avatar.style.transform = 'scale(1.1) rotate(5deg)';
-            });
-
-            card.addEventListener('mouseleave', function () {
-                this.style.transform = 'translateY(0) scale(1)';
-                const avatar = this.querySelector('.card-avatar-wrapper');
-                if (avatar) avatar.style.transform = 'scale(1) rotate(0deg)';
-            });
-        });
-
-        // Glow effect on buttons
         const buttons = document.querySelectorAll('.btn-primary, .btn-info');
         buttons.forEach(btn => {
             btn.addEventListener('mouseenter', function () {
-                this.style.boxShadow = '0 0 25px rgba(102, 126, 234, 0.6)';
+                this.style.boxShadow = '0 0 25px rgba(14, 165, 233, 0.6)';
                 this.style.transition = 'all 0.3s ease';
                 this.style.transform = 'translateY(-2px)';
             });
@@ -2412,7 +1445,7 @@
     function staggerCardAnimations() {
         const cards = document.querySelectorAll('.premium-card');
         cards.forEach((card, index) => {
-            card.style.animation = `slideUp 0.6s ease-out backwards`;
+            card.style.animation = `stuRise 0.6s ease-out backwards`;
             card.style.animationDelay = `${index * 0.1}s`;
         });
     }
@@ -2460,7 +1493,7 @@
 
             c.style.display = isMatch ? 'block' : 'none';
             if (isMatch) {
-                c.style.animation = `slideUp 0.4s ease-out backwards`;
+                c.style.animation = `stuRise 0.4s ease-out backwards`;
                 c.style.animationDelay = `${index * 0.05}s`;
             }
         });
@@ -2509,6 +1542,16 @@
         });
     }
 
+    // Student id currently shown in the student details modal (set by viewStudentModal).
+    // connectFromModal() is the modal Connect button's static onclick: the button is
+    // rewired to connectUser() only after the /api/student fetch succeeds, so a click
+    // while the spinner is showing used to throw "connectFromModal is not defined".
+    let modalStudentId = null;
+
+    function connectFromModal() {
+        if (modalStudentId) { connectUser(modalStudentId, 'student'); }
+    }
+
     function viewStudentModal(studentId) {
         try {
             const contentEl = document.getElementById('studentDetailsContent');
@@ -2533,6 +1576,7 @@
 
             const modal = new bootstrap.Modal(modalEl);
             modal.show();
+            modalStudentId = studentId;
 
             fetch(`/api/student/${studentId}`)
                 .then(r => {
@@ -2701,32 +1745,32 @@
     const animationStyle = document.createElement('style');
     animationStyle.textContent = `
         @keyframes slideUp {
-            from { 
-                opacity: 0; 
+            from {
+                opacity: 0;
                 transform: translateY(30px) scale(0.95);
             }
-            to { 
-                opacity: 1; 
+            to {
+                opacity: 1;
                 transform: translateY(0) scale(1);
             }
         }
         @keyframes slideDown {
-            from { 
-                opacity: 1; 
+            from {
+                opacity: 1;
                 transform: translateY(0);
             }
-            to { 
-                opacity: 0; 
+            to {
+                opacity: 0;
                 transform: translateY(30px);
             }
         }
         @keyframes slideInLeft {
-            from { 
-                opacity: 0; 
+            from {
+                opacity: 0;
                 transform: translateX(-30px);
             }
-            to { 
-                opacity: 1; 
+            to {
+                opacity: 1;
                 transform: translateX(0);
             }
         }
@@ -2784,19 +1828,18 @@
                 if (section) section.classList.remove('d-none');
             }
 
-            showToast(`\u{1F514} New connection request from ${data.sender_name}`, 'primary');
+            showToast(`🔔 New connection request from ${data.sender_name}`, 'primary');
         });
 
         // --- Event: my outgoing request was accepted or rejected ---
         socket.on('connection_status_update', function (data) {
             if (data.status === 'accepted') {
-                showToast(`\u2705 ${data.by_user_name} accepted your connection request!`, 'success');
+                showToast(`✅ ${data.by_user_name} accepted your connection request!`, 'success');
             } else if (data.status === 'rejected') {
-                showToast(`\u274C ${data.by_user_name} declined your connection request.`, 'warning');
+                showToast(`❌ ${data.by_user_name} declined your connection request.`, 'warning');
             }
         });
     }());
 
 </script>
-
 {% endblock %}

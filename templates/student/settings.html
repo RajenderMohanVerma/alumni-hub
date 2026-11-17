@@ -3,61 +3,398 @@
 {% block title %}Settings - Alumni Hub{% endblock %}
 
 {% block content %}
-<!-- Premium Fonts -->
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
 <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
     rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-<div class="settings-wrapper">
-    <!-- Animated Background -->
-    <div class="settings-bg">
-        <div class="bg-blob blob-1"></div>
-        <div class="bg-blob blob-2"></div>
-        <div class="bg-blob blob-3"></div>
-    </div>
+<style>
+    /* ========================================================
+       STUDENT SETTINGS — SKY LUXURY THEME
+       Same shell as admin/alumni settings; Sky (#0ea5e9 /
+       #38bdf8) replaces amber as the primary accent.
+       Page-scoped only — no global CSS touched.
+       ======================================================== */
+    :root {
+        --stu-sky: #0ea5e9;
+        --stu-sky-dark: #0284c7;
+        --stu-sky-light: #38bdf8;
+        --stu-sky-subtle: #f0f9ff;
+    }
+    .student-page {
+        font-family: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
+    }
+    .student-page h1, .student-page h2, .student-page h4, .student-page h6 {
+        font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    }
+    /* Sky gradient title text — !important beats the admin-luxury
+       hero white-text protection on the span itself */
+    .text-holographic-sky {
+        background: linear-gradient(90deg, #bae6fd 0%, #7dd3fc 35%, #38bdf8 65%, #0ea5e9 100%) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        color: transparent !important;
+    }
+    /* Hero title stays WHITE on the dark hero (§7 contrast fix,
+       alumni-scoped in navbar-professional.css, re-asserted here) */
+    .student-hero-card h1,
+    .student-hero-card .student-hero-title {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+    .student-hero-card h1 .text-holographic-sky {
+        -webkit-text-fill-color: transparent !important;
+        color: transparent !important;
+    }
+    .student-hero-title {
+        font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+        line-height: 1.15;
+    }
+    .student-hero-card .hero-subtitle {
+        color: rgba(255, 255, 255, 0.72) !important;
+        max-width: 620px;
+    }
+    .stu-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.95rem;
+        border-radius: 999px;
+        background: rgba(14, 165, 233, 0.16);
+        border: 1px solid rgba(56, 189, 248, 0.45);
+        color: #bae6fd;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+    .stu-badge .live-pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #38bdf8;
+        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+        animation: stu-pulse 2s infinite;
+    }
+    @keyframes stu-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.55); }
+        70% { box-shadow: 0 0 0 9px rgba(56, 189, 248, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+    }
+    /* Glass quick-links strip inside the hero */
+    .hero-glass-strip {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 16px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+    .hero-glass-strip a {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        padding: 0.45rem 0.8rem;
+        border-radius: 999px;
+        transition: background 0.2s ease, color 0.2s ease;
+        white-space: nowrap;
+    }
+    .hero-glass-strip a:hover {
+        background: rgba(56, 189, 248, 0.18);
+        color: #ffffff;
+    }
+    .hero-glass-strip a i {
+        color: #7dd3fc;
+    }
+    /* White content cards */
+    .student-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .student-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10);
+    }
+    .btn-sky {
+        background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        min-height: 48px;
+        box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-sky:hover, .btn-sky:focus {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(14, 165, 233, 0.45);
+    }
+    .btn-outline-sky {
+        border: 2px solid #38bdf8;
+        color: #0284c7;
+        font-weight: 600;
+        min-height: 48px;
+        background: transparent;
+        transition: all 0.2s ease;
+    }
+    .btn-outline-sky:hover, .btn-outline-sky:focus {
+        background: #f0f9ff;
+        border-color: #0ea5e9;
+        color: #0369a1;
+        transform: translateY(-2px);
+    }
+    /* Icon chips */
+    .icon-chip-sky {
+        background: var(--stu-sky-subtle);
+        color: var(--stu-sky-dark);
+    }
+    .icon-chip-green {
+        background: #f0fdf4;
+        color: #15803d;
+    }
+    .icon-chip-purple {
+        background: #faf5ff;
+        color: #7e22ce;
+    }
+    /* Mini profile card in the sidebar */
+    .stu-avatar {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #0284c7, #0ea5e9);
+        color: #fff;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: 1.05rem;
+        box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
+    }
+    .stu-role-badge {
+        background: #f0f9ff;
+        color: #0369a1;
+        border: 1px solid #bae6fd;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+    }
+    /* Settings nav pills — sky active state */
+    .student-page #v-pills-tab .nav-link {
+        color: #475569;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s ease;
+    }
+    .student-page #v-pills-tab .nav-link:hover {
+        background: var(--stu-sky-subtle);
+        color: var(--stu-sky-dark);
+    }
+    .student-page #v-pills-tab .nav-link.active {
+        background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+        color: #fff;
+        box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
+    }
+    /* Form controls — sky focus ring, 48px tap targets */
+    .student-page .form-control, .student-page .form-select {
+        min-height: 48px;
+        border-radius: 12px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .student-page .form-control:focus, .student-page .form-select:focus {
+        border-color: var(--stu-sky);
+        box-shadow: 0 0 0 0.25rem rgba(14, 165, 233, 0.22);
+    }
+    .student-page .form-control:disabled {
+        background: #f8fafc;
+        cursor: not-allowed;
+        color: #475569;
+    }
+    /* Toggle switches — sky when on */
+    .student-page .form-check-input {
+        width: 2.6rem;
+        height: 1.45rem;
+        cursor: pointer;
+    }
+    .student-page .form-check-input:checked {
+        background-color: var(--stu-sky);
+        border-color: var(--stu-sky-dark);
+    }
+    .student-page .form-check-input:focus {
+        box-shadow: 0 0 0 0.25rem rgba(14, 165, 233, 0.25);
+        border-color: var(--stu-sky);
+    }
+    .pref-row {
+        background: #f8fafc;
+        border: 1px solid transparent;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .pref-row:hover {
+        border-color: rgba(14, 165, 233, 0.35);
+        transform: translateY(-2px);
+    }
+    /* Password strength bar */
+    .strength-bar {
+        height: 6px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 8px 0;
+    }
+    .strength-fill {
+        height: 100%;
+        width: 0%;
+        transition: all 0.3s ease;
+        border-radius: 10px;
+    }
+    .strength-weak {
+        background: #ef4444;
+        width: 33%;
+    }
+    .strength-medium {
+        background: #f59e0b;
+        width: 66%;
+    }
+    .strength-strong {
+        background: #10b981;
+        width: 100%;
+    }
+    /* IntersectionObserver reveal — opacity + small rise, staggered */
+    .stu-reveal {
+        opacity: 0;
+        transform: translateY(18px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+        transition-delay: var(--stu-delay, 0s);
+    }
+    .stu-reveal.stu-revealed {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    /* Mobile: settings nav becomes a horizontal scrollable strip */
+    @media (max-width: 991.98px) {
+        .student-page #v-pills-tab {
+            flex-direction: row !important;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .student-page #v-pills-tab::-webkit-scrollbar {
+            display: none;
+        }
+        .student-page #v-pills-tab .nav-link {
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+    }
+    /* Mobile: hero buttons go full-width */
+    @media (max-width: 576px) {
+        .hero-actions {
+            width: 100%;
+        }
+        .hero-actions .btn {
+            flex: 1 1 100%;
+            width: 100%;
+        }
+        .student-page .btn-sky,
+        .student-page .btn-outline-sky {
+            width: 100%;
+        }
+        .hero-glass-strip {
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .hero-glass-strip::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .stu-reveal {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+        .student-card, .btn-sky, .btn-outline-sky, .pref-row,
+        .student-page #v-pills-tab .nav-link, .hero-glass-strip a {
+            transition: none !important;
+        }
+        .student-card:hover, .btn-sky:hover, .btn-outline-sky:hover, .pref-row:hover {
+            transform: none !important;
+        }
+        .stu-badge .live-pulse-dot {
+            animation: none !important;
+        }
+    }
+</style>
 
-    <!-- Header Section -->
-    <div class="settings-hero">
-        <div class="container" style="position: relative; z-index: 2;">
-            <div class="row align-items-center">
-                <div class="col-lg-8">
-                    <div class="hero-content">
-                        <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade"
-                            style="font-weight: 700; letter-spacing: 0.5px;">
-                            <i class="fas fa-cog me-2"></i> ACCOUNT SETTINGS
-                        </div>
-                        <h1 class="text-white display-5 fw-bold mb-3 reveal-text">
-                            Manage Your <span class="text-holographic">Settings</span>
-                        </h1>
-                        <p class="text-white-50 lead mb-0 reveal-fade" style="font-size: 1.1rem;">
-                            Customize your profile, security, and preferences
-                        </p>
-                    </div>
+<div class="admin-page-wrapper student-page">
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
+
+    <div class="admin-container">
+        <!-- Hero -->
+        <section class="admin-hero-card student-hero-card stu-reveal">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+                <div>
+                    <span class="stu-badge mb-3"><span class="live-pulse-dot"></span><i class="fas fa-cog"></i> Account Settings</span>
+                    <h1 class="student-hero-title fw-bold mb-2">Manage Your <span class="text-holographic-sky">Settings</span></h1>
+                    <p class="hero-subtitle mb-0">Customize your profile, security, and preferences</p>
+                </div>
+                <div class="d-flex gap-2 flex-shrink-0 flex-wrap hero-actions">
+                    <a href="{{ url_for('dashboard_student') }}" class="btn btn-outline-light rounded-pill px-4" style="min-height: 48px;">
+                        <i class="fas fa-gauge-high me-1"></i> Dashboard
+                    </a>
+                    <a href="{{ url_for('edit_student_profile', user_id=current_user.id) }}" class="btn btn-sky rounded-pill px-4" style="min-height: 48px;">
+                        <i class="fas fa-user-pen me-1"></i> Edit Profile
+                    </a>
                 </div>
             </div>
-        </div>
-    </div>
+            <!-- Quick links (existing routes only) -->
+            <div class="hero-glass-strip d-flex flex-wrap align-items-center gap-1 mt-4 p-2">
+                <a href="{{ url_for('student_profile', user_id=current_user.id) }}"><i class="fas fa-user me-1"></i> My Profile</a>
+                <a href="{{ url_for('network') }}"><i class="fas fa-users me-1"></i> Network</a>
+                <a href="{{ url_for('messages') }}"><i class="fas fa-comments me-1"></i> Messages</a>
+                <a href="{{ url_for('notifications') }}"><i class="fas fa-bell me-1"></i> Notifications</a>
+                <a href="{{ url_for('mentorship') }}"><i class="fas fa-handshake me-1"></i> Mentorship</a>
+            </div>
+        </section>
 
-    <div class="container mt-n5 mb-5" style="position: relative; z-index: 5; margin-top: -60px;">
-        <div class="row">
+        <div class="row g-4">
             <!-- Settings Sidebar -->
-            <div class="col-lg-3 mb-4 reveal-fade">
-                <div class="glass-card p-3 sticky-sidebar">
-                    <div class="nav flex-column nav-pills settings-nav" id="v-pills-tab" role="tablist"
+            <div class="col-lg-3">
+                <div class="student-card p-3 stu-reveal" style="--stu-delay: 0.1s;">
+                    <!-- Mini profile card (current_user only) -->
+                    <div class="d-flex align-items-center gap-3 p-2 mb-3">
+                        <div class="stu-avatar">{{ current_user.name | initials }}</div>
+                        <div class="min-w-0">
+                            <div class="fw-bold text-truncate" style="color: #0f172a;">{{ current_user.name }}</div>
+                            <small class="text-muted d-block text-truncate">{{ current_user.email }}</small>
+                            <span class="badge stu-role-badge rounded-pill mt-1">STUDENT</span>
+                        </div>
+                    </div>
+                    <div class="nav flex-column nav-pills gap-1" id="v-pills-tab" role="tablist"
                         aria-orientation="vertical">
-                        <button class="nav-link active mb-2 text-start" id="v-pills-profile-tab" data-bs-toggle="pill"
+                        <button class="nav-link active text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-profile-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-profile" type="button" role="tab">
                             <i class="fas fa-user-circle me-2"></i> Profile
                         </button>
-                        <button class="nav-link mb-2 text-start" id="v-pills-account-tab" data-bs-toggle="pill"
+                        <button class="nav-link text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-account-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-account" type="button" role="tab">
                             <i class="fas fa-lock me-2"></i> Security
                         </button>
-                        <button class="nav-link mb-2 text-start" id="v-pills-notifications-tab" data-bs-toggle="pill"
+                        <button class="nav-link text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-notifications-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-notifications" type="button" role="tab">
                             <i class="fas fa-bell me-2"></i> Notifications
                         </button>
-                        <button class="nav-link mb-2 text-start" id="v-pills-privacy-tab" data-bs-toggle="pill"
+                        <button class="nav-link text-start py-2 px-3 rounded-3 fw-semibold" id="v-pills-privacy-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-privacy" type="button" role="tab">
                             <i class="fas fa-eye-slash me-2"></i> Privacy
                         </button>
@@ -66,44 +403,40 @@
             </div>
 
             <!-- Settings Content -->
-            <div class="col-lg-9 reveal-fade">
-                <div class="glass-card p-4 p-md-5">
+            <div class="col-lg-9">
+                <div class="student-card p-4 p-md-5 stu-reveal" style="--stu-delay: 0.2s;">
                     <div class="tab-content" id="v-pills-tabContent">
 
                         <!-- Profile Settings -->
                         <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel">
-                            <h4 class="fw-bold mb-4 section-title"
-                                style="background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-                                <i class="fas fa-user-circle me-2"></i> Profile Settings
-                            </h4>
+                            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+                                <div class="icon-chip icon-chip-sky" style="width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-0" style="color: #0f172a;">Profile Settings</h4>
+                                    <p class="text-muted small mb-0">Update your name and bio</p>
+                                </div>
+                            </div>
                             <form id="profileForm">
-                                <div class="row mb-4">
+                                <div class="row g-3 mb-3">
                                     <div class="col-md-6">
-                                        <div class="form-floating-premium">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                value="{{ current_user.name }}" required>
-                                            <label for="name">Full Name</label>
-                                            <div class="focus-border"></div>
-                                        </div>
+                                        <label class="form-label small fw-semibold text-muted" for="name">Full Name</label>
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="{{ current_user.name }}" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-floating-premium">
-                                            <input type="email" class="form-control disabled-input"
-                                                value="{{ current_user.email }}" disabled>
-                                            <label>Email (Locked)</label>
-                                            <i class="fas fa-lock input-locked-icon"></i>
-                                        </div>
+                                        <label class="form-label small fw-semibold text-muted">Email (Locked)</label>
+                                        <input type="email" class="form-control"
+                                            value="{{ current_user.email }}" disabled>
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <div class="form-floating-premium">
-                                        <textarea class="form-control" id="bio" name="bio"
-                                            style="height: 100px;">Passionate learner and tech enthusiast.</textarea>
-                                        <label for="bio">Bio</label>
-                                        <div class="focus-border"></div>
-                                    </div>
+                                    <label class="form-label small fw-semibold text-muted" for="bio">Bio</label>
+                                    <textarea class="form-control" id="bio" name="bio"
+                                        style="height: 100px;">Passionate learner and tech enthusiast.</textarea>
                                 </div>
-                                <button type="submit" class="btn btn-premium-gradient">
+                                <button type="submit" class="btn btn-sky rounded-pill px-4">
                                     <i class="fas fa-save me-2"></i> Save Changes
                                 </button>
                             </form>
@@ -111,35 +444,31 @@
 
                         <!-- Security Settings -->
                         <div class="tab-pane fade" id="v-pills-account" role="tabpanel">
-                            <h4 class="fw-bold mb-4 section-title"
-                                style="background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-                                <i class="fas fa-lock me-2"></i> Security Settings
-                            </h4>
-                            <form id="securityForm">
-                                <div class="mb-4">
-                                    <div class="form-floating-premium">
-                                        <input type="password" class="form-control" id="currentPassword"
-                                            name="currentPassword" required>
-                                        <label for="currentPassword">Current Password</label>
-                                        <div class="focus-border"></div>
-                                    </div>
+                            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+                                <div class="icon-chip icon-chip-green" style="width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                                    <i class="fas fa-lock"></i>
                                 </div>
-                                <div class="row mb-4">
+                                <div>
+                                    <h4 class="fw-bold mb-0" style="color: #0f172a;">Security Settings</h4>
+                                    <p class="text-muted small mb-0">Keep your account safe with a strong password</p>
+                                </div>
+                            </div>
+                            <form id="securityForm">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-semibold text-muted" for="currentPassword">Current Password</label>
+                                    <input type="password" class="form-control" id="currentPassword"
+                                        name="currentPassword" required>
+                                </div>
+                                <div class="row g-3 mb-4">
                                     <div class="col-md-6">
-                                        <div class="form-floating-premium">
-                                            <input type="password" class="form-control" id="newPassword"
-                                                name="newPassword" required>
-                                            <label for="newPassword">New Password</label>
-                                            <div class="focus-border"></div>
-                                        </div>
+                                        <label class="form-label small fw-semibold text-muted" for="newPassword">New Password</label>
+                                        <input type="password" class="form-control" id="newPassword"
+                                            name="newPassword" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-floating-premium">
-                                            <input type="password" class="form-control" id="confirmPassword"
-                                                name="confirmPassword" required>
-                                            <label for="confirmPassword">Confirm New Password</label>
-                                            <div class="focus-border"></div>
-                                        </div>
+                                        <label class="form-label small fw-semibold text-muted" for="confirmPassword">Confirm New Password</label>
+                                        <input type="password" class="form-control" id="confirmPassword"
+                                            name="confirmPassword" required>
                                     </div>
                                 </div>
 
@@ -152,7 +481,7 @@
                                     <small id="strengthText" class="text-muted"></small>
                                 </div>
 
-                                <button type="submit" class="btn btn-premium-gradient">
+                                <button type="submit" class="btn btn-sky rounded-pill px-4">
                                     <i class="fas fa-shield-alt me-2"></i> Update Password
                                 </button>
                             </form>
@@ -163,59 +492,71 @@
                             <div class="alert alert-info">
                                 <i class="fas fa-info-circle me-2"></i> Add an extra layer of security to your account
                             </div>
-                            <button class="btn btn-outline-primary">
+                            <button class="btn btn-outline-sky rounded-pill px-4">
                                 <i class="fas fa-mobile-alt me-2"></i> Enable 2FA
                             </button>
                         </div>
 
                         <!-- Notification Settings -->
                         <div class="tab-pane fade" id="v-pills-notifications" role="tabpanel">
-                            <h4 class="fw-bold mb-4 section-title"
-                                style="background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-                                <i class="fas fa-bell me-2"></i> Notification Preferences
-                            </h4>
+                            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+                                <div class="icon-chip icon-chip-sky" style="width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-0" style="color: #0f172a;">Notification Preferences</h4>
+                                    <p class="text-muted small mb-0">Choose which notifications you wish to receive</p>
+                                </div>
+                            </div>
                             <form id="notificationForm">
-                                <div class="notification-group mb-4">
-                                    <div class="form-check form-switch-premium mb-3">
-                                        <input class="form-check-input" type="checkbox" id="emailNotif" checked>
-                                        <label class="form-check-label" for="emailNotif">
-                                            <strong>Email Notifications</strong>
-                                            <small class="d-block text-muted">Receive emails about new events and job
-                                                posts</small>
-                                        </label>
+                                <div class="d-flex flex-column gap-3 mb-4">
+                                    <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-3 rounded-3">
+                                        <div>
+                                            <div class="fw-semibold small" style="color: #0f172a;">Email Notifications</div>
+                                            <small class="text-muted">Receive emails about new events and job posts</small>
+                                        </div>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox" id="emailNotif" checked>
+                                        </div>
                                     </div>
-                                    <div class="form-check form-switch-premium mb-3">
-                                        <input class="form-check-input" type="checkbox" id="msgNotif" checked>
-                                        <label class="form-check-label" for="msgNotif">
-                                            <strong>Direct Messages</strong>
-                                            <small class="d-block text-muted">Get notified when someone sends you a
-                                                message</small>
-                                        </label>
+                                    <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-3 rounded-3">
+                                        <div>
+                                            <div class="fw-semibold small" style="color: #0f172a;">Direct Messages</div>
+                                            <small class="text-muted">Get notified when someone sends you a message</small>
+                                        </div>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox" id="msgNotif" checked>
+                                        </div>
                                     </div>
-                                    <div class="form-check form-switch-premium mb-3">
-                                        <input class="form-check-input" type="checkbox" id="jobNotif" checked>
-                                        <label class="form-check-label" for="jobNotif">
-                                            <strong>Job Alerts</strong>
-                                            <small class="d-block text-muted">Receive notifications for new job
-                                                postings</small>
-                                        </label>
+                                    <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-3 rounded-3">
+                                        <div>
+                                            <div class="fw-semibold small" style="color: #0f172a;">Job Alerts</div>
+                                            <small class="text-muted">Receive notifications for new job postings</small>
+                                        </div>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox" id="jobNotif" checked>
+                                        </div>
                                     </div>
-                                    <div class="form-check form-switch-premium mb-3">
-                                        <input class="form-check-input" type="checkbox" id="eventNotif">
-                                        <label class="form-check-label" for="eventNotif">
-                                            <strong>Event Reminders</strong>
-                                            <small class="d-block text-muted">Get reminders for upcoming events</small>
-                                        </label>
+                                    <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-3 rounded-3">
+                                        <div>
+                                            <div class="fw-semibold small" style="color: #0f172a;">Event Reminders</div>
+                                            <small class="text-muted">Get reminders for upcoming events</small>
+                                        </div>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox" id="eventNotif">
+                                        </div>
                                     </div>
-                                    <div class="form-check form-switch-premium">
-                                        <input class="form-check-input" type="checkbox" id="marketingNotif">
-                                        <label class="form-check-label" for="marketingNotif">
-                                            <strong>Marketing Emails</strong>
-                                            <small class="d-block text-muted">Promotional content and updates</small>
-                                        </label>
+                                    <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-3 rounded-3">
+                                        <div>
+                                            <div class="fw-semibold small" style="color: #0f172a;">Marketing Emails</div>
+                                            <small class="text-muted">Promotional content and updates</small>
+                                        </div>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox" id="marketingNotif">
+                                        </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-premium-gradient">
+                                <button type="submit" class="btn btn-sky rounded-pill px-4">
                                     <i class="fas fa-check me-2"></i> Save Preferences
                                 </button>
                             </form>
@@ -223,10 +564,15 @@
 
                         <!-- Privacy Settings -->
                         <div class="tab-pane fade" id="v-pills-privacy" role="tabpanel">
-                            <h4 class="fw-bold mb-4 section-title"
-                                style="background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-                                <i class="fas fa-eye-slash me-2"></i> Privacy Settings
-                            </h4>
+                            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+                                <div class="icon-chip icon-chip-purple" style="width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;">
+                                    <i class="fas fa-eye-slash"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-0" style="color: #0f172a;">Privacy Settings</h4>
+                                    <p class="text-muted small mb-0">Control who can see your profile and contact details</p>
+                                </div>
+                            </div>
                             <form id="privacyForm">
                                 <div class="mb-4">
                                     <label class="form-label fw-bold">Profile Visibility</label>
@@ -236,39 +582,37 @@
                                         <option>Private (Hidden)</option>
                                     </select>
                                 </div>
-                                <div class="privacy-options mb-4">
-                                    <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" id="showEmail">
-                                        <label class="form-check-label" for="showEmail">
-                                            Show my email address on my profile
-                                        </label>
+                                <div class="d-flex flex-column gap-3 mb-4">
+                                    <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-3 rounded-3">
+                                        <div class="fw-semibold small" style="color: #0f172a;">Show my email address on my profile</div>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox" id="showEmail">
+                                        </div>
                                     </div>
-                                    <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" id="showPhone">
-                                        <label class="form-check-label" for="showPhone">
-                                            Show my phone number on my profile
-                                        </label>
+                                    <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-3 rounded-3">
+                                        <div class="fw-semibold small" style="color: #0f172a;">Show my phone number on my profile</div>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox" id="showPhone">
+                                        </div>
                                     </div>
-                                    <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" id="allowMessages" checked>
-                                        <label class="form-check-label" for="allowMessages">
-                                            Allow others to send me messages
-                                        </label>
+                                    <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-3 rounded-3">
+                                        <div class="fw-semibold small" style="color: #0f172a;">Allow others to send me messages</div>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox" id="allowMessages" checked>
+                                        </div>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="showActivity" checked>
-                                        <label class="form-check-label" for="showActivity">
-                                            Show my activity status
-                                        </label>
+                                    <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-3 rounded-3">
+                                        <div class="fw-semibold small" style="color: #0f172a;">Show my activity status</div>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox" id="showActivity" checked>
+                                        </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-premium-gradient">
+                                <button type="submit" class="btn btn-sky rounded-pill px-4">
                                     <i class="fas fa-shield-alt me-2"></i> Update Privacy
                                 </button>
                             </form>
                         </div>
-
-
 
                     </div>
                 </div>
@@ -277,381 +621,25 @@
     </div>
 </div>
 
-<style>
-    /* Global Styles */
-    body {
-        font-family: 'Outfit', sans-serif;
-        background-color: #f8fafc;
-        overflow-x: hidden;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    .settings-wrapper {
-        position: relative;
-        overflow: hidden;
-        min-height: 100vh;
-    }
-
-    /* Animated Background */
-    .settings-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        overflow: hidden;
-        background: #f8fafc;
-        pointer-events: none;
-    }
-
-    .bg-blob {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.12;
-        animation: blob-float 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
-    }
-
-    .blob-1 {
-        width: 600px;
-        height: 600px;
-        background: #6366f1;
-        top: -10%;
-        left: -10%;
-        animation-duration: 25s;
-    }
-
-    .blob-2 {
-        width: 500px;
-        height: 500px;
-        background: #a855f7;
-        bottom: 10%;
-        right: -5%;
-        animation-duration: 30s;
-    }
-
-    .blob-3 {
-        width: 400px;
-        height: 400px;
-        background: #ec4899;
-        top: 40%;
-        left: 30%;
-        animation-duration: 22s;
-    }
-
-    @keyframes blob-float {
-        0% {
-            transform: translate(0, 0) rotate(0deg);
-        }
-
-        100% {
-            transform: translate(100px, 100px) rotate(180deg);
-        }
-    }
-
-    /* Hero Section */
-    .settings-hero {
-        padding: 120px 0 100px;
-        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-        position: relative;
-        overflow: hidden;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .text-holographic {
-        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
-        background-size: 300% 100%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: holographic-move 8s linear infinite;
-    }
-
-    @keyframes holographic-move {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        100% {
-            background-position: 300% 50%;
-        }
-    }
-
-    /* Reveal Animations */
-    .reveal-text {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-    .reveal-fade {
-        opacity: 0;
-        transform: scale(0.95);
-        transition: all 1s ease;
-    }
-
-    .revealed {
-        opacity: 1 !important;
-        transform: translate(0, 0) scale(1) !important;
-    }
-
-    /* Glass Cards */
-    .glass-card {
-        background: rgba(255, 255, 255, 0.96);
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.6) !important;
-        border-radius: 30px !important;
-        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.1) !important;
-    }
-
-    /* Sticky Sidebar */
-    .sticky-sidebar {
-        position: sticky;
-        top: 100px;
-    }
-
-    /* Settings Navigation */
-    .settings-nav .nav-link {
-        border-radius: 12px;
-        padding: 12px 16px;
-        font-weight: 600;
-        color: #64748b;
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-    }
-
-    .settings-nav .nav-link:hover {
-        background: rgba(99, 102, 241, 0.1);
-        color: #6366f1;
-        transform: translateX(5px);
-    }
-
-    .settings-nav .nav-link.active {
-        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-        color: white;
-        border-color: transparent;
-        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
-    }
-
-    /* Premium Form Inputs */
-    .form-floating-premium {
-        position: relative;
-        margin-bottom: 1.5rem;
-    }
-
-    .form-floating-premium .form-control {
-        height: 60px;
-        padding: 1.5rem 1rem 0.5rem;
-        border: 2px solid #cbd5e1;
-        border-radius: 16px;
-        font-weight: 600;
-        color: #1e293b;
-        background: #fff;
-        transition: all 0.3s ease;
-    }
-
-    .form-floating-premium .form-control:focus {
-        border-color: #6366f1;
-        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        outline: none;
-    }
-
-    .form-floating-premium label {
-        position: absolute;
-        top: 50%;
-        left: 1rem;
-        transform: translateY(-50%);
-        font-size: 0.9rem;
-        font-weight: 700;
-        color: #475569;
-        pointer-events: none;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .form-floating-premium .form-control:focus~label,
-    .form-floating-premium .form-control:not(:placeholder-shown)~label {
-        top: 12px;
-        font-size: 0.75rem;
-        color: #6366f1;
-    }
-
-    .form-floating-premium textarea.form-control {
-        height: auto;
-        padding-top: 1.5rem;
-    }
-
-    .disabled-input {
-        background: #f8fafc !important;
-        cursor: not-allowed;
-        color: #475569 !important;
-    }
-
-    .input-locked-icon {
-        position: absolute;
-        top: 50%;
-        right: 15px;
-        transform: translateY(-50%);
-        color: #94a3b8;
-        font-size: 0.8rem;
-    }
-
-    /* Buttons */
-    .btn-premium-gradient {
-        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-        color: white;
-        padding: 14px 28px;
-        border-radius: 16px;
-        font-weight: 700;
-        border: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
-    }
-
-    .btn-premium-gradient:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
-        background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
-    }
-
-    /* Password Strength */
-    .password-strength {
-        margin-top: 1rem;
-    }
-
-    .strength-bar {
-        height: 6px;
-        background: #e2e8f0;
-        border-radius: 10px;
-        overflow: hidden;
-        margin: 8px 0;
-    }
-
-    .strength-fill {
-        height: 100%;
-        width: 0%;
-        transition: all 0.3s ease;
-        border-radius: 10px;
-    }
-
-    .strength-weak {
-        background: #ef4444;
-        width: 33%;
-    }
-
-    .strength-medium {
-        background: #f59e0b;
-        width: 66%;
-    }
-
-    .strength-strong {
-        background: #10b981;
-        width: 100%;
-    }
-
-    /* Switch Premium */
-    .form-check-input {
-        width: 50px;
-        height: 26px;
-        cursor: pointer;
-        border: 2px solid #cbd5e1;
-    }
-
-    .form-check-input:checked {
-        background-color: #6366f1;
-        border-color: #6366f1;
-    }
-
-    .form-check-label {
-        margin-left: 10px;
-        cursor: pointer;
-    }
-
-    /* Theme Selector */
-    .theme-selector {
-        display: flex;
-        gap: 1.5rem;
-        margin-top: 1rem;
-    }
-
-    .theme-option {
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .theme-preview {
-        width: 100px;
-        height: 100px;
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-        border: 3px solid transparent;
-        transition: all 0.3s ease;
-    }
-
-    .light-theme {
-        background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
-        color: #6366f1;
-    }
-
-    .dark-theme {
-        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-        color: #60a5fa;
-    }
-
-    .auto-theme {
-        background: linear-gradient(135deg, #fff 0%, #1e293b 100%);
-        color: #a855f7;
-    }
-
-    .theme-option.active .theme-preview {
-        border-color: #6366f1;
-        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
-        transform: scale(1.05);
-    }
-
-    .form-select-premium {
-        padding: 12px 16px;
-        border: 2px solid #cbd5e1;
-        border-radius: 12px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .form-select-premium:focus {
-        border-color: #6366f1;
-        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        outline: none;
-    }
-</style>
+<noscript><style>.stu-reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Reveal Animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, idx) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('revealed');
-                    }, idx * 100);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.reveal-text, .reveal-fade').forEach(el => observer.observe(el));
+        // Reveal-on-scroll (IntersectionObserver, staggered)
+        const revealEls = document.querySelectorAll('.stu-reveal');
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('stu-revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            revealEls.forEach(el => observer.observe(el));
+        } else {
+            revealEls.forEach(el => el.classList.add('stu-revealed'));
+        }
 
         // Password Strength Checker
         const newPasswordInput = document.getElementById('newPassword');
@@ -688,8 +676,6 @@
             });
         }
 
-
-
         // Form Submissions
         const forms = ['profileForm', 'securityForm', 'notificationForm', 'privacyForm'];
         forms.forEach(formId => {
@@ -705,12 +691,11 @@
 
     function showToast(message, type = 'success') {
         const toast = document.createElement('div');
-        toast.className = `alert alert-${type} position-fixed top-0 end-0 m-4 shadow-lg reveal-fade`;
+        toast.className = `alert alert-${type} position-fixed top-0 end-0 m-4 shadow-lg`;
         toast.style.zIndex = '9999';
         toast.style.borderRadius = '16px';
         toast.innerHTML = `<i class="fas fa-check-circle me-2"></i> ${message}`;
         document.body.appendChild(toast);
-        setTimeout(() => toast.classList.add('revealed'), 100);
         setTimeout(() => toast.remove(), 4000);
     }
 </script>

@@ -1,106 +1,250 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container py-5" style="margin-top: 80px; min-height: 80vh;">
-    <!-- Page Header -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
-        <div>
-            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: var(--accent-blue-subtle); color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">
-                <i class="fas fa-bell"></i>
-                <span>Activity Center</span>
-            </div>
-            <h2 class="h3 fw-bold mb-1" style="color: var(--text-primary);">Notifications & Updates</h2>
-            <p class="text-muted small mb-0">Stay informed about connection requests, event invitations, and career alerts</p>
-        </div>
-        <div class="mt-3 mt-md-0 d-flex gap-2">
-            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="location.reload();" style="border-color: var(--border-color); color: var(--text-secondary);">
-                <i class="fas fa-rotate me-1"></i> Refresh
-            </button>
-            <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm" style="background: var(--accent-blue); border: none;">
-                <i class="fas fa-check-double me-1"></i> Mark All Read
-            </button>
-        </div>
-    </div>
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-    <div class="row g-4">
-        <!-- Main Notifications Feed -->
-        <div class="col-lg-8">
-            <div class="home-card p-4 p-md-5 mb-4 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="text-center py-5">
-                    <div class="icon-chip mx-auto mb-3" style="width: 72px; height: 72px; background: var(--accent-blue-subtle); color: var(--accent-blue); border-radius: 20px; display: grid; place-items: center; font-size: 2rem;">
-                        <i class="fas fa-bell-slash"></i>
-                    </div>
-                    <h5 class="fw-bold mb-2" style="color: var(--text-primary);">All Caught Up!</h5>
-                    <p class="text-muted mb-4" style="max-width: 420px; margin: 0 auto; font-size: 0.95rem;">
-                        You have no unread notifications at the moment. As alumni interact with your profile or send connection invites, they will appear right here.
-                    </p>
-                    <a href="{{ url_for('list_jobs') }}" class="btn btn-primary rounded-pill px-4" style="background: var(--accent-blue); border: none;">
-                        <i class="fas fa-briefcase me-2"></i> Explore Opportunities
-                    </a>
+<style>
+    /* ========================================================
+       STUDENT NOTIFICATIONS — SKY THEME (student variant of
+       the shared admin design system: dark-navy hero, white
+       cards, glassmorphism, hover lift, Outfit / Plus Jakarta Sans)
+       ======================================================== */
+    :root {
+        --st-sky: #0ea5e9;
+        --st-sky-dark: #0284c7;
+        --st-sky-deep: #0369a1;
+        --st-sky-soft: #f0f9ff;
+        --st-sky-subtle: #e0f2fe;
+        --st-ink: #0f172a;
+        --st-muted: #64748b;
+        --st-border: rgba(15, 23, 42, 0.09);
+    }
+    .student-page { font-family: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif; }
+    .student-page h1, .student-page h2, .student-page h5, .student-page h6 {
+        font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* ---------- Hero (sky variant) ---------- */
+    .student-hero { border-color: rgba(56, 189, 248, 0.45) !important; }
+    .student-hero::after {
+        content: ''; position: absolute; inset: 0; pointer-events: none;
+        background-image: radial-gradient(rgba(56, 189, 248, 0.16) 1px, transparent 1px);
+        background-size: 26px 26px; opacity: .5;
+    }
+    .student-hero > * { position: relative; z-index: 2; }
+    .student-hero h1 { color: #ffffff !important; font-size: clamp(1.6rem, 4.5vw, 2.4rem); font-weight: 800; line-height: 1.15; }
+    .student-hero p { color: rgba(226, 232, 240, 0.85) !important; max-width: 560px; }
+    .grad-sky {
+        background: linear-gradient(90deg, #bae6fd 0%, #7dd3fc 35%, #38bdf8 65%, #0ea5e9 100%);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent !important; color: transparent !important;
+    }
+    .st-badge {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        padding: 0.4rem 0.95rem; border-radius: 999px;
+        background: rgba(14, 165, 233, 0.16); border: 1px solid rgba(56, 189, 248, 0.45);
+        color: #bae6fd; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+        text-transform: uppercase; font-family: 'JetBrains Mono', monospace;
+    }
+    .st-badge .live-pulse-dot {
+        width: 8px; height: 8px; border-radius: 50%; background: #38bdf8;
+        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+        animation: st-pulse 2s infinite;
+    }
+    @keyframes st-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.55); }
+        70% { box-shadow: 0 0 0 9px rgba(56, 189, 248, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+    }
+
+    /* ---------- White content cards ---------- */
+    .student-card {
+        background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .student-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10);
+    }
+    .btn-sky {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        border: none; color: #fff; font-weight: 600; min-height: 44px;
+        box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-sky:hover, .btn-sky:focus {
+        background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+        color: #fff; transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(14, 165, 233, 0.45);
+    }
+    .btn-ghost-light {
+        min-height: 44px; color: #e2e8f0; border-color: rgba(255, 255, 255, 0.35);
+    }
+    .btn-ghost-light:hover {
+        color: #fff; background: rgba(255, 255, 255, 0.10); border-color: rgba(255, 255, 255, 0.55);
+    }
+    .btn-outline-sky {
+        min-height: 44px; border: 1.5px solid var(--st-sky); color: var(--st-sky-dark);
+        font-weight: 600; background: transparent; transition: all 0.2s ease;
+    }
+    .btn-outline-sky:hover { background: var(--st-sky); color: #fff; border-color: var(--st-sky); }
+    .icon-chip-sky { background: var(--st-sky-soft); color: var(--st-sky-dark); }
+    .icon-chip-green { background: var(--accent-green-subtle); color: var(--accent-green); }
+
+    /* Preference rows */
+    .pref-row {
+        background: var(--bg-subtle); border: 1px solid transparent;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .pref-row:hover { border-color: rgba(14, 165, 233, 0.35); transform: translateY(-2px); }
+    .student-page .form-check-input { width: 2.6rem; height: 1.45rem; cursor: pointer; }
+    .student-page .form-check-input:checked { background-color: var(--st-sky); border-color: var(--st-sky-dark); }
+    .student-page .form-check-input:focus { box-shadow: 0 0 0 0.25rem rgba(14, 165, 233, 0.25); border-color: var(--st-sky); }
+
+    /* Reveal on scroll (subtle) */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; transition-delay: var(--delay, 0s); }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 576px) {
+        .student-hero { padding: 2rem 1.25rem; border-radius: 22px; }
+        .student-hero .d-flex.flex-wrap { width: 100%; }
+        .student-hero .d-flex.flex-wrap .btn { flex: 1 1 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .student-card, .btn-sky, .pref-row { transition: none !important; }
+        .student-card:hover, .btn-sky:hover, .pref-row:hover { transform: none !important; }
+        .st-badge .live-pulse-dot { animation: none !important; }
+        .reveal { opacity: 1 !important; transform: none !important; }
+    }
+</style>
+
+<div class="admin-page-wrapper student-page">
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2" style="background: #0ea5e9;"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
+
+    <div class="admin-container">
+        <!-- Hero -->
+        <section class="admin-hero-card student-hero reveal">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+                <div>
+                    <span class="st-badge mb-3"><span class="live-pulse-dot"></span><i class="fas fa-bell"></i> Activity Center</span>
+                    <h1 class="fw-bold mb-2"><span class="grad-sky">Notifications</span> &amp; Updates</h1>
+                    <p class="mb-0">Stay informed about connection requests, event invitations, and career alerts</p>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-outline-light btn-sm rounded-pill px-3 btn-ghost-light" onclick="location.reload();">
+                        <i class="fas fa-rotate me-1"></i> Refresh
+                    </button>
+                    <button class="btn btn-sm rounded-pill px-3 btn-sky">
+                        <i class="fas fa-check-double me-1"></i> Mark All Read
+                    </button>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Notification Preferences Sidebar -->
-        <div class="col-lg-4">
-            <div class="home-card p-4 shadow-sm mb-4" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 18px;">
-                <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
-                    <div class="icon-chip" style="width: 40px; height: 40px; background: var(--accent-green-subtle); color: var(--accent-green); border-radius: 12px; display: grid; place-items: center;">
-                        <i class="fas fa-sliders-h"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Preferences</h6>
-                        <small class="text-muted">Manage instant delivery</small>
-                    </div>
-                </div>
-
-                <div class="d-flex flex-column gap-3">
-                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
-                        <div>
-                            <div class="fw-semibold small" style="color: var(--text-primary);">Email Notifications</div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Direct updates to inbox</small>
+        <div class="row g-4 mt-1">
+            <!-- Main Notifications Feed -->
+            <div class="col-lg-8">
+                <div class="student-card p-4 p-md-5 mb-4 reveal" style="--delay: 0.08s;">
+                    <div class="text-center py-5">
+                        <div class="icon-chip icon-chip-sky mx-auto mb-3" style="width: 72px; height: 72px; border-radius: 20px; display: grid; place-items: center; font-size: 2rem;">
+                            <i class="fas fa-bell-slash"></i>
                         </div>
-                        <div class="form-check form-switch mb-0">
-                            <input class="form-check-input" type="checkbox" id="emailNotif" checked style="cursor: pointer;">
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
-                        <div>
-                            <div class="fw-semibold small" style="color: var(--text-primary);">Event Reminders</div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Webinars and reunions</small>
-                        </div>
-                        <div class="form-check form-switch mb-0">
-                            <input class="form-check-input" type="checkbox" id="eventNotif" checked style="cursor: pointer;">
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
-                        <div>
-                            <div class="fw-semibold small" style="color: var(--text-primary);">Direct Messages</div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Mentor and peer chats</small>
-                        </div>
-                        <div class="form-check form-switch mb-0">
-                            <input class="form-check-input" type="checkbox" id="messageNotif" checked style="cursor: pointer;">
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background: var(--bg-subtle);">
-                        <div>
-                            <div class="fw-semibold small" style="color: var(--text-primary);">Job Alerts</div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Alumni posted openings</small>
-                        </div>
-                        <div class="form-check form-switch mb-0">
-                            <input class="form-check-input" type="checkbox" id="jobNotif" checked style="cursor: pointer;">
-                        </div>
+                        <h5 class="fw-bold mb-2" style="color: var(--text-primary);">All Caught Up!</h5>
+                        <p class="text-muted mb-4" style="max-width: 420px; margin: 0 auto; font-size: 0.95rem;">
+                            You have no unread notifications at the moment. As alumni interact with your profile or send connection invites, they will appear right here.
+                        </p>
+                        <a href="{{ url_for('list_jobs') }}" class="btn rounded-pill px-4 btn-sky">
+                            <i class="fas fa-briefcase me-2"></i> Explore Opportunities
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <button class="btn btn-outline-primary btn-sm w-100 rounded-pill mt-4" style="border-color: var(--accent-blue); color: var(--accent-blue);" onclick="alert('Preferences saved successfully!');">
-                    <i class="fas fa-save me-1"></i> Save Preferences
-                </button>
+            <!-- Notification Preferences Sidebar -->
+            <div class="col-lg-4">
+                <div class="student-card p-4 mb-4 reveal" style="--delay: 0.16s;">
+                    <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
+                        <div class="icon-chip icon-chip-green" style="width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;">
+                            <i class="fas fa-sliders-h"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0" style="color: var(--text-primary);">Preferences</h6>
+                            <small class="text-muted">Manage instant delivery</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column gap-3">
+                        <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-2 rounded-3">
+                            <div>
+                                <div class="fw-semibold small" style="color: var(--text-primary);">Email Notifications</div>
+                                <small class="text-muted" style="font-size: 0.75rem;">Direct updates to inbox</small>
+                            </div>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="emailNotif" checked style="cursor: pointer;">
+                            </div>
+                        </div>
+
+                        <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-2 rounded-3">
+                            <div>
+                                <div class="fw-semibold small" style="color: var(--text-primary);">Event Reminders</div>
+                                <small class="text-muted" style="font-size: 0.75rem;">Webinars and reunions</small>
+                            </div>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="eventNotif" checked style="cursor: pointer;">
+                            </div>
+                        </div>
+
+                        <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-2 rounded-3">
+                            <div>
+                                <div class="fw-semibold small" style="color: var(--text-primary);">Direct Messages</div>
+                                <small class="text-muted" style="font-size: 0.75rem;">Mentor and peer chats</small>
+                            </div>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="messageNotif" checked style="cursor: pointer;">
+                            </div>
+                        </div>
+
+                        <div class="pref-row d-flex justify-content-between align-items-center gap-2 p-2 rounded-3">
+                            <div>
+                                <div class="fw-semibold small" style="color: var(--text-primary);">Job Alerts</div>
+                                <small class="text-muted" style="font-size: 0.75rem;">Alumni posted openings</small>
+                            </div>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="jobNotif" checked style="cursor: pointer;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-sm w-100 rounded-pill mt-4 btn-outline-sky" onclick="alert('Preferences saved successfully!');">
+                        <i class="fas fa-save me-1"></i> Save Preferences
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var revealEls = document.querySelectorAll('.reveal');
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+            revealEls.forEach(function (el) { el.classList.add('revealed'); });
+        } else {
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) { entry.target.classList.add('revealed'); observer.unobserve(entry.target); }
+                });
+            }, { threshold: 0.05 });
+            revealEls.forEach(function (el) { observer.observe(el); });
+        }
+    });
+</script>
 {% endblock %}

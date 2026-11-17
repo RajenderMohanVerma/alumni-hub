@@ -1,439 +1,542 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Premium Fonts -->
 <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
     rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-<div class="profile-wrapper">
-    <!-- Animated Mesh Background -->
-    <div class="mesh-background">
-        <div class="mesh-ball ball-1"></div>
-        <div class="mesh-ball ball-2"></div>
-        <div class="mesh-ball ball-3"></div>
-        <div class="mesh-ball ball-4"></div>
-    </div>
+<div class="admin-page-wrapper student-edit-page">
+    <!-- Ambient glow orbs (admin shell) -->
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
 
-    <!-- Header Section -->
-    <div class="profile-hero glass-hero">
-        <div class="hero-particles"></div>
-        <div class="hero-glow-point"></div>
-        <div class="container" style="position: relative; z-index: 2;">
-            <div class="row align-items-center">
+    <div class="admin-container">
+        <!-- ======================= HERO ======================= -->
+        <section class="admin-hero-card student-hero reveal">
+            <div class="row align-items-center g-4">
                 <div class="col-lg-8">
-                    <div class="hero-content">
-                        <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade"
-                            style="font-weight: 700; letter-spacing: 0.5px;">
-                            <i class="fas fa-edit me-2"></i> PROFILE SETTINGS
+                    <span class="hero-badge"><i class="fas fa-id-card-alt me-2"></i>Student Profile &middot; Edit Mode</span>
+                    <h1 class="hero-title mt-3 mb-2">Edit Your <span class="hero-title-gradient">Profile</span></h1>
+                    <p class="hero-subtitle mb-0">Keep your professional and academic presence up to date.</p>
+                    <div class="hero-chips mt-3">
+                        <span class="hero-chip"><i class="fas fa-camera me-2"></i>Photo</span>
+                        <span class="hero-chip"><i class="fas fa-user me-2"></i>Personal</span>
+                        <span class="hero-chip"><i class="fas fa-graduation-cap me-2"></i>Academic</span>
+                        <span class="hero-chip"><i class="fas fa-star me-2"></i>Portfolio</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="admin-hero-stat-box hero-complete-box">
+                        <span class="admin-hero-stat-label"><i class="fas fa-chart-pie me-1"></i>Profile Completeness</span>
+                        <span class="admin-hero-stat-val"><span id="completionText">0%</span></span>
+                        <div class="complete-track mt-2" role="progressbar" aria-label="Profile completeness"
+                            aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="completeTrack">
+                            <div class="complete-fill" id="completionBar" style="width: 0%"></div>
                         </div>
-                        <h1 class="text-white display-4 fw-bold mb-3 reveal-text">
-                            Edit <span class="text-holographic">Profile</span>
-                        </h1>
-                        <p class="text-white-50 lead mb-0 reveal-fade" style="font-size: 1.25rem;">
-                            Keep your professional and academic presence up to date.
-                        </p>
+                        <small class="complete-label d-block mt-2" id="completeLabel">Fill in your details to complete your profile.</small>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <div class="container mt-n5 mb-5" style="position: relative; z-index: 5; margin-top: -60px;">
-        <!-- Form Progress Tracker -->
-        <div class="progress-container mb-4 reveal-fade">
-            <div class="d-flex justify-content-between mb-2">
-                <span class="text-white-50 small fw-bold">PROFILE COMPLETION</span>
-                <span class="text-white small fw-bold" id="completionText">0%</span>
-            </div>
-            <div class="progress-track">
-                <div class="progress-fill" id="completionBar"></div>
-            </div>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-lg-10 tilt-container">
+        <div class="row g-4 align-items-start">
+            <!-- ======================= FORM COLUMN ======================= -->
+            <div class="col-xl-8">
                 <form id="editForm" method="POST" enctype="multipart/form-data" class="needs-validation">
-                    <div class="card border-0 glass-card holographic-border mb-5 reveal-fade tilt-element">
-                        <div class="card-body p-4 p-md-5">
-                            <!-- Photo Section -->
-                            <div class="text-center mb-5 section-reveal">
-                                <div class="avatar-edit-container mb-4">
-                                    {% set has_custom_pic = user['profile_pic'] and (user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http') or user['profile_pic'].startswith('/')) and user['profile_pic'] != 'default.jpg' %}
-                                    <img id="photoPreview"
-                                        src="{{ user['profile_pic'] if has_custom_pic else '' }}"
-                                        alt="Profile Photo" class="avatar-img shadow-lg {% if has_custom_pic %}d-block{% else %}d-none{% endif %}"
-                                        onerror="handleStudentAvatarError(this)">
 
-                                    <svg id="studentDefaultAvatarSvg" class="avatar-img shadow-lg {% if has_custom_pic %}d-none{% else %}d-block{% endif %}" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius: 50%; border: 3px solid #6366f1;">
-                                        <defs>
-                                            <radialGradient id="studRadGrad" cx="50%" cy="35%" r="70%">
-                                                <stop offset="0%" stop-color="#1e293b" />
-                                                <stop offset="100%" stop-color="#0f172a" />
-                                            </radialGradient>
-                                            <linearGradient id="studAccGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" stop-color="#38bdf8" />
-                                                <stop offset="50%" stop-color="#6366f1" />
-                                                <stop offset="100%" stop-color="#a855f7" />
-                                            </linearGradient>
-                                        </defs>
-                                        <circle cx="80" cy="80" r="80" fill="url(#studRadGrad)" />
-                                        <circle cx="80" cy="80" r="74" stroke="url(#studAccGrad)" stroke-width="2" stroke-dasharray="5 5" opacity="0.4" />
-                                        <circle cx="80" cy="58" r="26" fill="url(#studAccGrad)" />
-                                        <path d="M38 126C38 102.8 56.8 84 80 84C103.2 84 122 102.8 122 126V138C122 141.3 119.3 144 116 144H44C40.7 144 38 141.3 38 138V126Z" fill="url(#studAccGrad)" opacity="0.9" />
-                                        <circle cx="112" cy="112" r="17" fill="#6366f1" stroke="#0f172a" stroke-width="3"/>
-                                        <path d="M112 104L105 108L112 112L119 108L112 104ZM106 111V115C106 116.5 108.5 118 112 118C115.5 118 118 116.5 118 115V111L112 114L106 111Z" fill="#ffffff"/>
-                                    </svg>
-
-                                    <label for="profile_pic" class="avatar-upload-badge shadow-lg" title="Upload Student Photo" style="cursor: pointer;">
-                                        <i class="fas fa-camera"></i>
-                                    </label>
-                                </div>
-                                <input type="file" id="profile_pic" name="profile_pic" class="d-none" accept="image/*"
-                                    onchange="previewPhoto(this)">
-                                <h4 class="fw-bold text-dark mb-1">{{ user['name'] }}</h4>
-                                <p class="text-muted small mb-2">Update your verified student profile photo</p>
-                                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold" onclick="document.getElementById('profile_pic').click()">
-                                    <i class="fas fa-camera me-1"></i> Change Photo
-                                </button>
+                    <!-- 01 · Profile Photo -->
+                    <section class="student-card mb-4 reveal" aria-labelledby="photoHeading">
+                        <div class="student-card-header">
+                            <span class="step-chip">01</span>
+                            <div class="header-icon-sky"><i class="fas fa-camera"></i></div>
+                            <div>
+                                <h2 class="student-card-title mb-1" id="photoHeading">Profile Photo</h2>
+                                <p class="student-card-subtitle mb-0">Upload a clear student headshot</p>
                             </div>
+                        </div>
+                        <div class="student-card-body">
+                            <div class="photo-upload-advanced">
+                                <div class="upload-grid">
+                                    <!-- Photo circle -->
+                                    <div class="photo-circle-container">
+                                        <div class="circle-glow-ring" aria-hidden="true"></div>
+                                        <div class="avatar-edit-container mb-4">
+                                            {% set has_custom_pic = user['profile_pic'] and (user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http') or user['profile_pic'].startswith('/')) and user['profile_pic'] != 'default.jpg' %}
+                                            <img id="photoPreview"
+                                                src="{{ user['profile_pic'] if has_custom_pic else '' }}"
+                                                alt="Profile Photo" class="avatar-img shadow-lg {% if has_custom_pic %}d-block{% else %}d-none{% endif %}"
+                                                onerror="handleStudentAvatarError(this)">
 
-                            <!-- Personal Info Section -->
-                            <div class="premium-form-section mb-5">
-                                <h5 class="section-title mb-4 reveal-text">
-                                    <span class="title-icon icon-blue"><i class="fas fa-user"></i></span>
-                                    Personal Information
-                                </h5>
-                                <div class="row g-4">
-                                    <div class="col-md-6 reveal-fade">
-                                        <div class="form-floating-premium">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                value="{{ user['name'] }}" required>
-                                            <label for="name">Full Name</label>
-                                            <div class="focus-border"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 reveal-fade">
-                                        <div class="form-floating-premium">
-                                            <input type="tel" class="form-control" id="phone" name="phone"
-                                                value="{{ user['phone'] or '' }}" required>
-                                            <label for="phone">Phone Number</label>
-                                            <div class="focus-border"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 reveal-fade">
-                                        <div class="form-floating-premium">
-                                            <input type="email" class="form-control disabled-input"
-                                                value="{{ user['email'] }}" disabled placeholder="Email">
-                                            <label>Email (Locked)</label>
-                                            <i class="fas fa-lock input-locked-icon"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                            <svg id="studentDefaultAvatarSvg" class="avatar-img shadow-lg {% if has_custom_pic %}d-none{% else %}d-block{% endif %}" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius: 50%; border: 3px solid #0ea5e9;">
+                                                <defs>
+                                                    <radialGradient id="studRadGrad" cx="50%" cy="35%" r="70%">
+                                                        <stop offset="0%" stop-color="#1e293b" />
+                                                        <stop offset="100%" stop-color="#0f172a" />
+                                                    </radialGradient>
+                                                    <linearGradient id="studAccGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#38bdf8" />
+                                                        <stop offset="50%" stop-color="#6366f1" />
+                                                        <stop offset="100%" stop-color="#a855f7" />
+                                                    </linearGradient>
+                                                </defs>
+                                                <circle cx="80" cy="80" r="80" fill="url(#studRadGrad)" />
+                                                <circle cx="80" cy="80" r="74" stroke="url(#studAccGrad)" stroke-width="2" stroke-dasharray="5 5" opacity="0.4" />
+                                                <circle cx="80" cy="58" r="26" fill="url(#studAccGrad)" />
+                                                <path d="M38 126C38 102.8 56.8 84 80 84C103.2 84 122 102.8 122 126V138C122 141.3 119.3 144 116 144H44C40.7 144 38 141.3 38 138V126Z" fill="url(#studAccGrad)" opacity="0.9" />
+                                                <circle cx="112" cy="112" r="17" fill="#6366f1" stroke="#0f172a" stroke-width="3"/>
+                                                <path d="M112 104L105 108L112 112L119 108L112 104ZM106 111V115C106 116.5 108.5 118 112 118C115.5 118 118 116.5 118 115V111L112 114L106 111Z" fill="#ffffff"/>
+                                            </svg>
 
-                            <!-- Academic Info Section -->
-                            <div class="premium-form-section mb-5">
-                                <h5 class="section-title mb-4 reveal-text">
-                                    <span class="title-icon icon-green"><i class="fas fa-graduation-cap"></i></span>
-                                    Academic Information
-                                </h5>
-                                <div class="row g-4">
-                                    <div class="col-md-6 reveal-fade">
-                                        <div class="form-floating-premium">
-                                            <input type="text" class="form-control disabled-input"
-                                                value="{{ profile['enrollment_no'] }}" disabled>
-                                            <label>Enrollment No.</label>
-                                            <i class="fas fa-lock input-locked-icon"></i>
+                                            <label for="profile_pic" class="avatar-upload-badge shadow-lg" title="Upload Student Photo" style="cursor: pointer;">
+                                                <i class="fas fa-camera"></i>
+                                            </label>
                                         </div>
+                                        <input type="file" id="profile_pic" name="profile_pic" class="d-none" accept="image/*"
+                                            onchange="previewPhoto(this)">
+                                        <h4 class="fw-bold text-dark mb-1">{{ user['name'] }}</h4>
+                                        <p class="text-muted small mb-2">Update your verified student profile photo</p>
+                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold" onclick="document.getElementById('profile_pic').click()">
+                                            <i class="fas fa-camera me-1"></i> Change Photo
+                                        </button>
                                     </div>
-                                    <div class="col-md-6 reveal-fade">
-                                        <div class="form-floating-premium">
-                                            <input type="text" class="form-control disabled-input"
-                                                value="{{ profile['department'] }}" disabled>
-                                            <label>Department</label>
-                                            <i class="fas fa-lock input-locked-icon"></i>
+
+                                    <!-- Upload info panel -->
+                                    <div class="upload-info-panel">
+                                        <div class="info-header">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <h6 class="mb-0">Upload Guidelines</h6>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 reveal-fade">
-                                        <div class="form-floating-premium">
-                                            <select class="form-select" id="semester" name="semester" required>
-                                                <option value="" disabled {% if not profile['semester'] %}selected{%
-                                                    endif %}>Select Semester</option>
-                                                {% for i in range(1, 7) %}
-                                                <option value="{{ i }}" {% if profile['semester']==i %}selected{% endif
-                                                    %}>{{ i }}{{ 'st' if i == 1 else 'nd' if i == 2 else 'rd' if i == 3
-                                                    else 'th' }} Semester</option>
-                                                {% endfor %}
-                                            </select>
-                                            <label for="semester">Current Semester</label>
-                                            <div class="focus-border"></div>
+                                        <div class="info-items">
+                                            <div class="info-item">
+                                                <i class="fas fa-check-circle text-success"></i>
+                                                <span>Clear, well-lit headshot</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <i class="fas fa-check-circle text-success"></i>
+                                                <span>Square aspect ratio (1:1)</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <i class="fas fa-file-image text-primary"></i>
+                                                <span>JPG, PNG, or GIF format</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <i class="fas fa-weight text-warning"></i>
+                                                <span>Maximum size: 5MB</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 reveal-fade">
-                                        <div class="form-floating-premium">
-                                            <input type="number" class="form-control" id="cgpa" name="cgpa" step="0.01"
-                                                min="0" max="10" value="{{ profile['cgpa'] or '' }}">
-                                            <label for="cgpa">Current CGPA</label>
-                                            <div class="focus-border"></div>
+
+                                        <!-- Drag & drop zone -->
+                                        <div class="drag-drop-zone" id="stuDragDropZone" role="button" tabindex="0"
+                                            aria-label="Drag and drop a photo, or click to browse">
+                                            <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                            <p class="fw-bold mb-1">Drag &amp; Drop</p>
+                                            <p class="small mb-0">or click to browse</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </section>
 
-                            <!-- Skills & Links Section -->
-                            <div class="premium-form-section mb-5">
-                                <h5 class="section-title mb-4 reveal-text">
-                                    <span class="title-icon icon-orange"><i class="fas fa-star"></i></span>
-                                    Expertise & Portfolio
-                                </h5>
-                                <div class="row g-4">
-                                    <div class="col-12 reveal-fade">
-                                        <div class="form-floating-premium">
-                                            <textarea class="form-control" id="skills" name="skills"
-                                                style="height: 100px">{{ profile['skills'] or '' }}</textarea>
-                                            <label for="skills">Key Skills (comma separated)</label>
-                                            <div class="focus-border"></div>
-                                        </div>
+                    <!-- 02 · Personal Information -->
+                    <section class="student-card mb-4 reveal" aria-labelledby="personalHeading">
+                        <div class="student-card-header">
+                            <span class="step-chip">02</span>
+                            <div class="header-icon-sky"><i class="fas fa-user"></i></div>
+                            <div>
+                                <h2 class="student-card-title mb-1" id="personalHeading">Personal Information</h2>
+                                <p class="student-card-subtitle mb-0">Your basic details</p>
+                            </div>
+                        </div>
+                        <div class="student-card-body">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium" for="name">
+                                            <i class="fas fa-user me-2"></i>Full Name
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-input-premium" id="name" name="name"
+                                            value="{{ user['name'] }}" placeholder="Enter your full name" required
+                                            oninput="updatePreview()">
+                                        <div class="input-focus-line"></div>
                                     </div>
-                                    <div class="col-12 reveal-fade">
-                                        <div class="form-floating-premium">
-                                            <textarea class="form-control" id="achievements" name="achievements"
-                                                style="height: 120px">{{ profile['achievements'] or '' }}</textarea>
-                                            <label for="achievements">Achievements & Awards (use , to separate)</label>
-                                            <div class="focus-border"></div>
-                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium" for="phone">
+                                            <i class="fas fa-phone me-2"></i>Phone Number
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="tel" class="form-input-premium" id="phone" name="phone"
+                                            value="{{ user['phone'] or '' }}" placeholder="+91 XXXXX XXXXX" required
+                                            oninput="updatePreview()">
+                                        <div class="input-focus-line"></div>
                                     </div>
-                                    <div class="col-12 reveal-fade">
-                                        <div class="form-floating-premium">
-                                            <input type="url" class="form-control" id="resume_link" name="resume_link"
-                                                value="{{ profile['resume_link'] or '' }}">
-                                            <label for="resume_link">LinkedIn / Resume Link</label>
-                                            <div class="focus-border"></div>
-                                            <i class="fas fa-link input-icon"></i>
-                                        </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium" for="email">
+                                            <i class="fas fa-envelope me-2"></i>Email (Locked)
+                                        </label>
+                                        <input type="email" class="form-input-premium disabled-input" id="email"
+                                            value="{{ user['email'] }}" disabled placeholder="Email">
+                                        <i class="fas fa-lock input-locked-icon"></i>
+                                        <div class="input-focus-line"></div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </section>
 
-                            <!-- Actions -->
-                            <div class="d-flex flex-column flex-md-row gap-3 pt-4 reveal-fade">
-                                <button type="submit" class="btn btn-premium-gradient flex-grow-1 magnetic-button">
-                                    <span class="btn-text"><i class="fas fa-save me-2"></i> Save Changes</span>
-                                    <div class="btn-glow"></div>
-                                </button>
-                                <a href="{{ url_for('student_profile', user_id=user['id']) }}"
-                                    class="btn btn-glass-outline">
-                                    Cancel
-                                </a>
-                                <a href="{{ url_for('change_password') }}" class="btn btn-glass-info">
-                                    <i class="fas fa-lock me-2"></i> Security
+                    <!-- 03 · Academic Information -->
+                    <section class="student-card mb-4 reveal" aria-labelledby="academicHeading">
+                        <div class="student-card-header">
+                            <span class="step-chip">03</span>
+                            <div class="header-icon-sky"><i class="fas fa-graduation-cap"></i></div>
+                            <div>
+                                <h2 class="student-card-title mb-1" id="academicHeading">Academic Information</h2>
+                                <p class="student-card-subtitle mb-0">Your course and progress</p>
+                            </div>
+                        </div>
+                        <div class="student-card-body">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium" for="enrollment_no">
+                                            <i class="fas fa-id-card me-2"></i>Enrollment No.
+                                        </label>
+                                        <input type="text" class="form-input-premium disabled-input" id="enrollment_no"
+                                            value="{{ profile['enrollment_no'] }}" disabled>
+                                        <i class="fas fa-lock input-locked-icon"></i>
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium" for="department">
+                                            <i class="fas fa-book me-2"></i>Department
+                                        </label>
+                                        <input type="text" class="form-input-premium disabled-input" id="department"
+                                            value="{{ profile['department'] }}" disabled>
+                                        <i class="fas fa-lock input-locked-icon"></i>
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium" for="semester">
+                                            <i class="fas fa-layer-group me-2"></i>Current Semester
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-input-premium" id="semester" name="semester" required
+                                            oninput="updatePreview()">
+                                            <option value="" disabled {% if not profile['semester'] %}selected{% endif %}>Select Semester</option>
+                                            {% for i in range(1, 7) %}
+                                            <option value="{{ i }}" {% if profile['semester']==i %}selected{% endif %}>{{ i }}{{ 'st' if i == 1 else 'nd' if i == 2 else 'rd' if i == 3 else 'th' }} Semester</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium" for="cgpa">
+                                            <i class="fas fa-chart-line me-2"></i>Current CGPA
+                                        </label>
+                                        <input type="number" class="form-input-premium" id="cgpa" name="cgpa" step="0.01"
+                                            min="0" max="10" value="{{ profile['cgpa'] or '' }}" placeholder="e.g., 8.5"
+                                            oninput="updatePreview()">
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 04 · Expertise & Portfolio -->
+                    <section class="student-card mb-4 reveal" aria-labelledby="portfolioHeading">
+                        <div class="student-card-header">
+                            <span class="step-chip">04</span>
+                            <div class="header-icon-sky"><i class="fas fa-star"></i></div>
+                            <div>
+                                <h2 class="student-card-title mb-1" id="portfolioHeading">Expertise &amp; Portfolio</h2>
+                                <p class="student-card-subtitle mb-0">Skills, achievements and your resume link</p>
+                            </div>
+                        </div>
+                        <div class="student-card-body">
+                            <div class="row g-4">
+                                <div class="col-12">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium" for="skills">
+                                            <i class="fas fa-tools me-2"></i>Key Skills (comma separated)
+                                        </label>
+                                        <textarea class="form-input-premium" id="skills" name="skills" rows="3"
+                                            placeholder="e.g., Python, Flask, SQL" oninput="updatePreview()">{{ profile['skills'] or '' }}</textarea>
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium" for="achievements">
+                                            <i class="fas fa-trophy me-2"></i>Achievements &amp; Awards (use | to separate)
+                                        </label>
+                                        <textarea class="form-input-premium" id="achievements" name="achievements" rows="3"
+                                            placeholder="List your major achievements (separate with | symbol)" oninput="updatePreview()">{{ profile['achievements'] or '' }}</textarea>
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group-premium">
+                                        <label class="form-label-premium" for="resume_link">
+                                            <i class="fas fa-link me-2"></i>LinkedIn / Resume Link
+                                        </label>
+                                        <input type="url" class="form-input-premium" id="resume_link" name="resume_link"
+                                            value="{{ profile['resume_link'] or '' }}" placeholder="https://linkedin.com/in/yourprofile"
+                                            oninput="updatePreview()">
+                                        <i class="fas fa-link input-icon"></i>
+                                        <div class="input-focus-line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Desktop action buttons -->
+                    <div class="action-buttons reveal">
+                        <a href="{{ url_for('student_profile', user_id=user['id']) }}"
+                            class="btn-premium btn-secondary-premium">
+                            <i class="fas fa-times me-2"></i>
+                            <span>Cancel</span>
+                        </a>
+                        <a href="{{ url_for('change_password') }}" class="btn-premium btn-secondary-premium">
+                            <i class="fas fa-lock me-2"></i>
+                            <span>Security</span>
+                        </a>
+                        <button type="submit" class="btn-premium btn-primary-premium" id="saveBtn">
+                            <span class="save-label">Save Changes</span>
+                            <i class="fas fa-check ms-2"></i>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+
+                    <!-- Mobile sticky save bar (inside the form so both buttons submit it) -->
+                    <div class="sticky-save-bar d-xl-none" role="region" aria-label="Save profile">
+                        <a href="{{ url_for('student_profile', user_id=user['id']) }}"
+                            class="btn-premium btn-secondary-premium sticky-cancel">
+                            <i class="fas fa-times me-2"></i><span>Cancel</span>
+                        </a>
+                        <button type="submit" class="btn-premium btn-primary-premium sticky-save">
+                            <i class="fas fa-check me-2"></i><span class="save-label">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ======================= SIDEBAR ======================= -->
+            <div class="col-xl-4">
+                <div class="preview-sidebar">
+                    <div class="preview-sticky">
+
+                        <!-- Profile completeness -->
+                        <section class="student-card completeness-card mb-4 reveal" aria-labelledby="completeHeading">
+                            <div class="student-card-body">
+                                <h2 class="completeness-title mb-1" id="completeHeading">
+                                    <i class="fas fa-tasks me-2"></i>Complete Your Profile
+                                </h2>
+                                <p class="student-card-subtitle mb-3">A complete profile gets noticed more.</p>
+                                <ul class="complete-list" id="completeList">
+                                    <li data-field="photo"><i class="fas fa-circle"></i>Profile photo</li>
+                                    <li data-field="name"><i class="fas fa-circle"></i>Full name</li>
+                                    <li data-field="phone"><i class="fas fa-circle"></i>Phone number</li>
+                                    <li data-field="semester"><i class="fas fa-circle"></i>Current semester</li>
+                                    <li data-field="cgpa"><i class="fas fa-circle"></i>CGPA</li>
+                                    <li data-field="skills"><i class="fas fa-circle"></i>Key skills</li>
+                                    <li data-field="achievements"><i class="fas fa-circle"></i>Achievements</li>
+                                    <li data-field="resume_link"><i class="fas fa-circle"></i>Resume / LinkedIn link</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <!-- Live preview -->
+                        <div class="preview-label mb-3 reveal">
+                            <i class="fas fa-eye me-2"></i>
+                            <span>Live Preview</span>
+                            <div class="pulse-dot"></div>
+                        </div>
+
+                        <div class="preview-card-premium reveal">
+                            <div class="preview-banner-gradient"></div>
+                            <div class="preview-body">
+                                <div class="preview-avatar" style="position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                                    {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
+                                    <img id="previewImg"
+                                        src="{{ user['profile_pic'] }}"
+                                        alt="Preview" style="width: 100%; height: 100%; object-fit: cover;"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div id="previewInitial" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #0ea5e9, #0284c7); color: #fff; font-size: 2.5rem; font-weight: 800; align-items: center; justify-content: center; border-radius: 50%;">
+                                        {{ (user['name']|trim)[0]|upper if user['name'] else 'A' }}
+                                    </div>
+                                    {% else %}
+                                    <img id="previewImg" src="" alt="Preview" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+                                    <div id="previewInitial" style="display: flex; width: 100%; height: 100%; background: linear-gradient(135deg, #0ea5e9, #0284c7); color: #fff; font-size: 2.5rem; font-weight: 800; align-items: center; justify-content: center; border-radius: 50%;">
+                                        {{ (user['name']|trim)[0]|upper if user['name'] else 'A' }}
+                                    </div>
+                                    {% endif %}
+                                    <div class="online-indicator"></div>
+                                </div>
+
+                                <h4 id="previewName" class="preview-name">{{ user['name'] }}</h4>
+                                <p id="previewDept" class="preview-designation">{{ profile['department'] }}</p>
+
+                                <div class="preview-stats">
+                                    <div class="stat-item">
+                                        <i class="fas fa-id-card"></i>
+                                        <span id="previewEnroll">{{ profile['enrollment_no'] }}</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-layer-group"></i>
+                                        <span>Semester <span id="previewSemester">{{ profile['semester'] or '—' }}</span></span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>CGPA <span id="previewCgpa">{{ profile['cgpa'] or '—' }}</span></span>
+                                    </div>
+                                </div>
+
+                                <div class="preview-bio">
+                                    <p id="previewSkills">{{ profile['skills'] or 'Your key skills will appear here. Add them to stand out to mentors and recruiters!' }}</p>
+                                </div>
+
+                                <a class="btn-preview-action" href="{{ url_for('student_profile', user_id=user['id']) }}">
+                                    <i class="fas fa-arrow-right me-2"></i>
+                                    View Full Profile
                                 </a>
                             </div>
                         </div>
+
+                        <!-- Quick tips -->
+                        <div class="quick-tips mt-4 reveal">
+                            <h6 class="tips-title">
+                                <i class="fas fa-lightbulb me-2"></i>
+                                Quick Tips
+                            </h6>
+                            <ul class="tips-list">
+                                <li><i class="fas fa-check-circle me-2"></i>Use a clear, professional photo</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Keep your CGPA and semester updated</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Highlight key achievements</li>
+                            </ul>
+                        </div>
+
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    /* Global Styles & Mesh */
-    body {
-        font-family: 'Outfit', sans-serif;
-        background-color: var(--bg-primary) !important; color: var(--text-primary) !important;
-        overflow-x: hidden;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    /* ============ Student edit-profile theme (page-local, sky) ============ */
+    .student-edit-page {
         font-family: 'Plus Jakarta Sans', sans-serif;
     }
+    .student-edit-page .admin-ball-1 { background: #0ea5e9; }
+    .student-edit-page .admin-ball-2 { background: #0284c7; }
+    .student-edit-page .admin-ball-3 { background: #38bdf8; }
 
-    .profile-wrapper {
-        position: relative;
-        overflow: hidden;
-        min-height: 100vh;
+    /* ---- Hero ---- */
+    .student-hero.admin-hero-card {
+        border: 2px solid rgba(14, 165, 233, 0.35) !important;
     }
-
-    .mesh-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        overflow: hidden;
-        background: var(--bg-primary);
-        pointer-events: none;
+    .student-hero .hero-badge {
+        display: inline-flex; align-items: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+        color: #bae6fd; background: rgba(14, 165, 233, 0.14);
+        border: 1px solid rgba(14, 165, 233, 0.4);
+        padding: 0.45rem 0.9rem; border-radius: 999px;
     }
-
-    .mesh-ball {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.12;
-        animation: mesh-float 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+    .student-hero .hero-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: clamp(1.9rem, 4vw, 2.9rem);
+        font-weight: 800; line-height: 1.1; color: #fff !important;
+        -webkit-text-fill-color: #fff !important;
     }
-
-    .ball-1 {
-        width: 600px;
-        height: 600px;
-        background: #6366f1;
-        top: -10%;
-        left: -10%;
-        animation-duration: 25s;
+    .student-hero .hero-title-gradient {
+        background: linear-gradient(90deg, #bae6fd 0%, #38bdf8 50%, #0ea5e9 100%);
+        -webkit-background-clip: text; background-clip: text;
+        color: transparent; -webkit-text-fill-color: transparent;
     }
-
-    .ball-2 {
-        width: 500px;
-        height: 500px;
-        background: #a855f7;
-        bottom: 10%;
-        right: -5%;
-        animation-duration: 30s;
+    .student-hero .hero-subtitle { color: rgba(255, 255, 255, 0.82); font-size: 1rem; line-height: 1.6; max-width: 640px; }
+    .student-hero .hero-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .student-hero .hero-chip {
+        font-size: 0.8rem; font-weight: 600; color: #e0f2fe;
+        background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16);
+        padding: 0.4rem 0.8rem; border-radius: 999px;
     }
-
-    .ball-3 {
-        width: 400px;
-        height: 400px;
-        background: #ec4899;
-        top: 40%;
-        left: 30%;
-        animation-duration: 22s;
+    .student-hero .hero-chip i { color: #7dd3fc; }
+    .student-hero .hero-complete-box { height: 100%; }
+    .student-hero .complete-track {
+        height: 10px; border-radius: 999px; overflow: hidden;
+        background: rgba(255, 255, 255, 0.16);
     }
-
-    @keyframes mesh-float {
-        0% {
-            transform: translate(0, 0) rotate(0deg);
-        }
-
-        100% {
-            transform: translate(100px, 100px) rotate(180deg);
-        }
+    .student-hero .complete-fill {
+        height: 100%; border-radius: 999px;
+        background: linear-gradient(90deg, #7dd3fc, #0ea5e9, #0284c7);
+        transition: width 0.5s ease;
     }
+    .student-hero .complete-label { color: rgba(255, 255, 255, 0.75); font-size: 0.82rem; }
 
-    /* Hero Section */
-    .profile-hero {
-        padding: 120px 0 100px;
-        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-        position: relative;
-        overflow: hidden;
+    /* ---- White cards ---- */
+    .student-card {
+        background: #fff; color: #0f172a;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.08);
+        overflow: hidden; position: relative; z-index: 2;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
-
-    .hero-particles {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
+    .student-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(14, 165, 233, 0.45);
+        box-shadow: 0 22px 48px -12px rgba(2, 132, 199, 0.22);
     }
-
-    .text-holographic {
-        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
-        background-size: 300% 100%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: holographic-move 8s linear infinite, glitch-flicker 4s infinite;
-        position: relative;
+    .student-card-header {
+        display: flex; align-items: center; gap: 1rem;
+        padding: 1.4rem 1.75rem;
+        background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);
+        border-bottom: 1px solid rgba(15, 23, 42, 0.07);
     }
-
-    @keyframes glitch-flicker {
-
-        0%,
-        100% {
-            opacity: 1;
-            transform: skew(0);
-        }
-
-        33% {
-            transform: skew(0.5deg);
-        }
-
-        34% {
-            transform: skew(-0.5deg);
-            opacity: 0.9;
-        }
-
-        35% {
-            transform: skew(0);
-            opacity: 1;
-        }
+    .student-card-body { padding: 1.75rem; }
+    .step-chip {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700;
+        color: #075985; background: #e0f2fe; border: 1px solid #bae6fd;
+        padding: 0.3rem 0.6rem; border-radius: 8px; flex-shrink: 0;
     }
-
-    @keyframes holographic-move {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        100% {
-            background-position: 300% 50%;
-        }
+    .header-icon-sky {
+        width: 50px; height: 50px; flex-shrink: 0;
+        background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        border-radius: 14px; display: flex; align-items: center; justify-content: center;
+        color: #fff; font-size: 1.25rem;
+        box-shadow: 0 10px 24px rgba(2, 132, 199, 0.35);
     }
+    .student-card-title { font-family: 'Outfit', sans-serif; color: #0f172a; font-weight: 700; font-size: 1.2rem; margin: 0; }
+    .student-card-subtitle { color: #64748b; font-size: 0.875rem; }
 
-    /* 3D Tilt */
-    .tilt-container {
-        perspective: 2000px;
+    /* ---- Photo upload ---- */
+    .upload-grid { display: grid; grid-template-columns: auto 1fr; gap: 2.5rem; align-items: start; }
+    .photo-circle-container { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; text-align: center; }
+    .circle-glow-ring {
+        position: absolute; top: 80px; left: 50%; transform: translate(-50%, -50%);
+        width: 220px; height: 220px; border-radius: 50%;
+        background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        opacity: 0.16; filter: blur(30px); pointer-events: none;
+        animation: sky-glow 3s ease-in-out infinite;
     }
+    @keyframes sky-glow { 0%, 100% { opacity: 0.14; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.26; transform: translate(-50%, -50%) scale(1.08); } }
 
-    .tilt-element {
-        transform-style: preserve-3d;
-        transition: transform 0.1s ease-out;
-    }
-
-    /* Progress Tracker */
-    .progress-track {
-        height: 6px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        overflow: hidden;
-        backdrop-filter: blur(5px);
-    }
-
-    .progress-fill {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, #60a5fa, #f472b6);
-        box-shadow: 0 0 15px rgba(96, 165, 250, 0.5);
-        transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    /* Glass Cards */
-    .glass-card {
-        background: var(--bg-surface) !important; color: var(--text-primary) !important; border-color: var(--border-color) !important;
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.6) !important;
-        border-radius: 40px !important;
-        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.1), 0 0 40px rgba(255, 255, 255, 0.5) !important;
-        transform: translateZ(20px);
-    }
-
-    .holographic-border {
-        position: relative;
-    }
-
-    .holographic-border::after {
-        content: '';
-        position: absolute;
-        inset: -2px;
-        z-index: -1;
-        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
-        background-size: 300% 100%;
-        border-radius: 42px;
-        opacity: 0.15;
-        animation: holographic-move 8s linear infinite;
-    }
-
-    /* Photo Edit */
     .avatar-edit-container {
         position: relative;
         width: 160px;
@@ -456,7 +559,7 @@
         right: 5px;
         width: 45px;
         height: 45px;
-        background: #6366f1;
+        background: #0ea5e9;
         color: white;
         border-radius: 50%;
         display: flex;
@@ -464,132 +567,66 @@
         justify-content: center;
         cursor: pointer;
         transition: all 0.3s ease;
+        z-index: 2;
     }
 
     .avatar-upload-badge:hover {
         transform: scale(1.1) rotate(15deg);
-        background: #4f46e5;
+        background: #0284c7;
     }
 
-    /* Premium Form Inputs */
-    .premium-form-section .section-title {
-        font-size: 1.15rem;
-        font-weight: 800;
-        color: var(--text-primary);
-        display: flex;
-        align-items: center;
-        gap: 12px;
+    .upload-info-panel {
+        background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px;
+        padding: 1.4rem; display: flex; flex-direction: column; gap: 1.25rem;
     }
-
-    .title-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.9rem;
+    .info-header { display: flex; align-items: center; color: #0f172a; padding-bottom: 0.9rem; border-bottom: 1px solid #e2e8f0; }
+    .info-header i { color: #0284c7; font-size: 1.15rem; }
+    .info-header h6 { font-family: 'Outfit', sans-serif; font-weight: 700; }
+    .info-items { display: flex; flex-direction: column; gap: 0.6rem; }
+    .info-item {
+        display: flex; align-items: center; gap: 0.75rem; color: #475569; font-size: 0.9rem;
+        padding: 0.5rem 0.6rem; background: #fff; border: 1px solid #f1f5f9; border-radius: 8px;
+        transition: transform 0.25s ease;
     }
-
-    .icon-blue {
-        background: rgba(99, 102, 241, 0.1);
-        color: #6366f1;
+    .info-item:hover { transform: translateX(5px); }
+    .info-item i { font-size: 1.05rem; width: 20px; text-align: center; flex-shrink: 0; }
+    .drag-drop-zone {
+        text-align: center; padding: 1.6rem 1rem; cursor: pointer;
+        border: 2px dashed rgba(2, 132, 199, 0.45); border-radius: 12px;
+        background: rgba(14, 165, 233, 0.06); color: #475569;
+        transition: all 0.25s ease;
     }
+    .drag-drop-zone:hover, .drag-drop-zone:focus-visible { border-color: #0284c7; background: rgba(14, 165, 233, 0.12); outline: none; }
+    .drag-drop-zone.drag-over { border-color: #0284c7; background: rgba(14, 165, 233, 0.18); transform: scale(1.02); }
+    .drag-drop-zone i { color: #0284c7; }
+    .drag-drop-zone p { color: #0f172a; }
 
-    .icon-green {
-        background: rgba(5, 150, 105, 0.15);
-        color: #059669;
+    /* ---- Form ---- */
+    .form-group-premium { position: relative; margin-bottom: 0; }
+    .form-label-premium { display: block; color: #0f172a; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.6rem; }
+    .form-label-premium i { color: #0284c7; }
+    .form-input-premium {
+        width: 100%; min-height: 48px; padding: 0.8rem 1.1rem;
+        background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px;
+        color: #0f172a; font-size: 1rem; font-family: 'Plus Jakarta Sans', sans-serif;
+        transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
     }
-
-    .icon-orange {
-        background: rgba(217, 119, 6, 0.15);
-        color: #d97706;
+    .form-input-premium::placeholder { color: #94a3b8; }
+    .form-input-premium:hover { border-color: #cbd5e1; }
+    .form-input-premium:focus {
+        outline: none; background: #fff; border-color: #0ea5e9;
+        box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.18);
     }
-
-    .form-floating-premium {
-        position: relative;
-        margin-bottom: 0.5rem;
-    }
-
-    .form-floating-premium .form-control,
-    .form-floating-premium .form-select {
-        height: 60px;
-        padding: 1.5rem 1rem 0.5rem;
-        border: 1px solid #cbd5e1;
-        border-radius: 16px;
-        font-weight: 600;
-        color: #1e293b;
-        background: var(--input-bg);
-        color: var(--input-text);
-        border-color: var(--border-color);
-        transition: all 0.3s ease;
-    }
-
-    .form-floating-premium .form-control:focus,
-    .form-floating-premium .form-select:focus {
-        border-color: transparent;
-        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        outline: none;
-        background: linear-gradient(white, white) padding-box,
-            linear-gradient(90deg, #6366f1, #f472b6, #6366f1) border-box;
-        border: 2px solid transparent !important;
-        background-size: 200% 100%;
-        animation: liquid-border 3s linear infinite;
-    }
-
-    @keyframes liquid-border {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        100% {
-            background-position: 200% 50%;
-        }
-    }
-
-    .form-floating-premium label {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        padding: 1.1rem 1rem;
-        font-size: 0.9rem;
-        font-weight: 700;
-        color: var(--text-muted);
-        pointer-events: none;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        opacity: 1;
-    }
-
-    .form-floating-premium .form-control:focus~label,
-    .form-floating-premium .form-control:not(:placeholder-shown)~label,
-    .form-floating-premium .form-control:disabled~label,
-    .form-floating-premium .form-select:focus~label,
-    .form-floating-premium .form-select:valid~label,
-    .form-floating-premium .form-select:not([value=""])~label {
-        transform: translateY(-34px) scale(0.8);
-        color: #1e1b4b;
-        font-weight: 800;
-        opacity: 1;
-        background: var(--bg-surface); color: var(--text-primary);
-        padding: 0.2rem 0.8rem;
-        border-radius: 8px;
-        left: 10px;
-    }
-
-    /* Extra safety for select */
-    .form-floating-premium select:not([value=""])~label {
-        transform: translateY(-22px) scale(0.8);
-        color: #1e1b4b;
-    }
-
+    .input-focus-line { position: absolute; bottom: 0; left: 12px; right: 12px; height: 2px; background: linear-gradient(90deg, #38bdf8, #0284c7); transform: scaleX(0); transition: transform 0.3s ease; transform-origin: left; }
+    .form-input-premium:focus + .input-focus-line { transform: scaleX(1); }
+    textarea.form-input-premium { resize: vertical; min-height: 120px; }
+    .form-group-premium.focused .form-label-premium { color: #075985; }
     .disabled-input {
         background: #f8fafc !important;
         cursor: not-allowed;
         color: #475569 !important;
         border-color: #e2e8f0 !important;
     }
-
     .input-locked-icon {
         position: absolute;
         top: 50%;
@@ -598,184 +635,210 @@
         color: #94a3b8;
         font-size: 0.8rem;
     }
-
     .input-icon {
         position: absolute;
         top: 50%;
         right: 15px;
         transform: translateY(-50%);
-        color: #6366f1;
+        color: #0284c7;
         opacity: 0.5;
     }
 
-    /* Buttons */
-    .btn-premium-gradient {
-        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-        color: white;
-        padding: 14px 28px;
-        border-radius: 16px;
-        font-weight: 700;
-        border: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+    /* ---- Buttons ---- */
+    .action-buttons { display: flex; gap: 1rem; justify-content: flex-end; position: relative; z-index: 2; }
+    .btn-premium {
+        min-height: 48px; padding: 0.85rem 2rem; border-radius: 14px;
+        font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem;
+        cursor: pointer; position: relative; overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        text-decoration: none;
     }
-
-    /* Magnetic Button */
-    .magnetic-button {
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    .btn-primary-premium {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); color: #fff; border: none;
+        box-shadow: 0 10px 26px rgba(2, 132, 199, 0.4);
     }
-
-    .btn-text {
-        position: relative;
-        z-index: 2;
-    }
-
+    .btn-primary-premium:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(2, 132, 199, 0.5); color: #fff; }
+    .btn-primary-premium:disabled { opacity: 0.7; cursor: wait; transform: none; }
+    .btn-secondary-premium { background: #fff; color: #334155; border: 1.5px solid #e2e8f0; }
+    .btn-secondary-premium:hover { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; transform: translateY(-3px); }
     .btn-glow {
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        transition: opacity 0.3s;
+        position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+        animation: btn-shine 3.5s infinite; pointer-events: none;
+    }
+    @keyframes btn-shine { 0% { left: -100%; } 50%, 100% { left: 100%; } }
+
+    /* Mobile sticky save bar */
+    .sticky-save-bar {
+        position: sticky; bottom: 0; z-index: 30;
+        display: flex; gap: 0.75rem; align-items: center;
+        margin: 1.5rem -0.75rem -0.5rem; padding: 0.75rem;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 18px;
+        box-shadow: 0 -8px 30px rgba(15, 23, 42, 0.14);
+    }
+    .sticky-save-bar .btn-premium { flex: 1; padding: 0.8rem 1rem; min-height: 48px; }
+
+    /* ---- Sidebar ---- */
+    .preview-sidebar { position: relative; z-index: 2; }
+    .preview-sticky { position: sticky; top: 110px; }
+    .completeness-title { font-family: 'Outfit', sans-serif; color: #0f172a; font-weight: 700; font-size: 1.1rem; }
+    .completeness-title i { color: #0284c7; }
+    .complete-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem 1rem; }
+    .complete-list li { display: flex; align-items: center; gap: 0.5rem; color: #64748b; font-size: 0.85rem; }
+    .complete-list li i { font-size: 0.6rem; color: #cbd5e1; flex-shrink: 0; }
+    .complete-list li.done { color: #0f172a; font-weight: 600; }
+    .complete-list li.done i { color: #10b981; font-size: 0.9rem; }
+    .complete-list li.done i::before { content: "\f058"; font-family: "Font Awesome 6 Free", "Font Awesome 5 Free"; font-weight: 900; }
+
+    .preview-label { display: flex; align-items: center; gap: 0.5rem; color: #0f172a; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.1rem; }
+    .preview-label i { color: #0284c7; }
+    .pulse-dot { width: 10px; height: 10px; background: #10b981; border-radius: 50%; animation: pulse-dot 2s infinite; }
+    @keyframes pulse-dot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: 0.7; } }
+    .preview-card-premium {
+        background: #fff; border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 24px;
+        overflow: hidden; box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.18);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .preview-card-premium:hover { transform: translateY(-5px); box-shadow: 0 26px 56px -12px rgba(2, 132, 199, 0.25); }
+    .preview-banner-gradient { height: 110px; background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%); border-bottom: 3px solid #0ea5e9; }
+    .preview-body { padding: 0 1.75rem 1.75rem; text-align: center; }
+    .preview-avatar { width: 120px; height: 120px; margin: -60px auto 1.25rem; position: relative; border-radius: 50%; }
+    .preview-avatar img { width: 100%; height: 100%; border-radius: 50%; border: 5px solid #fff; object-fit: cover; box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25); }
+    .online-indicator {
+        position: absolute; bottom: 5px; right: 5px; width: 24px; height: 24px;
+        background: #10b981; border: 4px solid #fff; border-radius: 50%; z-index: 2;
+        animation: pulse-online 2s infinite;
+    }
+    @keyframes pulse-online { 0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); } 50% { box-shadow: 0 0 0 9px rgba(16, 185, 129, 0); } }
+    .preview-name { font-family: 'Outfit', sans-serif; color: #0f172a; font-weight: 800; font-size: 1.45rem; margin-bottom: 0.35rem; word-break: break-word; }
+    .preview-designation { color: #0369a1; font-weight: 600; font-size: 0.95rem; margin-bottom: 1.4rem; }
+    .preview-stats { display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.4rem; }
+    .stat-item {
+        display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 1rem;
+        background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 10px;
+        color: #475569; font-size: 0.9rem; text-align: left; word-break: break-word;
+    }
+    .stat-item i { color: #0284c7; width: 20px; flex-shrink: 0; text-align: center; }
+    .preview-bio { padding: 1.15rem; background: #f0f9ff; border: 1px solid #e0f2fe; border-radius: 12px; margin-bottom: 1.4rem; }
+    .preview-bio p { color: #475569; font-size: 0.9rem; line-height: 1.6; margin: 0; font-style: italic; word-break: break-word; }
+    .btn-preview-action {
+        width: 100%; min-height: 48px; padding: 0.85rem;
+        background: linear-gradient(135deg, #0ea5e9, #0284c7); color: #fff; border: none; border-radius: 12px;
+        font-family: 'Outfit', sans-serif; font-weight: 700; cursor: pointer;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none;
+    }
+    .btn-preview-action:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(2, 132, 199, 0.45); color: #fff; }
+
+    .quick-tips { background: #fff; border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 18px; padding: 1.4rem; box-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.08); }
+    .tips-title { font-family: 'Outfit', sans-serif; color: #0f172a; font-weight: 700; margin-bottom: 0.75rem; }
+    .tips-title i { color: #0284c7; }
+    .tips-list { list-style: none; padding: 0; margin: 0; }
+    .tips-list li { color: #64748b; padding: 0.45rem 0; font-size: 0.9rem; }
+    .tips-list i { color: #10b981; }
+
+    /* ---- Reveal on scroll ---- */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 1199px) {
+        .preview-sticky { position: relative; top: 0; margin-top: 0.5rem; }
+    }
+    @media (max-width: 991px) {
+        .upload-grid { grid-template-columns: 1fr; gap: 2rem; }
+        .photo-circle-container { margin: 0 auto; }
+    }
+    @media (max-width: 767px) {
+        .student-card-header { padding: 1.1rem 1.25rem; }
+        .student-card-body { padding: 1.25rem; }
+        .action-buttons { flex-direction: column; }
+        .action-buttons .btn-premium { width: 100%; justify-content: center; }
+        .complete-list { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+        .student-card-header { flex-wrap: wrap; gap: 0.75rem; }
+        .header-icon-sky { width: 44px; height: 44px; font-size: 1.1rem; }
+        .step-chip { order: 3; }
+        .complete-list { grid-template-columns: 1fr; }
+        .sticky-save-bar { margin-inline: -0.25rem; }
     }
 
-    .magnetic-button:hover .btn-glow {
-        opacity: 1;
-    }
-
-    /* Reveal */
-    .reveal-text {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.8s ease;
-    }
-
-    .reveal-fade {
-        opacity: 0;
-        transform: scale(0.98);
-        transition: all 0.8s ease;
-    }
-
-    .revealed {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translate(0, 0) scale(1) !important;
-    }
-
-    /* Fallback for no-js or slow observer */
-    .reveal-text,
-    .reveal-fade {
-        visibility: hidden;
-    }
-
-    .revealed {
-        visibility: visible !important;
+    /* ---- Reduced motion ---- */
+    @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        .student-card:hover, .preview-card-premium:hover, .btn-premium:hover { transform: none !important; }
     }
 </style>
+<noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Reveal Animations with stagger
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, idx) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('revealed');
-                    }, idx * 100);
-                }
-            });
-        }, { threshold: 0.1 });
+    function updatePreview() {
+        const name = document.getElementById('name').value || 'Your Name';
+        const semester = document.getElementById('semester').value || '';
+        const cgpa = document.getElementById('cgpa').value || '';
+        const skills = document.getElementById('skills').value || '';
 
-        document.querySelectorAll('.reveal-text, .reveal-fade').forEach(el => observer.observe(el));
+        document.getElementById('previewName').textContent = name;
+        document.getElementById('previewSemester').textContent = semester || '—';
+        document.getElementById('previewCgpa').textContent = cgpa || '—';
+        document.getElementById('previewSkills').textContent = skills || 'Your key skills will appear here. Add them to stand out to mentors and recruiters!';
 
-        // 3D Tilt Logic
-        const tiltContainer = document.querySelector('.tilt-container');
-        const tiltElement = document.querySelector('.tilt-element');
-
-        if (tiltContainer && tiltElement) {
-            tiltContainer.addEventListener('mousemove', (e) => {
-                const { left, top, width, height } = tiltContainer.getBoundingClientRect();
-                const x = (e.clientX - left) / width;
-                const y = (e.clientY - top) / height;
-
-                const tiltX = (y - 0.5) * 10;
-                const tiltY = (x - 0.5) * -10;
-
-                tiltElement.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateZ(20px)`;
-            });
-
-            tiltContainer.addEventListener('mouseleave', () => {
-                tiltElement.style.transform = `rotateX(0deg) rotateY(0deg) translateZ(0px)`;
-            });
+        // Keep the avatar initial in step with the typed name.
+        const initial = document.getElementById('previewInitial');
+        if (initial) {
+            initial.textContent = (name.trim()[0] || 'A').toUpperCase();
         }
+        updateCompleteness();
+    }
 
-        // Magnetic Button Logic
-        const magneticBtn = document.querySelector('.magnetic-button');
-        const btnGlow = document.querySelector('.btn-glow');
+    // Profile completeness, computed only from the fields already on this page.
+    // 8 items: photo + the 7 editable form fields (locked email/enrolment/department excluded).
+    var COMPLETENESS_FIELDS = [
+        { key: 'photo', id: null },
+        { key: 'name', id: 'name' },
+        { key: 'phone', id: 'phone' },
+        { key: 'semester', id: 'semester' },
+        { key: 'cgpa', id: 'cgpa' },
+        { key: 'skills', id: 'skills' },
+        { key: 'achievements', id: 'achievements' },
+        { key: 'resume_link', id: 'resume_link' }
+    ];
 
-        if (magneticBtn) {
-            magneticBtn.addEventListener('mousemove', (e) => {
-                const { left, top, width, height } = magneticBtn.getBoundingClientRect();
-                const x = e.clientX - left;
-                const y = e.clientY - top;
-
-                // Move glow
-                if (btnGlow) {
-                    btnGlow.style.left = `${x}px`;
-                    btnGlow.style.top = `${y}px`;
-                }
-
-                // Magnetic pull
-                const moveX = (x - width / 2) * 0.35;
-                const moveY = (y - height / 2) * 0.35;
-                magneticBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
-            });
-
-            magneticBtn.addEventListener('mouseleave', () => {
-                magneticBtn.style.transform = `translate(0, 0)`;
-            });
+    function updateCompleteness() {
+        var done = 0;
+        COMPLETENESS_FIELDS.forEach(function (field) {
+            var isDone = false;
+            if (field.key === 'photo') {
+                var up = document.getElementById('photoPreview');
+                isDone = !!(up && up.getAttribute('src') && !up.classList.contains('d-none'));
+            } else {
+                var el = document.getElementById(field.id);
+                isDone = !!(el && el.value.trim() !== '');
+            }
+            var row = document.querySelector('#completeList li[data-field="' + field.key + '"]');
+            if (row) { row.classList.toggle('done', isDone); }
+            if (isDone) { done += 1; }
+        });
+        var total = COMPLETENESS_FIELDS.length;
+        var pct = Math.round((done / total) * 100);
+        var textEl = document.getElementById('completionText');
+        var barEl = document.getElementById('completionBar');
+        var trackEl = document.getElementById('completeTrack');
+        var labelEl = document.getElementById('completeLabel');
+        if (textEl) { textEl.textContent = pct + '%'; }
+        if (barEl) { barEl.style.width = pct + '%'; }
+        if (trackEl) { trackEl.setAttribute('aria-valuenow', String(pct)); }
+        if (labelEl) {
+            labelEl.textContent = pct === 100
+                ? 'Your profile is complete \u2014 looking great!'
+                : done + ' of ' + total + ' fields complete. Keep going!';
         }
-
-        // Form Progress Tracking
-        const form = document.querySelector('#editForm');
-        const fill = document.querySelector('#completionBar');
-        const text = document.querySelector('#completionText');
-        const inputs = form.querySelectorAll('input[required], select[required]');
-
-        const updateProgress = () => {
-            let filled = 0;
-            inputs.forEach(input => {
-                if (input.value.trim() !== '') filled++;
-            });
-            const percent = Math.round((filled / inputs.length) * 100);
-            if (fill) fill.style.width = `${percent}%`;
-            if (text) text.innerText = `${percent}%`;
-        };
-
-        inputs.forEach(input => input.addEventListener('input', updateProgress));
-        updateProgress();
-
-        // Profile Title Typing Effect
-        const title = document.querySelector('.text-holographic');
-        if (title) {
-            const txt = title.innerText;
-            title.innerHTML = '';
-            let i = 0;
-            const type = () => {
-                if (i < txt.length) {
-                    title.innerHTML += txt.charAt(i);
-                    i++;
-                    setTimeout(type, 100);
-                }
-            };
-            setTimeout(type, 800);
-        }
-    });
+    }
 
     function previewPhoto(input) {
         if (input.files && input.files[0]) {
@@ -792,6 +855,15 @@
                     svg.classList.add('d-none');
                     svg.classList.remove('d-block');
                 }
+                // Sync the live-preview card avatar.
+                const previewImg = document.getElementById('previewImg');
+                const previewInitial = document.getElementById('previewInitial');
+                if (previewImg) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                }
+                if (previewInitial) { previewInitial.style.display = 'none'; }
+                updateCompleteness();
                 showToast('Perfect! New photo selected.', 'success');
             };
             reader.readAsDataURL(input.files[0]);
@@ -810,13 +882,85 @@
 
     function showToast(message, type = 'primary') {
         const toast = document.createElement('div');
-        toast.className = `alert alert-${type} position-fixed top-0 end-0 m-4 shadow-lg reveal-fade`;
+        toast.className = `alert alert-${type} position-fixed top-0 end-0 m-4 shadow-lg`;
         toast.style.zIndex = '9999';
         toast.style.borderRadius = '16px';
         toast.innerHTML = `<i class="fas fa-check-circle me-2"></i> ${message}`;
         document.body.appendChild(toast);
-        setTimeout(() => toast.classList.add('revealed'), 100);
         setTimeout(() => toast.remove(), 4000);
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Drag & drop zone forwards files to the same input + previewPhoto handler.
+        const dragDropZone = document.getElementById('stuDragDropZone');
+        const fileInput = document.getElementById('profile_pic');
+        if (dragDropZone && fileInput) {
+            dragDropZone.addEventListener('click', () => {
+                fileInput.click();
+            });
+            dragDropZone.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+            });
+            dragDropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dragDropZone.classList.add('drag-over');
+            });
+            dragDropZone.addEventListener('dragleave', () => {
+                dragDropZone.classList.remove('drag-over');
+            });
+            dragDropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dragDropZone.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    previewPhoto(fileInput);
+                }
+            });
+        }
+
+        // Focus states on inputs
+        const inputs = document.querySelectorAll('.form-input-premium');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function () {
+                this.parentElement.classList.add('focused');
+            });
+            input.addEventListener('blur', function () {
+                this.parentElement.classList.remove('focused');
+            });
+            input.addEventListener('input', updateCompleteness);
+        });
+
+        // Reveal-on-scroll (subtle); show everything if IntersectionObserver is unavailable.
+        const revealEls = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.08 });
+            revealEls.forEach(el => observer.observe(el));
+        } else {
+            revealEls.forEach(el => el.classList.add('is-visible'));
+        }
+
+        // Prevent double-submit: native validation runs first, so this only
+        // fires for a form that is actually being submitted.
+        const form = document.getElementById('editForm');
+        if (form) {
+            form.addEventListener('submit', function () {
+                form.querySelectorAll('button[type="submit"]').forEach(btn => {
+                    btn.disabled = true;
+                    const label = btn.querySelector('.save-label');
+                    if (label) { label.textContent = 'Saving\u2026'; }
+                });
+            });
+        }
+
+        updatePreview();
+    });
 </script>
 {% endblock %}

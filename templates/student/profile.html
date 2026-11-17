@@ -1,185 +1,199 @@
-<!-- filepath: d:\RajenderMohan_BCA\RajenderMohan_Projects\6_Semester\Major Project\Alumni App\templates\profile_student.html -->
 {% extends "base.html" %}
+{% block title %}{{ user['name'] }} • Student Profile{% endblock %}
 
 {% block content %}
-<!-- Premium Fonts -->
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
 <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
     rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
 
-<div class="profile-wrapper">
-    <!-- Animated Mesh Background -->
-    <div class="mesh-background">
-        <div class="mesh-ball ball-1"></div>
-        <div class="mesh-ball ball-2"></div>
-        <div class="mesh-ball ball-3"></div>
-        <div class="mesh-ball ball-4"></div>
-    </div>
+<div class="student-page-wrapper stu-profile-page">
+    <!-- Ambient orbs -->
+    <div class="admin-ambient-ball admin-ball-1" style="background:#0ea5e9;"></div>
+    <div class="admin-ambient-ball admin-ball-2" style="background:#38bdf8;"></div>
+    <div class="admin-ambient-ball admin-ball-3" style="background:#0284c7;"></div>
 
-    <!-- Header Section -->
-    <div class="profile-hero glass-hero">
-        <div class="hero-particles"></div>
-        <div class="hero-glow-point"></div>
-        <div class="container" style="position: relative; z-index: 2;">
+    <!-- ============ HERO ============ -->
+    <section class="stu-hero-card stu-profile-hero reveal">
+        <div class="stu-hero-glow stu-hero-glow-1"></div>
+        <div class="stu-hero-glow stu-hero-glow-2"></div>
+        <div class="container position-relative" style="z-index: 5;">
             <div class="row align-items-center">
-                <div class="col-lg-8">
-                    <div class="hero-content">
-                        <div class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow-sm reveal-fade"
-                            style="font-weight: 700; letter-spacing: 0.5px;">
-                            <i class="fas fa-id-card me-2"></i> OFFICIAL PROFILE
-                        </div>
-                        <h1 class="text-white display-4 fw-bold mb-3 reveal-text">
-                            Student <span class="text-holographic">Profile</span>
-                        </h1>
-                        <p class="text-white-50 lead mb-0 reveal-fade" style="font-size: 1.25rem;">
-                            Mapping the academic journey and future ambitions.
-                        </p>
+                <div class="col-lg-8 text-center text-lg-start">
+                    <span class="stu-live-badge mb-3">
+                        <span class="stu-live-dot"></span><i class="fas fa-graduation-cap me-1"></i> STUDENT PROFILE
+                    </span>
+                    <h1 class="stu-hero-title mt-3 mb-3">
+                        <span class="stu-text-sky">{{ user['name'] }}</span>
+                    </h1>
+                    <p class="stu-hero-sub mb-0">
+                        <i class="fas fa-id-card me-2" style="color:#7dd3fc;"></i>{{ profile['enrollment_no'] }}
+                        <span class="mx-3" style="color:rgba(255,255,255,0.3);">|</span>
+                        <i class="fas fa-book-open me-2" style="color:#7dd3fc;"></i>{{ profile['department'] }}
+                    </p>
+                </div>
+                <div class="col-lg-4 text-center d-none d-lg-block">
+                    <div class="stu-hero-chip">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Semester {{ profile['semester'] or '—' }}</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="container mt-5 mb-5">
-        <div class="row">
-            <!-- Left Sidebar -->
-            <div class="col-lg-4 mb-4 reveal-fade">
-                <!-- Profile Card -->
-                <div class="card border-0 glass-card holographic-border overflow-hidden">
-                    <div style="height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
-                    <div class="card-body text-center" style="padding-top: 3rem;">
-                        <!-- Avatar -->
-                        <div class="avatar-container">
+        <!-- Wave separation -->
+        <div class="stu-wave-wrap">
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto" aria-hidden="true">
+                <defs>
+                    <path id="gentle-wave"
+                        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(248,250,252,0.7)" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(248,250,252,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(248,250,252,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#f8fafc" />
+                </g>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ============ CONTENT ============ -->
+    <div class="student-container stu-profile-content">
+        <div class="row g-4">
+            <!-- Sidebar: Identity Card -->
+            <div class="col-lg-4 reveal">
+                <div class="stu-identity-card shadow-lg p-4 p-md-5 text-center">
+                    <div class="stu-avatar-zone mb-4">
+                        <div class="stu-avatar-ring"></div>
+                        <div class="stu-profile-avatar shadow mx-auto">
                             {% if user['profile_pic'] and (user['profile_pic'].startswith('/') or user['profile_pic'].startswith('data:image/') or user['profile_pic'].startswith('http')) and user['profile_pic'] != 'default.jpg' %}
-                            <img src="{{ user['profile_pic'] }}" alt="Avatar" class="avatar-img shadow-lg" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'avatar-img shadow-lg initials-avatar-large\'>{{ user.name | initials }}</div>';">
+                            <img src="{{ user['profile_pic'] }}" alt="Avatar" class="stu-avatar-img" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'stu-avatar-img stu-avatar-initials\'>{{ user.name | initials }}</div>';">
                             {% else %}
-                            <div class="avatar-img shadow-lg initials-avatar-large">
+                            <div class="stu-avatar-img stu-avatar-initials">
                                 {{ user['name'] | initials }}
                             </div>
                             {% endif %}
-                            <div class="glass-tag">
-                                <span class="tag-dot"></span>
-                                STUDENT
-                            </div>
+                            <span class="stu-online-dot" title="Student member"></span>
                         </div>
-
-                        <!-- Info -->
-                        <h4 class="fw-bold mb-1">{{ user['name'] }}</h4>
-                        <p class="text-primary fw-bold mb-3"><i class="fas fa-graduation-cap"></i> Student</p>
-
-                        <div class="mb-3">
-                            <span class="badge bg-primary me-2">{{ profile['enrollment_no'] }}</span>
-                            <span class="badge bg-info">{{ profile['department'] }}</span>
-                        </div>
-
-                        <hr>
-
-                        <!-- Contact & Actions -->
-                        <div class="mb-4 text-start">
-                            <h6 class="fw-bold mb-3" style="font-size: 0.85rem; letter-spacing: 0.5px; color: #64748b;">
-                                <i class="fas fa-id-card me-2"></i> CONTACT OPTIONS
-                            </h6>
-
-                            <div class="d-grid gap-2">
-                                <!-- WhatsApp Bridge Button -->
-                                <a href="{{ url_for('whatsapp_bridge', user_id=user['id']) }}"
-                                    class="btn btn-whatsapp-modern w-100">
-                                    <i class="fab fa-whatsapp me-2"></i> WhatsApp Connect
-                                </a>
-
-                                <!-- Internal Compose Email Button -->
-                                <a href="{{ url_for('compose_email', user_id=user['id']) }}"
-                                    class="btn btn-email-modern w-100">
-                                    <i class="fas fa-paper-plane me-2"></i> Professional Mail
-                                </a>
-
-                                <!-- Gmail Redirection Button -->
-                                <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ user['email'] }}"
-                                    target="_blank" class="btn btn-outline-modern-small w-100">
-                                    <i class="fab fa-google me-2" style="color: #EA4335;"></i> Gmail Compose
-                                </a>
-                            </div>
-                        </div>
-
-                        <hr class="my-4">
-
-                        <!-- Actions -->
-                        {% if current_user.id == user['id'] %}
-                        <div class="d-grid gap-2">
-                            <a href="{{ url_for('edit_student_profile', user_id=user['id']) }}"
-                                class="btn btn-primary-premium">
-                                <i class="fas fa-user-edit me-2"></i> Edit Profile
-                            </a>
-                            <a href="{{ url_for('change_password') }}" class="btn btn-outline-warning-premium">
-                                <i class="fas fa-key me-2"></i> Change Password
-                            </a>
-                        </div>
-                        {% else %}
-                        <div class="d-grid gap-2">
-                            <button id="connection-btn" class="btn btn-success-premium" data-user-id="{{ user['id'] }}">
-                                <i class="fas fa-user-plus me-2"></i> Send Connection Request
-                            </button>
-                        </div>
-                        {% endif %}
                     </div>
+
+                    <h2 class="fw-bold stu-heading mb-1">{{ user['name'] }}</h2>
+                    <div class="stu-pro-tag mb-4"><i class="fas fa-graduation-cap me-1"></i> Student</div>
+
+                    <!-- Stats Row -->
+                    <div class="row g-2 mb-4">
+                        <div class="col-6">
+                            <div class="stu-mini-stat p-3 rounded-4">
+                                <h4 class="mb-0 fw-bold stu-count" data-count="{{ profile['semester'] or 0 }}" style="color:#0369a1;">{{ profile['semester'] or 0 }}</h4>
+                                <p class="mb-0 text-muted small text-uppercase" style="letter-spacing:0.12em;">Semester</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stu-mini-stat p-3 rounded-4">
+                                <h4 class="mb-0 fw-bold" style="color:#059669;">{{ profile['cgpa'] if profile['cgpa'] else 'N/A' }}</h4>
+                                <p class="mb-0 text-muted small text-uppercase" style="letter-spacing:0.12em;">CGPA</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="badge rounded-pill px-3 py-2 me-2" style="background:rgba(14,165,233,0.12); color:#0369a1; border:1px solid rgba(14,165,233,0.3);">{{ profile['enrollment_no'] }}</span>
+                        <span class="badge rounded-pill px-3 py-2" style="background:rgba(2,132,199,0.12); color:#075985; border:1px solid rgba(2,132,199,0.3);">{{ profile['department'] }}</span>
+                    </div>
+
+                    <!-- Contact Options -->
+                    <div class="mb-4 text-start">
+                        <h6 class="fw-bold mb-3" style="font-size: 0.85rem; letter-spacing: 0.5px; color: #64748b;">
+                            <i class="fas fa-id-card me-2"></i> CONTACT OPTIONS
+                        </h6>
+                        <div class="d-grid gap-2">
+                            <a href="{{ url_for('whatsapp_bridge', user_id=user['id']) }}"
+                                class="btn stu-btn-whatsapp w-100">
+                                <i class="fab fa-whatsapp me-2"></i> WhatsApp Connect
+                            </a>
+                            <a href="{{ url_for('compose_email', user_id=user['id']) }}"
+                                class="btn stu-btn-email w-100">
+                                <i class="fas fa-paper-plane me-2"></i> Professional Mail
+                            </a>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ user['email'] }}"
+                                target="_blank" class="btn stu-btn-outline w-100">
+                                <i class="fab fa-google me-2" style="color: #EA4335;"></i> Gmail Compose
+                            </a>
+                            {% if profile['resume_link'] %}
+                            <a href="{{ profile['resume_link'] }}" target="_blank"
+                                class="btn stu-btn-outline w-100">
+                                <i class="fas fa-link me-2" style="color:#0284c7;"></i> Resume / LinkedIn
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Actions -->
+                    {% if current_user.id == user['id'] %}
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('edit_student_profile', user_id=user['id']) }}"
+                            class="btn stu-btn-sky py-3 rounded-pill fw-bold shadow">
+                            <i class="fas fa-user-edit me-2"></i> Edit Profile
+                        </a>
+                        <a href="{{ url_for('change_password') }}" class="btn stu-btn-outline py-3 rounded-pill fw-bold">
+                            <i class="fas fa-key me-2"></i> Change Password
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="d-grid gap-2">
+                        <button id="connection-btn" class="btn stu-btn-connect py-3 rounded-pill fw-bold" data-user-id="{{ user['id'] }}">
+                            <i class="fas fa-user-plus me-2"></i> Send Connection Request
+                        </button>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
 
-            <!-- Right Content -->
+            <!-- Main Content Area -->
             <div class="col-lg-8">
                 <!-- Academic Information -->
-                <div class="card border-0 glass-card mb-4 reveal-fade">
-                    <div class="card-header-premium">
-                        <h5 class="text-white fw-bold mb-0" style="font-size: 1.2rem;">
-                            <i class="fas fa-book me-2"></i> Academic Information
-                        </h5>
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="row mb-4">
+                <div class="section-reveal reveal mb-4">
+                    <div class="stu-glass-section p-4 p-md-5">
+                        <span class="badge px-3 py-1 mb-2 rounded-pill fw-bold" style="background:rgba(14,165,233,0.14); color:#075985;">ACADEMICS</span>
+                        <h3 class="fw-bold stu-heading d-flex align-items-center">
+                            Academic Information <i class="fas fa-book-open ms-3" style="color:#0ea5e9;"></i>
+                        </h3>
+                        <div class="row g-4 mt-2">
                             <div class="col-md-6">
-                                <div class="info-box-premium reveal-fade">
-                                    <div class="info-icon"><i class="fas fa-book"></i></div>
-                                    <div class="info-details">
-                                        <small>Department</small>
-                                        <h6>{{ profile['department'] }}</h6>
+                                <div class="stu-info-card p-4 h-100">
+                                    <div class="stu-card-icon mb-3" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);"><i class="fas fa-book"></i></div>
+                                    <h4 class="fw-bold mb-4 stu-heading">Department</h4>
+                                    <div class="stu-data-entry mb-3">
+                                        <label>Department</label>
+                                        <div class="stu-data-value">{{ profile['department'] }}</div>
+                                    </div>
+                                    <div class="stu-data-entry">
+                                        <label>Degree</label>
+                                        <div class="stu-data-value">{{ profile['degree'] }}</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="info-box-premium reveal-fade">
-                                    <div class="info-icon icon-blue"><i class="fas fa-certificate"></i></div>
-                                    <div class="info-details">
-                                        <small>Degree</small>
-                                        <h6>{{ profile['degree'] }}</h6>
+                                <div class="stu-info-card p-4 h-100">
+                                    <div class="stu-card-icon mb-3" style="background:linear-gradient(135deg,#10b981,#059669);"><i class="fas fa-chart-line"></i></div>
+                                    <h4 class="fw-bold mb-4 stu-heading">Semester Progress</h4>
+                                    <div class="stu-data-entry mb-3">
+                                        <label>CGPA Score</label>
+                                        <div class="stu-data-value" style="color:#059669;">{{ profile['cgpa'] if profile['cgpa'] else 'N/A' }}</div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="info-box-premium reveal-fade">
-                                    <div class="info-icon icon-green"><i class="fas fa-layer-group"></i></div>
-                                    <div class="info-details w-100">
-                                        <small>Semester Progress</small>
-                                        <div class="progress mt-1"
-                                            style="height: 8px; border-radius: 4px; background: rgba(0,0,0,0.05);">
-                                            <div class="progress-bar bg-gradient-success" role="progressbar"
-                                                data-semester="{{ profile['semester'] or 0 }}" style="width: 0%"></div>
+                                    <div class="mt-2">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span class="small fw-bold">Semester Progress</span>
+                                            <span class="small fw-bold">{{ profile['semester'] or '0' }}/6</span>
                                         </div>
-                                        <div class="d-flex justify-content-between mt-1">
-                                            <small class="small-text">{{ profile['semester'] or '0' }}/6</small>
+                                        <div class="stu-progress">
+                                            <div class="stu-progress-fill" role="progressbar" data-semester="{{ profile['semester'] or 0 }}" style="width: 0%"></div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info-box-premium reveal-fade">
-                                    <div class="info-icon icon-orange"><i class="fas fa-chart-line"></i></div>
-                                    <div class="info-details">
-                                        <small>CGPA Score</small>
-                                        <h6 class="text-success fw-bold">{{ profile['cgpa'] if profile['cgpa'] else
-                                            'N/A' }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -188,48 +202,75 @@
                 </div>
 
                 <!-- Skills & Achievements -->
-                <div class="card border-0 glass-card reveal-fade">
-                    <div class="card-header-premium color-2">
-                        <h5 class="text-white fw-bold mb-0" style="font-size: 1.2rem;">
-                            <i class="fas fa-star me-2"></i> Skills & Achievements
-                        </h5>
-                    </div>
-                    <div class="card-body p-4">
-                        <!-- Skills -->
-                        <div class="mb-4">
-                            <small class="text-muted fw-bold d-block mb-3 reveal-text"><i
-                                    class="fas fa-tools me-2"></i>Expertise & Skills</small>
-                            {% if profile['skills'] %}
-                            <div class="d-flex flex-wrap gap-2">
-                                {% for skill in profile['skills'].split(',') %}
-                                <span class="skill-tag-premium reveal-fade">
-                                    {{ skill.strip() }}
-                                </span>
-                                {% endfor %}
-                            </div>
-                            {% else %}
-                            <p class="text-muted mb-0">No skills added yet</p>
-                            {% endif %}
+                <div class="section-reveal reveal stu-achievements p-4 p-md-5 mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h3 class="fw-bold stu-heading mb-0">Skills &amp; Achievements</h3>
+                        <div class="stu-trophy">
+                            <i class="fas fa-star" style="color:#0ea5e9;"></i>
                         </div>
-
-                        <hr class="my-4 opacity-10">
-
-                        <!-- Achievements -->
-                        <div>
-                            <small class="text-muted fw-bold d-block mb-3 reveal-text"><i
-                                    class="fas fa-trophy me-2"></i>Achievements & Awards</small>
-                            {% if profile['achievements'] %}
-                            <div class="achievement-list">
-                                {% for achievement in profile['achievements'].split('|') %}
-                                <div class="achievement-item-premium reveal-fade">
-                                    <div class="achievement-icon"><i class="fas fa-medal"></i></div>
-                                    <span>{{ achievement.strip() }}</span>
+                    </div>
+                    <div class="mb-4">
+                        <small class="text-muted fw-bold d-block mb-3"><i class="fas fa-tools me-2"></i>Expertise &amp; Skills</small>
+                        {% if profile['skills'] %}
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for skill in profile['skills'].split(',') %}
+                            <span class="stu-skill-tag">
+                                {{ skill.strip() }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p class="text-muted mb-0">No skills added yet</p>
+                        {% endif %}
+                    </div>
+                    <hr class="my-4 opacity-10">
+                    <div>
+                        <small class="text-muted fw-bold d-block mb-3"><i class="fas fa-trophy me-2"></i>Achievements &amp; Awards</small>
+                        {% if profile['achievements'] %}
+                        <div class="stu-achievement-list">
+                            {% for achievement in profile['achievements'].split('|') %}
+                            <div class="stu-achievement-row p-3 p-md-4 mb-3">
+                                <div class="row align-items-center g-3">
+                                    <div class="col-auto">
+                                        <div class="stu-medal"><i class="fas fa-medal"></i></div>
+                                    </div>
+                                    <div class="col min-width-0">
+                                        <h5 class="fw-bold mb-0 stu-heading">{{ achievement.strip() }}</h5>
+                                        <small class="text-muted">Student Achievement</small>
+                                    </div>
                                 </div>
-                                {% endfor %}
                             </div>
-                            {% else %}
-                            <p class="text-muted mb-0">No achievements added yet</p>
-                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p class="text-muted mb-0">No achievements added yet</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Quick Links (existing student routes only) -->
+                <div class="section-reveal reveal stu-shortcuts p-4 p-md-5">
+                    <h3 class="fw-bold stu-heading mb-4">Quick Links</h3>
+                    <div class="row g-3">
+                        <div class="col-6 col-md-3">
+                            <a href="{{ url_for('dashboard_student') }}" class="stu-shortcut-tile">
+                                <i class="fas fa-th-large"></i><span>Dashboard</span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <a href="{{ url_for('network') }}" class="stu-shortcut-tile">
+                                <i class="fas fa-users"></i><span>Network</span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <a href="{{ url_for('mentorship') }}" class="stu-shortcut-tile">
+                                <i class="fas fa-hands-helping"></i><span>Mentorship</span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <a href="{{ url_for('messages') }}" class="stu-shortcut-tile">
+                                <i class="fas fa-comments"></i><span>Messages</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -238,538 +279,469 @@
     </div>
 </div>
 
-
 <style>
-    /* Global Typography & Mesh */
-    body {
-        font-family: 'Outfit', sans-serif;
-        background-color: var(--bg-primary) !important; color: var(--text-primary) !important;
-        overflow-x: hidden;
+    /* ============ STUDENT THEME (sky) on the admin shell ============ */
+    :root {
+        --stu-sky: #0ea5e9;
+        --stu-sky-dark: #0284c7;
+        --stu-navy: #0f172a;
+        --stu-ink: #0f172a;
+        --stu-muted: #64748b;
+        --stu-card: #ffffff;
+        --stu-border: #e2e8f0;
+        --stu-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.08);
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    .profile-wrapper {
-        position: relative;
-        overflow: hidden;
+    .student-page-wrapper {
         min-height: 100vh;
-    }
-
-    .mesh-background {
-        position: fixed;
-        top: 0;
-        left: 0;
+        position: relative;
+        background-color: #f8fafc;
+        overflow-x: clip;
         width: 100%;
-        height: 100%;
-        z-index: -1;
-        overflow: hidden;
-        background: var(--bg-primary);
-        pointer-events: none;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        color: var(--stu-ink);
+        padding-bottom: 4.5rem;
     }
 
-    .mesh-ball {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.12;
-        animation: mesh-float 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+    .student-container {
+        position: relative;
+        z-index: 1;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 1.25rem 1.25rem 0;
     }
 
-    .ball-1 {
-        width: 600px;
-        height: 600px;
-        background: #6366f1;
-        top: -10%;
-        left: -10%;
-        animation-duration: 25s;
-    }
+    .stu-heading { color: var(--stu-ink); font-family: 'Outfit', sans-serif; }
 
-    .ball-2 {
-        width: 500px;
-        height: 500px;
-        background: #a855f7;
-        bottom: 10%;
-        right: -5%;
-        animation-duration: 30s;
-    }
-
-    .ball-3 {
-        width: 400px;
-        height: 400px;
-        background: #ec4899;
-        top: 40%;
-        left: 30%;
-        animation-duration: 22s;
-    }
-
-    @keyframes mesh-float {
-        0% {
-            transform: translate(0, 0) rotate(0deg);
-        }
-
-        100% {
-            transform: translate(100px, 100px) rotate(180deg);
-        }
-    }
-
-    /* Hero Section */
-    .profile-hero {
-        padding: 120px 0 80px;
-        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    /* ---- Hero ---- */
+    .stu-hero-card {
         position: relative;
         overflow: hidden;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%);
+        border-bottom: 1px solid rgba(14, 165, 233, 0.25);
+        box-shadow: 0 24px 60px -18px rgba(11, 19, 41, 0.55);
     }
 
-    .hero-particles {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
+    .stu-profile-hero { padding: 3.5rem 1.5rem 6.5rem; border-radius: 0; }
+
+    .stu-hero-glow { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+    .stu-hero-glow-1 { width: 340px; height: 340px; top: -140px; right: -60px; background: rgba(14, 165, 233, 0.28); }
+    .stu-hero-glow-2 { width: 280px; height: 280px; bottom: -140px; left: 30%; background: rgba(56, 189, 248, 0.22); }
+
+    .stu-live-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        color: #bae6fd;
+        background: rgba(14, 165, 233, 0.14);
+        border: 1px solid rgba(14, 165, 233, 0.35);
+        border-radius: 999px;
+        padding: 0.55rem 1.1rem;
     }
 
-    .hero-glow-point {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
-        filter: blur(50px);
-        z-index: 1;
+    .stu-live-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: #38bdf8;
+        animation: stuPulseDot 2s infinite;
     }
 
-    .text-holographic {
-        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
-        background-size: 300% 100%;
+    @keyframes stuPulseDot {
+        0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.55); }
+        50% { transform: scale(1.25); opacity: 0.8; box-shadow: 0 0 0 7px rgba(56, 189, 248, 0); }
+    }
+
+    .stu-hero-title {
+        font-family: 'Outfit', sans-serif;
+        color: #fff !important;
+        -webkit-text-fill-color: #fff !important;
+        font-weight: 800;
+        font-size: clamp(2rem, 5vw, 3.4rem);
+        line-height: 1.1;
+        word-break: break-word;
+    }
+
+    .stu-text-sky {
+        background: linear-gradient(90deg, #bae6fd, #7dd3fc 45%, #38bdf8 70%, #0ea5e9);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: holographic-move 8s linear infinite;
     }
 
-    @keyframes holographic-move {
-        0% {
-            background-position: 0% 50%;
-        }
+    .stu-hero-sub { color: rgba(255, 255, 255, 0.78); font-size: 1.2rem; }
 
-        100% {
-            background-position: 300% 50%;
-        }
+    .stu-hero-chip {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(14, 165, 233, 0.35);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 1.25rem 1.75rem;
+        color: #bae6fd;
+        font-weight: 700;
     }
+    .stu-hero-chip i { font-size: 2rem; color: #38bdf8; }
 
-    /* Reveal Animations */
-    .reveal-text {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
+    .stu-wave-wrap { position: absolute; bottom: 0; left: 0; width: 100%; line-height: 0; }
+    .waves { width: 100%; height: 60px; }
+    .parallax > use { animation: stuWave 25s cubic-bezier(.55, .5, .45, .5) infinite; }
+    .parallax > use:nth-child(1) { animation-delay: -2s; animation-duration: 7s; }
+    .parallax > use:nth-child(2) { animation-delay: -3s; animation-duration: 10s; }
+    .parallax > use:nth-child(3) { animation-delay: -4s; animation-duration: 13s; }
+    .parallax > use:nth-child(4) { animation-delay: -5s; animation-duration: 20s; }
 
-    .reveal-fade {
-        opacity: 0;
-        transform: scale(0.95);
-        transition: all 1s ease;
-    }
+    /* ---- Content overlap ---- */
+    .stu-profile-content { margin-top: -90px; padding-bottom: 2rem; }
 
-    .revealed {
-        opacity: 1 !important;
-        transform: translate(0, 0) scale(1) !important;
-    }
-
-    /* Glass Cards */
-    .glass-card {
-        background: var(--bg-surface) !important; color: var(--text-primary) !important;
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.4) !important;
-        border-radius: 30px !important;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04) !important;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    }
-
-    .glass-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 30px 60px rgba(99, 102, 241, 0.1) !important;
-        background: var(--bg-surface) !important; color: var(--text-primary) !important;
-    }
-
-    .holographic-border {
+    /* ---- Identity card ---- */
+    .stu-identity-card {
+        background: var(--stu-card);
+        border: 1px solid var(--stu-border);
+        border-radius: 28px;
+        box-shadow: var(--stu-shadow);
         position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+    .stu-identity-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12); }
 
-    .holographic-border::before {
-        content: '';
+    .stu-avatar-zone { position: relative; display: inline-block; }
+    .stu-avatar-ring {
         position: absolute;
-        inset: -2px;
-        z-index: -1;
-        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
-        background-size: 300% 100%;
-        border-radius: 32px;
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        animation: holographic-move 8s linear infinite;
+        inset: -10px;
+        border-radius: 50%;
+        background: conic-gradient(from 180deg, #0ea5e9, #bae6fd, #0284c7, #0ea5e9);
+        opacity: 0.55;
+        filter: blur(2px);
+        z-index: 0;
     }
 
-    .holographic-border:hover::before {
-        opacity: 0.5;
-    }
-
-    /* Avatar & Tags */
-    .avatar-container {
-        position: relative;
-        width: 140px;
-        height: 140px;
-        margin: -80px auto 1.5rem;
-        z-index: 10;
-    }
-
-    .avatar-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    .stu-profile-avatar {
+        width: min(200px, 62vw);
+        height: min(200px, 62vw);
         border-radius: 50%;
         border: 6px solid #fff;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        outline: 2px solid rgba(14, 165, 233, 0.4);
+        position: relative;
+        z-index: 1;
+        transition: transform 0.4s ease;
+    }
+    .stu-profile-avatar:hover { transform: scale(1.03); }
+
+    .stu-avatar-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .stu-avatar-initials {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 800; font-size: 4.5rem; text-transform: uppercase;
     }
 
-    .initials-avatar-large {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 800;
-        font-size: 3rem;
-        text-transform: uppercase;
-    }
-
-    .glass-tag {
+    .stu-online-dot {
         position: absolute;
-        bottom: 5px;
-        right: -15px;
-        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-        color: white;
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 800;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .tag-dot {
-        width: 6px;
-        height: 6px;
-        background: #fff;
+        bottom: 12px; right: 12px;
+        width: 22px; height: 22px;
         border-radius: 50%;
-        animation: pulse-dot 2s infinite;
+        background: #10b981;
+        border: 3px solid #fff;
+        z-index: 2;
     }
 
-    @keyframes pulse-dot {
-
-        0%,
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        50% {
-            transform: scale(1.3);
-            opacity: 0.6;
-        }
+    .stu-pro-tag {
+        display: inline-block;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: #075985;
+        background: rgba(14, 165, 233, 0.14);
+        border: 1px solid rgba(14, 165, 233, 0.3);
+        border-radius: 999px;
+        padding: 0.4rem 1rem;
     }
 
-    /* Card Header Premium */
-    .card-header-premium {
-        background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
-        padding: 1.5rem 2rem;
-        border: none;
-        border-radius: 30px 30px 0 0;
+    .stu-mini-stat { background: #f8fafc; border: 1px solid var(--stu-border); }
+    .stu-mini-stat h4 { font-family: 'Outfit', sans-serif; font-size: 1.5rem; }
+
+    /* ---- Buttons ---- */
+    .stu-btn-sky {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: #fff; border: none;
+        box-shadow: 0 10px 24px rgba(14, 165, 233, 0.4);
+        min-height: 48px;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .stu-btn-sky:hover, .stu-btn-sky:focus { color: #fff; background: linear-gradient(135deg, #0284c7, #0369a1); transform: translateY(-2px); }
+
+    .stu-btn-connect {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: #fff; border: none;
+        box-shadow: 0 10px 24px rgba(16, 185, 129, 0.35);
+        min-height: 48px;
+        animation: stuPulseGreen 2s infinite;
+    }
+    .stu-btn-connect:hover, .stu-btn-connect:focus { color: #fff; transform: translateY(-2px); }
+
+    .stu-btn-whatsapp {
+        background: rgba(37, 211, 102, 0.1);
+        color: #16a34a;
+        border: 1px solid rgba(37, 211, 102, 0.25);
+        font-weight: 700;
+        border-radius: 12px;
+        padding: 12px;
+        min-height: 48px;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.3s ease;
+    }
+    .stu-btn-whatsapp:hover { background: #25D366; color: #fff; transform: translateY(-2px); }
+
+    .stu-btn-email {
+        background: rgba(14, 165, 233, 0.1);
+        color: #0284c7;
+        border: 1px solid rgba(14, 165, 233, 0.25);
+        font-weight: 700;
+        border-radius: 12px;
+        padding: 12px;
+        min-height: 48px;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.3s ease;
+    }
+    .stu-btn-email:hover { background: #0ea5e9; color: #fff; transform: translateY(-2px); }
+
+    .stu-btn-outline {
+        border: 1.5px solid var(--stu-border);
+        color: var(--stu-ink);
+        background: #fff;
+        min-height: 48px;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 600;
+        border-radius: 12px;
+        padding: 12px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .stu-btn-outline:hover, .stu-btn-outline:focus { transform: translateY(-2px); border-color: rgba(14, 165, 233, 0.55); box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08); color: var(--stu-ink); }
+
+    /* ---- Main content cards ---- */
+    .stu-glass-section {
+        background: var(--stu-card);
+        border: 1px solid var(--stu-border);
+        border-top: 3px solid var(--stu-sky);
+        border-radius: 24px;
+        box-shadow: var(--stu-shadow);
     }
 
-    .card-header-premium.color-2 {
-        background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+    .stu-info-card {
+        background: var(--stu-card);
+        border: 1px solid var(--stu-border);
+        border-radius: 20px;
+        box-shadow: var(--stu-shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stu-info-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12); }
+
+    .stu-card-icon {
+        width: 55px; height: 55px;
+        border-radius: 18px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.5rem; color: #fff;
     }
 
-    .bg-gradient-success {
-        background: linear-gradient(90deg, #10b981, #34d399) !important;
+    .stu-data-entry label {
+        font-size: 0.8rem; color: var(--stu-muted);
+        text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+    }
+    .stu-data-value { font-size: 1.2rem; font-weight: 700; color: var(--stu-ink); word-break: break-word; }
+
+    .stu-progress { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+    .stu-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #38bdf8, #0284c7);
+        border-radius: 10px;
+        transition: width 1s ease;
     }
 
-    .skill-tag-premium {
-        background: rgba(99, 102, 241, 0.08);
-        color: #4338ca;
-        border: 1px solid rgba(99, 102, 241, 0.2);
+    .stu-skill-tag {
+        background: rgba(14, 165, 233, 0.08);
+        color: #0369a1;
+        border: 1px solid rgba(14, 165, 233, 0.2);
         padding: 8px 16px;
         border-radius: 12px;
         font-weight: 600;
         transition: all 0.3s ease;
     }
-
-    .skill-tag-premium:hover {
-        background: #6366f1;
+    .stu-skill-tag:hover {
+        background: #0ea5e9;
         color: #fff;
         transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+        box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
     }
 
-    /* Info Box Premium */
-    .info-box-premium {
-        background: var(--bg-surface);
-        border-radius: 18px;
-        padding: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        border: 1px solid var(--border-color);
-        margin-bottom: 1.5rem;
-        transition: all 0.3s ease;
+    /* ---- Achievements ---- */
+    .stu-achievements {
+        background: var(--stu-card);
+        border: 1px solid var(--stu-border);
+        border-radius: 24px;
+        box-shadow: var(--stu-shadow);
     }
 
-    .info-box-premium:hover {
-        transform: translateX(8px);
-        border-color: #6366f1;
+    .stu-trophy {
+        width: 48px; height: 48px;
+        border-radius: 50%;
+        background: rgba(14, 165, 233, 0.12);
+        border: 2px solid rgba(14, 165, 233, 0.35);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.3rem;
     }
 
-    .info-icon {
-        width: 50px;
-        height: 50px;
-        background: rgba(99, 102, 241, 0.1);
-        color: #6366f1;
-        border-radius: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-    }
-
-    .info-icon.icon-blue {
-        background: rgba(59, 130, 246, 0.1);
-        color: #3b82f6;
-    }
-
-    .info-icon.icon-green {
-        background: rgba(16, 185, 129, 0.1);
-        color: #10b981;
-    }
-
-    .info-icon.icon-orange {
-        background: rgba(245, 158, 11, 0.1);
-        color: #f59e0b;
-    }
-
-    .info-details small {
-        display: block;
-        color: #64748b;
-        font-weight: 600;
-        font-size: 0.75rem;
-        margin-bottom: 2px;
-        text-transform: uppercase;
-    }
-
-    .info-details h6 {
-        margin: 0;
-        color: var(--text-primary);
-        font-weight: 700;
-    }
-
-    /* Achievement Item Premium */
-    .achievement-item-premium {
-        background: var(--bg-surface);
+    .stu-achievement-row {
+        background: #f8fafc;
+        border: 1px solid var(--stu-border);
+        border-left: 5px solid var(--stu-sky);
         border-radius: 16px;
-        padding: 1rem 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1.2rem;
-        border: 1px solid var(--border-color);
-        margin-bottom: 1rem;
-        transition: all 0.3s ease;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .stu-achievement-row:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08); }
+
+    .stu-medal {
+        width: 45px; height: 45px;
+        border-radius: 50%;
+        border: 3px solid var(--stu-sky);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--stu-sky-dark);
+        font-size: 1.2rem;
+        background: #fff;
     }
 
-    .achievement-item-premium:hover {
-        transform: translateX(8px);
-        border-color: #f59e0b;
+    /* ---- Quick links ---- */
+    .stu-shortcuts {
+        background: var(--stu-card);
+        border: 1px solid var(--stu-border);
+        border-radius: 24px;
+        box-shadow: var(--stu-shadow);
     }
 
-    .achievement-icon {
-        color: #f59e0b;
-        font-size: 1.1rem;
-    }
-
-    .small-text {
-        font-size: 0.75rem;
-        color: #94a3b8;
-    }
-
-    /* New Contact Buttons */
-    .btn-whatsapp-modern {
-        background: rgba(37, 211, 102, 0.1);
-        color: #25D366;
-        border: 1px solid rgba(37, 211, 102, 0.2);
+    .stu-shortcut-tile {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 0.6rem;
+        min-height: 96px;
+        padding: 1rem 0.5rem;
+        background: #f0f9ff;
+        border: 1px solid rgba(14, 165, 233, 0.2);
+        border-radius: 16px;
+        color: #0369a1;
         font-weight: 700;
-        border-radius: 12px;
-        padding: 12px;
-        transition: 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        text-align: center;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+    .stu-shortcut-tile i { font-size: 1.5rem; color: #0284c7; }
+    .stu-shortcut-tile:hover {
+        transform: translateY(-4px);
+        background: #e0f2fe;
+        box-shadow: 0 12px 26px rgba(2, 132, 199, 0.18);
+        color: #075985;
     }
 
-    .btn-whatsapp-modern:hover {
-        background: #25D366;
-        color: white;
-        transform: translateY(-2px);
+    /* ---- Reveal on scroll ---- */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.reveal-visible { opacity: 1; transform: translateY(0); }
+
+    @keyframes stuWave {
+        0% { transform: translate3d(-90px, 0, 0); }
+        100% { transform: translate3d(85px, 0, 0); }
     }
 
-    .btn-email-modern {
-        background: rgba(99, 102, 241, 0.1);
-        color: #6366f1;
-        border: 1px solid rgba(99, 102, 241, 0.2);
-        font-weight: 700;
-        border-radius: 12px;
-        padding: 12px;
-        transition: 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
+    @keyframes stuPulseGreen {
+        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55); }
+        70% { box-shadow: 0 0 0 16px rgba(16, 185, 129, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
-    .btn-email-modern:hover {
-        background: #6366f1;
-        color: white;
-        transform: translateY(-2px);
+    /* ---- Mobile ---- */
+    @media (max-width: 991px) {
+        .stu-profile-hero { padding: 2.5rem 1.25rem 5.5rem; }
+        .stu-profile-content { margin-top: -70px; }
     }
 
-    .btn-outline-modern-small {
-        background: transparent;
-        color: #64748b;
-        border: 1px solid #e2e8f0;
-        font-weight: 600;
-        font-size: 0.85rem;
-        border-radius: 12px;
-        padding: 10px;
-        transition: 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
+    @media (max-width: 768px) {
+        .stu-profile-hero { padding: 2rem 1rem 5rem; }
+        .stu-hero-sub { font-size: 1.05rem; }
+        .stu-profile-content { margin-top: -60px; }
+        .stu-identity-card { padding: 1.5rem !important; }
     }
 
-    .btn-outline-modern-small:hover {
-        background: var(--bg-primary);
-        border-color: #cbd5e1;
+    @media (max-width: 576px) {
+        .student-container { padding: 0.9rem 0.9rem 0; }
+        .stu-hero-title { font-size: 1.9rem; }
+        .stu-achievement-row h5 { font-size: 1rem; }
+        .stu-btn-sky, .stu-btn-connect, .stu-btn-whatsapp, .stu-btn-email, .stu-btn-outline { width: 100%; }
     }
 
-    /* Premium Action Buttons */
-    .btn-primary-premium {
-        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-        color: white;
-        border: none;
-        padding: 12px;
-        border-radius: 14px;
-        font-weight: 700;
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: 0.3s;
-    }
-
-    .btn-primary-premium:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
-        color: white;
-    }
-
-    .btn-success-premium {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: white;
-        border: none;
-        padding: 12px;
-        border-radius: 14px;
-        font-weight: 700;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: 0.3s;
-    }
-
-    .btn-success-premium:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
-        color: white;
-    }
-
-    .btn-outline-warning-premium {
-        background: transparent;
-        color: #f59e0b;
-        border: 2px solid rgba(245, 158, 11, 0.3);
-        padding: 12px;
-        border-radius: 14px;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition: 0.3s;
-    }
-
-    .btn-outline-warning-premium:hover {
-        background: rgba(245, 158, 11, 0.05);
-        border-color: #f59e0b;
-        color: #d97706;
-        transform: translateY(-2px);
+    @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        .parallax > use, .stu-btn-connect, .stu-live-dot { animation: none !important; }
+        .stu-info-card, .stu-achievement-row, .stu-btn-outline, .stu-btn-sky, .stu-profile-avatar, .stu-skill-tag, .stu-shortcut-tile, .stu-identity-card { transition: none !important; }
+        .stu-info-card:hover, .stu-achievement-row:hover { transform: none !important; }
     }
 </style>
+<noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Reveal Animations
-        const revealCallback = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                    if (entry.target.classList.contains('progress-bar')) {
-                        const target = (parseInt(entry.target.dataset.semester) / 6) * 100;
-                        entry.target.style.width = target + '%';
+        // Reveal on scroll (subtle rise, staggered by DOM order)
+        const revealEls = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal-visible');
+                        observer.unobserve(entry.target);
                     }
-                    observer.unobserve(entry.target);
-                }
-            });
-        };
-
-        const observer = new IntersectionObserver(revealCallback, { threshold: 0.1 });
-        document.querySelectorAll('.reveal-text, .reveal-fade, .progress-bar').forEach(el => observer.observe(el));
-
-        // Typing Effect for Profile Title
-        const typingText = document.querySelector('.text-holographic');
-        if (typingText) {
-            const originalText = typingText.innerHTML;
-            typingText.innerHTML = '';
-            let i = 0;
-            const type = () => {
-                if (i < originalText.length) {
-                    typingText.innerHTML += originalText.charAt(i);
-                    i++;
-                    setTimeout(type, 100);
-                }
-            };
-            setTimeout(type, 500);
+                });
+            }, { threshold: 0.08 });
+            revealEls.forEach(el => observer.observe(el));
+        } else {
+            revealEls.forEach(el => el.classList.add('reveal-visible'));
         }
+
+        // Semester progress bar: animate width from data-semester once visible
+        const progressFill = document.querySelector('.stu-progress-fill');
+        if (progressFill) {
+            const setWidth = () => {
+                const sem = parseInt(progressFill.dataset.semester || '0', 10);
+                progressFill.style.width = Math.min(Math.max(sem, 0), 6) / 6 * 100 + '%';
+            };
+            if ('IntersectionObserver' in window) {
+                const barObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) { setWidth(); barObserver.disconnect(); }
+                    });
+                }, { threshold: 0.2 });
+                barObserver.observe(progressFill);
+            } else {
+                setWidth();
+            }
+        }
+
+        // Animated counter for the Semester mini-stat (number already rendered server-side)
+        (function animateSemesterCounter() {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const el = document.querySelector('.stu-identity-card .stu-count');
+            if (!el || reduceMotion) return;
+            const target = parseInt(el.dataset.count || '0', 10);
+            if (isNaN(target) || target <= 0) return;
+            const dur = 900;
+            const start = performance.now();
+            const tick = (now) => {
+                const p = Math.min((now - start) / dur, 1);
+                el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+                if (p < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+        })();
 
         // Connection Request Button Event Listener
         const connectionBtn = document.getElementById('connection-btn');

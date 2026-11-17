@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block title %}Upgrade to Alumni - Alumni Hub{% endblock %}
+
+{% block content %}
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-luxury.css') }}?v=2.4">
+
+<style>
+    /* ========================================================
+       STUDENT UPGRADE TO ALUMNI — SKY THEME (student variant
+       of the shared admin design system: dark-navy hero, white
+       cards, glassmorphism, hover lift, Outfit / Plus Jakarta
+       Sans). Created 2026-11-17: the /student/upgrade-to-alumni
+       route rendered this template but the file did not exist,
+       so the route 500'd. Form posts exactly the fields the
+       route reads: pass_year (required), company_name,
+       designation (both optional).
+       ======================================================== */
+    :root {
+        --st-sky: #0ea5e9;
+        --st-sky-dark: #0284c7;
+        --st-sky-deep: #0369a1;
+        --st-sky-soft: #f0f9ff;
+        --st-sky-subtle: #e0f2fe;
+        --st-ink: #0f172a;
+        --st-muted: #64748b;
+        --st-border: rgba(15, 23, 42, 0.09);
+    }
+    .student-page { font-family: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif; }
+    .student-page h1, .student-page h2, .student-page h3, .student-page h4, .student-page h6 {
+        font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* ---------- Hero (sky variant) ---------- */
+    .student-hero { border-color: rgba(56, 189, 248, 0.45) !important; }
+    .student-hero::after {
+        content: ''; position: absolute; inset: 0; pointer-events: none;
+        background-image: radial-gradient(rgba(56, 189, 248, 0.16) 1px, transparent 1px);
+        background-size: 26px 26px; opacity: .5;
+    }
+    .student-hero > * { position: relative; z-index: 2; }
+    .student-hero h1 { color: #ffffff !important; font-size: clamp(1.7rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.15; }
+    .student-hero p { color: rgba(226, 232, 240, 0.85) !important; max-width: 650px; margin: 0 auto; font-size: 1.1rem; }
+    .grad-sky {
+        background: linear-gradient(90deg, #bae6fd 0%, #7dd3fc 35%, #38bdf8 65%, #0ea5e9 100%);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent !important; color: transparent !important;
+    }
+    .st-badge {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        padding: 0.4rem 0.95rem; border-radius: 999px;
+        background: rgba(14, 165, 233, 0.16); border: 1px solid rgba(56, 189, 248, 0.45);
+        color: #bae6fd; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+        text-transform: uppercase; font-family: 'JetBrains Mono', monospace;
+    }
+    .st-badge .live-pulse-dot {
+        width: 8px; height: 8px; border-radius: 50%; background: #38bdf8;
+        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+        animation: st-pulse 2s infinite;
+    }
+    @keyframes st-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.55); }
+        70% { box-shadow: 0 0 0 9px rgba(56, 189, 248, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+    }
+
+    /* ---------- White content cards ---------- */
+    .student-card {
+        background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .student-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10);
+    }
+    .btn-sky {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        border: none; color: #fff; font-weight: 700; min-height: 52px;
+        box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-sky:hover, .btn-sky:focus {
+        background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+        color: #fff; transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(14, 165, 233, 0.45);
+    }
+    .btn-outline-sky {
+        min-height: 52px; border: 1.5px solid var(--st-sky); color: var(--st-sky-dark);
+        font-weight: 700; background: transparent; transition: all 0.2s ease;
+    }
+    .btn-outline-sky:hover { background: var(--st-sky); color: #fff; border-color: var(--st-sky); }
+
+    /* ---------- Form ---------- */
+    .stu-field-label { font-weight: 700; color: var(--st-ink); font-size: 0.9rem; margin-bottom: 0.4rem; }
+    .stu-field-label .req { color: #dc2626; }
+    .stu-input {
+        min-height: 52px; border-radius: 14px; border: 1.5px solid var(--st-border);
+        padding: 0.75rem 1rem; font-size: 1rem; font-weight: 500; color: var(--st-ink);
+        background: #fff; width: 100%;
+    }
+    .stu-input:focus {
+        border-color: var(--st-sky); outline: none;
+        box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+    }
+    .stu-input::placeholder { color: #94a3b8; }
+    .stu-hint { font-size: 0.82rem; color: var(--st-muted); }
+
+    /* ---------- Read-only profile rows ---------- */
+    .stu-data-row {
+        display: flex; align-items: center; gap: 0.9rem;
+        padding: 0.85rem 0; border-bottom: 1px solid var(--st-border);
+    }
+    .stu-data-row:last-child { border-bottom: none; }
+    .stu-data-icon {
+        width: 42px; height: 42px; flex: 0 0 42px; border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(14, 165, 233, 0.12); color: var(--st-sky-dark); font-size: 1rem;
+    }
+    .stu-data-label { font-size: 0.78rem; color: var(--st-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+    .stu-data-value { font-weight: 700; color: var(--st-ink); }
+    .st-check { color: var(--st-sky-dark); }
+    .st-check-li { display: flex; gap: 0.65rem; align-items: flex-start; padding: 0.45rem 0; color: #334155; font-weight: 500; }
+    .st-check-li i { margin-top: 0.2rem; }
+
+    /* Reveal on scroll (subtle) */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; transition-delay: var(--delay, 0s); }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 576px) {
+        .student-hero { padding: 2rem 1.25rem; border-radius: 22px; }
+        .btn-sky, .btn-outline-sky { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .student-card, .btn-sky, .btn-outline-sky { transition: none !important; }
+        .student-card:hover, .btn-sky:hover { transform: none !important; }
+        .st-badge .live-pulse-dot { animation: none !important; }
+        .reveal { opacity: 1 !important; transform: none !important; }
+    }
+</style>
+
+<div class="admin-page-wrapper student-page">
+    <div class="admin-ambient-ball admin-ball-1"></div>
+    <div class="admin-ambient-ball admin-ball-2" style="background: #0ea5e9;"></div>
+    <div class="admin-ambient-ball admin-ball-3"></div>
+
+    <div class="admin-container">
+        <!-- Hero -->
+        <section class="admin-hero-card student-hero text-center reveal">
+            <span class="st-badge mb-3"><span class="live-pulse-dot"></span><i class="fas fa-graduation-cap"></i> Student &rarr; Alumni</span>
+            <h1 class="fw-bold mb-3">Upgrade to <span class="grad-sky">Alumni</span></h1>
+            <p class="lead mb-0">
+                You have completed your course — convert your student account into an alumni
+                account and keep your network, connections and profile with you.
+            </p>
+        </section>
+
+        <div class="row g-4 mb-5 align-items-start">
+            <!-- Upgrade form -->
+            <div class="col-lg-7 reveal" style="--delay: 0.05s;">
+                <div class="student-card p-4 p-md-5">
+                    <h4 class="fw-bold mb-1">Passing Details</h4>
+                    <p class="text-muted small mb-4">Fill in your passing year and current work details (if any) to complete the upgrade.</p>
+                    <form method="POST" action="{{ url_for('upgrade_to_alumni') }}" class="needs-validation" novalidate>
+                        <div class="mb-4">
+                            <label for="pass_year" class="stu-field-label">Year of Passing <span class="req">*</span></label>
+                            <input type="number" class="stu-input" id="pass_year" name="pass_year"
+                                   placeholder="e.g. 2026" min="1990" max="2035" required>
+                            <div class="stu-hint mt-2">Required — the year you passed out from JIMS Rohini.</div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="company_name" class="stu-field-label">Company Name</label>
+                            <input type="text" class="stu-input" id="company_name" name="company_name"
+                                   placeholder="e.g. TCS, Infosys — leave blank if not working yet" maxlength="120">
+                            <div class="stu-hint mt-2">Optional — where you currently work, if anywhere.</div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="designation" class="stu-field-label">Designation</label>
+                            <input type="text" class="stu-input" id="designation" name="designation"
+                                   placeholder="e.g. Software Engineer" maxlength="120">
+                            <div class="stu-hint mt-2">Optional — your current job title, if any.</div>
+                        </div>
+                        <div class="d-flex flex-column flex-sm-row gap-3 mt-4">
+                            <button type="submit" class="btn btn-sky btn-lg flex-sm-grow-1">
+                                <i class="fas fa-crown me-2"></i> Upgrade to Alumni
+                            </button>
+                            <a href="{{ url_for('dashboard_student') }}" class="btn btn-outline-sky btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Current profile + what changes -->
+            <div class="col-lg-5 reveal" style="--delay: 0.12s;">
+                <div class="student-card p-4 mb-4">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-id-card me-2" style="color: var(--st-sky-dark);"></i> Your Current Profile</h5>
+                    <div class="stu-data-row">
+                        <div class="stu-data-icon"><i class="fas fa-hashtag"></i></div>
+                        <div>
+                            <div class="stu-data-label">Enrollment No.</div>
+                            <div class="stu-data-value">{{ profile['enrollment_no'] }}</div>
+                        </div>
+                    </div>
+                    <div class="stu-data-row">
+                        <div class="stu-data-icon"><i class="fas fa-book-open"></i></div>
+                        <div>
+                            <div class="stu-data-label">Department</div>
+                            <div class="stu-data-value">{{ profile['department'] }}</div>
+                        </div>
+                    </div>
+                    <div class="stu-data-row">
+                        <div class="stu-data-icon"><i class="fas fa-user-graduate"></i></div>
+                        <div>
+                            <div class="stu-data-label">Degree</div>
+                            <div class="stu-data-value">{{ profile['degree'] }}</div>
+                        </div>
+                    </div>
+                    <p class="stu-hint mt-3 mb-0">These details are carried over to your alumni profile automatically — no need to re-enter them.</p>
+                </div>
+
+                <div class="student-card p-4">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-exchange-alt me-2" style="color: var(--st-sky-dark);"></i> What Changes</h5>
+                    <div class="st-check-li"><i class="fas fa-check-circle st-check"></i><span>Your account role changes from <strong>Student</strong> to <strong>Alumni</strong>.</span></div>
+                    <div class="st-check-li"><i class="fas fa-check-circle st-check"></i><span>An alumni profile is created with your enrollment, department and degree.</span></div>
+                    <div class="st-check-li"><i class="fas fa-check-circle st-check"></i><span>You get alumni features — posting jobs, mentoring students and the alumni dashboard.</span></div>
+                    <div class="st-check-li"><i class="fas fa-check-circle st-check"></i><span>Your existing connections and messages stay as they are.</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var revealEls = document.querySelectorAll('.reveal');
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+            revealEls.forEach(function (el) { el.classList.add('revealed'); });
+        } else {
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) { entry.target.classList.add('revealed'); observer.unobserve(entry.target); }
+                });
+            }, { threshold: 0.05 });
+            revealEls.forEach(function (el) { observer.observe(el); });
+        }
+    });
+</script>
+{% endblock %}

@@ -1100,3 +1100,348 @@ libraries, no new JS at all):
   below 768px in CSS — the alumni ALUMNI tag was removed for exactly
   this overflow (§6.8). The tag still shows on desktop navbar, in the
   drawer topbar and in the user pill.
+
+---
+
+## 11. Student pages redesign (2026-11-17, local — not pushed)
+
+Redesign of all 8 remaining student pages to the same admin-level
+standard as the alumni 14-page redesign (§0–§2), in the student Sky
+theme established by the student header redesign (§10). Done in
+parallel by 4 workers, one per file group, then verified centrally.
+**Local work only — nothing was pushed to GitHub.**
+
+### 11.1 Scope — what was (and was not) redesigned
+
+| File | Before | After | Route that renders it |
+|---|---|---|---|
+| `templates/student/dashboard.html` | 2,801 | 1,835 | `GET /student/dashboard` |
+| `templates/student/profile.html` | 827 | 800 | `GET /student/profile/<id>` |
+| `templates/student/edit_profile.html` | 821 | 966 | `/student/profile/<id>/edit` (GET, POST) |
+| `templates/student/jobs.html` | 421 | 519 | `GET /student/jobs` (list_jobs) |
+| `templates/student/mentorship.html` | 185 | 353 | `GET /student/mentorship` |
+| `templates/student/notifications.html` | 105 | 250 | `GET /student/notifications` |
+| `templates/student/settings.html` | 716 | 702 | `GET /student/settings` |
+| `templates/student/upgrade.html` | 240 | 392 | `GET /upgrade` (student role) |
+| **Total** | **6,116** | **5,817** | |
+
+`templates/student/network.html` was **not** touched — it was already
+redesigned in §8 (commit d67a542). Nothing else was changed: `app.py`,
+`templates/base.html`, `templates/alumni/*`, `templates/admin/*`,
+`templates/faculty/*`, `templates/common/*`, `templates/auth/*` are
+untouched (verified: `git status` shows only the 8 files above;
+4,092 insertions / 4,399 deletions). Dashboard line count fell
+because ~1,000 lines of heavy inline CSS/effects (mesh balls, blobs,
+particles, 3D tilt, holographic borders, neon glow, skeleton loaders)
+were replaced by shared `admin-luxury.css` + one tight page-local
+stylesheet — content was not cut.
+
+### 11.2 Design system (student Sky)
+
+Same tokens as §0, with Sky replacing amber:
+
+| Token | Value |
+|---|---|
+| Student primary | `#0ea5e9` / `#38bdf8` (Sky) |
+| Sky gradient text | `#bae6fd → #7dd3fc → #38bdf8 → #0ea5e9` (page titles) |
+| Hero gradient | `linear-gradient(135deg, #0b1329 0%, #172554 48%, #0f172a 100%)` (same dark navy as admin/alumni) |
+| Fonts | Outfit / Plus Jakarta Sans / JetBrains Mono |
+| Shared CSS | `static/css/admin-luxury.css?v=2.4` (loaded by every page) |
+| Shell | `.admin-page-wrapper` → 3 ambient orbs → `.admin-container` → dark hero card |
+| Cards | White, 18–28px radii, soft shadows, hover lift `translateY(-5px)` |
+| Glass | `rgba(255,255,255,0.05–0.08)` panels, `backdrop-filter: blur(10–16px)` |
+| Danger / success | `#ef4444` rose / `#10b981` emerald |
+
+Hero titles are forced white `!important` in each page's own
+`<style>` block — the §7 navbar-overlap contrast fix in
+`navbar-professional.css` is alumni-scoped, so each student page
+re-asserts it. Each page carries one page-scoped `<style>` block (the
+§8 pattern); no new global CSS files were created.
+
+**Mobile rules (all pages):** layouts work at 360px — Bootstrap
+grids stack to one column, no horizontal overflow, touch targets
+≥44px (forms/buttons 44–48px), hero titles use `clamp()`, hero
+buttons full-width ≤576px. Navbar clearance comes from the shared
+shell / `theme-system.css` offsets (145px desktop / 98px mobile) —
+verified statically per page, no hero is clipped.
+
+**Animation rules (all pages):** subtle reveal-on-scroll via
+`IntersectionObserver` (opacity + small rise, staggered), hover lift
+on cards, animated counters only where numbers already exist on the
+page (`data-target` = the server number; the rendered number stays as
+the no-JS fallback), pulsing live/badge dots. Every page respects
+`@media (prefers-reduced-motion: reduce)`.
+
+**Features rule:** new extras were added ONLY where they use
+data/routes already passed to that template. No invented endpoints,
+no fake or hardcoded data presented as live.
+
+### 11.3 Per-page notes
+
+#### 11.3.1 dashboard.html — 2,801 → 1,835
+- Shell + sky hero: live sky badge with pulsing dot, white greeting
+  pill (`#dynamicGreeting` / `#timeGreetingBadge` kept), `Hello,
+  <name>!` with sky gradient text and the preserved typing effect,
+  Career Board (sky gradient) + Network (glass) buttons, glass
+  profile-completeness panel (ids/logic untouched), avatar block
+  verbatim with sky tag.
+- Stats: same 4 cards (Alumni / Mentors / Semester / GPA), sky icon
+  gradients, hover lift. Numbers now render server-side as text
+  (e.g. `{{ alumni | length }}`) as the no-JS fallback, with
+  `data-target` still driving the preserved `animateValue` counter.
+- All sections preserved: Network Insights charts, Recommended for
+  You, category pills (sky active state), pending requests,
+  filter/search, 3-tab directory, mentorship banner (dark, white
+  `!important` h2/p guard like alumni's), Quick Actions, FAB, both
+  detail modals (student modal header recolored sky; alumni modal
+  kept green).
+- VanillaTilt 3D tilt removed (script tag + `VanillaTilt.init`);
+  `initAdvancedAnimations` keeps only the button glow (card hover is
+  CSS); `staggerCardAnimations` uses the new `stuRise` keyframes. All
+  16 JS function definitions preserved by name, including both
+  duplicate `connectUser` definitions.
+
+#### 11.3.2 profile.html — 827 → 800
+- Dark-navy hero with sky pulsing "STUDENT PROFILE" badge, user's
+  name as the hero title with sky gradient text, enrollment no. |
+  department subtitle, glass "Semester X" chip, animated wave
+  divider, content overlapping −90px.
+- Identity card: avatar with conic sky ring + green online dot (same
+  `{% if %}` avatar/`initials` fallback and verbatim `onerror`),
+  "Student" sky tag, Semester/CGPA mini-stats (Semester has an
+  animated counter; CGPA rendered as-is since it is a decimal),
+  enrollment/department badges, WhatsApp / Professional Mail / Gmail
+  Compose buttons, own-profile → Edit Profile + Change Password,
+  other-profile → Send Connection Request.
+- Academic Information (Department/Degree + CGPA + animated semester
+  progress bar from `data-semester`), Skills & Achievements
+  (comma-split skill chips, pipe-split achievement rows, both
+  original empty states kept).
+- The old typing effect was dropped (it rewrote the gradient title
+  char-by-char) and the heavy mesh/tilt/magnetic effects removed;
+  `sendConnectionRequest` / `showToast` and the
+  `/api/connection-request/send` flow are verbatim.
+
+#### 11.3.3 edit_profile.html — 821 → 966 (profile editing — most critical)
+- `admin-page-wrapper` + 3 sky orbs + `admin-container` +
+  `admin-hero-card` (student-hero variant), JetBrains Mono "STUDENT
+  PROFILE · EDIT MODE" badge, "Edit Your **Profile**" sky-gradient
+  title, original subtitle kept, Photo/Personal/Academic/Portfolio
+  chips, hero Profile Completeness stat box.
+- Four numbered white cards: **01 Profile Photo, 02 Personal
+  Information, 03 Academic Information, 04 Expertise & Portfolio**
+  with sky icon tiles, light inputs (`#f8fafc`, sky focus ring +
+  animated underline), explicit `for=` labels.
+- Sidebar: 8-item completeness checklist (photo, name, phone,
+  semester, CGPA, skills, achievements, resume link — computed live
+  in JS from fields already on the page), Live Preview card (avatar,
+  name, department, enrollment, semester, CGPA, skills, "View Full
+  Profile" link), Quick Tips, mobile sticky save bar (`d-xl-none`,
+  inside the form).
+- Drag-and-drop zone wired to the same `previewPhoto` handler;
+  double-submit guard (disables submit buttons, "Saving…" only after
+  native validation passes).
+- **Form intact (verified):** `<form id="editForm" method="POST"
+  enctype="multipart/form-data">` unchanged; all 8 field names
+  identical (`profile_pic`, `name`, `phone`, `semester`, `cgpa`,
+  `skills`, `achievements`, `resume_link`); photo input
+  `accept="image/*"` + `onchange="previewPhoto(this)"` +
+  `onerror="handleStudentAvatarError(this)"` preserved; default-avatar
+  SVG (incl. `studRadGrad`/`studAccGrad` ids) kept verbatim except
+  the border recolored sky; semester `<select>` loop and ordinal
+  (`st/nd/rd/th`) Jinja copied verbatim; `previewPhoto`,
+  `handleStudentAvatarError`, `showToast` all present (previewPhoto
+  now also syncs the preview-card avatar + completeness). Email /
+  enrollment no. / department stay disabled with no `name=` (never
+  submitted), exactly as before. No `removePhoto` button (alumni edit
+  has one): the student's original photo flow has no remove path and
+  the route never clears `profile_pic`.
+
+#### 11.3.4 jobs.html — 421 → 519
+- Sky shell/hero with pulsing live badge, gradient title, glass stat
+  chips (total openings / recommended / internships, computed from
+  passed data via namespace — no new backend data), restyled filter
+  card + quick type chips, recommended grid and list rows as white
+  sky-accent cards with hover lift, "no filter results" empty state
+  with Clear Filters, animated counter on total openings,
+  reveal-on-scroll.
+
+#### 11.3.5 mentorship.html — 185 → 353
+- Sky shell/hero; all 3 mentor cards preserved verbatim (names,
+  bios, skills, badges, `alert()` texts) in white lift cards with sky
+  CTAs; hero shortcut added to Explore Jobs.
+- **The previously dead search/filter now works:** `mentorSearchInput`
+  + the two selects (given ids) wired to a new `applyMentorFilter()`
+  over `data-search`/`data-dept`/`data-industry` attributes, with a
+  live "Showing N mentors" count and a no-results empty state.
+
+#### 11.3.6 notifications.html — 105 → 250
+- Sky shell/hero with pulsing badge; "All Caught Up!" card and all 4
+  preference toggles (`emailNotif`, `eventNotif`, `messageNotif`,
+  `jobNotif`) preserved, sky switch styling, hover-lift preference
+  rows, reveal animations.
+
+#### 11.3.7 settings.html — 716 → 702
+- Sky shell/hero, "Manage Your **Settings**" sky-gradient title, sky
+  badge with pulsing live dot ("Account Settings"); hero buttons
+  Dashboard + Edit Profile.
+- White 20px-radius cards with hover lift; each tab gets an icon-chip
+  section header + subtext; sky-gradient `.btn-sky` buttons, sky
+  focus rings, sky toggle switches; notification/privacy toggles
+  rebuilt as `.pref-row` cards (same ids, labels, checked states).
+- Floating-label inputs replaced with top-label inputs (alumni
+  pattern) — same `id`/`name`/`value`/`required`/`disabled` on every
+  field; password-strength bar, 2FA block, visibility `<select>` (all
+  3 options, "Community (Visible to alumni only)" selected) all
+  preserved verbatim. All 9 toggle checked-states identical to the
+  original.
+- Sidebar mini-profile card using only `current_user` (initials via
+  the existing `initials` filter, name, email, STUDENT badge); glass
+  quick-links strip in the hero (My Profile, Network, Messages,
+  Notifications, Mentorship — all verified existing endpoints).
+- Nav pills become a horizontal scrollable strip below 992px (same as
+  alumni); quick-links strip scrolls horizontally ≤576px.
+- Route check: `/settings` (app.py ~4829) passes **no variables** —
+  the template only ever used `current_user.name` /
+  `current_user.email`, both preserved.
+
+#### 11.3.8 upgrade.html — 240 → 392
+- Sky shell/hero (centered, like alumni upgrade); all 3 plans (₹0 /
+  ₹499 / ₹899), feature lists, comparison table, and `alert()`
+  buttons preserved; Pro plan highlighted with sky border + MOST
+  POPULAR badge, hover lift, staggered reveal, hero shortcut chips
+  to Jobs / Mentors / Network.
+- **Note:** the student `upgrade.html` is a **pricing page** rendered
+  by `/upgrade` (app.py ~3783) with no variables and no form fields —
+  it is not the form page the alumni `upgrade.html` is. No link to
+  the upgrade-to-alumni route was added (see §11.6).
+
+### 11.4 Extras added (existing data/routes only)
+
+- **Dashboard:** 4-tile Quick Shortcuts row — Network
+  (`search_network`), Career Board (`list_jobs`), Messages
+  (`messages`), My Profile (`student_profile`); `{% else %}` empty
+  states for the alumni / student / faculty grids and recommendations.
+  **Bug fix:** alumni cards were classed `alum-card` while
+  `performSearch()` queries `.alumni-card`, so global search silently
+  did nothing on the Alumni tab. Renamed to `alumni-card`; search now
+  works on all three tabs.
+- **Profile:** Resume / LinkedIn button when
+  `profile['resume_link']` exists; Quick Links row to
+  `dashboard_student`, `network`, `mentorship`, `messages`.
+- **Edit profile:** completeness checklist, Live Preview card, Quick
+  Tips, mobile sticky save bar, drag-and-drop photo zone, double-
+  submit guard.
+- **Jobs:** glass stat chips from passed data, quick type chips, "no
+  filter results" empty state with Clear Filters.
+- **Mentorship:** working client-side search/filter (was dead),
+  "Showing N mentors" count, no-results empty state, Explore Jobs
+  shortcut.
+- **Settings:** hero Dashboard + Edit Profile buttons, glass
+  quick-links strip, sidebar mini-profile card.
+- **Upgrade:** Pro plan highlight + MOST POPULAR badge, hero shortcut
+  chips to Jobs / Mentors / Network.
+
+### 11.5 What was preserved (verification)
+
+- `python3 scripts/validate_templates.py` → **Total errors: 0**
+  (re-run centrally after all 4 workers finished; mid-work validator
+  runs showed transient errors in files still being edited).
+- Token set-diff vs HEAD, whitespace-normalized, for all 8 files:
+  every `{{ }}`, `{% %}`, `url_for()`, `name=`, `id=` and JS function
+  name from the old files is present in the new files — **0 missing
+  in every category, on every file** (a naive whitespace-sensitive
+  diff briefly flagged 4 re-indented multi-line expressions; all
+  confirmed present after normalization).
+- Edit-profile form: all 8 field names, photo preview flow, submit
+  behaviour verified intact (§11.3.3). Settings: all 30 `id=`s, all 5
+  `name=`s, all 9 toggle states identical. Dashboard: all 16 JS
+  function definitions, 13 `onclick`s, 20 `getElementById`s present.
+- Jinja render smoke tests: dashboard (populated + all-empty states),
+  settings (StrictUndefined mock `current_user`), jobs/mentorship/
+  notifications/upgrade (dummy data) — all render clean.
+- `app.py` untouched; no route, count or endpoint invented.
+
+### 11.6 Pre-existing issues found (NOT fixed — out of scope, viva-relevant)
+
+These were found during the redesign, left exactly as they were.
+Do not present them as working features in the viva.
+
+1. **`/student/upgrade-to-alumni` is broken (would 500) — FIXED, see §11.8.**
+   `upgrade_to_alumni()` (app.py ~3714) renders
+   `templates/upgrade_to_alumni.html`, which **did not exist** in the
+   repo (verified: `ls` fails; only root `templates/upgrade.html`
+   exists). The student pricing page (`student/upgrade.html`) has no
+   working path to it, and no link to it was added. Needs a template
+   or a route fix in a separate task.
+2. **Dashboard "Upgrade to Alumni" button is dead — FIXED, see §11.8.** It targets
+   `#upgradeModal`, but no element with that id exists anywhere in
+   the repo. Preserved unchanged.
+3. **`connectFromModal()` is undefined** in dashboard.html (student
+   modal Connect button calls it). Preserved unchanged — FIXED, see §11.8.
+4. **Hardcoded (non-live) numbers preserved on the dashboard:**
+   mentorship banner "500+ Active Mentors" / "1.2k Success Stories",
+   and Chart.js data (alumni growth `[12, 19, 3, 5, 2, 3]`;
+   TCS/Infosys/Wipro/Google/Microsoft `30/20/15/10/25`). Do not
+   present these as live in the viva.
+5. **Dashboard `s['skills']` always shows "No skills listed":** the
+   route's query does not select `skills` for student cards.
+   Pre-existing; the template was not changed to fake it.
+6. **Mentorship mentor cards are hardcoded** in the template (3
+   mentors); the search now filters them client-side, but a real
+   mentor directory needs a backend query.
+7. **Upgrade Pro/Master buttons are `alert()` placeholders** in the
+   original; a real checkout needs a payment flow.
+
+### 11.7 Deliberately left out (would need new backend data)
+
+- Unread-messages badge / live notification counts (notifications
+  template receives no notification list — static "All Caught Up!"
+  state only; messaging count is not passed to these templates).
+- Profile-completeness ring on profile/shortcut tiles; live counts
+  on dashboard shortcut tiles (no such variables exist in these
+  templates' contexts; nothing hardcoded).
+- Real chart data aggregated from the alumni table (pass-year/company
+  counts) and real mentor counts for the dashboard banner — would
+  need route/query changes.
+- Showing the student's phone number on the public profile — the
+  field exists on `user` but the old page never displayed it, so it
+  was not newly exposed.
+- 2FA enable, theme selector, and settings persistence remain exactly
+  as before (client-side toast only, as in the original) — wiring
+  them to real endpoints would need new backend work.
+
+### 11.8 Upgrade-to-alumni 500 fix (2026-11-17, local — not pushed)
+
+Fixes §11.6 items 1–3. The route was verified broken because the
+template it renders did not exist; items 4–7 above are still open.
+
+- **New file `templates/upgrade_to_alumni.html`** (root `templates/`,
+  not `templates/student/` — the route renders the bare name).
+  Student Sky design system from §11.2 (dark-navy hero, white cards,
+  `admin-luxury.css?v=2.4`, reveal-on-scroll, 360px mobile-friendly).
+  Shows the student's existing profile read-only
+  (`profile['enrollment_no']`, `profile['department']`,
+  `profile['degree']` — bracket syntax, as in the other student
+  pages) plus a "What Changes" card. The form posts to the same URL
+  (`action="{{ url_for('upgrade_to_alumni') }}"`, POST) with exactly
+  the fields the route reads — `pass_year` (number input, required),
+  `company_name` (optional), `designation` (optional) — no extra
+  fields added. Render-tested with a mocked profile + student user:
+  14/14 checks pass (form method/action, all three field names,
+  `pass_year` required, profile values rendered, no Jinja leftovers).
+- **Dashboard "Upgrade to Alumni" button (2a):** the dead
+  `data-bs-target="#upgradeModal"` button is now an anchor to
+  `url_for('upgrade_to_alumni')`, same classes/label — one-line
+  change, dashboard otherwise untouched.
+- **`connectFromModal()` (2b):** defined. The static onclick fired
+  only while the student modal was still loading (the button is
+  rewired to `connectUser()` after the `/api/student` fetch
+  succeeds). Fix: a `modalStudentId` variable set in
+  `viewStudentModal()` and a `connectFromModal()` that calls
+  `connectUser(modalStudentId, 'student')` if set. The alumni modal
+  was untouched (its button is an anchor, no undefined function).
+- **Other missing templates (full scan):** every `render_template`
+  target in `app.py` + `routes/*.py` (83 literal + multi-line
+  targets) was checked against files on disk — **no other missing
+  template exists**. The upgrade template was the only one.
